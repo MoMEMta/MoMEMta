@@ -39,7 +39,7 @@ class Pool {
         void alias(const InputTag& from, const InputTag& to);
 
     private:
-        friend class MEMpp;
+        friend class MoMEMta;
 
         class tag_not_found_error: public std::runtime_error {
             using std::runtime_error::runtime_error;

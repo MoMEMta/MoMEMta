@@ -8,10 +8,10 @@
 #include <Types.h>
 #include <Pool.h>
 
-class MEMpp {
+class MoMEMta {
     public:
-        MEMpp(const ConfigurationReader&);
-        virtual ~MEMpp();
+        MoMEMta(const ConfigurationReader&);
+        virtual ~MoMEMta();
 
         std::vector<std::pair<double, double>> computeWeights(const std::vector<LorentzVector>& particules);
 

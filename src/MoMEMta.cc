@@ -3,7 +3,7 @@
 #include <cuba.h>
 
 #include <logging.h>
-#include <MEMpp.h>
+#include <MoMEMta.h>
 #include <Pool.h>
 
 
@@ -26,7 +26,7 @@ unsigned int setFlags(char verbosity, bool subregion, bool retainStateFile, unsi
     return flags;
 }
 
-MEMpp::MEMpp(const ConfigurationReader& configuration) {
+MoMEMta::MoMEMta(const ConfigurationReader& configuration) {
     
     // Initialize shared memory pool for modules
     m_pool.reset(new Pool());
@@ -57,13 +57,13 @@ MEMpp::MEMpp(const ConfigurationReader& configuration) {
     cubacores(0, 0);
 }
 
-MEMpp::~MEMpp() {
+MoMEMta::~MoMEMta() {
     for (const auto& module :m_modules) {
         module->finish();
     }
 }
 
-std::vector<std::pair<double, double>> MEMpp::computeWeights(const std::vector<LorentzVector>& particules) {
+std::vector<std::pair<double, double>> MoMEMta::computeWeights(const std::vector<LorentzVector>& particules) {
 
     *m_particles = particules;
 
@@ -108,7 +108,7 @@ std::vector<std::pair<double, double>> MEMpp::computeWeights(const std::vector<L
     return std::vector<std::pair<double, double>>({{mcResult, error}});
 }
 
-double MEMpp::integrand(const double* psPoints, const double* weights) {
+double MoMEMta::integrand(const double* psPoints, const double* weights) {
 
     // Store phase-space points into the pool
     std::memcpy(m_ps_points->data(), psPoints, sizeof(double) * m_n_dimensions);
@@ -128,8 +128,8 @@ double MEMpp::integrand(const double* psPoints, const double* weights) {
     return sum;
 }
 
-int MEMpp::CUBAIntegrand(const int *nDim, const double* psPoint, const int *nComp, double *value, void *inputs, const int *nVec, const int *core, const double *weight) {
-    *value = static_cast<MEMpp*>(inputs)->integrand(psPoint, weight);
+int MoMEMta::CUBAIntegrand(const int *nDim, const double* psPoint, const int *nComp, double *value, void *inputs, const int *nVec, const int *core, const double *weight) {
+    *value = static_cast<MoMEMta*>(inputs)->integrand(psPoint, weight);
 
     return 0;
 }

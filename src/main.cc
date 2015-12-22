@@ -1,5 +1,5 @@
 #include <ConfigurationReader.h>
-#include <MEMpp.h>
+#include <MoMEMta.h>
 #include <Types.h>
 #include <logging.h>
 #include <chrono>
@@ -11,7 +11,7 @@ int main(int argc, char** argv) {
     spdlog::set_level(spdlog::level::trace);
 
     ConfigurationReader configuration("../confs/example.lua");
-    MEMpp weight(configuration);
+    MoMEMta weight(configuration);
 
     // Electron
     LorentzVector p3(16.171895980835, -13.7919054031372, -3.42997527122497, 21.5293197631836);

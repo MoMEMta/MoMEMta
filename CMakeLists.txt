@@ -24,7 +24,7 @@ if (NOT LUA_FOUND)
     set(LUA_INCLUDE_DIR "external/lua")
 endif()
 
-set(MEMPP_SOURCES
+set(MOMEMTA_SOURCES
     "modules/BlockD.cc"
     "modules/Boost.cc"
     "modules/Flatter.cc"
@@ -35,7 +35,7 @@ set(MEMPP_SOURCES
     "src/InputTag.cc"
     "src/LibraryManager.cc"
     "src/logging.cc"
-    "src/MEMpp.cc"
+    "src/MoMEMta.cc"
     "src/ModuleFactory.cc"
     "src/Pool.cc"
     "src/SharedLibrary.cc"
@@ -43,7 +43,7 @@ set(MEMPP_SOURCES
     "src/lua/utils.cc"
     )
 
-add_library(mempp SHARED ${MEMPP_SOURCES})
+add_library(momemta SHARED ${MOMEMTA_SOURCES})
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -g -O2 -fcx-fortran-rules -fcx-limited-range")
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
@@ -57,19 +57,19 @@ include_directories(${LUA_INCLUDE_DIR})
 include_directories(${LHAPDF_INCLUDE_DIRECTORIES})
 include_directories(${ROOT_INCLUDE_DIR})
 
-target_link_libraries(mempp dl)
-target_link_libraries(mempp cuba)
-target_link_libraries(mempp ${LUA_LIBRARIES})
-target_link_libraries(mempp pthread)
-target_link_libraries(mempp ME_cpp_pp_ttx_fullylept)
-target_link_libraries(mempp ${LHAPDF_LIBRARIES})
-target_link_libraries(mempp ${ROOT_LIBRARIES})
+target_link_libraries(momemta dl)
+target_link_libraries(momemta cuba)
+target_link_libraries(momemta ${LUA_LIBRARIES})
+target_link_libraries(momemta pthread)
+target_link_libraries(momemta ME_cpp_pp_ttx_fullylept)
+target_link_libraries(momemta ${LHAPDF_LIBRARIES})
+target_link_libraries(momemta ${ROOT_LIBRARIES})
 
 find_library(ROOT_GENVECTOR_LIBRARY GenVector HINTS ${ROOT_LIBRARY_DIR})
-target_link_libraries(mempp ${ROOT_GENVECTOR_LIBRARY})
+target_link_libraries(momemta ${ROOT_GENVECTOR_LIBRARY})
 
 add_library(empty_module SHARED "modules/EmptyModule.cc")
 
 add_executable(main "src/main.cc")
-target_link_libraries(main mempp)
-set_target_properties(main PROPERTIES OUTPUT_NAME "mempp.exe")
+target_link_libraries(main momemta)
+set_target_properties(main PROPERTIES OUTPUT_NAME "momemta.exe")
