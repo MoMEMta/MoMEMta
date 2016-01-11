@@ -54,7 +54,7 @@ include_directories(${EXTERNAL_DIR})
 include_directories(${EXTERNAL_DIR}/cuba)
 include_directories(${EXTERNAL_DIR}/spdlog)
 include_directories(${LUA_INCLUDE_DIR})
-include_directories(${LHAPDF_INCLUDE_DIRECTORIES})
+include_directories(${LHAPDF_INCLUDE_DIRS})
 include_directories(${ROOT_INCLUDE_DIR})
 
 target_link_libraries(momemta dl)
