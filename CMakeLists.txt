@@ -6,7 +6,7 @@ include_directories("${CMAKE_CURRENT_LIST_DIR}/include")
 
 # Find dependencies
 find_package(ROOT REQUIRED)
-find_package(LHAPDF REQUIRED)
+find_package(LHAPDF 6.0 REQUIRED)
 find_package(Lua QUIET)
 
 # Include external
