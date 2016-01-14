@@ -12,7 +12,7 @@ include_directories("${CMAKE_CURRENT_LIST_DIR}/include")
 # Find dependencies
 find_package(ROOT REQUIRED)
 find_package(LHAPDF REQUIRED)
-find_package(Lua)
+find_package(Lua QUIET)
 
 # Include external
 set(EXTERNAL_DIR "${PROJECT_SOURCE_DIR}/external")
@@ -20,6 +20,7 @@ add_subdirectory(external)
 add_subdirectory(ME)
 
 if (NOT LUA_FOUND)
+    message(STATUS "No system-wide Lua found. Using built-in distribution")
     set(LUA_LIBRARIES lua)
     set(LUA_INCLUDE_DIR "external/lua")
 endif()
