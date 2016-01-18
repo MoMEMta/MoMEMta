@@ -81,7 +81,8 @@ class MatrixElement: public Module {
                 m_jacobians.push_back(get<double>(tag));
             }
 
-            m_ME_parameters.reset(new Parameters_sm("/home/sbrochet/Recherche/CP3/MEMpp/Modules/ME/Cards/param_card.dat"));
+            std::string param_card = parameters.get<std::string>("card");
+            m_ME_parameters.reset(new Parameters_sm(param_card));
             m_ME.reset(new cpp_pp_ttx_fullylept(*m_ME_parameters));
 
             // PDF
