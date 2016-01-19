@@ -4,10 +4,16 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_DIR}/cmake/modules"
 
 include_directories("${CMAKE_CURRENT_LIST_DIR}/include")
 
+# Options
+option(USE_BUILTIN_LUA "Force usage of built-in lua interpreter, even if a system-wide version if available" OFF)
+
 # Find dependencies
 find_package(ROOT REQUIRED)
 find_package(LHAPDF 6.0 REQUIRED)
-find_package(Lua QUIET)
+
+if (NOT USE_BUILTIN_LUA)
+    find_package(Lua QUIET)
+endif()
 
 # Include external
 set(EXTERNAL_DIR "${PROJECT_SOURCE_DIR}/external")
@@ -15,10 +21,15 @@ add_subdirectory(external)
 add_subdirectory(ME)
 
 if (NOT LUA_FOUND)
-    message(STATUS "No system-wide Lua found. Using built-in distribution")
+    if (USE_BUILTIN_LUA)
+        message(STATUS "Using built-in lua interpreter")
+    else()
+        message(STATUS "No system-wide Lua found. Using built-in distribution")
+    endif()
     set(LUA_LIBRARIES lua)
     set(LUA_INCLUDE_DIR "external/lua")
 endif()
+
 
 set(MOMEMTA_SOURCES
     "modules/BlockD.cc"

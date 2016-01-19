@@ -47,7 +47,7 @@ namespace lua {
     int module_table_newindex(lua_State* L) {
 
         lua_getmetatable(L, 1);
-        lua_getfield(L, -1, "__name");
+        lua_getfield(L, -1, "__type");
         
         const char* module_type = luaL_checkstring(L, -1);
         const char* module_name = luaL_checkstring(L, 2);
@@ -64,6 +64,7 @@ namespace lua {
         // Remove metatable and field name from stack
         lua_pop(L, 2);
 
+        // And actually set the value to the table
         lua_rawset(L, 1);
 
         return 0;
@@ -73,12 +74,14 @@ namespace lua {
         std::vector<std::string> modules = ModuleFactory::get().getPluginsList();
         for (const auto& module: modules) {
             const char* module_name = module.c_str();
-            const char* module_metatable = (module + "_mt").c_str();
+            char* module_metatable = new char[module.size() + 3 + 1];
+            strncpy(module_metatable, module_name, module.size() + 1);
+            strncat(module_metatable, "_mt", 3);
 
             int type = lua_getglobal(L, module_name);
+            lua_pop(L, 1);
             if (type != LUA_TNIL) {
                 // Global already exists
-                lua_pop(L, 1);
                 continue;
             }
 
@@ -89,7 +92,7 @@ namespace lua {
             luaL_newmetatable(L, module_metatable);
 
             lua_pushstring(L, module_name);
-            lua_setfield(L, -2, "__name");
+            lua_setfield(L, -2, "__type");
 
             lua_pushlightuserdata(L, ptr);
             lua_setfield(L, -2, "__ptr");
@@ -107,6 +110,8 @@ namespace lua {
             lua_setglobal(L, module_name);
 
             LOG(trace) << "Registered new lua global variable '" << module_name << "'";
+
+            delete[] module_metatable;
         }
     }
 
