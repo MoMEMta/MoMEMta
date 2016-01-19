@@ -115,6 +115,7 @@ end
 
 MatrixElement.ttbar = {
   pdf = 'CT10nlo',
+  card = '../ME/Cards/param_card.dat',
 
   initialState = 'boost::output',
 
