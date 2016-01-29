@@ -24,7 +24,7 @@
 
 #include <boost/any.hpp>
 
-#include <InputTag.h>
+#include <momemta/InputTag.h>
 
 // A simple memory pool
 class Pool {

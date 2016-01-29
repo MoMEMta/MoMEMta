@@ -17,10 +17,11 @@
  */
 
 
-#include <ConfigurationSet.h>
-#include <Module.h>
-#include <Types.h>
-#include <Utils.h>
+#include <momemta/ConfigurationSet.h>
+#include <momemta/Module.h>
+#include <momemta/Types.h>
+#include <momemta/Utils.h>
+
 #include <logging.h>
 
 #include <LHAPDF/LHAPDF.h>

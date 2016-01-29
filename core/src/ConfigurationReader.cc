@@ -21,10 +21,11 @@
 #include <logging.h>
 #include <lua.hpp>
 
-#include <ConfigurationReader.h>
-#include <lua/utils.h>
+#include <momemta/ConfigurationReader.h>
+#include <momemta/ModuleFactory.h>
+
 #include <LibraryManager.h>
-#include <ModuleFactory.h>
+#include <lua/utils.h>
 
 namespace lua {
 

@@ -17,10 +17,8 @@
  */
 
 
-#include <ConfigurationReader.h>
-#include <MoMEMta.h>
-#include <Types.h>
-#include <logging.h>
+#include <momemta/MoMEMta.h>
+
 #include <chrono>
 
 using namespace std::chrono;

@@ -1,8 +1,18 @@
 cmake_minimum_required(VERSION 2.8.8)
+project(MoMEMta)
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_DIR}/cmake/modules")
 
+set(PROJECT_VERSION_MAJOR 0)
+set(PROJECT_VERSION_MINOR 1)
+set(PROJECT_VERSION_PATCH 0)
+set(PROJECT_VERSION ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT_VERSION_PATCH})
+
+# Public interface
 include_directories("${CMAKE_CURRENT_LIST_DIR}/include")
+
+# Private interface
+include_directories("${CMAKE_CURRENT_LIST_DIR}/core/include")
 
 # Options
 option(USE_BUILTIN_LUA "Force usage of built-in lua interpreter, even if a system-wide version if available" OFF)
@@ -37,20 +47,22 @@ set(MOMEMTA_SOURCES
     "modules/Flatter.cc"
     "modules/GaussianTransferFunction.cc"
     "modules/MatrixElement.cc"
-    "src/ConfigurationReader.cc"
-    "src/ConfigurationSet.cc"
-    "src/InputTag.cc"
-    "src/LibraryManager.cc"
-    "src/logging.cc"
-    "src/MoMEMta.cc"
-    "src/ModuleFactory.cc"
-    "src/Pool.cc"
-    "src/SharedLibrary.cc"
-    "src/Utils.cc"
-    "src/lua/utils.cc"
+    "core/src/ConfigurationReader.cc"
+    "core/src/ConfigurationSet.cc"
+    "core/src/InputTag.cc"
+    "core/src/LibraryManager.cc"
+    "core/src/logging.cc"
+    "core/src/MoMEMta.cc"
+    "core/src/ModuleFactory.cc"
+    "core/src/Pool.cc"
+    "core/src/SharedLibrary.cc"
+    "core/src/Utils.cc"
+    "core/src/lua/utils.cc"
     )
 
 add_library(momemta SHARED ${MOMEMTA_SOURCES})
+set_target_properties(momemta PROPERTIES VERSION ${PROJECT_VERSION}
+    SOVERSION ${PROJECT_VERSION_MAJOR})
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -g -O2 -fcx-fortran-rules -fcx-limited-range")
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
@@ -77,6 +89,25 @@ target_link_libraries(momemta ${ROOT_GENVECTOR_LIBRARY})
 
 add_library(empty_module SHARED "modules/EmptyModule.cc")
 
-add_executable(main "src/main.cc")
+add_executable(main "core/src/main.cc")
 target_link_libraries(main momemta)
 set_target_properties(main PROPERTIES OUTPUT_NAME "momemta.exe")
+
+# Install targets
+
+# First, headers
+install(DIRECTORY include/ DESTINATION include)
+# And MoMEMta library
+install(TARGETS momemta
+    RUNTIME DESTINATION bin
+    LIBRARY DESTINATION lib
+    ARCHIVE DESTINATION lib)
+
+# Uninstall target
+configure_file(
+    "${CMAKE_CURRENT_SOURCE_DIR}/cmake/scripts/cmake_uninstall.cmake.in"
+    "${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake"
+    IMMEDIATE @ONLY)
+
+add_custom_target(uninstall
+    COMMAND ${CMAKE_COMMAND} -P ${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake)
