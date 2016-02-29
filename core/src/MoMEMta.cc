@@ -21,9 +21,10 @@
 
 #include <cuba.h>
 
+#include <momemta/ConfigurationReader.h>
+#include <momemta/MoMEMta.h>
+
 #include <logging.h>
-#include <MoMEMta.h>
-#include <Pool.h>
 
 
 // FIXME: Move

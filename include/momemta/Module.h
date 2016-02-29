@@ -19,8 +19,8 @@
 
 #pragma once
 
-#include <ModuleFactory.h>
-#include <Pool.h>
+#include <momemta/ModuleFactory.h>
+#include <momemta/Pool.h>
 
 class Module {
     public:

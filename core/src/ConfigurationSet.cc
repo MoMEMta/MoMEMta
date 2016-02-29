@@ -17,7 +17,8 @@
  */
 
 
-#include <ConfigurationSet.h>
+#include <momemta/ConfigurationSet.h>
+
 #include <logging.h>
 #include <lua/utils.h>
 

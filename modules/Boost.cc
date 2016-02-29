@@ -17,10 +17,11 @@
  */
 
 
-#include <ConfigurationSet.h>
-#include <Module.h>
+#include <momemta/ConfigurationSet.h>
+#include <momemta/Module.h>
+#include <momemta/Types.h>
+
 #include <logging.h>
-#include <Types.h>
 
 class Boost: public Module {
     public:

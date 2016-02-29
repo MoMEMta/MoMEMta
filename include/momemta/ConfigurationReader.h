@@ -17,35 +17,29 @@
  */
 
 
-#include <InputTag.h>
-#include <Pool.h>
+#pragma once
 
-std::vector<std::string> split(const std::string& s, const std::string& delimiters) {
+#include <memory>
+#include <string>
+#include <vector>
 
-    std::vector<std::string> result;
+#include <momemta/ConfigurationSet.h>
 
-    size_t current;
-    size_t next = -1;
-    do
-    {
-        next = s.find_first_not_of(delimiters, next + 1);
-        if (next == std::string::npos)
-            break;
-        next -= 1;
+struct LightModule {
+    std::string name;
+    std::string type;
+    std::shared_ptr<ConfigurationSet> parameters;
+};
 
-        current = next + 1;
-        next = s.find_first_of(delimiters, current);
-        result.push_back(s.substr(current, next - current));
-    }
-    while (next != std::string::npos);
+class ConfigurationReader {
+    public:
+        ConfigurationReader(const std::string&);
 
-    return result;
-}
+        void addModule(const std::string& type, const std::string& name);
 
-void InputTag::resolve(PoolPtr pool) const {
-    if (resolved)
-        return;
+        std::vector<LightModule> getModules() const;
 
-    content = pool->raw_get(*this);
-    resolved = true;
-}
+    private:
+        std::vector<LightModule> m_light_modules;
+        std::shared_ptr<ConfigurationSet> m_global_configuration;
+};

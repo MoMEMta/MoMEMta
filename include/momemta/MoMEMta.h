@@ -19,13 +19,16 @@
 
 #pragma once
 
+#include <memory>
 #include <vector>
 
-#include <ConfigurationReader.h>
-#include <Module.h>
-#include <SharedLibrary.h>
-#include <Types.h>
-#include <Pool.h>
+#include <logging.h>
+#include <momemta/ConfigurationReader.h>
+#include <momemta/Module.h>
+#include <momemta/Pool.h>
+#include <momemta/Types.h>
+
+class SharedLibrary;
 
 class MoMEMta {
     public:

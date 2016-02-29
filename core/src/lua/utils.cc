@@ -1,9 +1,10 @@
 #include <stdexcept>
-#include <logging.h>
 
+#include <momemta/InputTag.h>
+#include <momemta/ConfigurationSet.h>
+
+#include <logging.h>
 #include <lua/utils.h>
-#include <InputTag.h>
-#include <ConfigurationSet.h>
 
 namespace lua {
 
@@ -104,7 +105,7 @@ namespace lua {
                 result = type(L, -1);
             } else {
                 Type entry_type = type(L, -1);
-                
+
                 if ((result == INTEGER) && (entry_type == REAL))
                     result = REAL;
                 else if ((result == REAL) && (entry_type == INTEGER))
@@ -123,7 +124,7 @@ namespace lua {
     }
 
     boost::any to_any(lua_State* L, int index) {
-    
+
         LOG(trace) << "[to_any] >> stack size = " << lua_gettop(L);
         size_t absolute_index = get_index(L, index);
 

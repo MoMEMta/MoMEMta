@@ -17,8 +17,8 @@
  */
 
 
-#include <ConfigurationSet.h>
-#include <Module.h>
+#include <momemta/ConfigurationSet.h>
+#include <momemta/Module.h>
 
 class EmptyModule: public Module {
     public:
