@@ -27,3 +27,6 @@ namespace logging {
 
 #define LOG(severity) \
     ::logging::get()->severity()
+
+#define LOGGER \
+    ::logging::get()
