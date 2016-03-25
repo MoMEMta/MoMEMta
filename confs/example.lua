@@ -7,6 +7,7 @@ function append(t1, t2)
 end
 
 load_modules('libempty_module.so')
+load_modules('MatrixElements/dummy/libme_dummy.so')
 
 M_W = 80.419002
 M_TOP = 173.
