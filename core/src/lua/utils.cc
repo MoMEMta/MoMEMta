@@ -2,6 +2,7 @@
 
 #include <momemta/InputTag.h>
 #include <momemta/ConfigurationSet.h>
+#include <momemta/Utils.h>
 
 #include <logging.h>
 #include <lua/utils.h>
@@ -179,7 +180,7 @@ namespace lua {
             } break;
         }
 
-        TRACE("[to_any] << final type = {}", result.type().name());
+        TRACE("[to_any] << final type = {}", demangle(result.type().name()));
         TRACE("[to_any] << stack size = {}", lua_gettop(L));
         return result;
     }
