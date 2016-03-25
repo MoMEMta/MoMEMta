@@ -79,15 +79,15 @@ include_directories(${LUA_INCLUDE_DIR})
 include_directories(${LHAPDF_INCLUDE_DIRS})
 include_directories(${ROOT_INCLUDE_DIR})
 
-target_link_libraries(momemta LINK_PRIVATE dl)
+target_link_libraries(momemta LINK_PUBLIC dl)
 target_link_libraries(momemta LINK_PRIVATE cuba)
 target_link_libraries(momemta LINK_PRIVATE ${LUA_LIBRARIES})
-target_link_libraries(momemta LINK_PRIVATE pthread)
-target_link_libraries(momemta LINK_PRIVATE ${LHAPDF_LIBRARIES})
-target_link_libraries(momemta LINK_PRIVATE ${ROOT_LIBRARIES})
+target_link_libraries(momemta LINK_PUBLIC pthread)
+target_link_libraries(momemta LINK_PUBLIC ${LHAPDF_LIBRARIES})
+target_link_libraries(momemta LINK_PUBLIC ${ROOT_LIBRARIES})
 
 find_library(ROOT_GENVECTOR_LIBRARY GenVector HINTS ${ROOT_LIBRARY_DIR})
-target_link_libraries(momemta LINK_PRIVATE ${ROOT_GENVECTOR_LIBRARY})
+target_link_libraries(momemta LINK_PUBLIC ${ROOT_GENVECTOR_LIBRARY})
 
 # Matrix elements
 add_subdirectory(MatrixElements)
