@@ -30,3 +30,6 @@ namespace logging {
 
 #define LOGGER \
     ::logging::get()
+
+#define TRACE(x...) \
+    SPDLOG_TRACE(::logging::get(), x)

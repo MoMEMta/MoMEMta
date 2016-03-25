@@ -16,6 +16,10 @@ include_directories("${CMAKE_CURRENT_LIST_DIR}/core/include")
 
 # Options
 option(USE_BUILTIN_LUA "Force usage of built-in lua interpreter, even if a system-wide version if available" OFF)
+option(TRACE_LOGGING "Set logging threshold to TRACE instead of DEBUG" OFF)
+if (TRACE_LOGGING)
+    add_definitions(-DSPDLOG_TRACE_ON)
+endif()
 
 # Find dependencies
 find_package(ROOT REQUIRED)

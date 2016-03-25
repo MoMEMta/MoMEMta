@@ -110,7 +110,7 @@ namespace lua {
             // And register it as a global variable
             lua_setglobal(L, module_name);
 
-            LOG(trace) << "Registered new lua global variable '" << module_name << "'";
+            TRACE("Registered new lua global variable '{}'", module_name);
 
             delete[] module_metatable;
         }
