@@ -17,12 +17,24 @@
  */
 
 
-#include <spdlog/spdlog.h>
+#include <logging.h>
+#include <unistd.h>
 
 namespace logging {
-    std::shared_ptr<spdlog::logger>& get() {
-        static std::shared_ptr<spdlog::logger> s_logger = spdlog::stdout_logger_st("MoMEMta");
+    namespace {
+        static std::shared_ptr<spdlog::logger>&& instance() {
+            bool in_terminal = isatty(fileno(stdout));
+            std::shared_ptr<spdlog::logger> logger = spdlog::stdout_logger_st("MoMEMta");
 
+            if (in_terminal)
+                logger->set_formatter(std::make_shared<colored_formatter>());
+
+            return std::move(logger);
+        }
+    }
+
+    std::shared_ptr<spdlog::logger>& get() {
+        static std::shared_ptr<spdlog::logger> s_logger = std::move(instance());
         return s_logger;
     }
 }
