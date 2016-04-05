@@ -128,7 +128,7 @@ using namespace MG5_sm;
 cpp_pp_ttx_fullylept::cpp_pp_ttx_fullylept(const ConfigurationSet& configuration) {
 
   std::string param_card = configuration.get<std::string>("card");
-  params.reset(new momemta::Parameters_sm(SLHAReader(param_card)));
+  params.reset(new momemta::Parameters_sm(SLHA::Reader(param_card)));
   
   params->cacheParameters();
   params->cacheCouplings();
