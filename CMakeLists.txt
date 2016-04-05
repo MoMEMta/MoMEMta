@@ -69,7 +69,7 @@ add_library(momemta SHARED ${MOMEMTA_SOURCES})
 set_target_properties(momemta PROPERTIES VERSION ${PROJECT_VERSION}
     SOVERSION ${PROJECT_VERSION_MAJOR})
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -g -O2 -fcx-fortran-rules -fcx-limited-range")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -g -O2 -fcx-fortran-rules -fcx-limited-range -Wall -pedantic -Wextra")
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 include_directories(${EXTERNAL_DIR})
