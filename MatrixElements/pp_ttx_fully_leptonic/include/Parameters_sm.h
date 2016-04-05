@@ -12,7 +12,9 @@
 
 #include <momemta/MEParameters.h>
 
-class SLHAReader;
+namespace SLHA {
+class Reader;
+}
 
 // FIXME Namespace?!
 namespace momemta {
@@ -21,7 +23,7 @@ namespace momemta {
     {
 
         public:
-            Parameters_sm(const SLHAReader& card); 
+            Parameters_sm(const SLHA::Reader& card); 
 
             /**
              * Cache parameters. This is implementation dependent
