@@ -138,7 +138,7 @@ namespace lua {
 ConfigurationReader::ConfigurationReader(const std::string& file) {
 
     LOG(debug) << "Parsing LUA configuration from " << file;
-    auto lua_state = luaL_newstate();
+    lua_state = luaL_newstate();
 
     luaL_openlibs(lua_state);
 
@@ -155,12 +155,23 @@ ConfigurationReader::ConfigurationReader(const std::string& file) {
         printf("%s\n", lua_tostring(lua_state, -1));
     }
 
+    // FIXME: Find a better way of doing that
+
     // Read global configuration from global variable named 'configuration'
     m_global_configuration.reset(new ConfigurationSet("configuration", "configuration"));
     int type = lua_getglobal(lua_state, "configuration");
     if (type == LUA_TTABLE) {
         LOG(debug) << "Parsing global configuration.";
         m_global_configuration->parse(lua_state, -1);
+    }
+    lua_pop(lua_state, 1);
+
+    // Read vegas configuration
+    m_vegas_configuration.reset(new ConfigurationSet("vegas", "vegas"));
+    type = lua_getglobal(lua_state, "vegas");
+    if (type == LUA_TTABLE) {
+        LOG(debug) << "Parsing vegas configuration.";
+        m_vegas_configuration->parse(lua_state, -1);
     }
     lua_pop(lua_state, 1);
 
@@ -175,8 +186,11 @@ ConfigurationReader::ConfigurationReader(const std::string& file) {
 
         lua_pop(lua_state, 2);
     }
+}
 
+ConfigurationReader::~ConfigurationReader() {
     lua_close(lua_state);
+    lua_state = nullptr;
 }
 
 void ConfigurationReader::addModule(const std::string& type, const std::string& name) {

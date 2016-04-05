@@ -31,15 +31,25 @@ struct LightModule {
     std::shared_ptr<ConfigurationSet> parameters;
 };
 
+class lua_State;
+
 class ConfigurationReader {
     public:
         ConfigurationReader(const std::string&);
+        virtual ~ConfigurationReader();
 
         void addModule(const std::string& type, const std::string& name);
 
         std::vector<LightModule> getModules() const;
 
+        std::shared_ptr<ConfigurationSet> getVegasConfiguration() const {
+            return m_vegas_configuration;
+        }
+
     private:
         std::vector<LightModule> m_light_modules;
         std::shared_ptr<ConfigurationSet> m_global_configuration;
+        std::shared_ptr<ConfigurationSet> m_vegas_configuration;
+
+        lua_State* lua_state = nullptr;
 };
