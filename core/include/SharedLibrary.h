@@ -27,7 +27,9 @@ struct SharedLibrary {
         SharedLibrary(const std::string& path);
         ~SharedLibrary();
 
+        SharedLibrary(const SharedLibrary&) = delete;
+        SharedLibrary& operator=(const SharedLibrary&) = delete;
+
     private:
-        // FIXME: delete copy constructor
         void* m_handle = nullptr;
 };
