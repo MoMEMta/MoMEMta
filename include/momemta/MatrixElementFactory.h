@@ -28,13 +28,14 @@
 
 #include <momemta/PluginFactory.h>
 
-// Forward declaration
-class Module;
 class ConfigurationSet;
-class Pool;
 
-// Register ModuleFactory used by all the modules
-using ModuleFactory = PluginFactory<Module* (std::shared_ptr<Pool>, const ConfigurationSet&)>;
+// Forward declaration
+namespace momemta {
+    class MatrixElement;
+}
 
-#define REGISTER_MODULE(type) \
-    static const ModuleFactory::PMaker<type> PLUGIN_UNIQUE_NAME(s_module , __LINE__)(#type)
+using MatrixElementFactory = PluginFactory<momemta::MatrixElement* (const ConfigurationSet&)>;
+
+#define REGISTER_MATRIX_ELEMENT(name, type) \
+    static const MatrixElementFactory::PMaker<type> PLUGIN_UNIQUE_NAME(s_matrix_element , __LINE__)(name)

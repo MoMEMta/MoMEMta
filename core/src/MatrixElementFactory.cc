@@ -17,24 +17,9 @@
  */
 
 
-#pragma once
+#include <momemta/MatrixElementFactory.h>
 
-#include <memory>
-#include <string>
-#include <unordered_map>
-#include <vector>
-
-#include <logging.h>
-
-#include <momemta/PluginFactory.h>
-
-// Forward declaration
-class Module;
-class ConfigurationSet;
-class Pool;
-
-// Register ModuleFactory used by all the modules
-using ModuleFactory = PluginFactory<Module* (std::shared_ptr<Pool>, const ConfigurationSet&)>;
-
-#define REGISTER_MODULE(type) \
-    static const ModuleFactory::PMaker<type> PLUGIN_UNIQUE_NAME(s_module , __LINE__)(#type)
+template<> PluginFactory<MatrixElementFactory::type>& PluginFactory<MatrixElementFactory::type>::get() {
+    static PluginFactory<MatrixElementFactory::type> s_instance;
+    return s_instance;
+}

@@ -16,25 +16,34 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 #pragma once
 
-#include <memory>
-#include <string>
+#ifndef MOMEMTA_MEPARAMETERS_H
+#define MOMEMTA_MEPARAMETERS_H
+
 #include <unordered_map>
-#include <vector>
 
-#include <logging.h>
+// FIXME: Decide if we use a namespace or not?
+namespace momemta {
 
-#include <momemta/PluginFactory.h>
+    class MEParameters {
+        public:
+            MEParameters() = default;
+            virtual ~MEParameters() {};
 
-// Forward declaration
-class Module;
-class ConfigurationSet;
-class Pool;
+            /**
+             * Cache parameters. This is implementation dependent
+             */
+            virtual void cacheParameters() = 0;
+            virtual void cacheCouplings() = 0;
 
-// Register ModuleFactory used by all the modules
-using ModuleFactory = PluginFactory<Module* (std::shared_ptr<Pool>, const ConfigurationSet&)>;
+            virtual void updateParameters() = 0; 
+            virtual void updateCouplings() = 0;
 
-#define REGISTER_MODULE(type) \
-    static const ModuleFactory::PMaker<type> PLUGIN_UNIQUE_NAME(s_module , __LINE__)(#type)
+        protected:
+            std::unordered_map<std::string, double> m_card_parameters;
+    };
+
+};
+
+#endif

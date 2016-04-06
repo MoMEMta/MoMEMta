@@ -13,8 +13,10 @@
 #include <utility> 
 #include <map> 
 
-#include "../../src/Parameters_sm.h"
-#include "../../src/process_base_classes.h"
+#include <Parameters_sm.h>
+#include <Subprocess.h>
+
+#include <momemta/MatrixElement.h>
 
 //==========================================================================
 // A class for calculating the matrix elements for
@@ -120,31 +122,24 @@
 // *     Decay: w- > e- ve~ WEIGHTED=2
 //--------------------------------------------------------------------------
 
-// Forward declaration needed to template correctly __MatrixElement in the class
-class cpp_pp_ttx_fullylept; 
-
-  class cpp_pp_ttx_fullylept: public CPPProcess
+  class cpp_pp_ttx_fullylept: public momemta::MatrixElement
   {
     public:
 
       // Constructor & destructor
-      cpp_pp_ttx_fullylept(Parameters_sm &params); 
+      cpp_pp_ttx_fullylept(const ConfigurationSet& configuration); 
       virtual ~cpp_pp_ttx_fullylept() {}; 
 
       // Calculate flavour-independent parts of cross section.
-      virtual std::map < std::pair < int, int > , double > sigmaKin(const
+      virtual momemta::MatrixElement::Result compute(const
           std::vector < std::vector<double> > &initialMomenta, const
           std::vector < std::pair < int, std::vector<double> > > &finalState);
 
-      // Info on the subprocess.
-      virtual std::string name() const {return "g g > mu+ vm b mu- vm~ b~ (sm)";}
-
-      const std::vector<double> & getMasses() const {return mME;} 
+      virtual std::shared_ptr<momemta::MEParameters> getParameters() {
+          return params;
+      }
 
     private:
-
-      // default constructor should be hidden
-      cpp_pp_ttx_fullylept(); 
 
       // list of helicities combinations
       const int helicities[256][8] = {{-1, -1, -1, -1, -1, -1, -1, -1}, {-1,
@@ -275,11 +270,10 @@ class cpp_pp_ttx_fullylept;
       double matrix_1_uux_ttx_t_wpb_wp_epve_tx_wmbx_wm_emvex(); 
 
       // map of final states
-      std::map < std::vector<int> , std::vector < __MatrixElement <
-          cpp_pp_ttx_fullylept >> > mapFinalStates;
+      std::map<std::vector<int>, std::vector<Subprocess<cpp_pp_ttx_fullylept>>> mapFinalStates;
 
       // Reference to the model parameters instance passed in the constructor
-      Parameters_sm& params; 
+      std::shared_ptr<momemta::Parameters_sm> params; 
 
       // vector with external particle masses
       std::vector<double> mME; 

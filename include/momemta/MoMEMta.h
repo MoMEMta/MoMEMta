@@ -52,4 +52,5 @@ class MoMEMta {
         size_t m_n_dimensions;
         std::shared_ptr<std::vector<double>> m_ps_points;
         std::shared_ptr<std::vector<LorentzVector>> m_particles;
+        std::shared_ptr<const std::vector<double>> m_weights;
 };

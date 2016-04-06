@@ -16,25 +16,38 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 #pragma once
 
+#ifndef MOMEMTA_MATRIXELEMENT_H
+#define MOMEMTA_MATRIXELEMENT_H
+
+#include <map>
 #include <memory>
 #include <string>
-#include <unordered_map>
 #include <vector>
 
-#include <logging.h>
+#include <momemta/MEParameters.h>
 
-#include <momemta/PluginFactory.h>
-
-// Forward declaration
-class Module;
 class ConfigurationSet;
-class Pool;
 
-// Register ModuleFactory used by all the modules
-using ModuleFactory = PluginFactory<Module* (std::shared_ptr<Pool>, const ConfigurationSet&)>;
+// FIXME Namespace or not?
+namespace momemta {
+    
+    class MatrixElement {
+        public:
+            using Result = std::map<std::pair<int, int>, double>;
 
-#define REGISTER_MODULE(type) \
-    static const ModuleFactory::PMaker<type> PLUGIN_UNIQUE_NAME(s_module , __LINE__)(#type)
+            MatrixElement() = default;
+            virtual ~MatrixElement() {};
+    
+            virtual Result compute(
+                    const std::vector<std::vector<double>>& initialMomenta,
+                    const std::vector<std::pair<int, std::vector<double>>>& finalState
+                    ) = 0;
+
+            virtual std::shared_ptr<MEParameters> getParameters() = 0;
+    };
+
+}
+
+#endif

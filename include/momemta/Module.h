@@ -37,6 +37,10 @@ class Module {
             return 0;
         }
 
+        virtual std::string name() const final {
+            return m_name;
+        }
+
     protected:
         template<typename T> std::shared_ptr<T> produce(const std::string& name) {
             return m_pool->put<T>({m_name, name});

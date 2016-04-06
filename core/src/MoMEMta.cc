@@ -74,6 +74,9 @@ MoMEMta::MoMEMta(const ConfigurationReader& configuration) {
     // Resize pool ps-points vector
     m_ps_points->resize(m_n_dimensions);
 
+    // The last module of the chain *must* output a vector of weights, used for the integration
+    m_weights = m_pool->get<std::vector<double>>({m_modules.back()->name(), "weights"});
+
     cubacores(0, 0);
 }
 
@@ -137,11 +140,8 @@ double MoMEMta::integrand(const double* psPoints, const double* weights) {
         module->work();
     }
 
-    const std::vector<double>& me_weights = *m_pool->get<std::vector<double>>({"ttbar", "weights"});
-    //const std::vector<std::vector<LorentzVector>>& i = *Pool::get().get<std::vector<std::vector<LorentzVector>>>({"blockd", "invisibles"});
-
     double sum = 0;
-    for (const auto& p: me_weights) {
+    for (const auto& p: *m_weights) {
         sum += p;
     }
 
