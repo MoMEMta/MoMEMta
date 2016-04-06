@@ -18,12 +18,16 @@
 
 
 #include <momemta/MoMEMta.h>
+#include <momemta/Utils.h>
 
 #include <chrono>
 
 using namespace std::chrono;
 
 int main(int argc, char** argv) {
+
+    UNUSED(argc);
+    UNUSED(argv);
 
     spdlog::set_level(spdlog::level::trace);
 

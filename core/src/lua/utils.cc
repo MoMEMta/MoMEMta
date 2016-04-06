@@ -16,7 +16,6 @@ namespace lua {
     Type type(lua_State* L, int index) {
         int t = lua_type(L, index);
 
-        Type result = NOT_SUPPORTED;
         switch (t) {
             case LUA_TBOOLEAN:
                 return BOOLEAN;
@@ -204,6 +203,9 @@ namespace lua {
 
             case CONFIGURATION_SET:
                 return boost::any(lua_to_vectorT<ConfigurationSet>(L, index));
+
+            case NOT_SUPPORTED:
+                break;
         }
 
         throw invalid_array_error("Unsupported array type");

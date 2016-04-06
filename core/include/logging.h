@@ -96,4 +96,4 @@ std::shared_ptr<spdlog::logger>& get();
 
 #define LOGGER ::logging::get()
 
-#define TRACE(x...) SPDLOG_TRACE(::logging::get(), x)
+#define TRACE(...) SPDLOG_TRACE(::logging::get(), __VA_ARGS__)

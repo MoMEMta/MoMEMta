@@ -26,6 +26,8 @@
 #include <string>
 #include <vector>
 
+#include <momemta/Utils.h>
+
 std::vector<std::string> split(const std::string& s, const std::string& delimiters);
 
 class Pool;
@@ -59,6 +61,7 @@ struct InputTag {
                 auto rtags = split(tags[1], "/");
                 try {
                     size_t index = std::stoull(rtags[1]);
+                    UNUSED(index);
                     return true;
                 } catch (std::invalid_argument e) {
                     return false;
@@ -137,4 +140,4 @@ namespace std {
             std::hash<std::string> string_hash;
         };
 
-};
+}

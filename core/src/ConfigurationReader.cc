@@ -133,7 +133,7 @@ namespace lua {
 
         return 0;
     }
-};
+}
 
 ConfigurationReader::ConfigurationReader(const std::string& file) {
 
