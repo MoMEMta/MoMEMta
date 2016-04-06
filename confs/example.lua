@@ -117,7 +117,7 @@ end
 MatrixElement.ttbar = {
   pdf = 'CT10nlo',
 
-  matrix_element = 'pp_tt',
+  matrix_element = 'pp_ttx_fully_leptonic',
   matrix_element_parameters = {
       card = '../MatrixElements/Cards/param_card.dat'
   },

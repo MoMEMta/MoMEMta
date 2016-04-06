@@ -582,4 +582,4 @@ double cpp_pp_ttx_fullylept::matrix_1_uux_ttx_t_wpb_wp_epve_tx_wmbx_wm_emvex()
 }
 
 #include <momemta/MatrixElementFactory.h>
-REGISTER_MATRIX_ELEMENT("pp_tt", cpp_pp_ttx_fullylept);
+REGISTER_MATRIX_ELEMENT("pp_ttx_fully_leptonic", cpp_pp_ttx_fullylept);
