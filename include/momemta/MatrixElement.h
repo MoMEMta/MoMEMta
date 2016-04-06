@@ -46,10 +46,6 @@ namespace momemta {
                     ) = 0;
 
             virtual std::shared_ptr<MEParameters> getParameters() = 0;
-            
-            // FIXME: Needed?
-            virtual std::string name() const = 0;
-            virtual const std::vector<double>& getMasses() const = 0;
     };
 
 }
