@@ -16,14 +16,6 @@ class DummyMatrixElement : public momemta::MatrixElement {
     virtual std::shared_ptr<momemta::MEParameters> getParameters() {
         return std::shared_ptr<momemta::MEParameters>();
     }
-
-    // Info on the subprocess.
-    virtual std::string name() const { return "Dummy matrix element"; }
-
-    virtual const std::vector<double>& getMasses() const {
-        static std::vector<double> s_vector;
-        return s_vector;
-    }
 };
 
 #include <momemta/MatrixElementFactory.h>

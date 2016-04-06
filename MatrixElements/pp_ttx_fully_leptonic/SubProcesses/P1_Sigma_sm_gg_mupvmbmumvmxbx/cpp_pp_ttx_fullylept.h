@@ -139,11 +139,6 @@
           return params;
       }
 
-      // Info on the subprocess.
-      virtual std::string name() const {return "g g > mu+ vm b mu- vm~ b~ (sm)";}
-
-      virtual const std::vector<double> & getMasses() const {return mME;} 
-
     private:
 
       // list of helicities combinations
