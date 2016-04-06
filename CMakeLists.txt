@@ -21,6 +21,24 @@ if (TRACE_LOGGING)
     add_definitions(-DSPDLOG_TRACE_ON)
 endif()
 
+# Set a default build type for single-configuration
+# CMake generators if no build type is set.
+if (NOT CMAKE_CONFIGURATION_TYPES AND NOT CMAKE_BUILD_TYPE)
+   set(CMAKE_BUILD_TYPE RelWithDebInfo)
+endif(NOT CMAKE_CONFIGURATION_TYPES AND NOT CMAKE_BUILD_TYPE)
+
+# Default compiler flags
+SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall -pedantic -Wextra --std=c++11 -fcx-fortran-rules -fcx-limited-range")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fomit-frame-pointer -ffast-math -Wall --std=c11")
+
+# Compiler flags for each build type
+SET(CMAKE_CXX_FLAGS_RELWITHDEBINFO "-O2 -g")
+SET(CMAKE_C_FLAGS_RELWITHDEBINFO "-O2 -g")
+SET(CMAKE_CXX_FLAGS_RELEASE "-O3")
+SET(CMAKE_C_FLAGS_RELEASE "-O3")
+SET(CMAKE_CXX_FLAGS_DEBUG  "-O0 -g")
+SET(CMAKE_C_FLAGS_DEBUG  "-O0 -g")
+
 # Find dependencies
 find_package(ROOT REQUIRED)
 find_package(LHAPDF 6.0 REQUIRED)
@@ -69,7 +87,6 @@ add_library(momemta SHARED ${MOMEMTA_SOURCES})
 set_target_properties(momemta PROPERTIES VERSION ${PROJECT_VERSION}
     SOVERSION ${PROJECT_VERSION_MAJOR})
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -g -O2 -fcx-fortran-rules -fcx-limited-range -Wall -pedantic -Wextra")
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 include_directories(SYSTEM ${EXTERNAL_DIR})

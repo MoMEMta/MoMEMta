@@ -1,5 +1,3 @@
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -g -O2 -fcx-fortran-rules -fcx-limited-range -fPIC")
-
 set(SOURCES
     "src/HelAmps_sm.cc"
     "src/Parameters_sm.cc"
