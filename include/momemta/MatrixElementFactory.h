@@ -17,24 +17,25 @@
  */
 
 
+#pragma once
+
+#include <memory>
+#include <string>
+#include <unordered_map>
+#include <vector>
+
 #include <logging.h>
-#include <unistd.h>
 
-namespace logging {
-    namespace {
-        static std::shared_ptr<spdlog::logger> instance() {
-            bool in_terminal = isatty(fileno(stdout));
-            std::shared_ptr<spdlog::logger> logger = spdlog::stdout_logger_st("MoMEMta");
+#include <momemta/PluginFactory.h>
 
-            if (in_terminal)
-                logger->set_formatter(std::make_shared<colored_formatter>());
+class ConfigurationSet;
 
-            return logger;
-        }
-    }
-
-    std::shared_ptr<spdlog::logger>& get() {
-        static std::shared_ptr<spdlog::logger> s_logger = instance();
-        return s_logger;
-    }
+// Forward declaration
+namespace momemta {
+    class MatrixElement;
 }
+
+using MatrixElementFactory = PluginFactory<momemta::MatrixElement* (const ConfigurationSet&)>;
+
+#define REGISTER_MATRIX_ELEMENT(name, type) \
+    static const MatrixElementFactory::PMaker<type> PLUGIN_UNIQUE_NAME(s_matrix_element , __LINE__)(name)

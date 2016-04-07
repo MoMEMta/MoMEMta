@@ -16,25 +16,30 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#pragma once
 
-#include <logging.h>
-#include <unistd.h>
+#ifndef MOMEMTA_MEPARAMETERS_H
+#define MOMEMTA_MEPARAMETERS_H
 
-namespace logging {
-    namespace {
-        static std::shared_ptr<spdlog::logger> instance() {
-            bool in_terminal = isatty(fileno(stdout));
-            std::shared_ptr<spdlog::logger> logger = spdlog::stdout_logger_st("MoMEMta");
+#include <unordered_map>
 
-            if (in_terminal)
-                logger->set_formatter(std::make_shared<colored_formatter>());
+namespace momemta {
 
-            return logger;
-        }
-    }
+    class MEParameters {
+        public:
+            MEParameters() = default;
+            virtual ~MEParameters() {};
 
-    std::shared_ptr<spdlog::logger>& get() {
-        static std::shared_ptr<spdlog::logger> s_logger = instance();
-        return s_logger;
-    }
-}
+            virtual void cacheParameters() = 0;
+            virtual void cacheCouplings() = 0;
+
+            virtual void updateParameters() = 0; 
+            virtual void updateCouplings() = 0;
+
+        protected:
+            std::unordered_map<std::string, double> m_card_parameters;
+    };
+
+};
+
+#endif

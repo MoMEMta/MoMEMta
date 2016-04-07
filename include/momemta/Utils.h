@@ -23,6 +23,7 @@
 #include <cmath>
 #include <vector>
 #include <algorithm>
+#include <string>
 
 #include <momemta/Types.h>
 
@@ -202,5 +203,7 @@ void apply_permutations(std::vector<T>& vec, std::vector<std::size_t> const& p) 
 
     vec = sorted_vec;
 }
+
+std::string demangle(const char* name);
 
 #endif

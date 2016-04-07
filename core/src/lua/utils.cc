@@ -2,6 +2,7 @@
 
 #include <momemta/InputTag.h>
 #include <momemta/ConfigurationSet.h>
+#include <momemta/Utils.h>
 
 #include <logging.h>
 #include <lua/utils.h>
@@ -59,7 +60,7 @@ namespace lua {
      */
     int lua_is_array(lua_State* L, int index) {
 
-        LOG(trace) << "[lua_is_array] >> stack size = " << lua_gettop(L);
+        TRACE("[lua_is_array] >> stack size = {}", lua_gettop(L));
 
         size_t table_index = get_index(L, index);
 
@@ -72,7 +73,7 @@ namespace lua {
         while (lua_next(L, table_index) != 0) {
             if (lua_type(L, -2) != LUA_TNUMBER) {
                 lua_pop(L, 2);
-                LOG(trace) << "[lua_is_array] << stack size = " << lua_gettop(L);
+                TRACE("[lua_is_array] << stack size = {}", lua_gettop(L));
                 return -1;
             }
 
@@ -81,7 +82,7 @@ namespace lua {
             lua_pop(L, 1);
         }
 
-        LOG(trace) << "[lua_is_array] << stack size = " << lua_gettop(L);
+        TRACE("[lua_is_array] << stack size = {}", lua_gettop(L));
         return size;
     }
 
@@ -125,7 +126,7 @@ namespace lua {
 
     boost::any to_any(lua_State* L, int index) {
 
-        LOG(trace) << "[to_any] >> stack size = " << lua_gettop(L);
+        TRACE("[to_any] >> stack size = {}", lua_gettop(L));
         size_t absolute_index = get_index(L, index);
 
         boost::any result;
@@ -157,7 +158,7 @@ namespace lua {
             } break;
 
             case LUA_TTABLE: {
-                LOG(trace) << "[to_any::table] >> stack size = " << lua_gettop(L);
+                TRACE("[to_any::table] >> stack size = {}", lua_gettop(L));
                 if (lua::lua_is_array(L, absolute_index) > 0) {
 
                     Type type = NOT_SUPPORTED;
@@ -175,12 +176,12 @@ namespace lua {
                     cfg.parse(L, absolute_index);
                     result = cfg;
                 }
-                LOG(trace) << "[to_any::table] << stack size = " << lua_gettop(L);
+                TRACE("[to_any::table] << stack size = {}", lua_gettop(L));
             } break;
         }
 
-        LOG(trace) << "[to_any] << final type = " << result.type().name();
-        LOG(trace) << "[to_any] << stack size = " << lua_gettop(L);
+        TRACE("[to_any] << final type = {}", demangle(result.type().name()));
+        TRACE("[to_any] << stack size = {}", lua_gettop(L));
         return result;
     }
 

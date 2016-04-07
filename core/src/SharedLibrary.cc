@@ -19,10 +19,14 @@
 
 #include <dlfcn.h>
 
+#include <logging.h>
 #include <SharedLibrary.h>
 
 SharedLibrary::SharedLibrary(const std::string& path) {
     m_handle = ::dlopen(path.c_str(), RTLD_LAZY | RTLD_LOCAL);
+    if (! m_handle) {
+        LOG(error) << "Failed to open '" << path << "': " << dlerror();
+    }
 }
 
 SharedLibrary::~SharedLibrary() {

@@ -17,24 +17,9 @@
  */
 
 
-#include <logging.h>
-#include <unistd.h>
+#include <momemta/MatrixElementFactory.h>
 
-namespace logging {
-    namespace {
-        static std::shared_ptr<spdlog::logger> instance() {
-            bool in_terminal = isatty(fileno(stdout));
-            std::shared_ptr<spdlog::logger> logger = spdlog::stdout_logger_st("MoMEMta");
-
-            if (in_terminal)
-                logger->set_formatter(std::make_shared<colored_formatter>());
-
-            return logger;
-        }
-    }
-
-    std::shared_ptr<spdlog::logger>& get() {
-        static std::shared_ptr<spdlog::logger> s_logger = instance();
-        return s_logger;
-    }
+template<> PluginFactory<MatrixElementFactory::type>& PluginFactory<MatrixElementFactory::type>::get() {
+    static PluginFactory<MatrixElementFactory::type> s_instance;
+    return s_instance;
 }

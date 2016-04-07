@@ -16,25 +16,37 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#pragma once
 
-#include <logging.h>
-#include <unistd.h>
+#ifndef MOMEMTA_MATRIXELEMENT_H
+#define MOMEMTA_MATRIXELEMENT_H
 
-namespace logging {
-    namespace {
-        static std::shared_ptr<spdlog::logger> instance() {
-            bool in_terminal = isatty(fileno(stdout));
-            std::shared_ptr<spdlog::logger> logger = spdlog::stdout_logger_st("MoMEMta");
+#include <map>
+#include <memory>
+#include <string>
+#include <vector>
 
-            if (in_terminal)
-                logger->set_formatter(std::make_shared<colored_formatter>());
+#include <momemta/MEParameters.h>
 
-            return logger;
-        }
-    }
+class ConfigurationSet;
 
-    std::shared_ptr<spdlog::logger>& get() {
-        static std::shared_ptr<spdlog::logger> s_logger = instance();
-        return s_logger;
-    }
+namespace momemta {
+    
+    class MatrixElement {
+        public:
+            using Result = std::map<std::pair<int, int>, double>;
+
+            MatrixElement() = default;
+            virtual ~MatrixElement() {};
+    
+            virtual Result compute(
+                    const std::vector<std::vector<double>>& initialMomenta,
+                    const std::vector<std::pair<int, std::vector<double>>>& finalState
+                    ) = 0;
+
+            virtual std::shared_ptr<MEParameters> getParameters() = 0;
+    };
+
 }
+
+#endif

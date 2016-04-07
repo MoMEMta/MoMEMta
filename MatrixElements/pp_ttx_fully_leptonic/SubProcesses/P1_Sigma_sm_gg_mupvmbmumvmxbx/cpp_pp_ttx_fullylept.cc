@@ -10,11 +10,11 @@
 #include <vector> 
 #include <map> 
 
-#include "cpp_pp_ttx_fullylept.h"
-#include "HelAmps_sm.h"
-#include "process_base_classes.h"
+#include <cpp_pp_ttx_fullylept.h>
+#include <HelAmps_sm.h>
 
-using namespace MG5_sm; 
+#include <momemta/ConfigurationSet.h>
+#include <momemta/SLHAReader.h>
 
 //==========================================================================
 // Class member functions for calculating the matrix elements for
@@ -119,21 +119,29 @@ using namespace MG5_sm;
 // *   Decay: t~ > w- b~ WEIGHTED=2
 // *     Decay: w- > e- ve~ WEIGHTED=2
 
+// FIXME: This must go
+using namespace MG5_sm;
+
 //--------------------------------------------------------------------------
 // Initialize process.
 
-cpp_pp_ttx_fullylept::cpp_pp_ttx_fullylept(Parameters_sm &params):
-params(params)
-{
+cpp_pp_ttx_fullylept::cpp_pp_ttx_fullylept(const ConfigurationSet& configuration) {
+
+  std::string param_card = configuration.get<std::string>("card");
+  params.reset(new Parameters_sm(SLHA::Reader(param_card)));
+  
+  params->cacheParameters();
+  params->cacheCouplings();
+
   // Set external particle masses for this matrix element
-  mME.push_back(params.ZERO); 
-  mME.push_back(params.ZERO); 
-  mME.push_back(params.ZERO); 
-  mME.push_back(params.ZERO); 
-  mME.push_back(params.mdl_MB); 
-  mME.push_back(params.ZERO); 
-  mME.push_back(params.ZERO); 
-  mME.push_back(params.mdl_MB); 
+  mME.push_back(params->ZERO); 
+  mME.push_back(params->ZERO); 
+  mME.push_back(params->ZERO); 
+  mME.push_back(params->ZERO); 
+  mME.push_back(params->mdl_MB); 
+  mME.push_back(params->ZERO); 
+  mME.push_back(params->ZERO); 
+  mME.push_back(params->mdl_MB);
 
   mapFinalStates[{-11, 12, 5, 13, -14, -5}] = 
   {
@@ -242,7 +250,7 @@ params(params)
 // Evaluate |M|^2, return a map of final states
 
 std::map < std::pair < int, int > , double >
-    cpp_pp_ttx_fullylept::sigmaKin(const std::vector < std::vector<double> >
+    cpp_pp_ttx_fullylept::compute(const std::vector < std::vector<double> >
     &initialMomenta, const std::vector < std::pair < int, std::vector<double> >
     > &finalState)
 {
@@ -262,8 +270,8 @@ std::map < std::pair < int, int > , double >
   }
 
   // Set the event specific parameters
-  params.setDependentParameters(); 
-  params.setDependentCouplings(); 
+  params->updateParameters();
+  params->updateCouplings();
 
   // Initialise result object
   std::map < std::pair < int, int > , double > result; 
@@ -285,7 +293,7 @@ std::map < std::pair < int, int > , double >
       {
         double sum = 0.; 
         calculate_wavefunctions(perm, helicities[ihel]); 
-        double meTemp = (this->* (me.meCall))(); 
+        double meTemp = me.callback(*this); 
         sum += meTemp; 
         me_sum += meTemp/me.denominator; 
 
@@ -298,7 +306,7 @@ std::map < std::pair < int, int > , double >
           // Mirror back
           perm[0] = 0; 
           perm[1] = 1; 
-          meTemp = (this->* (me.meCall))(); 
+          meTemp = me.callback(*this); 
           sum += meTemp; 
           me_mirror_sum += meTemp/me.denominator; 
         }
@@ -338,27 +346,27 @@ void cpp_pp_ttx_fullylept::calculate_wavefunctions(const int perm[], const int
   vxxxxx(&momenta[perm[1]][0], mME[1], hel[1], -1, w[1]); 
   ixxxxx(&momenta[perm[2]][0], mME[2], hel[2], -1, w[2]); 
   oxxxxx(&momenta[perm[3]][0], mME[3], hel[3], +1, w[3]); 
-  FFV2_3(w[2], w[3], params.GC_100, params.mdl_MW, params.mdl_WW, w[4]); 
+  FFV2_3(w[2], w[3], params->GC_100, params->mdl_MW, params->mdl_WW, w[4]); 
   oxxxxx(&momenta[perm[4]][0], mME[4], hel[4], +1, w[5]); 
-  FFV2_1(w[5], w[4], params.GC_100, params.mdl_MT, params.mdl_WT, w[6]); 
+  FFV2_1(w[5], w[4], params->GC_100, params->mdl_MT, params->mdl_WT, w[6]); 
   oxxxxx(&momenta[perm[5]][0], mME[5], hel[5], +1, w[7]); 
   ixxxxx(&momenta[perm[6]][0], mME[6], hel[6], -1, w[8]); 
-  FFV2_3(w[8], w[7], params.GC_100, params.mdl_MW, params.mdl_WW, w[9]); 
+  FFV2_3(w[8], w[7], params->GC_100, params->mdl_MW, params->mdl_WW, w[9]); 
   ixxxxx(&momenta[perm[7]][0], mME[7], hel[7], -1, w[10]); 
-  FFV2_2(w[10], w[9], params.GC_100, params.mdl_MT, params.mdl_WT, w[11]); 
-  VVV1P0_1(w[0], w[1], params.GC_10, params.ZERO, params.ZERO, w[12]); 
-  FFV1_1(w[6], w[0], params.GC_11, params.mdl_MT, params.mdl_WT, w[13]); 
-  FFV1_2(w[11], w[0], params.GC_11, params.mdl_MT, params.mdl_WT, w[14]); 
+  FFV2_2(w[10], w[9], params->GC_100, params->mdl_MT, params->mdl_WT, w[11]); 
+  VVV1P0_1(w[0], w[1], params->GC_10, params->ZERO, params->ZERO, w[12]); 
+  FFV1_1(w[6], w[0], params->GC_11, params->mdl_MT, params->mdl_WT, w[13]); 
+  FFV1_2(w[11], w[0], params->GC_11, params->mdl_MT, params->mdl_WT, w[14]); 
   ixxxxx(&momenta[perm[0]][0], mME[0], hel[0], +1, w[15]); 
   oxxxxx(&momenta[perm[1]][0], mME[1], hel[1], -1, w[16]); 
-  FFV1P0_3(w[15], w[16], params.GC_11, params.ZERO, params.ZERO, w[17]); 
+  FFV1P0_3(w[15], w[16], params->GC_11, params->ZERO, params->ZERO, w[17]); 
 
   // Calculate all amplitudes
   // Amplitude(s) for diagram number 0
-  FFV1_0(w[11], w[6], w[12], params.GC_11, amp[0]); 
-  FFV1_0(w[11], w[13], w[1], params.GC_11, amp[1]); 
-  FFV1_0(w[14], w[6], w[1], params.GC_11, amp[2]); 
-  FFV1_0(w[11], w[6], w[17], params.GC_11, amp[3]); 
+  FFV1_0(w[11], w[6], w[12], params->GC_11, amp[0]); 
+  FFV1_0(w[11], w[13], w[1], params->GC_11, amp[1]); 
+  FFV1_0(w[14], w[6], w[1], params->GC_11, amp[2]); 
+  FFV1_0(w[11], w[6], w[17], params->GC_11, amp[3]); 
 
 }
 double cpp_pp_ttx_fullylept::matrix_1_gg_ttx_t_wpb_wp_mupvm_tx_wmbx_wm_mumvmx() 
@@ -573,5 +581,5 @@ double cpp_pp_ttx_fullylept::matrix_1_uux_ttx_t_wpb_wp_epve_tx_wmbx_wm_emvex()
   return matrix; 
 }
 
-
-
+#include <momemta/MatrixElementFactory.h>
+REGISTER_MATRIX_ELEMENT("pp_ttx_fully_leptonic", cpp_pp_ttx_fullylept);

@@ -16,6 +16,10 @@ include_directories("${CMAKE_CURRENT_LIST_DIR}/core/include")
 
 # Options
 option(USE_BUILTIN_LUA "Force usage of built-in lua interpreter, even if a system-wide version if available" OFF)
+option(TRACE_LOGGING "Set logging threshold to TRACE instead of DEBUG" OFF)
+if (TRACE_LOGGING)
+    add_definitions(-DSPDLOG_TRACE_ON)
+endif()
 
 # Find dependencies
 find_package(ROOT REQUIRED)
@@ -28,7 +32,6 @@ endif()
 # Include external
 set(EXTERNAL_DIR "${PROJECT_SOURCE_DIR}/external")
 add_subdirectory(external)
-add_subdirectory(ME)
 
 if (NOT LUA_FOUND)
     if (USE_BUILTIN_LUA)
@@ -52,10 +55,12 @@ set(MOMEMTA_SOURCES
     "core/src/InputTag.cc"
     "core/src/LibraryManager.cc"
     "core/src/logging.cc"
+    "core/src/MatrixElementFactory.cc"
     "core/src/MoMEMta.cc"
     "core/src/ModuleFactory.cc"
     "core/src/Pool.cc"
     "core/src/SharedLibrary.cc"
+    "core/src/SLHAReader.cc"
     "core/src/Utils.cc"
     "core/src/lua/utils.cc"
     )
@@ -67,8 +72,6 @@ set_target_properties(momemta PROPERTIES VERSION ${PROJECT_VERSION}
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -g -O2 -fcx-fortran-rules -fcx-limited-range")
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-include_directories(ME/src)
-include_directories(ME/SubProcesses/P1_Sigma_sm_gg_mupvmbmumvmxbx)
 include_directories(${EXTERNAL_DIR})
 include_directories(${EXTERNAL_DIR}/cuba)
 include_directories(${EXTERNAL_DIR}/spdlog)
@@ -76,16 +79,20 @@ include_directories(${LUA_INCLUDE_DIR})
 include_directories(${LHAPDF_INCLUDE_DIRS})
 include_directories(${ROOT_INCLUDE_DIR})
 
-target_link_libraries(momemta dl)
-target_link_libraries(momemta cuba)
-target_link_libraries(momemta ${LUA_LIBRARIES})
-target_link_libraries(momemta pthread)
-target_link_libraries(momemta ME_cpp_pp_ttx_fullylept)
-target_link_libraries(momemta ${LHAPDF_LIBRARIES})
-target_link_libraries(momemta ${ROOT_LIBRARIES})
+target_link_libraries(momemta LINK_PUBLIC dl)
+target_link_libraries(momemta LINK_PRIVATE cuba)
+target_link_libraries(momemta LINK_PRIVATE ${LUA_LIBRARIES})
+target_link_libraries(momemta LINK_PUBLIC pthread)
+target_link_libraries(momemta LINK_PUBLIC ${LHAPDF_LIBRARIES})
+target_link_libraries(momemta LINK_PUBLIC ${ROOT_LIBRARIES})
 
 find_library(ROOT_GENVECTOR_LIBRARY GenVector HINTS ${ROOT_LIBRARY_DIR})
-target_link_libraries(momemta ${ROOT_GENVECTOR_LIBRARY})
+target_link_libraries(momemta LINK_PUBLIC ${ROOT_GENVECTOR_LIBRARY})
+
+# Matrix elements
+add_subdirectory(MatrixElements)
+target_link_libraries(momemta LINK_PRIVATE me_pp_ttx_fully_leptonic)
+target_link_libraries(momemta LINK_PRIVATE "-Wl,--whole-archive $<TARGET_FILE:me_pp_ttx_fully_leptonic> -Wl,--no-whole-archive")
 
 add_library(empty_module SHARED "modules/EmptyModule.cc")
 
