@@ -2,8 +2,6 @@
 
 #include <momemta/SLHAReader.h>
 
-namespace momemta {
-
     Parameters_sm::Parameters_sm(const SLHA::Reader& card) {
         m_card_parameters["mdl_WH"] = card.get_block_entry("decay", 25, 6.382339e-03); 
         m_card_parameters["mdl_WW"] = card.get_block_entry("decay", 24, 2.047600e+00); 
@@ -93,5 +91,3 @@ namespace momemta {
         GC_11 = mdl_complexi * G; 
         GC_10 = -G; 
     }
-
-}

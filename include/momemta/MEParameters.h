@@ -23,7 +23,6 @@
 
 #include <unordered_map>
 
-// FIXME: Decide if we use a namespace or not?
 namespace momemta {
 
     class MEParameters {
@@ -31,9 +30,6 @@ namespace momemta {
             MEParameters() = default;
             virtual ~MEParameters() {};
 
-            /**
-             * Cache parameters. This is implementation dependent
-             */
             virtual void cacheParameters() = 0;
             virtual void cacheCouplings() = 0;
 

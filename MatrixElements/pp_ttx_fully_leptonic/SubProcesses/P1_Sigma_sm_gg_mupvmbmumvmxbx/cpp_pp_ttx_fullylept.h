@@ -273,7 +273,7 @@
       std::map<std::vector<int>, std::vector<Subprocess<cpp_pp_ttx_fullylept>>> mapFinalStates;
 
       // Reference to the model parameters instance passed in the constructor
-      std::shared_ptr<momemta::Parameters_sm> params; 
+      std::shared_ptr<Parameters_sm> params; 
 
       // vector with external particle masses
       std::vector<double> mME; 

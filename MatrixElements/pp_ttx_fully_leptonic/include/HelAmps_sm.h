@@ -11,7 +11,7 @@
 #include <cmath> 
 #include <complex> 
 
-// FIXME: This namespace must disappear
+// FIXME: This namespace must be unique
 namespace MG5_sm 
 {
 void vxxxxx(double p[4], double vmass, int nhel, int nsv, std::complex<double>

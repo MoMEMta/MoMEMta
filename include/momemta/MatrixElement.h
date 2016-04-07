@@ -30,7 +30,6 @@
 
 class ConfigurationSet;
 
-// FIXME Namespace or not?
 namespace momemta {
     
     class MatrixElement {

@@ -16,10 +16,8 @@ namespace SLHA {
 class Reader;
 }
 
-// FIXME Namespace?!
-namespace momemta {
-
-    class Parameters_sm: public MEParameters
+// FIXME Need to be wrapped in a unique namespace
+    class Parameters_sm: public momemta::MEParameters
     {
 
         public:
@@ -54,5 +52,3 @@ namespace momemta {
             // Model couplings dependent on aS
             std::complex<double> GC_11, GC_10; 
     }; 
-
-}
