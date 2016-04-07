@@ -21,35 +21,21 @@
 
 #include <memory>
 #include <string>
+#include <unordered_map>
 #include <vector>
 
-#include <momemta/ConfigurationSet.h>
+#include <logging.h>
 
-struct LightModule {
-    std::string name;
-    std::string type;
-    std::shared_ptr<ConfigurationSet> parameters;
-};
+#include <momemta/PluginFactory.h>
 
-class lua_State;
+class ConfigurationSet;
 
-class ConfigurationReader {
-    public:
-        ConfigurationReader(const std::string&);
-        virtual ~ConfigurationReader();
+// Forward declaration
+namespace momemta {
+    class MatrixElement;
+}
 
-        void addModule(const std::string& type, const std::string& name);
+using MatrixElementFactory = PluginFactory<momemta::MatrixElement* (const ConfigurationSet&)>;
 
-        std::vector<LightModule> getModules() const;
-
-        std::shared_ptr<ConfigurationSet> getVegasConfiguration() const {
-            return m_vegas_configuration;
-        }
-
-    private:
-        std::vector<LightModule> m_light_modules;
-        std::shared_ptr<ConfigurationSet> m_global_configuration;
-        std::shared_ptr<ConfigurationSet> m_vegas_configuration;
-
-        lua_State* lua_state = nullptr;
-};
+#define REGISTER_MATRIX_ELEMENT(name, type) \
+    static const MatrixElementFactory::PMaker<type> PLUGIN_UNIQUE_NAME(s_matrix_element , __LINE__)(name)

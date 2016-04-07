@@ -24,7 +24,7 @@
 
 void ConfigurationSet::parse(lua_State* L, int index) {
 
-    LOG(trace) << "[parse] >> stack size = " << lua_gettop(L);
+    TRACE("[parse] >> stack size = {}", lua_gettop(L));
     size_t absolute_index = lua::get_index(L, index);
 
     lua_pushnil(L);
@@ -32,7 +32,7 @@ void ConfigurationSet::parse(lua_State* L, int index) {
 
         std::string key = lua_tostring(L, -2);
 
-        LOG(trace) << "[parse] >> key = " << key;
+        TRACE("[parse] >> key = {}", key);
 
         try {
             boost::any value = lua::to_any(L, -1);
@@ -45,7 +45,7 @@ void ConfigurationSet::parse(lua_State* L, int index) {
         lua_pop(L, 1);
     }
 
-    LOG(trace) << "[parse] << stack size = " << lua_gettop(L);
+    TRACE("[parse] << stack size = {}", lua_gettop(L));
 }
 
 bool ConfigurationSet::exists(const std::string& name) const {

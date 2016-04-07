@@ -16,40 +16,37 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 #pragma once
 
+#ifndef MOMEMTA_MATRIXELEMENT_H
+#define MOMEMTA_MATRIXELEMENT_H
+
+#include <map>
 #include <memory>
 #include <string>
 #include <vector>
 
-#include <momemta/ConfigurationSet.h>
+#include <momemta/MEParameters.h>
 
-struct LightModule {
-    std::string name;
-    std::string type;
-    std::shared_ptr<ConfigurationSet> parameters;
-};
+class ConfigurationSet;
 
-class lua_State;
+namespace momemta {
+    
+    class MatrixElement {
+        public:
+            using Result = std::map<std::pair<int, int>, double>;
 
-class ConfigurationReader {
-    public:
-        ConfigurationReader(const std::string&);
-        virtual ~ConfigurationReader();
+            MatrixElement() = default;
+            virtual ~MatrixElement() {};
+    
+            virtual Result compute(
+                    const std::vector<std::vector<double>>& initialMomenta,
+                    const std::vector<std::pair<int, std::vector<double>>>& finalState
+                    ) = 0;
 
-        void addModule(const std::string& type, const std::string& name);
+            virtual std::shared_ptr<MEParameters> getParameters() = 0;
+    };
 
-        std::vector<LightModule> getModules() const;
+}
 
-        std::shared_ptr<ConfigurationSet> getVegasConfiguration() const {
-            return m_vegas_configuration;
-        }
-
-    private:
-        std::vector<LightModule> m_light_modules;
-        std::shared_ptr<ConfigurationSet> m_global_configuration;
-        std::shared_ptr<ConfigurationSet> m_vegas_configuration;
-
-        lua_State* lua_state = nullptr;
-};
+#endif

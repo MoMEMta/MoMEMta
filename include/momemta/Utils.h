@@ -23,6 +23,7 @@
 #include <cmath>
 #include <vector>
 #include <algorithm>
+#include <string>
 
 #include <momemta/Types.h>
 
@@ -201,6 +202,33 @@ void apply_permutations(std::vector<T>& vec, std::vector<std::size_t> const& p) 
             });
 
     vec = sorted_vec;
+}
+
+std::string demangle(const char* name);
+
+template <typename T> void UNUSED(T &&) { }
+
+namespace vegas {
+
+inline unsigned int createFlagsBitset(char verbosity, bool subregion, bool retainStateFile, unsigned int level, bool smoothing, bool takeOnlyGridFromFile) {
+
+    unsigned int flags = 0;
+
+    static unsigned int opt_subregion = 0x04; // bit 2 (=4)
+    static unsigned int opt_smoothing = 0x08; // bit 3 (=8)
+    static unsigned int opt_retainStateFile = 0x10; // bit 4 (=16)
+    static unsigned int opt_takeOnlyGridFromFile = 0x20; // bit 5 (=32)
+
+    level <<= 8; // bits 8-31
+    flags |= level | verbosity; // verbosity: bits 0-1
+    if(subregion) flags |= opt_subregion;
+    if(!smoothing) flags |= opt_smoothing; // careful true-false inverted
+    if(retainStateFile) flags |= opt_retainStateFile;
+    if(takeOnlyGridFromFile) flags |= opt_takeOnlyGridFromFile;
+
+    return flags;
+}
+
 }
 
 #endif

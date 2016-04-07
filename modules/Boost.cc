@@ -49,18 +49,14 @@ class Boost: public Module {
 
             if (!invisibles.empty()) {
 
-                int n_sols = -1;
+                size_t n_sols = invisibles.front()->size();
                 for (const auto& i: invisibles) {
-                    if (n_sols < 0)
-                        n_sols = i->size();
-                    else {
-                        if (i->size() != n_sols) {
-                            throw std::runtime_error("All invisibles must have the same number of solutions.");
-                        }
+                    if (i->size() != n_sols) {
+                        throw std::runtime_error("All invisibles must have the same number of solutions.");
                     }
                 }
 
-                for (size_t sol_index = 0; sol_index < (size_t) n_sols; sol_index++) {
+                for (size_t sol_index = 0; sol_index < n_sols; sol_index++) {
 
                     std::vector<LorentzVector> particles_and_invisibles = particles;
 

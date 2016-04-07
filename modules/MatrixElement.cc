@@ -18,6 +18,8 @@
 
 
 #include <momemta/ConfigurationSet.h>
+#include <momemta/MatrixElement.h>
+#include <momemta/MatrixElementFactory.h>
 #include <momemta/Module.h>
 #include <momemta/Types.h>
 #include <momemta/Utils.h>
@@ -25,7 +27,6 @@
 #include <logging.h>
 
 #include <LHAPDF/LHAPDF.h>
-#include <cpp_pp_ttx_fullylept.h>
 
 class MatrixElement: public Module {
     struct ParticleId {
@@ -82,9 +83,9 @@ class MatrixElement: public Module {
                 m_jacobians.push_back(get<double>(tag));
             }
 
-            std::string param_card = parameters.get<std::string>("card");
-            m_ME_parameters.reset(new Parameters_sm(param_card));
-            m_ME.reset(new cpp_pp_ttx_fullylept(*m_ME_parameters));
+            std::string matrix_element = parameters.get<std::string>("matrix_element");
+            const ConfigurationSet& matrix_element_configuration = parameters.get<ConfigurationSet>("matrix_element_parameters");
+            m_ME = MatrixElementFactory::get().create(matrix_element, matrix_element_configuration);
 
             // PDF
             std::string pdf = parameters.get<std::string>("pdf");
@@ -148,7 +149,7 @@ class MatrixElement: public Module {
             for (const auto& parton: partons)
                 initialState[index++] = toVector(parton);
 
-            auto result = m_ME->sigmaKin(initialState, finalStates);
+            auto result = m_ME->compute(initialState, finalStates);
 
             double x1 = std::abs(partons[0].Pz() / (sqrt_s / 2.));
             double x2 = std::abs(partons[1].Pz() / (sqrt_s / 2.));
@@ -196,8 +197,7 @@ class MatrixElement: public Module {
 
         std::vector<std::shared_ptr<const double>> m_jacobians;
 
-        std::shared_ptr<Parameters_sm> m_ME_parameters;
-        std::shared_ptr<cpp_pp_ttx_fullylept> m_ME;
+        std::shared_ptr<momemta::MatrixElement> m_ME;
 
         std::shared_ptr<LHAPDF::PDF> m_pdf;
 
