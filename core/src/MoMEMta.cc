@@ -23,28 +23,9 @@
 
 #include <momemta/ConfigurationReader.h>
 #include <momemta/MoMEMta.h>
+#include <momemta/Utils.h>
 
 #include <logging.h>
-
-
-// FIXME: Move
-unsigned int setFlags(char verbosity, bool subregion, bool retainStateFile, unsigned int level, bool smoothing, bool takeOnlyGridFromFile) {
-    unsigned int flags = 0;
-
-    static unsigned int opt_subregion = 0x04; // bit 2 (=4)
-    static unsigned int opt_smoothing = 0x08; // bit 3 (=8)
-    static unsigned int opt_retainStateFile = 0x10; // bit 4 (=16)
-    static unsigned int opt_takeOnlyGridFromFile = 0x20; // bit 5 (=32)
-
-    level <<= 8; // bits 8-31
-    flags |= level | verbosity; // verbosity: bits 0-1
-    if(subregion) flags |= opt_subregion;
-    if(!smoothing) flags |= opt_smoothing; // careful true-false inverted
-    if(retainStateFile) flags |= opt_retainStateFile;
-    if(takeOnlyGridFromFile) flags |= opt_takeOnlyGridFromFile;
-
-    return flags;
-}
 
 MoMEMta::MoMEMta(const ConfigurationReader& configuration) {
     
@@ -77,6 +58,8 @@ MoMEMta::MoMEMta(const ConfigurationReader& configuration) {
     // The last module of the chain *must* output a vector of weights, used for the integration
     m_weights = m_pool->get<std::vector<double>>({m_modules.back()->name(), "weights"});
 
+    m_vegas_configuration = configuration.getVegasConfiguration();
+
     cubacores(0, 0);
 }
 
@@ -93,31 +76,40 @@ std::vector<std::pair<double, double>> MoMEMta::computeWeights(const std::vector
     int neval, nfail;
     double mcResult = 0, prob = 0, error = 0;
 
-    char verbosity = 3; // 0-3
-    bool subregion = false; // true = only last set of samples is used for final evaluation of integral
-    bool smoothing = false;
-    bool retainStateFile = false; // false => delete state file when integration ends
-    bool takeOnlyGridFromFile = true; // false => full state taken from file (if present), true => only grid is taken (e.g. to use it for another integrand)
-    unsigned int level = 0;
+    // Read vegas configuration
+    uint8_t verbosity = m_vegas_configuration->get<int64_t>("verbosity", 0);
+    bool subregion = m_vegas_configuration->get<bool>("subregion", false);
+    bool smoothing = m_vegas_configuration->get<bool>("smoothing", false);
+    bool retainStateFile = m_vegas_configuration->get<bool>("retainStateFile", false);
+    bool takeOnlyGridFromFile = m_vegas_configuration->get<bool>("takeOnlyGridFromFile", true);
+    uint64_t level = m_vegas_configuration->get<int64_t>("level", 0);
 
-    unsigned int flags = setFlags(verbosity, subregion, retainStateFile, level, smoothing, takeOnlyGridFromFile);
+    double relative_accuracy = m_vegas_configuration->get<double>("relative_accuracy", 0.005);
+    double absolute_accuracy = m_vegas_configuration->get<double>("absolute_accuracy", 0.);
+    int64_t seed = m_vegas_configuration->get<int64_t>("seed", 0);
+    int64_t min_eval = m_vegas_configuration->get<int64_t>("min_eval", 0);
+    int64_t max_eval = m_vegas_configuration->get<int64_t>("max_eval", 500000);
+    int64_t n_start = m_vegas_configuration->get<int64_t>("n_start", 25000);
+    int64_t n_increase = m_vegas_configuration->get<int64_t>("n_increase", 0);
+    int64_t batch_size = m_vegas_configuration->get<int64_t>("batch_size", 12500);
 
-    Vegas
-        (
+    unsigned int flags = vegas::createFlagsBitset(verbosity, subregion, retainStateFile, level, smoothing, takeOnlyGridFromFile);
+
+    Vegas(
          m_n_dimensions,         // (int) dimensions of the integrated volume
          1,                      // (int) dimensions of the integrand
          (integrand_t) CUBAIntegrand,  // (integrand_t) integrand (cast to integrand_t)
          (void*) this,           // (void*) pointer to additional arguments passed to integrand
          1,                      // (int) maximum number of points given the integrand in each invocation (=> SIMD) ==> PS points = vector of sets of points (x[ndim][nvec]), integrand returns vector of vector values (f[ncomp][nvec])
-         0.005,                  // (double) requested relative accuracy  /
-         0.,                     // (double) requested absolute accuracy /-> error < max(rel*value,abs)
+         relative_accuracy,      // (double) requested relative accuracy  /
+         absolute_accuracy,      // (double) requested absolute accuracy /-> error < max(rel*value,abs)
          flags,                  // (int) various control flags in binary format, see setFlags function
-         0,                      // (int) seed (seed==0 => SOBOL; seed!=0 && control flag "level"==0 => Mersenne Twister)
-         0,                      // (int) minimum number of integrand evaluations
-         500000,                    // (int) maximum number of integrand evaluations (approx.!)
-         25000,                     // (int) number of integrand evaluations per interations (to start)
-         0,                      // (int) increase in number of integrand evaluations per interations
-         12500,                   // (int) batch size for sampling
+         seed,                   // (int) seed (seed==0 => SOBOL; seed!=0 && control flag "level"==0 => Mersenne Twister)
+         min_eval,               // (int) minimum number of integrand evaluations
+         max_eval,               // (int) maximum number of integrand evaluations (approx.!)
+         n_start,                // (int) number of integrand evaluations per interations (to start)
+         n_increase,             // (int) increase in number of integrand evaluations per interations
+         batch_size,             // (int) batch size for sampling
          0,                      // (int) grid number, 1-10 => up to 10 grids can be stored, and re-used for other integrands (provided they are not too different)
          "",                     // (char*) name of state file => state can be stored and retrieved for further refinement
          NULL,                   // (int*) "spinning cores": -1 || NULL <=> integrator takes care of starting & stopping child processes (other value => keep or retrieve child processes, probably not useful here)
@@ -126,12 +118,14 @@ std::vector<std::pair<double, double>> MoMEMta::computeWeights(const std::vector
          &mcResult,              // (double*) integration result ([ncomp])
          &error,                 // (double*) integration error ([ncomp])
          &prob                   // (double*) Chi-square p-value that error is not reliable (ie should be <0.95) ([ncomp])
-             );
+    );
 
     return std::vector<std::pair<double, double>>({{mcResult, error}});
 }
 
 double MoMEMta::integrand(const double* psPoints, const double* weights) {
+
+    UNUSED(weights);
 
     // Store phase-space points into the pool
     std::memcpy(m_ps_points->data(), psPoints, sizeof(double) * m_n_dimensions);
@@ -149,6 +143,11 @@ double MoMEMta::integrand(const double* psPoints, const double* weights) {
 }
 
 int MoMEMta::CUBAIntegrand(const int *nDim, const double* psPoint, const int *nComp, double *value, void *inputs, const int *nVec, const int *core, const double *weight) {
+    UNUSED(nDim);
+    UNUSED(nComp);
+    UNUSED(nVec);
+    UNUSED(core);
+
     *value = static_cast<MoMEMta*>(inputs)->integrand(psPoint, weight);
 
     return 0;

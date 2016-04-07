@@ -69,15 +69,15 @@ add_library(momemta SHARED ${MOMEMTA_SOURCES})
 set_target_properties(momemta PROPERTIES VERSION ${PROJECT_VERSION}
     SOVERSION ${PROJECT_VERSION_MAJOR})
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -g -O2 -fcx-fortran-rules -fcx-limited-range")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -g -O2 -fcx-fortran-rules -fcx-limited-range -Wall -pedantic -Wextra")
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-include_directories(${EXTERNAL_DIR})
-include_directories(${EXTERNAL_DIR}/cuba)
-include_directories(${EXTERNAL_DIR}/spdlog)
-include_directories(${LUA_INCLUDE_DIR})
-include_directories(${LHAPDF_INCLUDE_DIRS})
-include_directories(${ROOT_INCLUDE_DIR})
+include_directories(SYSTEM ${EXTERNAL_DIR})
+include_directories(SYSTEM ${EXTERNAL_DIR}/cuba)
+include_directories(SYSTEM ${EXTERNAL_DIR}/spdlog)
+include_directories(SYSTEM ${LUA_INCLUDE_DIR})
+include_directories(SYSTEM ${LHAPDF_INCLUDE_DIRS})
+include_directories(SYSTEM ${ROOT_INCLUDE_DIR})
 
 target_link_libraries(momemta LINK_PUBLIC dl)
 target_link_libraries(momemta LINK_PRIVATE cuba)

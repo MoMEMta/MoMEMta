@@ -40,6 +40,6 @@ namespace momemta {
             std::unordered_map<std::string, double> m_card_parameters;
     };
 
-};
+}
 
 #endif

@@ -40,6 +40,10 @@ configuration = {
     W_mass = M_W
 }
 
+vegas = {
+    verbosity = 3
+}
+
 Flatter.flatter_s13 = {
     input = "cuba::ps_points/0",
     mass = M_W,
