@@ -21,6 +21,45 @@ if (TRACE_LOGGING)
     add_definitions(-DSPDLOG_TRACE_ON)
 endif()
 
+option(PROFILING "Enable profiling" OFF)
+if (PROFILING)
+    add_definitions(-DPROFILING)
+
+    # Look for libprofiler
+    find_library(GPERF_PROFILER_LIBRARY profiler)
+    find_library(GPERF_TCMALLOC_LIBRARY tcmalloc_minimal)
+    if (GPERF_PROFILER_LIBRARY AND GPERF_TCMALLOC_LIBRARY)
+        message(STATUS "Found gperftools: ${GPERF_PROFILER_LIBRARY} ${GPERF_TCMALLOC_LIBRARY}")
+    else()
+        message(STATUS "gperftools NOT found: profiling disabled")
+        set(PROFILING OFF)
+    endif()
+endif()
+
+# Set a default build type for single-configuration
+# CMake generators if no build type is set.
+if (NOT CMAKE_CONFIGURATION_TYPES AND NOT CMAKE_BUILD_TYPE)
+   set(CMAKE_BUILD_TYPE RelWithDebInfo)
+endif(NOT CMAKE_CONFIGURATION_TYPES AND NOT CMAKE_BUILD_TYPE)
+
+# Default compiler flags
+SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall -pedantic -Wextra --std=c++11 -fcx-fortran-rules -fcx-limited-range")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fomit-frame-pointer -ffast-math -Wall --std=c11")
+
+# If profiling, always include debug information
+if (PROFILING)
+    SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g")
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -g")
+endif()
+
+# Compiler flags for each build type
+SET(CMAKE_CXX_FLAGS_RELWITHDEBINFO "-O2 -g")
+SET(CMAKE_C_FLAGS_RELWITHDEBINFO "-O2 -g")
+SET(CMAKE_CXX_FLAGS_RELEASE "-O3")
+SET(CMAKE_C_FLAGS_RELEASE "-O3")
+SET(CMAKE_CXX_FLAGS_DEBUG  "-O0 -g")
+SET(CMAKE_C_FLAGS_DEBUG  "-O0 -g")
+
 # Find dependencies
 find_package(ROOT REQUIRED)
 find_package(LHAPDF 6.0 REQUIRED)
@@ -69,7 +108,6 @@ add_library(momemta SHARED ${MOMEMTA_SOURCES})
 set_target_properties(momemta PROPERTIES VERSION ${PROJECT_VERSION}
     SOVERSION ${PROJECT_VERSION_MAJOR})
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -g -O2 -fcx-fortran-rules -fcx-limited-range -Wall -pedantic -Wextra")
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 include_directories(SYSTEM ${EXTERNAL_DIR})
@@ -88,6 +126,11 @@ target_link_libraries(momemta LINK_PUBLIC ${ROOT_LIBRARIES})
 
 find_library(ROOT_GENVECTOR_LIBRARY GenVector HINTS ${ROOT_LIBRARY_DIR})
 target_link_libraries(momemta LINK_PUBLIC ${ROOT_GENVECTOR_LIBRARY})
+
+if (PROFILING)
+    target_link_libraries(momemta LINK_PUBLIC "-Wl,--no-as-needed ${GPERF_PROFILER_LIBRARY} -Wl,--as-needed")
+    target_link_libraries(momemta LINK_PUBLIC "-Wl,--no-as-needed ${GPERF_TCMALLOC_LIBRARY} -Wl,--as-needed")
+endif()
 
 # Matrix elements
 add_subdirectory(MatrixElements)
