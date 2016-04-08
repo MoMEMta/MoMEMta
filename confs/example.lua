@@ -18,7 +18,7 @@ USE_TF = true
 
 if USE_TF then
     -- With transfer functions
-    inputs = {
+    inputs_before_perm = {
         'tf_p1::output',
         'tf_p2::output',
         'tf_p3::output',
@@ -26,12 +26,27 @@ if USE_TF then
     }
 else
     -- No transfer functions
-    inputs = {
+    inputs_before_perm = {
         'input::particles/0',
         'input::particles/1',
         'input::particles/2',
         'input::particles/3',
     }
+end
+
+USE_PERM = true
+
+if USE_PERM then
+  -- Use permutator module to permutate input particles 0 and 2 using the MC
+  inputs = {
+    inputs_before_perm[1],
+    'permutator::output/0',
+    inputs_before_perm[3],
+    'permutator::output/1',
+  }
+else
+  -- No permutation, take particles as they come
+  inputs = inputs_before_perm
 end
 
 configuration = {
@@ -91,6 +106,21 @@ if USE_TF then
         ps_point = 'cuba::ps_points/7',
         reco_particle = 'input::particles/3',
         sigma = 0.10,
+    }
+end
+
+if USE_PERM then
+    cuba_index = '4'
+    if USE_TF then
+        cuba_index = '8'
+    end
+    
+    Permutator.permutator = {
+        ps_point = 'cuba::ps_points/' .. cuba_index,
+        input = {
+          inputs_before_perm[2],
+          inputs_before_perm[4],
+        }
     }
 end
 
