@@ -41,7 +41,6 @@ class BlockB: public Module {
             invisibles->clear();
             jacobians->clear();
 
-
             // Equations to solve:
             //(1) (p1 + p2)^2 = s12 = M1^2 + M2^2 + 2E1E2 + 2p1xp2x + 2p1yp2y + p1zp2z  
             //(2)  p1x = - pTx  #Coming from pT neutrino = -pT visible = - (p2 + ISR)
@@ -92,7 +91,6 @@ class BlockB: public Module {
             return 0;
         }
 
-
         double computeJacobian(const LorentzVector& p1, const LorentzVector& p2) {
           
             const double E1  = p1.E();
@@ -102,7 +100,7 @@ class BlockB: public Module {
             const double p2z = p2.Pz();
             // Some extra info in MadWeight Source/MadWeight/blocks/class_b.f Good luck!!
             
-            double inv_jac = 4.*SQ(M_PI*sqrt_s)( p2z*E1 - E2*p1z);
+            double inv_jac = 4.*SQ(M_PI*sqrt_s)*( p2z*E1 - E2*p1z);
             
             return 1. / std::abs(inv_jac);
         }
@@ -116,6 +114,5 @@ class BlockB: public Module {
 
         std::shared_ptr<std::vector<std::vector<LorentzVector>>> invisibles = produce<std::vector<std::vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<double>>>>>("invisibles");
         std::shared_ptr<std::vector<double>> jacobians = produce<std::vector<double>>("jacobians");
-
 };
 REGISTER_MODULE(BlockB);
