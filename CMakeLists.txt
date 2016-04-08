@@ -89,6 +89,7 @@ set(MOMEMTA_SOURCES
     "modules/Flatter.cc"
     "modules/GaussianTransferFunction.cc"
     "modules/MatrixElement.cc"
+    "modules/Permutator.cc"
     "core/src/ConfigurationReader.cc"
     "core/src/ConfigurationSet.cc"
     "core/src/InputTag.cc"
