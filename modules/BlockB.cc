@@ -58,7 +58,7 @@ class BlockB: public Module {
             // From eq.(1) p1z = -B*E1 + A
             // From eq.(4) + eq.(1) (1-B^2)* E1^2 + 2AB* E1 - C = 0    
  
-            const double A = (s12-p22+2*(pT.Px()*p2.Px()+pT.Py()*p2.Py()))/(2*p2.Pz());
+            const double A = (s12 - p22 + 2*(pT.Px()*p2.Px() + pT.Py()*p2.Py()))/(2*p2.Pz());
             const double B = p2.E()/p2.Pz();
             const double C = SQ(pT.Px()) + SQ(pT.Py());
                  
@@ -81,7 +81,7 @@ class BlockB: public Module {
                 
                 LorentzVector p1(-pT.Px(), -pT.Py(), A - B*e1, e1);
                 
-                invisibles->push_back(p1);
+                invisibles->push_back({p1});
                 jacobians->push_back(computeJacobian(p1, p2));   
             }
         }
