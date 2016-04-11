@@ -84,6 +84,7 @@ endif()
 
 
 set(MOMEMTA_SOURCES
+    "modules/BlockB.cc"
     "modules/BlockD.cc"
     "modules/Boost.cc"
     "modules/Flatter.cc"
