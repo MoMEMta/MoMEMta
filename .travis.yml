@@ -26,11 +26,11 @@ install:
   - export CXX=g++-4.9
   - export CC=gcc-4.9
   - wget http://sbrochet.web.cern.ch/sbrochet/public/ROOT-${ROOT_VERSION}_Python-2.7_Ubuntu-12.04_gcc4.9.tar.xz
-  - mkdir root
-  - cd root
-  - tar xf ../ROOT-${ROOT_VERSION}_Python-2.7_Ubuntu-12.04_gcc4.9.tar.xz
+  - mkdir -p external/root
+  - cd external/root
+  - tar xf ../../ROOT-${ROOT_VERSION}_Python-2.7_Ubuntu-12.04_gcc4.9.tar.xz
   - source bin/thisroot.sh
-  - cd ..
+  - cd ../..
   - . ./travis/build-lhapdf.sh
 before_script:
   - export CXX=g++-4.9
