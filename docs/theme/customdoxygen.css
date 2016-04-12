@@ -95,6 +95,7 @@ body {
 
 a.qindex {
     font-weight: bold;
+    margin: 0px 4px 0px 4px;
 }
 
 a.qindexHL {
@@ -120,6 +121,11 @@ a.codeRef, a.codeRef:visited, a.lineRef, a.lineRef:visited {
 
 dl.el {
     margin-left: -1cm;
+}
+
+dl.note {
+  margin-left: -10px;
+  padding-left: 6px;
 }
 
 pre.fragment {
@@ -316,11 +322,12 @@ span.SRScope {
   padding: 7px 8px 6px 8px;
 }
 
+.directory td.desc {
+  padding: 7px 8px 6px 8px;
+}
+
 .table > tbody > tr > td.memSeparator {
   line-height: 0;
-}
-.memItemLeft, .memTemplItemLeft {
-  white-space: normal;
 }
 
 /* enumerations */
