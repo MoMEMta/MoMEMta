@@ -8,7 +8,7 @@
         <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
         <meta name="generator" content="Doxygen 1.8.6"/>
         <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-        <title>MoMEMta: Main Page</title>
+        <title>MoMEMta: SLHA::Reader Class Reference</title>
         <!--<link href="tabs.css" rel="stylesheet" type="text/css"/>-->
         <script type="text/javascript" src="dynsections.js"></script>
         <link href="search/search.css" rel="stylesheet" type="text/css"/>
@@ -55,8 +55,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </script>
   <div id="navrow1" class="tabs">
     <ul class="tablist">
-      <li class="current"><a href="index.html"><span>Main&#160;Page</span></a></li>
-      <li><a href="annotated.html"><span>Classes</span></a></li>
+      <li><a href="index.html"><span>Main&#160;Page</span></a></li>
+      <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
       <li>
         <div id="MSearchBox" class="MSearchBoxInactive">
@@ -76,7 +76,14 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       </li>
     </ul>
   </div>
-</div><!-- top -->
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="annotated.html"><span>Class&#160;List</span></a></li>
+      <li><a href="classes.html"><span>Class&#160;Index</span></a></li>
+      <li><a href="inherits.html"><span>Class&#160;Hierarchy</span></a></li>
+      <li><a href="functions.html"><span>Class&#160;Members</span></a></li>
+    </ul>
+  </div>
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -91,13 +98,53 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </iframe>
 </div>
 
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><b>SLHA</b></li><li class="navelem"><a class="el" href="classSLHA_1_1Reader.html">Reader</a></li>  </ul>
+</div>
+</div><!-- top -->
 <div class="header">
+  <div class="summary">
+<a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pri-attribs">Private Attributes</a> &#124;
+<a href="classSLHA_1_1Reader-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">MoMEMta Documentation</div>  </div>
+<div class="title">SLHA::Reader Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p>Modular Matrix Element Method implementation </p>
-</div></div><!-- contents -->
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
+Public Member Functions</h2></td></tr>
+<tr class="memitem:a1c97e69812a9f12b01f2f86101ab7f2d"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a1c97e69812a9f12b01f2f86101ab7f2d"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>Reader</b> (const std::string &amp;file_name=&quot;&quot;)</td></tr>
+<tr class="separator:a1c97e69812a9f12b01f2f86101ab7f2d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae9b0c4b5dc06835cc852b4a17e4d0ffa"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae9b0c4b5dc06835cc852b4a17e4d0ffa"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>read_slha_file</b> (const std::string &amp;file_name)</td></tr>
+<tr class="separator:ae9b0c4b5dc06835cc852b4a17e4d0ffa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1352ff311f0033eb233960af582b4a3c"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a1352ff311f0033eb233960af582b4a3c"></a>
+double&#160;</td><td class="memItemRight" valign="bottom"><b>get_block_entry</b> (const std::string &amp;block_name, const std::vector&lt; int &gt; &amp;indices, double def_val=0) const </td></tr>
+<tr class="separator:a1352ff311f0033eb233960af582b4a3c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0f83f8810fc6f35f305051a4d017ba13"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a0f83f8810fc6f35f305051a4d017ba13"></a>
+double&#160;</td><td class="memItemRight" valign="bottom"><b>get_block_entry</b> (const std::string &amp;block_name, int index, double def_val=0) const </td></tr>
+<tr class="separator:a0f83f8810fc6f35f305051a4d017ba13"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac59db884f4d5326d45524dd0f6199082"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac59db884f4d5326d45524dd0f6199082"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>set_block_entry</b> (const std::string &amp;block_name, const std::vector&lt; int &gt; &amp;indices, double value)</td></tr>
+<tr class="separator:ac59db884f4d5326d45524dd0f6199082"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a282c85ac4f70a29f26c35c02e57ba92e"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a282c85ac4f70a29f26c35c02e57ba92e"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>set_block_entry</b> (const std::string &amp;block_name, int index, double value)</td></tr>
+<tr class="separator:a282c85ac4f70a29f26c35c02e57ba92e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
+Private Attributes</h2></td></tr>
+<tr class="memitem:af547744082be9835279b70775125fc7f"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af547744082be9835279b70775125fc7f"></a>
+std::map&lt; std::string, <a class="el" href="classSLHA_1_1Block.html">Block</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>_blocks</b></td></tr>
+<tr class="separator:af547744082be9835279b70775125fc7f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<hr/>The documentation for this class was generated from the following files:<ul>
+<li>include/momemta/<a class="el" href="SLHAReader_8h_source.html">SLHAReader.h</a></li>
+<li>core/src/SLHAReader.cc</li>
+</ul>
+</div><!-- contents -->
 <!-- HTML footer for doxygen 1.8.8-->
 <!-- start footer part -->
 </div>

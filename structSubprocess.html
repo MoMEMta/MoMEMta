@@ -8,7 +8,7 @@
         <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
         <meta name="generator" content="Doxygen 1.8.6"/>
         <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-        <title>MoMEMta: Main Page</title>
+        <title>MoMEMta: Subprocess&lt; T &gt; Struct Template Reference</title>
         <!--<link href="tabs.css" rel="stylesheet" type="text/css"/>-->
         <script type="text/javascript" src="dynsections.js"></script>
         <link href="search/search.css" rel="stylesheet" type="text/css"/>
@@ -55,8 +55,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </script>
   <div id="navrow1" class="tabs">
     <ul class="tablist">
-      <li class="current"><a href="index.html"><span>Main&#160;Page</span></a></li>
-      <li><a href="annotated.html"><span>Classes</span></a></li>
+      <li><a href="index.html"><span>Main&#160;Page</span></a></li>
+      <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
       <li>
         <div id="MSearchBox" class="MSearchBoxInactive">
@@ -76,7 +76,14 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       </li>
     </ul>
   </div>
-</div><!-- top -->
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="annotated.html"><span>Class&#160;List</span></a></li>
+      <li><a href="classes.html"><span>Class&#160;Index</span></a></li>
+      <li><a href="inherits.html"><span>Class&#160;Hierarchy</span></a></li>
+      <li><a href="functions.html"><span>Class&#160;Members</span></a></li>
+    </ul>
+  </div>
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -91,13 +98,53 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </iframe>
 </div>
 
+</div><!-- top -->
 <div class="header">
+  <div class="summary">
+<a href="#pub-types">Public Types</a> &#124;
+<a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pub-attribs">Public Attributes</a> &#124;
+<a href="structSubprocess-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">MoMEMta Documentation</div>  </div>
+<div class="title">Subprocess&lt; T &gt; Struct Template Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p>Modular Matrix Element Method implementation </p>
-</div></div><!-- contents -->
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
+Public Types</h2></td></tr>
+<tr class="memitem:ad1f5177b1124b01d010a6759fdfc5856"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad1f5177b1124b01d010a6759fdfc5856"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>Callback</b> = std::function&lt; double(T &amp;)&gt;</td></tr>
+<tr class="separator:ad1f5177b1124b01d010a6759fdfc5856"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
+Public Member Functions</h2></td></tr>
+<tr class="memitem:a44b681dfdb9db1e47faa92cc63616166"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a44b681dfdb9db1e47faa92cc63616166"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>Subprocess</b> (const Callback &amp;callback, bool mirror, const std::vector&lt; std::pair&lt; int, int &gt;&gt; &amp;iniStates, int ncomb, int denom)</td></tr>
+<tr class="separator:a44b681dfdb9db1e47faa92cc63616166"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
+Public Attributes</h2></td></tr>
+<tr class="memitem:ade260418e7ae403da486ecb32445e8ca"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ade260418e7ae403da486ecb32445e8ca"></a>
+Callback&#160;</td><td class="memItemRight" valign="bottom"><b>callback</b></td></tr>
+<tr class="separator:ade260418e7ae403da486ecb32445e8ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa6a59cfae751aa56e0be4df027612ca9"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa6a59cfae751aa56e0be4df027612ca9"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>hasMirrorProcess</b></td></tr>
+<tr class="separator:aa6a59cfae751aa56e0be4df027612ca9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acd17a22a0be80d3341613c4b5e3d0967"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="acd17a22a0be80d3341613c4b5e3d0967"></a>
+std::vector&lt; std::pair&lt; int, <br class="typebreak"/>
+int &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>initialStates</b></td></tr>
+<tr class="separator:acd17a22a0be80d3341613c4b5e3d0967"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad10c724a4fa46ee44b7ab5e6375ed734"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad10c724a4fa46ee44b7ab5e6375ed734"></a>
+std::vector&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>goodHel</b></td></tr>
+<tr class="separator:ad10c724a4fa46ee44b7ab5e6375ed734"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6a7154e4bc9031187cda154d88d74116"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a6a7154e4bc9031187cda154d88d74116"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>denominator</b></td></tr>
+<tr class="separator:a6a7154e4bc9031187cda154d88d74116"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<hr/>The documentation for this struct was generated from the following file:<ul>
+<li>MatrixElements/pp_ttx_fully_leptonic/include/<a class="el" href="Subprocess_8h_source.html">Subprocess.h</a></li>
+</ul>
+</div><!-- contents -->
 <!-- HTML footer for doxygen 1.8.8-->
 <!-- start footer part -->
 </div>

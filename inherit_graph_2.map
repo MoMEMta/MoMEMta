@@ -1,0 +1,10 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node2" href="$classConfigurationSet_1_1not__found__error.html" title="ConfigurationSet::not\l_found_error" alt="" coords="170,5,315,46"/>
+<area shape="rect" id="node3" href="$classInputTag_1_1tag__not__resolved__error.html" title="InputTag::tag_not_resolved\l_error" alt="" coords="153,70,333,111"/>
+<area shape="rect" id="node4" href="$classlua_1_1invalid__array__error.html" title="lua::invalid_array\l_error" alt="" coords="183,135,303,177"/>
+<area shape="rect" id="node5" href="$classPluginFactory_3_01Interface_01_5_07Args_8_8_8_08_4_1_1plugin__already__exists__error.html" title="PluginFactory\&lt; Interface\l *(Args...)\&gt;::plugin_already\l_exists_error" alt="" coords="154,200,331,256"/>
+<area shape="rect" id="node6" href="$classPluginFactory_3_01Interface_01_5_07Args_8_8_8_08_4_1_1plugin__not__found__error.html" title="PluginFactory\&lt; Interface\l *(Args...)\&gt;::plugin_not\l_found_error" alt="" coords="160,280,325,336"/>
+<area shape="rect" id="node7" href="$classPool_1_1duplicated__tag__error.html" title="Pool::duplicated_tag\l_error" alt="" coords="173,359,313,401"/>
+<area shape="rect" id="node8" href="$classPool_1_1tag__not__found__error.html" title="Pool::tag_not_found\l_error" alt="" coords="173,425,312,466"/>
+<area shape="rect" id="node9" href="$classSLHA_1_1invalid__card__error.html" title="SLHA::invalid_card\l_error" alt="" coords="175,490,310,531"/>
+</map>

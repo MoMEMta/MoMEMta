@@ -1,0 +1,10 @@
+<map id="Module" name="Module">
+<area shape="rect" id="node2" href="$classBlockB.html" title="BlockB" alt="" coords="173,5,237,32"/>
+<area shape="rect" id="node3" href="$classBlockD.html" title="BlockD" alt="" coords="173,56,238,83"/>
+<area shape="rect" id="node4" href="$classBoost.html" title="Boost" alt="" coords="177,107,233,133"/>
+<area shape="rect" id="node5" href="$classEmptyModule.html" title="EmptyModule" alt="" coords="154,157,257,184"/>
+<area shape="rect" id="node6" href="$classFlatter.html" title="Flatter" alt="" coords="176,208,235,235"/>
+<area shape="rect" id="node7" href="$classGaussianTransferFunction.html" title="GaussianTransferFunction" alt="" coords="118,259,293,285"/>
+<area shape="rect" id="node8" href="$classMatrixElement.html" title="MatrixElement" alt="" coords="152,309,259,336"/>
+<area shape="rect" id="node9" href="$classPermutator.html" title="Permutator" alt="" coords="162,360,249,387"/>
+</map>
