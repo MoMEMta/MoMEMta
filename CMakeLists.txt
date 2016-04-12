@@ -89,6 +89,7 @@ set(MOMEMTA_SOURCES
     "modules/Boost.cc"
     "modules/Flatter.cc"
     "modules/GaussianTransferFunction.cc"
+    "modules/BinnedTransferFunctionOnEnergy.cc"
     "modules/MatrixElement.cc"
     "modules/Permutator.cc"
     "core/src/ConfigurationReader.cc"
