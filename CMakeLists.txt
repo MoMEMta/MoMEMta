@@ -141,9 +141,10 @@ target_link_libraries(momemta LINK_PRIVATE "-Wl,--whole-archive $<TARGET_FILE:me
 
 add_library(empty_module SHARED "modules/EmptyModule.cc")
 
-add_executable(main "core/src/main.cc")
-target_link_libraries(main momemta)
-set_target_properties(main PROPERTIES OUTPUT_NAME "momemta.exe")
+add_executable(example_tt_fullyleptonic "examples/tt_fullyleptonic.cc")
+target_link_libraries(example_tt_fullyleptonic momemta)
+set_target_properties(example_tt_fullyleptonic PROPERTIES OUTPUT_NAME
+  "tt_fullyleptonic.exe")
 
 # Install targets
 
