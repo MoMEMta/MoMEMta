@@ -9,4 +9,4 @@ fi
 openssl aes-256-cbc -K $encrypted_31d8eebdbc2d_key -iv $encrypted_31d8eebdbc2d_iv -in travis/travisci_rsa.enc -out travis/travisci_rsa -d
 
 chmod 0600 travis/travisci_rsa
-cp config/travisci_rsa ~/.ssh/id_rsa
+cp travis/travisci_rsa ~/.ssh/id_rsa
