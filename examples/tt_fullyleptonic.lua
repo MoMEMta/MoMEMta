@@ -96,6 +96,14 @@ if USE_TF then
         sigma = 0.10,
     }
 
+    -- Example for binned transfer function (only works on ingrid)
+    -- BinnedTransferFunctionOnEnergy.tf_p2 = {
+    --     ps_point = 'cuba::ps_points/5',
+    --     reco_particle = 'input::particles/1',
+    --     file = '/home/fynu/swertz/tests_MEM/binnedTF/TF_generator/Control_plots_hh_TF.root',
+    --     th2_name = 'Binned_Egen_DeltaE_Norm_jet',
+    -- }
+
     GaussianTransferFunction.tf_p3 = {
         ps_point = 'cuba::ps_points/6',
         reco_particle = 'input::particles/2',
@@ -107,6 +115,13 @@ if USE_TF then
         reco_particle = 'input::particles/3',
         sigma = 0.10,
     }
+    
+    -- BinnedTransferFunctionOnEnergy.tf_p4 = {
+    --     ps_point = 'cuba::ps_points/7',
+    --     reco_particle = 'input::particles/3',
+    --     file = '/home/fynu/swertz/tests_MEM/binnedTF/TF_generator/Control_plots_hh_TF.root',
+    --     th2_name = 'Binned_Egen_DeltaE_Norm_jet',
+    -- }
 end
 
 if USE_PERM then
@@ -145,7 +160,7 @@ Boost.boost = {
 jacobians = {'flatter_s13::jacobian', 'flatter_s134::jacobian', 'flatter_s25::jacobian', 'flatter_s256::jacobian'}
 
 if USE_TF then
-    append(jacobians, {'tf_p1::jacobian', 'tf_p2::jacobian', 'tf_p3::jacobian', 'tf_p4::jacobian'})
+    append(jacobians, {'tf_p1::TF_times_jacobian', 'tf_p2::TF_times_jacobian', 'tf_p3::TF_times_jacobian', 'tf_p4::TF_times_jacobian'})
 end
 
 MatrixElement.ttbar = {

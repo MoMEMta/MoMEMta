@@ -61,7 +61,7 @@ class GaussianTransferFunction: public Module {
                     gen_E);
 
             // Compute jacobian
-            *jacobian = ROOT::Math::normal_pdf(gen_E, reco_particle.E(), sigma) * range * dE_over_dP(*output);
+            *TF_times_jacobian = ROOT::Math::normal_pdf(gen_E, reco_particle.E(), sigma) * range * dE_over_dP(*output);
         }
 
         virtual size_t dimensions() const override {
@@ -76,7 +76,7 @@ class GaussianTransferFunction: public Module {
         double m_sigma_range;
 
         std::shared_ptr<LorentzVector> output = produce<LorentzVector>("output");
-        std::shared_ptr<double> jacobian = produce<double>("jacobian");
+        std::shared_ptr<double> TF_times_jacobian = produce<double>("TF_times_jacobian");
 
 };
 REGISTER_MODULE(GaussianTransferFunction);
