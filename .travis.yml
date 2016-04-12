@@ -1,14 +1,12 @@
-os:
-  - linux
+os: [linux]
+sudo: required
+dist: trusty
 
 language: cpp
-
 compiler:
   - gcc
-
 env:
   - ROOT_VERSION=6.06.00
-
 addons:
   apt:
     sources:
@@ -20,7 +18,10 @@ addons:
       - g++-4.9
       - cmake
       - libboost1.55-dev
-
+      - doxygen
+      - graphviz
+before_install:
+  - ./travis/decrypt_key.sh 
 install:
   - export CXX=g++-4.9
   - export CC=gcc-4.9
@@ -31,13 +32,13 @@ install:
   - source bin/thisroot.sh
   - cd ..
   - . ./travis/build-lhapdf.sh
-
 before_script:
   - export CXX=g++-4.9
   - export CC=gcc-4.9
   - mkdir build
   - cd build
   - cmake ..
-
 script:
   - make -j2
+after_success:
+  - if [[ $TRAVIS_PULL_REQUEST == 'false' ]]; then ./make_docs.sh; fi
