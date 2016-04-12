@@ -88,6 +88,8 @@ class MatrixElement: public Module {
             m_ME = MatrixElementFactory::get().create(matrix_element, matrix_element_configuration);
 
             // PDF
+            // Silence LHAPDF
+            LHAPDF::setVerbosity(0);
             std::string pdf = parameters.get<std::string>("pdf");
             m_pdf.reset(LHAPDF::mkPDF(pdf, 0));
 
