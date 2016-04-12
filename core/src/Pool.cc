@@ -20,10 +20,18 @@
 #include <momemta/Pool.h>
 
 boost::any Pool::raw_get(const InputTag& tag) {
-    auto it = m_pool.find(tag);
-    if (it == m_pool.end())
+    auto it = m_storage.find(tag);
+    if (it == m_storage.end())
+        // FIXME: We need the type  here
+        //it = create<T>(tag, false);
         throw tag_not_found_error("No such tag in pool: " + tag.toString());
-    return it->second;
+
+    // Update current module description
+    assert(! m_current_module.empty());
+    Description& description = m_description[m_current_module];
+    description.inputs.push_back(tag);
+
+    return it->second.ptr;
 }
 
 void Pool::alias(const InputTag& from, const InputTag& to) {
@@ -31,13 +39,22 @@ void Pool::alias(const InputTag& from, const InputTag& to) {
         throw std::invalid_argument("Indexed input tag cannot be passed as argument of the pool. Use the `get` function of the input tag to retrieve its content.");
     }
 
-    auto from_it = m_pool.find(from);
-    if (from_it == m_pool.end())
+    auto from_it = m_storage.find(from);
+    if (from_it == m_storage.end())
         throw tag_not_found_error("No such tag in pool: " + from.toString());
 
-    auto to_it = m_pool.find(to);
-    if (to_it != m_pool.end())
+    auto to_it = m_storage.find(to);
+    if (to_it != m_storage.end())
         throw duplicated_tag_error("A module already produced the tag '" + to.toString() + "'");
 
-    m_pool[to] = m_pool[from];
+    m_storage[to] = m_storage[from];
+}
+
+void Pool::current_module(const std::string& module) {
+    m_current_module = module;
+}
+
+void Pool::freeze() {
+    m_frozen = true;
+    m_current_module.clear();
 }

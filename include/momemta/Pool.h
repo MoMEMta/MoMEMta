@@ -27,38 +27,61 @@
 #include <momemta/InputTag.h>
 
 // A simple memory pool
+
+/**
+ * A simple container for the memory block inside the global memory pool
+ */
+struct PoolContent {
+    boost::any ptr; /// Pointer to the memory allocated for this block
+    bool valid; /// The state of the memory block. If false, it means that a module requested this block in read-mode, but no module actually provides the block.
+};
+
+struct Description {
+    std::string module_name;
+    std::vector<InputTag> inputs;
+    std::vector<std::string> outputs;
+};
+
 class Pool {
     public:
+        using DescriptionMap = std::unordered_map<std::string, Description>;
+
         template<typename T> std::shared_ptr<const T> get(const InputTag& tag) {
             if (tag.isIndexed()) {
                 throw std::invalid_argument("Indexed input tag cannot be passed as argument of the pool. Use the `get` function of the input tag to retrieve its content.");
             }
 
-            auto it = m_pool.find(tag);
-            if (it == m_pool.end())
-                throw tag_not_found_error("No such tag in pool: " + tag.toString());
+            auto it = m_storage.find(tag);
+            if (it == m_storage.end())
+                it = create<T>(tag, false);
 
-            boost::any& v = it->second;
-            std::shared_ptr<T>& ptr = boost::any_cast<std::shared_ptr<T>&>(v);
+            PoolContent& v = it->second;
+            std::shared_ptr<T>& ptr = boost::any_cast<std::shared_ptr<T>&>(v.ptr);
+
+            // Update current module description
+            assert(! m_current_module.empty());
+            Description& description = m_description[m_current_module];
+            description.inputs.push_back(tag);
 
             return std::const_pointer_cast<const T>(ptr);
         }
 
-        template<typename T> std::shared_ptr<T> put(const InputTag& tag) {
-            auto it = m_pool.find(tag);
-            if (it != m_pool.end())
-                throw duplicated_tag_error("A module already produced the tag '" + tag.toString() + "'");
-
-            std::shared_ptr<T> ptr(new T());
-            m_pool.emplace(tag, boost::any(ptr));
-
-            return ptr;
-        }
-
         void alias(const InputTag& from, const InputTag& to);
+
+        /**
+         * \brief Return the description of the state of the memory pool
+         *
+         * \note Result is only valid after a call to Pool::freeze()
+         */
+        const DescriptionMap& description() const {
+            return m_description;
+        }
 
     private:
         friend class MoMEMta;
+        friend class Module;
+
+        using PoolStorage = std::unordered_map<InputTag, PoolContent>;
 
         class tag_not_found_error: public std::runtime_error {
             using std::runtime_error::runtime_error;
@@ -72,11 +95,60 @@ class Pool {
 
         boost::any raw_get(const InputTag&);
 
+        template<typename T> std::shared_ptr<T> put(const InputTag& tag) {
+            auto it = m_storage.find(tag);
+            if (it != m_storage.end()) {
+                if (it->second.valid)
+                    throw duplicated_tag_error("A module already produced the tag '" + tag.toString() + "'");
+                // A module already requested this block in read-mode. Since the memory is allocated, simply consider the block as valid
+                it->second.valid = true;
+            } else {
+                it = create<T>(tag, true);
+            }
+
+            // Update current module description
+            assert(! m_current_module.empty());
+            Description& description = m_description[m_current_module];
+            description.outputs.push_back(tag.parameter);
+
+            return boost::any_cast<std::shared_ptr<T>>(it->second.ptr);
+        }
+
+        template<typename T> PoolStorage::iterator create(const InputTag& tag,
+                bool valid = true) {
+            std::shared_ptr<T> ptr(new T());
+            PoolContent content = { boost::any(ptr), valid };
+
+            return m_storage.emplace(tag, content).first;
+        }
+
+        /**
+         * \brief Inform the pool of which module is currently created.
+         *
+         * It helps tracking down module dependencies.
+         *
+         * \param module The name of the module beeing created
+         */
+        virtual void current_module(const std::string& module) final;
+
+        /**
+         * \brief Freeze the memory pool.
+         *
+         * Once frozen, no modification is allowed inside the pool.
+         *
+         * \note This is not yet enforced
+         */
+        virtual void freeze() final;
+
         Pool() = default;
         Pool(const Pool&) = delete;
         Pool& operator=(const Pool&) = delete;
 
-        std::unordered_map<InputTag, boost::any> m_pool;
+        std::string m_current_module; /// Name of the module currently created.
+        bool m_frozen = false; /// If true, no modification of the pool is allowed
+
+        PoolStorage m_storage;
+        DescriptionMap m_description;
 };
 
 using PoolPtr = std::shared_ptr<Pool>;
