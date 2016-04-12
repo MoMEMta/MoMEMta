@@ -97,6 +97,7 @@ set(MOMEMTA_SOURCES
     "modules/Permutator.cc"
     "core/src/ConfigurationReader.cc"
     "core/src/ConfigurationSet.cc"
+    "core/src/Graph.cc"
     "core/src/InputTag.cc"
     "core/src/LibraryManager.cc"
     "core/src/logging.cc"

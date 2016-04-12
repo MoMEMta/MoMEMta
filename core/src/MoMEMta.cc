@@ -25,7 +25,9 @@
 #include <momemta/MoMEMta.h>
 #include <momemta/Utils.h>
 
+#include <Graph.h>
 #include <logging.h>
+
 
 MoMEMta::MoMEMta(const ConfigurationReader& configuration) {
     
@@ -41,8 +43,8 @@ MoMEMta::MoMEMta(const ConfigurationReader& configuration) {
     m_particles = m_pool->put<std::vector<LorentzVector>>({"input", "particles"});
 
     // Construct modules from configuration
-    std::vector<LightModule> modules = configuration.getModules();
-    for (const auto& module: modules) {
+    std::vector<LightModule> light_modules = configuration.getModules();
+    for (const auto& module: light_modules) {
         m_pool->current_module(module.name);
         m_modules.push_back(ModuleFactory::get().create(module.type, m_pool, *module.parameters));
         m_modules.back()->configure();
@@ -62,9 +64,20 @@ MoMEMta::MoMEMta(const ConfigurationReader& configuration) {
     m_pool->current_module("momemta");
     m_weights = m_pool->get<std::vector<double>>({m_modules.back()->name(), "weights"});
 
-    m_pool->freeze();
-
     m_vegas_configuration = configuration.getVegasConfiguration();
+
+    const Pool::DescriptionMap& description = m_pool->description();
+    graph::build(description, m_modules, [&description, this](const std::string& module) {
+                // Clean the pool for each removed module
+                const Description& d = description.at(module);
+                for (const auto& input: d.inputs)
+                    this->m_pool->remove_if_invalid(input);
+                for (const auto& output: d.outputs)
+                    this->m_pool->remove({module, output});
+            });
+
+    // Freeze the pool after removing unneeded modules
+    m_pool->freeze();
 
     cubacores(0, 0);
 }

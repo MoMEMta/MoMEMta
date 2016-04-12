@@ -24,7 +24,7 @@
 
 #include <boost/any.hpp>
 
-#include <momemta/InputTag.h>
+#include <momemta/impl/InputTag_fwd.h>
 
 // A simple memory pool
 
@@ -58,10 +58,12 @@ class Pool {
             PoolContent& v = it->second;
             std::shared_ptr<T>& ptr = boost::any_cast<std::shared_ptr<T>&>(v.ptr);
 
-            // Update current module description
-            assert(! m_current_module.empty());
-            Description& description = m_description[m_current_module];
-            description.inputs.push_back(tag);
+            if (! m_frozen) {
+                // Update current module description
+                assert(! m_current_module.empty());
+                Description& description = m_description[m_current_module];
+                description.inputs.push_back(tag);
+            }
 
             return std::const_pointer_cast<const T>(ptr);
         }
@@ -93,6 +95,10 @@ class Pool {
 
         friend struct InputTag;
 
+        void remove(const InputTag&, bool force = true);
+        void remove_if_invalid(const InputTag&);
+
+        boost::any reserve(const InputTag&);
         boost::any raw_get(const InputTag&);
 
         template<typename T> std::shared_ptr<T> put(const InputTag& tag) {
@@ -102,6 +108,13 @@ class Pool {
                     throw duplicated_tag_error("A module already produced the tag '" + tag.toString() + "'");
                 // A module already requested this block in read-mode. Since the memory is allocated, simply consider the block as valid
                 it->second.valid = true;
+
+                // If the block is empty, it's a delayed instanciation. Simply flag the block as valid, and allocate memory for it
+                if (it->second.ptr.empty()) {
+                    std::shared_ptr<T> ptr(new T());
+                    it->second.ptr = boost::any(ptr);
+                }
+
             } else {
                 it = create<T>(tag, true);
             }
@@ -116,6 +129,7 @@ class Pool {
 
         template<typename T> PoolStorage::iterator create(const InputTag& tag,
                 bool valid = true) {
+
             std::shared_ptr<T> ptr(new T());
             PoolContent content = { boost::any(ptr), valid };
 
