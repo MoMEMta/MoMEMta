@@ -21,7 +21,7 @@
     extensions: ["tex2jax.js"],
     jax: ["input/TeX","output/HTML-CSS"],
 });
-</script><script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js"></script>
+</script><script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js"></script>
         <link href="doxygen.css" rel="stylesheet" type="text/css" />
         <link href="customdoxygen.css" rel="stylesheet" type="text/css"/>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
@@ -102,7 +102,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="#pri-attribs">Private Attributes</a> &#124;
 <a href="classGaussianTransferFunction-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">GaussianTransferFunction Class Reference</div>  </div>
@@ -114,13 +113,6 @@ Inheritance diagram for GaussianTransferFunction:</div>
 <div class="center"><img src="classGaussianTransferFunction__inherit__graph.png" border="0" usemap="#GaussianTransferFunction_inherit__map" alt="Inheritance graph"/></div>
 <map name="GaussianTransferFunction_inherit__map" id="GaussianTransferFunction_inherit__map">
 <area shape="rect" id="node2" href="classModule.html" title="Module" alt="" coords="60,5,124,32"/></map>
-<center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
-<div class="dynheader">
-Collaboration diagram for GaussianTransferFunction:</div>
-<div class="dyncontent">
-<div class="center"><img src="classGaussianTransferFunction__coll__graph.png" border="0" usemap="#GaussianTransferFunction_coll__map" alt="Collaboration graph"/></div>
-<map name="GaussianTransferFunction_coll__map" id="GaussianTransferFunction_coll__map">
-<area shape="rect" id="node2" href="classModule.html" title="Module" alt="" coords="13,5,77,32"/><area shape="rect" id="node3" href="structInputTag.html" title="InputTag" alt="" coords="102,5,175,32"/></map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
@@ -147,27 +139,6 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>finish</b> ()
 <tr class="memitem:a8d1d0c7795b5b46da2d7a5596faed79f inherit pub_methods_classModule"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8d1d0c7795b5b46da2d7a5596faed79f"></a>
 virtual std::string&#160;</td><td class="memItemRight" valign="bottom"><b>name</b> () const final</td></tr>
 <tr class="separator:a8d1d0c7795b5b46da2d7a5596faed79f inherit pub_methods_classModule"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
-Private Attributes</h2></td></tr>
-<tr class="memitem:a3901830423620c9ce926dc869223cc3b"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3901830423620c9ce926dc869223cc3b"></a>
-<a class="el" href="structInputTag.html">InputTag</a>&#160;</td><td class="memItemRight" valign="bottom"><b>m_ps_point</b></td></tr>
-<tr class="separator:a3901830423620c9ce926dc869223cc3b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa5ba772268d26ec6000527c7216c9b54"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa5ba772268d26ec6000527c7216c9b54"></a>
-<a class="el" href="structInputTag.html">InputTag</a>&#160;</td><td class="memItemRight" valign="bottom"><b>m_input</b></td></tr>
-<tr class="separator:aa5ba772268d26ec6000527c7216c9b54"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a487e06aa4433e81ab6bf05397e471624"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a487e06aa4433e81ab6bf05397e471624"></a>
-double&#160;</td><td class="memItemRight" valign="bottom"><b>m_sigma</b></td></tr>
-<tr class="separator:a487e06aa4433e81ab6bf05397e471624"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1debb850ff311641d55ed206c95beed4"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a1debb850ff311641d55ed206c95beed4"></a>
-double&#160;</td><td class="memItemRight" valign="bottom"><b>m_sigma_range</b></td></tr>
-<tr class="separator:a1debb850ff311641d55ed206c95beed4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4417f7a639fe38faa23fd0ddb47e5e53"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4417f7a639fe38faa23fd0ddb47e5e53"></a>
-std::shared_ptr&lt; LorentzVector &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>output</b> = produce&lt;LorentzVector&gt;(&quot;output&quot;)</td></tr>
-<tr class="separator:a4417f7a639fe38faa23fd0ddb47e5e53"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0ddefa781406bc2b8459457128a28fa6"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a0ddefa781406bc2b8459457128a28fa6"></a>
-std::shared_ptr&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>TF_times_jacobian</b> = produce&lt;double&gt;(&quot;TF_times_jacobian&quot;)</td></tr>
-<tr class="separator:a0ddefa781406bc2b8459457128a28fa6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
 Additional Inherited Members</h2></td></tr>

@@ -21,7 +21,7 @@
     extensions: ["tex2jax.js"],
     jax: ["input/TeX","output/HTML-CSS"],
 });
-</script><script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js"></script>
+</script><script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js"></script>
         <link href="doxygen.css" rel="stylesheet" type="text/css" />
         <link href="customdoxygen.css" rel="stylesheet" type="text/css"/>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
@@ -103,8 +103,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="#pri-methods">Private Member Functions</a> &#124;
-<a href="#pri-attribs">Private Attributes</a> &#124;
 <a href="#friends">Friends</a> &#124;
 <a href="classConfigurationSet-members.html">List of all members</a>  </div>
   <div class="headertitle">
@@ -112,11 +110,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!--header-->
 <div class="contents">
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
-Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classConfigurationSet_1_1not__found__error.html">not_found_error</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a857967d37a5bbc77086bb92748ab546d"><td class="memTemplParams" colspan="2"><a class="anchor" id="a857967d37a5bbc77086bb92748ab546d"></a>
@@ -146,30 +139,6 @@ std::string&#160;</td><td class="memItemRight" valign="bottom"><b>getModuleType<
 <tr class="memitem:a4668be59064461c325e334249e80dfb5"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4668be59064461c325e334249e80dfb5"></a>
 const <a class="el" href="classConfigurationSet.html">ConfigurationSet</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>globalConfiguration</b> () const </td></tr>
 <tr class="separator:a4668be59064461c325e334249e80dfb5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-methods"></a>
-Private Member Functions</h2></td></tr>
-<tr class="memitem:ad91ceeb336d48d8331cb80bc20e86290"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad91ceeb336d48d8331cb80bc20e86290"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>ConfigurationSet</b> (const std::string &amp;module_type, const std::string &amp;module_name)</td></tr>
-<tr class="separator:ad91ceeb336d48d8331cb80bc20e86290"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a21d8f63b0d9587a73f63426044873fb0"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a21d8f63b0d9587a73f63426044873fb0"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>ConfigurationSet</b> (const std::string &amp;module_type, const std::string &amp;module_name, std::shared_ptr&lt; <a class="el" href="classConfigurationSet.html">ConfigurationSet</a> &gt; globalConfiguration)</td></tr>
-<tr class="separator:a21d8f63b0d9587a73f63426044873fb0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
-Private Attributes</h2></td></tr>
-<tr class="memitem:aeac3282cf0904519621bac6562e42ecd"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aeac3282cf0904519621bac6562e42ecd"></a>
-std::string&#160;</td><td class="memItemRight" valign="bottom"><b>m_module_type</b></td></tr>
-<tr class="separator:aeac3282cf0904519621bac6562e42ecd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acb8428ea0bd28963bd91672b9866462e"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="acb8428ea0bd28963bd91672b9866462e"></a>
-std::string&#160;</td><td class="memItemRight" valign="bottom"><b>m_module_name</b></td></tr>
-<tr class="separator:acb8428ea0bd28963bd91672b9866462e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7a57a09ca0f8009e29a105be0736329b"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a7a57a09ca0f8009e29a105be0736329b"></a>
-std::map&lt; std::string, boost::any &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>m_set</b></td></tr>
-<tr class="separator:a7a57a09ca0f8009e29a105be0736329b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa5c1014f5e04bdbcdaa0a344a4f66963"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa5c1014f5e04bdbcdaa0a344a4f66963"></a>
-std::shared_ptr&lt; <a class="el" href="classConfigurationSet.html">ConfigurationSet</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>m_global_configuration</b></td></tr>
-<tr class="separator:aa5c1014f5e04bdbcdaa0a344a4f66963"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="friends"></a>
 Friends</h2></td></tr>

@@ -21,7 +21,7 @@
     extensions: ["tex2jax.js"],
     jax: ["input/TeX","output/HTML-CSS"],
 });
-</script><script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js"></script>
+</script><script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js"></script>
         <link href="doxygen.css" rel="stylesheet" type="text/css" />
         <link href="customdoxygen.css" rel="stylesheet" type="text/css"/>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
@@ -103,7 +103,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="#pri-attribs">Private Attributes</a> &#124;
 <a href="classMatrixElement-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">MatrixElement Class Reference</div>  </div>
@@ -116,19 +115,7 @@ Inheritance diagram for MatrixElement:</div>
 <map name="MatrixElement_inherit__map" id="MatrixElement_inherit__map">
 <area shape="rect" id="node2" href="classModule.html" title="Module" alt="" coords="27,5,91,32"/></map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
-<div class="dynheader">
-Collaboration diagram for MatrixElement:</div>
-<div class="dyncontent">
-<div class="center"><img src="classMatrixElement__coll__graph.png" border="0" usemap="#MatrixElement_coll__map" alt="Collaboration graph"/></div>
-<map name="MatrixElement_coll__map" id="MatrixElement_coll__map">
-<area shape="rect" id="node2" href="classModule.html" title="Module" alt="" coords="27,5,91,32"/></map>
-<center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
-Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structMatrixElement_1_1ParticleId.html">ParticleId</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:af2a2ae029ec3c9e1e41578fa258f88bf"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af2a2ae029ec3c9e1e41578fa258f88bf"></a>
@@ -156,53 +143,6 @@ virtual size_t&#160;</td><td class="memItemRight" valign="bottom"><b>dimensions<
 <tr class="memitem:a8d1d0c7795b5b46da2d7a5596faed79f inherit pub_methods_classModule"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8d1d0c7795b5b46da2d7a5596faed79f"></a>
 virtual std::string&#160;</td><td class="memItemRight" valign="bottom"><b>name</b> () const final</td></tr>
 <tr class="separator:a8d1d0c7795b5b46da2d7a5596faed79f inherit pub_methods_classModule"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
-Private Attributes</h2></td></tr>
-<tr class="memitem:ab76b1ad840900bd97f9e4d97f5c0f768"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab76b1ad840900bd97f9e4d97f5c0f768"></a>
-double&#160;</td><td class="memItemRight" valign="bottom"><b>sqrt_s</b></td></tr>
-<tr class="separator:ab76b1ad840900bd97f9e4d97f5c0f768"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad24604059eb47a4c74bdfa8e3a7ad144"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad24604059eb47a4c74bdfa8e3a7ad144"></a>
-double&#160;</td><td class="memItemRight" valign="bottom"><b>M_T</b></td></tr>
-<tr class="separator:ad24604059eb47a4c74bdfa8e3a7ad144"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aeecd132b96421fabc7af1592617c0dd5"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aeecd132b96421fabc7af1592617c0dd5"></a>
-std::shared_ptr&lt; const <br class="typebreak"/>
-std::vector&lt; std::vector<br class="typebreak"/>
-&lt; LorentzVector &gt; &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>m_partons</b></td></tr>
-<tr class="separator:aeecd132b96421fabc7af1592617c0dd5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af77beb72a8d3a1b2e59bd907bfd0400f"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af77beb72a8d3a1b2e59bd907bfd0400f"></a>
-std::shared_ptr&lt; const <br class="typebreak"/>
-std::vector&lt; std::vector<br class="typebreak"/>
-&lt; LorentzVector &gt; &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>m_invisibles</b></td></tr>
-<tr class="separator:af77beb72a8d3a1b2e59bd907bfd0400f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aba474a80e2e7d86fc6a3636c45d2b037"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aba474a80e2e7d86fc6a3636c45d2b037"></a>
-std::shared_ptr&lt; const <br class="typebreak"/>
-std::vector&lt; double &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>m_invisibles_jacobians</b></td></tr>
-<tr class="separator:aba474a80e2e7d86fc6a3636c45d2b037"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abc68aed13515f04864fe507d0c567869"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="abc68aed13515f04864fe507d0c567869"></a>
-std::vector&lt; <a class="el" href="structMatrixElement_1_1ParticleId.html">ParticleId</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>m_invisibles_ids</b></td></tr>
-<tr class="separator:abc68aed13515f04864fe507d0c567869"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0a96a6bd0870ed69cd272b915d779870"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a0a96a6bd0870ed69cd272b915d779870"></a>
-std::vector&lt; <a class="el" href="structInputTag.html">InputTag</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>m_particles_tags</b></td></tr>
-<tr class="separator:a0a96a6bd0870ed69cd272b915d779870"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a41b2f08fbb0dd4d99269154018425861"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a41b2f08fbb0dd4d99269154018425861"></a>
-std::vector&lt; <a class="el" href="structMatrixElement_1_1ParticleId.html">ParticleId</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>m_particles_ids</b></td></tr>
-<tr class="separator:a41b2f08fbb0dd4d99269154018425861"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a10cb667aa88fdf19bd81343937208733"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a10cb667aa88fdf19bd81343937208733"></a>
-std::vector&lt; std::shared_ptr<br class="typebreak"/>
-&lt; const double &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>m_jacobians</b></td></tr>
-<tr class="separator:a10cb667aa88fdf19bd81343937208733"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a740ffddf11ccff0033fe2fc1de0e916a"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a740ffddf11ccff0033fe2fc1de0e916a"></a>
-std::shared_ptr<br class="typebreak"/>
-&lt; <a class="el" href="classmomemta_1_1MatrixElement.html">momemta::MatrixElement</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>m_ME</b></td></tr>
-<tr class="separator:a740ffddf11ccff0033fe2fc1de0e916a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4c84a11352948c572ec7271b5931c1eb"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4c84a11352948c572ec7271b5931c1eb"></a>
-std::shared_ptr&lt; LHAPDF::PDF &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>m_pdf</b></td></tr>
-<tr class="separator:a4c84a11352948c572ec7271b5931c1eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a811a1fd5471e9cdd56e3352bb549746c"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a811a1fd5471e9cdd56e3352bb549746c"></a>
-std::shared_ptr&lt; std::vector<br class="typebreak"/>
-&lt; double &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>m_weights</b> = produce&lt;std::vector&lt;double&gt;&gt;(&quot;weights&quot;)</td></tr>
-<tr class="separator:a811a1fd5471e9cdd56e3352bb549746c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
 Additional Inherited Members</h2></td></tr>

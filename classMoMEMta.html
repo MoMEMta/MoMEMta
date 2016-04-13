@@ -21,7 +21,7 @@
     extensions: ["tex2jax.js"],
     jax: ["input/TeX","output/HTML-CSS"],
 });
-</script><script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js"></script>
+</script><script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js"></script>
         <link href="doxygen.css" rel="stylesheet" type="text/css" />
         <link href="customdoxygen.css" rel="stylesheet" type="text/css"/>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
@@ -102,9 +102,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="#pri-types">Private Types</a> &#124;
-<a href="#pri-static-methods">Static Private Member Functions</a> &#124;
-<a href="#pri-attribs">Private Attributes</a> &#124;
 <a href="classMoMEMta-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">MoMEMta Class Reference</div>  </div>
@@ -123,48 +120,6 @@ double &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>computeWe
 <tr class="memitem:a649d3d102958ea90e486d72a863cae4a"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a649d3d102958ea90e486d72a863cae4a"></a>
 double&#160;</td><td class="memItemRight" valign="bottom"><b>integrand</b> (const double *psPoints, const double *weights)</td></tr>
 <tr class="separator:a649d3d102958ea90e486d72a863cae4a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-types"></a>
-Private Types</h2></td></tr>
-<tr class="memitem:a16fd481759df3207b3741dc9a2b4a701"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a16fd481759df3207b3741dc9a2b4a701"></a>
-using&#160;</td><td class="memItemRight" valign="bottom"><b>SharedLibraryPtr</b> = std::shared_ptr&lt; <a class="el" href="structSharedLibrary.html">SharedLibrary</a> &gt;</td></tr>
-<tr class="separator:a16fd481759df3207b3741dc9a2b4a701"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-static-methods"></a>
-Static Private Member Functions</h2></td></tr>
-<tr class="memitem:a6bc44740c48baba2c49391403e2268d6"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a6bc44740c48baba2c49391403e2268d6"></a>
-static int&#160;</td><td class="memItemRight" valign="bottom"><b>CUBAIntegrand</b> (const int *nDim, const double *psPoint, const int *nComp, double *value, void *inputs, const int *nVec, const int *core, const double *weight)</td></tr>
-<tr class="separator:a6bc44740c48baba2c49391403e2268d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
-Private Attributes</h2></td></tr>
-<tr class="memitem:aea458e18907d2da85f143816937c8285"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aea458e18907d2da85f143816937c8285"></a>
-PoolPtr&#160;</td><td class="memItemRight" valign="bottom"><b>m_pool</b></td></tr>
-<tr class="separator:aea458e18907d2da85f143816937c8285"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a70fb21b4e1b43b7e3e68c92c3321c12e"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a70fb21b4e1b43b7e3e68c92c3321c12e"></a>
-std::vector&lt; ModulePtr &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>m_modules</b></td></tr>
-<tr class="separator:a70fb21b4e1b43b7e3e68c92c3321c12e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae565a0a97e46f5f70f4813771d220f17"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae565a0a97e46f5f70f4813771d220f17"></a>
-std::vector&lt; SharedLibraryPtr &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>m_libraries</b></td></tr>
-<tr class="separator:ae565a0a97e46f5f70f4813771d220f17"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aee6ff900656fbe2a200b8543fcb49dee"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aee6ff900656fbe2a200b8543fcb49dee"></a>
-size_t&#160;</td><td class="memItemRight" valign="bottom"><b>m_n_dimensions</b></td></tr>
-<tr class="separator:aee6ff900656fbe2a200b8543fcb49dee"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4228dbb4ee059a2c6b6290fc88d6f6ee"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4228dbb4ee059a2c6b6290fc88d6f6ee"></a>
-std::shared_ptr&lt; <a class="el" href="classConfigurationSet.html">ConfigurationSet</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>m_vegas_configuration</b></td></tr>
-<tr class="separator:a4228dbb4ee059a2c6b6290fc88d6f6ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa41c81e0d8014d1814b9b6807a957152"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa41c81e0d8014d1814b9b6807a957152"></a>
-std::shared_ptr&lt; std::vector<br class="typebreak"/>
-&lt; double &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>m_ps_points</b></td></tr>
-<tr class="separator:aa41c81e0d8014d1814b9b6807a957152"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae8b78e08457b9051cf49a89bab5f5ea9"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae8b78e08457b9051cf49a89bab5f5ea9"></a>
-std::shared_ptr&lt; std::vector<br class="typebreak"/>
-&lt; LorentzVector &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>m_particles</b></td></tr>
-<tr class="separator:ae8b78e08457b9051cf49a89bab5f5ea9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad875c117b1fd1b4d023b3a58a054c675"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad875c117b1fd1b4d023b3a58a054c675"></a>
-std::shared_ptr&lt; const <br class="typebreak"/>
-std::vector&lt; double &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>m_weights</b></td></tr>
-<tr class="separator:ad875c117b1fd1b4d023b3a58a054c675"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <hr/>The documentation for this class was generated from the following files:<ul>
 <li>include/momemta/<a class="el" href="MoMEMta_8h_source.html">MoMEMta.h</a></li>

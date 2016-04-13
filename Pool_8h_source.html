@@ -21,7 +21,7 @@
     extensions: ["tex2jax.js"],
     jax: ["input/TeX","output/HTML-CSS"],
 });
-</script><script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js"></script>
+</script><script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js"></script>
         <link href="doxygen.css" rel="stylesheet" type="text/css" />
         <link href="customdoxygen.css" rel="stylesheet" type="text/css"/>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
@@ -143,7 +143,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;</div>
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;            <span class="keyword">auto</span> it = m_pool.find(tag);</div>
 <div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;            <span class="keywordflow">if</span> (it == m_pool.end())</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;                <span class="keywordflow">throw</span> <a class="code" href="classPool_1_1tag__not__found__error.html">tag_not_found_error</a>(<span class="stringliteral">&quot;No such tag in pool: &quot;</span> + tag.toString());</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;                <span class="keywordflow">throw</span> tag_not_found_error(<span class="stringliteral">&quot;No such tag in pool: &quot;</span> + tag.toString());</div>
 <div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;</div>
 <div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;            boost::any&amp; v = it-&gt;second;</div>
 <div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;            std::shared_ptr&lt;T&gt;&amp; ptr = boost::any_cast&lt;std::shared_ptr&lt;T&gt;&amp;&gt;(v);</div>
@@ -154,7 +154,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        <span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt; std::shared_ptr&lt;T&gt; put(<span class="keyword">const</span> <a class="code" href="structInputTag.html">InputTag</a>&amp; tag) {</div>
 <div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;            <span class="keyword">auto</span> it = m_pool.find(tag);</div>
 <div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;            <span class="keywordflow">if</span> (it != m_pool.end())</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;                <span class="keywordflow">throw</span> <a class="code" href="classPool_1_1duplicated__tag__error.html">duplicated_tag_error</a>(<span class="stringliteral">&quot;A module already produced the tag &#39;&quot;</span> + tag.toString() + <span class="stringliteral">&quot;&#39;&quot;</span>);</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;                <span class="keywordflow">throw</span> duplicated_tag_error(<span class="stringliteral">&quot;A module already produced the tag &#39;&quot;</span> + tag.toString() + <span class="stringliteral">&quot;&#39;&quot;</span>);</div>
 <div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;</div>
 <div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;            std::shared_ptr&lt;T&gt; ptr(<span class="keyword">new</span> T());</div>
 <div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;            m_pool.emplace(tag, boost::any(ptr));</div>
@@ -167,11 +167,11 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <span class="keyword">private</span>:</div>
 <div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;        <span class="keyword">friend</span> <span class="keyword">class </span><a class="code" href="classMoMEMta.html">MoMEMta</a>;</div>
 <div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;</div>
-<div class="line"><a name="l00063"></a><span class="lineno"><a class="line" href="classPool_1_1tag__not__found__error.html">   63</a></span>&#160;        <span class="keyword">class </span><a class="code" href="classPool_1_1tag__not__found__error.html">tag_not_found_error</a>: <span class="keyword">public</span> std::runtime_error {</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        <span class="keyword">class </span>tag_not_found_error: <span class="keyword">public</span> std::runtime_error {</div>
 <div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;            <span class="keyword">using</span> std::runtime_error::runtime_error;</div>
 <div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        };</div>
 <div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;</div>
-<div class="line"><a name="l00067"></a><span class="lineno"><a class="line" href="classPool_1_1duplicated__tag__error.html">   67</a></span>&#160;        <span class="keyword">class </span><a class="code" href="classPool_1_1duplicated__tag__error.html">duplicated_tag_error</a>: <span class="keyword">public</span> std::runtime_error {</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;        <span class="keyword">class </span>duplicated_tag_error: <span class="keyword">public</span> std::runtime_error {</div>
 <div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;            <span class="keyword">using</span> std::runtime_error::runtime_error;</div>
 <div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        };</div>
 <div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;</div>
@@ -187,11 +187,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;};</div>
 <div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;</div>
 <div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;<span class="keyword">using</span> PoolPtr = std::shared_ptr&lt;Pool&gt;;</div>
-<div class="ttc" id="classPool_1_1duplicated__tag__error_html"><div class="ttname"><a href="classPool_1_1duplicated__tag__error.html">Pool::duplicated_tag_error</a></div><div class="ttdef"><b>Definition:</b> Pool.h:67</div></div>
 <div class="ttc" id="classMoMEMta_html"><div class="ttname"><a href="classMoMEMta.html">MoMEMta</a></div><div class="ttdef"><b>Definition:</b> MoMEMta.h:33</div></div>
 <div class="ttc" id="structInputTag_html"><div class="ttname"><a href="structInputTag.html">InputTag</a></div><div class="ttdef"><b>Definition:</b> InputTag.h:35</div></div>
 <div class="ttc" id="classPool_html"><div class="ttname"><a href="classPool.html">Pool</a></div><div class="ttdef"><b>Definition:</b> Pool.h:30</div></div>
-<div class="ttc" id="classPool_1_1tag__not__found__error_html"><div class="ttname"><a href="classPool_1_1tag__not__found__error.html">Pool::tag_not_found_error</a></div><div class="ttdef"><b>Definition:</b> Pool.h:63</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- HTML footer for doxygen 1.8.8-->
 <!-- start footer part -->
