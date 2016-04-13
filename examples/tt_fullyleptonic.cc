@@ -31,7 +31,7 @@ int main(int argc, char** argv) {
 
     spdlog::set_level(spdlog::level::trace);
 
-    ConfigurationReader configuration("../confs/example.lua");
+    ConfigurationReader configuration("../examples/tt_fullyleptonic.lua");
     MoMEMta weight(configuration);
 
     // Electron

@@ -1,7 +1,7 @@
 #! /bin/bash
 
-mkdir lhapdf
-cd lhapdf
+mkdir -p external/lhapdf
+cd external/lhapdf
 
 wget http://www.hepforge.org/archive/lhapdf/LHAPDF-6.1.6.tar.gz
 tar xf LHAPDF-6.1.6.tar.gz
@@ -15,4 +15,4 @@ cd ..
 export PATH="$PWD/bin:$PATH"
 export LD_LIBRARY_PATH="$PWD/lib:$LB_LIBRARY_PATH"
 
-cd ..
+cd ../..
