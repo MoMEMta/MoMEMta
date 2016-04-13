@@ -93,6 +93,7 @@ set(MOMEMTA_SOURCES
     "modules/Flatter.cc"
     "modules/GaussianTransferFunction.cc"
     "modules/BinnedTransferFunctionOnEnergy.cc"
+    "modules/NarrowWidthApproximation.cc"
     "modules/MatrixElement.cc"
     "modules/Permutator.cc"
     "core/src/ConfigurationReader.cc"
@@ -147,10 +148,16 @@ target_link_libraries(momemta LINK_PRIVATE "-Wl,--whole-archive $<TARGET_FILE:me
 
 add_library(empty_module SHARED "modules/EmptyModule.cc")
 
+# Example executables
 add_executable(example_tt_fullyleptonic "examples/tt_fullyleptonic.cc")
 target_link_libraries(example_tt_fullyleptonic momemta)
 set_target_properties(example_tt_fullyleptonic PROPERTIES OUTPUT_NAME
   "tt_fullyleptonic.exe")
+
+add_executable(example_tt_fullyleptonic_NWA "examples/tt_fullyleptonic_NWA.cc")
+target_link_libraries(example_tt_fullyleptonic_NWA momemta)
+set_target_properties(example_tt_fullyleptonic_NWA PROPERTIES OUTPUT_NAME
+  "tt_fullyleptonic_NWA.exe")
 
 # Install targets
 

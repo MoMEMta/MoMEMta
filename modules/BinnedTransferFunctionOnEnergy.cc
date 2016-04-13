@@ -27,7 +27,7 @@
 #include <TH2.h>
 #include <TAxis.h>
 
-/** Transfer function on energy described by a 2D histogram retrieved from a ROOT file.
+/** \brief Transfer function on energy described by a 2D histogram retrieved from a ROOT file.
  * 
  * This module takes as input a LorentzVector and a phase-space point, generates
  * a new LorentzVector with a different energy (keeping direction and invariant mass),
