@@ -89,6 +89,7 @@ endif()
 set(MOMEMTA_SOURCES
     "modules/BlockB.cc"
     "modules/BlockD.cc"
+    "modules/BlockF.cc"
     "modules/Boost.cc"
     "modules/Flatter.cc"
     "modules/GaussianTransferFunction.cc"
@@ -151,6 +152,11 @@ add_executable(example_tt_fullyleptonic "examples/tt_fullyleptonic.cc")
 target_link_libraries(example_tt_fullyleptonic momemta)
 set_target_properties(example_tt_fullyleptonic PROPERTIES OUTPUT_NAME
   "tt_fullyleptonic.exe")
+
+add_executable(example_WW_fullyleptonic "examples/WW_fullyleptonic.cc")
+target_link_libraries(example_WW_fullyleptonic momemta)
+set_target_properties(example_WW_fullyleptonic PROPERTIES OUTPUT_NAME
+  "WW_fullyleptonic.exe")
 
 # Install targets
 
