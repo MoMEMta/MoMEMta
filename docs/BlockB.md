@@ -1,27 +1,31 @@
 # Block B description
-Note: Block B, also refered as final block (FB), and class in the MadWeight world. 
+Note: Block B, also referred as final block (FB), and class in the MadWeight world. 
 Description inspired on MadWeight.
 
-This block corresponds to an initial state with Bjorken fractions $$q_1$$ and $$q_2$$, 
-and a final state with a visible particle with momenta $$p_2$$, and an invisible particule 
-with momenta $$p_1$$, both coming from a resonace with mass $$s_{12}$$. Extra radiation (ISR) it is also allowed.
+This block corresponds to an initial state with Bjorken fractions \f$q_1$\f and \f$q_2$\f, 
+and a final state with a visible particle with momenta \f$p_2$\f, and an invisible particle 
+with momenta \f$p_1$\f, both coming from a resonance with mass \f$s_{12}$\f. Extra radiation (ISR) it is also allowed.
 
-The goal of this Block is to addess the change of variables needed to pass from the standard phase-space
-parametrization to the $$\frac{1}{4\pi E_1} ds_{12} \times J$$ parametrization. 
+The goal of this Block is to address the change of variables needed to pass from the standard phase-space
+parametrization to the \f$\frac{1}{4\pi E_1} ds_{12} \times J$\f parametrization. Per integration point 
+in CUBA, this Block outputs the value of the jacobian, J, and the four momenta of the invisible particle, 
+\f$p_1$\f. The system of equations needed to compute \f$p_1$\f is described below. 
+
 
 ### Change of variables
 
-From 
+From the standard phase-space parametrisation:
 
-$$dq_1 dq_2\frac{d^3 p_1}{(2\pi)^3 2E_1}(2\pi)^4 \delta^4 (P_{in}-P_{fin})$$
+\f$dq_1 dq_2\frac{d^3 p_1}{(2\pi)^3 2E_1}(2\pi)^4 \delta^4 (P_{in}-P_{fin})$\f
 
-to 
+where \f$P_{in} and P_{fin)$\f are the total four-momenta in the initial and final states, to the 
+following parametrisation: 
 
-$$\frac{1}{4\pi E_1} ds_{12} \times J$$
+\f$\frac{1}{4\pi E_1} ds_{12} \times J$\f
 
-where J is given by:
+where the jacobian, J, is given by:
 
-$$J = \frac{E_1}{s} |p_{2z} E_1 -  E_2 p_{1z}|^{-1}$$
+\f$J = \frac{E_1}{s} |p_{2z} E_1 -  E_2 p_{1z}|^{-1}$\f
 
 ### Parameters
 
@@ -29,32 +33,32 @@ $$J = \frac{E_1}{s} |p_{2z} E_1 -  E_2 p_{1z}|^{-1}$$
 
 ### Inputs
 
-- Visible particle, with four momenta $$p_2$$
-- The mass $$s_{12}$$ as output from the Flatter module.
+- Visible particle, with four momenta \f$p_2$\f
+- The mass \f$s_{12}$\f as output from the Flatter module.
 
 ### Outputs
 
-- Invisible particle, with four momenta $$p_1$$ (up to two solutions possible)
+- Invisible particle, with four momenta \f$p_1$\f (up to two solutions possible)
 - Jacobian, one per solution.    
 
-### Integration flow
+### System of equations to compute \f$p_1$\f
 
-The integrator through random points in the mass ($$s_{12}$$) while $$p_2$$ is a known quantity. The equations to 
-solve $$p_1$$ are:
+The integrator throws random points in the mass (\f$s_{12}$\f) while \f$p_2$\f is a known quantity. The equations to 
+compute \f$p_1$\f are:
 
-- (1) $$(p_1 + p_2)^2 = s_{12} = M_{1}^{2} + M_{2}^2 + 2 E_1 E_2 + 2 p_{1x}p_{2x} + 2p_{1y}p_{2y} + p_{1z}p_{2z}$$
-- (2) $$p_{1x} = - p_{Tx}$$ #Coming from $$p_{T}^{\nu} = -p_{T}^{visible} = - (p_2 + ISR)$$
-- (3) $$p_{1y} = - p_{Ty}$$ #Coming from $$p_{T}^{\nu} = -p_{T}^{visible} = - (p_1 + ISR)$$
-- (4) $$M_1 = 0 \to E_{1}^2 = p_{1x}^2 + p_{1y}^2 + p_{1z}^2$$
+- (1) \f$(p_1 + p_2)^2 = s_{12} = M_{1}^{2} + M_{2}^2 + 2 E_1 E_2 + 2 p_{1x}p_{2x} + 2p_{1y}p_{2y} + p_{1z}p_{2z}$\f
+- (2) \f$p_{1x} = - p_{Tx}$\f #Coming from \f$p_{T}^{\nu} = -p_{T}^{visible} = - (p_2 + ISR)$\f
+- (3) \f$p_{1y} = - p_{Ty}$\f #Coming from \f$p_{T}^{\nu} = -p_{T}^{visible} = - (p_1 + ISR)$\f
+- (4) \f$M_1 = 0 \to E_{1}^2 = p_{1x}^2 + p_{1y}^2 + p_{1z}^2$\f
 
-Using the values of $$p_{1x}, p_{1y}$$ from equations (2) and (3), equation (1) can be written as $$p_{1z} = A - B E_1$$. Where A and B are:
+Using the values of \f$p_{1x}, p_{1y}$\f from equations (2) and (3), equation (1) can be written as \f$p_{1z} = A - B E_1$\f. Where A and B are:
 
-- $$A = \frac{s_{12} - M_{2}^2 + 2(p_{Tx}p_{2x} + p_{Ty}p_{2y})}{2 p_{2z}}$$
-- $$B = \frac{E_2}{p_{2z}}$$
+- \f$A = \frac{s_{12} - M_{2}^2 + 2(p_{Tx}p_{2x} + p_{Ty}p_{2y})}{2 p_{2z}}$\f
+- \f$B = \frac{E_2}{p_{2z}}$\f
 
 Finally equation (4) can be written as: 
 
-- $$(1 - B) E_{1}^2 + 2AB E_1 - C = 0$$, where $$C = p_{Tx}^{2} + p_{Ty}^{2}$$
+- $\f(1 - B) E_{1}^2 + 2AB E_1 - C = 0$\f, where $\fC = p_{Tx}^{2} + p_{Ty}^{2}$\f
 
 Each solution of the quadratic equation with a positive value of $$E_1$$ is taken.
 
