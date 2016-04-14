@@ -27,17 +27,17 @@
  * where \f$q_1\f$ and \f$q_2\f$ are Bjorken fractions, and s_{12} is a particle decaying 
  * into \f$p_1\f$ (invisible particle) and \f$p_2\f$ (visible particle).
  *
- * This Block addesses the change of variables needed to pass from the standard phase-space
- * parametrization to the \f$\frac{1}{4\pi E_1} ds_{12} \times J$\f parametrization.               .
+ * This Block addresses the change of variables needed to pass from the standard phase-space
+ * parametrization to the \f$\frac{1}{4\pi E_1} ds_{12} \times J\f$ parametrization.               .
  * 
  * The integration is performed over \f$s_{12}\f$ with \f$p_2\f$ as input. Per integration point, 
  * the LorentzVector of the invisible particle, \f$p_1\f$, is computed based on the following set 
  * of equations:   
  *
- * - \f$(p_1 + p_2)^2 = s_{12} = M_{1}^{2} + M_{2}^2 + 2 E_1 E_2 + 2 p_{1x}p_{2x} + 2p_{1y}p_{2y} + p_{1z}p_{2z}$\f
- * - \f$p_{1x} = - p_{Tx}$\f #Coming from \f$p_T$\f neutrino \f$= -p_T$\f visible = - (\f$p_2$\f + ISR)
- * - \f$p_{1y} = - p_{Ty}$\f #Coming from \f$p_T$\f neutrino \f$= -p_T$\f visible = - (\f$p_1$\f + ISR)
- * - \f$M_1 = 0 \to E_{1}^2 = p_{1x}^2 + p_{1y}^2 + p_{1z}^2$\f
+ * - \f$(p_1 + p_2)^2 = s_{12} = M_{1}^{2} + M_{2}^2 + 2 E_1 E_2 + 2 p_{1x}p_{2x} + 2p_{1y}p_{2y} + p_{1z}p_{2z}\f$
+ * - \f$p_{1x} = - p_{Tx}\f$ #Coming from \f$p_T\f$ neutrino \f$= -p_T\f$ visible = - (\f$p_2\f$ + ISR)
+ * - \f$p_{1y} = - p_{Ty}\f$ #Coming from \f$p_T\f$ neutrino \f$= -p_T\f$ visible = - (\f$p_1\f$ + ISR)
+ * - \f$M_1 = 0 \to E_{1}^2 = p_{1x}^2 + p_{1y}^2 + p_{1z}^2\f$
  *
  * Up to 2 \f$p_1\f$ solutions are possible.
  *
