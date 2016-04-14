@@ -28,7 +28,7 @@
  * into \f$p_1\f$ (invisible particle) and \f$p_2\f$ (visible particle).
  *
  * This Block addesses the change of variables needed to pass from the standard phase-space
- * parametrization to the $\frac{1}{4\pi E_1} ds_{12} \times J$ parametrization.               .
+ * parametrization to the \f$\frac{1}{4\pi E_1} ds_{12} \times J$\f parametrization.               .
  * 
  * The integration is performed over \f$s_{12}\f$ with \f$p_2\f$ as input. Per integration point, 
  * the LorentzVector of the invisible particle, \f$p_1\f$, is computed based on the following set 
