@@ -6,7 +6,7 @@ language: cpp
 compiler:
   - gcc
 env:
-  - ROOT_VERSION=6.06.00
+  - ROOT_VERSION=6.06.02
 addons:
   apt:
     sources:
@@ -25,13 +25,8 @@ before_install:
 install:
   - export CXX=g++-4.9
   - export CC=gcc-4.9
-  - wget http://sbrochet.web.cern.ch/sbrochet/public/ROOT-${ROOT_VERSION}_Python-2.7_Ubuntu-12.04_gcc4.9.tar.xz
-  - mkdir -p external/root
-  - cd external/root
-  - tar xf ../../ROOT-${ROOT_VERSION}_Python-2.7_Ubuntu-12.04_gcc4.9.tar.xz
-  - source bin/thisroot.sh
-  - cd ../..
-  - . ./travis/build-lhapdf.sh
+  - source travis/get-root.sh
+  - source travis/get-lhapdf.sh
 before_script:
   - export CXX=g++-4.9
   - export CC=gcc-4.9

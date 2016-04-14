@@ -14,8 +14,8 @@ $(document).ready(function() {
     $('li > a[href="functions_vars.html"] > span').before("<i class='fa fa-list'></i> ");
     $('li > a[href="functions_enum.html"] > span').before("<i class='fa fa-list'></i> ");
     $('li > a[href="functions_eval.html"] > span').before("<i class='fa fa-list'></i> ");
-    $('img[src="ftv2ns.png"]').replaceWith('<span class="label label-danger">N</span> ');
-    $('img[src="ftv2cl.png"]').replaceWith('<span class="label label-danger">C</span> ');
+    $('img[src="ftv2ns.png"]').replaceWith('<span class="label label-primary">N</span> ');
+    $('img[src="ftv2cl.png"]').replaceWith('<span class="label label-primary">C</span> ');
 
     var main_nav_ul = $("div#navrow1 > ul.tablist");
     $("nav.navbar > div.container").append(main_nav_ul);
