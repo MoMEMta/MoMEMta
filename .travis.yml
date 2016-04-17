@@ -18,7 +18,6 @@ addons:
       - g++-4.9
       - cmake
       - libboost1.55-dev
-      - doxygen
       - graphviz
 before_install:
   - ./travis/decrypt_key.sh 
@@ -27,6 +26,7 @@ install:
   - export CC=gcc-4.9
   - source travis/get-root.sh
   - source travis/get-lhapdf.sh
+  - source travis/get-doxygen.sh
 before_script:
   - export CXX=g++-4.9
   - export CC=gcc-4.9
