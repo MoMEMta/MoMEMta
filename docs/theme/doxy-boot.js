@@ -1,4 +1,11 @@
+hljs.configure({
+  tabReplace: '    ',
+  languages: ['cpp']
+});
+
 $(document).ready(function() {
+
+    $(".fragment").hide();
 
     $("div.headertitle").addClass("page-header");
     $("div.title").addClass("h1");
@@ -43,7 +50,7 @@ $(document).ready(function() {
     $("table.directory").addClass("table table-striped");
     $("div.summary > a").addClass("btn btn-default btn-xs");
     $("table.fieldtable").addClass("table");
-    $(".fragment").addClass("well");
+    //$(".fragment").addClass("well");
     $(".memitem").addClass("panel panel-default");
     $(".memproto").addClass("panel-heading");
     $(".memdoc").addClass("panel-body");
@@ -62,8 +69,8 @@ $(document).ready(function() {
     $("div.ttname a").css("color", 'white');
     $("div.ttdef,div.ttdoc,div.ttdeci").addClass("panel-body");
 
-    $('div.fragment.well div.line:first').css('margin-top', '15px');
-    $('div.fragment.well div.line:last').css('margin-bottom', '15px');
+    //$('div.fragment.well div.line:first').css('margin-top', '15px');
+    //$('div.fragment.well div.line:last').css('margin-bottom', '15px');
 
     $('table.doxtable').removeClass('doxtable').addClass('table table-striped table-bordered').each(function() {
         $(this).prepend('<thead></thead>');
@@ -74,9 +81,9 @@ $(document).ready(function() {
         $(this).find('td > span.danger').parent().addClass('danger');
     });
 
-    if ($('div.fragment.well div.ttc').length > 0) {
-        $('div.fragment.well div.line:first').parent().removeClass('fragment well');
-    }
+    //if ($('div.fragment.well div.ttc').length > 0) {
+        //$('div.fragment.well div.line:first').parent().removeClass('fragment well');
+    //}
 
     // $('table.memberdecls').find('.memItemRight').each(function(){
     //   $(this).contents().appendTo($(this).siblings('.memItemLeft'));
@@ -256,16 +263,45 @@ $(document).ready(function() {
     $("div.ah").removeClass('ah');
     $("div.header").removeClass("header");
 
-    // $('.mdescLeft').each(function(){
-    //   if($(this).html()=="&nbsp;") {
-    //     $(this).siblings('.mdescRight').attr('colspan', 2);
-    //     $(this).remove();
-    //   }
-    // });
-    // $('td.memItemLeft').each(function(){
-    //   if($(this).siblings('.memItemRight').html()=="") {
-    //     $(this).attr('colspan', 2);
-    //     $(this).siblings('.memItemRight').remove();
-    //   }
-    // });
+    $(".fragment").each(function(i, node) {
+        // Remove line numbers
+        lines = $(node).find('.lineno').remove();
+        have_lines = lines.length != 0;
+
+        // Build code
+        code = ''
+        $(node).find('.line').each(function(i, line) {
+          code += $(line).text() + '\n';
+        });
+        $(node).html("<pre class='code'><code></code></pre>");
+        $(node).find('code').text(code);
+
+        $(node).removeClass('fragment').addClass('highlighted-code');
+        if (have_lines) {
+            $(node).addClass('line-number');
+        }
+    });
+
+    $('code').each(function(i, block) {
+        hljs.highlightBlock(block);
+    });
+
+    function pad(str, max) {
+        str = str.toString();
+        return str.length < max ? pad("0" + str, max) : str;
+    }
+
+    $('div.line-number > pre > code').each(function(i, node) {
+
+        // Re-add line numbers
+        code = $(node).html().split('\n');
+        flat_code = '';
+        for (index = 0; index < code.length; ++index) {
+            flat_code += '<a name="l' + pad(index + 1, 5) + '" href="#"></a><span class="line"></span>' + code[index] + '\n';
+        }
+
+        $(node).html(flat_code);
+    });
+
+    $('.highlighted-code').show();
 });
