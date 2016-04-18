@@ -1,3 +1,4 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$classSLHA_1_1Block.html" title="SLHA::Block" alt="" coords="5,5,104,32"/>
+<area shape="rect" id="node1" href="$structPluginFactory_3_01Interface_01_5_07Args_8_8_8_08_4_1_1PMakerBase.html" title="PluginFactory\&lt; Interface\l *(Args...)\&gt;::PMakerBase" alt="" coords="6,5,175,46"/>
+<area shape="rect" id="node2" href="$structPluginFactory_3_01Interface_01_5_07Args_8_8_8_08_4_1_1PMaker.html" title="PluginFactory\&lt; Interface\l *(Args...)\&gt;::PMaker\&lt; PluginType \&gt;" alt="" coords="225,5,453,46"/>
 </map>

@@ -7,16 +7,20 @@
 
 var indexSectionsWithContent =
 {
-  0: "bcdefghilmprs",
-  1: "bcdefghilmprs",
-  2: "cfi"
+  0: "bcdefghilmprsuv",
+  1: "bcdefghilmprsuv",
+  2: "g",
+  3: "bcdfgir",
+  4: "v"
 };
 
 var indexSectionNames =
 {
   0: "all",
   1: "classes",
-  2: "functions"
+  2: "namespaces",
+  3: "functions",
+  4: "variables"
 };
 
 function convertToId(search)

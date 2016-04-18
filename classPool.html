@@ -56,6 +56,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
+      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -89,7 +90,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -102,6 +103,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="header">
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
+<a href="#pub-types">Public Types</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#friends">Friends</a> &#124;
 <a href="classPool-members.html">List of all members</a>  </div>
@@ -110,29 +112,64 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!--header-->
 <div class="contents">
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
+Public Types</h2></td></tr>
+<tr class="memitem:a2fa090f2f0d8177adbb810efc1a7ce1d"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a2fa090f2f0d8177adbb810efc1a7ce1d"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>DescriptionMap</b> = std::unordered_map&lt; std::string, <a class="el" href="structDescription.html">Description</a> &gt;</td></tr>
+<tr class="separator:a2fa090f2f0d8177adbb810efc1a7ce1d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:af6ef1f261c5015f5b9a77417d2e4a0c2"><td class="memTemplParams" colspan="2"><a class="anchor" id="af6ef1f261c5015f5b9a77417d2e4a0c2"></a>
 template&lt;typename T &gt; </td></tr>
 <tr class="memitem:af6ef1f261c5015f5b9a77417d2e4a0c2"><td class="memTemplItemLeft" align="right" valign="top">std::shared_ptr&lt; const T &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><b>get</b> (const <a class="el" href="structInputTag.html">InputTag</a> &amp;tag)</td></tr>
 <tr class="separator:af6ef1f261c5015f5b9a77417d2e4a0c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0a5ce6d40bab91c8a91cc16857f971ce"><td class="memTemplParams" colspan="2"><a class="anchor" id="a0a5ce6d40bab91c8a91cc16857f971ce"></a>
-template&lt;typename T &gt; </td></tr>
-<tr class="memitem:a0a5ce6d40bab91c8a91cc16857f971ce"><td class="memTemplItemLeft" align="right" valign="top">std::shared_ptr&lt; T &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><b>put</b> (const <a class="el" href="structInputTag.html">InputTag</a> &amp;tag)</td></tr>
-<tr class="separator:a0a5ce6d40bab91c8a91cc16857f971ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8a96eb63b46731b108d9a22a5b1109c9"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8a96eb63b46731b108d9a22a5b1109c9"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>alias</b> (const <a class="el" href="structInputTag.html">InputTag</a> &amp;from, const <a class="el" href="structInputTag.html">InputTag</a> &amp;to)</td></tr>
 <tr class="separator:a8a96eb63b46731b108d9a22a5b1109c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a74233011e8c1dbd9fdeddace9ebd06e3"><td class="memItemLeft" align="right" valign="top">const DescriptionMap &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPool.html#a74233011e8c1dbd9fdeddace9ebd06e3">description</a> () const </td></tr>
+<tr class="memdesc:a74233011e8c1dbd9fdeddace9ebd06e3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the description of the state of the memory pool.  <a href="#a74233011e8c1dbd9fdeddace9ebd06e3">More...</a><br/></td></tr>
+<tr class="separator:a74233011e8c1dbd9fdeddace9ebd06e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="friends"></a>
 Friends</h2></td></tr>
 <tr class="memitem:aa5199d9a3a20b37a7262fb37e9fcc464"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa5199d9a3a20b37a7262fb37e9fcc464"></a>
 class&#160;</td><td class="memItemRight" valign="bottom"><b>MoMEMta</b></td></tr>
 <tr class="separator:aa5199d9a3a20b37a7262fb37e9fcc464"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a21f639900c480510650969df9c74d17d"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a21f639900c480510650969df9c74d17d"></a>
+class&#160;</td><td class="memItemRight" valign="bottom"><b>Module</b></td></tr>
+<tr class="separator:a21f639900c480510650969df9c74d17d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af7dc5dfc50684276297d67791d7ff58d"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af7dc5dfc50684276297d67791d7ff58d"></a>
 struct&#160;</td><td class="memItemRight" valign="bottom"><b>InputTag</b></td></tr>
 <tr class="separator:af7dc5dfc50684276297d67791d7ff58d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="a74233011e8c1dbd9fdeddace9ebd06e3"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const DescriptionMap&amp; Pool::description </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Return the description of the state of the memory pool. </p>
+<dl class="section note"><dt>Note</dt><dd>Result is only valid after a call to Pool::freeze() </dd></dl>
+
+</div>
+</div>
 <hr/>The documentation for this class was generated from the following files:<ul>
 <li>include/momemta/<a class="el" href="Pool_8h_source.html">Pool.h</a></li>
 <li>core/src/Pool.cc</li>

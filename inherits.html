@@ -56,6 +56,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
+      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -90,7 +91,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -115,79 +116,99 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <map name="ConfigurationSet" id="ConfigurationSet">
 <area shape="rect" id="node1" href="classConfigurationSet.html" title="ConfigurationSet" alt="" coords="6,5,125,32"/></map>
 </td></tr>
-<tr><td><img src="inherit_graph_2.png" border="0" alt="" usemap="#InputTag"/>
+<tr><td><img src="inherit_graph_2.png" border="0" alt="" usemap="#Description"/>
+<map name="Description" id="Description">
+<area shape="rect" id="node1" href="structDescription.html" title="Description" alt="" coords="5,5,93,32"/></map>
+</td></tr>
+<tr><td><img src="inherit_graph_3.png" border="0" alt="" usemap="#graph_1_1Edge"/>
+<map name="graph_1_1Edge" id="graph_1_1Edge">
+<area shape="rect" id="node1" href="structgraph_1_1Edge.html" title="graph::Edge" alt="" coords="6,5,98,32"/></map>
+</td></tr>
+<tr><td><img src="inherit_graph_4.png" border="0" alt="" usemap="#graph_1_1edge__writer"/>
+<map name="graph_1_1edge__writer" id="graph_1_1edge__writer">
+<area shape="rect" id="node1" href="classgraph_1_1edge__writer.html" title="graph::edge_writer" alt="" coords="6,5,135,32"/></map>
+</td></tr>
+<tr><td><img src="inherit_graph_5.png" border="0" alt="" usemap="#graph_1_1unresolved__input"/>
+<map name="graph_1_1unresolved__input" id="graph_1_1unresolved__input">
+<area shape="rect" id="node2" href="classgraph_1_1unresolved__input.html" title="graph::unresolved_input" alt="" coords="152,5,312,32"/><area shape="rect" id="node3" href="classinvalid__state.html" title="invalid_state" alt="" coords="185,56,279,83"/><area shape="rect" id="node4" href="classlua_1_1invalid__array__error.html" title="lua::invalid_array\l_error" alt="" coords="172,107,292,149"/><area shape="rect" id="node5" href="classSLHA_1_1invalid__card__error.html" title="SLHA::invalid_card\l_error" alt="" coords="165,173,299,214"/></map>
+</td></tr>
+<tr><td><img src="inherit_graph_6.png" border="0" alt="" usemap="#graph_1_1Vertex"/>
+<map name="graph_1_1Vertex" id="graph_1_1Vertex">
+<area shape="rect" id="node1" href="structgraph_1_1Vertex.html" title="graph::Vertex" alt="" coords="6,5,106,32"/></map>
+</td></tr>
+<tr><td><img src="inherit_graph_7.png" border="0" alt="" usemap="#InputTag"/>
 <map name="InputTag" id="InputTag">
 <area shape="rect" id="node1" href="structInputTag.html" title="InputTag" alt="" coords="6,5,79,32"/></map>
 </td></tr>
-<tr><td><img src="inherit_graph_3.png" border="0" alt="" usemap="#LibraryManager"/>
+<tr><td><img src="inherit_graph_8.png" border="0" alt="" usemap="#LibraryManager"/>
 <map name="LibraryManager" id="LibraryManager">
 <area shape="rect" id="node1" href="classLibraryManager.html" title="LibraryManager" alt="" coords="6,5,117,32"/></map>
 </td></tr>
-<tr><td><img src="inherit_graph_4.png" border="0" alt="" usemap="#LightModule"/>
+<tr><td><img src="inherit_graph_9.png" border="0" alt="" usemap="#LightModule"/>
 <map name="LightModule" id="LightModule">
 <area shape="rect" id="node1" href="structLightModule.html" title="LightModule" alt="" coords="6,5,98,32"/></map>
 </td></tr>
-<tr><td><img src="inherit_graph_5.png" border="0" alt="" usemap="#logging_1_1colored__formatter"/>
+<tr><td><img src="inherit_graph_10.png" border="0" alt="" usemap="#logging_1_1colored__formatter"/>
 <map name="logging_1_1colored__formatter" id="logging_1_1colored__formatter">
 <area shape="rect" id="node2" href="classlogging_1_1colored__formatter.html" title="logging::colored_formatter" alt="" coords="129,5,301,32"/></map>
 </td></tr>
-<tr><td><img src="inherit_graph_6.png" border="0" alt="" usemap="#logging_1_1colored__stdout__sink_3_01Mutex_01_4"/>
+<tr><td><img src="inherit_graph_11.png" border="0" alt="" usemap="#logging_1_1colored__stdout__sink_3_01Mutex_01_4"/>
 <map name="logging_1_1colored__stdout__sink_3_01Mutex_01_4" id="logging_1_1colored__stdout__sink_3_01Mutex_01_4">
 <area shape="rect" id="node1" href="classlogging_1_1colored__stdout__sink.html" title="logging::colored_stdout\l_sink\&lt; Mutex \&gt;" alt="" coords="6,5,162,46"/></map>
 </td></tr>
-<tr><td><img src="inherit_graph_7.png" border="0" alt="" usemap="#lua_1_1invalid__array__error"/>
-<map name="lua_1_1invalid__array__error" id="lua_1_1invalid__array__error">
-<area shape="rect" id="node2" href="classlua_1_1invalid__array__error.html" title="lua::invalid_array\l_error" alt="" coords="160,5,280,46"/><area shape="rect" id="node3" href="classSLHA_1_1invalid__card__error.html" title="SLHA::invalid_card\l_error" alt="" coords="153,70,287,111"/></map>
-</td></tr>
-<tr><td><img src="inherit_graph_8.png" border="0" alt="" usemap="#Module"/>
+<tr><td><img src="inherit_graph_12.png" border="0" alt="" usemap="#Module"/>
 <map name="Module" id="Module">
 <area shape="rect" id="node1" href="classModule.html" title="Module" alt="" coords="5,223,69,249"/><area shape="rect" id="node2" href="classBinnedTransferFunctionOnEnergy.html" title="BinnedTransferFunctionOn\lEnergy" alt="" coords="118,5,295,46"/><area shape="rect" id="node3" href="classBlockB.html" title="BlockB" alt="" coords="175,71,239,97"/><area shape="rect" id="node4" href="classBlockD.html" title="BlockD" alt="" coords="174,121,239,148"/><area shape="rect" id="node5" href="classBoost.html" title="Boost" alt="" coords="179,172,235,199"/><area shape="rect" id="node6" href="classEmptyModule.html" title="EmptyModule" alt="" coords="155,223,258,249"/><area shape="rect" id="node7" href="classFlatter.html" title="Flatter" alt="" coords="177,273,236,300"/><area shape="rect" id="node8" href="classGaussianTransferFunction.html" title="GaussianTransferFunction" alt="" coords="119,324,294,351"/><area shape="rect" id="node9" href="classMatrixElement.html" title="MatrixElement" alt="" coords="153,375,260,401"/><area shape="rect" id="node10" href="classPermutator.html" title="Permutator" alt="" coords="163,425,250,452"/></map>
 </td></tr>
-<tr><td><img src="inherit_graph_9.png" border="0" alt="" usemap="#MoMEMta"/>
+<tr><td><img src="inherit_graph_13.png" border="0" alt="" usemap="#MoMEMta"/>
 <map name="MoMEMta" id="MoMEMta">
 <area shape="rect" id="node1" href="classMoMEMta.html" title="MoMEMta" alt="" coords="5,5,88,32"/></map>
 </td></tr>
-<tr><td><img src="inherit_graph_10.png" border="0" alt="" usemap="#momemta_1_1MatrixElement"/>
+<tr><td><img src="inherit_graph_14.png" border="0" alt="" usemap="#momemta_1_1MatrixElement"/>
 <map name="momemta_1_1MatrixElement" id="momemta_1_1MatrixElement">
 <area shape="rect" id="node1" href="classmomemta_1_1MatrixElement.html" title="momemta::MatrixElement" alt="" coords="6,31,178,57"/><area shape="rect" id="node2" href="classcpp__pp__ttx__fullylept.html" title="cpp_pp_ttx_fullylept" alt="" coords="233,5,372,32"/><area shape="rect" id="node3" href="classDummyMatrixElement.html" title="DummyMatrixElement" alt="" coords="227,56,379,83"/></map>
 </td></tr>
-<tr><td><img src="inherit_graph_11.png" border="0" alt="" usemap="#momemta_1_1MEParameters"/>
+<tr><td><img src="inherit_graph_15.png" border="0" alt="" usemap="#momemta_1_1MEParameters"/>
 <map name="momemta_1_1MEParameters" id="momemta_1_1MEParameters">
 <area shape="rect" id="node1" href="classmomemta_1_1MEParameters.html" title="momemta::MEParameters" alt="" coords="6,5,181,32"/><area shape="rect" id="node2" href="classParameters__sm.html" title="Parameters_sm" alt="" coords="229,5,344,32"/></map>
 </td></tr>
-<tr><td><img src="inherit_graph_12.png" border="0" alt="" usemap="#PluginFactory_3_01Interface_01_5_07Args_8_8_8_08_4"/>
+<tr><td><img src="inherit_graph_16.png" border="0" alt="" usemap="#PluginFactory_3_01Interface_01_5_07Args_8_8_8_08_4"/>
 <map name="PluginFactory_3_01Interface_01_5_07Args_8_8_8_08_4" id="PluginFactory_3_01Interface_01_5_07Args_8_8_8_08_4">
 <area shape="rect" id="node1" href="classPluginFactory_3_01Interface_01_5_07Args_8_8_8_08_4.html" title="PluginFactory\&lt; Interface\l *(Args...)\&gt;" alt="" coords="5,5,171,46"/></map>
 </td></tr>
-<tr><td><img src="inherit_graph_13.png" border="0" alt="" usemap="#PluginFactory_3_01Interface_01_5_07Args_8_8_8_08_4_1_1PMakerBase"/>
+<tr><td><img src="inherit_graph_17.png" border="0" alt="" usemap="#PluginFactory_3_01Interface_01_5_07Args_8_8_8_08_4_1_1PMakerBase"/>
 <map name="PluginFactory_3_01Interface_01_5_07Args_8_8_8_08_4_1_1PMakerBase" id="PluginFactory_3_01Interface_01_5_07Args_8_8_8_08_4_1_1PMakerBase">
 <area shape="rect" id="node1" href="structPluginFactory_3_01Interface_01_5_07Args_8_8_8_08_4_1_1PMakerBase.html" title="PluginFactory\&lt; Interface\l *(Args...)\&gt;::PMakerBase" alt="" coords="6,5,175,46"/><area shape="rect" id="node2" href="structPluginFactory_3_01Interface_01_5_07Args_8_8_8_08_4_1_1PMaker.html" title="PluginFactory\&lt; Interface\l *(Args...)\&gt;::PMaker\&lt; PluginType \&gt;" alt="" coords="225,5,453,46"/></map>
 </td></tr>
-<tr><td><img src="inherit_graph_14.png" border="0" alt="" usemap="#PluginFactory_3_01T_01_4"/>
+<tr><td><img src="inherit_graph_18.png" border="0" alt="" usemap="#PluginFactory_3_01T_01_4"/>
 <map name="PluginFactory_3_01T_01_4" id="PluginFactory_3_01T_01_4">
 <area shape="rect" id="node1" href="classPluginFactory.html" title="PluginFactory\&lt; T \&gt;" alt="" coords="6,5,141,32"/></map>
 </td></tr>
-<tr><td><img src="inherit_graph_15.png" border="0" alt="" usemap="#Pool"/>
+<tr><td><img src="inherit_graph_19.png" border="0" alt="" usemap="#Pool"/>
 <map name="Pool" id="Pool">
 <area shape="rect" id="node1" href="classPool.html" title="Pool" alt="" coords="5,5,53,32"/></map>
 </td></tr>
-<tr><td><img src="inherit_graph_16.png" border="0" alt="" usemap="#SharedLibrary"/>
+<tr><td><img src="inherit_graph_20.png" border="0" alt="" usemap="#PoolContent"/>
+<map name="PoolContent" id="PoolContent">
+<area shape="rect" id="node1" href="structPoolContent.html" title="PoolContent" alt="" coords="6,5,101,32"/></map>
+</td></tr>
+<tr><td><img src="inherit_graph_21.png" border="0" alt="" usemap="#SharedLibrary"/>
 <map name="SharedLibrary" id="SharedLibrary">
 <area shape="rect" id="node1" href="structSharedLibrary.html" title="SharedLibrary" alt="" coords="6,5,109,32"/></map>
 </td></tr>
-<tr><td><img src="inherit_graph_17.png" border="0" alt="" usemap="#SLHA_1_1Block"/>
+<tr><td><img src="inherit_graph_22.png" border="0" alt="" usemap="#SLHA_1_1Block"/>
 <map name="SLHA_1_1Block" id="SLHA_1_1Block">
 <area shape="rect" id="node1" href="classSLHA_1_1Block.html" title="SLHA::Block" alt="" coords="5,5,104,32"/></map>
 </td></tr>
-<tr><td><img src="inherit_graph_18.png" border="0" alt="" usemap="#SLHA_1_1Reader"/>
+<tr><td><img src="inherit_graph_23.png" border="0" alt="" usemap="#SLHA_1_1Reader"/>
 <map name="SLHA_1_1Reader" id="SLHA_1_1Reader">
 <area shape="rect" id="node1" href="classSLHA_1_1Reader.html" title="SLHA::Reader" alt="" coords="5,5,112,32"/></map>
 </td></tr>
-<tr><td><img src="inherit_graph_19.png" border="0" alt="" usemap="#std_1_1hash_3_01InputTag_01_4"/>
+<tr><td><img src="inherit_graph_24.png" border="0" alt="" usemap="#std_1_1hash_3_01InputTag_01_4"/>
 <map name="std_1_1hash_3_01InputTag_01_4" id="std_1_1hash_3_01InputTag_01_4">
 <area shape="rect" id="node1" href="structstd_1_1hash_3_01InputTag_01_4.html" title="std::hash\&lt; InputTag \&gt;" alt="" coords="6,5,157,32"/></map>
 </td></tr>
-<tr><td><img src="inherit_graph_20.png" border="0" alt="" usemap="#Subprocess_3_01T_01_4"/>
+<tr><td><img src="inherit_graph_25.png" border="0" alt="" usemap="#Subprocess_3_01T_01_4"/>
 <map name="Subprocess_3_01T_01_4" id="Subprocess_3_01T_01_4">
 <area shape="rect" id="node1" href="structSubprocess.html" title="Subprocess\&lt; T \&gt;" alt="" coords="5,5,128,32"/></map>
 </td></tr>

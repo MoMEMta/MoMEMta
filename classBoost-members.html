@@ -56,6 +56,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
+      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -89,7 +90,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -114,11 +115,12 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>finish</b>() (defined in <a class="el" href="classModule.html">Module</a>)</td><td class="entry"><a class="el" href="classModule.html">Module</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
   <tr bgcolor="#f0f0f0"><td class="entry"><b>get</b>(const std::string &amp;module, const std::string &amp;name) (defined in <a class="el" href="classModule.html">Module</a>)</td><td class="entry"><a class="el" href="classModule.html">Module</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">protected</span></td></tr>
   <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>get</b>(const InputTag &amp;tag) (defined in <a class="el" href="classModule.html">Module</a>)</td><td class="entry"><a class="el" href="classModule.html">Module</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">protected</span></td></tr>
-  <tr bgcolor="#f0f0f0"><td class="entry"><b>m_pool</b> (defined in <a class="el" href="classModule.html">Module</a>)</td><td class="entry"><a class="el" href="classModule.html">Module</a></td><td class="entry"><span class="mlabel">protected</span></td></tr>
-  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>Module</b>(PoolPtr pool, const std::string &amp;name) (defined in <a class="el" href="classModule.html">Module</a>)</td><td class="entry"><a class="el" href="classModule.html">Module</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr bgcolor="#f0f0f0"><td class="entry"><b>name</b>() const final (defined in <a class="el" href="classModule.html">Module</a>)</td><td class="entry"><a class="el" href="classModule.html">Module</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
-  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>produce</b>(const std::string &amp;name) (defined in <a class="el" href="classModule.html">Module</a>)</td><td class="entry"><a class="el" href="classModule.html">Module</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">protected</span></td></tr>
-  <tr bgcolor="#f0f0f0"><td class="entry"><b>work</b>() override (defined in <a class="el" href="classBoost.html">Boost</a>)</td><td class="entry"><a class="el" href="classBoost.html">Boost</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
+  <tr><td class="entry"><a class="el" href="classModule.html#ac1fe92d5be8a8591b855691b88e6a56a">is_virtual_module</a>(const std::string &amp;name)</td><td class="entry"><a class="el" href="classModule.html">Module</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
+  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>m_pool</b> (defined in <a class="el" href="classModule.html">Module</a>)</td><td class="entry"><a class="el" href="classModule.html">Module</a></td><td class="entry"><span class="mlabel">protected</span></td></tr>
+  <tr bgcolor="#f0f0f0"><td class="entry"><b>Module</b>(PoolPtr pool, const std::string &amp;name) (defined in <a class="el" href="classModule.html">Module</a>)</td><td class="entry"><a class="el" href="classModule.html">Module</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>name</b>() const final (defined in <a class="el" href="classModule.html">Module</a>)</td><td class="entry"><a class="el" href="classModule.html">Module</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
+  <tr bgcolor="#f0f0f0"><td class="entry"><b>produce</b>(const std::string &amp;name) (defined in <a class="el" href="classModule.html">Module</a>)</td><td class="entry"><a class="el" href="classModule.html">Module</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">protected</span></td></tr>
+  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>work</b>() override (defined in <a class="el" href="classBoost.html">Boost</a>)</td><td class="entry"><a class="el" href="classBoost.html">Boost</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
 </table></div><!-- contents -->
 <!-- HTML footer for doxygen 1.8.8-->
 <!-- start footer part -->
