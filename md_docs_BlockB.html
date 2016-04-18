@@ -11,7 +11,7 @@
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-scrollTo/2.1.2/jquery.scrollTo.min.js"></script>
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-powertip/1.2.0/jquery.powertip.min.js"></script>
-        <title>MoMEMta: core/src/ModuleFactory.cc Source File</title>
+        <title>MoMEMta: Block B description</title>
         <!--<link href="tabs.css" rel="stylesheet" type="text/css"/>-->
         <script type="text/javascript" src="dynsections.js"></script>
         <link href="search/search.css" rel="stylesheet" type="text/css"/>
@@ -62,10 +62,10 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
-      <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
+      <li class="current"><a href="pages.html"><span>Related&#160;Pages</span></a></li>
       <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li><a href="annotated.html"><span>Classes</span></a></li>
-      <li class="current"><a href="files.html"><span>Files</span></a></li>
+      <li><a href="files.html"><span>Files</span></a></li>
       <li>
         <div id="MSearchBox" class="MSearchBoxInactive">
         <span class="left">
@@ -84,11 +84,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       </li>
     </ul>
   </div>
-  <div id="navrow2" class="tabs2">
-    <ul class="tablist">
-      <li><a href="files.html"><span>File&#160;List</span></a></li>
-    </ul>
-  </div>
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -103,18 +98,55 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </iframe>
 </div>
 
-<div id="nav-path" class="navpath">
-  <ul>
-<li class="navelem"><a class="el" href="dir_4270bfced15e0e73154b13468c7c9ad9.html">core</a></li><li class="navelem"><a class="el" href="dir_90fd98a0ba30abf7a6068a44995d2d6b.html">src</a></li>  </ul>
-</div>
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">ModuleFactory.cc</div>  </div>
+<div class="title">Block B description </div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div><div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment"> *  MoMEMta: a modular implementation of the Matrix Element Method</span></div><div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment"> *  Copyright (C) 2016  Universite catholique de Louvain (UCL), Belgium</span></div><div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment"> *</span></div><div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"> *  This program is free software: you can redistribute it and/or modify</span></div><div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment"> *  it under the terms of the GNU General Public License as published by</span></div><div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment"> *  the Free Software Foundation, either version 3 of the License, or</span></div><div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="comment"> *  (at your option) any later version.</span></div><div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="comment"> *</span></div><div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="comment"> *  This program is distributed in the hope that it will be useful,</span></div><div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="comment"> *  but WITHOUT ANY WARRANTY; without even the implied warranty of</span></div><div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="comment"> *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span></div><div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="comment"> *  GNU General Public License for more details.</span></div><div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="comment"> *</span></div><div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="comment"> *  You should have received a copy of the GNU General Public License</span></div><div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="comment"> *  along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</span></div><div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="comment"> */</span></div><div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;</div><div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;</div><div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="preprocessor">#include &lt;momemta/ModuleFactory.h&gt;</span></div><div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;</div><div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="keyword">template</span>&lt;&gt; <a class="code" href="classPluginFactory.html">PluginFactory&lt;ModuleFactory::type&gt;</a>&amp; <a class="code" href="classPluginFactory.html">PluginFactory&lt;ModuleFactory::type&gt;::get</a>() {</div><div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    <span class="keyword">static</span> <a class="code" href="classPluginFactory.html">PluginFactory&lt;ModuleFactory::type&gt;</a> s_instance;</div><div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    <span class="keywordflow">return</span> s_instance;</div><div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;}</div><div class="ttc" id="classPluginFactory_html"><div class="ttname"><a href="classPluginFactory.html">PluginFactory</a></div><div class="ttdef"><b>Definition:</b> <a href="PluginFactory_8h_source.html#l00030">PluginFactory.h:30</a></div></div>
-</div><!-- fragment --></div><!-- contents -->
+<div class="textblock"><p>Note: Block B, also referred as final block (FB), and class in the MadWeight world. <a class="el" href="structDescription.html">Description</a> inspired on MadWeight.</p>
+<p>This block corresponds to an initial state with Bjorken fractions \(q_1\) and \(q_2\), and a final state with a visible particle with momenta \(p_2\), and an invisible particle with momenta \(p_1\), both coming from a resonance with mass \(s_{12}\). Extra radiation (ISR) it is also allowed.</p>
+<p>The goal of this Block is to address the change of variables needed to pass from the standard phase-space parametrization to the \(\frac{1}{4\pi E_1} ds_{12} \times J\) parametrization. Per integration point in CUBA, this Block outputs the value of the jacobian, J, and the four momenta of the invisible particle, \(p_1\). The system of equations needed to compute \(p_1\) is described below.</p>
+<h3>Change of variables</h3>
+<p>From the standard phase-space parametrisation:</p>
+<p>\(dq_1 dq_2\frac{d^3 p_1}{(2\pi)^3 2E_1}(2\pi)^4 \delta^4 (P_{in}-P_{fin})\)</p>
+<p>where \(P_{in} and P_{fin)\) are the total four-momenta in the initial and final states, to the following parametrisation:</p>
+<p>\(\frac{1}{4\pi E_1} ds_{12} \times J\)</p>
+<p>where the jacobian, J, is given by:</p>
+<p>\(J = \frac{E_1}{s} |p_{2z} E_1 - E_2 p_{1z}|^{-1}\)</p>
+<h3>Parameters</h3>
+<ul>
+<li>Collision energy.</li>
+</ul>
+<h3>Inputs</h3>
+<ul>
+<li>Visible particle, with four momenta \(p_2\)</li>
+<li>The mass \(s_{12}\) as output from the <a class="el" href="classFlatter.html">Flatter</a> module.</li>
+</ul>
+<h3>Outputs</h3>
+<ul>
+<li>Invisible particle, with four momenta \(p_1\) (up to two solutions possible)</li>
+<li>Jacobian, one per solution.</li>
+</ul>
+<h3>System of equations to compute \(p_1\)</h3>
+<p>The integrator throws random points in the mass ( \(s_{12}\)) while \(p_2\) is a known quantity. The equations to compute \(p_1\) are:</p>
+<ol type="1">
+<li>\((p_1 + p_2)^2 = s_{12} = M_{1}^{2} + M_{2}^2 + 2 E_1 E_2 + 2 p_{1x}p_{2x} + 2p_{1y}p_{2y} + p_{1z}p_{2z}\)</li>
+<li>\(p_{1x} = - p_{Tx}\) #Coming from \(p_{T}^{\nu} = -p_{T}^{visible} = - (p_2 + ISR)\)</li>
+<li>\(p_{1y} = - p_{Ty}\) #Coming from \(p_{T}^{\nu} = -p_{T}^{visible} = - (p_1 + ISR)\)</li>
+<li>\(M_1 = 0 \to E_{1}^2 = p_{1x}^2 + p_{1y}^2 + p_{1z}^2\)</li>
+</ol>
+<p>Using the values of \(p_{1x}, p_{1y}\) from equations (2) and (3), equation (1) can be written as \(p_{1z} = A - B E_1\). Where A and B are:</p>
+<ul>
+<li>\(A = \frac{s_{12} - M_{2}^2 + 2(p_{Tx}p_{2x} + p_{Ty}p_{2y})}{2 p_{2z}}\)</li>
+<li>\(B = \frac{E_2}{p_{2z}}\)</li>
+</ul>
+<p>Finally equation (4) can be written as:</p>
+<ul>
+<li>\((1 - B) E_{1}^2 + 2AB E_1 - C = 0\), where \(C = p_{Tx}^{2} + p_{Ty}^{2}\)</li>
+</ul>
+<p>Each solution of the quadratic equation with a positive value of $$E_1 </p>
+</div></div><!-- contents -->
 <!-- HTML footer for doxygen 1.8.8-->
 <!-- start footer part -->
 </div>
