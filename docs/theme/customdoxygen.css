@@ -362,3 +362,30 @@ span.SRScope {
 .pull-right .label {
    margin: 0px 0 0 2px;
 }
+
+:not(pre) > code.hljs {
+    display: inline;
+    vertical-align: bottom;
+}
+
+pre.code {
+    display: block;
+    padding: 0;
+    margin: 0;
+    border: 0;
+}
+
+pre {
+    counter-reset: lines;
+}
+
+pre .line {
+    counter-increment: lines;
+}
+
+pre .line::before {
+    content: counter(lines); text-align: right;
+    display: inline-block; width: 3em;
+    padding-right: 0.5em; margin-right: 0.5em;
+    color: #839496; border-right: 1px solid #e0e0e0 !important;
+}
