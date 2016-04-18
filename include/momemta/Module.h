@@ -21,6 +21,7 @@
 
 #include <momemta/ModuleFactory.h>
 #include <momemta/Pool.h>
+#include <momemta/InputTag.h>
 
 class Module {
     public:
@@ -39,6 +40,18 @@ class Module {
 
         virtual std::string name() const final {
             return m_name;
+        }
+
+        /**
+         * \brief Test if a given name correspond to a virtual module
+         *
+         * Some names are reserved for internal usage and are mapped to virtual modules.
+         *
+         * \param name The name to test
+         * \return True if `name` is the name of a virtual module, false otherwise.
+         */
+        inline static bool is_virtual_module(const std::string& name) {
+            return (name == "momemta") || (name == "input") || (name == "cuba");
         }
 
     protected:

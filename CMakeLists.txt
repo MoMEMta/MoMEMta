@@ -68,6 +68,9 @@ if (NOT USE_BUILTIN_LUA)
     find_package(Lua QUIET)
 endif()
 
+set(Boost_NO_BOOST_CMAKE ON)
+find_package(Boost REQUIRED)
+
 # Include external
 set(EXTERNAL_DIR "${PROJECT_SOURCE_DIR}/external")
 add_subdirectory(external)
@@ -94,6 +97,7 @@ set(MOMEMTA_SOURCES
     "modules/Permutator.cc"
     "core/src/ConfigurationReader.cc"
     "core/src/ConfigurationSet.cc"
+    "core/src/Graph.cc"
     "core/src/InputTag.cc"
     "core/src/LibraryManager.cc"
     "core/src/logging.cc"
@@ -119,6 +123,7 @@ include_directories(SYSTEM ${EXTERNAL_DIR}/spdlog)
 include_directories(SYSTEM ${LUA_INCLUDE_DIR})
 include_directories(SYSTEM ${LHAPDF_INCLUDE_DIRS})
 include_directories(SYSTEM ${ROOT_INCLUDE_DIR})
+include_directories(SYSTEM ${Boost_INCLUDE_DIRS})
 
 target_link_libraries(momemta LINK_PUBLIC dl)
 target_link_libraries(momemta LINK_PRIVATE cuba)

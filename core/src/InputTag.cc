@@ -42,10 +42,66 @@ std::vector<std::string> split(const std::string& s, const std::string& delimite
     return result;
 }
 
+InputTag::InputTag(const std::string& module, const std::string& parameter):
+    module(module), parameter(parameter) {
+    string_representation = module + "::" + parameter;
+}
+
+InputTag::InputTag(const std::string& module, const std::string& parameter, size_t index):
+    module(module), parameter(parameter), index(index), indexed(true) {
+    string_representation = module + "::" + parameter + "/" + std::to_string(index);
+}
+
+bool InputTag::isInputTag(const std::string& tag) {
+    if (tag.find("::") == std::string::npos)
+        return false;
+
+    if (tag.find("/") != std::string::npos) {
+        auto tags = split(tag, "::");
+        auto rtags = split(tags[1], "/");
+        try {
+            size_t index = std::stoull(rtags[1]);
+            UNUSED(index);
+            return true;
+        } catch (std::invalid_argument e) {
+            return false;
+        }
+    } else {
+        return true;
+    }
+}
+
+InputTag InputTag::fromString(const std::string& tag) {
+    auto tags = split(tag, "::");
+    auto rtags = split(tags[1], "/");
+
+    if (rtags.size() == 1)
+        return InputTag(tags[0], tags[1]);
+    else
+        return InputTag(tags[0], rtags[0], std::stoull(rtags[1]));
+}
+
+bool InputTag::operator==(const InputTag& rhs) const {
+    return ((module == rhs.module) && (parameter == rhs.parameter));
+}
+
+std::string InputTag::toString() const {
+    return string_representation;
+}
+
+bool InputTag::isIndexed() const {
+    return indexed;
+}
+
 void InputTag::resolve(PoolPtr pool) const {
     if (resolved)
         return;
 
-    content = pool->raw_get(*this);
+    // Reserve a block of memory inside the pool
+    // Since we don't know the type yet, the real allocation
+    // will be done during the first call to the get<>() function
+    this->pool = pool;
+    content = pool->reserve(*this);
+
     resolved = true;
 }

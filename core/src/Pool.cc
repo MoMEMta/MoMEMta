@@ -18,12 +18,48 @@
 
 
 #include <momemta/Pool.h>
+#include <logging.h>
+
+void Pool::remove(const InputTag& tag, bool force/* = true*/) {
+    auto it = m_storage.find(tag);
+    if (it == m_storage.end())
+        return;
+
+    if (!force && it->second.valid)
+        return;
+
+    m_storage.erase(it);
+}
+
+void Pool::remove_if_invalid(const InputTag& tag) {
+    remove(tag, false);
+}
+
+boost::any Pool::reserve(const InputTag& tag) {
+    auto it = m_storage.find(tag);
+    if (it == m_storage.end()) {
+        // This tag do not exist currently in the pool
+        // Reserve a slot, but mark it as invalid.
+        // Once a module inform the pool it produces such a tag, the slot will
+        // be flagged as valid.
+        PoolContent content { boost::any(), false };
+        it = m_storage.emplace(tag, content).first;
+    }
+
+    // Update current module description
+    assert(! m_current_module.empty());
+    Description& description = m_description[m_current_module];
+    description.inputs.push_back(tag);
+
+    return it->second.ptr;
+}
 
 boost::any Pool::raw_get(const InputTag& tag) {
-    auto it = m_pool.find(tag);
-    if (it == m_pool.end())
+    auto it = m_storage.find(tag);
+    if (it == m_storage.end())
         throw tag_not_found_error("No such tag in pool: " + tag.toString());
-    return it->second;
+
+    return it->second.ptr;
 }
 
 void Pool::alias(const InputTag& from, const InputTag& to) {
@@ -31,13 +67,34 @@ void Pool::alias(const InputTag& from, const InputTag& to) {
         throw std::invalid_argument("Indexed input tag cannot be passed as argument of the pool. Use the `get` function of the input tag to retrieve its content.");
     }
 
-    auto from_it = m_pool.find(from);
-    if (from_it == m_pool.end())
+    auto from_it = m_storage.find(from);
+    if (from_it == m_storage.end())
         throw tag_not_found_error("No such tag in pool: " + from.toString());
 
-    auto to_it = m_pool.find(to);
-    if (to_it != m_pool.end())
+    auto to_it = m_storage.find(to);
+    if (to_it != m_storage.end())
         throw duplicated_tag_error("A module already produced the tag '" + to.toString() + "'");
 
-    m_pool[to] = m_pool[from];
+    m_storage[to] = m_storage[from];
+}
+
+void Pool::current_module(const std::string& module) {
+    m_current_module = module;
+}
+
+class invalid_state: public std::runtime_error {
+    using std::runtime_error::runtime_error;
+};
+
+void Pool::freeze() {
+    m_frozen = true;
+    m_current_module.clear();
+
+    // Iterate over the storage, and check if any block is invalid.
+    for (const auto& it: m_storage) {
+        if (!it.second.valid) {
+            LOGGER->critical("Memory block '{}' is flagged as invalid. This should not happen. Please open a bug report at <>.", it.first.toString());
+            throw invalid_state("Memory pool state is invalid");
+        }
+    }
 }
