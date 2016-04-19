@@ -1,11 +1,12 @@
 <map id="Module" name="Module">
-<area shape="rect" id="node2" href="$classBinnedTransferFunctionOnEnergy.html" title="BinnedTransferFunctionOn\lEnergy" alt="" coords="118,5,295,46"/>
-<area shape="rect" id="node3" href="$classBlockB.html" title="BlockB" alt="" coords="175,71,239,97"/>
-<area shape="rect" id="node4" href="$classBlockD.html" title="BlockD" alt="" coords="174,121,239,148"/>
-<area shape="rect" id="node5" href="$classBoost.html" title="Boost" alt="" coords="179,172,235,199"/>
-<area shape="rect" id="node6" href="$classEmptyModule.html" title="EmptyModule" alt="" coords="155,223,258,249"/>
-<area shape="rect" id="node7" href="$classFlatter.html" title="Flatter" alt="" coords="177,273,236,300"/>
-<area shape="rect" id="node8" href="$classGaussianTransferFunction.html" title="GaussianTransferFunction" alt="" coords="119,324,294,351"/>
-<area shape="rect" id="node9" href="$classMatrixElement.html" title="MatrixElement" alt="" coords="153,375,260,401"/>
-<area shape="rect" id="node10" href="$classPermutator.html" title="Permutator" alt="" coords="163,425,250,452"/>
+<area shape="rect" id="node2" href="$classBinnedTransferFunctionOnEnergy.html" title="Transfer function on energy described by a 2D histogram retrieved from a ROOT file. " alt="" coords="119,5,297,46"/>
+<area shape="rect" id="node3" href="$classBlockB.html" title="BlockB" alt="" coords="176,71,240,97"/>
+<area shape="rect" id="node4" href="$classBlockD.html" title="BlockD" alt="" coords="175,121,241,148"/>
+<area shape="rect" id="node5" href="$classBoost.html" title="Boost" alt="" coords="180,172,236,199"/>
+<area shape="rect" id="node6" href="$classEmptyModule.html" title="EmptyModule" alt="" coords="157,223,259,249"/>
+<area shape="rect" id="node7" href="$classFlatter.html" title="Flatter" alt="" coords="179,273,237,300"/>
+<area shape="rect" id="node8" href="$classGaussianTransferFunction.html" title="GaussianTransferFunction" alt="" coords="121,324,295,351"/>
+<area shape="rect" id="node9" href="$classMatrixElement.html" title="MatrixElement" alt="" coords="155,375,261,401"/>
+<area shape="rect" id="node10" href="$classNarrowWidthApproximation.html" title="Use the Narrow Width Approximation (NWA) to reduce the dimensionality of the integration. " alt="" coords="117,425,299,452"/>
+<area shape="rect" id="node11" href="$classPermutator.html" title="Permutator" alt="" coords="165,476,251,503"/>
 </map>
