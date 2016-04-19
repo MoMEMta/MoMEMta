@@ -28,12 +28,15 @@
  *
  *  This module defines a 'jacobian' factor, important for the normalisation of the likelihood. Formally, the NWA is defined by
  *  replacing, in the matrix element, a propagator by a Diract delta function:
- *  \f$\int ds |\mathcal{M}|^2 = \int ds \frac{|\mathcal{M}_d|^2}{(s-m^2)^2+(m \Gamma)^2} \to \frac{\pi}{m \Gamma} \int ds \delta(s-m^2) |\mathcal{M}_d|^2 \f$
- *  where \f$\mathcal{M}_d\f$ is the rest of the matrix element (without the propagator), and where the factor \f$\frac{\pi}{m\Gamma}\f$ is needed because of the normalisation of the Dirac delta:
- *  \f$\int_{-\infty}{+\infty} ds \delta(s) = 1\f$, but \f$ \int_{-\infty}{+\infty} ds \frac{1}{(s-m^2)^2+(m \Gamma)^2} = \frac{\pi}{m\Gamma}\f$.
+ *  \f[
+ *    \int \! ds \, |\mathcal{M}|^2 = \int \! ds \, \frac{|\mathcal{M}_d|^2}{(s-m^2)^2+(m \Gamma)^2} \to \frac{\pi}{m \Gamma} \int \! ds \, \delta(s-m^2) |\mathcal{M}_d|^2
+ *  \f]
+ *  where \f$|\mathcal{M}_d|^2\f$ is the matrix element excluding the propagator, and where the factor \f$\pi/(m\Gamma)\f$ is needed because of the normalisation of the Dirac delta:
+ *  
+ *  \f$\int_{-\infty}^{+\infty} \! ds \, \delta(s) = 1\f$, but \f$ \int_{-\infty}^{+\infty} \! ds \, \frac{1}{(s-m^2)^2+(m \Gamma)^2} = \frac{\pi}{m\Gamma}\f$.
  *
- *  However, in most of the cases, the matrix element used by the user still includes the propagator (ie, what is used is \f$\mathcal{M}\f$, not \f$\mathcal{M}_d\f$. The propagator
- *  evaluated on \f$s=m^2\f$ is just \f$(m\Gamma)^{-2}\f$, so that the normalisation factor to use is \f$\pi m \Gamma\f$.
+ *  However, in most of the cases, the matrix element used by the user still includes the propagator (ie, what is used is \f$\mathcal{M}\f$, not \f$\mathcal{M}_d\f$). The propagator
+ *  evaluated on \f$s=m^2\f$ is just \f$(m\Gamma)^{-2}\f$, so that the normalisation factor becomes \f$\pi m \Gamma\f$.
  *
  *  This module handles both cases, which can be configured through the `propagator_in_me` parameter.
  *
@@ -42,7 +45,7 @@
  *  - Parameters:
  *    - `mass` (double): Mass of the propagator one wishes to fix. 
  *    - `width` (double): Width of the corresponding particle.
- *    - `propagator_in_me` (bool): Whether the propagator is included in the matrix element or not.
+ *    - `propagator_in_me` (bool, default: `true`): Whether the propagator is included in the matrix element or not.
  *
  *  - Inputs: None
  *
