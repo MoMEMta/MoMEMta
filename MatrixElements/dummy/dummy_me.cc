@@ -16,7 +16,12 @@ class DummyMatrixElement : public momemta::MatrixElement {
             const std::vector<std::pair<int, std::vector<double>>>& finalState) {
         UNUSED(initialMomenta);
         UNUSED(finalState);
-        return {};
+        
+        // Initialise dummy result object
+        std::map < std::pair < int, int > , double > result;
+        result[std::make_pair(0,0)] = 1;
+
+        return result;
     }
 
     virtual std::shared_ptr<momemta::MEParameters> getParameters() {

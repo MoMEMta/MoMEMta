@@ -87,15 +87,19 @@ endif()
 
 
 set(MOMEMTA_SOURCES
+    "modules/BinnedTransferFunctionOnEnergy.cc"
     "modules/BlockB.cc"
     "modules/BlockD.cc"
     "modules/Boost.cc"
     "modules/Flatter.cc"
+    "modules/FlatTransferFunctionOnP.cc"
+    "modules/FlatTransferFunctionOnPhi.cc"
+    "modules/FlatTransferFunctionOnTheta.cc"
     "modules/GaussianTransferFunction.cc"
-    "modules/BinnedTransferFunctionOnEnergy.cc"
-    "modules/NarrowWidthApproximation.cc"
     "modules/MatrixElement.cc"
+    "modules/NarrowWidthApproximation.cc"
     "modules/Permutator.cc"
+    "modules/UniformGenerator.cc"
     "core/src/ConfigurationReader.cc"
     "core/src/ConfigurationSet.cc"
     "core/src/Graph.cc"
@@ -149,15 +153,27 @@ target_link_libraries(momemta LINK_PRIVATE "-Wl,--whole-archive $<TARGET_FILE:me
 add_library(empty_module SHARED "modules/EmptyModule.cc")
 
 # Example executables
-add_executable(example_tt_fullyleptonic "examples/tt_fullyleptonic.cc")
-target_link_libraries(example_tt_fullyleptonic momemta)
-set_target_properties(example_tt_fullyleptonic PROPERTIES OUTPUT_NAME
-  "tt_fullyleptonic.exe")
 
-add_executable(example_tt_fullyleptonic_NWA "examples/tt_fullyleptonic_NWA.cc")
-target_link_libraries(example_tt_fullyleptonic_NWA momemta)
-set_target_properties(example_tt_fullyleptonic_NWA PROPERTIES OUTPUT_NAME
-  "tt_fullyleptonic_NWA.exe")
+option(EXAMPLES "Compile examples" ON)
+
+if(EXAMPLES)
+    add_executable(example_tt_fullyleptonic "examples/tt_fullyleptonic.cc")
+    target_link_libraries(example_tt_fullyleptonic momemta)
+    set_target_properties(example_tt_fullyleptonic PROPERTIES OUTPUT_NAME
+      "tt_fullyleptonic.exe")
+    
+    add_executable(example_tt_fullyleptonic_NWA "examples/tt_fullyleptonic_NWA.cc")
+    target_link_libraries(example_tt_fullyleptonic_NWA momemta)
+    set_target_properties(example_tt_fullyleptonic_NWA PROPERTIES OUTPUT_NAME
+      "tt_fullyleptonic_NWA.exe")
+endif()
+
+# Test executables
+option(TESTS "Compile tests" OFF)
+
+if(TESTS)
+    add_subdirectory(tests)
+endif()
 
 # Install targets
 
