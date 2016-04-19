@@ -116,22 +116,27 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!--header-->
 <div class="contents">
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Final (main) Block B, consisting on \(q_1 q_2 \to X + s_{12} \to X + p_1 p_2\), where \(q_1\) and \(q_2\) are Bjorken fractions, and s_{12} is a particle decaying into \(p_1\) (invisible particle) and \(p_2\) (visible particle).</p>
-<p>This Block addresses the change of variables needed to pass from the standard phase-space parametrization to the \(\frac{1}{4\pi E_1} ds_{12} \times J\) parametrization. .</p>
+<div class="textblock"><p>Final (main) Block B, consisting on \(q_1 q_2 \to X + s_{12} \to X + p_1 p_2\), where \(q_1\) and \(q_2\) are Bjorken fractions, and \(s_{12}\) is a particle decaying into \(p_1\) (invisible particle) and \(p_2\) (visible particle).</p>
+<p>This Block addresses the change of variables needed to pass from the standard phase-space parametrization to the \(\frac{1}{4\pi E_1} ds_{12} \times J\) parametrization.</p>
 <p>The integration is performed over \(s_{12}\) with \(p_2\) as input. Per integration point, the LorentzVector of the invisible particle, \(p_1\), is computed based on the following set of equations:</p>
 <ul>
 <li>\((p_1 + p_2)^2 = s_{12} = M_{1}^{2} + M_{2}^2 + 2 E_1 E_2 + 2 p_{1x}p_{2x} + 2p_{1y}p_{2y} + p_{1z}p_{2z}\)</li>
-<li>\(p_{1x} = - p_{Tx}\) #Coming from \(p_T\) neutrino \(= -p_T\) visible = - ( \(p_2\) + ISR)</li>
-<li>\(p_{1y} = - p_{Ty}\) #Coming from \(p_T\) neutrino \(= -p_T\) visible = - ( \(p_1\) + ISR)</li>
+<li>Conservation of momentum (with \(\vec{p}_T\) the total transverse momentum of visible particles):<ul>
+<li>\(p_{1x} = - p_{Tx}\)</li>
+<li>\(p_{1y} = - p_{Ty}\)</li>
+</ul>
+</li>
 <li>\(M_1 = 0 \to E_{1}^2 = p_{1x}^2 + p_{1y}^2 + p_{1z}^2\)</li>
 </ul>
-<p>Up to 2 \(p_1\) solutions are possible.</p>
+<p>Up to two \(p_1\) solutions are possible.</p>
 <ul>
 <li>Integration dimension: 0</li>
 <li>Parameters:<ul>
 <li><code>energy</code> (double): Collision energy.</li>
-<li>Inputs:</li>
-<li><code>s12</code> (double): Invariant mass of the particle decaying into the missing particle ( \(p_1\)) and the visible particle, \(p_2\). Tipically coming from a <a class="el" href="classFlatter.html">Flatter</a> module.</li>
+</ul>
+</li>
+<li>Inputs:<ul>
+<li><code>s12</code> (double): Invariant mass of the particle decaying into the missing particle ( \(p_1\)) and the visible particle, \(p_2\). Typically coming from a <a class="el" href="classFlatter.html">Flatter</a> module.</li>
 <li><code>inputs</code> (vector(LorentzVector)): LorentzVector of all the experimentally reconstructed particles. In this Block there is only one visible particle, \(p_2\).</li>
 </ul>
 </li>
@@ -142,7 +147,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </li>
 </ul>
 
-<p>Definition at line <a class="el" href="BlockB_8cc_source.html#l00061">61</a> of file <a class="el" href="BlockB_8cc_source.html">BlockB.cc</a>.</p>
+<p>Definition at line <a class="el" href="BlockB_8cc_source.html#l00062">62</a> of file <a class="el" href="BlockB_8cc_source.html">BlockB.cc</a>.</p>
 </div><div class="dynheader">
 Inheritance diagram for BlockB:</div>
 <div class="dyncontent">
