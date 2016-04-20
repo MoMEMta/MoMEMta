@@ -101,6 +101,7 @@ set(MOMEMTA_SOURCES
     "modules/NarrowWidthApproximation.cc"
     "modules/Permutator.cc"
     "modules/UniformGenerator.cc"
+    "core/src/Configuration.cc"
     "core/src/ConfigurationReader.cc"
     "core/src/ConfigurationSet.cc"
     "core/src/Graph.cc"

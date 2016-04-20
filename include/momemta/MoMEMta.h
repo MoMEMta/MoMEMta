@@ -23,16 +23,17 @@
 #include <vector>
 
 #include <logging.h>
-#include <momemta/ConfigurationReader.h>
+#include <momemta/ConfigurationSet.h>
 #include <momemta/Module.h>
 #include <momemta/Pool.h>
 #include <momemta/Types.h>
 
+class Configuration;
 class SharedLibrary;
 
 class MoMEMta {
     public:
-        MoMEMta(const ConfigurationReader&);
+        MoMEMta(const Configuration&);
         virtual ~MoMEMta();
 
         std::vector<std::pair<double, double>> computeWeights(const std::vector<LorentzVector>& particules);
@@ -50,7 +51,7 @@ class MoMEMta {
         std::vector<SharedLibraryPtr> m_libraries;
 
         size_t m_n_dimensions;
-        std::shared_ptr<ConfigurationSet> m_vegas_configuration;
+        ConfigurationSet m_vegas_configuration;
 
         // Pool inputs
         std::shared_ptr<std::vector<double>> m_ps_points;

@@ -23,16 +23,23 @@
 #include <string>
 #include <vector>
 
-#include <momemta/ConfigurationSet.h>
+#include <momemta/Configuration.h>
 
-struct LightModule {
-    std::string name;
-    std::string type;
-    std::shared_ptr<ConfigurationSet> parameters;
-};
-
+class ConfigurationSet;
 class lua_State;
 
+/**
+ * \brief A lua configuration file parser
+ *
+ * This class handles the parsing of the lua configuration file. The configuration files describes which modules should be run in order to form an integrand. This integrand is then integrated using CUBA and MoMEMta and the result of the integral is returned.
+ *
+ * A module is a single element of a more complex scheme. Itself, it only performs a simple tasks (flattening a Breit-Wigner for example), but combined with other modules, it's possible to define complex integrand.
+ *
+ * A module can be seen like a box with a fixed number of inputs and outputs. The configuration file is used to specify a list of module to run, and to connect outputs of modules to inputs of other modules.
+ *
+ * \todo Discuss the `configuration` table, `vegas` table and the concept of freezing and delayed execution
+ *
+ */
 class ConfigurationReader {
     public:
         ConfigurationReader(const std::string&);
@@ -40,14 +47,17 @@ class ConfigurationReader {
 
         void addModule(const std::string& type, const std::string& name);
 
-        std::vector<LightModule> getModules() const;
-
-        std::shared_ptr<ConfigurationSet> getVegasConfiguration() const {
-            return m_vegas_configuration;
-        }
+        /**
+         * \brief Freeze the configuration
+         *
+         * \return A freezed copy of the configuration
+         */
+        Configuration freeze() const;
 
     private:
-        std::vector<LightModule> m_light_modules;
+        friend class Configuration;
+
+        std::vector<Configuration::Module> m_modules;
         std::shared_ptr<ConfigurationSet> m_global_configuration;
         std::shared_ptr<ConfigurationSet> m_vegas_configuration;
 

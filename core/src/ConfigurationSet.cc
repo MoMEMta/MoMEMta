@@ -23,16 +23,16 @@
 #include <lua/utils.h>
 
 ConfigurationSet::ConfigurationSet(const std::string& module_type, const std::string& module_name) {
-    m_set.emplace("@type", module_type);
-    m_set.emplace("@name", module_name);
+    m_set.emplace("@type", Element(module_type));
+    m_set.emplace("@name", Element(module_name));
 }
 
 ConfigurationSet::ConfigurationSet(std::shared_ptr<ConfigurationSet> globalConfiguration) {
-    m_set.emplace("@global_configuration", globalConfiguration);
+    m_set.emplace("@global_configuration", Element(globalConfiguration));
 }
 
 ConfigurationSet::ConfigurationSet(const std::string& module_type, const std::string& module_name, std::shared_ptr<ConfigurationSet> globalConfiguration): ConfigurationSet(module_type, module_name) {
-    m_set.emplace("@global_configuration", globalConfiguration);
+    m_set.emplace("@global_configuration", Element(globalConfiguration));
 }
 
 void ConfigurationSet::parse(lua_State* L, int index) {
@@ -48,10 +48,14 @@ void ConfigurationSet::parse(lua_State* L, int index) {
         TRACE("[parse] >> key = {}", key);
 
         try {
-            boost::any value = lua::to_any(L, -1);
-            m_set.emplace(key, value);
+            boost::any value;
+            bool lazy = false;
+            std::tie(value, lazy) = lua::to_any(L, -1);
+
+            m_set.emplace(key, Element(value, lazy));
         } catch(...) {
             LOG(emerg) << "Exception while trying to parse parameter " << getModuleType() << "." << getModuleName() << "::" << key;
+            lua_pop(L, 1);
             std::rethrow_exception(std::current_exception());
         }
 
@@ -64,4 +68,29 @@ void ConfigurationSet::parse(lua_State* L, int index) {
 bool ConfigurationSet::exists(const std::string& name) const {
     auto value = m_set.find(name);
     return (value != m_set.end());
+}
+
+void ConfigurationSet::freeze() {
+    for (auto& p: m_set) {
+        auto& element = p.second;
+        try {
+            if (element.lazy) {
+                element.lazy = false;
+                element.value = boost::any_cast<lua::Lazy>(element.value)();
+            } else {
+                // Recursion
+                if (element.value.type() == typeid(ConfigurationSet)) {
+                    ConfigurationSet& s = boost::any_cast<ConfigurationSet&>(element.value);
+                    s.freeze();
+                } else if (element.value.type() == typeid(std::vector<ConfigurationSet>)) {
+                    std::vector<ConfigurationSet>& v = boost::any_cast<std::vector<ConfigurationSet>&>(element.value);
+                    for (auto& c: v)
+                        c.freeze();
+                }
+            }
+        } catch(...) {
+            LOG(emerg) << "Exception while trying to parse parameter " << getModuleType() << "." << getModuleName() << "::" << p.first;
+            std::rethrow_exception(std::current_exception());
+        }
+    }
 }
