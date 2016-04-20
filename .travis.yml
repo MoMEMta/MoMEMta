@@ -32,7 +32,7 @@ before_script:
   - export CC=gcc-4.9
   - mkdir build
   - cd build
-  - cmake ..
+  - cmake .. -DTESTS=ON
 script:
   - make -j2
 after_success:

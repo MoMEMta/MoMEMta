@@ -40,6 +40,8 @@ class MatrixElement: public Module {
 
             sqrt_s = parameters.globalConfiguration().get<double>("energy");
             M_T = parameters.globalConfiguration().get<double>("top_mass");
+            
+            use_pdf = parameters.get<bool>("use_pdf", true);
 
             m_partons = get<std::vector<std::vector<LorentzVector>>>(parameters.get<InputTag>("initialState"));
 
@@ -87,11 +89,13 @@ class MatrixElement: public Module {
             const ConfigurationSet& matrix_element_configuration = parameters.get<ConfigurationSet>("matrix_element_parameters");
             m_ME = MatrixElementFactory::get().create(matrix_element, matrix_element_configuration);
 
-            // PDF
-            // Silence LHAPDF
-            LHAPDF::setVerbosity(0);
-            std::string pdf = parameters.get<std::string>("pdf");
-            m_pdf.reset(LHAPDF::mkPDF(pdf, 0));
+            // PDF, if asked
+            if(use_pdf){
+                // Silence LHAPDF
+                LHAPDF::setVerbosity(0);
+                std::string pdf = parameters.get<std::string>("pdf");
+                m_pdf.reset(LHAPDF::mkPDF(pdf, 0));
+            }
 
         };
 
@@ -174,8 +178,8 @@ class MatrixElement: public Module {
             // PDF
             double final_weight = 0;
             for (const auto& me: result) {
-                double pdf1 = m_pdf->xfxQ2(me.first.first, x1, SQ(M_T)) / x1;
-                double pdf2 = m_pdf->xfxQ2(me.first.second, x2, SQ(M_T)) / x2;
+                double pdf1 = use_pdf ? m_pdf->xfxQ2(me.first.first, x1, SQ(M_T)) / x1 : 1;
+                double pdf2 = use_pdf ? m_pdf->xfxQ2(me.first.second, x2, SQ(M_T)) / x2 : 1;
 
                 final_weight += me.second * pdf1 * pdf2;
             }
@@ -187,6 +191,7 @@ class MatrixElement: public Module {
     private:
         double sqrt_s;
         double M_T;
+        bool use_pdf;
 
         std::shared_ptr<const std::vector<std::vector<LorentzVector>>> m_partons;
 

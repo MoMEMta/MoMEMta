@@ -53,16 +53,16 @@ The integrator throws random points in the invariant (\f$s_{12}\f$) while \f$p_2
 compute \f$p_1\f$ are:
 
 \f{eqnarray}{
- s_{12} &=& (p_1 + p_2)^2 = M_{1}^{2} + M_{2}^2 + 2 E_1 E_2 + 2 p_{1x}p_{2x} + 2p_{1y}p_{2y} + p_{1z}p_{2z}
- p_{1x} &=& - p_{Tx}
- p_{1y} &=& - p_{Ty}
+ s_{12} &=& (p_1 + p_2)^2 = M_{1}^{2} + M_{2}^2 + 2 E_1 E_2 + 2 p_{1x}p_{2x} + 2p_{1y}p_{2y} + p_{1z}p_{2z} \\
+ p_{1x} &=& - p_{Tx} \\
+ p_{1y} &=& - p_{Ty} \\
  p_1^2 &=& 0 \Leftrightarrow E_{1}^2 = p_{1x}^2 + p_{1y}^2 + p_{1z}^2
 \f}
 
 Where \f$\vec{p}_T\f$ is the total transverse momentum of the visible particles. Using the values of \f$p_{1x}, p_{1y}\f$ from equations (2) and (3), equation (1) can be written as \f$p_{1z} = A - B E_1\f$, where A and B are:
 \f{eqnarray}{
- A &=& \frac{s_{12} - M_{2}^2 + 2(p_{Tx}p_{2x} + p_{Ty}p_{2y})}{2 p_{2z}}
- B &=& \frac{E_2}{p_{2z}}
+ A &=& \frac{s_{12} - M_{2}^2 + 2(p_{Tx}p_{2x} + p_{Ty}p_{2y})}{2 p_{2z}} \\
+ B &=& \frac{E_2}{p_{2z}} \\
 \f}
 
 Finally equation (4) can be written as \f$(1 - B) E_{1}^2 + 2AB E_1 - C = 0\f$, where \f$C = p_{Tx}^{2} + p_{Ty}^{2}\f$.
