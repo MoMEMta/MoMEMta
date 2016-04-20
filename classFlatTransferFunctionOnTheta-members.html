@@ -11,7 +11,7 @@
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-scrollTo/2.1.2/jquery.scrollTo.min.js"></script>
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-powertip/1.2.0/jquery.powertip.min.js"></script>
-        <title>MoMEMta: Block B description</title>
+        <title>MoMEMta: Member List</title>
         <!--<link href="tabs.css" rel="stylesheet" type="text/css"/>-->
         <script type="text/javascript" src="dynsections.js"></script>
         <link href="search/search.css" rel="stylesheet" type="text/css"/>
@@ -62,9 +62,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
-      <li class="current"><a href="pages.html"><span>Related&#160;Pages</span></a></li>
+      <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
       <li><a href="namespaces.html"><span>Namespaces</span></a></li>
-      <li><a href="annotated.html"><span>Classes</span></a></li>
+      <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
       <li>
         <div id="MSearchBox" class="MSearchBoxInactive">
@@ -84,6 +84,14 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       </li>
     </ul>
   </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="annotated.html"><span>Class&#160;List</span></a></li>
+      <li><a href="classes.html"><span>Class&#160;Index</span></a></li>
+      <li><a href="inherits.html"><span>Class&#160;Hierarchy</span></a></li>
+      <li><a href="functions.html"><span>Class&#160;Members</span></a></li>
+    </ul>
+  </div>
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -101,50 +109,25 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">Block B description </div>  </div>
+<div class="title">FlatTransferFunctionOnTheta Member List</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p>Note: Block B, also referred as final block (FB), and class in the MadWeight world. <a class="el" href="structDescription.html">Description</a> inspired by MadWeight.</p>
-<p>This block corresponds to an initial state with Bjorken fractions \(q_1\) and \(q_2\), and a final state with a visible particle with momenta \(p_2\), and an invisible particle with momenta \(p_1\), both coming from a resonance with mass \(s_{12}\). Extra radiation (ISR) it is also allowed.</p>
-<p>The goal of this Block is to address the change of variables needed to pass from the standard phase-space parametrization to the \(\frac{1}{4\pi E_1} ds_{12} \times J\) parametrization. Per integration point in CUBA, this Block outputs the value of the jacobian, J, and the four momenta of the invisible particle, \(p_1\). The system of equations needed to compute \(p_1\) is described below.</p>
-<h3>Change of variables</h3>
-<p>From the standard phase-space parametrisation:</p>
-<p class="formulaDsp">
-\[ dq_1 dq_2\frac{d^3 p_1}{(2\pi)^3 2E_1}(2\pi)^4 \delta^4 (P_{in}-P_{out}) \]
-</p>
-<p>where \(P_{in} and P_{out}\) are the total four-momenta in the initial and final states, to the following parametrisation:</p>
-<p class="formulaDsp">
-\[ \frac{1}{4\pi E_1} ds_{12} \times J \]
-</p>
-<p>where the jacobian, J, is given by:</p>
-<p class="formulaDsp">
-\[ J = \frac{E_1}{s} \left| p_{2z} E_1 - E_2 p_{1z} \right|^{-1} \]
-</p>
-<h3>Parameters</h3>
-<ul>
-<li>Collision energy.</li>
-</ul>
-<h3>Inputs</h3>
-<ul>
-<li>Visible particle, with 4-momentum \(p_2\)</li>
-<li>The invariant \(s_{12}\) as output from the <a class="el" href="classFlatter.html">Flatter</a> or <a class="el" href="classNarrowWidthApproximation.html" title="Use the Narrow Width Approximation (NWA) to reduce the dimensionality of the integration. ">NarrowWidthApproximation</a> module.</li>
-</ul>
-<h3>Outputs</h3>
-<ul>
-<li>Invisible particle, with 4-momentum \(p_1\) (up to two solutions possible)</li>
-<li>Jacobian, one per solution.</li>
-</ul>
-<h3>System of equations to compute \(p_1\)</h3>
-<p>The integrator throws random points in the invariant ( \(s_{12}\)) while \(p_2\) is a known quantity. The equations to compute \(p_1\) are:</p>
-<p class="formulaDsp">
-\begin{eqnarray} s_{12} &amp;=&amp; (p_1 + p_2)^2 = M_{1}^{2} + M_{2}^2 + 2 E_1 E_2 + 2 p_{1x}p_{2x} + 2p_{1y}p_{2y} + p_{1z}p_{2z} \\ p_{1x} &amp;=&amp; - p_{Tx} \\ p_{1y} &amp;=&amp; - p_{Ty} \\ p_1^2 &amp;=&amp; 0 \Leftrightarrow E_{1}^2 = p_{1x}^2 + p_{1y}^2 + p_{1z}^2 \end{eqnarray}
-</p>
-<p>Where \(\vec{p}_T\) is the total transverse momentum of the visible particles. Using the values of \(p_{1x}, p_{1y}\) from equations (2) and (3), equation (1) can be written as \(p_{1z} = A - B E_1\), where A and B are: </p><p class="formulaDsp">
-\begin{eqnarray} A &amp;=&amp; \frac{s_{12} - M_{2}^2 + 2(p_{Tx}p_{2x} + p_{Ty}p_{2y})}{2 p_{2z}} \\ B &amp;=&amp; \frac{E_2}{p_{2z}} \\ \end{eqnarray}
-</p>
-<p>Finally equation (4) can be written as \((1 - B) E_{1}^2 + 2AB E_1 - C = 0\), where \(C = p_{Tx}^{2} + p_{Ty}^{2}\).</p>
-<p>Each solution of the quadratic equation with a positive value of \(E_1\) is taken. </p>
-</div></div><!-- contents -->
+
+<p>This is the complete list of members for <a class="el" href="classFlatTransferFunctionOnTheta.html">FlatTransferFunctionOnTheta</a>, including all inherited members.</p>
+<table class="directory">
+  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>configure</b>() (defined in <a class="el" href="classModule.html">Module</a>)</td><td class="entry"><a class="el" href="classModule.html">Module</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
+  <tr bgcolor="#f0f0f0"><td class="entry"><b>dimensions</b>() const  override (defined in <a class="el" href="classFlatTransferFunctionOnTheta.html">FlatTransferFunctionOnTheta</a>)</td><td class="entry"><a class="el" href="classFlatTransferFunctionOnTheta.html">FlatTransferFunctionOnTheta</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
+  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>finish</b>() (defined in <a class="el" href="classModule.html">Module</a>)</td><td class="entry"><a class="el" href="classModule.html">Module</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
+  <tr bgcolor="#f0f0f0"><td class="entry"><b>FlatTransferFunctionOnTheta</b>(PoolPtr pool, const ConfigurationSet &amp;parameters) (defined in <a class="el" href="classFlatTransferFunctionOnTheta.html">FlatTransferFunctionOnTheta</a>)</td><td class="entry"><a class="el" href="classFlatTransferFunctionOnTheta.html">FlatTransferFunctionOnTheta</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>get</b>(const std::string &amp;module, const std::string &amp;name) (defined in <a class="el" href="classModule.html">Module</a>)</td><td class="entry"><a class="el" href="classModule.html">Module</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">protected</span></td></tr>
+  <tr bgcolor="#f0f0f0"><td class="entry"><b>get</b>(const InputTag &amp;tag) (defined in <a class="el" href="classModule.html">Module</a>)</td><td class="entry"><a class="el" href="classModule.html">Module</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">protected</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="classModule.html#ac1fe92d5be8a8591b855691b88e6a56a">is_virtual_module</a>(const std::string &amp;name)</td><td class="entry"><a class="el" href="classModule.html">Module</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
+  <tr bgcolor="#f0f0f0"><td class="entry"><b>m_pool</b> (defined in <a class="el" href="classModule.html">Module</a>)</td><td class="entry"><a class="el" href="classModule.html">Module</a></td><td class="entry"><span class="mlabel">protected</span></td></tr>
+  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>Module</b>(PoolPtr pool, const std::string &amp;name) (defined in <a class="el" href="classModule.html">Module</a>)</td><td class="entry"><a class="el" href="classModule.html">Module</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr bgcolor="#f0f0f0"><td class="entry"><b>name</b>() const  final (defined in <a class="el" href="classModule.html">Module</a>)</td><td class="entry"><a class="el" href="classModule.html">Module</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
+  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>produce</b>(const std::string &amp;name) (defined in <a class="el" href="classModule.html">Module</a>)</td><td class="entry"><a class="el" href="classModule.html">Module</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">protected</span></td></tr>
+  <tr bgcolor="#f0f0f0"><td class="entry"><b>work</b>() override (defined in <a class="el" href="classFlatTransferFunctionOnTheta.html">FlatTransferFunctionOnTheta</a>)</td><td class="entry"><a class="el" href="classFlatTransferFunctionOnTheta.html">FlatTransferFunctionOnTheta</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">virtual</span></td></tr>
+</table></div><!-- contents -->
 <!-- HTML footer for doxygen 1.8.8-->
 <!-- start footer part -->
 </div>
