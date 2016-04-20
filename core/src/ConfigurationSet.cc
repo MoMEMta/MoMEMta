@@ -22,6 +22,19 @@
 #include <logging.h>
 #include <lua/utils.h>
 
+ConfigurationSet::ConfigurationSet(const std::string& module_type, const std::string& module_name) {
+    m_set.emplace("@type", module_type);
+    m_set.emplace("@name", module_name);
+}
+
+ConfigurationSet::ConfigurationSet(std::shared_ptr<ConfigurationSet> globalConfiguration) {
+    m_set.emplace("@global_configuration", globalConfiguration);
+}
+
+ConfigurationSet::ConfigurationSet(const std::string& module_type, const std::string& module_name, std::shared_ptr<ConfigurationSet> globalConfiguration): ConfigurationSet(module_type, module_name) {
+    m_set.emplace("@global_configuration", globalConfiguration);
+}
+
 void ConfigurationSet::parse(lua_State* L, int index) {
 
     TRACE("[parse] >> stack size = {}", lua_gettop(L));
@@ -38,7 +51,7 @@ void ConfigurationSet::parse(lua_State* L, int index) {
             boost::any value = lua::to_any(L, -1);
             m_set.emplace(key, value);
         } catch(...) {
-            LOG(emerg) << "Exception while trying to parse parameter " << m_module_type << "." << m_module_name << "::" << key;
+            LOG(emerg) << "Exception while trying to parse parameter " << getModuleType() << "." << getModuleName() << "::" << key;
             std::rethrow_exception(std::current_exception());
         }
 

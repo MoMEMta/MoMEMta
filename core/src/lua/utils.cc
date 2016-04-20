@@ -171,7 +171,7 @@ namespace lua {
                     }
 
                 } else {
-                    ConfigurationSet cfg("", "");
+                    ConfigurationSet cfg;
                     cfg.parse(L, absolute_index);
                     result = cfg;
                 }

@@ -54,18 +54,19 @@ class ConfigurationSet {
         void parse(lua_State* L, int index);
 
         std::string getModuleName() const {
-            return m_module_name;
+            return get<std::string>("@name", "");
         }
 
         std::string getModuleType() const {
-            return m_module_type;
+            return get<std::string>("@type", "");
         }
 
         const ConfigurationSet& globalConfiguration() const {
-            if (m_global_configuration.get())
-                return *m_global_configuration;
-            else
+            auto it = m_set.find("@global_configuration");
+            if (it == m_set.end())
                 return *this;
+
+            return *boost::any_cast<std::shared_ptr<ConfigurationSet>>(it->second);
         }
 
     private:
@@ -76,17 +77,10 @@ class ConfigurationSet {
         friend class ConfigurationReader;
         friend boost::any lua::to_any(lua_State* L, int index);
 
+        ConfigurationSet() = default;
+        ConfigurationSet(std::shared_ptr<ConfigurationSet> globalConfiguration);
+        ConfigurationSet(const std::string& module_type, const std::string& module_name);
+        ConfigurationSet(const std::string& module_type, const std::string& module_name, std::shared_ptr<ConfigurationSet> globalConfiguration);
 
-        ConfigurationSet(const std::string& module_type, const std::string& module_name):
-            m_module_type(module_type),
-            m_module_name(module_name) {}
-
-        ConfigurationSet(const std::string& module_type, const std::string& module_name, std::shared_ptr<ConfigurationSet> globalConfiguration): ConfigurationSet(module_type, module_name) {
-            m_global_configuration = globalConfiguration;
-        }
-
-        std::string m_module_type;
-        std::string m_module_name;
         std::map<std::string, boost::any> m_set;
-        std::shared_ptr<ConfigurationSet> m_global_configuration;
 };
