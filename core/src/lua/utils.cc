@@ -163,10 +163,8 @@ namespace lua {
                     Type type = NOT_SUPPORTED;
 
                     if ((type = lua::lua_array_unique_type(L, absolute_index)) != NOT_SUPPORTED) {
-                        result = lua_to_vector(L, absolute_index, type);
+                        result = to_vector(L, absolute_index, type);
                     } else {
-                        // Convert to a vector of boost::any
-                        // result = lua_to_vector(L, absolute_index);
                         throw invalid_array_error("Various types stored into the array. This is not supported.");
                     }
 
@@ -184,48 +182,31 @@ namespace lua {
         return result;
     }
 
-    boost::any lua_to_vector(lua_State* L, int index, Type t) {
+    boost::any to_vector(lua_State* L, int index, Type t) {
         switch (t) {
             case BOOLEAN:
-                return boost::any(lua_to_vectorT<bool>(L, index));
+                return to_vectorT<bool>(L, index);
 
             case STRING:
-                return boost::any(lua_to_vectorT<std::string>(L, index));
+                return to_vectorT<std::string>(L, index);
 
             case INTEGER:
-                return boost::any(lua_to_vectorT<int64_t>(L, index));
+                return to_vectorT<int64_t>(L, index);
 
             case REAL:
-                return boost::any(lua_to_vectorT<double>(L, index));
+                return to_vectorT<double>(L, index);
 
             case INPUT_TAG:
-                return boost::any(lua_to_vectorT<InputTag>(L, index));
+                return to_vectorT<InputTag>(L, index);
 
             case CONFIGURATION_SET:
-                return boost::any(lua_to_vectorT<ConfigurationSet>(L, index));
+                return to_vectorT<ConfigurationSet>(L, index);
 
             case NOT_SUPPORTED:
                 break;
         }
 
         throw invalid_array_error("Unsupported array type");
-    }
-
-    boost::any lua_to_vector(lua_State* L, int index) {
-        std::vector<boost::any> result;
-
-        size_t absolute_index = get_index(L, index);
-
-        if (lua_type(L, absolute_index) != LUA_TTABLE)
-            return result;
-
-        lua_pushnil(L);
-        while (lua_next(L, absolute_index) != 0) {
-            result.push_back(to_any(L, -1));
-            lua_pop(L, 1);
-        }
-
-        return result;
     }
 
     //! Specialization for double type, with implicit conversion from integer
