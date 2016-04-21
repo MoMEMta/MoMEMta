@@ -90,6 +90,7 @@ set(MOMEMTA_SOURCES
     "modules/BinnedTransferFunctionOnEnergy.cc"
     "modules/BlockB.cc"
     "modules/BlockD.cc"
+    "modules/BlockF.cc"
     "modules/Boost.cc"
     "modules/Flatter.cc"
     "modules/FlatTransferFunctionOnP.cc"
@@ -174,6 +175,11 @@ option(TESTS "Compile tests" OFF)
 if(TESTS)
     add_subdirectory(tests)
 endif()
+
+add_executable(example_WW_fullyleptonic "examples/WW_fullyleptonic.cc")
+target_link_libraries(example_WW_fullyleptonic momemta)
+set_target_properties(example_WW_fullyleptonic PROPERTIES OUTPUT_NAME
+  "WW_fullyleptonic.exe")
 
 # Install targets
 
