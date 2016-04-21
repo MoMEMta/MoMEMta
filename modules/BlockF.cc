@@ -29,19 +29,19 @@
  *         standard phase-space parametrization for processes like WW->llMET.
  *
  * Final (main) Block F on \f$q_1 q_2 \to X + s_{13} + s_{24} \to X + p_1 p_2 p_3 p_4\f$,  
- * where \f$q_1\f$ and \f$q_2\f$ are Bjorken fractions, s_{13} and s_{24} are particles
+ * where \f$q_1\f$ and \f$q_2\f$ are Bjorken fractions, \f$s_{13}\f$ and \f$s_{24}\f$ are particles
  * decaying respectively into \f$p_1\f$ (invisible particle) and \f$p_3\f$ (visible particle),
  * and \f$p_2\f$ (invisible particle) and \f$p_4\f$ (visible particle).
  * 
  * This Block addresses the change of variables needed to pass from the standard phase-space
- * parametrization to the $\frac{1}{16\pi^2 E_1 E_2} dq_{1} dq_{2} ds_{13} d_s{24}  \times J$ parametrization.               .
+ * parametrization to the \f$frac{1}{16\pi^2 E_1 E_2} dq_{1} dq_{2} ds_{13} d_s{24}  \times J\f$ parametrization.               .
  * 
- * The integration is performed over \f$q_{1}\f$, \f$q_{2}$f\, \f$s_{13}$f\ and \f$s_{24}\f$
+ * The integration is performed over \f$q_{1}\f$, \f$q_{2}\f$, \f$s_{13}\f$ and \f$s_{24}\f$
  * with \f$p_3\f$ and \f$p_4\f$ as inputs. Per integration point, 
- * the LorentzVectors of the invisible particle, \f$p_1\f$ and \f$p_2\f$,
- * are computed  based on a set of equations.
+ * the LorentzVectors of the invisible particles, \f$p_1\f$ and \f$p_2\f$,
+ * are computed from a set of equations.
  *
- * Up to 2 {\f$p_1\f$,\f$p_2$f\} solutions are possible.
+ * Up to 2 {\f$p_1\f$,\f$p_2\f$} solutions are possible.
  *
  * - Integration dimension: 2
  *
@@ -50,18 +50,18 @@
  *
  *  - Inputs:
  *  - `q1` and `q2` (double): Bjorken fractions. These are the dimensions of integration coming from CUBA as phase-space points.
- *  - `s13` (double): Invariant mass of the particle decaying into the missing particle (\f$p_1\f$) 
+ *  - `\f$s_{13}\f$` (double): Invariant mass of the particle decaying into the missing particle (\f$p_1\f$) 
  *                    and the visible particle (\f$p_3\f$). Typically coming from a Flatter module.
- *  - `s24` (double): Invariant mass of the particle decaying into the missing particle (\f$p_2\f$)
- *                    and the visible particle (\f$p_4\f$). Tipically coming from a Flatter module.
+ *  - `\f$s_{24}\f$` (double): Invariant mass of the particle decaying into the missing particle (\f$p_2\f$)
+ *                    and the visible particle (\f$p_4\f$). Typically coming from a Flatter module.
  *  - `inputs` (vector(LorentzVector)): LorentzVector of all the experimentally reconstructed particles.
  *                                      In this Block its dimension is 2.
  * - Outputs:
  *  - `invisibles` (vector(vector(LorentzVector))): LorentzVector of the invisible particles. Each element
- *                                                  contains one of the possible solutions ({\f$p1$f\,\f$p2$f\} in this case).
+ *                                                  contains one of the possible solutions ({\f$p_1\f$,\f$p_2\f$} in this case).
  *                                                 
- *  - `jacobians` (vector(double)): Jacobian of the performed change of variables, leading to an integration on \f$dq_1$f\,
- *                                  \f$dq_2$f\, \f$ds_{13}\f$, \f$ds_{24}$f\.
+ *  - `jacobians` (vector(double)): Jacobian of the performed change of variables, leading to an integration on \f$dq_1\f$,
+ *                                  \f$dq_2\f$, \f$ds_{13}\f$, \f$ds_{24}\f$.
  *                                  One jacobian per solution.                                
  */
 
@@ -94,9 +94,7 @@ class BlockF: public Module {
             const LorentzVector& p3 = m_particle_tags[0].get<LorentzVector>();
             const LorentzVector& p4 = m_particle_tags[1].get<LorentzVector>();
            
-
             //leave the variables E2 and p2y as free parameters
-            
             std::vector<double> E2;
             std::vector<double> p2y;
             
@@ -119,10 +117,8 @@ class BlockF: public Module {
             double q1 = m_ps_point1.get<double>();
             double q2 = m_ps_point2.get<double>();
 
-
             const double Qm = sqrt_s*(q1-q2)/2.;
             const double Qp = sqrt_s*(q1+q2)/2.;
-            
             
             //p1x = alpha1*p2y + beta1*E2 + gamma1
             //p1y = alpha2*p2y + beta2*E2 + gamma2
@@ -130,7 +126,7 @@ class BlockF: public Module {
             //p2x = alpha4*p2y + beta4*E2 + gamma4
             //p2z = alpha5*p2y + beta5*E2 + gamma5
             //E1 = alpha6*p2y + beta6*E2 + gamma6
-             
+
             double alpha1 = (-p3z*p4y+p3y*p4z)/(-p3z*p4x+p3x*p4z);
             double beta1 = (E4*p3z-E3*p4z)/(p3z*p4x+p3x*p4z);
             double gamma1 = (p44*p3z-2*E3*Eb*p4z+p33*p4z+2*p3z*p4x*pbx+
@@ -168,7 +164,7 @@ class BlockF: public Module {
             //Put these variables in p1^2=0, p2^2=0. You will get:
             //a11*p2y^2 + a22*E2^2 + a12*p2y*E2 + a10*p2y + a01*E2 + a00 = 0;
             //same with bij
-               
+
             double a11 = SQ(alpha6) - SQ(alpha1) - SQ(alpha2) - SQ(alpha3);
             double a22 = SQ(beta6) - SQ(beta1) - SQ(beta2) - SQ(beta3);
             double a12 = 2*(alpha6*beta6 - alpha1*beta1 - alpha2*beta2 - alpha3*beta3);
@@ -188,14 +184,14 @@ class BlockF: public Module {
             
             if (p2y.size() == 0)
                 return;
-            
+
             for (size_t i=0; i<p2y.size(); i++) {
                 const double e1 = p2y.at(i);
                 const double e2 = E2.at(i);
                 
                 if (e1 < 0. || e2 < 0.)
                     continue;
-                
+
                 LorentzVector p1(alpha6*e1+beta6*e2+gamma6,     //E1
                                  alpha1*e1+beta1*e2+gamma1,     //p1x
                                  alpha2*e1+beta2*e2+gamma2,     //p1y
@@ -212,8 +208,7 @@ class BlockF: public Module {
                 jacobians->push_back(computeJacobian(p1, p2, p3, p4));
             }    
         }
-    
-    
+
         virtual size_t dimensions() const override {
             return 2;
         }
@@ -240,13 +235,11 @@ class BlockF: public Module {
             const double p4y = p4.Py();
             const double p4z = p4.Pz();
 
-
             double inv_jac= (E4*(p1z*p2y*p3x - p1y*p2z*p3x - p1z*p2x*p3y + p1x*p2z*p3y + p1y*p2x*p3z - p1x*p2y*p3z) +  E2*p1z*p3y*p4x - E1*p2z*p3y*p4x - E2*p1y*p3z*p4x + E1*p2y*p3z*p4x - E2*p1z*p3x*p4y + E1*p2z*p3x*p4y +  E2*p1x*p3z*p4y - E1*p2x*p3z*p4y + (E2*p1y*p3x - E1*p2y*p3x - E2*p1x*p3y + E1*p2x*p3y)*p4z + E3*(-(p1z*p2y*p4x) + p1y*p2z*p4x + p1z*p2x*p4y - p1x*p2z*p4y - p1y*p2x*p4z + p1x*p2y*p4z));
             
             return 1./( std::abs(inv_jac) * 4.*16.*pow(TMath::Pi(),2.) );
         }
 
- 
     private:
         double sqrt_s;
 
