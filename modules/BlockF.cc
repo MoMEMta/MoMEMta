@@ -94,9 +94,7 @@ class BlockF: public Module {
             const LorentzVector& p3 = m_particle_tags[0].get<LorentzVector>();
             const LorentzVector& p4 = m_particle_tags[1].get<LorentzVector>();
            
-
-            //leave the variables E2 and p2y as free parameters
-            
+            //leave the variables E2 and p2y as free parameters 
             std::vector<double> E2;
             std::vector<double> p2y;
             
@@ -119,10 +117,8 @@ class BlockF: public Module {
             double q1 = m_ps_point1.get<double>();
             double q2 = m_ps_point2.get<double>();
 
-
             const double Qm = sqrt_s*(q1-q2)/2.;
             const double Qp = sqrt_s*(q1+q2)/2.;
-            
             
             //p1x = alpha1*p2y + beta1*E2 + gamma1
             //p1y = alpha2*p2y + beta2*E2 + gamma2
@@ -213,7 +209,6 @@ class BlockF: public Module {
             }    
         }
     
-    
         virtual size_t dimensions() const override {
             return 2;
         }
@@ -240,13 +235,11 @@ class BlockF: public Module {
             const double p4y = p4.Py();
             const double p4z = p4.Pz();
 
-
             double inv_jac= (E4*(p1z*p2y*p3x - p1y*p2z*p3x - p1z*p2x*p3y + p1x*p2z*p3y + p1y*p2x*p3z - p1x*p2y*p3z) +  E2*p1z*p3y*p4x - E1*p2z*p3y*p4x - E2*p1y*p3z*p4x + E1*p2y*p3z*p4x - E2*p1z*p3x*p4y + E1*p2z*p3x*p4y +  E2*p1x*p3z*p4y - E1*p2x*p3z*p4y + (E2*p1y*p3x - E1*p2y*p3x - E2*p1x*p3y + E1*p2x*p3y)*p4z + E3*(-(p1z*p2y*p4x) + p1y*p2z*p4x + p1z*p2x*p4y - p1x*p2z*p4y - p1y*p2x*p4z + p1x*p2y*p4z));
             
             return 1./( std::abs(inv_jac) * 4.*16.*pow(TMath::Pi(),2.) );
         }
 
- 
     private:
         double sqrt_s;
 
