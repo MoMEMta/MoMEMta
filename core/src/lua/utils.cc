@@ -11,9 +11,11 @@
 
 namespace lua {
 
-    Lazy::Lazy(lua_State* L, int index) {
+    Lazy::Lazy(lua_State* L) {
         this->L = L;
+    }
 
+    LazyFunction::LazyFunction(lua_State* L, int index): Lazy(L) {
         auto absolute_index = get_index(L, index);
 
         // Duplicate the function on the top of the stack. This ensure the stack size won't change
@@ -23,9 +25,9 @@ namespace lua {
         ref_index = luaL_ref(L, LUA_REGISTRYINDEX);
     }
 
-    boost::any Lazy::operator() () const {
+    boost::any LazyFunction::operator() () const {
 
-        TRACE("[Lazy::operator()] >> stack size = {}", lua_gettop(L));
+        TRACE("[LazyFunction::operator()] >> stack size = {}", lua_gettop(L));
 
         // Pop the anonymous function from the registry, and push it on the top of the stack
         lua_rawgeti(L, LUA_REGISTRYINDEX, ref_index);
@@ -44,11 +46,56 @@ namespace lua {
 
         lua_pop(L, 1);
 
-        TRACE("[Lazy::operator()] << stack size = {}", lua_gettop(L));
+        TRACE("[LazyFunction::operator()] << stack size = {}", lua_gettop(L));
 
         return value;
     }
 
+    LazyTableField::LazyTableField(lua_State* L, const std::string& table_name, const std::string& key):
+        Lazy(L) {
+        this->table_name = table_name;
+        this->key = key;
+    }
+
+    boost::any LazyTableField::operator() () const {
+        TRACE("[LazyTableField::operator()] >> stack size = {}", lua_gettop(L));
+
+        // Push the table on the stack. Stack +1
+        lua_getglobal(L, table_name.c_str());
+
+        // Push the requested field from the table to the stack. Stack +1
+        lua_getfield(L, -1, key.c_str());
+
+        boost::any value;
+        bool lazy = false;
+        std::tie(value, lazy) = to_any(L, -1);
+        assert(!lazy);
+
+        // Pop the field and the table from the stack. Stack -2
+        lua_pop(L, 2);
+
+        TRACE("[LazyTableField::operator()] << stack size = {}", lua_gettop(L));
+
+        return value;
+    }
+
+    void LazyTableField::set(const boost::any& value) {
+        TRACE("[LazyTableField::set] >> stack size = {}", lua_gettop(L));
+
+        // Push the table on the stack. Stack +1
+        lua_getglobal(L, table_name.c_str());
+
+        // Push the value to the stack. Stack +1
+        lua::push_any(L, value);
+
+        // Pop the requested field from the stack and assign it to the table. Stack -1
+        lua_setfield(L, -2, key.c_str());
+
+        // Pop the table from the stack. Stack -1
+        lua_pop(L, 1);
+
+        TRACE("[LazyTableField::set] << stack size = {}", lua_gettop(L));
+    }
 
     Type type(lua_State* L, int index) {
         int t = lua_type(L, index);
@@ -218,7 +265,7 @@ namespace lua {
             case LUA_TFUNCTION: {
                 TRACE("[to_any::function] >> stack size = {}", lua_gettop(L));
 
-                result = Lazy(L, absolute_index);
+                result = LazyFunction(L, absolute_index);
                 lazy = true;
 
                 TRACE("[to_any::function] << stack size = {}", lua_gettop(L));
@@ -233,6 +280,29 @@ namespace lua {
         TRACE("[to_any] << final type = {}", demangle(result.type().name()));
         TRACE("[to_any] << stack size = {}", lua_gettop(L));
         return {result, lazy};
+    }
+
+    void push_any(lua_State* L, const boost::any& value) {
+        TRACE("[push_any] >> stack size = {}", lua_gettop(L));
+
+        if (value.type() == typeid(int64_t)) {
+            int64_t v = boost::any_cast<int64_t>(value);
+            lua_pushinteger(L, v);
+        } else if (value.type() == typeid(double)) {
+            double v = boost::any_cast<double>(value);
+            lua_pushnumber(L, v);
+        } else if (value.type() == typeid(bool)) {
+            bool v = boost::any_cast<bool>(value);
+            lua_pushboolean(L, v);
+        } else if (value.type() == typeid(std::string)) {
+            auto v = boost::any_cast<std::string>(value);
+            lua_pushstring(L, v.c_str());
+        } else {
+            LOGGER->critical("Unsupported C++ value: {}", demangle(value.type().name()));
+            throw lua::unsupported_type_error(demangle(value.type().name()));
+        }
+
+        TRACE("[push_any] << stack size = {}", lua_gettop(L));
     }
 
     boost::any to_vector(lua_State* L, int index, Type t) {

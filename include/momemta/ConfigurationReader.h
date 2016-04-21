@@ -47,6 +47,9 @@ class ConfigurationReader: public IOnModuleDeclared {
 
         virtual void onModuleDeclared(const std::string& type, const std::string& name) override;
 
+        ConfigurationSet& getGlobalConfiguration();
+        ConfigurationSet& getVegasConfiguration();
+
         /**
          * \brief Freeze the configuration
          *

@@ -25,6 +25,10 @@ namespace lua {
         using std::runtime_error::runtime_error;
     };
 
+    class unsupported_type_error: public std::runtime_error {
+        using std::runtime_error::runtime_error;
+    };
+
     /**
      * \brief List of all supported lua types
      */
@@ -39,14 +43,29 @@ namespace lua {
     };
 
     /**
-     * \brief Lazy value in lua
+     * \brief Lazy value in lua (delayed evaluation)
      *
-     * It's just a small wrapper around a lua anonymous function.
-     *
-     * Use Lazy::operator()() to evaluate the function
+     * Use Lazy::operator()() to evaluate the value
      */
     struct Lazy {
         lua_State* L; ///< The global lua state. This state must be valid for as long as this instance.
+
+        Lazy(lua_State* L);
+
+        /**
+         * \brief Evaluate the lazy value
+         *
+         * \return The value after evaluation
+         */
+        virtual boost::any operator() () const = 0;
+    };
+
+    /**
+     * \brief Lazy function in lua (delayed function evaluation)
+     *
+     * It's just a small wrapper around a lua anonymous function.
+     */
+    struct LazyFunction: public Lazy {
         int ref_index; ///< The reference index where the anonymous function is stored.
 
         /**
@@ -54,7 +73,7 @@ namespace lua {
          *
          * \return The return value of the anonymous function
          */
-        boost::any operator() () const;
+        virtual boost::any operator() () const override;
 
         /**
          * \brief Bind a anonymous lua function
@@ -62,7 +81,26 @@ namespace lua {
          * \param L The current lua state.
          * \param index The index of the anonymous function on the stack
          */
-        Lazy(lua_State* L, int index);
+        LazyFunction(lua_State* L, int index);
+    };
+
+    /**
+     * \brief Lazy table field in lua (delayed table access)
+     *
+     * It's a wrapper around table's field access. Evaluation of this lazy value means accessing the field of the table.
+     */
+    struct LazyTableField: public Lazy {
+        std::string table_name; ///< The name of the global table
+        std::string key; ///< The name of the field inside the table to retrieve when evaluated
+
+        virtual boost::any operator() () const override;
+
+        /**
+         * \brief Replace the value of the table field by a new one
+         */
+        void set(const boost::any& value);
+
+        LazyTableField(lua_State* L, const std::string& table_name, const std::string& key);
     };
 
     /**
@@ -100,6 +138,19 @@ namespace lua {
      *   - a boolean. If true, it means the encapsulated type is a Lazy value, which must be evaluated later on.
      */
     std::pair<boost::any, bool> to_any(lua_State* L, int index);
+
+    /**
+     * \brief Convert a boost::any to a lua type, and push it to the top of the stack
+     *
+     * This method does the opposite of lua::to_any: convert a boost::any to the corresponding lua type, and pushing it
+     * to the top of the stack.
+     *
+     * \param L the current lua state
+     * \param value The value to convert
+     *
+     * \warning Vectors are currently not supported
+     */
+    void push_any(lua_State* L, const boost::any& value);
 
     template<typename T> T special_any_cast(const boost::any& value) {
         return boost::any_cast<T>(value);

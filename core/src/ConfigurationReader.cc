@@ -42,7 +42,7 @@ ConfigurationReader::ConfigurationReader(const std::string& file) {
     // FIXME: Find a better way of doing that
 
     // Read global configuration from global variable named 'configuration'
-    m_global_configuration.reset(new ConfigurationSet("configuration", "configuration"));
+    m_global_configuration.reset(new LazyConfigurationSet("configuration"));
     int type = lua_getglobal(lua_state.get(), "configuration");
     if (type == LUA_TTABLE) {
         LOG(debug) << "Parsing global configuration.";
@@ -51,7 +51,7 @@ ConfigurationReader::ConfigurationReader(const std::string& file) {
     lua_pop(lua_state.get(), 1);
 
     // Read vegas configuration
-    m_vegas_configuration.reset(new ConfigurationSet("vegas", "vegas"));
+    m_vegas_configuration.reset(new LazyConfigurationSet("vegas"));
     type = lua_getglobal(lua_state.get(), "vegas");
     if (type == LUA_TTABLE) {
         LOG(debug) << "Parsing vegas configuration.";
@@ -65,7 +65,7 @@ ConfigurationReader::ConfigurationReader(const std::string& file) {
         lua_getglobal(lua_state.get(), m.type.c_str());
         lua_getfield(lua_state.get(), -1, m.name.c_str());
 
-        m.parameters = ConfigurationSet(m.type, m.name, m_global_configuration);
+        m.parameters = ConfigurationSet(m.type, m.name);
         m.parameters.parse(lua_state.get(), -1);
 
         lua_pop(lua_state.get(), 2);
@@ -77,6 +77,14 @@ void ConfigurationReader::onModuleDeclared(const std::string& type, const std::s
     module.name = name;
     module.type = type;
     m_modules.push_back(module);
+}
+
+ConfigurationSet& ConfigurationReader::getGlobalConfiguration() {
+    return *m_global_configuration;
+}
+
+ConfigurationSet& ConfigurationReader::getVegasConfiguration() {
+    return *m_vegas_configuration;
 }
 
 Configuration ConfigurationReader::freeze() const {

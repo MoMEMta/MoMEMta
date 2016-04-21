@@ -96,6 +96,40 @@ class ConfigurationSet {
         }
 
         /**
+         * \brief Change the value of a given parameter
+         *
+         * \param name The name of the parameter to change
+         * \param value The new value of the parameter
+         *
+         * \note The parameter must already exist
+         *
+         * \warning Vectors are currently not supported
+         */
+        template<typename T>
+        void set(const std::string& name, const T& value) {
+            static_assert(
+                    std::is_same<T, int64_t>::value ||
+                    std::is_same<T, double>::value ||
+                    std::is_same<T, bool>::value ||
+                    std::is_same<T, std::string>::value,
+                    "Type not supported"
+            );
+
+            if (frozen) {
+                LOGGER->critical("You are not allowed to edit a set once frozen.");
+                throw frozen_error("This ConfigurationSet is frozen");
+            }
+
+            auto it = m_set.find(name);
+            if (it == m_set.end()) {
+                LOGGER->critical("Parameter '{}' not found. You can only set values that already exist.", name);
+                throw not_found_error("Parameter " + name + " not found");
+            }
+
+            setInternal(name, it->second, value);
+        }
+
+        /**
          * \brief Parse fields of a lua table
          *
          * \param L the lua state
@@ -116,10 +150,13 @@ class ConfigurationSet {
             if (it == m_set.end())
                 return *this;
 
-            return *boost::any_cast<std::shared_ptr<ConfigurationSet>>(it->second.value);
+            return boost::any_cast<const ConfigurationSet&>(it->second.value);
         }
 
-    private:
+    protected:
+        friend class ConfigurationReader;
+        friend class Configuration;
+
         /// A small wrapper around a boost::any value
         struct Element {
             boost::any value;
@@ -137,19 +174,46 @@ class ConfigurationSet {
             }
         };
 
+        ConfigurationSet(const std::string& module_type, const std::string& module_name);
+
+        virtual std::pair<boost::any, bool> parseItem(const std::string& key, lua_State* L, int index);
+
+        virtual void setInternal(const std::string& name, Element& element, const boost::any& value);
+
+    private:
+
         class not_found_error: public std::runtime_error {
             using std::runtime_error::runtime_error;
         };
 
-        friend class ConfigurationReader;
-        friend class Configuration;
+        class frozen_error: public std::runtime_error {
+            using std::runtime_error::runtime_error;
+        };
+
         friend std::pair<boost::any, bool> lua::to_any(lua_State* L, int index);
 
-        ConfigurationSet(std::shared_ptr<ConfigurationSet> globalConfiguration);
-        ConfigurationSet(const std::string& module_type, const std::string& module_name);
-        ConfigurationSet(const std::string& module_type, const std::string& module_name, std::shared_ptr<ConfigurationSet> globalConfiguration);
+        void setGlobalConfiguration(const ConfigurationSet& configuration);
 
         void freeze();
 
+        bool frozen = false;
         std::map<std::string, Element> m_set;
+};
+
+/** \brief A lazy configuration set
+ *
+ * This class is used to represent global tables that can be modified **after** the parsing of the configuration file (like the global `parameters` table). This means that each field of the table *must* have a delayed evaluation (see lua::LazyTableField).
+ *
+ * Actual evaluation of the fields of the table happens during the freezing of this ConfigurationSet.
+ *
+ */
+class LazyConfigurationSet: public ConfigurationSet {
+    friend class ConfigurationReader;
+
+    protected:
+        LazyConfigurationSet(const std::string& name);
+
+        virtual std::pair<boost::any, bool> parseItem(const std::string& key, lua_State* L, int index) override;
+
+        virtual void setInternal(const std::string& name, Element& element, const boost::any& value) override;
 };

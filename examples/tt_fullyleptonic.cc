@@ -33,6 +33,10 @@ int main(int argc, char** argv) {
     spdlog::set_level(spdlog::level::trace);
 
     ConfigurationReader configuration("../examples/tt_fullyleptonic.lua");
+
+    // Change top mass
+    configuration.getGlobalConfiguration().set("top_mass", 173.);
+
     MoMEMta weight(configuration.freeze());
 
     // Electron

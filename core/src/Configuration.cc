@@ -40,5 +40,7 @@ Configuration::Configuration(const ConfigurationReader& reader) {
     vegas_configuration.freeze();
     for (auto& module: modules) {
         module.parameters.freeze();
+        // Attach global configuration to each module
+        module.parameters.setGlobalConfiguration(global_configuration);
     }
 }
