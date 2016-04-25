@@ -24,6 +24,7 @@
 #include <vector>
 
 #include <momemta/Configuration.h>
+#include <momemta/IOnModuleDeclared.h>
 
 class ConfigurationSet;
 class lua_State;
@@ -40,12 +41,11 @@ class lua_State;
  * \todo Discuss the `configuration` table, `vegas` table and the concept of freezing and delayed execution
  *
  */
-class ConfigurationReader {
+class ConfigurationReader: public IOnModuleDeclared {
     public:
         ConfigurationReader(const std::string&);
-        virtual ~ConfigurationReader();
 
-        void addModule(const std::string& type, const std::string& name);
+        virtual void onModuleDeclared(const std::string& type, const std::string& name) override;
 
         /**
          * \brief Freeze the configuration
@@ -61,5 +61,5 @@ class ConfigurationReader {
         std::shared_ptr<ConfigurationSet> m_global_configuration;
         std::shared_ptr<ConfigurationSet> m_vegas_configuration;
 
-        lua_State* lua_state = nullptr;
+        std::shared_ptr<lua_State> lua_state;
 };

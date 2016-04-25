@@ -2,7 +2,7 @@
 
 #include <momemta/InputTag.h>
 #include <momemta/ConfigurationSet.h>
-#include <momemta/ConfigurationReader.h>
+#include <momemta/IOnModuleDeclared.h>
 #include <momemta/ModuleFactory.h>
 #include <momemta/Utils.h>
 
@@ -283,9 +283,9 @@ namespace lua {
 
         lua_getfield(L, -1, "__ptr");
         void* cfg_ptr = lua_touserdata(L, -1);
-        ConfigurationReader* reader = static_cast<ConfigurationReader*>(cfg_ptr);
+        IOnModuleDeclared* callback = static_cast<IOnModuleDeclared*>(cfg_ptr);
 
-        reader->addModule(module_type, module_name);
+        callback->onModuleDeclared(module_type, module_name);
 
         // Remove metatable and field name from stack
         lua_pop(L, 2);
@@ -382,5 +382,20 @@ namespace lua {
         lua_pushlightuserdata(L, ptr);
         lua_pushcclosure(L, parameter, 1);
         lua_setglobal(L, "parameter");
+    }
+
+    std::shared_ptr<lua_State> init_runtime(IOnModuleDeclared* callback) {
+
+        std::shared_ptr<lua_State> L(luaL_newstate(), lua_close);
+        luaL_openlibs(L.get());
+
+        // Register function load_modules
+        lua::setup_hooks(L.get(), callback);
+
+        // Register existing modules
+        lua::register_modules(L.get(), callback);
+
+        return L;
+
     }
 }

@@ -5,6 +5,8 @@
 
 #include <logging.h>
 
+class IOnModuleDeclared;
+
 /*! \brief Utility functions related to lua configuration file parsing
  *
  * The lua configuration file specify a set of modules to execute.
@@ -199,4 +201,14 @@ namespace lua {
      * \return always 1
      */
     int parameter(lua_State* L);
+
+    /** \brief Initialize the lua runtime
+     *
+     * \param callback A pointer to an instance of IOnModuleDeclared. This callback is called
+     * when a new module is declared in the configuration file.
+     *
+     * \return A pointer to the global lua state. Once out-of-scope, the pointer will be
+     * released using the `lua_close` function.
+     */
+    std::shared_ptr<lua_State> init_runtime(IOnModuleDeclared* callback);
 }
