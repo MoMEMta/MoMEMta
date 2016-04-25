@@ -123,9 +123,22 @@ dl.el {
     margin-left: -1cm;
 }
 
-dl.note, dl.warning, dl.error, dl.todo {
+dl.note, dl.warning, dl.error, dl.todo, dl.attention {
   margin-left: -10px;
   padding-left: 6px;
+}
+
+dl.warning, dl.attention {
+    border-color: #a94442;
+}
+
+dl.note {
+    /*border-color: #3c763d;*/
+    border-color: #8a6d3b;
+}
+
+dl.todo {
+    border-color: #31708f;
 }
 
 pre.fragment {
