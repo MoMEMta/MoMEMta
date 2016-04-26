@@ -91,6 +91,10 @@ class BlockF: public Module {
             invisibles->clear();
             jacobians->clear();
 
+            // Don't spend time on unphysical part of phase-space
+            if(*s13 > SQ(sqrt_s) || *s24 > SQ(sqrt_s))
+                return;
+            
             const LorentzVector& p3 = m_particle_tags[0].get<LorentzVector>();
             const LorentzVector& p4 = m_particle_tags[1].get<LorentzVector>();
            
@@ -203,6 +207,13 @@ class BlockF: public Module {
                                  e1,                            //p2y
                                  alpha5*e1+beta5*e2+gamma5      //p2z
                                  );                  
+                
+                // Check if solutions are physical
+                LorentzVector tot = p1 + p2 + p3 + p4;
+                double q1Pz = std::abs(tot.Pz() + tot.E()) / 2.;
+                double q2Pz = std::abs(tot.Pz() - tot.E()) / 2.;
+                if(q1Pz > sqrt_s/2 || q2Pz > sqrt_s/2)
+                    continue;
                 
                 invisibles->push_back({p1, p2});
                 jacobians->push_back(computeJacobian(p1, p2, p3, p4));

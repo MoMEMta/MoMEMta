@@ -84,7 +84,7 @@ class Boost: public Module {
             double q2Pz = (tot.Pz() - tot.E()) / 2.;
 
             std::vector<LorentzVector> partons {
-                LorentzVector(0., 0., q1Pz, q1Pz),
+                LorentzVector(0., 0., q1Pz, std::abs(q1Pz)),
                 LorentzVector(0., 0., q2Pz, std::abs(q2Pz))
             };
 

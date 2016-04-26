@@ -32,7 +32,7 @@ int main(int argc, char** argv) {
 
     spdlog::set_level(spdlog::level::trace);
 
-    ConfigurationReader configuration("../tests/phaseSpaceVolume/blockD.lua");
+    ConfigurationReader configuration("../tests/crossSections/blockD_ttx_dilep.lua");
     MoMEMta weight(configuration.freeze());
 
     // Electron

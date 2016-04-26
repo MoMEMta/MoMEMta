@@ -83,6 +83,10 @@ class BlockB: public Module {
             //(2)  p1x = - pTx  #Coming from pT neutrino = -pT visible = - (p2 + ISR)
             //(3)  p1y = - pTy  #Coming from pT neutrino = -pT visible = - (p2 + ISR)
             //(4)  M1 = 0 -> E1^2 = p1x^2 + p1y^2 + p1z^2
+
+            // Don't spend time on unphysical part of phase-space
+            if(*s12 > SQ(sqrt_s))
+                return;
             
             const LorentzVector& p2 = m_particle_tags[0].get<LorentzVector>();
             
@@ -118,6 +122,13 @@ class BlockB: public Module {
                 
                 LorentzVector p1(-pT.Px(), -pT.Py(), A - B*e1, e1);
                 
+                // Check if solutions are physical
+                LorentzVector tot = p1 + p2;
+                double q1Pz = std::abs(tot.Pz() + tot.E()) / 2.;
+                double q2Pz = std::abs(tot.Pz() - tot.E()) / 2.;
+                if(q1Pz > sqrt_s/2 || q2Pz > sqrt_s/2)
+                    continue;
+                
                 invisibles->push_back({p1});
                 jacobians->push_back(computeJacobian(p1, p2));   
             }
@@ -135,6 +146,7 @@ class BlockB: public Module {
 
             const double E2  = p2.E();
             const double p2z = p2.Pz();
+            
             // Some extra info in MadWeight Source/MadWeight/blocks/class_b.f Good luck!!
             
             double inv_jac = 4.*SQ(M_PI*sqrt_s)*( p2z*E1 - E2*p1z);
