@@ -34,6 +34,6 @@ before_script:
   - cd build
   - cmake .. -DTESTS=ON
 script:
-  - make -j2
+  - make -j2 && ./tests/unit_tests/unit_tests.exe
 after_success:
   - if [[ $TRAVIS_PULL_REQUEST == 'false' ]]; then ./make_docs.sh; fi

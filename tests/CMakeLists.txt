@@ -1,6 +1,6 @@
 # Test executables
 
-add_executable(test_psVol_blockD "phaseSpaceVolume/blockD.cc")
-target_link_libraries(test_psVol_blockD momemta)
-set_target_properties(test_psVol_blockD PROPERTIES OUTPUT_NAME
-  "phaseSpaceVolume_blockD.exe")
+include_directories("${CMAKE_CURRENT_LIST_DIR}/include")
+
+add_subdirectory(unit_tests)
+add_subdirectory(phaseSpaceVolume)
