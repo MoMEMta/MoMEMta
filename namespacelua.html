@@ -204,6 +204,9 @@ template&lt;typename T &gt; </td></tr>
 <tr class="memitem:ac227f9421cfe547903b306c339de44ce"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; lua_State &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacelua.html#ac227f9421cfe547903b306c339de44ce">init_runtime</a> (<a class="el" href="classIOnModuleDeclared.html">IOnModuleDeclared</a> *callback)</td></tr>
 <tr class="memdesc:ac227f9421cfe547903b306c339de44ce"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize the lua runtime.  <a href="#ac227f9421cfe547903b306c339de44ce">More...</a><br /></td></tr>
 <tr class="separator:ac227f9421cfe547903b306c339de44ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4483a431c4b61c0d3d4a97c33782290a"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacelua.html#a4483a431c4b61c0d3d4a97c33782290a">generate_cuba_index</a> (lua_State *L)</td></tr>
+<tr class="memdesc:a4483a431c4b61c0d3d4a97c33782290a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Define Lua function to generate Cuba phase-space point input-tags.  <a href="#a4483a431c4b61c0d3d4a97c33782290a">More...</a><br /></td></tr>
+<tr class="separator:a4483a431c4b61c0d3d4a97c33782290a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa7c8be06da6475ed356bc3d71ac85150"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacelua.html#a4cb01bc8fe209aafacf11602092c63f8">Type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacelua.html#aa7c8be06da6475ed356bc3d71ac85150">lua_array_unique_type</a> (lua_State *L, int index)</td></tr>
 <tr class="memdesc:aa7c8be06da6475ed356bc3d71ac85150"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if a lua table contains only value from the same type.  <a href="#aa7c8be06da6475ed356bc3d71ac85150">More...</a><br /></td></tr>
 <tr class="separator:aa7c8be06da6475ed356bc3d71ac85150"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -254,6 +257,36 @@ template&lt;&gt; </td></tr>
 </div>
 </div>
 <h2 class="groupheader">Function Documentation</h2>
+<a class="anchor" id="a4483a431c4b61c0d3d4a97c33782290a"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int lua::generate_cuba_index </td>
+          <td>(</td>
+          <td class="paramtype">lua_State *&#160;</td>
+          <td class="paramname"><em>L</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Define Lua function to generate Cuba phase-space point input-tags. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">L</td><td>The current lua state</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>The function allows creating a Lua function return an input tag of type <code>cuba::ps_points/i</code> where <code>i</code> gets incremented each time the function is called (starting from 0). This way, the user is sure to always define the correct input tag fothe phase-space points.</p>
+<dl class="section return"><dt>Returns</dt><dd>always 1 </dd></dl>
+
+<p>Definition at line <a class="el" href="utils_8cc_source.html#l00477">477</a> of file <a class="el" href="utils_8cc_source.html">utils.cc</a>.</p>
+
+<p>Referenced by <a class="el" href="utils_8cc_source.html#l00447">setup_hooks()</a>, and <a class="el" href="utils_8h_source.html#l00165">to_vectorT()</a>.</p>
+
+</div>
+</div>
 <a class="anchor" id="adfb25fd4e2e786699ee6545a9c8ef019"></a>
 <div class="memitem">
 <div class="memproto">
@@ -317,9 +350,9 @@ template&lt;&gt; </td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A pointer to the global lua state. Once out-of-scope, the pointer will be released using the <code>lua_close</code> function. </dd></dl>
 
-<p>Definition at line <a class="el" href="utils_8cc_source.html#l00457">457</a> of file <a class="el" href="utils_8cc_source.html">utils.cc</a>.</p>
+<p>Definition at line <a class="el" href="utils_8cc_source.html#l00463">463</a> of file <a class="el" href="utils_8cc_source.html">utils.cc</a>.</p>
 
-<p>Referenced by <a class="el" href="lua_8cc_source.html#l00046">ModuleDeclaredMock::onModuleDeclared()</a>, and <a class="el" href="utils_8h_source.html#l00165">to_vectorT()</a>.</p>
+<p>Referenced by <a class="el" href="lua_8cc_source.html#l00047">ModuleDeclaredMock::onModuleDeclared()</a>, and <a class="el" href="utils_8h_source.html#l00165">to_vectorT()</a>.</p>
 
 </div>
 </div>
@@ -346,7 +379,7 @@ template&lt;&gt; </td></tr>
 
 <p>Definition at line <a class="el" href="utils_8cc_source.html#l00414">414</a> of file <a class="el" href="utils_8cc_source.html">utils.cc</a>.</p>
 
-<p>Referenced by <a class="el" href="lua_8cc_source.html#l00046">ModuleDeclaredMock::onModuleDeclared()</a>, <a class="el" href="utils_8cc_source.html#l00447">setup_hooks()</a>, and <a class="el" href="utils_8h_source.html#l00165">to_vectorT()</a>.</p>
+<p>Referenced by <a class="el" href="lua_8cc_source.html#l00047">ModuleDeclaredMock::onModuleDeclared()</a>, <a class="el" href="utils_8cc_source.html#l00447">setup_hooks()</a>, and <a class="el" href="utils_8h_source.html#l00165">to_vectorT()</a>.</p>
 
 </div>
 </div>
@@ -511,7 +544,7 @@ template&lt;&gt; </td></tr>
 
 <p>Definition at line <a class="el" href="utils_8cc_source.html#l00285">285</a> of file <a class="el" href="utils_8cc_source.html">utils.cc</a>.</p>
 
-<p>Referenced by <a class="el" href="utils_8cc_source.html#l00082">lua::LazyTableField::set()</a>.</p>
+<p>Referenced by <a class="el" href="utils_8cc_source.html#l00477">generate_cuba_index()</a>, and <a class="el" href="utils_8cc_source.html#l00082">lua::LazyTableField::set()</a>.</p>
 
 </div>
 </div>
@@ -554,7 +587,7 @@ template&lt;&gt; </td></tr>
 
 <p>Definition at line <a class="el" href="utils_8cc_source.html#l00369">369</a> of file <a class="el" href="utils_8cc_source.html">utils.cc</a>.</p>
 
-<p>Referenced by <a class="el" href="utils_8cc_source.html#l00457">init_runtime()</a>, <a class="el" href="utils_8cc_source.html#l00414">load_modules()</a>, and <a class="el" href="utils_8h_source.html#l00165">to_vectorT()</a>.</p>
+<p>Referenced by <a class="el" href="utils_8cc_source.html#l00463">init_runtime()</a>, <a class="el" href="utils_8cc_source.html#l00414">load_modules()</a>, and <a class="el" href="utils_8h_source.html#l00165">to_vectorT()</a>.</p>
 
 </div>
 </div>
@@ -590,7 +623,7 @@ template&lt;&gt; </td></tr>
 
 <p>Definition at line <a class="el" href="utils_8cc_source.html#l00447">447</a> of file <a class="el" href="utils_8cc_source.html">utils.cc</a>.</p>
 
-<p>Referenced by <a class="el" href="utils_8cc_source.html#l00457">init_runtime()</a>, and <a class="el" href="utils_8h_source.html#l00165">to_vectorT()</a>.</p>
+<p>Referenced by <a class="el" href="utils_8cc_source.html#l00463">init_runtime()</a>, and <a class="el" href="utils_8h_source.html#l00165">to_vectorT()</a>.</p>
 
 </div>
 </div>
@@ -627,7 +660,7 @@ template&lt;&gt; </td></tr>
 
 <p>Definition at line <a class="el" href="utils_8cc_source.html#l00210">210</a> of file <a class="el" href="utils_8cc_source.html">utils.cc</a>.</p>
 
-<p>Referenced by <a class="el" href="ConfigurationSet_8h_source.html#l00166">ConfigurationSet::Element::Element()</a>, <a class="el" href="lua_8cc_source.html#l00046">ModuleDeclaredMock::onModuleDeclared()</a>, <a class="el" href="utils_8cc_source.html#l00028">lua::LazyFunction::operator()()</a>, <a class="el" href="utils_8cc_source.html#l00060">lua::LazyTableField::operator()()</a>, <a class="el" href="ConfigurationSet_8cc_source.html#l00031">ConfigurationSet::parse()</a>, and <a class="el" href="utils_8h_source.html#l00165">to_vectorT()</a>.</p>
+<p>Referenced by <a class="el" href="ConfigurationSet_8h_source.html#l00166">ConfigurationSet::Element::Element()</a>, <a class="el" href="lua_8cc_source.html#l00047">ModuleDeclaredMock::onModuleDeclared()</a>, <a class="el" href="utils_8cc_source.html#l00028">lua::LazyFunction::operator()()</a>, <a class="el" href="utils_8cc_source.html#l00060">lua::LazyTableField::operator()()</a>, <a class="el" href="ConfigurationSet_8cc_source.html#l00031">ConfigurationSet::parse()</a>, and <a class="el" href="utils_8h_source.html#l00165">to_vectorT()</a>.</p>
 
 </div>
 </div>
