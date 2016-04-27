@@ -234,8 +234,8 @@ $(document).ready(function() {
         });
 
     // todo list
-    var todoelements = $(
-        '.contents > .textblock > dl.reflist > dt, .contents > .textblock > dl.reflist > dd');
+    var todoelements = $('.contents > .textblock > dl.reflist > dt, .contents > .textblock > dl.reflist > dd');
+    $('.contents > .textblock > .reflist').detach();
     for (var i = 0; i < todoelements.length; i += 2) {
         $('.contents > .textblock')
             .append(
@@ -245,8 +245,26 @@ $(document).ready(function() {
                 "<div class=\"panel-body\">" + $(todoelements[i + 1]).html() +
                 "</div>" + '</div>');
     }
-    $('.contents > .textblock > dl').remove();
 
+    /*$('dl.section').each(function(i, block) {
+      header = $(block).children('dt').text();
+      text = $(block).children('dd').html();
+
+      clazz = '';
+      if (header == 'Warning')
+          clazz = 'warning';
+      else if (header == 'Note')
+          clazz = 'info';
+
+      header = $(block).children('dt').html();
+
+      panel = '<div class="panel panel-' + clazz + '">' +
+                  '<div class="panel-heading">' + header + '</div>' +
+                  '<div class="panel-body">' + text + '</div>' +
+              '</div>';
+
+      $(block).replaceWith(panel);
+    });*/
 
     $(".memitem").removeClass('memitem');
     $(".memproto").removeClass('memproto');
@@ -294,11 +312,18 @@ $(document).ready(function() {
     $('div.line-number > pre > code').each(function(i, node) {
 
         // Re-add line numbers
+
         code = $(node).html().split('\n');
+        if (!code[code.length - 1])
+            code.pop();
+
         flat_code = '';
         for (index = 0; index < code.length; ++index) {
             flat_code += '<a name="l' + pad(index + 1, 5) + '" href="#"></a><span class="line"></span>' + code[index] + '\n';
         }
+
+        // Remove latest end-of-line
+        flat_code = flat_code.slice(0, -1);
 
         $(node).html(flat_code);
     });

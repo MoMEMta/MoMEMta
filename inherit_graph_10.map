@@ -1,3 +1,4 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node2" href="$classlogging_1_1colored__formatter.html" title="logging::colored_formatter" alt="" coords="129,5,301,32"/>
+<area shape="rect" id="node1" href="$classIOnModuleDeclared.html" title="Notification callback fired when a module is declared. " alt="" coords="6,5,143,32"/>
+<area shape="rect" id="node2" href="$classConfigurationReader.html" title="A lua configuration file parser. " alt="" coords="192,5,333,32"/>
 </map>
