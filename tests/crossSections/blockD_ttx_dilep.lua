@@ -1,12 +1,10 @@
-load_modules('MatrixElements/dummy/libme_dummy.so')
-
-M_W = 250.
-M_TOP = 500.
-W_W = 100.
-W_TOP = 100.
+M_W = 80.419002
+M_TOP = 173.
+W_W = 2.047600e+00
+W_TOP = 1.491500e+00
 
 configuration = {
-    energy = 1000.,
+    energy = 13000.,
     top_mass = M_TOP,
     W_mass = M_W
 }
@@ -138,11 +136,13 @@ jacobians = {
 }
 
 MatrixElement.dummy = {
-  use_pdf = false,
+  pdf = 'CT10nlo',
 
-  matrix_element = 'dummy_matrix_element',
-  matrix_element_parameters = {},
-  
+  matrix_element = 'pp_ttx_fully_leptonic',
+  matrix_element_parameters = {
+      card = '../MatrixElements/Cards/param_card.dat'
+  },
+
   initialState = 'boost::output',
 
   invisibles = {

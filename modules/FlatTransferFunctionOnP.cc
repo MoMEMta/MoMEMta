@@ -70,7 +70,7 @@ class FlatTransferFunctionOnP: public Module {
             const double gen_P = m_PMin + range*ps_point;
 
             // To change the particle's |P| without changing its direction and mass:
-            double gen_E = sqrt(pow(gen_P, 2) + pow(reco_particle.M(), 2)); 
+            double gen_E = sqrt(SQ(gen_P) + SQ(reco_particle.M())); 
             output->SetCoordinates(
                 gen_P * std::sin(reco_particle.Theta()) * std::cos(reco_particle.Phi()),
                 gen_P * std::sin(reco_particle.Theta()) * std::sin(reco_particle.Phi()),

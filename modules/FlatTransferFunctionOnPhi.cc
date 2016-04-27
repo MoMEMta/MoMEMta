@@ -66,7 +66,7 @@ class FlatTransferFunctionOnPhi: public Module {
             m_Rotation.SetAngle(2*M_PI*ps_point);
 
             *output = m_Rotation*reco_particle;
-
+            
             // Compute TF*jacobian, ie the jacobian of the transformation of [0,1]->[0,2pi]
             *TF_times_jacobian = 2*M_PI;
         }

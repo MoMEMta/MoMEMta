@@ -43,6 +43,10 @@ class BlockD: public Module {
             invisibles->clear();
             jacobians->clear();
 
+            // Don't spend time on unphysical corner of the phase-space
+            if(*s13 >= *s134 || *s25 >= *s256 || *s13 >= SQ(sqrt_s) || *s134 >= SQ(sqrt_s) || *s25 >= SQ(sqrt_s) || *s256 >= SQ(sqrt_s))
+                return;
+
             const LorentzVector& p3 = m_particle_tags[0].get<LorentzVector>();
             const LorentzVector& p4 = m_particle_tags[1].get<LorentzVector>();
             const LorentzVector& p5 = m_particle_tags[2].get<LorentzVector>();
@@ -129,8 +133,6 @@ class BlockD: public Module {
 
             // Find the intersection of the 2 conics (at most 4 real solutions for (E1,E2))
             std::vector<double> E1, E2;
-            //cout << "coefs=" << a11 << "," << a22 << "," << a12 << "," << a10 << "," << a01 << "," << a00 << endl;
-            //cout << "coefs=" << b11 << "," << b22 << "," << b12 << "," << b10 << "," << b01 << "," << b00 << endl;
             solve2Quads(a11, a22, a12, a10, a01, a00, b11, b22, b12, b10, b01, b00, E1, E2, false);
 
             // For each solution (E1,E2), find the neutrino 4-momenta p1,p2
@@ -141,8 +143,6 @@ class BlockD: public Module {
             for(unsigned int i=0; i<E1.size(); i++){
                 const double e1 = E1.at(i);
                 const double e2 = E2.at(i);
-
-                //cout << endl << "## Evaluating Matrix Element based on solutions e1 = " << e1 << ", e2 = " << e2 << endl << endl;
 
                 if (e1 < 0. || e2 < 0.)
                     continue;
@@ -158,6 +158,13 @@ class BlockD: public Module {
                         alpha6*e1 + beta6*e2 + gamma6,
                         alpha4*e1 + beta4*e2 + gamma4,
                         e2);
+
+                // Check if solutions are physical
+                LorentzVector tot = p1 + p2 + p3 + p4 + p5 + p6;
+                double q1Pz = std::abs(tot.Pz() + tot.E()) / 2.;
+                double q2Pz = std::abs(tot.Pz() - tot.E()) / 2.;
+                if(q1Pz > sqrt_s/2 || q2Pz > sqrt_s/2)
+                    continue;
 
                 invisibles->push_back({p1, p2});
                 jacobians->push_back(computeJacobian(p1, p2, p3, p4, p5, p6));
