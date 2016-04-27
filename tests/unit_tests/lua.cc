@@ -31,6 +31,7 @@
 #include <momemta/ConfigurationSet.h>
 #include <momemta/IOnModuleDeclared.h>
 #include <momemta/ModuleFactory.h>
+#include <momemta/InputTag.h>
 
 #include <lua/utils.h>
 
@@ -61,9 +62,21 @@ TEST_CASE("lua parsing utilities", "[lua]") {
 
     auto stack_size = lua_gettop(L.get());
 
-    SECTION("custom functions exist") {
+    SECTION("custom functions") {
         execute_string(L, "load_modules('not_existing.so')");
         execute_string(L, "parameter('not_existing')");
+
+        // Check that the CubaIndex() function returns the correct InputTag
+        // and that the index gets correctly incremented at each call.
+        execute_string(L, "index1 = CubaIndex()");
+        lua_getglobal(L.get(), "index1");
+        auto value = lua::to_any(L.get(), -1);
+        REQUIRE( (boost::any_cast<InputTag>(value.first)).toString() == "cuba::ps_points/0");
+        execute_string(L, "index2 = CubaIndex()");
+        lua_getglobal(L.get(), "index2");
+        value = lua::to_any(L.get(), -1);
+        REQUIRE( (boost::any_cast<InputTag>(value.first)).toString() == "cuba::ps_points/1");
+        lua_pop(L.get(), 2);
     }
 
     SECTION("defining modules") {

@@ -56,39 +56,41 @@ vegas = {
     verbosity = 3
 }
 
-Flatter.flatter_s13 = {
-    input = "cuba::ps_points/0",
+Flatter.flatter_s13 = { 
+    -- CubaIndex() generates an input tag of type `cuba::ps_points/i`
+    -- where `i` is automatically incremented each time the function is called.
+    input = CubaIndex(),
     mass = parameter('W_mass'),
     width = parameter('W_width')
 }
 
 Flatter.flatter_s134 = {
-    input = "cuba::ps_points/1",
+    input = CubaIndex(),
     mass = parameter('top_mass'),
     width = parameter('top_width')
 }
 
 Flatter.flatter_s25 = {
-    input = "cuba::ps_points/2",
+    input = CubaIndex(), 
     mass = parameter('W_mass'),
     width = parameter('W_width')
 }
 
 Flatter.flatter_s256 = {
-    input = "cuba::ps_points/3",
+    input = CubaIndex(),
     mass = parameter('top_mass'),
     width = parameter('top_width')
 }
 
 if USE_TF then
     GaussianTransferFunction.tf_p1 = {
-        ps_point = 'cuba::ps_points/4',
+        ps_point = CubaIndex(),
         reco_particle = 'input::particles/0',
         sigma = 0.05,
     }
 
     GaussianTransferFunction.tf_p2 = {
-        ps_point = 'cuba::ps_points/5',
+        ps_point = CubaIndex(),
         reco_particle = 'input::particles/1',
         sigma = 0.10,
     }
@@ -102,13 +104,13 @@ if USE_TF then
     -- }
 
     GaussianTransferFunction.tf_p3 = {
-        ps_point = 'cuba::ps_points/6',
+        ps_point = CubaIndex(),
         reco_particle = 'input::particles/2',
         sigma = 0.05,
     }
 
     GaussianTransferFunction.tf_p4 = {
-        ps_point = 'cuba::ps_points/7',
+        ps_point = CubaIndex(),
         reco_particle = 'input::particles/3',
         sigma = 0.10,
     }
@@ -122,13 +124,8 @@ if USE_TF then
 end
 
 if USE_PERM then
-    cuba_index = '4'
-    if USE_TF then
-        cuba_index = '8'
-    end
-    
     Permutator.permutator = {
-        ps_point = 'cuba::ps_points/' .. cuba_index,
+        ps_point = CubaIndex(), 
         input = {
           inputs_before_perm[2],
           inputs_before_perm[4],
