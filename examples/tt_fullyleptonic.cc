@@ -17,6 +17,7 @@
  */
 
 
+#include <momemta/ConfigurationReader.h>
 #include <momemta/MoMEMta.h>
 #include <momemta/Utils.h>
 
@@ -32,7 +33,11 @@ int main(int argc, char** argv) {
     spdlog::set_level(spdlog::level::trace);
 
     ConfigurationReader configuration("../examples/tt_fullyleptonic.lua");
-    MoMEMta weight(configuration);
+
+    // Change top mass
+    configuration.getGlobalConfiguration().set("top_mass", 173.);
+
+    MoMEMta weight(configuration.freeze());
 
     // Electron
     LorentzVector p3(16.171895980835, -13.7919054031372, -3.42997527122497, 21.5293197631836);

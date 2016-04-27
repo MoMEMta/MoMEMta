@@ -9,11 +9,6 @@ end
 load_modules('libempty_module.so')
 load_modules('MatrixElements/dummy/libme_dummy.so')
 
-M_W = 80.419002
-M_TOP = 173.
-W_W = 2.047600e+00
-W_TOP = 1.491500e+00
-
 USE_TF = true
 
 if USE_TF then
@@ -51,8 +46,10 @@ end
 
 configuration = {
     energy = 13000.,
-    top_mass = M_TOP,
-    W_mass = M_W
+    top_mass = 173.,
+    top_width = 1.491500,
+    W_mass = 80.419002,
+    W_width = 2.047600,
 }
 
 vegas = {
@@ -61,26 +58,26 @@ vegas = {
 
 Flatter.flatter_s13 = {
     input = "cuba::ps_points/0",
-    mass = M_W,
-    width = W_W
+    mass = parameter('W_mass'),
+    width = parameter('W_width')
 }
 
 Flatter.flatter_s134 = {
     input = "cuba::ps_points/1",
-    mass = M_TOP,
-    width = W_TOP
+    mass = parameter('top_mass'),
+    width = parameter('top_width')
 }
 
 Flatter.flatter_s25 = {
     input = "cuba::ps_points/2",
-    mass = M_W,
-    width = W_W
+    mass = parameter('W_mass'),
+    width = parameter('W_width')
 }
 
 Flatter.flatter_s256 = {
     input = "cuba::ps_points/3",
-    mass = M_TOP,
-    width = W_TOP
+    mass = parameter('top_mass'),
+    width = parameter('top_width')
 }
 
 if USE_TF then

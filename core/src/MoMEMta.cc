@@ -21,7 +21,8 @@
 
 #include <cuba.h>
 
-#include <momemta/ConfigurationReader.h>
+#include <momemta/ConfigurationSet.h>
+#include <momemta/Configuration.h>
 #include <momemta/MoMEMta.h>
 #include <momemta/Utils.h>
 
@@ -29,7 +30,7 @@
 #include <logging.h>
 
 
-MoMEMta::MoMEMta(const ConfigurationReader& configuration) {
+MoMEMta::MoMEMta(const Configuration& configuration) {
     
     // Initialize shared memory pool for modules
     m_pool.reset(new Pool());
@@ -43,10 +44,10 @@ MoMEMta::MoMEMta(const ConfigurationReader& configuration) {
     m_particles = m_pool->put<std::vector<LorentzVector>>({"input", "particles"});
 
     // Construct modules from configuration
-    std::vector<LightModule> light_modules = configuration.getModules();
+    std::vector<Configuration::Module> light_modules = configuration.getModules();
     for (const auto& module: light_modules) {
         m_pool->current_module(module.name);
-        m_modules.push_back(ModuleFactory::get().create(module.type, m_pool, *module.parameters));
+        m_modules.push_back(ModuleFactory::get().create(module.type, m_pool, module.parameters));
         m_modules.back()->configure();
     }
 
@@ -96,21 +97,21 @@ std::vector<std::pair<double, double>> MoMEMta::computeWeights(const std::vector
     double mcResult = 0, prob = 0, error = 0;
 
     // Read vegas configuration
-    uint8_t verbosity = m_vegas_configuration->get<int64_t>("verbosity", 0);
-    bool subregion = m_vegas_configuration->get<bool>("subregion", false);
-    bool smoothing = m_vegas_configuration->get<bool>("smoothing", false);
-    bool retainStateFile = m_vegas_configuration->get<bool>("retainStateFile", false);
-    bool takeOnlyGridFromFile = m_vegas_configuration->get<bool>("takeOnlyGridFromFile", true);
-    uint64_t level = m_vegas_configuration->get<int64_t>("level", 0);
+    uint8_t verbosity = m_vegas_configuration.get<int64_t>("verbosity", 0);
+    bool subregion = m_vegas_configuration.get<bool>("subregion", false);
+    bool smoothing = m_vegas_configuration.get<bool>("smoothing", false);
+    bool retainStateFile = m_vegas_configuration.get<bool>("retainStateFile", false);
+    bool takeOnlyGridFromFile = m_vegas_configuration.get<bool>("takeOnlyGridFromFile", true);
+    uint64_t level = m_vegas_configuration.get<int64_t>("level", 0);
 
-    double relative_accuracy = m_vegas_configuration->get<double>("relative_accuracy", 0.005);
-    double absolute_accuracy = m_vegas_configuration->get<double>("absolute_accuracy", 0.);
-    int64_t seed = m_vegas_configuration->get<int64_t>("seed", 0);
-    int64_t min_eval = m_vegas_configuration->get<int64_t>("min_eval", 0);
-    int64_t max_eval = m_vegas_configuration->get<int64_t>("max_eval", 500000);
-    int64_t n_start = m_vegas_configuration->get<int64_t>("n_start", 25000);
-    int64_t n_increase = m_vegas_configuration->get<int64_t>("n_increase", 0);
-    int64_t batch_size = m_vegas_configuration->get<int64_t>("batch_size", 12500);
+    double relative_accuracy = m_vegas_configuration.get<double>("relative_accuracy", 0.005);
+    double absolute_accuracy = m_vegas_configuration.get<double>("absolute_accuracy", 0.);
+    int64_t seed = m_vegas_configuration.get<int64_t>("seed", 0);
+    int64_t min_eval = m_vegas_configuration.get<int64_t>("min_eval", 0);
+    int64_t max_eval = m_vegas_configuration.get<int64_t>("max_eval", 500000);
+    int64_t n_start = m_vegas_configuration.get<int64_t>("n_start", 25000);
+    int64_t n_increase = m_vegas_configuration.get<int64_t>("n_increase", 0);
+    int64_t batch_size = m_vegas_configuration.get<int64_t>("batch_size", 12500);
 
     unsigned int flags = vegas::createFlagsBitset(verbosity, subregion, retainStateFile, level, smoothing, takeOnlyGridFromFile);
 

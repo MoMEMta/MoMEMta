@@ -1,8 +1,3 @@
-M_W = 80.419002
-M_TOP = 173.
-W_W = 2.047600e+00
-W_TOP = 1.491500e+00
-
 -- Use transfer functions
 inputs_before_perm = {
     'tf_p1::output',
@@ -21,8 +16,10 @@ inputs = {
 
 configuration = {
     energy = 13000.,
-    top_mass = M_TOP,
-    W_mass = M_W
+    top_mass = 173.,
+    top_width = 1.491500,
+    W_mass = 80.419002,
+    W_width = 2.047600,
 }
 
 vegas = {
@@ -31,23 +28,23 @@ vegas = {
 
 -- Use the narrow width approximation for both Top & W propagators
 NarrowWidthApproximation.nwa_s13 = {
-    mass = M_W,
-    width = W_W
+    mass = parameter('W_mass'),
+    width = parameter('W_width')
 }
 
 NarrowWidthApproximation.nwa_s134 = {
-    mass = M_TOP,
-    width = W_TOP
+    mass = parameter('top_mass'),
+    width = parameter('top_width')
 }
 
 NarrowWidthApproximation.nwa_s25 = {
-    mass = M_W,
-    width = W_W
+    mass = parameter('W_mass'),
+    width = parameter('W_width')
 }
 
 NarrowWidthApproximation.nwa_s256 = {
-    mass = M_TOP,
-    width = W_TOP
+    mass = parameter('top_mass'),
+    width = parameter('top_width')
 }
 
 GaussianTransferFunction.tf_p1 = {

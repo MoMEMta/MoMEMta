@@ -17,6 +17,7 @@
  */
 
 
+#include <momemta/ConfigurationReader.h>
 #include <momemta/MoMEMta.h>
 #include <momemta/Utils.h>
 
@@ -32,7 +33,7 @@ int main(int argc, char** argv) {
     spdlog::set_level(spdlog::level::trace);
 
     ConfigurationReader configuration("../tests/phaseSpaceVolume/blockD.lua");
-    MoMEMta weight(configuration);
+    MoMEMta weight(configuration.freeze());
 
     // Electron
     LorentzVector p3(25, 0, 0, 25);
