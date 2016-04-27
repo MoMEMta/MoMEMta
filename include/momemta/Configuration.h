@@ -45,8 +45,8 @@ class Configuration {
 
         /// \return The list of modules declared from the configuration file
         const std::vector<Module>& getModules() const;
-        /// \return The vegas configuration as declared in the configuration file
-        const ConfigurationSet& getVegasConfiguration() const;
+        /// \return The cuba configuration as declared in the configuration file
+        const ConfigurationSet& getCubaConfiguration() const;
         /// \return The global configuration as declared in the configuration file
         const ConfigurationSet& getGlobalConfiguration() const;
 
@@ -56,5 +56,5 @@ class Configuration {
 
         std::vector<Module> modules;
         ConfigurationSet global_configuration;
-        ConfigurationSet vegas_configuration;
+        ConfigurationSet cuba_configuration;
 };

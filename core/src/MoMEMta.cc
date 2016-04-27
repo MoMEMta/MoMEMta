@@ -65,7 +65,7 @@ MoMEMta::MoMEMta(const Configuration& configuration) {
     m_pool->current_module("momemta");
     m_integrands = m_pool->get<std::vector<double>>({m_modules.back()->name(), "integrands"});
 
-    m_vegas_configuration = configuration.getVegasConfiguration();
+    m_cuba_configuration = configuration.getCubaConfiguration();
 
     const Pool::DescriptionMap& description = m_pool->description();
     graph::build(description, m_modules, [&description, this](const std::string& module) {
@@ -93,24 +93,24 @@ std::vector<std::pair<double, double>> MoMEMta::computeWeights(const std::vector
 
     *m_particles = particules;
 
-    // Read vegas configuration
-    uint8_t verbosity = m_vegas_configuration.get<int64_t>("verbosity", 0);
-    bool subregion = m_vegas_configuration.get<bool>("subregion", false);
-    bool smoothing = m_vegas_configuration.get<bool>("smoothing", false);
-    bool retainStateFile = m_vegas_configuration.get<bool>("retainStateFile", false);
-    bool takeOnlyGridFromFile = m_vegas_configuration.get<bool>("takeOnlyGridFromFile", true);
-    uint64_t level = m_vegas_configuration.get<int64_t>("level", 0);
+    // Read cuba configuration
+    uint8_t verbosity = m_cuba_configuration.get<int64_t>("verbosity", 0);
+    bool subregion = m_cuba_configuration.get<bool>("subregion", false);
+    bool smoothing = m_cuba_configuration.get<bool>("smoothing", false);
+    bool retainStateFile = m_cuba_configuration.get<bool>("retainStateFile", false);
+    bool takeOnlyGridFromFile = m_cuba_configuration.get<bool>("takeOnlyGridFromFile", true);
+    uint64_t level = m_cuba_configuration.get<int64_t>("level", 0);
 
-    double relative_accuracy = m_vegas_configuration.get<double>("relative_accuracy", 0.005);
-    double absolute_accuracy = m_vegas_configuration.get<double>("absolute_accuracy", 0.);
-    int64_t seed = m_vegas_configuration.get<int64_t>("seed", 0);
-    int64_t min_eval = m_vegas_configuration.get<int64_t>("min_eval", 0);
-    int64_t max_eval = m_vegas_configuration.get<int64_t>("max_eval", 500000);
-    int64_t n_start = m_vegas_configuration.get<int64_t>("n_start", 25000);
-    int64_t n_increase = m_vegas_configuration.get<int64_t>("n_increase", 0);
-    int64_t batch_size = m_vegas_configuration.get<int64_t>("batch_size", 12500);
+    double relative_accuracy = m_cuba_configuration.get<double>("relative_accuracy", 0.005);
+    double absolute_accuracy = m_cuba_configuration.get<double>("absolute_accuracy", 0.);
+    int64_t seed = m_cuba_configuration.get<int64_t>("seed", 0);
+    int64_t min_eval = m_cuba_configuration.get<int64_t>("min_eval", 0);
+    int64_t max_eval = m_cuba_configuration.get<int64_t>("max_eval", 500000);
+    int64_t n_start = m_cuba_configuration.get<int64_t>("n_start", 25000);
+    int64_t n_increase = m_cuba_configuration.get<int64_t>("n_increase", 0);
+    int64_t batch_size = m_cuba_configuration.get<int64_t>("batch_size", 12500);
 
-    unsigned int flags = vegas::createFlagsBitset(verbosity, subregion, retainStateFile, level, smoothing, takeOnlyGridFromFile);
+    unsigned int flags = cuba::createFlagsBitset(verbosity, subregion, retainStateFile, level, smoothing, takeOnlyGridFromFile);
 
     // Output from cuba
     long long int neval = 0;

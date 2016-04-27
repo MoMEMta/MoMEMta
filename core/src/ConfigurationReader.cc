@@ -50,12 +50,12 @@ ConfigurationReader::ConfigurationReader(const std::string& file) {
     }
     lua_pop(lua_state.get(), 1);
 
-    // Read vegas configuration
-    m_vegas_configuration.reset(new LazyConfigurationSet("vegas"));
-    type = lua_getglobal(lua_state.get(), "vegas");
+    // Read cuba configuration
+    m_cuba_configuration.reset(new LazyConfigurationSet("cuba"));
+    type = lua_getglobal(lua_state.get(), "cuba");
     if (type == LUA_TTABLE) {
-        LOG(debug) << "Parsing vegas configuration.";
-        m_vegas_configuration->parse(lua_state.get(), -1);
+        LOG(debug) << "Parsing cuba configuration.";
+        m_cuba_configuration->parse(lua_state.get(), -1);
     }
     lua_pop(lua_state.get(), 1);
 
@@ -83,8 +83,8 @@ ConfigurationSet& ConfigurationReader::getGlobalConfiguration() {
     return *m_global_configuration;
 }
 
-ConfigurationSet& ConfigurationReader::getVegasConfiguration() {
-    return *m_vegas_configuration;
+ConfigurationSet& ConfigurationReader::getCubaConfiguration() {
+    return *m_cuba_configuration;
 }
 
 Configuration ConfigurationReader::freeze() const {

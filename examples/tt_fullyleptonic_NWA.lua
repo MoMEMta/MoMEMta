@@ -22,7 +22,7 @@ configuration = {
     W_width = 2.047600,
 }
 
-vegas = {
+cuba = {
     verbosity = 3
 }
 

@@ -23,8 +23,8 @@ const std::vector<Configuration::Module>& Configuration::getModules() const {
     return modules;
 }
 
-const ConfigurationSet& Configuration::getVegasConfiguration() const {
-    return vegas_configuration;
+const ConfigurationSet& Configuration::getCubaConfiguration() const {
+    return cuba_configuration;
 }
 
 const ConfigurationSet& Configuration::getGlobalConfiguration() const {
@@ -34,10 +34,10 @@ const ConfigurationSet& Configuration::getGlobalConfiguration() const {
 Configuration::Configuration(const ConfigurationReader& reader) {
     modules = reader.m_modules;
     global_configuration = *reader.m_global_configuration.get();
-    vegas_configuration = *reader.m_vegas_configuration.get();
+    cuba_configuration = *reader.m_cuba_configuration.get();
 
     global_configuration.freeze();
-    vegas_configuration.freeze();
+    cuba_configuration.freeze();
     for (auto& module: modules) {
         module.parameters.freeze();
         // Attach global configuration to each module

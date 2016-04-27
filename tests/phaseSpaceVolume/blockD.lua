@@ -11,7 +11,7 @@ configuration = {
     W_mass = M_W
 }
 
-vegas = {
+cuba = {
     verbosity = 2,
     max_eval = 2000000000,
     relative_accuracy = 0.005,

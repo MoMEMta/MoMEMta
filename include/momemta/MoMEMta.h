@@ -51,7 +51,7 @@ class MoMEMta {
         std::vector<SharedLibraryPtr> m_libraries;
 
         size_t m_n_dimensions;
-        ConfigurationSet m_vegas_configuration;
+        ConfigurationSet m_cuba_configuration;
 
         // Pool inputs
         std::shared_ptr<std::vector<double>> m_ps_points;
