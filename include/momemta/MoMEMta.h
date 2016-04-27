@@ -56,5 +56,5 @@ class MoMEMta {
         // Pool inputs
         std::shared_ptr<std::vector<double>> m_ps_points;
         std::shared_ptr<std::vector<LorentzVector>> m_particles;
-        std::shared_ptr<const std::vector<double>> m_weights;
+        std::shared_ptr<const std::vector<double>> m_integrands;
 };

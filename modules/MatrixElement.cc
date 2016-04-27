@@ -102,7 +102,7 @@ class MatrixElement: public Module {
         virtual void work() override {
             static std::vector<LorentzVector> empty_vector;
 
-            m_weights->clear();
+            m_integrands->clear();
 
             uint64_t n_sols = m_invisibles->size();
 
@@ -170,22 +170,22 @@ class MatrixElement: public Module {
                 phaseSpaceOut *= SQ(p.P()) * sin(p.Theta()) / (2.0 * p.E() * CB(2. * M_PI));
             }
 
-            double weight = phaseSpaceIn * phaseSpaceOut * invisibles_jacobian;
+            double integrand = phaseSpaceIn * phaseSpaceOut * invisibles_jacobian;
             for (const auto& jacobian: m_jacobians) {
-                weight *= (*jacobian);
+                integrand *= (*jacobian);
             }
 
             // PDF
-            double final_weight = 0;
+            double final_integrand = 0;
             for (const auto& me: result) {
                 double pdf1 = use_pdf ? m_pdf->xfxQ2(me.first.first, x1, SQ(M_T)) / x1 : 1;
                 double pdf2 = use_pdf ? m_pdf->xfxQ2(me.first.second, x2, SQ(M_T)) / x2 : 1;
 
-                final_weight += me.second * pdf1 * pdf2;
+                final_integrand += me.second * pdf1 * pdf2;
             }
 
-            final_weight *= weight;
-            m_weights->push_back(final_weight);
+            final_integrand *= integrand;
+            m_integrands->push_back(final_integrand);
         }
 
     private:
@@ -208,6 +208,6 @@ class MatrixElement: public Module {
 
         std::shared_ptr<LHAPDF::PDF> m_pdf;
 
-        std::shared_ptr<std::vector<double>> m_weights = produce<std::vector<double>>("weights");
+        std::shared_ptr<std::vector<double>> m_integrands = produce<std::vector<double>>("integrands");
 };
 REGISTER_MODULE(MatrixElement);

@@ -61,9 +61,9 @@ MoMEMta::MoMEMta(const Configuration& configuration) {
     // Resize pool ps-points vector
     m_ps_points->resize(m_n_dimensions);
 
-    // The last module of the chain *must* output a vector of weights, used for the integration
+    // The last module of the chain *must* output a vector of integrands, used for the integration
     m_pool->current_module("momemta");
-    m_weights = m_pool->get<std::vector<double>>({m_modules.back()->name(), "weights"});
+    m_integrands = m_pool->get<std::vector<double>>({m_modules.back()->name(), "integrands"});
 
     m_vegas_configuration = configuration.getVegasConfiguration();
 
@@ -157,7 +157,7 @@ double MoMEMta::integrand(const double* psPoints, const double* weights) {
     }
 
     double sum = 0;
-    for (const auto& p: *m_weights) {
+    for (const auto& p: *m_integrands) {
         sum += p;
     }
 
