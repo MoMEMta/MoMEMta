@@ -452,6 +452,12 @@ namespace lua {
         lua_pushlightuserdata(L, ptr);
         lua_pushcclosure(L, parameter, 1);
         lua_setglobal(L, "parameter");
+
+        // Define the `CubaIndex()` function in Lua and make it available in the global namespace.
+        // See generate_cuba_index for more information.
+        lua_pushnumber(L, 0);
+        lua_pushcclosure(L, generate_cuba_index, 1);
+        lua_setglobal(L, "CubaIndex");
     }
 
     std::shared_ptr<lua_State> init_runtime(IOnModuleDeclared* callback) {
@@ -464,8 +470,26 @@ namespace lua {
 
         // Register existing modules
         lua::register_modules(L.get(), callback);
-
+    
         return L;
+    }
 
+    int generate_cuba_index(lua_State* L) {
+        int n = lua_gettop(L);
+        if (n != 0) {
+            luaL_error(L, "invalid number of arguments: 0 expected, got %d", n);
+        }
+
+        // Create input tag using current value of the index
+        int64_t cuba_index = lua_tonumber(L, lua_upvalueindex(1));
+        lua_pushnumber(L, cuba_index + 1);
+        lua_replace(L, lua_upvalueindex(1));
+
+        std::string index_tag = "cuba::ps_points/";
+        index_tag += std::to_string(cuba_index);
+
+        push_any(L, index_tag);
+
+        return 1;
     }
 }

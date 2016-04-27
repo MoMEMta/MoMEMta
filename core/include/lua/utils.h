@@ -262,4 +262,15 @@ namespace lua {
      * released using the `lua_close` function.
      */
     std::shared_ptr<lua_State> init_runtime(IOnModuleDeclared* callback);
+   
+    /** \brief Define Lua function to generate Cuba phase-space point input-tags
+     *
+     * \param L The current lua state
+     *
+     * The function allows creating a Lua function return an input tag of type `cuba::ps_points/i` where `i` gets incremented each time the function is called (starting from 0).
+     * This way, the user is sure to always define the correct input tag fothe phase-space points.
+     *
+     * \return always 1
+     */
+    int generate_cuba_index(lua_State* L);
 }
