@@ -93,9 +93,6 @@ std::vector<std::pair<double, double>> MoMEMta::computeWeights(const std::vector
 
     *m_particles = particules;
 
-    int neval, nfail;
-    double mcResult = 0, prob = 0, error = 0;
-
     // Read vegas configuration
     uint8_t verbosity = m_vegas_configuration.get<int64_t>("verbosity", 0);
     bool subregion = m_vegas_configuration.get<bool>("subregion", false);
@@ -115,7 +112,12 @@ std::vector<std::pair<double, double>> MoMEMta::computeWeights(const std::vector
 
     unsigned int flags = vegas::createFlagsBitset(verbosity, subregion, retainStateFile, level, smoothing, takeOnlyGridFromFile);
 
-    Vegas(
+    // Output from cuba
+    long long int neval = 0;
+    int nfail = 0;
+    double mcResult = 0, prob = 0, error = 0;
+
+    llVegas(
          m_n_dimensions,         // (int) dimensions of the integrated volume
          1,                      // (int) dimensions of the integrand
          (integrand_t) CUBAIntegrand,  // (integrand_t) integrand (cast to integrand_t)
