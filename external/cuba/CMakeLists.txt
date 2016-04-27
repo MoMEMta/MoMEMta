@@ -1,8 +1,7 @@
 add_definitions(-DHAVE_CONFIG_H)
 add_definitions(-DREAL_SIZE=8)
 add_definitions(-DNOUNDERSCORE)
-
-#add_definitions(-DLONGLONGINT)
+add_definitions(-DLONGLONGINT)
 
 include_directories(.)
 include_directories(src/common)
