@@ -4,7 +4,7 @@
 class DummyMatrixElement : public momemta::MatrixElement {
   public:
     // Constructor & destructor
-    DummyMatrixElement(const ConfigurationSet& configuration) {
+    DummyMatrixElement(const ParameterSet& configuration) {
         UNUSED(configuration);
     }
 

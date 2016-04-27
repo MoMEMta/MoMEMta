@@ -5,7 +5,7 @@ M_TOP = 500.
 W_W = 100.
 W_TOP = 100.
 
-configuration = {
+parameters = {
     energy = 1000.,
     top_mass = M_TOP,
     W_mass = M_W

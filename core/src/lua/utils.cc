@@ -1,7 +1,7 @@
 #include <stdexcept>
 
 #include <momemta/InputTag.h>
-#include <momemta/ConfigurationSet.h>
+#include <momemta/ParameterSet.h>
 #include <momemta/IOnModuleDeclared.h>
 #include <momemta/ModuleFactory.h>
 #include <momemta/Utils.h>
@@ -121,9 +121,9 @@ namespace lua {
                 break;
 
             case LUA_TTABLE: {
-                // We only support ConfigurationSet for table
+                // We only support ParameterSet for table
                 if (lua_is_array(L, index) == -1) {
-                    return CONFIGURATION_SET;
+                    return PARAMETER_SET;
                 }
 
             } break;
@@ -255,7 +255,7 @@ namespace lua {
                     }
 
                 } else {
-                    ConfigurationSet cfg;
+                    ParameterSet cfg;
                     cfg.parse(L, absolute_index);
                     result = cfg;
                 }
@@ -322,8 +322,8 @@ namespace lua {
             case INPUT_TAG:
                 return to_vectorT<InputTag>(L, index);
 
-            case CONFIGURATION_SET:
-                return to_vectorT<ConfigurationSet>(L, index);
+            case PARAMETER_SET:
+                return to_vectorT<ParameterSet>(L, index);
 
             case NOT_SUPPORTED:
                 break;
@@ -438,7 +438,7 @@ namespace lua {
         // Create an anonymous function return the value of the parameter
         // Assumes there's a global table named `configuration`
 
-        std::string code = "return function() return configuration['" + parameter_name + "'] end";
+        std::string code = "return function() return parameters['" + parameter_name + "'] end";
         luaL_dostring(L, code.c_str());
 
         return 1;

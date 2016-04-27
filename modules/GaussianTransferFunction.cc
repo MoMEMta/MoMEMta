@@ -19,7 +19,7 @@
 
 #include <Math/DistFunc.h>
 
-#include <momemta/ConfigurationSet.h>
+#include <momemta/ParameterSet.h>
 #include <momemta/Module.h>
 #include <momemta/Types.h>
 #include <momemta/Utils.h>
@@ -29,7 +29,7 @@
 class GaussianTransferFunction: public Module {
     public:
 
-        GaussianTransferFunction(PoolPtr pool, const ConfigurationSet& parameters): Module(pool, parameters.getModuleName()) {
+        GaussianTransferFunction(PoolPtr pool, const ParameterSet& parameters): Module(pool, parameters.getModuleName()) {
             m_ps_point = parameters.get<InputTag>("ps_point");
             m_input = parameters.get<InputTag>("reco_particle");
 

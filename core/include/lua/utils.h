@@ -39,7 +39,7 @@ namespace lua {
         INTEGER, /**< Map to `int64_t` */
         REAL, /**< Map to `double` */
         INPUT_TAG, /**< Map to InputTag */
-        CONFIGURATION_SET, /**< Map to ConfigurationSet */
+        PARAMETER_SET, /**< Map to ParameterSet */
     };
 
     /**

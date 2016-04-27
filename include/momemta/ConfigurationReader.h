@@ -26,7 +26,7 @@
 #include <momemta/Configuration.h>
 #include <momemta/IOnModuleDeclared.h>
 
-class ConfigurationSet;
+class ParameterSet;
 class lua_State;
 
 /**
@@ -38,7 +38,7 @@ class lua_State;
  *
  * A module can be seen like a box with a fixed number of inputs and outputs. The configuration file is used to specify a list of module to run, and to connect outputs of modules to inputs of other modules.
  *
- * \todo Discuss the `configuration` table, `cuba` table and the concept of freezing and delayed execution
+ * \todo Discuss the `parameters` table, `cuba` table and the concept of freezing and delayed execution
  *
  */
 class ConfigurationReader: public IOnModuleDeclared {
@@ -47,8 +47,8 @@ class ConfigurationReader: public IOnModuleDeclared {
 
         virtual void onModuleDeclared(const std::string& type, const std::string& name) override;
 
-        ConfigurationSet& getGlobalConfiguration();
-        ConfigurationSet& getCubaConfiguration();
+        ParameterSet& getGlobalParameters();
+        ParameterSet& getCubaConfiguration();
 
         /**
          * \brief Freeze the configuration
@@ -61,8 +61,8 @@ class ConfigurationReader: public IOnModuleDeclared {
         friend class Configuration;
 
         std::vector<Configuration::Module> m_modules;
-        std::shared_ptr<ConfigurationSet> m_global_configuration;
-        std::shared_ptr<ConfigurationSet> m_cuba_configuration;
+        std::shared_ptr<ParameterSet> m_global_parameters;
+        std::shared_ptr<ParameterSet> m_cuba_configuration;
 
         std::shared_ptr<lua_State> lua_state;
 };

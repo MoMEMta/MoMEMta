@@ -34,13 +34,13 @@
  *    - `jacobian` (double): Jacobian of the linear transformation.
  */
 
-#include <momemta/ConfigurationSet.h>
+#include <momemta/ParameterSet.h>
 #include <momemta/Module.h>
 
 class UniformGenerator: public Module {
     public:
 
-        UniformGenerator(PoolPtr pool, const ConfigurationSet& parameters): Module(pool, parameters.getModuleName()),
+        UniformGenerator(PoolPtr pool, const ParameterSet& parameters): Module(pool, parameters.getModuleName()),
             m_min(parameters.get<double>("min")),
             m_max(parameters.get<double>("max")),
             m_ps_point(parameters.get<InputTag>("input")) {

@@ -17,7 +17,7 @@
  */
 
 
-#include <momemta/ConfigurationSet.h>
+#include <momemta/ParameterSet.h>
 #include <momemta/Module.h>
 #include <momemta/Types.h>
 
@@ -26,7 +26,7 @@
 class Boost: public Module {
     public:
 
-        Boost(PoolPtr pool, const ConfigurationSet& parameters): Module(pool, parameters.getModuleName()) {
+        Boost(PoolPtr pool, const ParameterSet& parameters): Module(pool, parameters.getModuleName()) {
             
             std::vector<InputTag> invisibles_tag = parameters.get<std::vector<InputTag>>("invisibles");
             for (const auto& tag: invisibles_tag) {

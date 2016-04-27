@@ -3,7 +3,7 @@ M_TOP = 173.
 W_W = 2.047600e+00
 W_TOP = 1.491500e+00
 
-configuration = {
+parameters = {
     energy = 13000.,
     top_mass = M_TOP,
     W_mass = M_W

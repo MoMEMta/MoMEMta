@@ -28,7 +28,6 @@
 #include <string>
 #include <vector>
 
-#include <momemta/ConfigurationSet.h>
 #include <momemta/IOnModuleDeclared.h>
 #include <momemta/ModuleFactory.h>
 #include <momemta/InputTag.h>
@@ -184,8 +183,8 @@ TEST_CASE("lua parsing utilities", "[lua]") {
 
     SECTION("parsing lazy values") {
 
-        // Setup global configuration table
-        execute_string(L, "configuration = { top_mass = 173. }");
+        // Setup global parameters table
+        execute_string(L, "parameters = { top_mass = 173. }");
 
         SECTION("lazy function") {
             execute_string(L, "return parameter('top_mass')");
@@ -206,7 +205,7 @@ TEST_CASE("lua parsing utilities", "[lua]") {
             REQUIRE(value.first.type() == typeid(lua::LazyFunction));
 
             // Edit parameter
-            lua_getglobal(L.get(), "configuration");
+            lua_getglobal(L.get(), "parameters");
             lua_pushnumber(L.get(), 175.);
             lua_setfield(L.get(), -2, "top_mass");
             lua_pop(L.get(), 1);
@@ -219,7 +218,7 @@ TEST_CASE("lua parsing utilities", "[lua]") {
         }
 
         SECTION("lazy table field") {
-            lua::LazyTableField lazy(L.get(), "configuration", "top_mass");
+            lua::LazyTableField lazy(L.get(), "parameters", "top_mass");
 
             SECTION("evaluation") {
                 auto value = lazy();

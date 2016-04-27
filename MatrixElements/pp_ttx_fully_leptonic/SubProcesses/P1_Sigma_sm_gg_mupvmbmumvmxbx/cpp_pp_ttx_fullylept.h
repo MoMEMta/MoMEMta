@@ -127,7 +127,7 @@
     public:
 
       // Constructor & destructor
-      cpp_pp_ttx_fullylept(const ConfigurationSet& configuration); 
+      cpp_pp_ttx_fullylept(const ParameterSet& configuration); 
       virtual ~cpp_pp_ttx_fullylept() {}; 
 
       // Calculate flavour-independent parts of cross section.

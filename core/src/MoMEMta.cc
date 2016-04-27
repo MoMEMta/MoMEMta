@@ -21,7 +21,7 @@
 
 #include <cuba.h>
 
-#include <momemta/ConfigurationSet.h>
+#include <momemta/ParameterSet.h>
 #include <momemta/Configuration.h>
 #include <momemta/MoMEMta.h>
 #include <momemta/Utils.h>

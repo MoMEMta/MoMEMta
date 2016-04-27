@@ -17,7 +17,7 @@
  */
 
 
-#include <momemta/ConfigurationSet.h>
+#include <momemta/ParameterSet.h>
 #include <momemta/MatrixElement.h>
 #include <momemta/MatrixElementFactory.h>
 #include <momemta/Module.h>
@@ -36,16 +36,16 @@ class MatrixElement: public Module {
 
     public:
 
-        MatrixElement(PoolPtr pool, const ConfigurationSet& parameters): Module(pool, parameters.getModuleName()) {
+        MatrixElement(PoolPtr pool, const ParameterSet& parameters): Module(pool, parameters.getModuleName()) {
 
-            sqrt_s = parameters.globalConfiguration().get<double>("energy");
-            M_T = parameters.globalConfiguration().get<double>("top_mass");
+            sqrt_s = parameters.globalParameters().get<double>("energy");
+            M_T = parameters.globalParameters().get<double>("top_mass");
             
             use_pdf = parameters.get<bool>("use_pdf", true);
 
             m_partons = get<std::vector<std::vector<LorentzVector>>>(parameters.get<InputTag>("initialState"));
 
-            const auto& invisibles_set = parameters.get<ConfigurationSet>("invisibles");
+            const auto& invisibles_set = parameters.get<ParameterSet>("invisibles");
 
             InputTag invisibles_tag = invisibles_set.get<InputTag>("input");
             LOG(debug) << "[MatrixElement] invisibles input tag: " << invisibles_tag.toString();
@@ -55,7 +55,7 @@ class MatrixElement: public Module {
             LOG(debug) << "[MatrixElement] invisibles jacobians tag: " << invisibles_jacobians_tag.toString();
             m_invisibles_jacobians = get<std::vector<double>>(invisibles_jacobians_tag);
 
-            const auto& invisibles_ids_set = invisibles_set.get<std::vector<ConfigurationSet>>("ids");
+            const auto& invisibles_ids_set = invisibles_set.get<std::vector<ParameterSet>>("ids");
             LOG(debug) << "[MatrixElement] # invisibles ids: " << invisibles_ids_set.size();
             for (const auto& s: invisibles_ids_set) {
                 ParticleId id;
@@ -64,14 +64,14 @@ class MatrixElement: public Module {
                 m_invisibles_ids.push_back(id);
             }
 
-            const auto& particles_set = parameters.get<ConfigurationSet>("particles");
+            const auto& particles_set = parameters.get<ParameterSet>("particles");
 
             m_particles_tags = particles_set.get<std::vector<InputTag>>("inputs");
             for (auto& tag: m_particles_tags)
                 tag.resolve(pool);
             LOG(debug) << "[MatrixElement] # particles input tags: " << m_particles_tags.size();
 
-            const auto& particles_ids_set = particles_set.get<std::vector<ConfigurationSet>>("ids");
+            const auto& particles_ids_set = particles_set.get<std::vector<ParameterSet>>("ids");
             LOG(debug) << "[MatrixElement] # particles ids: " << particles_ids_set.size();
             for (const auto& s: particles_ids_set) {
                 ParticleId id;
@@ -86,7 +86,7 @@ class MatrixElement: public Module {
             }
 
             std::string matrix_element = parameters.get<std::string>("matrix_element");
-            const ConfigurationSet& matrix_element_configuration = parameters.get<ConfigurationSet>("matrix_element_parameters");
+            const ParameterSet& matrix_element_configuration = parameters.get<ParameterSet>("matrix_element_parameters");
             m_ME = MatrixElementFactory::get().create(matrix_element, matrix_element_configuration);
 
             // PDF, if asked

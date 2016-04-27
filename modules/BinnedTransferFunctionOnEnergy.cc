@@ -16,7 +16,7 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <momemta/ConfigurationSet.h>
+#include <momemta/ParameterSet.h>
 #include <momemta/Module.h>
 #include <momemta/Types.h>
 #include <momemta/Utils.h>
@@ -63,7 +63,7 @@
 class BinnedTransferFunctionOnEnergy: public Module {
     public:
 
-        BinnedTransferFunctionOnEnergy(PoolPtr pool, const ConfigurationSet& parameters): Module(pool, parameters.getModuleName()) {
+        BinnedTransferFunctionOnEnergy(PoolPtr pool, const ParameterSet& parameters): Module(pool, parameters.getModuleName()) {
             m_ps_point = parameters.get<InputTag>("ps_point");
             m_input = parameters.get<InputTag>("reco_particle");
 

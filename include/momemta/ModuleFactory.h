@@ -30,11 +30,11 @@
 
 // Forward declaration
 class Module;
-class ConfigurationSet;
+class ParameterSet;
 class Pool;
 
 // Register ModuleFactory used by all the modules
-using ModuleFactory = PluginFactory<Module* (std::shared_ptr<Pool>, const ConfigurationSet&)>;
+using ModuleFactory = PluginFactory<Module* (std::shared_ptr<Pool>, const ParameterSet&)>;
 
 #define REGISTER_MODULE(type) \
     static const ModuleFactory::PMaker<type> PLUGIN_UNIQUE_NAME(s_module , __LINE__)(#type)

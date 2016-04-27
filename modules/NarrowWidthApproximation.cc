@@ -54,13 +54,13 @@
  *    - `jacobian` (double): Overall factor for proper normalisation.
  */
 
-#include <momemta/ConfigurationSet.h>
+#include <momemta/ParameterSet.h>
 #include <momemta/Module.h>
 
 class NarrowWidthApproximation: public Module {
     public:
 
-        NarrowWidthApproximation(PoolPtr pool, const ConfigurationSet& parameters): Module(pool, parameters.getModuleName())
+        NarrowWidthApproximation(PoolPtr pool, const ParameterSet& parameters): Module(pool, parameters.getModuleName())
         {
             double mass = parameters.get<double>("mass");
             double width = parameters.get<double>("width");

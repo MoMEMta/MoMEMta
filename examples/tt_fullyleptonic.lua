@@ -44,7 +44,7 @@ else
   inputs = inputs_before_perm
 end
 
-configuration = {
+parameters = {
     energy = 13000.,
     top_mass = 173.,
     top_width = 1.491500,

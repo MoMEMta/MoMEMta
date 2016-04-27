@@ -17,7 +17,7 @@
  */
 
 
-#include <momemta/ConfigurationSet.h>
+#include <momemta/ParameterSet.h>
 #include <momemta/Module.h>
 #include <momemta/Types.h>
 #include <momemta/Utils.h>
@@ -25,8 +25,8 @@
 class BlockD: public Module {
     public:
 
-        BlockD(PoolPtr pool, const ConfigurationSet& parameters): Module(pool, parameters.getModuleName()) {
-            sqrt_s = parameters.globalConfiguration().get<double>("energy");
+        BlockD(PoolPtr pool, const ParameterSet& parameters): Module(pool, parameters.getModuleName()) {
+            sqrt_s = parameters.globalParameters().get<double>("energy");
 
             s13 = get<double>(parameters.get<InputTag>("s13"));
             s134 = get<double>(parameters.get<InputTag>("s134"));
