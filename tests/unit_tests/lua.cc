@@ -70,11 +70,11 @@ TEST_CASE("lua parsing utilities", "[lua]") {
         execute_string(L, "index1 = getpspoint()");
         lua_getglobal(L.get(), "index1");
         auto value = lua::to_any(L.get(), -1);
-        REQUIRE( (boost::any_cast<InputTag>(value.first)).toString() == "cuba::ps_points/0");
+        REQUIRE( (boost::any_cast<InputTag>(value.first)).toString() == "cuba::ps_points/1");
         execute_string(L, "index2 = getpspoint()");
         lua_getglobal(L.get(), "index2");
         value = lua::to_any(L.get(), -1);
-        REQUIRE( (boost::any_cast<InputTag>(value.first)).toString() == "cuba::ps_points/1");
+        REQUIRE( (boost::any_cast<InputTag>(value.first)).toString() == "cuba::ps_points/2");
         lua_pop(L.get(), 2);
     }
 

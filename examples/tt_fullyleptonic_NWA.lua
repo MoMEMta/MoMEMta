@@ -9,9 +9,9 @@ inputs_before_perm = {
 -- Use permutator module to permutate input particles 0 and 2 using the MC
 inputs = {
   inputs_before_perm[1],
-  'permutator::output/0',
-  inputs_before_perm[3],
   'permutator::output/1',
+  inputs_before_perm[3],
+  'permutator::output/2',
 }
 
 parameters = {
@@ -48,32 +48,32 @@ NarrowWidthApproximation.nwa_s256 = {
 }
 
 GaussianTransferFunction.tf_p1 = {
-    ps_point = 'cuba::ps_points/0',
-    reco_particle = 'input::particles/0',
+    ps_point = 'cuba::ps_points/1',
+    reco_particle = 'input::particles/1',
     sigma = 0.05,
 }
 
 GaussianTransferFunction.tf_p2 = {
-    ps_point = 'cuba::ps_points/1',
-    reco_particle = 'input::particles/1',
+    ps_point = 'cuba::ps_points/2',
+    reco_particle = 'input::particles/2',
     sigma = 0.10,
 }
 
 GaussianTransferFunction.tf_p3 = {
-    ps_point = 'cuba::ps_points/2',
-    reco_particle = 'input::particles/2',
+    ps_point = 'cuba::ps_points/3',
+    reco_particle = 'input::particles/3',
     sigma = 0.05,
 }
 
 GaussianTransferFunction.tf_p4 = {
-    ps_point = 'cuba::ps_points/3',
-    reco_particle = 'input::particles/3',
+    ps_point = 'cuba::ps_points/4',
+    reco_particle = 'input::particles/4',
     sigma = 0.10,
 }
   
 Permutator.permutator = {
-    ps_point = 'cuba::ps_points/4',
-    input = {
+    ps_point = 'cuba::ps_points/5',
+    inputs = {
       inputs_before_perm[2],
       inputs_before_perm[4],
     }

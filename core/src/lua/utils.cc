@@ -452,7 +452,7 @@ namespace lua {
 
         // Define the `getpspoint()` function in Lua and make it available in the global namespace.
         // See generate_cuba_inputtag for more information.
-        lua_pushnumber(L, 0);
+        lua_pushnumber(L, 1);
         lua_pushcclosure(L, generate_cuba_inputtag, 1);
         lua_setglobal(L, "getpspoint");
     }

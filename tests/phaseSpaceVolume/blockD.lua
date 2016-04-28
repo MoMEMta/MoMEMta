@@ -22,63 +22,63 @@ cuba = {
 -- 'Flat' transfer functions to integrate over the visible particle's energies and angles
 -- First |P|
 FlatTransferFunctionOnP.tf_p_1 = {
-    ps_point = 'cuba::ps_points/0',
-    reco_particle = 'input::particles/0',
-    min = 0.,
-    max = configuration.energy/2,
-}
-FlatTransferFunctionOnP.tf_p_2 = {
-    ps_point = 'cuba::ps_points/1',
+    ps_point = getpspoint(),
     reco_particle = 'input::particles/1',
     min = 0.,
-    max = configuration.energy/2,
+    max = parameters.energy/2,
 }
-FlatTransferFunctionOnP.tf_p_3 = {
-    ps_point = 'cuba::ps_points/2',
+FlatTransferFunctionOnP.tf_p_2 = {
+    ps_point = getpspoint(),
     reco_particle = 'input::particles/2',
     min = 0.,
-    max = configuration.energy/2,
+    max = parameters.energy/2,
 }
-FlatTransferFunctionOnP.tf_p_4 = {
-    ps_point = 'cuba::ps_points/3',
+FlatTransferFunctionOnP.tf_p_3 = {
+    ps_point = getpspoint(),
     reco_particle = 'input::particles/3',
     min = 0.,
-    max = configuration.energy/2,
+    max = parameters.energy/2,
+}
+FlatTransferFunctionOnP.tf_p_4 = {
+    ps_point = getpspoint(),
+    reco_particle = 'input::particles/4',
+    min = 0.,
+    max = parameters.energy/2,
 }
 
 -- Pass these outputs over for Phi
 FlatTransferFunctionOnPhi.tf_phi_1 = {
-    ps_point = 'cuba::ps_points/4',
+    ps_point = getpspoint(),
     reco_particle = 'tf_p_1::output',
 }
 FlatTransferFunctionOnPhi.tf_phi_2 = {
-    ps_point = 'cuba::ps_points/5',
+    ps_point = getpspoint(),
     reco_particle = 'tf_p_2::output',
 }
 FlatTransferFunctionOnPhi.tf_phi_3 = {
-    ps_point = 'cuba::ps_points/6',
+    ps_point = getpspoint(),
     reco_particle = 'tf_p_3::output',
 }
 FlatTransferFunctionOnPhi.tf_phi_4 = {
-    ps_point = 'cuba::ps_points/7',
+    ps_point = getpspoint(),
     reco_particle = 'tf_p_4::output',
 }
 
 -- Finally, do Theta 
 FlatTransferFunctionOnTheta.tf_theta_1 = {
-    ps_point = 'cuba::ps_points/8',
+    ps_point = getpspoint(),
     reco_particle = 'tf_phi_1::output',
 }
 FlatTransferFunctionOnTheta.tf_theta_2 = {
-    ps_point = 'cuba::ps_points/9',
+    ps_point = getpspoint(),
     reco_particle = 'tf_phi_2::output',
 }
 FlatTransferFunctionOnTheta.tf_theta_3 = {
-    ps_point = 'cuba::ps_points/10',
+    ps_point = getpspoint(),
     reco_particle = 'tf_phi_3::output',
 }
 FlatTransferFunctionOnTheta.tf_theta_4 = {
-    ps_point = 'cuba::ps_points/11',
+    ps_point = getpspoint(),
     reco_particle = 'tf_phi_4::output',
 }
 
@@ -90,25 +90,25 @@ inputs = {
 }
 
 BreitWignerGenerator.flatter_s13 = {
-    ps_point = "cuba::ps_points/12",
+    ps_point = getpspoint(),
     mass = M_W,
     width = W_W
 }
 
 BreitWignerGenerator.flatter_s134 = {
-    ps_point = "cuba::ps_points/13",
+    ps_point = getpspoint(),
     mass = M_TOP,
     width = W_TOP
 }
 
 BreitWignerGenerator.flatter_s25 = {
-    ps_point = "cuba::ps_points/14",
+    ps_point = getpspoint(),
     mass = M_W,
     width = W_W
 }
 
 BreitWignerGenerator.flatter_s256 = {
-    ps_point = "cuba::ps_points/15",
+    ps_point = getpspoint(),
     mass = M_TOP,
     width = W_TOP
 }
