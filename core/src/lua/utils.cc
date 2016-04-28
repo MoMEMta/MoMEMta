@@ -453,11 +453,11 @@ namespace lua {
         lua_pushcclosure(L, parameter, 1);
         lua_setglobal(L, "parameter");
 
-        // Define the `CubaIndex()` function in Lua and make it available in the global namespace.
-        // See generate_cuba_index for more information.
+        // Define the `getpspoint()` function in Lua and make it available in the global namespace.
+        // See generate_cuba_inputtag for more information.
         lua_pushnumber(L, 0);
-        lua_pushcclosure(L, generate_cuba_index, 1);
-        lua_setglobal(L, "CubaIndex");
+        lua_pushcclosure(L, generate_cuba_inputtag, 1);
+        lua_setglobal(L, "getpspoint");
     }
 
     std::shared_ptr<lua_State> init_runtime(IOnModuleDeclared* callback) {
@@ -465,7 +465,7 @@ namespace lua {
         std::shared_ptr<lua_State> L(luaL_newstate(), lua_close);
         luaL_openlibs(L.get());
 
-        // Register function load_modules
+        // Register hooks function, like `load_modules`
         lua::setup_hooks(L.get(), callback);
 
         // Register existing modules
@@ -474,7 +474,7 @@ namespace lua {
         return L;
     }
 
-    int generate_cuba_index(lua_State* L) {
+    int generate_cuba_inputtag(lua_State* L) {
         int n = lua_gettop(L);
         if (n != 0) {
             luaL_error(L, "invalid number of arguments: 0 expected, got %d", n);

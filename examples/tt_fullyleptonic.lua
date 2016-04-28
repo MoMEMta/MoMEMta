@@ -56,41 +56,41 @@ cuba = {
     verbosity = 3
 }
 
-Flatter.flatter_s13 = { 
-    -- CubaIndex() generates an input tag of type `cuba::ps_points/i`
+Flatter.flatter_s13 = {
+    -- getpspoint() generates an input tag of type `cuba::ps_points/i`
     -- where `i` is automatically incremented each time the function is called.
-    input = CubaIndex(),
+    input = getpspoint(),
     mass = parameter('W_mass'),
     width = parameter('W_width')
 }
 
 Flatter.flatter_s134 = {
-    input = CubaIndex(),
+    input = getpspoint(),
     mass = parameter('top_mass'),
     width = parameter('top_width')
 }
 
 Flatter.flatter_s25 = {
-    input = CubaIndex(), 
+    input = getpspoint(),
     mass = parameter('W_mass'),
     width = parameter('W_width')
 }
 
 Flatter.flatter_s256 = {
-    input = CubaIndex(),
+    input = getpspoint(),
     mass = parameter('top_mass'),
     width = parameter('top_width')
 }
 
 if USE_TF then
     GaussianTransferFunction.tf_p1 = {
-        ps_point = CubaIndex(),
+        ps_point = getpspoint(),
         reco_particle = 'input::particles/0',
         sigma = 0.05,
     }
 
     GaussianTransferFunction.tf_p2 = {
-        ps_point = CubaIndex(),
+        ps_point = getpspoint(),
         reco_particle = 'input::particles/1',
         sigma = 0.10,
     }
@@ -104,17 +104,17 @@ if USE_TF then
     -- }
 
     GaussianTransferFunction.tf_p3 = {
-        ps_point = CubaIndex(),
+        ps_point = getpspoint(),
         reco_particle = 'input::particles/2',
         sigma = 0.05,
     }
 
     GaussianTransferFunction.tf_p4 = {
-        ps_point = CubaIndex(),
+        ps_point = getpspoint(),
         reco_particle = 'input::particles/3',
         sigma = 0.10,
     }
-    
+
     -- BinnedTransferFunctionOnEnergy.tf_p4 = {
     --     ps_point = 'cuba::ps_points/7',
     --     reco_particle = 'input::particles/3',
@@ -125,7 +125,7 @@ end
 
 if USE_PERM then
     Permutator.permutator = {
-        ps_point = CubaIndex(), 
+        ps_point = getpspoint(),
         input = {
           inputs_before_perm[2],
           inputs_before_perm[4],

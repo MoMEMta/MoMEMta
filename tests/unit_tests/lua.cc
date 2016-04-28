@@ -65,13 +65,13 @@ TEST_CASE("lua parsing utilities", "[lua]") {
         execute_string(L, "load_modules('not_existing.so')");
         execute_string(L, "parameter('not_existing')");
 
-        // Check that the CubaIndex() function returns the correct InputTag
+        // Check that the getpspoint() function returns the correct InputTag
         // and that the index gets correctly incremented at each call.
-        execute_string(L, "index1 = CubaIndex()");
+        execute_string(L, "index1 = getpspoint()");
         lua_getglobal(L.get(), "index1");
         auto value = lua::to_any(L.get(), -1);
         REQUIRE( (boost::any_cast<InputTag>(value.first)).toString() == "cuba::ps_points/0");
-        execute_string(L, "index2 = CubaIndex()");
+        execute_string(L, "index2 = getpspoint()");
         lua_getglobal(L.get(), "index2");
         value = lua::to_any(L.get(), -1);
         REQUIRE( (boost::any_cast<InputTag>(value.first)).toString() == "cuba::ps_points/1");
