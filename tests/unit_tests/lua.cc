@@ -79,12 +79,12 @@ TEST_CASE("lua parsing utilities", "[lua]") {
     }
 
     SECTION("defining modules") {
-        execute_string(L, "Flatter.test = {}");
+        execute_string(L, "BreitWignerGenerator.test = {}");
         REQUIRE(moduleDeclared.modules.size() == 1);
-        REQUIRE(moduleDeclared.modules.back().first == "Flatter");
+        REQUIRE(moduleDeclared.modules.back().first == "BreitWignerGenerator");
         REQUIRE(moduleDeclared.modules.back().second == "test");
 
-        execute_string(L, "Flatter.test2 = {}");
+        execute_string(L, "BreitWignerGenerator.test2 = {}");
         REQUIRE(moduleDeclared.modules.size() == 2);
         REQUIRE(moduleDeclared.modules.back().second == "test2");
     }

@@ -56,7 +56,7 @@ cuba = {
     verbosity = 3
 }
 
-Flatter.flatter_s13 = {
+BreitWignerGenerator.flatter_s13 = {
     -- getpspoint() generates an input tag of type `cuba::ps_points/i`
     -- where `i` is automatically incremented each time the function is called.
     input = getpspoint(),
@@ -64,19 +64,19 @@ Flatter.flatter_s13 = {
     width = parameter('W_width')
 }
 
-Flatter.flatter_s134 = {
+BreitWignerGenerator.flatter_s134 = {
     input = getpspoint(),
     mass = parameter('top_mass'),
     width = parameter('top_width')
 }
 
-Flatter.flatter_s25 = {
+BreitWignerGenerator.flatter_s25 = {
     input = getpspoint(),
     mass = parameter('W_mass'),
     width = parameter('W_width')
 }
 
-Flatter.flatter_s256 = {
+BreitWignerGenerator.flatter_s256 = {
     input = getpspoint(),
     mass = parameter('top_mass'),
     width = parameter('top_width')

@@ -49,7 +49,7 @@
  *
  * - Inputs:
  *  - `s12` (double): Invariant mass of the particle decaying into the missing particle (\f$p_1\f$) 
- *                    and the visible particle, \f$p_2\f$. Typically coming from a Flatter module.
+ *                    and the visible particle, \f$p_2\f$. Typically coming from a BreitWignerGenerator module.
  *  - `inputs` (vector(LorentzVector)): LorentzVector of all the experimentally reconstructed particles.
  *                                      In this Block there is only one visible particle, \f$p_2\f$.
  * - Outputs:

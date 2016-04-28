@@ -87,25 +87,25 @@ inputs = {
   'tf_theta_4::output',
 }
 
-Flatter.flatter_s13 = {
+BreitWignerGenerator.flatter_s13 = {
     input = "cuba::ps_points/12",
     mass = M_W,
     width = W_W
 }
 
-Flatter.flatter_s134 = {
+BreitWignerGenerator.flatter_s134 = {
     input = "cuba::ps_points/13",
     mass = M_TOP,
     width = W_TOP
 }
 
-Flatter.flatter_s25 = {
+BreitWignerGenerator.flatter_s25 = {
     input = "cuba::ps_points/14",
     mass = M_W,
     width = W_W
 }
 
-Flatter.flatter_s256 = {
+BreitWignerGenerator.flatter_s256 = {
     input = "cuba::ps_points/15",
     mass = M_TOP,
     width = W_TOP

@@ -51,9 +51,9 @@
  *  - Inputs:
  *  - `q1` and `q2` (double): Bjorken fractions. These are the dimensions of integration coming from CUBA as phase-space points.
  *  - `s13` (double): Invariant mass of the particle decaying into the missing particle (\f$p_1\f$) 
- *                    and the visible particle (\f$p_3\f$). Typically coming from a Flatter module.
+ *                    and the visible particle (\f$p_3\f$). Typically coming from a BreitWignerGenerator module.
  *  - `s24` (double): Invariant mass of the particle decaying into the missing particle (\f$p_2\f$)
- *                    and the visible particle (\f$p_4\f$). Tipically coming from a Flatter module.
+ *                    and the visible particle (\f$p_4\f$). Tipically coming from a BreitWignerGenerator module.
  *  - `inputs` (vector(LorentzVector)): LorentzVector of all the experimentally reconstructed particles.
  *                                      In this Block its dimension is 2.
  * - Outputs:

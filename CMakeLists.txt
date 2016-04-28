@@ -92,7 +92,7 @@ set(MOMEMTA_SOURCES
     "modules/BlockD.cc"
     "modules/BlockF.cc"
     "modules/Boost.cc"
-    "modules/Flatter.cc"
+    "modules/BreitWignerGenerator.cc"
     "modules/FlatTransferFunctionOnP.cc"
     "modules/FlatTransferFunctionOnPhi.cc"
     "modules/FlatTransferFunctionOnTheta.cc"

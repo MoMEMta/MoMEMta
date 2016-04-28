@@ -23,7 +23,7 @@
  *  This approximation is exact in the limit \f$\Gamma/m \to 0\f$.
  *
  *  To implement this approximation in MoMEMta, you need to change the way the Block is fed the `s` (propagator mass squared) variable: 
- *  Instead of retrieving it from the `Flatter` module (which adds a dimension to carry out integration over
+ *  Instead of retrieving it from the `BreitWignerGenerator` module (which adds a dimension to carry out integration over
  *  the propagator mass), use this module's output as input to the Block.
  *
  *  This module defines a 'jacobian' factor, important for the normalisation of the likelihood. Formally, the NWA is defined by
