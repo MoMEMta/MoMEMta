@@ -370,9 +370,6 @@ namespace lua {
         std::vector<std::string> modules = ModuleFactory::get().getPluginsList();
         for (const auto& module: modules) {
             const char* module_name = module.c_str();
-            char* module_metatable = new char[module.size() + 3 + 1];
-            strncpy(module_metatable, module_name, module.size() + 1);
-            strncat(module_metatable, "_mt", 3);
 
             int type = lua_getglobal(L, module_name);
             lua_pop(L, 1);
@@ -384,8 +381,10 @@ namespace lua {
             // Create a new empty table
             lua_newtable(L);
 
+            std::string module_metatable = module + "_mt";
+
             // Create the associated metatable
-            luaL_newmetatable(L, module_metatable);
+            luaL_newmetatable(L, module_metatable.c_str());
 
             lua_pushstring(L, module_name);
             lua_setfield(L, -2, "__type");
@@ -406,8 +405,6 @@ namespace lua {
             lua_setglobal(L, module_name);
 
             TRACE("Registered new lua global variable '{}'", module_name);
-
-            delete[] module_metatable;
         }
     }
 
