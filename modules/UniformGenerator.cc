@@ -32,6 +32,8 @@
  *  - Outputs:
  *    - `output` (double): Random point in [min, max].
  *    - `jacobian` (double): Jacobian of the linear transformation.
+ *
+ * \ingroup modules
  */
 
 #include <momemta/ParameterSet.h>

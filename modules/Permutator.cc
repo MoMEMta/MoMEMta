@@ -25,6 +25,9 @@
 #include <momemta/Module.h>
 #include <momemta/Types.h>
 
+/**
+ * \ingroup modules
+ */
 class Permutator: public Module {
     public:
 

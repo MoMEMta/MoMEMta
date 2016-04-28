@@ -23,8 +23,9 @@
 #include <momemta/Utils.h>
 
 
-/** Final (main) Block B, consisting on \f$q_1 q_2 \to X + s_{12} \to X + p_1 p_2\f$,  
- * where \f$q_1\f$ and \f$q_2\f$ are Bjorken fractions, and \f$s_{12}\f$ is a particle decaying 
+/** \brief Final (main) Block B, describing \f$q_1 q_2 \to X + s_{12} \to X + p_1 p_2\f$
+ *
+ * \f$q_1\f$ and \f$q_2\f$ are Bjorken fractions, and \f$s_{12}\f$ is a particle decaying 
  * into \f$p_1\f$ (invisible particle) and \f$p_2\f$ (visible particle).
  *
  * This Block addresses the change of variables needed to pass from the standard phase-space
@@ -57,6 +58,7 @@
  *                                                  One value per solution.
  *  - `jacobians` (vector(double)): Jacobian of the performed change of variables, leading to an integration on \f$ds_{12}\f$
  *                                  One jacobian per solution.                                
+ * \ingroup modules
  */
 
 class BlockB: public Module {

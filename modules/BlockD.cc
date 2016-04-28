@@ -22,6 +22,9 @@
 #include <momemta/Types.h>
 #include <momemta/Utils.h>
 
+/**
+ * \ingroup modules
+ */
 class BlockD: public Module {
     public:
 

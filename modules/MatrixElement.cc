@@ -28,6 +28,9 @@
 
 #include <LHAPDF/LHAPDF.h>
 
+/**
+ * \ingroup modules
+ */
 class MatrixElement: public Module {
     struct ParticleId {
         int64_t pdg_id;

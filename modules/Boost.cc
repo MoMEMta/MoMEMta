@@ -23,6 +23,9 @@
 
 #include <logging.h>
 
+/**
+ * \ingroup modules
+ */
 class Boost: public Module {
     public:
 

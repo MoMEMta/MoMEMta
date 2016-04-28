@@ -26,6 +26,9 @@
 
 #include <logging.h>
 
+/**
+ * \ingroup modules
+ */
 class GaussianTransferFunction: public Module {
     public:
 

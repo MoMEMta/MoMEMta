@@ -42,7 +42,9 @@
  *
  *  - Outputs:
  *    - `output` (LorentzVector): Output "generated" LorentzVector, only differing from 'reco_particle' by its \f$\theta\f$.
- *    - `TF_times_jacobian` (double): Transfer function (ie, 1) times the jacobian (due to the integration range). 
+ *    - `TF_times_jacobian` (double): Transfer function (ie, 1) times the jacobian (due to the integration range).
+ *
+ * \brief modules
  */
 
 class FlatTransferFunctionOnTheta: public Module {

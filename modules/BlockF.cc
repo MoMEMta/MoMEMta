@@ -25,23 +25,22 @@
 
 #include <TMath.h>
 
-/*! \brief This module aims at computing the jacobians coming from the changes of variable in the
- *         standard phase-space parametrization for processes like WW->llMET.
+/*! \brief This module aims at computing the jacobians coming from the changes of variable in the standard phase-space parametrization for processes like \f$ WW \rightarrow ll + \text{ME}_\text{T} \f$.
  *
  * Final (main) Block F on \f$q_1 q_2 \to X + s_{13} + s_{24} \to X + p_1 p_2 p_3 p_4\f$,  
- * where \f$q_1\f$ and \f$q_2\f$ are Bjorken fractions, s_{13} and s_{24} are particles
+ * where \f$q_1\f$ and \f$q_2\f$ are Bjorken fractions, \f$s_{13}\f$ and \f$s_{24}\f$ are particles
  * decaying respectively into \f$p_1\f$ (invisible particle) and \f$p_3\f$ (visible particle),
  * and \f$p_2\f$ (invisible particle) and \f$p_4\f$ (visible particle).
  * 
  * This Block addresses the change of variables needed to pass from the standard phase-space
  * parametrization to the $\frac{1}{16\pi^2 E_1 E_2} dq_{1} dq_{2} ds_{13} d_s{24}  \times J$ parametrization.               .
  * 
- * The integration is performed over \f$q_{1}\f$, \f$q_{2}$f\, \f$s_{13}$f\ and \f$s_{24}\f$
+ * The integration is performed over \f$q_{1}\f$, \f$q_{2}\f$, \f$s_{13}\f$ and \f$s_{24}\f$
  * with \f$p_3\f$ and \f$p_4\f$ as inputs. Per integration point, 
  * the LorentzVectors of the invisible particle, \f$p_1\f$ and \f$p_2\f$,
  * are computed  based on a set of equations.
  *
- * Up to 2 {\f$p_1\f$,\f$p_2$f\} solutions are possible.
+ * Up to 2 (\f$p_1\f$, \f$p_2\f$) solutions are possible.
  *
  * - Integration dimension: 2
  *
@@ -53,16 +52,18 @@
  *  - `s13` (double): Invariant mass of the particle decaying into the missing particle (\f$p_1\f$) 
  *                    and the visible particle (\f$p_3\f$). Typically coming from a BreitWignerGenerator module.
  *  - `s24` (double): Invariant mass of the particle decaying into the missing particle (\f$p_2\f$)
- *                    and the visible particle (\f$p_4\f$). Tipically coming from a BreitWignerGenerator module.
+ *                    and the visible particle (\f$p_4\f$). Typically coming from a BreitWignerGenerator module.
  *  - `inputs` (vector(LorentzVector)): LorentzVector of all the experimentally reconstructed particles.
  *                                      In this Block its dimension is 2.
  * - Outputs:
  *  - `invisibles` (vector(vector(LorentzVector))): LorentzVector of the invisible particles. Each element
- *                                                  contains one of the possible solutions ({\f$p1$f\,\f$p2$f\} in this case).
+ *                                                  contains one of the possible solutions ({\f$p1\f$, \f$p2\f$} in this case).
  *                                                 
- *  - `jacobians` (vector(double)): Jacobian of the performed change of variables, leading to an integration on \f$dq_1$f\,
- *                                  \f$dq_2$f\, \f$ds_{13}\f$, \f$ds_{24}$f\.
- *                                  One jacobian per solution.                                
+ *  - `jacobians` (vector(double)): Jacobian of the performed change of variables, leading to an integration on \f$dq_1\f$,
+ *                                  \f$dq_2\f$, \f$ds_{13}\f$, \f$ds_{24}\f$.
+ *                                  One jacobian per solution.
+ *
+ * \ingroup modules
  */
 
 class BlockF: public Module {
