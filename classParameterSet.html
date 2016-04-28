@@ -11,7 +11,7 @@
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-scrollTo/2.1.2/jquery.scrollTo.min.js"></script>
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-powertip/1.2.0/jquery.powertip.min.js"></script>
-        <title>MoMEMta: ConfigurationSet Class Reference</title>
+        <title>MoMEMta: ParameterSet Class Reference</title>
         <!--<link href="tabs.css" rel="stylesheet" type="text/css"/>-->
         <script type="text/javascript" src="dynsections.js"></script>
         <link href="search/search.css" rel="stylesheet" type="text/css"/>
@@ -114,19 +114,19 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pro-methods">Protected Member Functions</a> &#124;
 <a href="#friends">Friends</a> &#124;
-<a href="classConfigurationSet-members.html">List of all members</a>  </div>
+<a href="classParameterSet-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">ConfigurationSet Class Reference</div>  </div>
+<div class="title">ParameterSet Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 
 <p>A class encapsulating a lua table.  
- <a href="classConfigurationSet.html#details">More...</a></p>
+ <a href="classParameterSet.html#details">More...</a></p>
 
-<p><code>#include &lt;<a class="el" href="ConfigurationSet_8h_source.html">ConfigurationSet.h</a>&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="ParameterSet_8h_source.html">ParameterSet.h</a>&gt;</code></p>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>A class encapsulating a lua table. </p>
-<p>All the items inside the table will be converted to plain C++ type, and can be accessed via the ConfigurationSet::get() functions.</p>
+<p>All the items inside the table will be converted to plain C++ type, and can be accessed via the ParameterSet::get() functions.</p>
 <p><b>Only</b> the following types are supported:</p>
 <ul>
 <li><code>int64_t</code></li>
@@ -134,80 +134,80 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li><code>bool</code></li>
 <li><code>std::string</code></li>
 <li><code><a class="el" href="structInputTag.html">InputTag</a></code></li>
-<li><code><a class="el" href="classConfigurationSet.html" title="A class encapsulating a lua table. ">ConfigurationSet</a></code></li>
+<li><code><a class="el" href="classParameterSet.html" title="A class encapsulating a lua table. ">ParameterSet</a></code></li>
 <li><code>std::vector&lt;&gt;</code> of one of the above types</li>
 </ul>
 <p>Consider the following lua snippet:</p>
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;{</div><div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;     x = 91.,</div><div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;     y = &quot;string&quot;,</div><div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;     z = {10, 20, 30, 40}</div><div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;}</div></div><!-- fragment --><p>The resulting <code><a class="el" href="classConfigurationSet.html" title="A class encapsulating a lua table. ">ConfigurationSet</a></code> will encapsulates three values:</p><ul>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;{</div><div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;     x = 91.,</div><div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;     y = &quot;string&quot;,</div><div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;     z = {10, 20, 30, 40}</div><div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;}</div></div><!-- fragment --><p>The resulting <code><a class="el" href="classParameterSet.html" title="A class encapsulating a lua table. ">ParameterSet</a></code> will encapsulates three values:</p><ul>
 <li><code>x</code> of type <code>double</code> = <code>91.</code></li>
 <li><code>y</code> of type <code>std::string</code> = <code>"string"</code></li>
 <li><code>z</code> of type <code>std::vector&lt;int64_t&gt;</code> = <code>[10, 20, 30, 40]</code></li>
 </ul>
 <p>and you would use the following code to access the <code>z</code> value:</p>
 <div class="fragment"><div class="line">std::vector&lt;int64_t&gt; values = <span class="keyword">set</span>.get&lt;std::vector&lt;int64_t&gt;&gt;(<span class="stringliteral">&quot;z&quot;</span>);</div></div><!-- fragment --><dl class="todo"><dt><b><a class="el" href="todo.html#_todo000003">Todo:</a></b></dt><dd>Document the freezing of the configuration in <a class="el" href="classConfigurationReader.html" title="A lua configuration file parser. ">ConfigurationReader</a></dd></dl>
-<dl class="section note"><dt>Note</dt><dd>You should <em>never</em> try to create a <a class="el" href="classConfigurationSet.html" title="A class encapsulating a lua table. ">ConfigurationSet</a> yourself. Always use the <a class="el" href="classConfigurationReader.html" title="A lua configuration file parser. ">ConfigurationReader</a> class to parse the configuration file </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>You should <em>never</em> try to create a <a class="el" href="classParameterSet.html" title="A class encapsulating a lua table. ">ParameterSet</a> yourself. Always use the <a class="el" href="classConfigurationReader.html" title="A lua configuration file parser. ">ConfigurationReader</a> class to parse the configuration file </dd></dl>
 
-<p>Definition at line <a class="el" href="ConfigurationSet_8h_source.html#l00072">72</a> of file <a class="el" href="ConfigurationSet_8h_source.html">ConfigurationSet.h</a>.</p>
+<p>Definition at line <a class="el" href="ParameterSet_8h_source.html#l00072">72</a> of file <a class="el" href="ParameterSet_8h_source.html">ParameterSet.h</a>.</p>
 </div><div class="dynheader">
-Inheritance diagram for ConfigurationSet:</div>
+Inheritance diagram for ParameterSet:</div>
 <div class="dyncontent">
-<div class="center"><img src="classConfigurationSet__inherit__graph.png" border="0" usemap="#ConfigurationSet_inherit__map" alt="Inheritance graph"/></div>
-<map name="ConfigurationSet_inherit__map" id="ConfigurationSet_inherit__map">
-<area shape="rect" id="node2" href="classLazyConfigurationSet.html" title="A lazy configuration set. " alt="" coords="5,80,152,107"/>
+<div class="center"><img src="classParameterSet__inherit__graph.png" border="0" usemap="#ParameterSet_inherit__map" alt="Inheritance graph"/></div>
+<map name="ParameterSet_inherit__map" id="ParameterSet_inherit__map">
+<area shape="rect" id="node2" href="classLazyParameterSet.html" title="A lazy parameter set. " alt="" coords="4,80,133,107"/>
 </map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structConfigurationSet_1_1Element.html">Element</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A small wrapper around a boost::any value.  <a href="structConfigurationSet_1_1Element.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structParameterSet_1_1Element.html">Element</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A small wrapper around a boost::any value.  <a href="structParameterSet_1_1Element.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a857967d37a5bbc77086bb92748ab546d"><td class="memTemplParams" colspan="2"><a class="anchor" id="a857967d37a5bbc77086bb92748ab546d"></a>
+<tr class="memitem:a5f94265a834d7ca4f21aadcdfa49c6a8"><td class="memTemplParams" colspan="2"><a class="anchor" id="a5f94265a834d7ca4f21aadcdfa49c6a8"></a>
 template&lt;typename T &gt; </td></tr>
-<tr class="memitem:a857967d37a5bbc77086bb92748ab546d"><td class="memTemplItemLeft" align="right" valign="top">const T &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><b>get</b> (const std::string &amp;name) const </td></tr>
-<tr class="separator:a857967d37a5bbc77086bb92748ab546d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab760b1746ec949e89998610c52f65e14"><td class="memTemplParams" colspan="2"><a class="anchor" id="ab760b1746ec949e89998610c52f65e14"></a>
+<tr class="memitem:a5f94265a834d7ca4f21aadcdfa49c6a8"><td class="memTemplItemLeft" align="right" valign="top">const T &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><b>get</b> (const std::string &amp;name) const </td></tr>
+<tr class="separator:a5f94265a834d7ca4f21aadcdfa49c6a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa391adf00d8d9ccdb302d05a41efdb11"><td class="memTemplParams" colspan="2"><a class="anchor" id="aa391adf00d8d9ccdb302d05a41efdb11"></a>
 template&lt;typename T &gt; </td></tr>
-<tr class="memitem:ab760b1746ec949e89998610c52f65e14"><td class="memTemplItemLeft" align="right" valign="top">const T &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><b>get</b> (const std::string &amp;name, const T &amp;defaultValue) const </td></tr>
-<tr class="separator:ab760b1746ec949e89998610c52f65e14"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7813d42a41e1615b931c013420fe39c5"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a7813d42a41e1615b931c013420fe39c5"></a>
+<tr class="memitem:aa391adf00d8d9ccdb302d05a41efdb11"><td class="memTemplItemLeft" align="right" valign="top">const T &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><b>get</b> (const std::string &amp;name, const T &amp;defaultValue) const </td></tr>
+<tr class="separator:aa391adf00d8d9ccdb302d05a41efdb11"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0a1e4e0181df2736fe195991a561a6fa"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a0a1e4e0181df2736fe195991a561a6fa"></a>
 bool&#160;</td><td class="memItemRight" valign="bottom"><b>exists</b> (const std::string &amp;name) const </td></tr>
-<tr class="separator:a7813d42a41e1615b931c013420fe39c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a72bb71c9da98110820b43a412e941f79"><td class="memTemplParams" colspan="2"><a class="anchor" id="a72bb71c9da98110820b43a412e941f79"></a>
+<tr class="separator:a0a1e4e0181df2736fe195991a561a6fa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a36258e06e8cb2d0340dd4723c4e408f4"><td class="memTemplParams" colspan="2"><a class="anchor" id="a36258e06e8cb2d0340dd4723c4e408f4"></a>
 template&lt;typename T &gt; </td></tr>
-<tr class="memitem:a72bb71c9da98110820b43a412e941f79"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><b>existsAs</b> (const std::string &amp;name) const </td></tr>
-<tr class="separator:a72bb71c9da98110820b43a412e941f79"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac2cc1f87e2113accf730650f251348f4"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:ac2cc1f87e2113accf730650f251348f4"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classConfigurationSet.html#ac2cc1f87e2113accf730650f251348f4">set</a> (const std::string &amp;name, const T &amp;value)</td></tr>
-<tr class="memdesc:ac2cc1f87e2113accf730650f251348f4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Change the value of a given parameter.  <a href="#ac2cc1f87e2113accf730650f251348f4">More...</a><br /></td></tr>
-<tr class="separator:ac2cc1f87e2113accf730650f251348f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab3149b8b0ab359e722dea1f2107709ed"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classConfigurationSet.html#ab3149b8b0ab359e722dea1f2107709ed">parse</a> (lua_State *L, int index)</td></tr>
-<tr class="memdesc:ab3149b8b0ab359e722dea1f2107709ed"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parse fields of a lua table.  <a href="#ab3149b8b0ab359e722dea1f2107709ed">More...</a><br /></td></tr>
-<tr class="separator:ab3149b8b0ab359e722dea1f2107709ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a721e444e94b948089c9d9763a17d00db"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a721e444e94b948089c9d9763a17d00db"></a>
+<tr class="memitem:a36258e06e8cb2d0340dd4723c4e408f4"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><b>existsAs</b> (const std::string &amp;name) const </td></tr>
+<tr class="separator:a36258e06e8cb2d0340dd4723c4e408f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a62cd5c00e0729d6bbbb4cee378fd8b46"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a62cd5c00e0729d6bbbb4cee378fd8b46"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classParameterSet.html#a62cd5c00e0729d6bbbb4cee378fd8b46">set</a> (const std::string &amp;name, const T &amp;value)</td></tr>
+<tr class="memdesc:a62cd5c00e0729d6bbbb4cee378fd8b46"><td class="mdescLeft">&#160;</td><td class="mdescRight">Change the value of a given parameter.  <a href="#a62cd5c00e0729d6bbbb4cee378fd8b46">More...</a><br /></td></tr>
+<tr class="separator:a62cd5c00e0729d6bbbb4cee378fd8b46"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8030cda85a7a842ce6bfe5b8ceb4ba0f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classParameterSet.html#a8030cda85a7a842ce6bfe5b8ceb4ba0f">parse</a> (lua_State *L, int index)</td></tr>
+<tr class="memdesc:a8030cda85a7a842ce6bfe5b8ceb4ba0f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parse fields of a lua table.  <a href="#a8030cda85a7a842ce6bfe5b8ceb4ba0f">More...</a><br /></td></tr>
+<tr class="separator:a8030cda85a7a842ce6bfe5b8ceb4ba0f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab67a1f38b81bd021dd295c9d401967a5"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab67a1f38b81bd021dd295c9d401967a5"></a>
 std::string&#160;</td><td class="memItemRight" valign="bottom"><b>getModuleName</b> () const </td></tr>
-<tr class="separator:a721e444e94b948089c9d9763a17d00db"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8d71bb4c2572534a7214de2b66c6458c"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8d71bb4c2572534a7214de2b66c6458c"></a>
+<tr class="separator:ab67a1f38b81bd021dd295c9d401967a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8e8ded6d85e072e64847683f988c1b7b"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8e8ded6d85e072e64847683f988c1b7b"></a>
 std::string&#160;</td><td class="memItemRight" valign="bottom"><b>getModuleType</b> () const </td></tr>
-<tr class="separator:a8d71bb4c2572534a7214de2b66c6458c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4668be59064461c325e334249e80dfb5"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4668be59064461c325e334249e80dfb5"></a>
-const <a class="el" href="classConfigurationSet.html">ConfigurationSet</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>globalConfiguration</b> () const </td></tr>
-<tr class="separator:a4668be59064461c325e334249e80dfb5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="separator:a8e8ded6d85e072e64847683f988c1b7b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a18faef443e535469709f04710c2e8373"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a18faef443e535469709f04710c2e8373"></a>
+const <a class="el" href="classParameterSet.html">ParameterSet</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>globalParameters</b> () const </td></tr>
+<tr class="separator:a18faef443e535469709f04710c2e8373"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
-<tr class="memitem:ad91ceeb336d48d8331cb80bc20e86290"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad91ceeb336d48d8331cb80bc20e86290"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>ConfigurationSet</b> (const std::string &amp;module_type, const std::string &amp;module_name)</td></tr>
-<tr class="separator:ad91ceeb336d48d8331cb80bc20e86290"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a857fedf2049ec3c4e3048c505e2e6916"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a857fedf2049ec3c4e3048c505e2e6916"></a>
+<tr class="memitem:a7bca173d46a58793213d3dba6f621884"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a7bca173d46a58793213d3dba6f621884"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>ParameterSet</b> (const std::string &amp;module_type, const std::string &amp;module_name)</td></tr>
+<tr class="separator:a7bca173d46a58793213d3dba6f621884"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab4aab9b9a71b2ca7dfb87ef45b02f8cf"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab4aab9b9a71b2ca7dfb87ef45b02f8cf"></a>
 virtual std::pair&lt; boost::any, bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>parseItem</b> (const std::string &amp;key, lua_State *L, int index)</td></tr>
-<tr class="separator:a857fedf2049ec3c4e3048c505e2e6916"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6216d9c7f2a9e523677388c99d8ddf43"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a6216d9c7f2a9e523677388c99d8ddf43"></a>
-virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>setInternal</b> (const std::string &amp;name, <a class="el" href="structConfigurationSet_1_1Element.html">Element</a> &amp;element, const boost::any &amp;value)</td></tr>
-<tr class="separator:a6216d9c7f2a9e523677388c99d8ddf43"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="separator:ab4aab9b9a71b2ca7dfb87ef45b02f8cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0c24a217b32fe853f8a70cb29276d020"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a0c24a217b32fe853f8a70cb29276d020"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>setInternal</b> (const std::string &amp;name, <a class="el" href="structParameterSet_1_1Element.html">Element</a> &amp;element, const boost::any &amp;value)</td></tr>
+<tr class="separator:a0c24a217b32fe853f8a70cb29276d020"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="friends"></a>
 Friends</h2></td></tr>
@@ -222,12 +222,12 @@ std::pair&lt; boost::any, bool &gt;&#160;</td><td class="memItemRight" valign="b
 <tr class="separator:a24138407edb196fc2b1d23e62161511e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="ab3149b8b0ab359e722dea1f2107709ed"></a>
+<a class="anchor" id="a8030cda85a7a842ce6bfe5b8ceb4ba0f"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void ConfigurationSet::parse </td>
+          <td class="memname">void ParameterSet::parse </td>
           <td>(</td>
           <td class="paramtype">lua_State *&#160;</td>
           <td class="paramname"><em>L</em>, </td>
@@ -255,13 +255,13 @@ std::pair&lt; boost::any, bool &gt;&#160;</td><td class="memItemRight" valign="b
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="ConfigurationSet_8cc_source.html#l00031">31</a> of file <a class="el" href="ConfigurationSet_8cc_source.html">ConfigurationSet.cc</a>.</p>
+<p>Definition at line <a class="el" href="ParameterSet_8cc_source.html#l00031">31</a> of file <a class="el" href="ParameterSet_8cc_source.html">ParameterSet.cc</a>.</p>
 
-<p>Referenced by <a class="el" href="ConfigurationSet_8h_source.html#l00109">set()</a>, and <a class="el" href="utils_8cc_source.html#l00210">lua::to_any()</a>.</p>
+<p>Referenced by <a class="el" href="ParameterSet_8h_source.html#l00109">set()</a>, and <a class="el" href="utils_8cc_source.html#l00210">lua::to_any()</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="ac2cc1f87e2113accf730650f251348f4"></a>
+<a class="anchor" id="a62cd5c00e0729d6bbbb4cee378fd8b46"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
@@ -271,7 +271,7 @@ template&lt;typename T &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void ConfigurationSet::set </td>
+          <td class="memname">void ParameterSet::set </td>
           <td>(</td>
           <td class="paramtype">const std::string &amp;&#160;</td>
           <td class="paramname"><em>name</em>, </td>
@@ -306,13 +306,13 @@ template&lt;typename T &gt; </div>
 <dl class="section note"><dt>Note</dt><dd>The parameter must already exist</dd></dl>
 <dl class="section warning"><dt>Warning</dt><dd>Vectors are currently not supported </dd></dl>
 
-<p>Definition at line <a class="el" href="ConfigurationSet_8h_source.html#l00109">109</a> of file <a class="el" href="ConfigurationSet_8h_source.html">ConfigurationSet.h</a>.</p>
+<p>Definition at line <a class="el" href="ParameterSet_8h_source.html#l00109">109</a> of file <a class="el" href="ParameterSet_8h_source.html">ParameterSet.h</a>.</p>
 
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following files:<ul>
-<li>include/momemta/<a class="el" href="ConfigurationSet_8h_source.html">ConfigurationSet.h</a></li>
-<li>core/src/<a class="el" href="ConfigurationSet_8cc_source.html">ConfigurationSet.cc</a></li>
+<li>include/momemta/<a class="el" href="ParameterSet_8h_source.html">ParameterSet.h</a></li>
+<li>core/src/<a class="el" href="ParameterSet_8cc_source.html">ParameterSet.cc</a></li>
 </ul>
 </div><!-- contents -->
 <!-- HTML footer for doxygen 1.8.8-->

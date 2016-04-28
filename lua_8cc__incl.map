@@ -1,14 +1,13 @@
 <map id="tests/unit_tests/lua.cc" name="tests/unit_tests/lua.cc">
-<area shape="rect" id="node6" href="$ConfigurationSet_8h_source.html" title="momemta/ConfigurationSet.h" alt="" coords="697,229,889,256"/>
-<area shape="rect" id="node8" href="$utils_8h_source.html" title="lua/utils.h" alt="" coords="891,312,969,339"/>
-<area shape="rect" id="node14" href="$IOnModuleDeclared_8h_source.html" title="momemta/IOnModuleDeclared.h" alt="" coords="20,155,229,181"/>
-<area shape="rect" id="node15" href="$ModuleFactory_8h_source.html" title="momemta/ModuleFactory.h" alt="" coords="452,229,633,256"/>
-<area shape="rect" id="node18" href="$InputTag_8h_source.html" title="momemta/InputTag.h" alt="" coords="991,80,1137,107"/>
-<area shape="rect" id="node10" href="$logging_8h_source.html" title="logging.h" alt="" coords="592,395,665,421"/>
-<area shape="rect" id="node17" href="$PluginFactory_8h_source.html" title="momemta/PluginFactory.h" alt="" coords="417,312,591,339"/>
-<area shape="rect" id="node19" href="$InputTag__fwd_8h_source.html" title="momemta/impl/InputTag\l_fwd.h" alt="" coords="1147,305,1309,346"/>
-<area shape="rect" id="node26" href="$impl_2InputTag_8h_source.html" title="momemta/impl/InputTag.h" alt="" coords="977,155,1151,181"/>
-<area shape="rect" id="node21" href="$Utils_8h_source.html" title="momemta/Utils.h" alt="" coords="1384,395,1507,421"/>
-<area shape="rect" id="node24" href="$Types_8h_source.html" title="momemta/Types.h" alt="" coords="1261,469,1391,496"/>
-<area shape="rect" id="node27" href="$Pool_8h_source.html" title="momemta/Pool.h" alt="" coords="1003,229,1124,256"/>
+<area shape="rect" id="node6" href="$IOnModuleDeclared_8h_source.html" title="momemta/IOnModuleDeclared.h" alt="" coords="255,155,464,181"/>
+<area shape="rect" id="node7" href="$ModuleFactory_8h_source.html" title="momemta/ModuleFactory.h" alt="" coords="412,229,593,256"/>
+<area shape="rect" id="node13" href="$InputTag_8h_source.html" title="momemta/InputTag.h" alt="" coords="952,80,1099,107"/>
+<area shape="rect" id="node24" href="$utils_8h_source.html" title="lua/utils.h" alt="" coords="1237,312,1315,339"/>
+<area shape="rect" id="node10" href="$logging_8h_source.html" title="logging.h" alt="" coords="543,395,616,421"/>
+<area shape="rect" id="node12" href="$PluginFactory_8h_source.html" title="momemta/PluginFactory.h" alt="" coords="509,312,683,339"/>
+<area shape="rect" id="node14" href="$InputTag__fwd_8h_source.html" title="momemta/impl/InputTag\l_fwd.h" alt="" coords="959,305,1121,346"/>
+<area shape="rect" id="node22" href="$impl_2InputTag_8h_source.html" title="momemta/impl/InputTag.h" alt="" coords="938,155,1112,181"/>
+<area shape="rect" id="node17" href="$Utils_8h_source.html" title="momemta/Utils.h" alt="" coords="1092,395,1215,421"/>
+<area shape="rect" id="node20" href="$Types_8h_source.html" title="momemta/Types.h" alt="" coords="1215,469,1344,496"/>
+<area shape="rect" id="node23" href="$Pool_8h_source.html" title="momemta/Pool.h" alt="" coords="965,229,1085,256"/>
 </map>

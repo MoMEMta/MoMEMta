@@ -1,3 +1,8 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$structgraph_1_1Edge.html" title="graph::Edge" alt="" coords="6,5,98,32"/>
+<area shape="rect" id="node2" href="$classgraph_1_1unresolved__input.html" title="graph::unresolved_input" alt="" coords="167,5,327,32"/>
+<area shape="rect" id="node3" href="$classinvalid__state.html" title="invalid_state" alt="" coords="199,56,294,83"/>
+<area shape="rect" id="node4" href="$classlua_1_1invalid__array__error.html" title="lua::invalid_array\l_error" alt="" coords="187,107,307,149"/>
+<area shape="rect" id="node5" href="$classlua_1_1invalid__configuration__file.html" title="&lt; Thrown if the configuration file is not valid " alt="" coords="152,173,341,200"/>
+<area shape="rect" id="node6" href="$classlua_1_1unsupported__type__error.html" title="lua::unsupported_type\l_error" alt="" coords="171,225,322,266"/>
+<area shape="rect" id="node7" href="$classSLHA_1_1invalid__card__error.html" title="SLHA::invalid_card\l_error" alt="" coords="179,290,314,331"/>
 </map>

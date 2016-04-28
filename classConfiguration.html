@@ -139,10 +139,10 @@ Classes</h2></td></tr>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:aeee80ab1fc71cb7c1cd6b7b7ae32e541"><td class="memItemLeft" align="right" valign="top">const std::vector&lt; <a class="el" href="structConfiguration_1_1Module.html">Module</a> &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classConfiguration.html#aeee80ab1fc71cb7c1cd6b7b7ae32e541">getModules</a> () const </td></tr>
 <tr class="separator:aeee80ab1fc71cb7c1cd6b7b7ae32e541"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa81fd905098942106897a7b8741c9075"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classConfigurationSet.html">ConfigurationSet</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classConfiguration.html#aa81fd905098942106897a7b8741c9075">getVegasConfiguration</a> () const </td></tr>
-<tr class="separator:aa81fd905098942106897a7b8741c9075"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a141793de7e7a622812bcaa3b70dcfb2f"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classConfigurationSet.html">ConfigurationSet</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classConfiguration.html#a141793de7e7a622812bcaa3b70dcfb2f">getGlobalConfiguration</a> () const </td></tr>
-<tr class="separator:a141793de7e7a622812bcaa3b70dcfb2f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6d11b023fb76e4062a546659dcab7910"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classParameterSet.html">ParameterSet</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classConfiguration.html#a6d11b023fb76e4062a546659dcab7910">getCubaConfiguration</a> () const </td></tr>
+<tr class="separator:a6d11b023fb76e4062a546659dcab7910"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ade2f303994bc94727bce4f2bf61bfeeb"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classParameterSet.html">ParameterSet</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classConfiguration.html#ade2f303994bc94727bce4f2bf61bfeeb">getGlobalParameters</a> () const </td></tr>
+<tr class="separator:ade2f303994bc94727bce4f2bf61bfeeb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="friends"></a>
 Friends</h2></td></tr>
@@ -151,19 +151,37 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>ConfigurationReader<
 <tr class="separator:a8931dbbad8ad230daff858fbd1686fdd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="a141793de7e7a622812bcaa3b70dcfb2f"></a>
+<a class="anchor" id="a6d11b023fb76e4062a546659dcab7910"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">const <a class="el" href="classConfigurationSet.html">ConfigurationSet</a> &amp; Configuration::getGlobalConfiguration </td>
+          <td class="memname">const <a class="el" href="classParameterSet.html">ParameterSet</a> &amp; Configuration::getCubaConfiguration </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
         </tr>
       </table>
 </div><div class="memdoc">
-<dl class="section return"><dt>Returns</dt><dd>The global configuration as declared in the configuration file </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>The cuba configuration as declared in the configuration file </dd></dl>
+
+<p>Definition at line <a class="el" href="Configuration_8cc_source.html#l00026">26</a> of file <a class="el" href="Configuration_8cc_source.html">Configuration.cc</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ade2f303994bc94727bce4f2bf61bfeeb"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const <a class="el" href="classParameterSet.html">ParameterSet</a> &amp; Configuration::getGlobalParameters </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>The global parameters as declared in the configuration file </dd></dl>
 
 <p>Definition at line <a class="el" href="Configuration_8cc_source.html#l00030">30</a> of file <a class="el" href="Configuration_8cc_source.html">Configuration.cc</a>.</p>
 
@@ -184,24 +202,6 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>ConfigurationReader<
 <dl class="section return"><dt>Returns</dt><dd>The list of modules declared from the configuration file </dd></dl>
 
 <p>Definition at line <a class="el" href="Configuration_8cc_source.html#l00022">22</a> of file <a class="el" href="Configuration_8cc_source.html">Configuration.cc</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="aa81fd905098942106897a7b8741c9075"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">const <a class="el" href="classConfigurationSet.html">ConfigurationSet</a> &amp; Configuration::getVegasConfiguration </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<dl class="section return"><dt>Returns</dt><dd>The vegas configuration as declared in the configuration file </dd></dl>
-
-<p>Definition at line <a class="el" href="Configuration_8cc_source.html#l00026">26</a> of file <a class="el" href="Configuration_8cc_source.html">Configuration.cc</a>.</p>
 
 </div>
 </div>

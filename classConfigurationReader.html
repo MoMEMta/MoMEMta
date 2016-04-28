@@ -127,7 +127,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <p>This class handles the parsing of the lua configuration file. The configuration files describes which modules should be run in order to form an integrand. This integrand is then integrated using CUBA and <a class="el" href="classMoMEMta.html">MoMEMta</a> and the result of the integral is returned.</p>
 <p>A module is a single element of a more complex scheme. Itself, it only performs a simple tasks (flattening a Breit-Wigner for example), but combined with other modules, it's possible to define complex integrand.</p>
 <p>A module can be seen like a box with a fixed number of inputs and outputs. The configuration file is used to specify a list of module to run, and to connect outputs of modules to inputs of other modules.</p>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000002">Todo:</a></b></dt><dd>Discuss the <code>configuration</code> table, <code>vegas</code> table and the concept of freezing and delayed execution</dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000002">Todo:</a></b></dt><dd>Discuss the <code>parameters</code> table, <code>cuba</code> table and the concept of freezing and delayed execution</dd></dl>
 
 <p>Definition at line <a class="el" href="ConfigurationReader_8h_source.html#l00044">44</a> of file <a class="el" href="ConfigurationReader_8h_source.html">ConfigurationReader.h</a>.</p>
 </div><div class="dynheader">
@@ -147,12 +147,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:af6481d44f085ae687887c8b94c63b89f"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classConfigurationReader.html#af6481d44f085ae687887c8b94c63b89f">onModuleDeclared</a> (const std::string &amp;type, const std::string &amp;name) override</td></tr>
 <tr class="memdesc:af6481d44f085ae687887c8b94c63b89f"><td class="mdescLeft">&#160;</td><td class="mdescRight">A module is declared in the configuration file.  <a href="#af6481d44f085ae687887c8b94c63b89f">More...</a><br /></td></tr>
 <tr class="separator:af6481d44f085ae687887c8b94c63b89f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acc73f734798c6c7909b86d8d77e4cdcb"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="acc73f734798c6c7909b86d8d77e4cdcb"></a>
-<a class="el" href="classConfigurationSet.html">ConfigurationSet</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>getGlobalConfiguration</b> ()</td></tr>
-<tr class="separator:acc73f734798c6c7909b86d8d77e4cdcb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a77b2492fec0f8f01d1030ff7fb9e6f76"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a77b2492fec0f8f01d1030ff7fb9e6f76"></a>
-<a class="el" href="classConfigurationSet.html">ConfigurationSet</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>getVegasConfiguration</b> ()</td></tr>
-<tr class="separator:a77b2492fec0f8f01d1030ff7fb9e6f76"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a13eef129f0eb73c63b839ea4f442f035"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a13eef129f0eb73c63b839ea4f442f035"></a>
+<a class="el" href="classParameterSet.html">ParameterSet</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>getGlobalParameters</b> ()</td></tr>
+<tr class="separator:a13eef129f0eb73c63b839ea4f442f035"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4163f826360dafd05547f3d4f45c9f70"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4163f826360dafd05547f3d4f45c9f70"></a>
+<a class="el" href="classParameterSet.html">ParameterSet</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>getCubaConfiguration</b> ()</td></tr>
+<tr class="separator:a4163f826360dafd05547f3d4f45c9f70"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a16d7f89edc9f273b70d5b74258bbdba2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classConfiguration.html">Configuration</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classConfigurationReader.html#a16d7f89edc9f273b70d5b74258bbdba2">freeze</a> () const </td></tr>
 <tr class="memdesc:a16d7f89edc9f273b70d5b74258bbdba2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Freeze the configuration.  <a href="#a16d7f89edc9f273b70d5b74258bbdba2">More...</a><br /></td></tr>
 <tr class="separator:a16d7f89edc9f273b70d5b74258bbdba2"><td class="memSeparator" colspan="2">&#160;</td></tr>
