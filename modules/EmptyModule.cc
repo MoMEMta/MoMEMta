@@ -20,6 +20,9 @@
 #include <momemta/ParameterSet.h>
 #include <momemta/Module.h>
 
+/**
+ * \internal
+ */
 class EmptyModule: public Module {
     public:
 

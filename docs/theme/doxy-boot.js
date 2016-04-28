@@ -41,7 +41,7 @@ $(document).ready(function() {
 
     $("#nav-path > ul").addClass("breadcrumb");
 
-    $("table.params").addClass("table");
+    $("table.params, table.tparams").addClass("table");
     $("div.ingroups").wrapInner("<small></small>");
     $("div.levels").css("margin", "0.5em");
     $("div.levels > span").addClass("btn btn-default btn-xs");

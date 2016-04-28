@@ -52,6 +52,8 @@
  *  - Outputs:
  *    - `s` (double): Just \f$s=\text{mass}^2\f$, to be passed to the Block.
  *    - `jacobian` (double): Overall factor for proper normalisation.
+ *
+ * \ingroup modules
  */
 
 #include <momemta/ParameterSet.h>

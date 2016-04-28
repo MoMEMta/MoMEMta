@@ -20,6 +20,9 @@
 #include <momemta/ParameterSet.h>
 #include <momemta/Module.h>
 
+/**
+ * \ingroup modules
+ */
 class BreitWignerGenerator: public Module {
     public:
 
