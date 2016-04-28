@@ -27,8 +27,7 @@
 #include <vector>
 
 #include <momemta/MEParameters.h>
-
-class ConfigurationSet;
+#include <momemta/ParameterSet.h>
 
 namespace momemta {
     

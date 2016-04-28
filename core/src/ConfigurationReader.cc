@@ -21,7 +21,7 @@
 #include <logging.h>
 #include <lua.hpp>
 
-#include <momemta/ConfigurationSet.h>
+#include <momemta/ParameterSet.h>
 #include <momemta/ConfigurationReader.h>
 #include <momemta/ModuleFactory.h>
 
@@ -41,21 +41,21 @@ ConfigurationReader::ConfigurationReader(const std::string& file) {
 
     // FIXME: Find a better way of doing that
 
-    // Read global configuration from global variable named 'configuration'
-    m_global_configuration.reset(new LazyConfigurationSet("configuration"));
-    int type = lua_getglobal(lua_state.get(), "configuration");
+    // Read global parameters from global variable named 'configuration'
+    m_global_parameters.reset(new LazyParameterSet("parameters"));
+    int type = lua_getglobal(lua_state.get(), "parameters");
     if (type == LUA_TTABLE) {
-        LOG(debug) << "Parsing global configuration.";
-        m_global_configuration->parse(lua_state.get(), -1);
+        LOG(debug) << "Parsing global parameters.";
+        m_global_parameters->parse(lua_state.get(), -1);
     }
     lua_pop(lua_state.get(), 1);
 
-    // Read vegas configuration
-    m_vegas_configuration.reset(new LazyConfigurationSet("vegas"));
-    type = lua_getglobal(lua_state.get(), "vegas");
+    // Read cuba configuration
+    m_cuba_configuration.reset(new LazyParameterSet("cuba"));
+    type = lua_getglobal(lua_state.get(), "cuba");
     if (type == LUA_TTABLE) {
-        LOG(debug) << "Parsing vegas configuration.";
-        m_vegas_configuration->parse(lua_state.get(), -1);
+        LOG(debug) << "Parsing cuba configuration.";
+        m_cuba_configuration->parse(lua_state.get(), -1);
     }
     lua_pop(lua_state.get(), 1);
 
@@ -65,7 +65,7 @@ ConfigurationReader::ConfigurationReader(const std::string& file) {
         lua_getglobal(lua_state.get(), m.type.c_str());
         lua_getfield(lua_state.get(), -1, m.name.c_str());
 
-        m.parameters = ConfigurationSet(m.type, m.name);
+        m.parameters = ParameterSet(m.type, m.name);
         m.parameters.parse(lua_state.get(), -1);
 
         lua_pop(lua_state.get(), 2);
@@ -79,12 +79,12 @@ void ConfigurationReader::onModuleDeclared(const std::string& type, const std::s
     m_modules.push_back(module);
 }
 
-ConfigurationSet& ConfigurationReader::getGlobalConfiguration() {
-    return *m_global_configuration;
+ParameterSet& ConfigurationReader::getGlobalParameters() {
+    return *m_global_parameters;
 }
 
-ConfigurationSet& ConfigurationReader::getVegasConfiguration() {
-    return *m_vegas_configuration;
+ParameterSet& ConfigurationReader::getCubaConfiguration() {
+    return *m_cuba_configuration;
 }
 
 Configuration ConfigurationReader::freeze() const {

@@ -31,7 +31,7 @@ class Configuration;
 /**
  * \brief A class encapsulating a lua table.
  *
- * All the items inside the table will be converted to plain C++ type, and can be accessed via the ConfigurationSet::get() functions.
+ * All the items inside the table will be converted to plain C++ type, and can be accessed via the ParameterSet::get() functions.
  *
  * **Only** the following types are supported:
  *
@@ -40,7 +40,7 @@ class Configuration;
  *  - `bool`
  *  - `std::string`
  *  - `InputTag`
- *  - `ConfigurationSet`
+ *  - `ParameterSet`
  *  - `std::vector<>` of one of the above types
  *
  * Consider the following lua snippet:
@@ -53,7 +53,7 @@ class Configuration;
  * }
  * ```
  *
- * The resulting `ConfigurationSet` will encapsulates three values:
+ * The resulting `ParameterSet` will encapsulates three values:
  *   - `x` of type `double` = `91.`
  *   - `y` of type `std::string` = `"string"`
  *   - `z` of type `std::vector<int64_t>` = `[10, 20, 30, 40]`
@@ -66,12 +66,12 @@ class Configuration;
  *
  * \todo Document the freezing of the configuration in ConfigurationReader
  *
- * \note You should *never* try to create a ConfigurationSet yourself. Always use the ConfigurationReader class to parse the configuration file
+ * \note You should *never* try to create a ParameterSet yourself. Always use the ConfigurationReader class to parse the configuration file
  *
  */
-class ConfigurationSet {
+class ParameterSet {
     public:
-        ConfigurationSet() = default;
+        ParameterSet() = default;
 
         template<typename T> const T& get(const std::string& name) const {
             auto value = m_set.find(name);
@@ -117,7 +117,7 @@ class ConfigurationSet {
 
             if (frozen) {
                 LOGGER->critical("You are not allowed to edit a set once frozen.");
-                throw frozen_error("This ConfigurationSet is frozen");
+                throw frozen_error("This ParameterSet is frozen");
             }
 
             auto it = m_set.find(name);
@@ -145,12 +145,12 @@ class ConfigurationSet {
             return get<std::string>("@type", "");
         }
 
-        const ConfigurationSet& globalConfiguration() const {
-            auto it = m_set.find("@global_configuration");
+        const ParameterSet& globalParameters() const {
+            auto it = m_set.find("@global_parameters");
             if (it == m_set.end())
                 return *this;
 
-            return boost::any_cast<const ConfigurationSet&>(it->second.value);
+            return boost::any_cast<const ParameterSet&>(it->second.value);
         }
 
     protected:
@@ -174,7 +174,7 @@ class ConfigurationSet {
             }
         };
 
-        ConfigurationSet(const std::string& module_type, const std::string& module_name);
+        ParameterSet(const std::string& module_type, const std::string& module_name);
 
         virtual std::pair<boost::any, bool> parseItem(const std::string& key, lua_State* L, int index);
 
@@ -192,7 +192,7 @@ class ConfigurationSet {
 
         friend std::pair<boost::any, bool> lua::to_any(lua_State* L, int index);
 
-        void setGlobalConfiguration(const ConfigurationSet& configuration);
+        void setGlobalParameters(const ParameterSet&);
 
         void freeze();
 
@@ -200,18 +200,18 @@ class ConfigurationSet {
         std::map<std::string, Element> m_set;
 };
 
-/** \brief A lazy configuration set
+/** \brief A lazy parameter set
  *
  * This class is used to represent global tables that can be modified **after** the parsing of the configuration file (like the global `parameters` table). This means that each field of the table *must* have a delayed evaluation (see lua::LazyTableField).
  *
- * Actual evaluation of the fields of the table happens during the freezing of this ConfigurationSet.
+ * Actual evaluation of the fields of the table happens during the freezing of this ParameterSet.
  *
  */
-class LazyConfigurationSet: public ConfigurationSet {
+class LazyParameterSet: public ParameterSet {
     friend class ConfigurationReader;
 
     protected:
-        LazyConfigurationSet(const std::string& name);
+        LazyParameterSet(const std::string& name);
 
         virtual std::pair<boost::any, bool> parseItem(const std::string& key, lua_State* L, int index) override;
 

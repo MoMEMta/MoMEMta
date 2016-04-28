@@ -16,7 +16,7 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <momemta/ConfigurationSet.h>
+#include <momemta/ParameterSet.h>
 #include <momemta/Module.h>
 #include <momemta/Types.h>
 #include <momemta/Utils.h>
@@ -51,9 +51,9 @@
  *  - Inputs:
  *  - `q1` and `q2` (double): Bjorken fractions. These are the dimensions of integration coming from CUBA as phase-space points.
  *  - `s13` (double): Invariant mass of the particle decaying into the missing particle (\f$p_1\f$) 
- *                    and the visible particle (\f$p_3\f$). Typically coming from a Flatter module.
+ *                    and the visible particle (\f$p_3\f$). Typically coming from a BreitWignerGenerator module.
  *  - `s24` (double): Invariant mass of the particle decaying into the missing particle (\f$p_2\f$)
- *                    and the visible particle (\f$p_4\f$). Tipically coming from a Flatter module.
+ *                    and the visible particle (\f$p_4\f$). Tipically coming from a BreitWignerGenerator module.
  *  - `inputs` (vector(LorentzVector)): LorentzVector of all the experimentally reconstructed particles.
  *                                      In this Block its dimension is 2.
  * - Outputs:
@@ -68,7 +68,7 @@
 class BlockF: public Module {
     public:
 
-  BlockF(PoolPtr pool, const ConfigurationSet& parameters): Module(pool, parameters.getModuleName()) {
+  BlockF(PoolPtr pool, const ParameterSet& parameters): Module(pool, parameters.getModuleName()) {
 
             m_ps_point1 = parameters.get<InputTag>("q1");
             m_ps_point1.resolve(pool);
@@ -76,7 +76,7 @@ class BlockF: public Module {
             m_ps_point2 = parameters.get<InputTag>("q2");
             m_ps_point2.resolve(pool);
 
-            sqrt_s = parameters.globalConfiguration().get<double>("energy");
+            sqrt_s = parameters.globalParameters().get<double>("energy");
 
             s13 = get<double>(parameters.get<InputTag>("s13"));
             s24 = get<double>(parameters.get<InputTag>("s24"));

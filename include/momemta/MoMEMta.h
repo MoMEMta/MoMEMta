@@ -23,7 +23,7 @@
 #include <vector>
 
 #include <logging.h>
-#include <momemta/ConfigurationSet.h>
+#include <momemta/ParameterSet.h>
 #include <momemta/Module.h>
 #include <momemta/Pool.h>
 #include <momemta/Types.h>
@@ -51,10 +51,10 @@ class MoMEMta {
         std::vector<SharedLibraryPtr> m_libraries;
 
         size_t m_n_dimensions;
-        ConfigurationSet m_vegas_configuration;
+        ParameterSet m_cuba_configuration;
 
         // Pool inputs
         std::shared_ptr<std::vector<double>> m_ps_points;
         std::shared_ptr<std::vector<LorentzVector>> m_particles;
-        std::shared_ptr<const std::vector<double>> m_weights;
+        std::shared_ptr<const std::vector<double>> m_integrands;
 };

@@ -39,7 +39,7 @@ namespace lua {
         INTEGER, /**< Map to `int64_t` */
         REAL, /**< Map to `double` */
         INPUT_TAG, /**< Map to InputTag */
-        CONFIGURATION_SET, /**< Map to ConfigurationSet */
+        PARAMETER_SET, /**< Map to ParameterSet */
     };
 
     /**
@@ -267,10 +267,10 @@ namespace lua {
      *
      * \param L The current lua state
      *
-     * The function allows creating a Lua function return an input tag of type `cuba::ps_points/i` where `i` gets incremented each time the function is called (starting from 0).
+     * The Lua function returns an input tag of type `cuba::ps_points/i` where `i` gets incremented each time the function is called (starting from 0).
      * This way, the user is sure to always define the correct input tag fothe phase-space points.
      *
      * \return always 1
      */
-    int generate_cuba_index(lua_State* L);
+    int generate_cuba_inputtag(lua_State* L);
 }

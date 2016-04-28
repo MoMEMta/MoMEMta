@@ -17,18 +17,18 @@
  */
 
 
-#include <momemta/ConfigurationSet.h>
+#include <momemta/ParameterSet.h>
 #include <momemta/Utils.h>
 
 #include <logging.h>
 #include <lua/utils.h>
 
-ConfigurationSet::ConfigurationSet(const std::string& module_type, const std::string& module_name) {
+ParameterSet::ParameterSet(const std::string& module_type, const std::string& module_name) {
     m_set.emplace("@type", Element(module_type));
     m_set.emplace("@name", Element(module_name));
 }
 
-void ConfigurationSet::parse(lua_State* L, int index) {
+void ParameterSet::parse(lua_State* L, int index) {
 
     TRACE("[parse] >> stack size = {}", lua_gettop(L));
     size_t absolute_index = lua::get_index(L, index);
@@ -58,25 +58,25 @@ void ConfigurationSet::parse(lua_State* L, int index) {
     TRACE("[parse] << stack size = {}", lua_gettop(L));
 }
 
-std::pair<boost::any, bool> ConfigurationSet::parseItem(const std::string& key, lua_State* L, int index) {
+std::pair<boost::any, bool> ParameterSet::parseItem(const std::string& key, lua_State* L, int index) {
     UNUSED(key);
 
     return lua::to_any(L, index);
 }
 
-bool ConfigurationSet::exists(const std::string& name) const {
+bool ParameterSet::exists(const std::string& name) const {
     auto value = m_set.find(name);
     return (value != m_set.end());
 }
 
-void ConfigurationSet::setInternal(const std::string& name, Element& element, const boost::any& value) {
+void ParameterSet::setInternal(const std::string& name, Element& element, const boost::any& value) {
     UNUSED(name);
 
     element.value = value;
     element.lazy = false;
 }
 
-void ConfigurationSet::freeze() {
+void ParameterSet::freeze() {
     if (frozen)
         return;
 
@@ -94,11 +94,11 @@ void ConfigurationSet::freeze() {
                 }
             } else {
                 // Recursion
-                if (element.value.type() == typeid(ConfigurationSet)) {
-                    ConfigurationSet& s = boost::any_cast<ConfigurationSet&>(element.value);
+                if (element.value.type() == typeid(ParameterSet)) {
+                    ParameterSet& s = boost::any_cast<ParameterSet&>(element.value);
                     s.freeze();
-                } else if (element.value.type() == typeid(std::vector<ConfigurationSet>)) {
-                    std::vector<ConfigurationSet>& v = boost::any_cast<std::vector<ConfigurationSet>&>(element.value);
+                } else if (element.value.type() == typeid(std::vector<ParameterSet>)) {
+                    std::vector<ParameterSet>& v = boost::any_cast<std::vector<ParameterSet>&>(element.value);
                     for (auto& c: v)
                         c.freeze();
                 }
@@ -110,22 +110,22 @@ void ConfigurationSet::freeze() {
     }
 }
 
-void ConfigurationSet::setGlobalConfiguration(const ConfigurationSet& configuration) {
-    m_set.emplace("@global_configuration", Element(configuration, false));
+void ParameterSet::setGlobalParameters(const ParameterSet& parameters) {
+    m_set.emplace("@global_parameters", Element(parameters, false));
 }
 
 // ---------
 
-LazyConfigurationSet::LazyConfigurationSet(const std::string& name):
-    ConfigurationSet("table", name) { }
+LazyParameterSet::LazyParameterSet(const std::string& name):
+    ParameterSet("table", name) { }
 
-std::pair<boost::any, bool> LazyConfigurationSet::parseItem(const std::string& key, lua_State* L, int index) {
+std::pair<boost::any, bool> LazyParameterSet::parseItem(const std::string& key, lua_State* L, int index) {
     UNUSED(index);
 
     return std::make_pair(lua::LazyTableField(L, getModuleName(), key), true);
 }
 
-void LazyConfigurationSet::setInternal(const std::string& name, Element& element, const boost::any& value) {
+void LazyParameterSet::setInternal(const std::string& name, Element& element, const boost::any& value) {
 
     // We know that this set is not frozen, so *all* the items in the map
     // are actually lazy reference to lua table values.

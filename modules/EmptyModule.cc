@@ -17,13 +17,13 @@
  */
 
 
-#include <momemta/ConfigurationSet.h>
+#include <momemta/ParameterSet.h>
 #include <momemta/Module.h>
 
 class EmptyModule: public Module {
     public:
 
-        EmptyModule(PoolPtr pool, const ConfigurationSet& parameters): Module(pool, parameters.getModuleName()) {
+        EmptyModule(PoolPtr pool, const ParameterSet& parameters): Module(pool, parameters.getModuleName()) {
             // Empty
         };
 

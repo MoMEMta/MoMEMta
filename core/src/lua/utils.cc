@@ -1,7 +1,7 @@
 #include <stdexcept>
 
 #include <momemta/InputTag.h>
-#include <momemta/ConfigurationSet.h>
+#include <momemta/ParameterSet.h>
 #include <momemta/IOnModuleDeclared.h>
 #include <momemta/ModuleFactory.h>
 #include <momemta/Utils.h>
@@ -121,9 +121,9 @@ namespace lua {
                 break;
 
             case LUA_TTABLE: {
-                // We only support ConfigurationSet for table
+                // We only support ParameterSet for table
                 if (lua_is_array(L, index) == -1) {
-                    return CONFIGURATION_SET;
+                    return PARAMETER_SET;
                 }
 
             } break;
@@ -255,7 +255,7 @@ namespace lua {
                     }
 
                 } else {
-                    ConfigurationSet cfg;
+                    ParameterSet cfg;
                     cfg.parse(L, absolute_index);
                     result = cfg;
                 }
@@ -322,8 +322,8 @@ namespace lua {
             case INPUT_TAG:
                 return to_vectorT<InputTag>(L, index);
 
-            case CONFIGURATION_SET:
-                return to_vectorT<ConfigurationSet>(L, index);
+            case PARAMETER_SET:
+                return to_vectorT<ParameterSet>(L, index);
 
             case NOT_SUPPORTED:
                 break;
@@ -438,7 +438,7 @@ namespace lua {
         // Create an anonymous function return the value of the parameter
         // Assumes there's a global table named `configuration`
 
-        std::string code = "return function() return configuration['" + parameter_name + "'] end";
+        std::string code = "return function() return parameters['" + parameter_name + "'] end";
         luaL_dostring(L, code.c_str());
 
         return 1;
@@ -453,11 +453,11 @@ namespace lua {
         lua_pushcclosure(L, parameter, 1);
         lua_setglobal(L, "parameter");
 
-        // Define the `CubaIndex()` function in Lua and make it available in the global namespace.
-        // See generate_cuba_index for more information.
+        // Define the `getpspoint()` function in Lua and make it available in the global namespace.
+        // See generate_cuba_inputtag for more information.
         lua_pushnumber(L, 0);
-        lua_pushcclosure(L, generate_cuba_index, 1);
-        lua_setglobal(L, "CubaIndex");
+        lua_pushcclosure(L, generate_cuba_inputtag, 1);
+        lua_setglobal(L, "getpspoint");
     }
 
     std::shared_ptr<lua_State> init_runtime(IOnModuleDeclared* callback) {
@@ -465,7 +465,7 @@ namespace lua {
         std::shared_ptr<lua_State> L(luaL_newstate(), lua_close);
         luaL_openlibs(L.get());
 
-        // Register function load_modules
+        // Register hooks function, like `load_modules`
         lua::setup_hooks(L.get(), callback);
 
         // Register existing modules
@@ -474,7 +474,7 @@ namespace lua {
         return L;
     }
 
-    int generate_cuba_index(lua_State* L) {
+    int generate_cuba_inputtag(lua_State* L) {
         int n = lua_gettop(L);
         if (n != 0) {
             luaL_error(L, "invalid number of arguments: 0 expected, got %d", n);

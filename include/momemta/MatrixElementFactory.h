@@ -28,14 +28,14 @@
 
 #include <momemta/PluginFactory.h>
 
-class ConfigurationSet;
+class ParameterSet;
 
 // Forward declaration
 namespace momemta {
     class MatrixElement;
 }
 
-using MatrixElementFactory = PluginFactory<momemta::MatrixElement* (const ConfigurationSet&)>;
+using MatrixElementFactory = PluginFactory<momemta::MatrixElement* (const ParameterSet&)>;
 
 #define REGISTER_MATRIX_ELEMENT(name, type) \
     static const MatrixElementFactory::PMaker<type> PLUGIN_UNIQUE_NAME(s_matrix_element , __LINE__)(name)

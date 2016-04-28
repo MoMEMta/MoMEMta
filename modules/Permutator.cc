@@ -21,16 +21,16 @@
 
 #include <TMath.h>
 
-#include <momemta/ConfigurationSet.h>
+#include <momemta/ParameterSet.h>
 #include <momemta/Module.h>
 #include <momemta/Types.h>
 
 class Permutator: public Module {
     public:
 
-        Permutator(PoolPtr pool, const ConfigurationSet& parameters): Module(pool, parameters.getModuleName()),
+        Permutator(PoolPtr pool, const ParameterSet& parameters): Module(pool, parameters.getModuleName()),
             m_ps_point(parameters.get<InputTag>("ps_point")),
-            m_input(parameters.get<std::vector<InputTag>>("input"))
+            m_input(parameters.get<std::vector<InputTag>>("inputs"))
         {
             
             m_ps_point.resolve(pool);

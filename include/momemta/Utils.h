@@ -208,7 +208,7 @@ std::string demangle(const char* name);
 
 template <typename T> void UNUSED(T &&) { }
 
-namespace vegas {
+namespace cuba {
 
 inline unsigned int createFlagsBitset(char verbosity, bool subregion, bool retainStateFile, unsigned int level, bool smoothing, bool takeOnlyGridFromFile) {
 

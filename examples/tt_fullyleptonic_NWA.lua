@@ -14,7 +14,7 @@ inputs = {
   'permutator::output/1',
 }
 
-configuration = {
+parameters = {
     energy = 13000.,
     top_mass = 173.,
     top_width = 1.491500,
@@ -22,7 +22,7 @@ configuration = {
     W_width = 2.047600,
 }
 
-vegas = {
+cuba = {
     verbosity = 3
 }
 

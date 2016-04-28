@@ -21,7 +21,7 @@
 #include <string>
 #include <vector>
 
-#include <momemta/ConfigurationSet.h>
+#include <momemta/ParameterSet.h>
 
 class ConfigurationReader;
 
@@ -40,21 +40,21 @@ class Configuration {
         struct Module {
             std::string name; ///< Name of the module (user-defined from the configuration file)
             std::string type; ///< Type of the module (mapped one-to-one with a C++ class inherting from Module)
-            ConfigurationSet parameters; ///< Module's parameters, as parsed from the configuration file
+            ParameterSet parameters; ///< Module's parameters, as parsed from the configuration file
         };
 
         /// \return The list of modules declared from the configuration file
         const std::vector<Module>& getModules() const;
-        /// \return The vegas configuration as declared in the configuration file
-        const ConfigurationSet& getVegasConfiguration() const;
-        /// \return The global configuration as declared in the configuration file
-        const ConfigurationSet& getGlobalConfiguration() const;
+        /// \return The cuba configuration as declared in the configuration file
+        const ParameterSet& getCubaConfiguration() const;
+        /// \return The global parameters as declared in the configuration file
+        const ParameterSet& getGlobalParameters() const;
 
     private:
         friend class ConfigurationReader;
         Configuration(const ConfigurationReader&);
 
         std::vector<Module> modules;
-        ConfigurationSet global_configuration;
-        ConfigurationSet vegas_configuration;
+        ParameterSet global_parameters;
+        ParameterSet cuba_configuration;
 };

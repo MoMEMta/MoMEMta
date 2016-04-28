@@ -17,16 +17,16 @@
  */
 
 
-#include <momemta/ConfigurationSet.h>
+#include <momemta/ParameterSet.h>
 #include <momemta/Module.h>
 
-class Flatter: public Module {
+class BreitWignerGenerator: public Module {
     public:
 
-        Flatter(PoolPtr pool, const ConfigurationSet& parameters): Module(pool, parameters.getModuleName()),
+        BreitWignerGenerator(PoolPtr pool, const ParameterSet& parameters): Module(pool, parameters.getModuleName()),
             mass(parameters.get<double>("mass")),
             width(parameters.get<double>("width")),
-            m_ps_point(parameters.get<InputTag>("input")) {
+            m_ps_point(parameters.get<InputTag>("ps_point")) {
             m_ps_point.resolve(pool);
         };
 
@@ -54,4 +54,4 @@ class Flatter: public Module {
 
 
 };
-REGISTER_MODULE(Flatter);
+REGISTER_MODULE(BreitWignerGenerator);

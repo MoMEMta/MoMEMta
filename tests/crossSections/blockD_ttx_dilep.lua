@@ -3,13 +3,13 @@ M_TOP = 173.
 W_W = 2.047600e+00
 W_TOP = 1.491500e+00
 
-configuration = {
+parameters = {
     energy = 13000.,
     top_mass = M_TOP,
     W_mass = M_W
 }
 
-vegas = {
+cuba = {
     verbosity = 2,
     max_eval = 2000000000,
     relative_accuracy = 0.005,
@@ -87,26 +87,26 @@ inputs = {
   'tf_theta_4::output',
 }
 
-Flatter.flatter_s13 = {
-    input = "cuba::ps_points/12",
+BreitWignerGenerator.flatter_s13 = {
+    ps_point = "cuba::ps_points/12",
     mass = M_W,
     width = W_W
 }
 
-Flatter.flatter_s134 = {
-    input = "cuba::ps_points/13",
+BreitWignerGenerator.flatter_s134 = {
+    ps_point = "cuba::ps_points/13",
     mass = M_TOP,
     width = W_TOP
 }
 
-Flatter.flatter_s25 = {
-    input = "cuba::ps_points/14",
+BreitWignerGenerator.flatter_s25 = {
+    ps_point = "cuba::ps_points/14",
     mass = M_W,
     width = W_W
 }
 
-Flatter.flatter_s256 = {
-    input = "cuba::ps_points/15",
+BreitWignerGenerator.flatter_s256 = {
+    ps_point = "cuba::ps_points/15",
     mass = M_TOP,
     width = W_TOP
 }

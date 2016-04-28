@@ -17,7 +17,7 @@
 */
 
 
-#include <momemta/ConfigurationSet.h>
+#include <momemta/ParameterSet.h>
 #include <momemta/Module.h>
 #include <momemta/Types.h>
 #include <momemta/Utils.h>
@@ -49,7 +49,7 @@
  *
  * - Inputs:
  *  - `s12` (double): Invariant mass of the particle decaying into the missing particle (\f$p_1\f$) 
- *                    and the visible particle, \f$p_2\f$. Typically coming from a Flatter module.
+ *                    and the visible particle, \f$p_2\f$. Typically coming from a BreitWignerGenerator module.
  *  - `inputs` (vector(LorentzVector)): LorentzVector of all the experimentally reconstructed particles.
  *                                      In this Block there is only one visible particle, \f$p_2\f$.
  * - Outputs:
@@ -62,9 +62,9 @@
 class BlockB: public Module {
     public:
   
-        BlockB(PoolPtr pool, const ConfigurationSet& parameters): Module(pool, parameters.getModuleName()) {
+        BlockB(PoolPtr pool, const ParameterSet& parameters): Module(pool, parameters.getModuleName()) {
             
-            sqrt_s = parameters.globalConfiguration().get<double>("energy");
+            sqrt_s = parameters.globalParameters().get<double>("energy");
             
             s12 = get<double>(parameters.get<InputTag>("s12"));
             
