@@ -126,7 +126,7 @@ end
 if USE_PERM then
     Permutator.permutator = {
         ps_point = getpspoint(),
-        input = {
+        inputs = {
           inputs_before_perm[2],
           inputs_before_perm[4],
         }

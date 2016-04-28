@@ -30,7 +30,7 @@ class Permutator: public Module {
 
         Permutator(PoolPtr pool, const ParameterSet& parameters): Module(pool, parameters.getModuleName()),
             m_ps_point(parameters.get<InputTag>("ps_point")),
-            m_input(parameters.get<std::vector<InputTag>>("input"))
+            m_input(parameters.get<std::vector<InputTag>>("inputs"))
         {
             
             m_ps_point.resolve(pool);
