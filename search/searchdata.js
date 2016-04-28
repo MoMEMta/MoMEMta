@@ -5,7 +5,7 @@ var indexSectionsWithContent =
   2: "gl",
   3: "lu",
   4: "bcdefgilmoprstw",
-  5: "klnprtv",
+  5: "iklmnprtv",
   6: "t",
   7: "binprs",
   8: "mu",
