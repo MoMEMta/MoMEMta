@@ -30,30 +30,76 @@
 
 class Pool;
 
+/** \brief An identifier of a module's output
+ *
+ * An InputTag embed two values:
+ *  - The name of a module
+ *  - The name of the output
+ *
+ * Optionally, it can also embed an index if the output symbolized by the InputTag is a vector. The InputTag is then an indexed InputTag.
+ */
 struct InputTag {
     public:
+        /** \brief Construct a new InputTag
+         *
+         * \param module The name of the module
+         * \param parameter The name of the output
+         */
         InputTag(const std::string& module, const std::string& parameter);
+        /** \brief Construct a new indexed InputTag
+         *
+         * \param module The name of the module
+         * \param parameter The name of the output
+         * \param index The index inside the collection pointed by the InputTag
+         */
         InputTag(const std::string& module, const std::string& parameter, size_t index);
+        /// \brief Construct an empty InputTag
         InputTag() = default;
 
-        /*!
-         *  Check if a given string is an input tag. Expected format is
-         *      Module::Parameter[/Index]
+        /*! \brief Check if a given string represent an InputTag.
          *
-         *  Delimiter is '::'.
+         * InputTag are represented as string in the following format:
+         * 
+         * ```
+         * Module::Parameter[/Index]
+         * ```
+         *
+         * Delimiter is `::` between the module's name and output, and `/` between the output and the index.
+         *
+         * \warning **Index start at 1, and not at 0** like in C++. We follow here the Lua conventation for indexing.
+         *
+         * \param tag The string to test
+         *
+         * \return True if \p tag describes an InputTag, false otherwise
          */
         static bool isInputTag(const std::string& tag);
 
-        /*!
-         * Create a input tag from a string. No check is performed to ensure that
-         * the string is an input tag. Use `isInputTag` first.
+        /*! \brief Create a input tag from its string representation
+         *
+         * \param tag The string representation of the InputTag
+         *
+         * \warning No check is performed to ensure that the string is an input tag. Use isInputTag() first.
+         *
+         * \return A new InputTag, as described by \p tag.
          */
         static InputTag fromString(const std::string& tag);
 
+        /** \brief Test equality between two InputTags
+         *
+         * Two InputTags are equals if their module's name, output and index are the same
+         *
+         * \return True if the two InputTag are equals, false otherwise
+         */
         bool operator==(const InputTag& rhs) const;
 
+        /**
+         * \brief Convert the InputTag in its string representation
+         *
+         * \return A string representation of the InputTag
+         */
         std::string toString() const;
 
+        /// \return True if the InputTag is indexed, false otherwise
         bool isIndexed() const;
 
         /**
@@ -63,11 +109,17 @@ struct InputTag {
          */
         void resolve(std::shared_ptr<Pool> pool) const;
 
+        /** \brief Retrieve from the memory pool the data pointed by the InputTag
+         *
+         * \return The data pointed by the InputTag
+         *
+         * \warning You **must** first call once resolve() before calling this function
+         */
         template<typename T> const T& get() const;
 
-        std::string module;
-        std::string parameter;
-        size_t index;
+        std::string module; ///< The module's name
+        std::string parameter; ///< The module's output
+        size_t index; ///< The index. Only meaningful if isIndexed() returns true
 
     private:
         class tag_not_resolved_error: public std::runtime_error {
@@ -84,12 +136,15 @@ struct InputTag {
 };
 
 namespace std {
+    /// \brief std::hash specialization for InputTag
     template<>
         struct hash<InputTag> {
+            /// Compute hash of InputTag
             size_t operator()(const InputTag& tag) const {
                 return string_hash(tag.module) + string_hash(tag.parameter);
             }
 
-            std::hash<std::string> string_hash;
+            private:
+                std::hash<std::string> string_hash;
         };
 }

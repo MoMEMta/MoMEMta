@@ -49,7 +49,7 @@ InputTag::InputTag(const std::string& module, const std::string& parameter):
 
 InputTag::InputTag(const std::string& module, const std::string& parameter, size_t index):
     module(module), parameter(parameter), index(index), indexed(true) {
-    string_representation = module + "::" + parameter + "/" + std::to_string(index);
+    string_representation = module + "::" + parameter + "/" + std::to_string(index + 1);
 }
 
 bool InputTag::isInputTag(const std::string& tag) {
@@ -60,8 +60,10 @@ bool InputTag::isInputTag(const std::string& tag) {
         auto tags = split(tag, "::");
         auto rtags = split(tags[1], "/");
         try {
-            size_t index = std::stoull(rtags[1]);
-            UNUSED(index);
+            int64_t index = std::stoll(rtags[1]) - 1;
+            if (index < 0)
+                return false;
+
             return true;
         } catch (std::invalid_argument e) {
             return false;
@@ -78,7 +80,7 @@ InputTag InputTag::fromString(const std::string& tag) {
     if (rtags.size() == 1)
         return InputTag(tags[0], tags[1]);
     else
-        return InputTag(tags[0], rtags[0], std::stoull(rtags[1]));
+        return InputTag(tags[0], rtags[0], std::stoull(rtags[1]) - 1);
 }
 
 bool InputTag::operator==(const InputTag& rhs) const {

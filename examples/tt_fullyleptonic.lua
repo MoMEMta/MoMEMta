@@ -22,10 +22,10 @@ if USE_TF then
 else
     -- No transfer functions
     inputs_before_perm = {
-        'input::particles/0',
         'input::particles/1',
         'input::particles/2',
         'input::particles/3',
+        'input::particles/4',
     }
 end
 
@@ -35,9 +35,9 @@ if USE_PERM then
   -- Use permutator module to permutate input particles 0 and 2 using the MC
   inputs = {
     inputs_before_perm[1],
-    'permutator::output/0',
-    inputs_before_perm[3],
     'permutator::output/1',
+    inputs_before_perm[3],
+    'permutator::output/2',
   }
 else
   -- No permutation, take particles as they come
@@ -85,39 +85,39 @@ BreitWignerGenerator.flatter_s256 = {
 if USE_TF then
     GaussianTransferFunction.tf_p1 = {
         ps_point = getpspoint(),
-        reco_particle = 'input::particles/0',
+        reco_particle = 'input::particles/1',
         sigma = 0.05,
     }
 
     GaussianTransferFunction.tf_p2 = {
         ps_point = getpspoint(),
-        reco_particle = 'input::particles/1',
+        reco_particle = 'input::particles/2',
         sigma = 0.10,
     }
 
     -- Example for binned transfer function (only works on ingrid)
     -- BinnedTransferFunctionOnEnergy.tf_p2 = {
-    --     ps_point = 'cuba::ps_points/5',
-    --     reco_particle = 'input::particles/1',
+    --     ps_point = getpspoint(),
+    --     reco_particle = 'input::particles/2',
     --     file = '/home/fynu/swertz/tests_MEM/binnedTF/TF_generator/Control_plots_hh_TF.root',
     --     th2_name = 'Binned_Egen_DeltaE_Norm_jet',
     -- }
 
     GaussianTransferFunction.tf_p3 = {
         ps_point = getpspoint(),
-        reco_particle = 'input::particles/2',
+        reco_particle = 'input::particles/3',
         sigma = 0.05,
     }
 
     GaussianTransferFunction.tf_p4 = {
         ps_point = getpspoint(),
-        reco_particle = 'input::particles/3',
+        reco_particle = 'input::particles/4',
         sigma = 0.10,
     }
 
     -- BinnedTransferFunctionOnEnergy.tf_p4 = {
-    --     ps_point = 'cuba::ps_points/7',
-    --     reco_particle = 'input::particles/3',
+    --     ps_point = getpspoint(),
+    --     reco_particle = 'input::particles/4',
     --     file = '/home/fynu/swertz/tests_MEM/binnedTF/TF_generator/Control_plots_hh_TF.root',
     --     th2_name = 'Binned_Egen_DeltaE_Norm_jet',
     -- }
