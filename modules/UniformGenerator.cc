@@ -43,7 +43,7 @@ class UniformGenerator: public Module {
         UniformGenerator(PoolPtr pool, const ParameterSet& parameters): Module(pool, parameters.getModuleName()),
             m_min(parameters.get<double>("min")),
             m_max(parameters.get<double>("max")),
-            m_ps_point(parameters.get<InputTag>("input")) {
+            m_ps_point(parameters.get<InputTag>("ps_point")) {
             m_ps_point.resolve(pool);
         };
 

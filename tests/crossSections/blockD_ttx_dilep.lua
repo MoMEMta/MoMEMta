@@ -88,25 +88,25 @@ inputs = {
 }
 
 BreitWignerGenerator.flatter_s13 = {
-    input = "cuba::ps_points/12",
+    ps_point = "cuba::ps_points/12",
     mass = M_W,
     width = W_W
 }
 
 BreitWignerGenerator.flatter_s134 = {
-    input = "cuba::ps_points/13",
+    ps_point = "cuba::ps_points/13",
     mass = M_TOP,
     width = W_TOP
 }
 
 BreitWignerGenerator.flatter_s25 = {
-    input = "cuba::ps_points/14",
+    ps_point = "cuba::ps_points/14",
     mass = M_W,
     width = W_W
 }
 
 BreitWignerGenerator.flatter_s256 = {
-    input = "cuba::ps_points/15",
+    ps_point = "cuba::ps_points/15",
     mass = M_TOP,
     width = W_TOP
 }

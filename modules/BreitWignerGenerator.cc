@@ -26,7 +26,7 @@ class BreitWignerGenerator: public Module {
         BreitWignerGenerator(PoolPtr pool, const ParameterSet& parameters): Module(pool, parameters.getModuleName()),
             mass(parameters.get<double>("mass")),
             width(parameters.get<double>("width")),
-            m_ps_point(parameters.get<InputTag>("input")) {
+            m_ps_point(parameters.get<InputTag>("ps_point")) {
             m_ps_point.resolve(pool);
         };
 
