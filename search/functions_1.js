@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['description',['description',['../classPool.html#a74233011e8c1dbd9fdeddace9ebd06e3',1,'Pool']]]
+  ['configure',['configure',['../classModule.html#a1e559c32bbb1442a3100bb6d9c90bca3',1,'Module']]]
 ];

@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['finish',['finish',['../classModule.html#a35348490eb9ba5e333c42b5ab0a84e09',1,'Module']]],
   ['flattransferfunctiononp',['FlatTransferFunctionOnP',['../classFlatTransferFunctionOnP.html',1,'']]],
   ['flattransferfunctiononphi',['FlatTransferFunctionOnPhi',['../classFlatTransferFunctionOnPhi.html',1,'']]],
   ['flattransferfunctionontheta',['FlatTransferFunctionOnTheta',['../classFlatTransferFunctionOnTheta.html',1,'']]],
