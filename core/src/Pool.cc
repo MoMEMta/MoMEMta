@@ -16,7 +16,6 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 #include <momemta/Pool.h>
 #include <logging.h>
 
@@ -76,6 +75,11 @@ void Pool::alias(const InputTag& from, const InputTag& to) {
         throw duplicated_tag_error("A module already produced the tag '" + to.toString() + "'");
 
     m_storage[to] = m_storage[from];
+}
+
+bool Pool::exists(const InputTag& tag) const {
+    auto it = m_storage.find(tag);
+    return it != m_storage.end();
 }
 
 void Pool::current_module(const std::string& module) {

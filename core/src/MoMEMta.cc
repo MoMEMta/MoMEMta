@@ -38,6 +38,7 @@ MoMEMta::MoMEMta(const Configuration& configuration) {
     // Create phase-space points vector, input for many modules
     m_pool->current_module("cuba");
     m_ps_points = m_pool->put<std::vector<double>>({"cuba", "ps_points"});
+    m_ps_weight = m_pool->put<double>({"cuba", "ps_weight"});
 
     // Create vector for input particles
     m_pool->current_module("input");
@@ -61,9 +62,23 @@ MoMEMta::MoMEMta(const Configuration& configuration) {
     // Resize pool ps-points vector
     m_ps_points->resize(m_n_dimensions);
 
-    // The last module of the chain *must* output a vector of integrands, used for the integration
+    // Find which modules produces the 'integrands' output, which defines the integrand.
+    // **There can be only one!**
     m_pool->current_module("momemta");
-    m_integrands = m_pool->get<std::vector<double>>({m_modules.back()->name(), "integrands"});
+    bool foundIntegrands = false;
+    for (const auto& module: m_modules) {
+        if(m_pool->exists({module->name(), "integrands"})) {
+            if(!foundIntegrands){
+                m_integrands = m_pool->get<std::vector<double>>({module->name(), "integrands"});
+                foundIntegrands = true;
+                LOG(debug) << "Module " << module->name() << " produces the integrand.";
+            } else {
+                throw integrands_output_error("Only one module can produce the `integrands` output.");
+            }
+        }
+    }
+    if(!foundIntegrands)
+        throw integrands_output_error("No module found which produces the mandatory `integrands` output.");
 
     m_cuba_configuration = configuration.getCubaConfiguration();
 
@@ -89,7 +104,15 @@ MoMEMta::~MoMEMta() {
     }
 }
 
+const Pool& MoMEMta::getPool() const {
+    return *m_pool;
+}
+
 std::vector<std::pair<double, double>> MoMEMta::computeWeights(const std::vector<LorentzVector>& particules) {
+    
+    for (const auto& module: m_modules) {
+        module->beginIntegration();
+    }
 
     *m_particles = particules;
 
@@ -141,16 +164,21 @@ std::vector<std::pair<double, double>> MoMEMta::computeWeights(const std::vector
          &error,                 // (double*) integration error ([ncomp])
          &prob                   // (double*) Chi-square p-value that error is not reliable (ie should be <0.95) ([ncomp])
     );
+    
+    for (const auto& module: m_modules) {
+        module->endIntegration();
+    }
 
     return std::vector<std::pair<double, double>>({{mcResult, error}});
 }
 
 double MoMEMta::integrand(const double* psPoints, const double* weights) {
 
-    UNUSED(weights);
-
     // Store phase-space points into the pool
     std::memcpy(m_ps_points->data(), psPoints, sizeof(double) * m_n_dimensions);
+
+    // Store phase-space weight into the pool
+    *m_ps_weight = *weights;
 
     for (auto& module: m_modules) {
         module->work();

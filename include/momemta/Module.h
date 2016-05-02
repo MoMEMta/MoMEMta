@@ -53,6 +53,12 @@ class Module {
          * \brief Called once at the beginning of the job
          */
         virtual void configure() { };
+        
+        /**
+         * \brief Called once at the beginning of the integration
+         */
+        virtual void beginIntegration() {};
+        
         /**
          * \brief Main function
          *
@@ -61,7 +67,14 @@ class Module {
          * You'll usually want to override this function if you want your module to perform some task.
          */
         virtual void work() { };
-        /** \brief Called once at the end of the job
+        
+        /**
+         * \brief Called once at the end of the integration
+         */
+        virtual void endIntegration() {};
+        
+        /** 
+         * \brief Called once at the end of the job
          */
         virtual void finish() { };
 
@@ -77,6 +90,24 @@ class Module {
          */
         virtual size_t dimensions() const {
             return 0;
+        }
+
+        /**
+         * \brief Check if module produces an output or not
+         *
+         * If a module produces no output, or if its output is not used as input by any other module, 
+         * it is by default removed from the list of modules that are called on each phase-space point. 
+         * 
+         * This function allows to flag the module so that it doesn't get removed. A typical use case would 
+         * be a module that only produces an object that is retrieved directly from the Pool by the user, 
+         * after the integration.
+         *
+         * \return True if the module produces no output, False otherwise. 
+         * 
+         * \note Default value is False;
+         */
+        virtual bool leafModule() const {
+            return false;
         }
 
         virtual std::string name() const final {
@@ -105,6 +136,7 @@ class Module {
          * ```
          * // In constructor
          * std::shared_ptr<double> my_output = produce<double>("output");
+         * std::shared_ptr<TH1D> my_hist = produce<TH1D>("output_hist", "name", "title", 5, 0, 5); // Use constructor call
          *
          * // In work()
          * *my_output = 10;
@@ -112,11 +144,12 @@ class Module {
          *
          * \tparam T The type of the output.
          * \param name The name of the output. Must be unique to this module.
+         * \param args Variable list of optional arguments. Will be passed to the constructor of T.
          *
          * \return A std::shared_ptr<T> pointing to newly allocated memory in the memory pool. Change the content of this pointer to change the output.
          */
-        template<typename T> std::shared_ptr<T> produce(const std::string& name) {
-            return m_pool->put<T>({m_name, name});
+        template<typename T, typename... Args> std::shared_ptr<T> produce(const std::string& name, Args... args) {
+            return m_pool->put<T>({m_name, name}, std::forward<Args>(args)...);
         }
 
         template<typename T> std::shared_ptr<const T> get(const std::string& module, const std::string& name) {
@@ -128,9 +161,11 @@ class Module {
         }
 
     private:
-        std::string m_name;
+        
+        const std::string m_name;
 
     protected:
+
         PoolPtr m_pool;
 };
 

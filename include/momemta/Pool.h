@@ -46,7 +46,7 @@ class Pool {
     public:
         using DescriptionMap = std::unordered_map<std::string, Description>;
 
-        template<typename T> std::shared_ptr<const T> get(const InputTag& tag) {
+        template<typename T> std::shared_ptr<const T> get(const InputTag& tag) const {
             if (tag.isIndexed()) {
                 throw std::invalid_argument("Indexed input tag cannot be passed as argument of the pool. Use the `get` function of the input tag to retrieve its content.");
             }
@@ -69,6 +69,15 @@ class Pool {
         }
 
         void alias(const InputTag& from, const InputTag& to);
+
+        /** \brief Check if input tag exists in the pool.
+         *
+         * \warning No check is performed to ensure that the string is an input tag. Use InputTag::isInputTag() first.
+         *
+         * \param tag Input tag that will be searched in the pool.
+         * \return True if the input tag exists in the pool, False otherwise.
+         */
+        bool exists(const InputTag& tag) const;
 
         /**
          * \brief Return the description of the state of the memory pool
@@ -93,6 +102,10 @@ class Pool {
             using std::runtime_error::runtime_error;
         };
 
+        class constructor_tag_error: public std::runtime_error {
+            using std::runtime_error::runtime_error;
+        };
+
         friend struct InputTag;
 
         void remove(const InputTag&, bool force = true);
@@ -101,22 +114,25 @@ class Pool {
         boost::any reserve(const InputTag&);
         boost::any raw_get(const InputTag&);
 
-        template<typename T> std::shared_ptr<T> put(const InputTag& tag) {
+        template<typename T, typename... Args> std::shared_ptr<T> put(const InputTag& tag, Args... args) {
             auto it = m_storage.find(tag);
             if (it != m_storage.end()) {
                 if (it->second.valid)
                     throw duplicated_tag_error("A module already produced the tag '" + tag.toString() + "'");
-                // A module already requested this block in read-mode. Since the memory is allocated, simply consider the block as valid
+                // A module already requested this block in read-mode. This will only work if the block does not require a non-trivial constructor:
+                if (sizeof...(Args))
+                    throw constructor_tag_error("A module already requested the tag '" + tag.toString() + "' which seems to require a constructor call. This is currently not supported.");
+                // Since the memory is allocated, simply consider the block as valid.
                 it->second.valid = true;
 
                 // If the block is empty, it's a delayed instanciation. Simply flag the block as valid, and allocate memory for it
                 if (it->second.ptr.empty()) {
-                    std::shared_ptr<T> ptr(new T());
+                    std::shared_ptr<T> ptr(new T(std::forward<Args>(args)...));
                     it->second.ptr = boost::any(ptr);
                 }
 
             } else {
-                it = create<T>(tag, true);
+                it = create<T, Args ...>(tag, true, std::forward<Args>(args)...);
             }
 
             // Update current module description
@@ -127,10 +143,10 @@ class Pool {
             return boost::any_cast<std::shared_ptr<T>>(it->second.ptr);
         }
 
-        template<typename T> PoolStorage::iterator create(const InputTag& tag,
-                bool valid = true) {
+        template<typename T, typename... Args> PoolStorage::iterator create(const InputTag& tag,
+                bool valid = true, Args... args) const {
 
-            std::shared_ptr<T> ptr(new T());
+            std::shared_ptr<T> ptr(new T(std::forward<Args>(args)...));
             PoolContent content = { boost::any(ptr), valid };
 
             return m_storage.emplace(tag, content).first;
@@ -161,8 +177,8 @@ class Pool {
         std::string m_current_module; /// Name of the module currently created.
         bool m_frozen = false; /// If true, no modification of the pool is allowed
 
-        PoolStorage m_storage;
-        DescriptionMap m_description;
+        mutable PoolStorage m_storage;
+        mutable DescriptionMap m_description; /// Mutable so that get() can be marked const
 };
 
 using PoolPtr = std::shared_ptr<Pool>;
