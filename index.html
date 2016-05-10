@@ -105,32 +105,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="title"><a class="el" href="classMoMEMta.html">MoMEMta</a> </div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p>The Modular Matrix Element Method implementation.</p>
-<h2>Install</h2>
-<h3>Prerequisites</h3>
-<p><a class="el" href="classMoMEMta.html">MoMEMta</a> depends on the following libraries and tools:</p><ul>
-<li>LHAPDF (&gt;=6)</li>
-<li>CMake (&gt;=2.8.8)</li>
-<li><a class="el" href="classBoost.html">Boost</a></li>
-<li>ROOT</li>
-<li>A C++11-capable compiler</li>
-</ul>
-<p><b>Note</b>: <a class="el" href="classMoMEMta.html">MoMEMta</a> has only been tested on GNU/Linux.</p>
-<h3>Procedure</h3>
-<p>Retrieve the code <a href="https://github.com/MoMEMta/MoMEMta/archive/prototype.zip">here</a> or using <code>git clone git@github.com:MoMEMta/MoMEMta.git</code>. Unpack the archive and/or go to the <code><a class="el" href="classMoMEMta.html">MoMEMta</a></code> directory. Next, execute the following: </p><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;mkdir build</div><div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;cd build</div><div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;cmake ..</div><div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;make -j 4</div></div><!-- fragment --><p> You can now use the library <code>libmomemta.so</code> with your own code.</p>
-<p>If you have admin rights on your system, you can make <a class="el" href="classMoMEMta.html">MoMEMta</a> (public headers and library) available system-wide using: </p><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;make install</div></div><!-- fragment --><h3>Build options</h3>
-<p>The following options are available when configuring the build (when running <code>cmake ..</code>):</p><ul>
-<li><code>-DCMAKE_INSTALL_PREFIX=(path)</code>: Install <a class="el" href="classMoMEMta.html">MoMEMta</a> in a specific location</li>
-<li><code>-DPROFILING=ON</code>: Generate debugging symbols and profiling information (requires <code>gperftools</code>)</li>
-<li><code>-DBOOST_ROOT=(path)</code>: Use specific <a class="el" href="classBoost.html">Boost</a> library installation</li>
-<li><code>-DTESTS=ON</code>: Also compile the test executables</li>
-<li><code>-DEXAMPLES=OFF</code>: Do not compile the example executables</li>
-</ul>
-<h2>Examples</h2>
-<p>After building according to the above instructions, you can try to run the examples: </p><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;$ ./tt_fullyleptonic.exe</div><div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;$ ./tt_fullyleptonic_NWA.exe</div></div><!-- fragment --><p> Have a look at the corresponding source and config files are located in <code>MoMEMta/examples</code>!</p>
+<div class="textblock"><p>Modular Matrix Element Method implementation</p>
 <h2>Documentation</h2>
-<p>The documentation is available <a href="https://momemta.github.io/MoMEMta/">here</a>.</p>
-<p>Content:</p><ul>
+<ul>
 <li><a class="el" href="group__modules.html">List of all available modules</a> </li>
 </ul>
 </div></div><!-- contents -->
