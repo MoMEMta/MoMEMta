@@ -92,10 +92,7 @@ TEST_CASE("lua parsing utilities", "[lua]") {
     SECTION("loading modules") {
         auto plugins = ModuleFactory::get().getPluginsList().size();
 
-        // Fake call to load_modules
-        lua_pushliteral(L.get(), "libempty_module.so");
-        lua::load_modules(L.get());
-        lua_pop(L.get(), 1);
+        execute_string(L, "load_modules('libempty_module.so')");
 
         REQUIRE(ModuleFactory::get().getPluginsList().size() == plugins + 1);
     }
