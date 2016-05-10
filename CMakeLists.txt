@@ -65,7 +65,7 @@ find_package(ROOT REQUIRED)
 find_package(LHAPDF 6.0 REQUIRED)
 
 if (NOT USE_BUILTIN_LUA)
-    find_package(Lua QUIET)
+    find_package(Lua 5.3 QUIET)
 endif()
 
 set(Boost_NO_BOOST_CMAKE ON)
@@ -83,6 +83,8 @@ if (NOT LUA_FOUND)
     endif()
     set(LUA_LIBRARIES lua)
     set(LUA_INCLUDE_DIR "external/lua")
+else()
+    message(STATUS "Found Lua: ${LUA_LIBRARIES} (found suitable version \"${LUA_VERSION_STRING}\", minimum required is \"5.3\")")
 endif()
 
 
