@@ -131,13 +131,16 @@ using&#160;</td><td class="memItemRight" valign="bottom"><b>DescriptionMap</b> =
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:af6ef1f261c5015f5b9a77417d2e4a0c2"><td class="memTemplParams" colspan="2"><a class="anchor" id="af6ef1f261c5015f5b9a77417d2e4a0c2"></a>
+<tr class="memitem:a5d2157bb60ffcb87fcb60c5dba607f33"><td class="memTemplParams" colspan="2"><a class="anchor" id="a5d2157bb60ffcb87fcb60c5dba607f33"></a>
 template&lt;typename T &gt; </td></tr>
-<tr class="memitem:af6ef1f261c5015f5b9a77417d2e4a0c2"><td class="memTemplItemLeft" align="right" valign="top">std::shared_ptr&lt; const T &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><b>get</b> (const <a class="el" href="structInputTag.html">InputTag</a> &amp;tag)</td></tr>
-<tr class="separator:af6ef1f261c5015f5b9a77417d2e4a0c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5d2157bb60ffcb87fcb60c5dba607f33"><td class="memTemplItemLeft" align="right" valign="top">std::shared_ptr&lt; const T &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><b>get</b> (const <a class="el" href="structInputTag.html">InputTag</a> &amp;tag) const </td></tr>
+<tr class="separator:a5d2157bb60ffcb87fcb60c5dba607f33"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8a96eb63b46731b108d9a22a5b1109c9"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8a96eb63b46731b108d9a22a5b1109c9"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>alias</b> (const <a class="el" href="structInputTag.html">InputTag</a> &amp;from, const <a class="el" href="structInputTag.html">InputTag</a> &amp;to)</td></tr>
 <tr class="separator:a8a96eb63b46731b108d9a22a5b1109c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae19c6dfdb3ad53468f2b7d4f882e8c09"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPool.html#ae19c6dfdb3ad53468f2b7d4f882e8c09">exists</a> (const <a class="el" href="structInputTag.html">InputTag</a> &amp;tag) const </td></tr>
+<tr class="memdesc:ae19c6dfdb3ad53468f2b7d4f882e8c09"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if input tag exists in the pool.  <a href="#ae19c6dfdb3ad53468f2b7d4f882e8c09">More...</a><br /></td></tr>
+<tr class="separator:ae19c6dfdb3ad53468f2b7d4f882e8c09"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a74233011e8c1dbd9fdeddace9ebd06e3"><td class="memItemLeft" align="right" valign="top">const DescriptionMap &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPool.html#a74233011e8c1dbd9fdeddace9ebd06e3">description</a> () const </td></tr>
 <tr class="memdesc:a74233011e8c1dbd9fdeddace9ebd06e3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the description of the state of the memory pool.  <a href="#a74233011e8c1dbd9fdeddace9ebd06e3">More...</a><br /></td></tr>
 <tr class="separator:a74233011e8c1dbd9fdeddace9ebd06e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -179,7 +182,35 @@ struct&#160;</td><td class="memItemRight" valign="bottom"><b>InputTag</b></td></
 <p>Return the description of the state of the memory pool. </p>
 <dl class="section note"><dt>Note</dt><dd>Result is only valid after a call to Pool::freeze() </dd></dl>
 
-<p>Definition at line <a class="el" href="Pool_8h_source.html#l00078">78</a> of file <a class="el" href="Pool_8h_source.html">Pool.h</a>.</p>
+<p>Definition at line <a class="el" href="Pool_8h_source.html#l00087">87</a> of file <a class="el" href="Pool_8h_source.html">Pool.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ae19c6dfdb3ad53468f2b7d4f882e8c09"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Pool::exists </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structInputTag.html">InputTag</a> &amp;&#160;</td>
+          <td class="paramname"><em>tag</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Check if input tag exists in the pool. </p>
+<dl class="section warning"><dt>Warning</dt><dd>No check is performed to ensure that the string is an input tag. Use <a class="el" href="structInputTag.html#a234c02fc061e14f33009ef7e2c917254" title="Check if a given string represent an InputTag. ">InputTag::isInputTag()</a> first.</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">tag</td><td>Input tag that will be searched in the pool. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True if the input tag exists in the pool, False otherwise. </dd></dl>
+
+<p>Definition at line <a class="el" href="Pool_8cc_source.html#l00080">80</a> of file <a class="el" href="Pool_8cc_source.html">Pool.cc</a>.</p>
 
 </div>
 </div>

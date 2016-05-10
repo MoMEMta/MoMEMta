@@ -184,10 +184,21 @@ double&#160;</td><td class="memItemRight" valign="bottom"><b>computeJacobian</b>
 virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classModule.html#a1e559c32bbb1442a3100bb6d9c90bca3">configure</a> ()</td></tr>
 <tr class="memdesc:a1e559c32bbb1442a3100bb6d9c90bca3 inherit pub_methods_classModule"><td class="mdescLeft">&#160;</td><td class="mdescRight">Called once at the beginning of the job. <br /></td></tr>
 <tr class="separator:a1e559c32bbb1442a3100bb6d9c90bca3 inherit pub_methods_classModule"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0c354091befb60af6b25490e2cb716ec inherit pub_methods_classModule"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a0c354091befb60af6b25490e2cb716ec"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classModule.html#a0c354091befb60af6b25490e2cb716ec">beginIntegration</a> ()</td></tr>
+<tr class="memdesc:a0c354091befb60af6b25490e2cb716ec inherit pub_methods_classModule"><td class="mdescLeft">&#160;</td><td class="mdescRight">Called once at the beginning of the integration. <br /></td></tr>
+<tr class="separator:a0c354091befb60af6b25490e2cb716ec inherit pub_methods_classModule"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a871795b8be830f2e9965d1d26be81e5f inherit pub_methods_classModule"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a871795b8be830f2e9965d1d26be81e5f"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classModule.html#a871795b8be830f2e9965d1d26be81e5f">endIntegration</a> ()</td></tr>
+<tr class="memdesc:a871795b8be830f2e9965d1d26be81e5f inherit pub_methods_classModule"><td class="mdescLeft">&#160;</td><td class="mdescRight">Called once at the end of the integration. <br /></td></tr>
+<tr class="separator:a871795b8be830f2e9965d1d26be81e5f inherit pub_methods_classModule"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a35348490eb9ba5e333c42b5ab0a84e09 inherit pub_methods_classModule"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a35348490eb9ba5e333c42b5ab0a84e09"></a>
 virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classModule.html#a35348490eb9ba5e333c42b5ab0a84e09">finish</a> ()</td></tr>
 <tr class="memdesc:a35348490eb9ba5e333c42b5ab0a84e09 inherit pub_methods_classModule"><td class="mdescLeft">&#160;</td><td class="mdescRight">Called once at the end of the job. <br /></td></tr>
 <tr class="separator:a35348490eb9ba5e333c42b5ab0a84e09 inherit pub_methods_classModule"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad656e439a7240f832567d99f81d1aa1c inherit pub_methods_classModule"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classModule.html#ad656e439a7240f832567d99f81d1aa1c">leafModule</a> () const </td></tr>
+<tr class="memdesc:ad656e439a7240f832567d99f81d1aa1c inherit pub_methods_classModule"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if module produces an output or not.  <a href="#ad656e439a7240f832567d99f81d1aa1c">More...</a><br /></td></tr>
+<tr class="separator:ad656e439a7240f832567d99f81d1aa1c inherit pub_methods_classModule"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ada489bd58871a2634bb29a9197c8b652 inherit pub_methods_classModule"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ada489bd58871a2634bb29a9197c8b652"></a>
 virtual std::string&#160;</td><td class="memItemRight" valign="bottom"><b>name</b> () const  final</td></tr>
 <tr class="separator:ada489bd58871a2634bb29a9197c8b652 inherit pub_methods_classModule"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -199,10 +210,10 @@ Additional Inherited Members</h2></td></tr>
 <tr class="memdesc:ac1fe92d5be8a8591b855691b88e6a56a inherit pub_static_methods_classModule"><td class="mdescLeft">&#160;</td><td class="mdescRight">Test if a given name correspond to a virtual module.  <a href="#ac1fe92d5be8a8591b855691b88e6a56a">More...</a><br /></td></tr>
 <tr class="separator:ac1fe92d5be8a8591b855691b88e6a56a inherit pub_static_methods_classModule"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pro_methods_classModule"><td colspan="2" onclick="javascript:toggleInherit('pro_methods_classModule')"><img src="closed.png" alt="-"/>&#160;Protected Member Functions inherited from <a class="el" href="classModule.html">Module</a></td></tr>
-<tr class="memitem:a93351e9bd059bd1c85caf16fbd23303b inherit pro_methods_classModule"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:a93351e9bd059bd1c85caf16fbd23303b inherit pro_methods_classModule"><td class="memTemplItemLeft" align="right" valign="top">std::shared_ptr&lt; T &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classModule.html#a93351e9bd059bd1c85caf16fbd23303b">produce</a> (const std::string &amp;name)</td></tr>
-<tr class="memdesc:a93351e9bd059bd1c85caf16fbd23303b inherit pro_methods_classModule"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add a new output to the module.  <a href="#a93351e9bd059bd1c85caf16fbd23303b">More...</a><br /></td></tr>
-<tr class="separator:a93351e9bd059bd1c85caf16fbd23303b inherit pro_methods_classModule"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae4a18ea70d8a5b3bc76756ff4bf64d9b inherit pro_methods_classModule"><td class="memTemplParams" colspan="2">template&lt;typename T , typename... Args&gt; </td></tr>
+<tr class="memitem:ae4a18ea70d8a5b3bc76756ff4bf64d9b inherit pro_methods_classModule"><td class="memTemplItemLeft" align="right" valign="top">std::shared_ptr&lt; T &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classModule.html#ae4a18ea70d8a5b3bc76756ff4bf64d9b">produce</a> (const std::string &amp;name, Args...args)</td></tr>
+<tr class="memdesc:ae4a18ea70d8a5b3bc76756ff4bf64d9b inherit pro_methods_classModule"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add a new output to the module.  <a href="#ae4a18ea70d8a5b3bc76756ff4bf64d9b">More...</a><br /></td></tr>
+<tr class="separator:ae4a18ea70d8a5b3bc76756ff4bf64d9b inherit pro_methods_classModule"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af3c0f8d5dad530945c3da559f5648985 inherit pro_methods_classModule"><td class="memTemplParams" colspan="2"><a class="anchor" id="af3c0f8d5dad530945c3da559f5648985"></a>
 template&lt;typename T &gt; </td></tr>
 <tr class="memitem:af3c0f8d5dad530945c3da559f5648985 inherit pro_methods_classModule"><td class="memTemplItemLeft" align="right" valign="top">std::shared_ptr&lt; const T &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><b>get</b> (const std::string &amp;module, const std::string &amp;name)</td></tr>

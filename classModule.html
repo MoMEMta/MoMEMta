@@ -139,15 +139,16 @@ Inheritance diagram for Module:</div>
 <area shape="rect" id="node5" href="classBlockF.html" title="This module aims at computing the jacobians coming from the changes of variable in the standard phase..." alt="" coords="182,172,245,199"/>
 <area shape="rect" id="node6" href="classBoost.html" title="Boost" alt="" coords="185,223,241,249"/>
 <area shape="rect" id="node7" href="classBreitWignerGenerator.html" title="BreitWignerGenerator" alt="" coords="140,273,287,300"/>
-<area shape="rect" id="node8" href="classEmptyModule.html" title="EmptyModule" alt="" coords="162,324,265,351"/>
-<area shape="rect" id="node9" href="classFlatTransferFunctionOnP.html" title="Flat transfer function on |P| (mainly for testing purposes). " alt="" coords="129,375,297,401"/>
-<area shape="rect" id="node10" href="classFlatTransferFunctionOnPhi.html" title="Flat transfer function on Phi (mainly for testing purposes). " alt="" coords="124,425,303,452"/>
-<area shape="rect" id="node11" href="classFlatTransferFunctionOnTheta.html" title="Flat transfer function on Theta (mainly for testing purposes). " alt="" coords="117,476,309,503"/>
-<area shape="rect" id="node12" href="classGaussianTransferFunction.html" title="GaussianTransferFunction" alt="" coords="126,527,301,553"/>
-<area shape="rect" id="node13" href="classMatrixElement.html" title="MatrixElement" alt="" coords="160,577,267,604"/>
-<area shape="rect" id="node14" href="classNarrowWidthApproximation.html" title="Use the Narrow Width Approximation (NWA) to reduce the dimensionality of the integration. " alt="" coords="123,628,304,655"/>
-<area shape="rect" id="node15" href="classPermutator.html" title="Permutator" alt="" coords="170,679,257,705"/>
-<area shape="rect" id="node16" href="classUniformGenerator.html" title="Generate a random point uniformly in a user&#45;set range. " alt="" coords="151,729,276,756"/>
+<area shape="rect" id="node8" href="classDMEM.html" title="DMEM" alt="" coords="182,324,245,351"/>
+<area shape="rect" id="node9" href="classEmptyModule.html" title="EmptyModule" alt="" coords="162,375,265,401"/>
+<area shape="rect" id="node10" href="classFlatTransferFunctionOnP.html" title="Flat transfer function on |P| (mainly for testing purposes). " alt="" coords="129,425,297,452"/>
+<area shape="rect" id="node11" href="classFlatTransferFunctionOnPhi.html" title="Flat transfer function on Phi (mainly for testing purposes). " alt="" coords="124,476,303,503"/>
+<area shape="rect" id="node12" href="classFlatTransferFunctionOnTheta.html" title="Flat transfer function on Theta (mainly for testing purposes). " alt="" coords="117,527,309,553"/>
+<area shape="rect" id="node13" href="classGaussianTransferFunction.html" title="GaussianTransferFunction" alt="" coords="126,577,301,604"/>
+<area shape="rect" id="node14" href="classMatrixElement.html" title="MatrixElement" alt="" coords="160,628,267,655"/>
+<area shape="rect" id="node15" href="classNarrowWidthApproximation.html" title="Use the Narrow Width Approximation (NWA) to reduce the dimensionality of the integration. " alt="" coords="123,679,304,705"/>
+<area shape="rect" id="node16" href="classPermutator.html" title="Permutator" alt="" coords="170,729,257,756"/>
+<area shape="rect" id="node17" href="classUniformGenerator.html" title="Generate a random point uniformly in a user&#45;set range. " alt="" coords="151,780,276,807"/>
 </map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
@@ -160,9 +161,17 @@ Public Member Functions</h2></td></tr>
 virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classModule.html#a1e559c32bbb1442a3100bb6d9c90bca3">configure</a> ()</td></tr>
 <tr class="memdesc:a1e559c32bbb1442a3100bb6d9c90bca3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Called once at the beginning of the job. <br /></td></tr>
 <tr class="separator:a1e559c32bbb1442a3100bb6d9c90bca3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0c354091befb60af6b25490e2cb716ec"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a0c354091befb60af6b25490e2cb716ec"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classModule.html#a0c354091befb60af6b25490e2cb716ec">beginIntegration</a> ()</td></tr>
+<tr class="memdesc:a0c354091befb60af6b25490e2cb716ec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Called once at the beginning of the integration. <br /></td></tr>
+<tr class="separator:a0c354091befb60af6b25490e2cb716ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9f798ae2775b4f9ef99f7df568261796"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classModule.html#a9f798ae2775b4f9ef99f7df568261796">work</a> ()</td></tr>
 <tr class="memdesc:a9f798ae2775b4f9ef99f7df568261796"><td class="mdescLeft">&#160;</td><td class="mdescRight">Main function.  <a href="#a9f798ae2775b4f9ef99f7df568261796">More...</a><br /></td></tr>
 <tr class="separator:a9f798ae2775b4f9ef99f7df568261796"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a871795b8be830f2e9965d1d26be81e5f"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a871795b8be830f2e9965d1d26be81e5f"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classModule.html#a871795b8be830f2e9965d1d26be81e5f">endIntegration</a> ()</td></tr>
+<tr class="memdesc:a871795b8be830f2e9965d1d26be81e5f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Called once at the end of the integration. <br /></td></tr>
+<tr class="separator:a871795b8be830f2e9965d1d26be81e5f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a35348490eb9ba5e333c42b5ab0a84e09"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a35348490eb9ba5e333c42b5ab0a84e09"></a>
 virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classModule.html#a35348490eb9ba5e333c42b5ab0a84e09">finish</a> ()</td></tr>
 <tr class="memdesc:a35348490eb9ba5e333c42b5ab0a84e09"><td class="mdescLeft">&#160;</td><td class="mdescRight">Called once at the end of the job. <br /></td></tr>
@@ -170,6 +179,9 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hr
 <tr class="memitem:a604059ca484c29e5d6ac9d12865e5ed4"><td class="memItemLeft" align="right" valign="top">virtual size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classModule.html#a604059ca484c29e5d6ac9d12865e5ed4">dimensions</a> () const </td></tr>
 <tr class="memdesc:a604059ca484c29e5d6ac9d12865e5ed4"><td class="mdescLeft">&#160;</td><td class="mdescRight">The number of integration's dimension used by the module.  <a href="#a604059ca484c29e5d6ac9d12865e5ed4">More...</a><br /></td></tr>
 <tr class="separator:a604059ca484c29e5d6ac9d12865e5ed4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad656e439a7240f832567d99f81d1aa1c"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classModule.html#ad656e439a7240f832567d99f81d1aa1c">leafModule</a> () const </td></tr>
+<tr class="memdesc:ad656e439a7240f832567d99f81d1aa1c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if module produces an output or not.  <a href="#ad656e439a7240f832567d99f81d1aa1c">More...</a><br /></td></tr>
+<tr class="separator:ad656e439a7240f832567d99f81d1aa1c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ada489bd58871a2634bb29a9197c8b652"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ada489bd58871a2634bb29a9197c8b652"></a>
 virtual std::string&#160;</td><td class="memItemRight" valign="bottom"><b>name</b> () const  final</td></tr>
 <tr class="separator:ada489bd58871a2634bb29a9197c8b652"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -182,10 +194,10 @@ Static Public Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
-<tr class="memitem:a93351e9bd059bd1c85caf16fbd23303b"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:a93351e9bd059bd1c85caf16fbd23303b"><td class="memTemplItemLeft" align="right" valign="top">std::shared_ptr&lt; T &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classModule.html#a93351e9bd059bd1c85caf16fbd23303b">produce</a> (const std::string &amp;name)</td></tr>
-<tr class="memdesc:a93351e9bd059bd1c85caf16fbd23303b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add a new output to the module.  <a href="#a93351e9bd059bd1c85caf16fbd23303b">More...</a><br /></td></tr>
-<tr class="separator:a93351e9bd059bd1c85caf16fbd23303b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae4a18ea70d8a5b3bc76756ff4bf64d9b"><td class="memTemplParams" colspan="2">template&lt;typename T , typename... Args&gt; </td></tr>
+<tr class="memitem:ae4a18ea70d8a5b3bc76756ff4bf64d9b"><td class="memTemplItemLeft" align="right" valign="top">std::shared_ptr&lt; T &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classModule.html#ae4a18ea70d8a5b3bc76756ff4bf64d9b">produce</a> (const std::string &amp;name, Args...args)</td></tr>
+<tr class="memdesc:ae4a18ea70d8a5b3bc76756ff4bf64d9b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add a new output to the module.  <a href="#ae4a18ea70d8a5b3bc76756ff4bf64d9b">More...</a><br /></td></tr>
+<tr class="separator:ae4a18ea70d8a5b3bc76756ff4bf64d9b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af3c0f8d5dad530945c3da559f5648985"><td class="memTemplParams" colspan="2"><a class="anchor" id="af3c0f8d5dad530945c3da559f5648985"></a>
 template&lt;typename T &gt; </td></tr>
 <tr class="memitem:af3c0f8d5dad530945c3da559f5648985"><td class="memTemplItemLeft" align="right" valign="top">std::shared_ptr&lt; const T &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><b>get</b> (const std::string &amp;module, const std::string &amp;name)</td></tr>
@@ -275,9 +287,9 @@ PoolPtr&#160;</td><td class="memItemRight" valign="bottom"><b>m_pool</b></td></t
 <dl class="section return"><dt>Returns</dt><dd>The number of integration's dimension added to the integrator.</dd></dl>
 <dl class="section note"><dt>Note</dt><dd>Default value is 0. </dd></dl>
 
-<p>Reimplemented in <a class="el" href="classBlockF.html#a3f22908aadaa7c904649f52c9c2c55bc">BlockF</a>, <a class="el" href="classBlockD.html#a99eecf9c66ab2c9af80c8ea044dc1c5c">BlockD</a>, <a class="el" href="classBlockB.html#ab76dffca7d4150add000efbc9c0da361">BlockB</a>, <a class="el" href="classBinnedTransferFunctionOnEnergy.html#a10584e68b90ea6551fd1502dbdc9e09f">BinnedTransferFunctionOnEnergy</a>, <a class="el" href="classFlatTransferFunctionOnP.html#a504a7e910b4a3ef1c681ea270fe4daea">FlatTransferFunctionOnP</a>, <a class="el" href="classNarrowWidthApproximation.html#ae7350bbf6c912b8635fca20f956b211a">NarrowWidthApproximation</a>, <a class="el" href="classFlatTransferFunctionOnTheta.html#aabe98b374a67ff7c909ea80bfa8118ef">FlatTransferFunctionOnTheta</a>, <a class="el" href="classFlatTransferFunctionOnPhi.html#a2c0d5ce7e52969d452d1393fe9bc19a1">FlatTransferFunctionOnPhi</a>, <a class="el" href="classGaussianTransferFunction.html#aa68abf0fe71f42ca18b5266141ac17c1">GaussianTransferFunction</a>, <a class="el" href="classPermutator.html#a3ba235d4eb31880412f6674b6090025e">Permutator</a>, <a class="el" href="classUniformGenerator.html#a24920b4c678ba1e16d2db1eb62508fd1">UniformGenerator</a>, and <a class="el" href="classBreitWignerGenerator.html#af3008be669b76c4961e4fb0b5a81c7f8">BreitWignerGenerator</a>.</p>
+<p>Reimplemented in <a class="el" href="classBlockF.html#a3f22908aadaa7c904649f52c9c2c55bc">BlockF</a>, <a class="el" href="classBlockD.html#a99eecf9c66ab2c9af80c8ea044dc1c5c">BlockD</a>, <a class="el" href="classBlockB.html#ab76dffca7d4150add000efbc9c0da361">BlockB</a>, <a class="el" href="classBinnedTransferFunctionOnEnergy.html#a10584e68b90ea6551fd1502dbdc9e09f">BinnedTransferFunctionOnEnergy</a>, <a class="el" href="classFlatTransferFunctionOnP.html#a504a7e910b4a3ef1c681ea270fe4daea">FlatTransferFunctionOnP</a>, <a class="el" href="classDMEM.html#ae5d368a448cac96d062aa89d872da610">DMEM</a>, <a class="el" href="classNarrowWidthApproximation.html#ae7350bbf6c912b8635fca20f956b211a">NarrowWidthApproximation</a>, <a class="el" href="classFlatTransferFunctionOnTheta.html#aabe98b374a67ff7c909ea80bfa8118ef">FlatTransferFunctionOnTheta</a>, <a class="el" href="classFlatTransferFunctionOnPhi.html#a2c0d5ce7e52969d452d1393fe9bc19a1">FlatTransferFunctionOnPhi</a>, <a class="el" href="classGaussianTransferFunction.html#aa68abf0fe71f42ca18b5266141ac17c1">GaussianTransferFunction</a>, <a class="el" href="classPermutator.html#a3ba235d4eb31880412f6674b6090025e">Permutator</a>, <a class="el" href="classUniformGenerator.html#a24920b4c678ba1e16d2db1eb62508fd1">UniformGenerator</a>, and <a class="el" href="classBreitWignerGenerator.html#af3008be669b76c4961e4fb0b5a81c7f8">BreitWignerGenerator</a>.</p>
 
-<p>Definition at line <a class="el" href="Module_8h_source.html#l00078">78</a> of file <a class="el" href="Module_8h_source.html">Module.h</a>.</p>
+<p>Definition at line <a class="el" href="Module_8h_source.html#l00091">91</a> of file <a class="el" href="Module_8h_source.html">Module.h</a>.</p>
 
 </div>
 </div>
@@ -313,17 +325,50 @@ PoolPtr&#160;</td><td class="memItemRight" valign="bottom"><b>m_pool</b></td></t
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>True if <code>name</code> is the name of a virtual module, false otherwise. </dd></dl>
 
-<p>Definition at line <a class="el" href="Module_8h_source.html#l00094">94</a> of file <a class="el" href="Module_8h_source.html">Module.h</a>.</p>
+<p>Definition at line <a class="el" href="Module_8h_source.html#l00125">125</a> of file <a class="el" href="Module_8h_source.html">Module.h</a>.</p>
 
 <p>Referenced by <a class="el" href="Graph_8cc_source.html#l00015">graph::build()</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a93351e9bd059bd1c85caf16fbd23303b"></a>
+<a class="anchor" id="ad656e439a7240f832567d99f81d1aa1c"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual bool Module::leafModule </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Check if module produces an output or not. </p>
+<p>If a module produces no output, or if its output is not used as input by any other module, it is by default removed from the list of modules that are called on each phase-space point.</p>
+<p>This function allows to flag the module so that it doesn't get removed. A typical use case would be a module that only produces an object that is retrieved directly from the <a class="el" href="classPool.html">Pool</a> by the user, after the integration.</p>
+<dl class="section return"><dt>Returns</dt><dd>True if the module produces no output, False otherwise.</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>Default value is False; </dd></dl>
+
+<p>Reimplemented in <a class="el" href="classDMEM.html#a475048d2a2f697d4015b13e3a73f58d6">DMEM</a>.</p>
+
+<p>Definition at line <a class="el" href="Module_8h_source.html#l00109">109</a> of file <a class="el" href="Module_8h_source.html">Module.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ae4a18ea70d8a5b3bc76756ff4bf64d9b"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename T &gt; </div>
+template&lt;typename T , typename... Args&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -332,8 +377,18 @@ template&lt;typename T &gt; </div>
           <td class="memname">std::shared_ptr&lt;T&gt; Module::produce </td>
           <td>(</td>
           <td class="paramtype">const std::string &amp;&#160;</td>
-          <td class="paramname"><em>name</em></td><td>)</td>
+          <td class="paramname"><em>name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">Args...&#160;</td>
+          <td class="paramname"><em>args</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
   </td>
@@ -345,7 +400,7 @@ template&lt;typename T &gt; </div>
 
 <p>Add a new output to the module. </p>
 <p>Call this function to add a new output to the module. This output will then be available to all the modules.</p>
-<p>Example: </p><div class="fragment"><div class="line"><span class="comment">// In constructor</span></div><div class="line">std::shared_ptr&lt;double&gt; my_output = produce&lt;double&gt;(<span class="stringliteral">&quot;output&quot;</span>);</div><div class="line"></div><div class="line"><span class="comment">// In work()</span></div><div class="line">*my_output = 10;</div></div><!-- fragment --><dl class="tparams"><dt>Template Parameters</dt><dd>
+<p>Example: </p><div class="fragment"><div class="line"><span class="comment">// In constructor</span></div><div class="line">std::shared_ptr&lt;double&gt; my_output = produce&lt;double&gt;(<span class="stringliteral">&quot;output&quot;</span>);</div><div class="line">std::shared_ptr&lt;TH1D&gt; my_hist = produce&lt;TH1D&gt;(<span class="stringliteral">&quot;output_hist&quot;</span>, <span class="stringliteral">&quot;name&quot;</span>, <span class="stringliteral">&quot;title&quot;</span>, 5, 0, 5); <span class="comment">// Use constructor call</span></div><div class="line"></div><div class="line"><span class="comment">// In work()</span></div><div class="line">*my_output = 10;</div></div><!-- fragment --><dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
     <tr><td class="paramname">T</td><td>The type of the output. </td></tr>
   </table>
@@ -353,13 +408,14 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">name</td><td>The name of the output. Must be unique to this module.</td></tr>
+    <tr><td class="paramname">name</td><td>The name of the output. Must be unique to this module. </td></tr>
+    <tr><td class="paramname">args</td><td>Variable list of optional arguments. Will be passed to the constructor of T.</td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A std::shared_ptr&lt;T&gt; pointing to newly allocated memory in the memory pool. Change the content of this pointer to change the output. </dd></dl>
 
-<p>Definition at line <a class="el" href="Module_8h_source.html#l00118">118</a> of file <a class="el" href="Module_8h_source.html">Module.h</a>.</p>
+<p>Definition at line <a class="el" href="Module_8h_source.html#l00151">151</a> of file <a class="el" href="Module_8h_source.html">Module.h</a>.</p>
 
 </div>
 </div>
@@ -388,9 +444,9 @@ template&lt;typename T &gt; </div>
 <p>This method is called for each integration step. The module's logic and work happen here.</p>
 <p>You'll usually want to override this function if you want your module to perform some task. </p>
 
-<p>Reimplemented in <a class="el" href="classBinnedTransferFunctionOnEnergy.html#aaee831ebfcaece547072ad24683c5646">BinnedTransferFunctionOnEnergy</a>, <a class="el" href="classMatrixElement.html#aa6d95d2048047d09654fa6d17edd34ff">MatrixElement</a>, <a class="el" href="classBlockF.html#a931df68e5703171870ed5d30318e601b">BlockF</a>, <a class="el" href="classNarrowWidthApproximation.html#a60c73dce3a7049a7d62a335547c4a194">NarrowWidthApproximation</a>, <a class="el" href="classBlockB.html#a03bec8ea5d9e7309c954f944743dcbbb">BlockB</a>, <a class="el" href="classFlatTransferFunctionOnP.html#ae9868e9774c058e86fc5b2821d105210">FlatTransferFunctionOnP</a>, <a class="el" href="classFlatTransferFunctionOnPhi.html#a61d8f40b4c95e09a4d86e3722badc259">FlatTransferFunctionOnPhi</a>, <a class="el" href="classFlatTransferFunctionOnTheta.html#a16db955963943793f5866e20668ca729">FlatTransferFunctionOnTheta</a>, <a class="el" href="classPermutator.html#a2ab2179b776fdf400be1ade1815903b3">Permutator</a>, <a class="el" href="classUniformGenerator.html#a91153cbd80a52f144880feffe936833b">UniformGenerator</a>, <a class="el" href="classGaussianTransferFunction.html#a1455e520194269efb5f305870e22a71e">GaussianTransferFunction</a>, <a class="el" href="classBlockD.html#a6da13c2ea94fe7fa50b093f54917e7f0">BlockD</a>, <a class="el" href="classBoost.html#a4c87495a2d9f85417339447b6880b044">Boost</a>, <a class="el" href="classBreitWignerGenerator.html#ac9c74bfd1a582463c7ba23721b08d6c0">BreitWignerGenerator</a>, and <a class="el" href="classEmptyModule.html#ad4bf07122cf9babccb6eb5d1835df972">EmptyModule</a>.</p>
+<p>Reimplemented in <a class="el" href="classBinnedTransferFunctionOnEnergy.html#aaee831ebfcaece547072ad24683c5646">BinnedTransferFunctionOnEnergy</a>, <a class="el" href="classMatrixElement.html#aa6d95d2048047d09654fa6d17edd34ff">MatrixElement</a>, <a class="el" href="classBlockF.html#a931df68e5703171870ed5d30318e601b">BlockF</a>, <a class="el" href="classNarrowWidthApproximation.html#a60c73dce3a7049a7d62a335547c4a194">NarrowWidthApproximation</a>, <a class="el" href="classBlockB.html#a03bec8ea5d9e7309c954f944743dcbbb">BlockB</a>, <a class="el" href="classFlatTransferFunctionOnP.html#ae9868e9774c058e86fc5b2821d105210">FlatTransferFunctionOnP</a>, <a class="el" href="classFlatTransferFunctionOnPhi.html#a61d8f40b4c95e09a4d86e3722badc259">FlatTransferFunctionOnPhi</a>, <a class="el" href="classFlatTransferFunctionOnTheta.html#a16db955963943793f5866e20668ca729">FlatTransferFunctionOnTheta</a>, <a class="el" href="classDMEM.html#a7d02d76456378b8990506cfed7440e7c">DMEM</a>, <a class="el" href="classPermutator.html#a2ab2179b776fdf400be1ade1815903b3">Permutator</a>, <a class="el" href="classUniformGenerator.html#a91153cbd80a52f144880feffe936833b">UniformGenerator</a>, <a class="el" href="classGaussianTransferFunction.html#a1455e520194269efb5f305870e22a71e">GaussianTransferFunction</a>, <a class="el" href="classBlockD.html#a6da13c2ea94fe7fa50b093f54917e7f0">BlockD</a>, <a class="el" href="classBoost.html#a4c87495a2d9f85417339447b6880b044">Boost</a>, <a class="el" href="classBreitWignerGenerator.html#ac9c74bfd1a582463c7ba23721b08d6c0">BreitWignerGenerator</a>, and <a class="el" href="classEmptyModule.html#ad4bf07122cf9babccb6eb5d1835df972">EmptyModule</a>.</p>
 
-<p>Definition at line <a class="el" href="Module_8h_source.html#l00063">63</a> of file <a class="el" href="Module_8h_source.html">Module.h</a>.</p>
+<p>Definition at line <a class="el" href="Module_8h_source.html#l00069">69</a> of file <a class="el" href="Module_8h_source.html">Module.h</a>.</p>
 
 </div>
 </div>
