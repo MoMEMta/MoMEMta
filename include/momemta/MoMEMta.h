@@ -40,8 +40,13 @@ class MoMEMta {
 
         double integrand(const double* psPoints, const double* weights);
 
+        const Pool& getPool() const;
 
     private:
+        class integrands_output_error: public std::runtime_error {
+            using std::runtime_error::runtime_error;
+        };
+
         static int CUBAIntegrand(const int *nDim, const double* psPoint, const int *nComp, double *value, void *inputs, const int *nVec, const int *core, const double *weight);
 
         PoolPtr m_pool;
@@ -55,6 +60,7 @@ class MoMEMta {
 
         // Pool inputs
         std::shared_ptr<std::vector<double>> m_ps_points;
+        std::shared_ptr<double> m_ps_weight;
         std::shared_ptr<std::vector<LorentzVector>> m_particles;
         std::shared_ptr<const std::vector<double>> m_integrands;
 };

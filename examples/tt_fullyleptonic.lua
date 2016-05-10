@@ -53,6 +53,7 @@ parameters = {
 }
 
 cuba = {
+    relative_accuracy = 0.01,
     verbosity = 3
 }
 
@@ -210,3 +211,14 @@ MatrixElement.ttbar = {
 
   jacobians = jacobians
 }
+
+DMEM.dmem_ttbar = {
+  x_start = 0.,
+  x_end = 2000.,
+  n_bins = 500,
+  ps_weight = 'cuba::ps_weight',
+  particles = inputs,
+  invisibles = 'blockd::invisibles',
+  integrands = 'ttbar::integrands',
+}
+

@@ -62,11 +62,11 @@ Graph build(const Pool::DescriptionMap& description, std::vector<ModulePtr>& mod
     }
 
     // Find any module whose output is not used by any module. It's useless, so remove it
-    // Only allowed module in this situation is virtual modules.
+    // Only allowed module in this situation is virtual modules, or modules whose leafModule() method returns true.
     for (auto it = vertices.begin(), ite = vertices.end(); it != ite;) {
         if (boost::out_degree(it->second, g) == 0) {
 
-            if (Module::is_virtual_module(it->first)) {
+            if (Module::is_virtual_module(it->first) || g[it->second].module->leafModule()) {
                 ++it;
                 continue;
             }
