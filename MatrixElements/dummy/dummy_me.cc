@@ -12,7 +12,7 @@ class DummyMatrixElement : public momemta::MatrixElement {
 
     // Calculate flavour-independent parts of cross section.
     virtual momemta::MatrixElement::Result
-    compute(const std::vector<std::vector<double>>& initialMomenta,
+    compute(const std::pair<std::vector<double>, std::vector<double>>& initialMomenta,
             const std::vector<std::pair<int, std::vector<double>>>& finalState) {
         UNUSED(initialMomenta);
         UNUSED(finalState);

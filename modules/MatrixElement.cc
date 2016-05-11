@@ -153,10 +153,7 @@ class MatrixElement: public Module {
             auto permutations = get_permutations(suite, indexing);
             apply_permutations(finalStates, permutations);
 
-            std::vector<std::vector<double>> initialState(partons.size());
-            size_t index = 0;
-            for (const auto& parton: partons)
-                initialState[index++] = toVector(parton);
+            std::pair<std::vector<double>, std::vector<double>> initialState { toVector(partons[0]), toVector(partons[1]) };
 
             auto result = m_ME->compute(initialState, finalStates);
 
