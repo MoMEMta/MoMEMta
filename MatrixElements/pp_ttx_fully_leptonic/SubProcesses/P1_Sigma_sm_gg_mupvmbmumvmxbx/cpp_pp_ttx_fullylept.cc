@@ -250,14 +250,14 @@ cpp_pp_ttx_fullylept::cpp_pp_ttx_fullylept(const ParameterSet& configuration) {
 // Evaluate |M|^2, return a map of final states
 
 std::map < std::pair < int, int > , double >
-    cpp_pp_ttx_fullylept::compute(const std::vector < std::vector<double> >
+    cpp_pp_ttx_fullylept::compute(const std::pair < std::vector<double>, std::vector<double> >
     &initialMomenta, const std::vector < std::pair < int, std::vector<double> >
     > &finalState)
 {
 
   // Set initial particle momenta
-  momenta[0] = (double * ) (&initialMomenta[0][0]); 
-  momenta[1] = (double * ) (&initialMomenta[1][0]); 
+  momenta[0] = (double * ) (&initialMomenta.first[0]); 
+  momenta[1] = (double * ) (&initialMomenta.second[0]); 
 
   // Suppose final particles are passed in the "correct" order
   std::vector<int> selectedFinalState(8 - 2); 

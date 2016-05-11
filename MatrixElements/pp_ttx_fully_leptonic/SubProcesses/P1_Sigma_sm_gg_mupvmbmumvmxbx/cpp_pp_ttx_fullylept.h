@@ -132,7 +132,7 @@
 
       // Calculate flavour-independent parts of cross section.
       virtual momemta::MatrixElement::Result compute(const
-          std::vector < std::vector<double> > &initialMomenta, const
+          std::pair < std::vector<double>, std::vector<double> > &initialMomenta, const
           std::vector < std::pair < int, std::vector<double> > > &finalState);
 
       virtual std::shared_ptr<momemta::MEParameters> getParameters() {

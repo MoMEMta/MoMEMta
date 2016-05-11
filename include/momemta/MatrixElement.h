@@ -22,6 +22,7 @@
 #define MOMEMTA_MATRIXELEMENT_H
 
 #include <map>
+#include <utility>
 #include <memory>
 #include <string>
 #include <vector>
@@ -39,7 +40,7 @@ namespace momemta {
             virtual ~MatrixElement() {};
     
             virtual Result compute(
-                    const std::vector<std::vector<double>>& initialMomenta,
+                    const std::pair<std::vector<double>, std::vector<double>>& initialMomenta,
                     const std::vector<std::pair<int, std::vector<double>>>& finalState
                     ) = 0;
 
