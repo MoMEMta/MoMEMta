@@ -69,7 +69,9 @@ if (NOT USE_BUILTIN_LUA)
 endif()
 
 set(Boost_NO_BOOST_CMAKE ON)
-find_package(Boost REQUIRED)
+find_package(Boost REQUIRED log)
+# Needed since we don't link to the static library
+add_definitions(-DBOOST_LOG_DYN_LINK)
 
 # Include external
 set(EXTERNAL_DIR "${PROJECT_SOURCE_DIR}/external")
@@ -138,9 +140,9 @@ include_directories(SYSTEM ${Boost_INCLUDE_DIRS})
 target_link_libraries(momemta LINK_PUBLIC dl)
 target_link_libraries(momemta LINK_PRIVATE cuba)
 target_link_libraries(momemta LINK_PRIVATE ${LUA_LIBRARIES})
-target_link_libraries(momemta LINK_PUBLIC pthread)
 target_link_libraries(momemta LINK_PUBLIC ${LHAPDF_LIBRARIES})
 target_link_libraries(momemta LINK_PUBLIC ${ROOT_LIBRARIES})
+target_link_libraries(momemta LINK_PUBLIC ${Boost_LIBRARIES})
 
 find_library(ROOT_GENVECTOR_LIBRARY GenVector HINTS ${ROOT_LIBRARY_DIR})
 target_link_libraries(momemta LINK_PUBLIC ${ROOT_GENVECTOR_LIBRARY})

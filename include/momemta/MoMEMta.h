@@ -22,9 +22,8 @@
 #include <memory>
 #include <vector>
 
-#include <logging.h>
-#include <momemta/ParameterSet.h>
 #include <momemta/Module.h>
+#include <momemta/ParameterSet.h>
 #include <momemta/Pool.h>
 #include <momemta/Types.h>
 

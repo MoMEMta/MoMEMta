@@ -30,8 +30,6 @@ int main(int argc, char** argv) {
     UNUSED(argc);
     UNUSED(argv);
 
-    spdlog::set_level(spdlog::level::trace);
-
     ConfigurationReader configuration("../tests/phaseSpaceVolume/blockD.lua");
     MoMEMta weight(configuration.freeze());
 

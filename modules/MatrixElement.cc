@@ -16,17 +16,17 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+// Must be loaded before `momemta/Logging.h`, otherwise there's conflict between usage
+// of `log()` and `namespace log`
+#include <LHAPDF/LHAPDF.h>
 
-#include <momemta/ParameterSet.h>
+#include <momemta/Logging.h>
 #include <momemta/MatrixElement.h>
 #include <momemta/MatrixElementFactory.h>
+#include <momemta/ParameterSet.h>
 #include <momemta/Module.h>
 #include <momemta/Types.h>
 #include <momemta/Utils.h>
-
-#include <logging.h>
-
-#include <LHAPDF/LHAPDF.h>
 
 /**
  * \ingroup modules

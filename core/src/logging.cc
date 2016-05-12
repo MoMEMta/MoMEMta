@@ -16,25 +16,112 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <momemta/Logging.h>
 
-#include <logging.h>
+#include <memory>
 #include <unistd.h>
 
+#include <boost/smart_ptr/shared_ptr.hpp>
+#include <boost/smart_ptr/make_shared_object.hpp>
+#include <boost/log/core.hpp>
+#include <boost/log/expressions.hpp>
+#include <boost/log/sinks/sync_frontend.hpp>
+#include <boost/log/sinks/text_ostream_backend.hpp>
+#include <boost/log/sources/logger.hpp>
+#include <boost/log/sources/record_ostream.hpp>
+#include <boost/log/support/date_time.hpp>
+#include <boost/log/trivial.hpp>
+#include <boost/log/utility/setup/common_attributes.hpp>
+#include <boost/log/utility/setup/console.hpp>
+
+namespace expr = boost::log::expressions;
+namespace sinks = boost::log::sinks;
+namespace src = boost::log::sources;
+
 namespace logging {
-    namespace {
-        static std::shared_ptr<spdlog::logger> instance() {
-            bool in_terminal = isatty(fileno(stdout));
-            std::shared_ptr<spdlog::logger> logger = spdlog::stdout_logger_st("MoMEMta");
 
-            if (in_terminal)
-                logger->set_formatter(std::make_shared<colored_formatter>());
+typedef sinks::synchronous_sink<sinks::text_ostream_backend> text_sink;
 
-            return logger;
-        }
+namespace {
+
+inline std::string color(uint16_t color) { return "\033[" + std::to_string(color) + "m"; }
+
+void colored_formatter(boost::log::record_view const& rec, boost::log::formatting_ostream& strm) {
+    static auto date_time_formatter = expr::stream << expr::format_date_time<boost::posix_time::ptime >("TimeStamp", "%Y-%m-%d %H:%M:%S.%f");
+
+    strm << boost::log::extract<unsigned int>("LineID", rec)
+        << ": [";
+    date_time_formatter(rec, strm);
+    strm << "] [";
+
+    auto severity = rec[boost::log::trivial::severity];
+
+    switch (*severity) {
+        case boost::log::trivial::trace:
+        case boost::log::trivial::debug:
+            strm << color(90);
+            break;
+        case boost::log::trivial::info:
+            strm << color(34);
+            break;
+        case boost::log::trivial::warning:
+            strm << color(33);
+            break;
+        case boost::log::trivial::error:
+        case boost::log::trivial::fatal:
+            strm << color(31);
+            break;
+        default:
+            break;
     }
 
-    std::shared_ptr<spdlog::logger>& get() {
-        static std::shared_ptr<spdlog::logger> s_logger = instance();
-        return s_logger;
+    strm << severity
+         << color(0)
+         << "]  "
+         << rec[expr::message];
+}
+
+static std::shared_ptr<logger> init_logger() {
+    bool in_terminal = isatty(fileno(stderr));
+
+    // Create sink
+    boost::shared_ptr<text_sink> sink = boost::log::add_console_log();
+    sink->locked_backend()->auto_flush(true);
+    if (in_terminal) {
+        sink->set_formatter(&colored_formatter);
+    } else {
+
+        // Log format
+        auto formatter =
+            expr::stream
+            << expr::attr<unsigned int>("LineID")
+            << ": ["
+            << expr::format_date_time< boost::posix_time::ptime >("TimeStamp", "%Y-%m-%d %H:%M:%S.%f")
+            /* << "] ["
+               << expr::attr<boost::log::attributes::current_thread_id::value_type>("ThreadID") */
+            << "] ["
+            << boost::log::trivial::severity
+            << "]  "
+            << expr::message;
+
+        sink->set_formatter(formatter);
     }
+
+    boost::log::add_common_attributes();
+
+    return std::make_shared<logger>();
+}
+}
+
+std::shared_ptr<logger>& get() {
+    static std::shared_ptr<logger> s_logger = init_logger();
+    return s_logger;
+}
+
+void set_level(boost::log::trivial::severity_level lvl) {
+    ::boost::log::core::get()->set_filter(
+            boost::log::trivial::severity >= lvl
+            );
+}
+
 }

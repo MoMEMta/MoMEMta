@@ -24,7 +24,7 @@
 #include <unordered_map>
 #include <vector>
 
-#include <logging.h>
+#include <momemta/Logging.h>
 
 // Plugin system
 template<typename T> class PluginFactory;
@@ -62,14 +62,13 @@ class PluginFactory<Interface* (Args...)> {
             if (it != m_plugins.end())
                 throw plugin_already_exists_error("The plugin type '" + name + "' is already registered in the factory.");
 
-            LOGGER->debug("Registering plugin '{}' in the factory ({:x})", name, (std::uintptr_t) this);
             m_plugins.emplace(name, pMaker);
         }
 
         PMakerBase* findPMaker(const std::string& name) const {
             auto it = m_plugins.find(name);
             if (it == m_plugins.end()) {
-                LOGGER->critical("No such plugin type '{}' registered in the factory ({:x}), {} plugins.", name, (std::uintptr_t) this, m_plugins.size());
+                LOG(fatal) << "No such plugin type '" << name << "' registered in the factory (" << m_plugins.size() <<" plugins).";
                 throw plugin_not_found_error("No such plugin type '" + name + "' registered in the factory.");
             }
 

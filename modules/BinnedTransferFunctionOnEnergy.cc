@@ -16,12 +16,12 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <momemta/ParameterSet.h>
+#include <momemta/Logging.h>
 #include <momemta/Module.h>
+#include <momemta/ParameterSet.h>
 #include <momemta/Types.h>
 #include <momemta/Utils.h>
 
-#include <logging.h>
 
 #include <TFile.h>
 #include <TH2.h>

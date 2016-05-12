@@ -16,11 +16,11 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <SharedLibrary.h>
 
 #include <dlfcn.h>
 
-#include <logging.h>
-#include <SharedLibrary.h>
+#include <momemta/Logging.h>
 
 SharedLibrary::SharedLibrary(const std::string& path) {
     m_handle = ::dlopen(path.c_str(), RTLD_LAZY | RTLD_LOCAL);

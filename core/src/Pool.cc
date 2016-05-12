@@ -17,7 +17,8 @@
  */
 
 #include <momemta/Pool.h>
-#include <logging.h>
+
+#include <momemta/Logging.h>
 
 void Pool::remove(const InputTag& tag, bool force/* = true*/) {
     auto it = m_storage.find(tag);
@@ -97,7 +98,7 @@ void Pool::freeze() {
     // Iterate over the storage, and check if any block is invalid.
     for (const auto& it: m_storage) {
         if (!it.second.valid) {
-            LOGGER->critical("Memory block '{}' is flagged as invalid. This should not happen. Please open a bug report at <>.", it.first.toString());
+            LOG(fatal) << "Memory block '" << it.first.toString() << "' is flagged as invalid. This should not happen. Please open a bug report at <>.";
             throw invalid_state("Memory pool state is invalid");
         }
     }

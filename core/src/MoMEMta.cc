@@ -16,18 +16,18 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <momemta/MoMEMta.h>
 
 #include <cstring>
 
 #include <cuba.h>
 
-#include <momemta/ParameterSet.h>
 #include <momemta/Configuration.h>
-#include <momemta/MoMEMta.h>
+#include <momemta/Logging.h>
+#include <momemta/ParameterSet.h>
 #include <momemta/Utils.h>
 
 #include <Graph.h>
-#include <logging.h>
 
 
 MoMEMta::MoMEMta(const Configuration& configuration) {
