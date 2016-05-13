@@ -11,20 +11,17 @@ addons:
   apt:
     sources:
       - ubuntu-toolchain-r-test
-      - kalakris-cmake
-      - boost-latest
     packages:
       - gcc-4.9
       - g++-4.9
-      - cmake
       - libboost1.55-dev
       - libboost-log1.55-dev
       - graphviz
-before_install:
   - ./travis/decrypt_key.sh 
 install:
   - export CXX=g++-4.9
   - export CC=gcc-4.9
+  - source travis/get-cmake.sh
   - source travis/get-root.sh
   - source travis/get-lhapdf.sh
   - source travis/get-doxygen.sh
