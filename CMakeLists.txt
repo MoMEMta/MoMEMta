@@ -164,6 +164,7 @@ endif()
 # Matrix elements
 add_subdirectory(MatrixElements)
 target_link_libraries(momemta LINK_PRIVATE me_pp_ttx_fully_leptonic)
+target_link_libraries(momemta LINK_PRIVATE me_example_WW_llvv)
 target_link_libraries(momemta LINK_PRIVATE "-Wl,--whole-archive $<TARGET_FILE:me_pp_ttx_fully_leptonic> -Wl,--no-whole-archive")
 
 add_library(empty_module SHARED "modules/EmptyModule.cc")
@@ -182,6 +183,12 @@ if(EXAMPLES)
     target_link_libraries(example_tt_fullyleptonic_NWA momemta)
     set_target_properties(example_tt_fullyleptonic_NWA PROPERTIES OUTPUT_NAME
       "tt_fullyleptonic_NWA.exe")
+
+   add_executable(example_WW_fullyleptonic "examples/WW_fullyleptonic.cc")
+    target_link_libraries(example_WW_fullyleptonic momemta)
+    set_target_properties(example_WW_fullyleptonic PROPERTIES OUTPUT_NAME
+      "WW_fullyleptonic.exe")
+
 endif()
 
 # Test executables

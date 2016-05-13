@@ -13,12 +13,12 @@
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -O3 -fcx-fortran-rules -fcx-limited-range")
 
 set(SOURCES
-    "src/HelAmps_*.cc"
-    "src/Parameters_*.cc"
-    "SubProcesses/*/*.cc"
+    "src/HelAmps_sm.cc"
+    "src/Parameters_sm.cc"
+    "SubProcesses/P1_Sigma_sm_uux_epvemumvmx/P1_Sigma_sm_uux_epvemumvmx.cc"
     )
 
 include_directories("include")
-include_directories("SubProcesses/*")
+include_directories("SubProcesses/P1_Sigma_sm_uux_epvemumvmx")
 
 add_library(me_example_WW_llvv STATIC ${SOURCES})
