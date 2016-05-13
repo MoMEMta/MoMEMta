@@ -19,11 +19,15 @@
 
 #pragma once
 
-#include <boost/any.hpp>
-#include <lua/utils.h>
 #include <map>
 #include <memory>
 #include <string>
+
+#include <momemta/Logging.h>
+
+#include <boost/any.hpp>
+
+#include <lua/utils.h>
 
 class ConfigurationReader;
 class Configuration;
@@ -116,13 +120,13 @@ class ParameterSet {
             );
 
             if (frozen) {
-                LOGGER->critical("You are not allowed to edit a set once frozen.");
+                LOG(fatal) << "You are not allowed to edit a set once frozen.";
                 throw frozen_error("This ParameterSet is frozen");
             }
 
             auto it = m_set.find(name);
             if (it == m_set.end()) {
-                LOGGER->critical("Parameter '{}' not found. You can only set values that already exist.", name);
+                LOG(fatal) << "Parameter '" << name << "' not found. You can only set values that already exist.";
                 throw not_found_error("Parameter " + name + " not found");
             }
 

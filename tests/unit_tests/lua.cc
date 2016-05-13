@@ -28,9 +28,10 @@
 #include <string>
 #include <vector>
 
-#include <momemta/IOnModuleDeclared.h>
-#include <momemta/ModuleFactory.h>
 #include <momemta/InputTag.h>
+#include <momemta/IOnModuleDeclared.h>
+#include <momemta/Logging.h>
+#include <momemta/ModuleFactory.h>
 
 #include <lua/utils.h>
 
@@ -53,7 +54,7 @@ class ModuleDeclaredMock: public IOnModuleDeclared {
 TEST_CASE("lua parsing utilities", "[lua]") {
 
     // Suppress log messages
-    spdlog::set_level(spdlog::level::emerg);
+    logging::set_level(boost::log::trivial::fatal);
 
     ModuleDeclaredMock moduleDeclared;
     REQUIRE(moduleDeclared.modules.empty());

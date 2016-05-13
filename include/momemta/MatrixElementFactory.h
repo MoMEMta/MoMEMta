@@ -24,8 +24,6 @@
 #include <unordered_map>
 #include <vector>
 
-#include <logging.h>
-
 #include <momemta/PluginFactory.h>
 
 class ParameterSet;

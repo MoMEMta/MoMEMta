@@ -1,12 +1,30 @@
-#include <stdexcept>
-
-#include <momemta/InputTag.h>
-#include <momemta/ParameterSet.h>
-#include <momemta/IOnModuleDeclared.h>
-#include <momemta/ModuleFactory.h>
-#include <momemta/Utils.h>
+/*
+ *  MoMEMta: a modular implementation of the Matrix Element Method
+ *  Copyright (C) 2016  Universite catholique de Louvain (UCL), Belgium
+ *
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 #include <lua/utils.h>
+
+#include <momemta/InputTag.h>
+#include <momemta/IOnModuleDeclared.h>
+#include <momemta/Logging.h>
+#include <momemta/ModuleFactory.h>
+#include <momemta/ParameterSet.h>
+#include <momemta/Utils.h>
+
 #include <LibraryManager.h>
 
 namespace lua {
@@ -27,7 +45,7 @@ namespace lua {
 
     boost::any LazyFunction::operator() () const {
 
-        TRACE("[LazyFunction::operator()] >> stack size = {}", lua_gettop(L));
+        LOG(trace) << "[LazyFunction::operator()] >> stack size = " << lua_gettop(L);
 
         // Pop the anonymous function from the registry, and push it on the top of the stack
         lua_rawgeti(L, LUA_REGISTRYINDEX, ref_index);
@@ -36,7 +54,7 @@ namespace lua {
         auto result = lua_pcall(L, 0, 1, 0);
         if (result != LUA_OK) {
             std::string error = lua_tostring(L, -1);
-            LOGGER->critical("Fail to call lua anonymous function. Return value is {}. Error message: {}", result, error);
+            LOG(fatal) << "Fail to call lua anonymous function. Return value is " << result << ". Error message: " << error;
         }
 
         boost::any value;
@@ -46,7 +64,7 @@ namespace lua {
 
         lua_pop(L, 1);
 
-        TRACE("[LazyFunction::operator()] << stack size = {}", lua_gettop(L));
+        LOG(trace) << "[LazyFunction::operator()] << stack size = " << lua_gettop(L);
 
         return value;
     }
@@ -58,7 +76,7 @@ namespace lua {
     }
 
     boost::any LazyTableField::operator() () const {
-        TRACE("[LazyTableField::operator()] >> stack size = {}", lua_gettop(L));
+        LOG(trace) << "[LazyTableField::operator()] >> stack size = " << lua_gettop(L);
 
         // Push the table on the stack. Stack +1
         lua_getglobal(L, table_name.c_str());
@@ -74,13 +92,13 @@ namespace lua {
         // Pop the field and the table from the stack. Stack -2
         lua_pop(L, 2);
 
-        TRACE("[LazyTableField::operator()] << stack size = {}", lua_gettop(L));
+        LOG(trace) << "[LazyTableField::operator()] << stack size = " << lua_gettop(L);
 
         return value;
     }
 
     void LazyTableField::set(const boost::any& value) {
-        TRACE("[LazyTableField::set] >> stack size = {}", lua_gettop(L));
+        LOG(trace) << "[LazyTableField::set] >> stack size = " << lua_gettop(L);
 
         // Push the table on the stack. Stack +1
         lua_getglobal(L, table_name.c_str());
@@ -94,7 +112,7 @@ namespace lua {
         // Pop the table from the stack. Stack -1
         lua_pop(L, 1);
 
-        TRACE("[LazyTableField::set] << stack size = {}", lua_gettop(L));
+        LOG(trace) << "[LazyTableField::set] << stack size = " << lua_gettop(L);
     }
 
     Type type(lua_State* L, int index) {
@@ -143,7 +161,7 @@ namespace lua {
      */
     int lua_is_array(lua_State* L, int index) {
 
-        TRACE("[lua_is_array] >> stack size = {}", lua_gettop(L));
+        LOG(trace) << "[lua_is_array] >> stack size = " << lua_gettop(L);
 
         size_t table_index = get_index(L, index);
 
@@ -156,7 +174,7 @@ namespace lua {
         while (lua_next(L, table_index) != 0) {
             if (lua_type(L, -2) != LUA_TNUMBER) {
                 lua_pop(L, 2);
-                TRACE("[lua_is_array] << stack size = {}", lua_gettop(L));
+                LOG(trace) << "[lua_is_array] << stack size = " << lua_gettop(L);
                 return -1;
             }
 
@@ -165,7 +183,7 @@ namespace lua {
             lua_pop(L, 1);
         }
 
-        TRACE("[lua_is_array] << stack size = {}", lua_gettop(L));
+        LOG(trace) << "[lua_is_array] << stack size = " << lua_gettop(L);
         return size;
     }
 
@@ -209,7 +227,7 @@ namespace lua {
 
     std::pair<boost::any, bool> to_any(lua_State* L, int index) {
 
-        TRACE("[to_any] >> stack size = {}", lua_gettop(L));
+        LOG(trace) << "[to_any] >> stack size = " << lua_gettop(L);
         size_t absolute_index = get_index(L, index);
 
         boost::any result;
@@ -243,7 +261,7 @@ namespace lua {
             } break;
 
             case LUA_TTABLE: {
-                TRACE("[to_any::table] >> stack size = {}", lua_gettop(L));
+                LOG(trace) << "[to_any::table] >> stack size = " << lua_gettop(L);
                 if (lua::lua_is_array(L, absolute_index) > 0) {
 
                     Type type = NOT_SUPPORTED;
@@ -259,31 +277,31 @@ namespace lua {
                     cfg.parse(L, absolute_index);
                     result = cfg;
                 }
-                TRACE("[to_any::table] << stack size = {}", lua_gettop(L));
+                LOG(trace) << "[to_any::table] << stack size = " << lua_gettop(L);
             } break;
 
             case LUA_TFUNCTION: {
-                TRACE("[to_any::function] >> stack size = {}", lua_gettop(L));
+                LOG(trace) << "[to_any::function] >> stack size = " << lua_gettop(L);
 
                 result = LazyFunction(L, absolute_index);
                 lazy = true;
 
-                TRACE("[to_any::function] << stack size = {}", lua_gettop(L));
+                LOG(trace) << "[to_any::function] << stack size = " << lua_gettop(L);
             } break;
 
             default: {
-                LOGGER->critical("Unsupported lua type: {}", lua_typename(L, type));
+                LOG(fatal) << "Unsupported lua type: " << lua_typename(L, type);
                 throw lua::invalid_configuration_file("");
             } break;
         }
 
-        TRACE("[to_any] << final type = {}", demangle(result.type().name()));
-        TRACE("[to_any] << stack size = {}", lua_gettop(L));
+        LOG(trace) << "[to_any] << final type = " << demangle(result.type().name());
+        LOG(trace) << "[to_any] << stack size = " << lua_gettop(L);
         return {result, lazy};
     }
 
     void push_any(lua_State* L, const boost::any& value) {
-        TRACE("[push_any] >> stack size = {}", lua_gettop(L));
+        LOG(trace) << "[push_any] >> stack size = " << lua_gettop(L);
 
         if (value.type() == typeid(int64_t)) {
             int64_t v = boost::any_cast<int64_t>(value);
@@ -298,11 +316,11 @@ namespace lua {
             auto v = boost::any_cast<std::string>(value);
             lua_pushstring(L, v.c_str());
         } else {
-            LOGGER->critical("Unsupported C++ value: {}", demangle(value.type().name()));
+            LOG(fatal) << "Unsupported C++ value: " << demangle(value.type().name());
             throw lua::unsupported_type_error(demangle(value.type().name()));
         }
 
-        TRACE("[push_any] << stack size = {}", lua_gettop(L));
+        LOG(trace) << "[push_any] << stack size = " << lua_gettop(L);
     }
 
     boost::any to_vector(lua_State* L, int index, Type t) {
@@ -404,7 +422,7 @@ namespace lua {
             // And register it as a global variable
             lua_setglobal(L, module_name);
 
-            TRACE("Registered new lua global variable '{}'", module_name);
+            LOG(trace) << "Registered new lua global variable '" << module_name << "'";
         }
     }
 

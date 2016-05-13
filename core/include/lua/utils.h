@@ -1,9 +1,11 @@
 #pragma once
 
+#include <memory>
+#include <stdexcept>
+#include <tuple>
+
 #include <boost/any.hpp>
 #include <lua.hpp>
-
-#include <logging.h>
 
 class IOnModuleDeclared;
 

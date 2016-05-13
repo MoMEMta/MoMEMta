@@ -18,12 +18,13 @@
 
 
 #include <boost/any.hpp>
-#include <logging.h>
+
 #include <lua.hpp>
 
-#include <momemta/ParameterSet.h>
+#include <momemta/Logging.h>
 #include <momemta/ConfigurationReader.h>
 #include <momemta/ModuleFactory.h>
+#include <momemta/ParameterSet.h>
 
 #include <lua/utils.h>
 
@@ -35,7 +36,7 @@ ConfigurationReader::ConfigurationReader(const std::string& file) {
     // Parse file
     if (luaL_dofile(lua_state.get(), file.c_str())) {
         std::string error = lua_tostring(lua_state.get(), -1);
-        LOGGER->critical("Failed to parse configuration file: {}", error);
+        LOG(fatal) << "Failed to parse configuration file: " << error;
         throw lua::invalid_configuration_file(error);
     }
 

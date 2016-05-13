@@ -30,8 +30,6 @@ int main(int argc, char** argv) {
     UNUSED(argc);
     UNUSED(argv);
 
-    spdlog::set_level(spdlog::level::trace);
-
     ConfigurationReader configuration("../tests/crossSections/blockD_ttx_dilep.lua");
     MoMEMta weight(configuration.freeze());
 

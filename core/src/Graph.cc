@@ -1,10 +1,10 @@
 #include <Graph.h>
-#include <logging.h>
-
-#include <momemta/Module.h>
 
 #include <boost/graph/graphviz.hpp>
 #include <boost/graph/topological_sort.hpp>
+
+#include <momemta/Logging.h>
+#include <momemta/Module.h>
 
 namespace graph {
 
@@ -72,7 +72,7 @@ Graph build(const Pool::DescriptionMap& description, std::vector<ModulePtr>& mod
             }
 
             on_module_removed(it->first);
-            LOGGER->info("Module '{}' output is not used by any other module. Removing it from the configuration.", it->first);
+            LOG(info) << "Module '" << it->first << "' output is not used by any other module. Removing it from the configuration.";
             boost::clear_vertex(it->second, g);
             boost::remove_vertex(it->second, g);
             it = vertices.erase(it);
@@ -81,7 +81,7 @@ Graph build(const Pool::DescriptionMap& description, std::vector<ModulePtr>& mod
     }
 
     auto log_and_throw_unresolved_input = [](const std::string& module_name, const InputTag& input) {
-        LOGGER->critical("Module '{}' requested a non-existing input ({})", module_name, input.toString());
+        LOG(fatal) << "Module '" << module_name << "' requested a non-existing input (" << input.toString() << ")";
         throw unresolved_input("Module '" + module_name + "' requested a non-existing input (" + input.toString() + ")");
     };
 

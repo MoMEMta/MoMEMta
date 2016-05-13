@@ -16,18 +16,20 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#pragma once
 
-#include <LibraryManager.h>
+#include <boost/log/core.hpp>
+#include <boost/log/trivial.hpp>
+#include <boost/log/sources/logger.hpp>
 
-#include <momemta/Logging.h>
+namespace logging {
+typedef boost::log::sources::severity_logger_mt<boost::log::trivial::severity_level> logger;
 
-LibraryManager& LibraryManager::get() {
-    static LibraryManager s_instance;
+std::shared_ptr<logger>& get();
 
-    return s_instance;
+void set_level(boost::log::trivial::severity_level lvl);
 }
 
-void LibraryManager::registerLibrary(const std::string& path) {
-    LOG(debug) << "Loading library: " << path;
-    m_libraries.push_back(std::make_shared<SharedLibrary>(path));
-}
+#define LOG(lvl)\
+    BOOST_LOG_STREAM_WITH_PARAMS(*::logging::get(),\
+        (::boost::log::keywords::severity = ::boost::log::trivial::lvl))

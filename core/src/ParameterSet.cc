@@ -16,11 +16,11 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 #include <momemta/ParameterSet.h>
+
+#include <momemta/Logging.h>
 #include <momemta/Utils.h>
 
-#include <logging.h>
 #include <lua/utils.h>
 
 ParameterSet::ParameterSet(const std::string& module_type, const std::string& module_name) {
@@ -30,7 +30,7 @@ ParameterSet::ParameterSet(const std::string& module_type, const std::string& mo
 
 void ParameterSet::parse(lua_State* L, int index) {
 
-    TRACE("[parse] >> stack size = {}", lua_gettop(L));
+    LOG(trace) << "[parse] >> stack size = " << lua_gettop(L);
     size_t absolute_index = lua::get_index(L, index);
 
     lua_pushnil(L);
@@ -38,7 +38,7 @@ void ParameterSet::parse(lua_State* L, int index) {
 
         std::string key = lua_tostring(L, -2);
 
-        TRACE("[parse] >> key = {}", key);
+        LOG(trace) << "[parse] >> key = " << key;
 
         try {
             boost::any value;
@@ -47,7 +47,7 @@ void ParameterSet::parse(lua_State* L, int index) {
 
             m_set.emplace(key, Element(value, lazy));
         } catch(...) {
-            LOG(emerg) << "Exception while trying to parse parameter " << getModuleType() << "." << getModuleName() << "::" << key;
+            LOG(fatal) << "Exception while trying to parse parameter " << getModuleType() << "." << getModuleName() << "::" << key;
             lua_pop(L, 1);
             std::rethrow_exception(std::current_exception());
         }
@@ -55,7 +55,7 @@ void ParameterSet::parse(lua_State* L, int index) {
         lua_pop(L, 1);
     }
 
-    TRACE("[parse] << stack size = {}", lua_gettop(L));
+    LOG(trace) << "[parse] << stack size = " << lua_gettop(L);
 }
 
 std::pair<boost::any, bool> ParameterSet::parseItem(const std::string& key, lua_State* L, int index) {
@@ -104,7 +104,7 @@ void ParameterSet::freeze() {
                 }
             }
         } catch(...) {
-            LOG(emerg) << "Exception while trying to parse parameter " << getModuleType() << "." << getModuleName() << "::" << p.first;
+            LOG(fatal) << "Exception while trying to parse parameter " << getModuleType() << "." << getModuleName() << "::" << p.first;
             std::rethrow_exception(std::current_exception());
         }
     }

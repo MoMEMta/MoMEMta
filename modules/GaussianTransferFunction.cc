@@ -17,14 +17,14 @@
  */
 
 
-#include <Math/DistFunc.h>
-
-#include <momemta/ParameterSet.h>
+#include <momemta/Logging.h>
 #include <momemta/Module.h>
+#include <momemta/ParameterSet.h>
 #include <momemta/Types.h>
 #include <momemta/Utils.h>
 
-#include <logging.h>
+#include <Math/DistFunc.h>
+
 
 /** \brief Transfer function on energy described by a Gaussian distribution
  *
