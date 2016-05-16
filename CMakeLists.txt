@@ -63,6 +63,7 @@ SET(CMAKE_C_FLAGS_DEBUG  "-O0 -g")
 # Find dependencies
 find_package(ROOT REQUIRED)
 find_package(LHAPDF 6.0 REQUIRED)
+find_package(Threads REQUIRED)
 
 if (NOT USE_BUILTIN_LUA)
     find_package(Lua 5.3 QUIET)
