@@ -27,8 +27,7 @@
 
 #include <boost/any.hpp>
 
-#include <lua/utils.h>
-
+struct lua_State;
 class ConfigurationReader;
 class Configuration;
 
@@ -193,8 +192,6 @@ class ParameterSet {
         class frozen_error: public std::runtime_error {
             using std::runtime_error::runtime_error;
         };
-
-        friend std::pair<boost::any, bool> lua::to_any(lua_State* L, int index);
 
         void setGlobalParameters(const ParameterSet&);
 
