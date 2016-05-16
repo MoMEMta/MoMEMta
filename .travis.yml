@@ -17,6 +17,7 @@ addons:
       - libboost1.55-dev
       - libboost-log1.55-dev
       - graphviz
+before_install:
   - ./travis/decrypt_key.sh 
 install:
   - export CXX=g++-4.9
