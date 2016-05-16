@@ -147,7 +147,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="fragment"><div class="line">std::vector&lt;int64_t&gt; values = <span class="keyword">set</span>.get&lt;std::vector&lt;int64_t&gt;&gt;(<span class="stringliteral">&quot;z&quot;</span>);</div></div><!-- fragment --><dl class="todo"><dt><b><a class="el" href="todo.html#_todo000003">Todo:</a></b></dt><dd>Document the freezing of the configuration in <a class="el" href="classConfigurationReader.html" title="A lua configuration file parser. ">ConfigurationReader</a></dd></dl>
 <dl class="section note"><dt>Note</dt><dd>You should <em>never</em> try to create a <a class="el" href="classParameterSet.html" title="A class encapsulating a lua table. ">ParameterSet</a> yourself. Always use the <a class="el" href="classConfigurationReader.html" title="A lua configuration file parser. ">ConfigurationReader</a> class to parse the configuration file </dd></dl>
 
-<p>Definition at line <a class="el" href="ParameterSet_8h_source.html#l00072">72</a> of file <a class="el" href="ParameterSet_8h_source.html">ParameterSet.h</a>.</p>
+<p>Definition at line <a class="el" href="ParameterSet_8h_source.html#l00075">75</a> of file <a class="el" href="ParameterSet_8h_source.html">ParameterSet.h</a>.</p>
 </div><div class="dynheader">
 Inheritance diagram for ParameterSet:</div>
 <div class="dyncontent">
@@ -217,9 +217,6 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>ConfigurationReader<
 <tr class="memitem:a30221ddc558692a7b52598b963a74bc2"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a30221ddc558692a7b52598b963a74bc2"></a>
 class&#160;</td><td class="memItemRight" valign="bottom"><b>Configuration</b></td></tr>
 <tr class="separator:a30221ddc558692a7b52598b963a74bc2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a24138407edb196fc2b1d23e62161511e"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a24138407edb196fc2b1d23e62161511e"></a>
-std::pair&lt; boost::any, bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>lua::to_any</b> (lua_State *L, int index)</td></tr>
-<tr class="separator:a24138407edb196fc2b1d23e62161511e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Member Function Documentation</h2>
 <a class="anchor" id="a8030cda85a7a842ce6bfe5b8ceb4ba0f"></a>
@@ -257,7 +254,7 @@ std::pair&lt; boost::any, bool &gt;&#160;</td><td class="memItemRight" valign="b
 
 <p>Definition at line <a class="el" href="ParameterSet_8cc_source.html#l00031">31</a> of file <a class="el" href="ParameterSet_8cc_source.html">ParameterSet.cc</a>.</p>
 
-<p>Referenced by <a class="el" href="ParameterSet_8h_source.html#l00109">set()</a>, and <a class="el" href="utils_8cc_source.html#l00210">lua::to_any()</a>.</p>
+<p>Referenced by <a class="el" href="ParameterSet_8h_source.html#l00112">set()</a>, and <a class="el" href="utils_8cc_source.html#l00228">lua::to_any()</a>.</p>
 
 </div>
 </div>
@@ -306,7 +303,7 @@ template&lt;typename T &gt; </div>
 <dl class="section note"><dt>Note</dt><dd>The parameter must already exist</dd></dl>
 <dl class="section warning"><dt>Warning</dt><dd>Vectors are currently not supported </dd></dl>
 
-<p>Definition at line <a class="el" href="ParameterSet_8h_source.html#l00109">109</a> of file <a class="el" href="ParameterSet_8h_source.html">ParameterSet.h</a>.</p>
+<p>Definition at line <a class="el" href="ParameterSet_8h_source.html#l00112">112</a> of file <a class="el" href="ParameterSet_8h_source.html">ParameterSet.h</a>.</p>
 
 </div>
 </div>

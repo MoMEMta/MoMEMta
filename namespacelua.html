@@ -252,7 +252,7 @@ template&lt;&gt; </td></tr>
 </td></tr>
 </table>
 
-<p>Definition at line <a class="el" href="utils_8h_source.html#l00035">35</a> of file <a class="el" href="utils_8h_source.html">utils.h</a>.</p>
+<p>Definition at line <a class="el" href="utils_8h_source.html#l00037">37</a> of file <a class="el" href="utils_8h_source.html">utils.h</a>.</p>
 
 </div>
 </div>
@@ -281,9 +281,9 @@ template&lt;&gt; </td></tr>
 <p>The Lua function returns an input tag of type <code>cuba::ps_points/i</code> where <code>i</code> gets incremented each time the function is called (starting from 0). This way, the user is sure to always define the correct input tag fothe phase-space points.</p>
 <dl class="section return"><dt>Returns</dt><dd>always 1 </dd></dl>
 
-<p>Definition at line <a class="el" href="utils_8cc_source.html#l00474">474</a> of file <a class="el" href="utils_8cc_source.html">utils.cc</a>.</p>
+<p>Definition at line <a class="el" href="utils_8cc_source.html#l00492">492</a> of file <a class="el" href="utils_8cc_source.html">utils.cc</a>.</p>
 
-<p>Referenced by <a class="el" href="utils_8cc_source.html#l00444">setup_hooks()</a>, and <a class="el" href="utils_8h_source.html#l00165">to_vectorT()</a>.</p>
+<p>Referenced by <a class="el" href="utils_8cc_source.html#l00462">setup_hooks()</a>, and <a class="el" href="utils_8h_source.html#l00167">to_vectorT()</a>.</p>
 
 </div>
 </div>
@@ -321,9 +321,9 @@ template&lt;&gt; </td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><code>index</code> if it's positive, otherwise the absolute index obtained by <code>lua_gettop(L) + index + 1</code> </dd></dl>
 
-<p>Definition at line <a class="el" href="utils_8cc_source.html#l00135">135</a> of file <a class="el" href="utils_8cc_source.html">utils.cc</a>.</p>
+<p>Definition at line <a class="el" href="utils_8cc_source.html#l00153">153</a> of file <a class="el" href="utils_8cc_source.html">utils.cc</a>.</p>
 
-<p>Referenced by <a class="el" href="utils_8cc_source.html#l00018">lua::LazyFunction::LazyFunction()</a>, <a class="el" href="utils_8cc_source.html#l00177">lua_array_unique_type()</a>, <a class="el" href="utils_8cc_source.html#l00144">lua_is_array()</a>, <a class="el" href="ParameterSet_8cc_source.html#l00031">ParameterSet::parse()</a>, <a class="el" href="utils_8cc_source.html#l00210">to_any()</a>, and <a class="el" href="utils_8h_source.html#l00165">to_vectorT()</a>.</p>
+<p>Referenced by <a class="el" href="utils_8cc_source.html#l00036">lua::LazyFunction::LazyFunction()</a>, <a class="el" href="utils_8cc_source.html#l00195">lua_array_unique_type()</a>, <a class="el" href="utils_8cc_source.html#l00162">lua_is_array()</a>, <a class="el" href="ParameterSet_8cc_source.html#l00031">ParameterSet::parse()</a>, <a class="el" href="utils_8cc_source.html#l00228">to_any()</a>, and <a class="el" href="utils_8h_source.html#l00167">to_vectorT()</a>.</p>
 
 </div>
 </div>
@@ -350,9 +350,9 @@ template&lt;&gt; </td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A pointer to the global lua state. Once out-of-scope, the pointer will be released using the <code>lua_close</code> function. </dd></dl>
 
-<p>Definition at line <a class="el" href="utils_8cc_source.html#l00460">460</a> of file <a class="el" href="utils_8cc_source.html">utils.cc</a>.</p>
+<p>Definition at line <a class="el" href="utils_8cc_source.html#l00478">478</a> of file <a class="el" href="utils_8cc_source.html">utils.cc</a>.</p>
 
-<p>Referenced by <a class="el" href="lua_8cc_source.html#l00046">ModuleDeclaredMock::onModuleDeclared()</a>, and <a class="el" href="utils_8h_source.html#l00165">to_vectorT()</a>.</p>
+<p>Referenced by <a class="el" href="lua_8cc_source.html#l00047">ModuleDeclaredMock::onModuleDeclared()</a>, and <a class="el" href="utils_8h_source.html#l00167">to_vectorT()</a>.</p>
 
 </div>
 </div>
@@ -377,9 +377,9 @@ template&lt;&gt; </td></tr>
 <p>The library will be loaded, and for each new module, a new global variable will be declared, accessible from the lua configuration</p>
 <dl class="section return"><dt>Returns</dt><dd>always 0 </dd></dl>
 
-<p>Definition at line <a class="el" href="utils_8cc_source.html#l00411">411</a> of file <a class="el" href="utils_8cc_source.html">utils.cc</a>.</p>
+<p>Definition at line <a class="el" href="utils_8cc_source.html#l00429">429</a> of file <a class="el" href="utils_8cc_source.html">utils.cc</a>.</p>
 
-<p>Referenced by <a class="el" href="utils_8cc_source.html#l00444">setup_hooks()</a>, and <a class="el" href="utils_8h_source.html#l00165">to_vectorT()</a>.</p>
+<p>Referenced by <a class="el" href="utils_8cc_source.html#l00462">setup_hooks()</a>, and <a class="el" href="utils_8h_source.html#l00167">to_vectorT()</a>.</p>
 
 </div>
 </div>
@@ -410,9 +410,9 @@ template&lt;&gt; </td></tr>
 <p>Check if a lua table contains only value from the same type. </p>
 <dl class="section return"><dt>Returns</dt><dd>-1 if not, or the type of the data in the table </dd></dl>
 
-<p>Definition at line <a class="el" href="utils_8cc_source.html#l00177">177</a> of file <a class="el" href="utils_8cc_source.html">utils.cc</a>.</p>
+<p>Definition at line <a class="el" href="utils_8cc_source.html#l00195">195</a> of file <a class="el" href="utils_8cc_source.html">utils.cc</a>.</p>
 
-<p>Referenced by <a class="el" href="utils_8cc_source.html#l00210">to_any()</a>.</p>
+<p>Referenced by <a class="el" href="utils_8cc_source.html#l00228">to_any()</a>.</p>
 
 </div>
 </div>
@@ -445,9 +445,9 @@ template&lt;&gt; </td></tr>
 <p>Check if a lua table is an array</p>
 <p>Return -1 if it's not an array, or the size of the array </p>
 
-<p>Definition at line <a class="el" href="utils_8cc_source.html#l00144">144</a> of file <a class="el" href="utils_8cc_source.html">utils.cc</a>.</p>
+<p>Definition at line <a class="el" href="utils_8cc_source.html#l00162">162</a> of file <a class="el" href="utils_8cc_source.html">utils.cc</a>.</p>
 
-<p>Referenced by <a class="el" href="utils_8cc_source.html#l00210">to_any()</a>, and <a class="el" href="utils_8cc_source.html#l00100">type()</a>.</p>
+<p>Referenced by <a class="el" href="utils_8cc_source.html#l00228">to_any()</a>, and <a class="el" href="utils_8cc_source.html#l00118">type()</a>.</p>
 
 </div>
 </div>
@@ -474,9 +474,9 @@ template&lt;&gt; </td></tr>
 </ol>
 <dl class="section return"><dt>Returns</dt><dd>always 0 </dd></dl>
 
-<p>Definition at line <a class="el" href="utils_8cc_source.html#l00343">343</a> of file <a class="el" href="utils_8cc_source.html">utils.cc</a>.</p>
+<p>Definition at line <a class="el" href="utils_8cc_source.html#l00361">361</a> of file <a class="el" href="utils_8cc_source.html">utils.cc</a>.</p>
 
-<p>Referenced by <a class="el" href="utils_8cc_source.html#l00369">register_modules()</a>, and <a class="el" href="utils_8h_source.html#l00165">to_vectorT()</a>.</p>
+<p>Referenced by <a class="el" href="utils_8cc_source.html#l00387">register_modules()</a>, and <a class="el" href="utils_8h_source.html#l00167">to_vectorT()</a>.</p>
 
 </div>
 </div>
@@ -501,9 +501,9 @@ template&lt;&gt; </td></tr>
 <p>Internaly, this function creates an anonymous lua function, which returns the value of the parameter from the <code>configuration</code> global table.</p>
 <dl class="section return"><dt>Returns</dt><dd>always 1 </dd></dl>
 
-<p>Definition at line <a class="el" href="utils_8cc_source.html#l00427">427</a> of file <a class="el" href="utils_8cc_source.html">utils.cc</a>.</p>
+<p>Definition at line <a class="el" href="utils_8cc_source.html#l00445">445</a> of file <a class="el" href="utils_8cc_source.html">utils.cc</a>.</p>
 
-<p>Referenced by <a class="el" href="utils_8cc_source.html#l00444">setup_hooks()</a>, and <a class="el" href="utils_8h_source.html#l00165">to_vectorT()</a>.</p>
+<p>Referenced by <a class="el" href="utils_8cc_source.html#l00462">setup_hooks()</a>, and <a class="el" href="utils_8h_source.html#l00167">to_vectorT()</a>.</p>
 
 </div>
 </div>
@@ -542,9 +542,9 @@ template&lt;&gt; </td></tr>
 </dl>
 <dl class="section warning"><dt>Warning</dt><dd>Vectors are currently not supported </dd></dl>
 
-<p>Definition at line <a class="el" href="utils_8cc_source.html#l00285">285</a> of file <a class="el" href="utils_8cc_source.html">utils.cc</a>.</p>
+<p>Definition at line <a class="el" href="utils_8cc_source.html#l00303">303</a> of file <a class="el" href="utils_8cc_source.html">utils.cc</a>.</p>
 
-<p>Referenced by <a class="el" href="utils_8cc_source.html#l00474">generate_cuba_inputtag()</a>, and <a class="el" href="utils_8cc_source.html#l00082">lua::LazyTableField::set()</a>.</p>
+<p>Referenced by <a class="el" href="utils_8cc_source.html#l00492">generate_cuba_inputtag()</a>, and <a class="el" href="utils_8cc_source.html#l00100">lua::LazyTableField::set()</a>.</p>
 
 </div>
 </div>
@@ -585,9 +585,9 @@ template&lt;&gt; </td></tr>
 </dl>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="namespacelua.html#a37ffe77950f59eb9aa28d2e595c0d149" title="Hook for the metatable __newindex of the module&#39;s table. ">module_table_newindex()</a> </dd></dl>
 
-<p>Definition at line <a class="el" href="utils_8cc_source.html#l00369">369</a> of file <a class="el" href="utils_8cc_source.html">utils.cc</a>.</p>
+<p>Definition at line <a class="el" href="utils_8cc_source.html#l00387">387</a> of file <a class="el" href="utils_8cc_source.html">utils.cc</a>.</p>
 
-<p>Referenced by <a class="el" href="utils_8cc_source.html#l00460">init_runtime()</a>, <a class="el" href="utils_8cc_source.html#l00411">load_modules()</a>, and <a class="el" href="utils_8h_source.html#l00165">to_vectorT()</a>.</p>
+<p>Referenced by <a class="el" href="utils_8cc_source.html#l00478">init_runtime()</a>, <a class="el" href="utils_8cc_source.html#l00429">load_modules()</a>, and <a class="el" href="utils_8h_source.html#l00167">to_vectorT()</a>.</p>
 
 </div>
 </div>
@@ -621,9 +621,9 @@ template&lt;&gt; </td></tr>
 <li><a class="el" href="namespacelua.html#a95916cfa8c3c82d870ab2bebdbb4b968">parameter</a> </li>
 </ul>
 
-<p>Definition at line <a class="el" href="utils_8cc_source.html#l00444">444</a> of file <a class="el" href="utils_8cc_source.html">utils.cc</a>.</p>
+<p>Definition at line <a class="el" href="utils_8cc_source.html#l00462">462</a> of file <a class="el" href="utils_8cc_source.html">utils.cc</a>.</p>
 
-<p>Referenced by <a class="el" href="utils_8cc_source.html#l00460">init_runtime()</a>, and <a class="el" href="utils_8h_source.html#l00165">to_vectorT()</a>.</p>
+<p>Referenced by <a class="el" href="utils_8cc_source.html#l00478">init_runtime()</a>, and <a class="el" href="utils_8h_source.html#l00167">to_vectorT()</a>.</p>
 
 </div>
 </div>
@@ -658,9 +658,9 @@ template&lt;&gt; </td></tr>
 </ul>
 </dd></dl>
 
-<p>Definition at line <a class="el" href="utils_8cc_source.html#l00210">210</a> of file <a class="el" href="utils_8cc_source.html">utils.cc</a>.</p>
+<p>Definition at line <a class="el" href="utils_8cc_source.html#l00228">228</a> of file <a class="el" href="utils_8cc_source.html">utils.cc</a>.</p>
 
-<p>Referenced by <a class="el" href="ParameterSet_8h_source.html#l00166">ParameterSet::Element::Element()</a>, <a class="el" href="lua_8cc_source.html#l00046">ModuleDeclaredMock::onModuleDeclared()</a>, <a class="el" href="utils_8cc_source.html#l00028">lua::LazyFunction::operator()()</a>, <a class="el" href="utils_8cc_source.html#l00060">lua::LazyTableField::operator()()</a>, <a class="el" href="ParameterSet_8cc_source.html#l00031">ParameterSet::parse()</a>, and <a class="el" href="utils_8h_source.html#l00165">to_vectorT()</a>.</p>
+<p>Referenced by <a class="el" href="lua_8cc_source.html#l00047">ModuleDeclaredMock::onModuleDeclared()</a>, <a class="el" href="utils_8cc_source.html#l00046">lua::LazyFunction::operator()()</a>, <a class="el" href="utils_8cc_source.html#l00078">lua::LazyTableField::operator()()</a>, <a class="el" href="ParameterSet_8cc_source.html#l00031">ParameterSet::parse()</a>, and <a class="el" href="utils_8h_source.html#l00167">to_vectorT()</a>.</p>
 
 </div>
 </div>
@@ -697,9 +697,9 @@ template&lt;&gt; </td></tr>
 <p>Convert a lua array to a typed vector, encapsulated into a boost::any. </p>
 <dl class="section return"><dt>Returns</dt><dd>A new boost::any encapsulating the lua array. If the lua type is not supported, an exception is thrown </dd></dl>
 
-<p>Definition at line <a class="el" href="utils_8cc_source.html#l00308">308</a> of file <a class="el" href="utils_8cc_source.html">utils.cc</a>.</p>
+<p>Definition at line <a class="el" href="utils_8cc_source.html#l00326">326</a> of file <a class="el" href="utils_8cc_source.html">utils.cc</a>.</p>
 
-<p>Referenced by <a class="el" href="utils_8cc_source.html#l00210">to_any()</a>, and <a class="el" href="utils_8h_source.html#l00165">to_vectorT()</a>.</p>
+<p>Referenced by <a class="el" href="utils_8cc_source.html#l00228">to_any()</a>, and <a class="el" href="utils_8h_source.html#l00167">to_vectorT()</a>.</p>
 
 </div>
 </div>
@@ -732,7 +732,7 @@ template&lt;typename T &gt; </div>
 <p>Convert a lua array to a typed vector, encapsulated into a boost::any. </p>
 <dl class="section return"><dt>Returns</dt><dd>A new boost::any encapsulating the lua array. If the lua type is not supported, an exception is thrown </dd></dl>
 
-<p>Definition at line <a class="el" href="utils_8h_source.html#l00165">165</a> of file <a class="el" href="utils_8h_source.html">utils.h</a>.</p>
+<p>Definition at line <a class="el" href="utils_8h_source.html#l00167">167</a> of file <a class="el" href="utils_8h_source.html">utils.h</a>.</p>
 
 </div>
 </div>
@@ -770,9 +770,9 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The type of the lua value (can be <a class="el" href="namespacelua.html#a4cb01bc8fe209aafacf11602092c63f8af9a829928c134244363d0d76dc1d207d">NOT_SUPPORTED</a> if the framework can't handle such value) </dd></dl>
 
-<p>Definition at line <a class="el" href="utils_8cc_source.html#l00100">100</a> of file <a class="el" href="utils_8cc_source.html">utils.cc</a>.</p>
+<p>Definition at line <a class="el" href="utils_8cc_source.html#l00118">118</a> of file <a class="el" href="utils_8cc_source.html">utils.cc</a>.</p>
 
-<p>Referenced by <a class="el" href="utils_8cc_source.html#l00177">lua_array_unique_type()</a>, <a class="el" href="utils_8cc_source.html#l00369">register_modules()</a>, <a class="el" href="utils_8cc_source.html#l00210">to_any()</a>, and <a class="el" href="utils_8h_source.html#l00165">to_vectorT()</a>.</p>
+<p>Referenced by <a class="el" href="utils_8cc_source.html#l00195">lua_array_unique_type()</a>, <a class="el" href="utils_8cc_source.html#l00387">register_modules()</a>, <a class="el" href="utils_8cc_source.html#l00228">to_any()</a>, and <a class="el" href="utils_8h_source.html#l00167">to_vectorT()</a>.</p>
 
 </div>
 </div>
