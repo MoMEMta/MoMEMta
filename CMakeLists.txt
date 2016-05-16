@@ -143,6 +143,7 @@ target_link_libraries(momemta LINK_PRIVATE ${LUA_LIBRARIES})
 target_link_libraries(momemta LINK_PUBLIC ${LHAPDF_LIBRARIES})
 target_link_libraries(momemta LINK_PUBLIC ${ROOT_LIBRARIES})
 target_link_libraries(momemta LINK_PUBLIC ${Boost_LIBRARIES})
+target_link_libraries(momemta LINK_PUBLIC Threads::Threads)
 
 find_library(ROOT_GENVECTOR_LIBRARY GenVector HINTS ${ROOT_LIBRARY_DIR})
 target_link_libraries(momemta LINK_PUBLIC ${ROOT_GENVECTOR_LIBRARY})
