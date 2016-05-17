@@ -130,23 +130,32 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <p>\(\int_{-\infty}^{+\infty} \! ds \, \delta(s) = 1\), but \( \int_{-\infty}^{+\infty} \! ds \, \frac{1}{(s-m^2)^2+(m \Gamma)^2} = \frac{\pi}{m\Gamma}\).</p>
 <p>However, in most of the cases, the matrix element used by the user still includes the propagator (ie, what is used is \(\mathcal{M}\), not \(\mathcal{M}_d\)). The propagator evaluated on \(s=m^2\) is just \((m\Gamma)^{-2}\), so that the normalisation factor becomes \(\pi m \Gamma\).</p>
 <p>This module handles both cases, which can be configured through the <code>propagator_in_me</code> parameter.</p>
-<ul>
-<li>Integration dimension: 0</li>
-<li>Parameters:<ul>
-<li><code>mass</code> (double): Mass of the propagator one wishes to fix.</li>
-<li><code>width</code> (double): Width of the corresponding particle.</li>
-<li><code>propagator_in_me</code> (bool, default: <code>true</code>): Whether the propagator is included in the matrix element or not.</li>
-</ul>
-</li>
-<li>Inputs: None</li>
-<li>Outputs:<ul>
-<li><code>s</code> (double): Just \(s=\text{mass}^2\), to be passed to the Block.</li>
-<li><code>jacobian</code> (double): Overall factor for proper normalisation. </li>
-</ul>
-</li>
-</ul>
+<h3>Integration dimension</h3>
+<p>This module adds <b>0</b> dimension to the integration.</p>
+<h3>Parameters</h3>
+<table class="doxtable">
+<tr>
+<th>Name </th><th>Type </th><th>Description  </th></tr>
+<tr>
+<td><code>mass</code> </td><td>double </td><td>Mass of the propagator one wishes to fix. </td></tr>
+<tr>
+<td><code>width</code> </td><td>double </td><td>Width of the corresponding particle. </td></tr>
+<tr>
+<td><code>propagator_in_me</code> </td><td>bool, default: <code>true</code> </td><td>Whether the propagator is included in the matrix element or not. </td></tr>
+</table>
+<h3>Inputs</h3>
+<p>None</p>
+<h3>Outputs</h3>
+<table class="doxtable">
+<tr>
+<th>Name </th><th>Type </th><th>Description  </th></tr>
+<tr>
+<td><code>s</code> </td><td>double </td><td>Just \(s=\text{mass}^2\), to be passed to a Block. </td></tr>
+<tr>
+<td><code>jacobian</code> </td><td>double </td><td>Overall factor for proper normalisation. </td></tr>
+</table>
 
-<p>Definition at line <a class="el" href="NarrowWidthApproximation_8cc_source.html#l00062">62</a> of file <a class="el" href="NarrowWidthApproximation_8cc_source.html">NarrowWidthApproximation.cc</a>.</p>
+<p>Definition at line <a class="el" href="NarrowWidthApproximation_8cc_source.html#l00072">72</a> of file <a class="el" href="NarrowWidthApproximation_8cc_source.html">NarrowWidthApproximation.cc</a>.</p>
 </div><div class="dynheader">
 Inheritance diagram for NarrowWidthApproximation:</div>
 <div class="dyncontent">
@@ -247,7 +256,7 @@ PoolPtr&#160;</td><td class="memItemRight" valign="bottom"><b>m_pool</b></td></t
 
 <p>Reimplemented from <a class="el" href="classModule.html#a604059ca484c29e5d6ac9d12865e5ed4">Module</a>.</p>
 
-<p>Definition at line <a class="el" href="NarrowWidthApproximation_8cc_source.html#l00081">81</a> of file <a class="el" href="NarrowWidthApproximation_8cc_source.html">NarrowWidthApproximation.cc</a>.</p>
+<p>Definition at line <a class="el" href="NarrowWidthApproximation_8cc_source.html#l00091">91</a> of file <a class="el" href="NarrowWidthApproximation_8cc_source.html">NarrowWidthApproximation.cc</a>.</p>
 
 </div>
 </div>
@@ -278,7 +287,7 @@ PoolPtr&#160;</td><td class="memItemRight" valign="bottom"><b>m_pool</b></td></t
 
 <p>Reimplemented from <a class="el" href="classModule.html#a9f798ae2775b4f9ef99f7df568261796">Module</a>.</p>
 
-<p>Definition at line <a class="el" href="NarrowWidthApproximation_8cc_source.html#l00079">79</a> of file <a class="el" href="NarrowWidthApproximation_8cc_source.html">NarrowWidthApproximation.cc</a>.</p>
+<p>Definition at line <a class="el" href="NarrowWidthApproximation_8cc_source.html#l00089">89</a> of file <a class="el" href="NarrowWidthApproximation_8cc_source.html">NarrowWidthApproximation.cc</a>.</p>
 
 </div>
 </div>
