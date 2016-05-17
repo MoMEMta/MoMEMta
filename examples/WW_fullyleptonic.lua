@@ -61,8 +61,8 @@ BreitWignerGenerator.flatter_s13 = {
 
 BreitWignerGenerator.flatter_s24 = {
     ps_point = getpspoint(),
-    mass = parameter('top_mass'),
-    width = parameter('top_width')
+    mass = parameter('W_mass'),
+    width = parameter('W_width')
 }
 
 
@@ -127,7 +127,7 @@ end
 MatrixElement.WW = {
   pdf = 'CT10nlo',
 
-  matrix_element = 'example_WW_llvv',
+  matrix_element = 'pp_WW_fully_leptonic',
   matrix_element_parameters = {
       card = '../MatrixElements/Cards/param_card.dat'
   },

@@ -164,7 +164,7 @@ endif()
 # Matrix elements
 add_subdirectory(MatrixElements)
 target_link_libraries(momemta LINK_PRIVATE me_pp_ttx_fully_leptonic)
-target_link_libraries(momemta LINK_PRIVATE me_example_WW_llvv)
+# target_link_libraries(momemta LINK_PRIVATE me_pp_WW_fully_leptonic)
 target_link_libraries(momemta LINK_PRIVATE "-Wl,--whole-archive $<TARGET_FILE:me_pp_ttx_fully_leptonic> -Wl,--no-whole-archive")
 
 add_library(empty_module SHARED "modules/EmptyModule.cc")

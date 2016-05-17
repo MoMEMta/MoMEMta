@@ -32,7 +32,7 @@ int main(int argc, char** argv) {
     UNUSED(argc);
     UNUSED(argv);
 
-    spdlog::set_level(spdlog::level::trace);
+    logging::set_level(boost::log::trivial::trace);
 
     ConfigurationReader configuration("../examples/WW_fullyleptonic.lua");
 
