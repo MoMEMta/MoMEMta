@@ -343,6 +343,10 @@ span.SRScope {
   line-height: 0;
 }
 
+.table > tbody > tr > td {
+     vertical-align: middle;
+}
+
 /* enumerations */
 .panel-body thead > tr {
   background-color: #e0e0e0;
