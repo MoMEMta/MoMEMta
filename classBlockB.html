@@ -26,9 +26,9 @@
     jax: ["input/TeX","output/HTML-CSS"],
 });
 </script><script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js"></script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
         <link href="doxygen.css" rel="stylesheet" type="text/css" />
         <link href="customdoxygen.css" rel="stylesheet" type="text/css"/>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.3.0/styles/solarized-light.min.css">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.3.0/highlight.min.js"></script>
@@ -134,25 +134,35 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>\(M_1 = 0 \to E_{1}^2 = p_{1x}^2 + p_{1y}^2 + p_{1z}^2\)</li>
 </ul>
 <p>Up to two \(p_1\) solutions are possible.</p>
-<ul>
-<li>Integration dimension: 0</li>
-<li>Parameters:<ul>
-<li><code>energy</code> (double): Collision energy.</li>
-</ul>
-</li>
-<li>Inputs:<ul>
-<li><code>s12</code> (double): Invariant mass of the particle decaying into the missing particle ( \(p_1\)) and the visible particle, \(p_2\). Typically coming from a <a class="el" href="classBreitWignerGenerator.html">BreitWignerGenerator</a> module.</li>
-<li><code>inputs</code> (vector(LorentzVector)): LorentzVector of all the experimentally reconstructed particles. In this Block there is only one visible particle, \(p_2\).</li>
-</ul>
-</li>
-<li>Outputs:<ul>
-<li><code>invisibles</code> (vector(vector(LorentzVector))): LorentzVector of the invisible particles. In this Block \(p_1\). One value per solution.</li>
-<li><code>jacobians</code> (vector(double)): Jacobian of the performed change of variables, leading to an integration on \(ds_{12}\) One jacobian per solution. </li>
-</ul>
-</li>
-</ul>
+<h3>Integration dimension</h3>
+<p>This module adds <b>0</b> dimension to the integration.</p>
+<h3>Global parameters</h3>
+<table class="doxtable">
+<tr>
+<th>Name </th><th>Type </th><th>Description  </th></tr>
+<tr>
+<td><code>energy</code> </td><td>double </td><td>Collision energy. </td></tr>
+</table>
+<h3>Inputs</h3>
+<table class="doxtable">
+<tr>
+<th>Name </th><th>Type </th><th>Description  </th></tr>
+<tr>
+<td><code>s12</code> </td><td>double </td><td>Invariant mass of the particle decaying into the missing particle ( \(p_1\)) and the visible particle, \(p_2\). Typically coming from a <a class="el" href="classBreitWignerGenerator.html">BreitWignerGenerator</a> module. </td></tr>
+<tr>
+<td><code>inputs</code> </td><td>vector(LorentzVector) </td><td>LorentzVector of all the experimentally reconstructed particles. In this Block there is only one visible particle, \(p_2\). </td></tr>
+</table>
+<h3>Outputs</h3>
+<table class="doxtable">
+<tr>
+<th>Name </th><th>Type </th><th>Description  </th></tr>
+<tr>
+<td><code>invisibles</code> </td><td>vector(vector(LorentzVector)) </td><td>LorentzVector of the invisible particles. In this Block \(p_1\). One value per solution. </td></tr>
+<tr>
+<td><code>jacobians</code> </td><td>vector(double) </td><td>Jacobian of the performed change of variables, leading to an integration on \(ds_{12}\). One jacobian per solution. </td></tr>
+</table>
 
-<p>Definition at line <a class="el" href="BlockB_8cc_source.html#l00064">64</a> of file <a class="el" href="BlockB_8cc_source.html">BlockB.cc</a>.</p>
+<p>Definition at line <a class="el" href="BlockB_8cc_source.html#l00073">73</a> of file <a class="el" href="BlockB_8cc_source.html">BlockB.cc</a>.</p>
 </div><div class="dynheader">
 Inheritance diagram for BlockB:</div>
 <div class="dyncontent">
@@ -256,7 +266,7 @@ PoolPtr&#160;</td><td class="memItemRight" valign="bottom"><b>m_pool</b></td></t
 
 <p>Reimplemented from <a class="el" href="classModule.html#a604059ca484c29e5d6ac9d12865e5ed4">Module</a>.</p>
 
-<p>Definition at line <a class="el" href="BlockB_8cc_source.html#l00140">140</a> of file <a class="el" href="BlockB_8cc_source.html">BlockB.cc</a>.</p>
+<p>Definition at line <a class="el" href="BlockB_8cc_source.html#l00149">149</a> of file <a class="el" href="BlockB_8cc_source.html">BlockB.cc</a>.</p>
 
 </div>
 </div>
@@ -287,7 +297,7 @@ PoolPtr&#160;</td><td class="memItemRight" valign="bottom"><b>m_pool</b></td></t
 
 <p>Reimplemented from <a class="el" href="classModule.html#a9f798ae2775b4f9ef99f7df568261796">Module</a>.</p>
 
-<p>Definition at line <a class="el" href="BlockB_8cc_source.html#l00078">78</a> of file <a class="el" href="BlockB_8cc_source.html">BlockB.cc</a>.</p>
+<p>Definition at line <a class="el" href="BlockB_8cc_source.html#l00087">87</a> of file <a class="el" href="BlockB_8cc_source.html">BlockB.cc</a>.</p>
 
 </div>
 </div>

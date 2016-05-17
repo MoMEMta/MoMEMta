@@ -72,7 +72,7 @@ $(document).ready(function() {
     //$('div.fragment.well div.line:first').css('margin-top', '15px');
     //$('div.fragment.well div.line:last').css('margin-bottom', '15px');
 
-    $('table.doxtable').removeClass('doxtable').addClass('table table-striped table-bordered').each(function() {
+    $('table.doxtable').removeClass('doxtable').addClass('table table-striped').each(function() {
         $(this).prepend('<thead></thead>');
         $(this).find('tbody > tr:first').prependTo($(this).find('thead'));
 
