@@ -61,7 +61,7 @@ SET(CMAKE_CXX_FLAGS_DEBUG  "-O0 -g")
 SET(CMAKE_C_FLAGS_DEBUG  "-O0 -g")
 
 # Find dependencies
-find_package(ROOT REQUIRED)
+find_package(ROOT 5.34.09 REQUIRED)
 find_package(LHAPDF 6.0 REQUIRED)
 find_package(Threads REQUIRED)
 
@@ -70,7 +70,7 @@ if (NOT USE_BUILTIN_LUA)
 endif()
 
 set(Boost_NO_BOOST_CMAKE ON)
-find_package(Boost REQUIRED log)
+find_package(Boost 1.54 REQUIRED log)
 # Needed since we don't link to the static library
 add_definitions(-DBOOST_LOG_DYN_LINK)
 
