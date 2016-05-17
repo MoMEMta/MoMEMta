@@ -43,21 +43,30 @@
  *
  * Up to two \f$p_1\f$ solutions are possible.
  *
- * - Integration dimension: 0
+ * ### Integration dimension
  *
- * - Parameters:
- *  - `energy` (double): Collision energy.
+ * This module adds **0** dimension to the integration.
  *
- * - Inputs:
- *  - `s12` (double): Invariant mass of the particle decaying into the missing particle (\f$p_1\f$) 
- *                    and the visible particle, \f$p_2\f$. Typically coming from a BreitWignerGenerator module.
- *  - `inputs` (vector(LorentzVector)): LorentzVector of all the experimentally reconstructed particles.
- *                                      In this Block there is only one visible particle, \f$p_2\f$.
- * - Outputs:
- *  - `invisibles` (vector(vector(LorentzVector))): LorentzVector of the invisible particles. In this Block \f$p_1\f$.
- *                                                  One value per solution.
- *  - `jacobians` (vector(double)): Jacobian of the performed change of variables, leading to an integration on \f$ds_{12}\f$
- *                                  One jacobian per solution.                                
+ * ### Global parameters
+ *
+ *   | Name | Type | %Description |
+ *   |------|------|--------------|
+ *   | `energy` | double | Collision energy. |
+ *
+ * ### Inputs
+ *
+ *   | Name | Type | %Description |
+ *   |------|------|--------------|
+ *   | `s12` | double | Invariant mass of the particle decaying into the missing particle (\f$p_1\f$) and the visible particle, \f$p_2\f$. Typically coming from a BreitWignerGenerator module.
+ *   | `inputs` | vector(LorentzVector) | LorentzVector of all the experimentally reconstructed particles. In this Block there is only one visible particle, \f$p_2\f$.
+ *
+ * ### Outputs
+ *
+ *   | Name | Type | %Description |
+ *   |------|------|--------------|
+ *   | `invisibles` | vector(vector(LorentzVector)) | LorentzVector of the invisible particles. In this Block \f$p_1\f$. One value per solution.
+ *   | `jacobians` | vector(double) | Jacobian of the performed change of variables, leading to an integration on \f$ds_{12}\f$. One jacobian per solution.
+ *
  * \ingroup modules
  */
 

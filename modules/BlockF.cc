@@ -41,26 +41,32 @@
  *
  * Up to 2 (\f$p_1\f$, \f$p_2\f$) solutions are possible.
  *
- * - Integration dimension: 2
  *
- * - Parameters:
- *  - `energy` (double): Collision energy.
+ * ### Integration dimension
  *
- *  - Inputs:
- *  - `q1` and `q2` (double): Bjorken fractions. These are the dimensions of integration coming from CUBA as phase-space points.
- *  - `s13` (double): Invariant mass of the particle decaying into the missing particle (\f$p_1\f$) 
- *                    and the visible particle (\f$p_3\f$). Typically coming from a BreitWignerGenerator module.
- *  - `s24` (double): Invariant mass of the particle decaying into the missing particle (\f$p_2\f$)
- *                    and the visible particle (\f$p_4\f$). Typically coming from a BreitWignerGenerator module.
- *  - `inputs` (vector(LorentzVector)): LorentzVector of all the experimentally reconstructed particles.
- *                                      In this Block its dimension is 2.
- * - Outputs:
- *  - `invisibles` (vector(vector(LorentzVector))): LorentzVector of the invisible particles. Each element
- *                                                  contains one of the possible solutions ({\f$p1\f$, \f$p2\f$} in this case).
- *                                                 
- *  - `jacobians` (vector(double)): Jacobian of the performed change of variables, leading to an integration on \f$dq_1\f$,
- *                                  \f$dq_2\f$, \f$ds_{13}\f$, \f$ds_{24}\f$.
- *                                  One jacobian per solution.
+ * This module adds **2** dimensions to the integration.
+ *
+ * ### Global parameters
+ *
+ *   | Name | Type | %Description |
+ *   |------|------|-------------|
+ *   | `energy` | double | Collision energy |
+ *
+ * ### Inputs
+ *
+ *   | Name | Type | %Description |
+ *   |------|------|-------------|
+ *   | `q1` <br /> `q2` | double | Bjorken fractions. These are the dimensions of integration coming from CUBA as phase-space points |
+ *   | `s13` | double | Invariant mass of the particle decaying into the missing particle (\f$p_1\f$) and the visible particle (\f$p_3\f$). Typically coming from a BreitWignerGenerator module. |
+ *   | `s24` | double | Invariant mass of the particle decaying into the missing particle (\f$p_2\f$) and the visible particle (\f$p_4\f$). Typically coming from a BreitWignerGenerator module. |
+ *   | `inputs` | vector of LorentzVector | LorentzVector of all the experimentally reconstructed particles. In this Block its dimension is 2. |
+ *
+ * ### Outputs
+ *
+ *   | Name | Type | %Description |
+ *   |------|------|-------------|
+ *   | `invisibles` | vector(vector(LorentzVector)) | LorentzVector of the invisible particles. Each element contains one of the possible solutions ({\f$p1\f$, \f$p2\f$} in this case). |
+ *   | `jacobians` | vector(double) | Jacobian of the performed change of variables, leading to an integration on \f$dq_1\f$, \f$dq_2\f$, \f$ds_{13}\f$, \f$ds_{24}\f$. One jacobian per solution. |
  *
  * \ingroup modules
  */
