@@ -23,6 +23,7 @@ parameters = {
 }
 
 cuba = {
+    relative_accuracy = 0.01,
     verbosity = 3
 }
 
@@ -88,7 +89,7 @@ BlockD.blockd = {
     s256 = 'nwa_s256::s',
 }
 
-Boost.boost = {
+BuildInitialState.initial_state = {
     invisibles = {
         'blockd::invisibles',
     },
@@ -109,7 +110,7 @@ MatrixElement.ttbar = {
       card = '../MatrixElements/Cards/param_card.dat'
   },
 
-  initialState = 'boost::output',
+  initialState = 'initial_state::output',
 
   invisibles = {
     input = 'blockd::invisibles',

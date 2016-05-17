@@ -43,6 +43,8 @@ MoMEMta::MoMEMta(const Configuration& configuration) {
     // Create vector for input particles
     m_pool->current_module("input");
     m_particles = m_pool->put<std::vector<LorentzVector>>({"input", "particles"});
+    // Create input for met
+    m_met = m_pool->put<LorentzVector>({"input", "met"});
 
     // Construct modules from configuration
     std::vector<Configuration::Module> light_modules = configuration.getModules();
@@ -108,13 +110,14 @@ const Pool& MoMEMta::getPool() const {
     return *m_pool;
 }
 
-std::vector<std::pair<double, double>> MoMEMta::computeWeights(const std::vector<LorentzVector>& particules) {
+std::vector<std::pair<double, double>> MoMEMta::computeWeights(const std::vector<LorentzVector>& particles, const LorentzVector& met) {
     
     for (const auto& module: m_modules) {
         module->beginIntegration();
     }
 
-    *m_particles = particules;
+    *m_particles = particles;
+    *m_met = met;
 
     // Read cuba configuration
     uint8_t verbosity = m_cuba_configuration.get<int64_t>("verbosity", 0);

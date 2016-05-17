@@ -120,7 +120,7 @@ BlockD.blockd = {
     s256 = 'flatter_s256::s',
 }
 
-Boost.boost = {
+BuildInitialState.initial_state = {
     invisibles = {
         'blockd::invisibles',
     },
@@ -143,7 +143,7 @@ MatrixElement.dummy = {
       card = '../MatrixElements/Cards/param_card.dat'
   },
 
-  initialState = 'boost::output',
+  initialState = 'initial_state::output',
 
   invisibles = {
     input = 'blockd::invisibles',

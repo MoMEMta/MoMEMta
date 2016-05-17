@@ -23,7 +23,7 @@
 #include <momemta/Utils.h>
 
 
-/** \brief Final (main) Block B, describing \f$q_1 q_2 \to X + s_{12} \to X + p_1 p_2\f$
+/** \brief \f$\require{cancel}\f$ Final (main) Block B, describing \f$q_1 q_2 \to X + s_{12} (\to \cancel{p_1} p_2)\f$
  *
  * \f$q_1\f$ and \f$q_2\f$ are Bjorken fractions, and \f$s_{12}\f$ is a particle decaying 
  * into \f$p_1\f$ (invisible particle) and \f$p_2\f$ (visible particle).
@@ -36,7 +36,7 @@
  * of equations:   
  *
  * - \f$(p_1 + p_2)^2 = s_{12} = M_{1}^{2} + M_{2}^2 + 2 E_1 E_2 + 2 p_{1x}p_{2x} + 2p_{1y}p_{2y} + p_{1z}p_{2z}\f$
- * - Conservation of momentum (with \f$\vec{p}_T\f$ the total transverse momentum of visible particles):
+ * - Conservation of momentum (with \f$\vec{p}_T^{tot}\f$ the total transverse momentum of visible particles):
  *  - \f$p_{1x} = - p_{Tx}\f$
  *  - \f$p_{1y} = - p_{Ty}\f$
  * - \f$M_1 = 0 \to E_{1}^2 = p_{1x}^2 + p_{1y}^2 + p_{1z}^2\f$
@@ -53,12 +53,19 @@
  *   |------|------|--------------|
  *   | `energy` | double | Collision energy. |
  *
+ * ### Parameters
+ *
+ *   | Name | Type | %Description |
+ *   |------|------|--------------|
+ *   | `pT_is_met` | bool, default false | Fix \f$\vec{p}_{T}^{tot} = -\vec{\cancel{E_T}}\f$ or \f$= \sum_{i \in \text{ vis}} \vec{p}_i^{\text{vis}}\f$ |
+ *
  * ### Inputs
  *
  *   | Name | Type | %Description |
  *   |------|------|--------------|
  *   | `s12` | double | Invariant mass of the particle decaying into the missing particle (\f$p_1\f$) and the visible particle, \f$p_2\f$. Typically coming from a BreitWignerGenerator module.
- *   | `inputs` | vector(LorentzVector) | LorentzVector of all the experimentally reconstructed particles. In this Block there is only one visible particle, \f$p_2\f$.
+ *   | `inputs` | vector(LorentzVector) | LorentzVector of all the experimentally reconstructed particles. In this Block there is only one visible particle used explicitly, \f$p_2\f$, but there can be other visible objects in the the event, taken into account when computing \f$\vec{p}_{T}^{tot}\f$.
+ *   | `met` | LorentzVector, default `input::met` | LorentzVector of the MET |
  *
  * ### Outputs
  *
@@ -76,12 +83,21 @@ class BlockB: public Module {
         BlockB(PoolPtr pool, const ParameterSet& parameters): Module(pool, parameters.getModuleName()) {
             
             sqrt_s = parameters.globalParameters().get<double>("energy");
+            pT_is_met = parameters.get<bool>("pT_is_met", false);
             
             s12 = get<double>(parameters.get<InputTag>("s12"));
             
             m_particle_tags = parameters.get<std::vector<InputTag>>("inputs");
             for (auto& t: m_particle_tags)
               t.resolve(pool);
+            
+            // If the met input is specified, get it, otherwise retrieve default
+            // one ("input::met")
+            if (parameters.exists("met")) {
+                m_met_tag = parameters.get<InputTag>("met");
+            } else {
+                m_met_tag = InputTag({"input", "met"});
+            }
         }; 
   
         virtual void work() override {
@@ -101,9 +117,15 @@ class BlockB: public Module {
             
             const LorentzVector& p2 = m_particle_tags[0].get<LorentzVector>();
             
-            // FIXME
-            const LorentzVector ISR; // = (*particles)[0];
-            auto pT = p2 + ISR;
+            LorentzVector pT;
+            if (pT_is_met) {
+                pT = - m_met_tag.get<LorentzVector>(); 
+            } else {
+                pT = p2;
+                for (size_t i = 1; i < m_particle_tags.size(); i++) {
+                    pT += m_particle_tags[i].get<LorentzVector>();
+                }
+            }
             
             const double p22 = p2.M2();
             
@@ -167,8 +189,10 @@ class BlockB: public Module {
 
     private:
         double sqrt_s;
+        bool pT_is_met;
   
         std::vector<InputTag> m_particle_tags;
+        InputTag m_met_tag;
 
         std::shared_ptr<const double> s12;
 
