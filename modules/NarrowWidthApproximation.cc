@@ -40,18 +40,28 @@
  *
  *  This module handles both cases, which can be configured through the `propagator_in_me` parameter.
  *
- *  - Integration dimension: 0
+ * ### Integration dimension
  *
- *  - Parameters:
- *    - `mass` (double): Mass of the propagator one wishes to fix. 
- *    - `width` (double): Width of the corresponding particle.
- *    - `propagator_in_me` (bool, default: `true`): Whether the propagator is included in the matrix element or not.
+ * This module adds **0** dimension to the integration.
  *
- *  - Inputs: None
+ * ### Parameters
  *
- *  - Outputs:
- *    - `s` (double): Just \f$s=\text{mass}^2\f$, to be passed to the Block.
- *    - `jacobian` (double): Overall factor for proper normalisation.
+ *   | Name | Type | %Description |
+ *   |------|------|--------------|
+ *   | `mass` | double | Mass of the propagator one wishes to fix. |
+ *   | `width` | double | Width of the corresponding particle. |
+ *   | `propagator_in_me` | bool, default: `true` | Whether the propagator is included in the matrix element or not. |
+ *
+ * ### Inputs
+ *
+ * None
+ *
+ * ### Outputs
+ *
+ *   | Name | Type | %Description |
+ *   |------|------|--------------|
+ *   | `s` | double | Just \f$s=\text{mass}^2\f$, to be passed to a Block. |
+ *   | `jacobian` | double | Overall factor for proper normalisation. |
  *
  * \ingroup modules
  */
