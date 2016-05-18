@@ -24,7 +24,7 @@
 
 #include <TMath.h>
 
-/*! \brief This module aims at computing the jacobians coming from the changes of variable in the standard phase-space parametrization for processes like \f$ WW \rightarrow ll + \text{ME}_\text{T} \f$.
+/*! \brief \f$\require{cancel}\f$ Final (main) Block F, describing \f$q_1 q_2 \to X + s_{13} (\to \cancel{p_1} p_3) + s_{24} (\to \cancel{p_2} p_4)\f$
  *
  * Final (main) Block F on \f$q_1 q_2 \to X + s_{13} + s_{24} \to X + p_1 p_2 p_3 p_4\f$,  
  * where \f$q_1\f$ and \f$q_2\f$ are Bjorken fractions, \f$s_{13}\f$ and \f$s_{24}\f$ are particles
@@ -32,12 +32,16 @@
  * and \f$p_2\f$ (invisible particle) and \f$p_4\f$ (visible particle).
  * 
  * This Block addresses the change of variables needed to pass from the standard phase-space
- * parametrization to the $\frac{1}{16\pi^2 E_1 E_2} dq_{1} dq_{2} ds_{13} d_s{24}  \times J$ parametrization.               .
+ * parametrization to the \f$\frac{1}{16\pi^2 E_1 E_2} dq_{1} dq_{2} ds_{13} d_s{24}  \times J\f$ parametrization.               .
  * 
  * The integration is performed over \f$q_{1}\f$, \f$q_{2}\f$, \f$s_{13}\f$ and \f$s_{24}\f$
  * with \f$p_3\f$ and \f$p_4\f$ as inputs. Per integration point, 
  * the LorentzVectors of the invisible particle, \f$p_1\f$ and \f$p_2\f$,
  * are computed  based on a set of equations.
+ *
+ * The observed MET is not used in this block since to reconstruct the
+ * neutrinos the system requires as input the total 4-momentum of the 
+ * visible objects (energy and longitudinal momentum included).
  *
  * Up to 2 (\f$p_1\f$, \f$p_2\f$) solutions are possible.
  *
@@ -59,7 +63,7 @@
  *   | `q1` <br /> `q2` | double | Bjorken fractions. These are the dimensions of integration coming from CUBA as phase-space points |
  *   | `s13` | double | Invariant mass of the particle decaying into the missing particle (\f$p_1\f$) and the visible particle (\f$p_3\f$). Typically coming from a BreitWignerGenerator module. |
  *   | `s24` | double | Invariant mass of the particle decaying into the missing particle (\f$p_2\f$) and the visible particle (\f$p_4\f$). Typically coming from a BreitWignerGenerator module. |
- *   | `inputs` | vector of LorentzVector | LorentzVector of all the experimentally reconstructed particles. In this Block its dimension is 2. |
+ *   | `inputs` | vector of LorentzVector | LorentzVectors of all the experimentally reconstructed particles. The first two entries correspond to \f$p_3\f$ and \f$p_4\f$, the others (if present) are used to compute \f$p^{tot}\f$. |
  *
  * ### Outputs
  *
@@ -104,7 +108,7 @@ class BlockF: public Module {
             const LorentzVector& p3 = m_particle_tags[0].get<LorentzVector>();
             const LorentzVector& p4 = m_particle_tags[1].get<LorentzVector>();
            
-            //leave the variables E2 and p2y as free parameters 
+            // Leave the variables E2 and p2y as free parameters 
             std::vector<double> E2;
             std::vector<double> p2y;
             
@@ -112,17 +116,24 @@ class BlockF: public Module {
             double p3y = p3.Py();
             double p3z = p3.Pz();
             double E3 = p3.E();
+            
             double p4x = p4.Px();
             double p4y = p4.Py();
             double p4z = p4.pz();
             double E4 = p4.E();
+            
             double p33 = p3.M2();
             double p44 = p4.M2();
             
-            double Eb = E3+E4;
-            double pbx = p3x+p4x;
-            double pby = p3y+p4y;
-            double pbz = p3z+p4z;
+            // Total visible momentum
+            LorentzVector pb = p3 + p4;
+            for (size_t i = 2; i < m_particle_tags.size(); i++) {
+                pb += m_particle_tags[i].get<LorentzVector>();
+            }
+            double Eb = pb.E();
+            double pbx = pb.Px();
+            double pby = pb.Py();
+            double pbz = pb.Pz();
             
             double q1 = m_ps_point1.get<double>();
             double q2 = m_ps_point2.get<double>();
@@ -130,12 +141,12 @@ class BlockF: public Module {
             const double Qm = sqrt_s*(q1-q2)/2.;
             const double Qp = sqrt_s*(q1+q2)/2.;
             
-            //p1x = alpha1*p2y + beta1*E2 + gamma1
-            //p1y = alpha2*p2y + beta2*E2 + gamma2
-            //p1z = alpha3*p2y + beta3*E2 + gamma3
-            //p2x = alpha4*p2y + beta4*E2 + gamma4
-            //p2z = alpha5*p2y + beta5*E2 + gamma5
-            //E1 = alpha6*p2y + beta6*E2 + gamma6
+            // p1x = alpha1*p2y + beta1*E2 + gamma1
+            // p1y = alpha2*p2y + beta2*E2 + gamma2
+            // p1z = alpha3*p2y + beta3*E2 + gamma3
+            // p2x = alpha4*p2y + beta4*E2 + gamma4
+            // p2z = alpha5*p2y + beta5*E2 + gamma5
+            // E1 = alpha6*p2y + beta6*E2 + gamma6
              
             double alpha1 = (-p3z*p4y+p3y*p4z)/(-p3z*p4x+p3x*p4z);
             double beta1 = (E4*p3z-E3*p4z)/(p3z*p4x+p3x*p4z);

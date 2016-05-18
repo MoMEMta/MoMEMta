@@ -137,16 +137,20 @@ end
 BlockD.blockd = {
     inputs = inputs,
 
+    pT_is_met = true,
+
     s13 = 'flatter_s13::s',
     s134 = 'flatter_s134::s',
     s25 = 'flatter_s25::s',
     s256 = 'flatter_s256::s',
 }
 
-Boost.boost = {
+BuildInitialState.boost = {
     invisibles = {
         'blockd::invisibles',
     },
+
+    do_transverse_boost = true,
 
     particles = inputs
 }

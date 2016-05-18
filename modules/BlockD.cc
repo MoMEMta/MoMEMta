@@ -22,14 +22,64 @@
 #include <momemta/Types.h>
 #include <momemta/Utils.h>
 
-/**
+/** \brief \f$\require{cancel}\f$ Final (main) Block D, describing \f$X + s_{134} (\to p_4 + s_{13} (\to \cancel{p_1} p_3)) + s_{256} (\to p_6 + s_{25} (\to \cancel{p_2} p_5)) + \f$
+ *
+ * This Block addresses the change of variables needed to pass from the standard phase-space
+ * parametrisation for \f$p_{1 \dots 6} \times \delta^4\f$ to a parametrisation in terms of the four (squared) masses
+ * of the intermediate propagators.
+ * 
+ * The integration is performed over \f$s_{13}, s_{134}, s_{25}, s_{256}\f$ with \f$p_{3 \dots 6}\f$ as input. Per integration point, 
+ * the LorentzVector of the invisible particles, \f$p_1\f$ and \f$p_2\f$, are computed based on the following set 
+ * of equations:   
+ *
+ * - Conservation of momentum (with \f$\vec{p}_T^{tot}\f$ the total transverse momentum of visible particles):
+ *  - \f$p_{1x} + p_{2x} = - p_{Tx}\f$
+ *  - \f$p_{1y} + p_{2y} = - p_{Ty}\f$
+ * - \f$E_{1}^2 - p_{1x}^2 + p_{1y}^2 + p_{1z}^2 = m_1^2 = 0\f$ (FIXME)
+ * - \f$E_{2}^2 - p_{2x}^2 + p_{2y}^2 + p_{2z}^2 = m_2^2 = 0\f$ (FIXME)
+ *
+ * Up to four solutions are possible for \f$(p_1, p_2)\f$.
+ *
+ * ### Integration dimension
+ *
+ * This module adds **0** dimension to the integration.
+ *
+ * ### Global parameters
+ *
+ *   | Name | Type | %Description |
+ *   |------|------|--------------|
+ *   | `energy` | double | Collision energy. |
+ *
+ * ### Parameters
+ *
+ *   | Name | Type | %Description |
+ *   |------|------|--------------|
+ *   | `pT_is_met` | bool, default false | Fix \f$\vec{p}_{T}^{tot} = -\vec{\cancel{E_T}}\f$ or \f$= \sum_{i \in \text{ vis}} \vec{p}_i^{\text{vis}}\f$ |
+ *
+ * ### Inputs
+ *
+ *   | Name | Type | %Description |
+ *   |------|------|--------------|
+ *   | `s13` <br/> `s134` <br/> `s25` <br/> `s256` | double | Squared invariant masses of the propagators. Typically coming from a BreitWignerGenerator or NarrowWidthApproximation module.
+ *   | `inputs` | vector(LorentzVector) | LorentzVectors of all the experimentally reconstructed particles. Only the first four are used explicitly by the block, but there can be other visible objects in the the event, taken into account when computing \f$\vec{p}_{T}^{tot}\f$ if needed.
+ *   | `met` | LorentzVector, default `input::met` | LorentzVector of the MET |
+ *
+ * ### Outputs
+ *
+ *   | Name | Type | %Description |
+ *   |------|------|--------------|
+ *   | `invisibles` | vector(vector(LorentzVector)) | LorentzVector of the invisible particles. In this Block \f$p_1\f$. One value per solution.
+ *   | `jacobians` | vector(double) | Jacobian of the performed change of variables, leading to an integration on \f$ds_{12}\f$. One jacobian per solution.
+ *
  * \ingroup modules
  */
+
 class BlockD: public Module {
     public:
 
         BlockD(PoolPtr pool, const ParameterSet& parameters): Module(pool, parameters.getModuleName()) {
             sqrt_s = parameters.globalParameters().get<double>("energy");
+            pT_is_met = parameters.get<bool>("pT_is_met", false);
 
             s13 = get<double>(parameters.get<InputTag>("s13"));
             s134 = get<double>(parameters.get<InputTag>("s134"));
@@ -39,6 +89,15 @@ class BlockD: public Module {
             m_particle_tags = parameters.get<std::vector<InputTag>>("inputs");
             for (auto& t: m_particle_tags)
                 t.resolve(pool);
+
+            // If the met input is specified, get it, otherwise retrieve default
+            // one ("input::met")
+            if (parameters.exists("met")) {
+                m_met_tag = parameters.get<InputTag>("met");
+            } else {
+                m_met_tag = InputTag({"input", "met"});
+            }
+            m_met_tag.resolve(pool);
         };
 
         virtual void work() override {
@@ -47,7 +106,7 @@ class BlockD: public Module {
             jacobians->clear();
 
             // Don't spend time on unphysical corner of the phase-space
-            if(*s13 >= *s134 || *s25 >= *s256 || *s13 >= SQ(sqrt_s) || *s134 >= SQ(sqrt_s) || *s25 >= SQ(sqrt_s) || *s256 >= SQ(sqrt_s))
+            if (*s13 >= *s134 || *s25 >= *s256 || *s13 >= SQ(sqrt_s) || *s134 >= SQ(sqrt_s) || *s25 >= SQ(sqrt_s) || *s256 >= SQ(sqrt_s))
                 return;
 
             const LorentzVector& p3 = m_particle_tags[0].get<LorentzVector>();
@@ -55,13 +114,23 @@ class BlockD: public Module {
             const LorentzVector& p5 = m_particle_tags[2].get<LorentzVector>();
             const LorentzVector& p6 = m_particle_tags[3].get<LorentzVector>();
 
-            // FIXME
-            const LorentzVector ISR; // = (*particles)[0];
-
-            // pT = transverse total momentum of the visible particles
-            // It will be used to reconstruct neutrinos, but we want to take into account the measured ISR (pt_isr = - pt_met - pt_vis),
-            // so we add pt_isr to pt_vis in order to have pt_vis + pt_nu + pt_isr = 0 as it should be.
-            auto pT = p3 + p4 + p5 + p6 + ISR;
+            // pT will be used to fix the transverse momentum of the reconstructed neutrinos
+            // We can either enforce momentum conservation by disregarding the MET, ie:
+            //  pT = sum of all the visible particles, 
+            // Or we can fix it using the MET given as input:
+            //  pT = -MET
+            // In the latter case, it is the user's job to ensure momentum conservation at
+            // the matrix element level (by using the Boost module, for instance).
+            
+            LorentzVector pT;
+            if (pT_is_met) {
+                pT = - m_met_tag.get<LorentzVector>(); 
+            } else {
+                pT = p3 + p4 + p5 + p6;
+                for (size_t i = 4; i < m_particle_tags.size(); i++) {
+                    pT += m_particle_tags[i].get<LorentzVector>();
+                }
+            }
 
             const double p34 = p3.Dot(p4);
             const double p56 = p5.Dot(p6);
@@ -263,8 +332,10 @@ class BlockD: public Module {
 
     private:
         double sqrt_s;
+        bool pT_is_met;
 
         std::vector<InputTag> m_particle_tags;
+        InputTag m_met_tag;
 
         std::shared_ptr<const double> s13;
         std::shared_ptr<const double> s134;

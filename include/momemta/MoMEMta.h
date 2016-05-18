@@ -35,7 +35,7 @@ class MoMEMta {
         MoMEMta(const Configuration&);
         virtual ~MoMEMta();
 
-        std::vector<std::pair<double, double>> computeWeights(const std::vector<LorentzVector>& particules);
+        std::vector<std::pair<double, double>> computeWeights(const std::vector<LorentzVector>& particles, const LorentzVector& met = LorentzVector());
 
         double integrand(const double* psPoints, const double* weights);
 
@@ -61,5 +61,6 @@ class MoMEMta {
         std::shared_ptr<std::vector<double>> m_ps_points;
         std::shared_ptr<double> m_ps_weight;
         std::shared_ptr<std::vector<LorentzVector>> m_particles;
+        std::shared_ptr<LorentzVector> m_met;
         std::shared_ptr<const std::vector<double>> m_integrands;
 };
