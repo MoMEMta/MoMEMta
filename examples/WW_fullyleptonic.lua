@@ -6,8 +6,6 @@ function append(t1, t2)
     return t1
 end
 
-load_modules('libempty_module.so')
-load_modules('MatrixElements/dummy/libme_dummy.so')
 
 USE_TF = true
 
@@ -25,25 +23,15 @@ else
     }
 end
 
-USE_PERM = true
-
-if USE_PERM then
-  -- Use permutator module to permutate input particles 0 and 2 using the MC
-  inputs = {
-    inputs_before_perm[1],
-    'permutator::output/1',
-    inputs_before_perm[3],
-    'permutator::output/2',
-  }
-else
-  -- No permutation, take particles as they come
   inputs = inputs_before_perm
-end
+
 
 parameters = {
     energy = 13000.,
     W_mass = 80.419002,
     W_width = 2.047600,
+    top_mass = 173.,
+    top_width = 1.491500,
 }
 
 cuba = {
@@ -78,26 +66,6 @@ if USE_TF then
         reco_particle = 'input::particles/2',
         sigma = 0.10,
     }
-
-    -- Example for binned transfer function (only works on ingrid)
-    -- BinnedTransferFunctionOnEnergy.tf_p2 = {
-    --     ps_point = getpspoint(),
-    --     reco_particle = 'input::particles/2',
-    --     file = '/home/fynu/swertz/tests_MEM/binnedTF/TF_generator/Control_plots_hh_TF.root',
-    --     th2_name = 'Binned_Egen_DeltaE_Norm_jet',
-    -- }
-
-
-end
-
-if USE_PERM then
-    Permutator.permutator = {
-        ps_point = getpspoint(),
-        inputs = {
-          inputs_before_perm[2],
-          inputs_before_perm[4],
-        }
-    }
 end
 
 BlockF.blockf = {
@@ -109,14 +77,13 @@ BlockF.blockf = {
     q2 = getpspoint()
 }
 
-Boost.boost = {
+BuildInitialState.boost = {
     invisibles = {
         'blockf::invisibles',
     },
 
     particles = inputs
 }
-
 
 jacobians = {'flatter_s13::jacobian', 'flatter_s24::jacobian'}
 
@@ -127,7 +94,7 @@ end
 MatrixElement.WW = {
   pdf = 'CT10nlo',
 
-  matrix_element = 'pp_WW_fully_leptonic',
+  matrix_element = 'pp_WW_fully_leptonic_sm_P1_Sigma_sm_uux_epvemumvmx',
   matrix_element_parameters = {
       card = '../MatrixElements/Cards/param_card.dat'
   },
@@ -166,14 +133,4 @@ MatrixElement.WW = {
   },
 
   jacobians = jacobians
-}
-
-DMEM.dmem_WW    = {
-  x_start = 0.,
-  x_end = 2000.,
-  n_bins = 500,
-  ps_weight = 'cuba::ps_weight',
-  particles = inputs,
-  invisibles = 'blockf::invisibles',
-  integrands = 'WW::integrands',
 }

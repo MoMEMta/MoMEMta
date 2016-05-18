@@ -36,9 +36,6 @@ int main(int argc, char** argv) {
 
     ConfigurationReader configuration("../examples/WW_fullyleptonic.lua");
 
-    // Change top mass
-    //configuration.getGlobalParameters().set("top_mass", 173.);
-
     MoMEMta weight(configuration.freeze());
 
     // Electron
@@ -55,12 +52,8 @@ int main(int argc, char** argv) {
         LOG(debug) << r.first << " +- " << r.second;
     }
     
-    LOG(debug) << "Hist in pool: " << weight.getPool().exists({"dmem_WW", "hist"});
-    std::shared_ptr<const TH1D> dmem = weight.getPool().get<TH1D>({"dmem_WW", "hist"});
-    LOG(debug) << "DMEM integral: " << dmem->Integral();
-
     LOG(info) << "Weight computed in " << std::chrono::duration_cast<milliseconds>(end_time - start_time).count() << "ms";
-
-
+       
+ 
     return 0;
 }

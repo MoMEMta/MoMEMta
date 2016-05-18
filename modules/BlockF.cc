@@ -221,16 +221,16 @@ class BlockF: public Module {
                 if (e1 < 0. || e2 < 0.)
                     continue;
                 
-                LorentzVector p1(alpha6*e1+beta6*e2+gamma6,     //E1
-                                 alpha1*e1+beta1*e2+gamma1,     //p1x
+                LorentzVector p1(alpha1*e1+beta1*e2+gamma1,     //p1x
                                  alpha2*e1+beta2*e2+gamma2,     //p1y
-                                 alpha3*e1+beta3*e2+gamma3      //p1z
+                                 alpha3*e1+beta3*e2+gamma3,     //p1z
+                                 alpha6*e1+beta6*e2+gamma6      //E1
                                  );
                 
-                LorentzVector p2(e2,                            //E2
-                                 alpha4*e1+beta4*e2+gamma4,     //p2x
+                LorentzVector p2(alpha4*e1+beta4*e2+gamma4,     //p2x
                                  e1,                            //p2y
-                                 alpha5*e1+beta5*e2+gamma5      //p2z
+                                 alpha5*e1+beta5*e2+gamma5,     //p2z
+                                 e2                             //E2
                                  );                  
                 
                 // Check if solutions are physical
