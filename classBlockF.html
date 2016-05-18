@@ -117,13 +117,14 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!--header-->
 <div class="contents">
 
-<p>This module aims at computing the jacobians coming from the changes of variable in the standard phase-space parametrization for processes like \( WW \rightarrow ll + \text{ME}_\text{T} \).  
+<p>\(\require{cancel}\) Final (main) Block F, describing \(q_1 q_2 \to X + s_{13} (\to \cancel{p_1} p_3) + s_{24} (\to \cancel{p_2} p_4)\)  
  <a href="classBlockF.html#details">More...</a></p>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>This module aims at computing the jacobians coming from the changes of variable in the standard phase-space parametrization for processes like \( WW \rightarrow ll + \text{ME}_\text{T} \). </p>
+<div class="textblock"><p>\(\require{cancel}\) Final (main) Block F, describing \(q_1 q_2 \to X + s_{13} (\to \cancel{p_1} p_3) + s_{24} (\to \cancel{p_2} p_4)\) </p>
 <p>Final (main) Block F on \(q_1 q_2 \to X + s_{13} + s_{24} \to X + p_1 p_2 p_3 p_4\), where \(q_1\) and \(q_2\) are Bjorken fractions, \(s_{13}\) and \(s_{24}\) are particles decaying respectively into \(p_1\) (invisible particle) and \(p_3\) (visible particle), and \(p_2\) (invisible particle) and \(p_4\) (visible particle).</p>
-<p>This Block addresses the change of variables needed to pass from the standard phase-space parametrization to the ${1}{16^2 E_1 E_2} dq_{1} dq_{2} ds_{13} d_s{24}  J$ parametrization. .</p>
+<p>This Block addresses the change of variables needed to pass from the standard phase-space parametrization to the \(\frac{1}{16\pi^2 E_1 E_2} dq_{1} dq_{2} ds_{13} d_s{24} \times J\) parametrization. .</p>
 <p>The integration is performed over \(q_{1}\), \(q_{2}\), \(s_{13}\) and \(s_{24}\) with \(p_3\) and \(p_4\) as inputs. Per integration point, the LorentzVectors of the invisible particle, \(p_1\) and \(p_2\), are computed based on a set of equations.</p>
+<p>The observed MET is not used in this block since to reconstruct the neutrinos the system requires as input the total 4-momentum of the visible objects (energy and longitudinal momentum included).</p>
 <p>Up to 2 ( \(p_1\), \(p_2\)) solutions are possible.</p>
 <h3>Integration dimension</h3>
 <p>This module adds <b>2</b> dimensions to the integration.</p>
@@ -146,7 +147,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <tr>
 <td><code>s24</code> </td><td>double </td><td>Invariant mass of the particle decaying into the missing particle ( \(p_2\)) and the visible particle ( \(p_4\)). Typically coming from a <a class="el" href="classBreitWignerGenerator.html">BreitWignerGenerator</a> module. </td></tr>
 <tr>
-<td><code>inputs</code> </td><td>vector of LorentzVector </td><td>LorentzVector of all the experimentally reconstructed particles. In this Block its dimension is 2. </td></tr>
+<td><code>inputs</code> </td><td>vector of LorentzVector </td><td>LorentzVectors of all the experimentally reconstructed particles. The first two entries correspond to \(p_3\) and \(p_4\), the others (if present) are used to compute \(p^{tot}\). </td></tr>
 </table>
 <h3>Outputs</h3>
 <table class="doxtable">
@@ -158,7 +159,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <td><code>jacobians</code> </td><td>vector(double) </td><td>Jacobian of the performed change of variables, leading to an integration on \(dq_1\), \(dq_2\), \(ds_{13}\), \(ds_{24}\). One jacobian per solution. </td></tr>
 </table>
 
-<p>Definition at line <a class="el" href="BlockF_8cc_source.html#l00074">74</a> of file <a class="el" href="BlockF_8cc_source.html">BlockF.cc</a>.</p>
+<p>Definition at line <a class="el" href="BlockF_8cc_source.html#l00078">78</a> of file <a class="el" href="BlockF_8cc_source.html">BlockF.cc</a>.</p>
 </div><div class="dynheader">
 Inheritance diagram for BlockF:</div>
 <div class="dyncontent">
@@ -262,7 +263,7 @@ PoolPtr&#160;</td><td class="memItemRight" valign="bottom"><b>m_pool</b></td></t
 
 <p>Reimplemented from <a class="el" href="classModule.html#a604059ca484c29e5d6ac9d12865e5ed4">Module</a>.</p>
 
-<p>Definition at line <a class="el" href="BlockF_8cc_source.html#l00229">229</a> of file <a class="el" href="BlockF_8cc_source.html">BlockF.cc</a>.</p>
+<p>Definition at line <a class="el" href="BlockF_8cc_source.html#l00240">240</a> of file <a class="el" href="BlockF_8cc_source.html">BlockF.cc</a>.</p>
 
 </div>
 </div>
@@ -293,7 +294,7 @@ PoolPtr&#160;</td><td class="memItemRight" valign="bottom"><b>m_pool</b></td></t
 
 <p>Reimplemented from <a class="el" href="classModule.html#a9f798ae2775b4f9ef99f7df568261796">Module</a>.</p>
 
-<p>Definition at line <a class="el" href="BlockF_8cc_source.html#l00095">95</a> of file <a class="el" href="BlockF_8cc_source.html">BlockF.cc</a>.</p>
+<p>Definition at line <a class="el" href="BlockF_8cc_source.html#l00099">99</a> of file <a class="el" href="BlockF_8cc_source.html">BlockF.cc</a>.</p>
 
 </div>
 </div>

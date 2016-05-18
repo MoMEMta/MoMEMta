@@ -1,11 +1,11 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
 <area shape="rect" id="node1" href="$classModule.html" title="Parent class for all the modules. " alt="" coords="5,400,69,427"/>
 <area shape="rect" id="node2" href="$classBinnedTransferFunctionOnEnergy.html" title="Transfer function on energy described by a 2D histogram retrieved from a ROOT file. " alt="" coords="125,5,302,46"/>
-<area shape="rect" id="node3" href="$classBlockB.html" title="Final (main) Block B, describing . " alt="" coords="181,71,245,97"/>
-<area shape="rect" id="node4" href="$classBlockD.html" title="BlockD" alt="" coords="181,121,246,148"/>
-<area shape="rect" id="node5" href="$classBlockF.html" title="This module aims at computing the jacobians coming from the changes of variable in the standard phase..." alt="" coords="182,172,245,199"/>
-<area shape="rect" id="node6" href="$classBoost.html" title="Boost" alt="" coords="185,223,241,249"/>
-<area shape="rect" id="node7" href="$classBreitWignerGenerator.html" title="BreitWignerGenerator" alt="" coords="140,273,287,300"/>
+<area shape="rect" id="node3" href="$classBlockB.html" title=" Final (main) Block B, describing &#160;" alt="" coords="181,71,245,97"/>
+<area shape="rect" id="node4" href="$classBlockD.html" title=" Final (main) Block D, describing &#160;" alt="" coords="181,121,246,148"/>
+<area shape="rect" id="node5" href="$classBlockF.html" title=" Final (main) Block F, describing &#160;" alt="" coords="182,172,245,199"/>
+<area shape="rect" id="node6" href="$classBreitWignerGenerator.html" title="BreitWignerGenerator" alt="" coords="140,223,287,249"/>
+<area shape="rect" id="node7" href="$classBuildInitialState.html" title="Build the initial partons given the whole final state. " alt="" coords="157,273,270,300"/>
 <area shape="rect" id="node8" href="$classDMEM.html" title="DMEM" alt="" coords="182,324,245,351"/>
 <area shape="rect" id="node9" href="$classEmptyModule.html" title="EmptyModule" alt="" coords="162,375,265,401"/>
 <area shape="rect" id="node10" href="$classFlatTransferFunctionOnP.html" title="Flat transfer function on |P| (mainly for testing purposes). " alt="" coords="129,425,297,452"/>

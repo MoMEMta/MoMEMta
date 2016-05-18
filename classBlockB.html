@@ -117,16 +117,16 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!--header-->
 <div class="contents">
 
-<p>Final (main) Block B, describing \(q_1 q_2 \to X + s_{12} \to X + p_1 p_2\).  
+<p>\(\require{cancel}\) Final (main) Block B, describing \(q_1 q_2 \to X + s_{12} (\to \cancel{p_1} p_2)\)  
  <a href="classBlockB.html#details">More...</a></p>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Final (main) Block B, describing \(q_1 q_2 \to X + s_{12} \to X + p_1 p_2\). </p>
+<div class="textblock"><p>\(\require{cancel}\) Final (main) Block B, describing \(q_1 q_2 \to X + s_{12} (\to \cancel{p_1} p_2)\) </p>
 <p>\(q_1\) and \(q_2\) are Bjorken fractions, and \(s_{12}\) is a particle decaying into \(p_1\) (invisible particle) and \(p_2\) (visible particle).</p>
 <p>This Block addresses the change of variables needed to pass from the standard phase-space parametrization to the \(\frac{1}{4\pi E_1} ds_{12} \times J\) parametrization.</p>
 <p>The integration is performed over \(s_{12}\) with \(p_2\) as input. Per integration point, the LorentzVector of the invisible particle, \(p_1\), is computed based on the following set of equations:</p>
 <ul>
 <li>\((p_1 + p_2)^2 = s_{12} = M_{1}^{2} + M_{2}^2 + 2 E_1 E_2 + 2 p_{1x}p_{2x} + 2p_{1y}p_{2y} + p_{1z}p_{2z}\)</li>
-<li>Conservation of momentum (with \(\vec{p}_T\) the total transverse momentum of visible particles):<ul>
+<li>Conservation of momentum (with \(\vec{p}_T^{tot}\) the total transverse momentum of visible particles):<ul>
 <li>\(p_{1x} = - p_{Tx}\)</li>
 <li>\(p_{1y} = - p_{Ty}\)</li>
 </ul>
@@ -143,6 +143,13 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <tr>
 <td><code>energy</code> </td><td>double </td><td>Collision energy. </td></tr>
 </table>
+<h3>Parameters</h3>
+<table class="doxtable">
+<tr>
+<th>Name </th><th>Type </th><th>Description  </th></tr>
+<tr>
+<td><code>pT_is_met</code> </td><td>bool, default false </td><td>Fix \(\vec{p}_{T}^{tot} = -\vec{\cancel{E_T}}\) or \(= \sum_{i \in \text{ vis}} \vec{p}_i^{\text{vis}}\) </td></tr>
+</table>
 <h3>Inputs</h3>
 <table class="doxtable">
 <tr>
@@ -150,7 +157,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <tr>
 <td><code>s12</code> </td><td>double </td><td>Invariant mass of the particle decaying into the missing particle ( \(p_1\)) and the visible particle, \(p_2\). Typically coming from a <a class="el" href="classBreitWignerGenerator.html">BreitWignerGenerator</a> module. </td></tr>
 <tr>
-<td><code>inputs</code> </td><td>vector(LorentzVector) </td><td>LorentzVector of all the experimentally reconstructed particles. In this Block there is only one visible particle, \(p_2\). </td></tr>
+<td><code>inputs</code> </td><td>vector(LorentzVector) </td><td>LorentzVector of all the experimentally reconstructed particles. In this Block there is only one visible particle used explicitly, \(p_2\), but there can be other visible objects in the the event, taken into account when computing \(\vec{p}_{T}^{tot}\). </td></tr>
+<tr>
+<td><code>met</code> </td><td>LorentzVector, default <code>input::met</code> </td><td>LorentzVector of the MET </td></tr>
 </table>
 <h3>Outputs</h3>
 <table class="doxtable">
@@ -162,7 +171,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <td><code>jacobians</code> </td><td>vector(double) </td><td>Jacobian of the performed change of variables, leading to an integration on \(ds_{12}\). One jacobian per solution. </td></tr>
 </table>
 
-<p>Definition at line <a class="el" href="BlockB_8cc_source.html#l00073">73</a> of file <a class="el" href="BlockB_8cc_source.html">BlockB.cc</a>.</p>
+<p>Definition at line <a class="el" href="BlockB_8cc_source.html#l00080">80</a> of file <a class="el" href="BlockB_8cc_source.html">BlockB.cc</a>.</p>
 </div><div class="dynheader">
 Inheritance diagram for BlockB:</div>
 <div class="dyncontent">
@@ -266,7 +275,7 @@ PoolPtr&#160;</td><td class="memItemRight" valign="bottom"><b>m_pool</b></td></t
 
 <p>Reimplemented from <a class="el" href="classModule.html#a604059ca484c29e5d6ac9d12865e5ed4">Module</a>.</p>
 
-<p>Definition at line <a class="el" href="BlockB_8cc_source.html#l00149">149</a> of file <a class="el" href="BlockB_8cc_source.html">BlockB.cc</a>.</p>
+<p>Definition at line <a class="el" href="BlockB_8cc_source.html#l00171">171</a> of file <a class="el" href="BlockB_8cc_source.html">BlockB.cc</a>.</p>
 
 </div>
 </div>
@@ -297,7 +306,7 @@ PoolPtr&#160;</td><td class="memItemRight" valign="bottom"><b>m_pool</b></td></t
 
 <p>Reimplemented from <a class="el" href="classModule.html#a9f798ae2775b4f9ef99f7df568261796">Module</a>.</p>
 
-<p>Definition at line <a class="el" href="BlockB_8cc_source.html#l00087">87</a> of file <a class="el" href="BlockB_8cc_source.html">BlockB.cc</a>.</p>
+<p>Definition at line <a class="el" href="BlockB_8cc_source.html#l00103">103</a> of file <a class="el" href="BlockB_8cc_source.html">BlockB.cc</a>.</p>
 
 </div>
 </div>
