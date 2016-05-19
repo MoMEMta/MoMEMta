@@ -35,11 +35,11 @@
  * the LorentzVector of the invisible particle, \f$p_1\f$, is computed based on the following set 
  * of equations:   
  *
- * - \f$(p_1 + p_2)^2 = s_{12} = M_{1}^{2} + M_{2}^2 + 2 E_1 E_2 + 2 p_{1x}p_{2x} + 2p_{1y}p_{2y} + p_{1z}p_{2z}\f$
+ * - \f$s_{12} = (p_1 + p_2)^2\f$
  * - Conservation of momentum (with \f$\vec{p}_T^{tot}\f$ the total transverse momentum of visible particles):
- *  - \f$p_{1x} = - p_{Tx}\f$
- *  - \f$p_{1y} = - p_{Ty}\f$
- * - \f$M_1 = 0 \to E_{1}^2 = p_{1x}^2 + p_{1y}^2 + p_{1z}^2\f$
+ *  - \f$p_{1x} = - p_{Tx}^{tot}\f$
+ *  - \f$p_{1y} = - p_{Ty}^{tot}\f$
+ * - \f$p_1^2 = m_1^2 = 0\f$ (FIXME)
  *
  * Up to two \f$p_1\f$ solutions are possible.
  *
@@ -57,7 +57,7 @@
  *
  *   | Name | Type | %Description |
  *   |------|------|--------------|
- *   | `pT_is_met` | bool, default false | Fix \f$\vec{p}_{T}^{tot} = -\vec{\cancel{E_T}}\f$ or \f$= \sum_{i \in \text{ vis}} \vec{p}_i^{\text{vis}}\f$ |
+ *   | `pT_is_met` | bool, default false | Fix \f$\vec{p}_{T}^{tot} = -\vec{\cancel{E_T}}\f$ or \f$\vec{p}_{T}^{tot} = \sum_{i \in \text{ vis}} \vec{p}_i\f$ |
  *
  * ### Inputs
  *

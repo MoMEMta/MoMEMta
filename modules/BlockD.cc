@@ -22,7 +22,7 @@
 #include <momemta/Types.h>
 #include <momemta/Utils.h>
 
-/** \brief \f$\require{cancel}\f$ Final (main) Block D, describing \f$X + s_{134} (\to p_4 + s_{13} (\to \cancel{p_1} p_3)) + s_{256} (\to p_6 + s_{25} (\to \cancel{p_2} p_5)) + \f$
+/** \brief \f$\require{cancel}\f$ Final (main) Block D, describing \f$X + s_{134} (\to p_4 + s_{13} (\to \cancel{p_1} p_3)) + s_{256} (\to p_6 + s_{25} (\to \cancel{p_2} p_5))\f$
  *
  * This Block addresses the change of variables needed to pass from the standard phase-space
  * parametrisation for \f$p_{1 \dots 6} \times \delta^4\f$ to a parametrisation in terms of the four (squared) masses
@@ -32,11 +32,15 @@
  * the LorentzVector of the invisible particles, \f$p_1\f$ and \f$p_2\f$, are computed based on the following set 
  * of equations:   
  *
+ * - \f$s_{13} = (p_1 + p_3)^2\f$
+ * - \f$s_{134} = (p_1 + p_3 + p_4)^2\f$
+ * - \f$s_{25} = (p_2 + p_5)^2\f$
+ * - \f$s_{256} = (p_2 + p_5 + p_6)^2\f$
  * - Conservation of momentum (with \f$\vec{p}_T^{tot}\f$ the total transverse momentum of visible particles):
- *  - \f$p_{1x} + p_{2x} = - p_{Tx}\f$
- *  - \f$p_{1y} + p_{2y} = - p_{Ty}\f$
- * - \f$E_{1}^2 - p_{1x}^2 + p_{1y}^2 + p_{1z}^2 = m_1^2 = 0\f$ (FIXME)
- * - \f$E_{2}^2 - p_{2x}^2 + p_{2y}^2 + p_{2z}^2 = m_2^2 = 0\f$ (FIXME)
+ *  - \f$p_{1x} + p_{2x} = - p_{Tx}^{tot}\f$
+ *  - \f$p_{1y} + p_{2y} = - p_{Ty}^{tot}\f$
+ * - \f$p_1^2 = m_1^2 = 0\f$ (FIXME)
+ * - \f$p_2^2 = m_2^2 = 0\f$ (FIXME)
  *
  * Up to four solutions are possible for \f$(p_1, p_2)\f$.
  *
@@ -54,7 +58,7 @@
  *
  *   | Name | Type | %Description |
  *   |------|------|--------------|
- *   | `pT_is_met` | bool, default false | Fix \f$\vec{p}_{T}^{tot} = -\vec{\cancel{E_T}}\f$ or \f$= \sum_{i \in \text{ vis}} \vec{p}_i^{\text{vis}}\f$ |
+ *   | `pT_is_met` | bool, default false | Fix \f$\vec{p}_{T}^{tot} = -\vec{\cancel{E_T}}\f$ or \f$\vec{p}_{T}^{tot} = \sum_{i \in \text{ vis}} \vec{p}_i\f$ |
  *
  * ### Inputs
  *
@@ -68,9 +72,9 @@
  *
  *   | Name | Type | %Description |
  *   |------|------|--------------|
- *   | `invisibles` | vector(vector(LorentzVector)) | LorentzVector of the invisible particles. In this Block \f$p_1\f$. One value per solution.
- *   | `jacobians` | vector(double) | Jacobian of the performed change of variables, leading to an integration on \f$ds_{12}\f$. One jacobian per solution.
- *
+ *   | `invisibles` | vector(vector(LorentzVector)) | LorentzVectors of the invisible particles, one entry (ie. one \f$(p_1, p_2)\f$ pair) per solution. |
+ *   | `jacobians` | vector(double) | Jacobian of the performed change of variables (one entry per solution). |
+ *   
  * \ingroup modules
  */
 

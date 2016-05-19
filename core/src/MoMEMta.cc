@@ -138,6 +138,9 @@ std::vector<std::pair<double, double>> MoMEMta::computeWeights(const std::vector
 
     unsigned int flags = cuba::createFlagsBitset(verbosity, subregion, retainStateFile, level, smoothing, takeOnlyGridFromFile);
 
+    std::string grid_file = m_cuba_configuration.get<std::string>("grid_file", "");
+    int64_t grid_number = m_cuba_configuration.get<int64_t>("grid_number", 0);
+    
     // Output from cuba
     long long int neval = 0;
     int nfail = 0;
@@ -158,8 +161,8 @@ std::vector<std::pair<double, double>> MoMEMta::computeWeights(const std::vector
          n_start,                // (int) number of integrand evaluations per interations (to start)
          n_increase,             // (int) increase in number of integrand evaluations per interations
          batch_size,             // (int) batch size for sampling
-         0,                      // (int) grid number, 1-10 => up to 10 grids can be stored, and re-used for other integrands (provided they are not too different)
-         "",                     // (char*) name of state file => state can be stored and retrieved for further refinement
+         grid_number,            // (int) grid number, 1-10 => up to 10 grids can be stored, and re-used for other integrands (provided they are not too different)
+         grid_file.c_str(),      // (char*) name of state file => state can be stored and retrieved for further refinement
          NULL,                   // (int*) "spinning cores": -1 || NULL <=> integrator takes care of starting & stopping child processes (other value => keep or retrieve child processes, probably not useful here)
          &neval,                 // (int*) actual number of evaluations done
          &nfail,                 // 0=desired accuracy was reached; -1=dimensions out of range; >0=accuracy was not reached

@@ -32,12 +32,20 @@
  * and \f$p_2\f$ (invisible particle) and \f$p_4\f$ (visible particle).
  * 
  * This Block addresses the change of variables needed to pass from the standard phase-space
- * parametrization to the \f$\frac{1}{16\pi^2 E_1 E_2} dq_{1} dq_{2} ds_{13} d_s{24}  \times J\f$ parametrization.               .
+ * parametrization to the \f$\frac{1}{16\pi^2 E_1 E_2} dq_{1} dq_{2} ds_{13} d_s{24}  \times J\f$ parametrization.
  * 
  * The integration is performed over \f$q_{1}\f$, \f$q_{2}\f$, \f$s_{13}\f$ and \f$s_{24}\f$
  * with \f$p_3\f$ and \f$p_4\f$ as inputs. Per integration point, 
  * the LorentzVectors of the invisible particle, \f$p_1\f$ and \f$p_2\f$,
- * are computed  based on a set of equations.
+ * are computed  based on this set of equations:
+ *
+ * - \f$s_{13} = (p_1 + p_3)^2\f$
+ * - \f$s_{24} = (p_2 + p_4)^2\f$
+ * - Conservation of momentum (with \f$p^{tot}\f$ the total momentum of visible particles):
+ *  - \f$p_{1x} + p_{2x} = - p_{x}^{tot}\f$
+ *  - \f$p_{1y} + p_{2y} = - p_{y}^{tot}\f$
+ * - \f$p_{1z} + p_{2z} = s^{1/2} (q_1 - q_2)/2 - E^{tot}\f$
+ * - \f$E_{1} + E_{2} = s^{1/2} (q_1 + q_2)/2 - E^{tot}\f$
  *
  * The observed MET is not used in this block since to reconstruct the
  * neutrinos the system requires as input the total 4-momentum of the 
@@ -69,7 +77,7 @@
  *
  *   | Name | Type | %Description |
  *   |------|------|-------------|
- *   | `invisibles` | vector(vector(LorentzVector)) | LorentzVector of the invisible particles. Each element contains one of the possible solutions ({\f$p1\f$, \f$p2\f$} in this case). |
+ *   | `invisibles` | vector(vector(LorentzVector)) | LorentzVector of the invisible particles. Each element contains one of the possible solutions (\f$p1\f$, \f$p2\f$ in this case). |
  *   | `jacobians` | vector(double) | Jacobian of the performed change of variables, leading to an integration on \f$dq_1\f$, \f$dq_2\f$, \f$ds_{13}\f$, \f$ds_{24}\f$. One jacobian per solution. |
  *
  * \ingroup modules
