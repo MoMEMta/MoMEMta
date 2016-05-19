@@ -125,13 +125,13 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <p>This Block addresses the change of variables needed to pass from the standard phase-space parametrization to the \(\frac{1}{4\pi E_1} ds_{12} \times J\) parametrization.</p>
 <p>The integration is performed over \(s_{12}\) with \(p_2\) as input. Per integration point, the LorentzVector of the invisible particle, \(p_1\), is computed based on the following set of equations:</p>
 <ul>
-<li>\((p_1 + p_2)^2 = s_{12} = M_{1}^{2} + M_{2}^2 + 2 E_1 E_2 + 2 p_{1x}p_{2x} + 2p_{1y}p_{2y} + p_{1z}p_{2z}\)</li>
+<li>\(s_{12} = (p_1 + p_2)^2\)</li>
 <li>Conservation of momentum (with \(\vec{p}_T^{tot}\) the total transverse momentum of visible particles):<ul>
-<li>\(p_{1x} = - p_{Tx}\)</li>
-<li>\(p_{1y} = - p_{Ty}\)</li>
+<li>\(p_{1x} = - p_{Tx}^{tot}\)</li>
+<li>\(p_{1y} = - p_{Ty}^{tot}\)</li>
 </ul>
 </li>
-<li>\(M_1 = 0 \to E_{1}^2 = p_{1x}^2 + p_{1y}^2 + p_{1z}^2\)</li>
+<li>\(p_1^2 = m_1^2 = 0\) (FIXME)</li>
 </ul>
 <p>Up to two \(p_1\) solutions are possible.</p>
 <h3>Integration dimension</h3>
@@ -148,7 +148,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <tr>
 <th>Name </th><th>Type </th><th>Description  </th></tr>
 <tr>
-<td><code>pT_is_met</code> </td><td>bool, default false </td><td>Fix \(\vec{p}_{T}^{tot} = -\vec{\cancel{E_T}}\) or \(= \sum_{i \in \text{ vis}} \vec{p}_i^{\text{vis}}\) </td></tr>
+<td><code>pT_is_met</code> </td><td>bool, default false </td><td>Fix \(\vec{p}_{T}^{tot} = -\vec{\cancel{E_T}}\) or \(\vec{p}_{T}^{tot} = \sum_{i \in \text{ vis}} \vec{p}_i\) </td></tr>
 </table>
 <h3>Inputs</h3>
 <table class="doxtable">
