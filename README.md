@@ -53,7 +53,7 @@ We also have a [dedicated repository](https://github.com/MoMEMta/Tutorials) with
 
 ## Documentation
 
-The documentation is available [here](https://momemta.github.io/MoMEMta/).
+You can find more details about MoMEMta on our documentations:
 
-Content:
-- @subpage modules "List of all available modules"
+ - [The main documentation](https://momemta.github.io)
+ - [The technical documentation](https://momemta.github.io/MoMEMta/)
