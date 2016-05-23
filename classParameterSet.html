@@ -113,6 +113,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a href="#nested-classes">Classes</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pro-methods">Protected Member Functions</a> &#124;
+<a href="#pro-attribs">Protected Attributes</a> &#124;
 <a href="#friends">Friends</a> &#124;
 <a href="classParameterSet-members.html">List of all members</a>  </div>
   <div class="headertitle">
@@ -147,13 +148,14 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="fragment"><div class="line">std::vector&lt;int64_t&gt; values = <span class="keyword">set</span>.get&lt;std::vector&lt;int64_t&gt;&gt;(<span class="stringliteral">&quot;z&quot;</span>);</div></div><!-- fragment --><dl class="todo"><dt><b><a class="el" href="todo.html#_todo000003">Todo:</a></b></dt><dd>Document the freezing of the configuration in <a class="el" href="classConfigurationReader.html" title="A lua configuration file parser. ">ConfigurationReader</a></dd></dl>
 <dl class="section note"><dt>Note</dt><dd>You should <em>never</em> try to create a <a class="el" href="classParameterSet.html" title="A class encapsulating a lua table. ">ParameterSet</a> yourself. Always use the <a class="el" href="classConfigurationReader.html" title="A lua configuration file parser. ">ConfigurationReader</a> class to parse the configuration file </dd></dl>
 
-<p>Definition at line <a class="el" href="ParameterSet_8h_source.html#l00075">75</a> of file <a class="el" href="ParameterSet_8h_source.html">ParameterSet.h</a>.</p>
+<p>Definition at line <a class="el" href="ParameterSet_8h_source.html#l00077">77</a> of file <a class="el" href="ParameterSet_8h_source.html">ParameterSet.h</a>.</p>
 </div><div class="dynheader">
 Inheritance diagram for ParameterSet:</div>
 <div class="dyncontent">
 <div class="center"><img src="classParameterSet__inherit__graph.png" border="0" usemap="#ParameterSet_inherit__map" alt="Inheritance graph"/></div>
 <map name="ParameterSet_inherit__map" id="ParameterSet_inherit__map">
-<area shape="rect" id="node2" href="classLazyParameterSet.html" title="A lazy parameter set. " alt="" coords="4,80,133,107"/>
+<area shape="rect" id="node2" href="classLazyParameterSet.html" title="LazyParameterSet" alt="" coords="21,80,151,107"/>
+<area shape="rect" id="node3" href="classLazyParameterSetMock.html" title="LazyParameterSetMock" alt="" coords="5,155,168,181"/>
 </map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
@@ -180,10 +182,22 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>exists</b> (const std
 template&lt;typename T &gt; </td></tr>
 <tr class="memitem:a36258e06e8cb2d0340dd4723c4e408f4"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><b>existsAs</b> (const std::string &amp;name) const </td></tr>
 <tr class="separator:a36258e06e8cb2d0340dd4723c4e408f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a62cd5c00e0729d6bbbb4cee378fd8b46"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:a62cd5c00e0729d6bbbb4cee378fd8b46"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classParameterSet.html#a62cd5c00e0729d6bbbb4cee378fd8b46">set</a> (const std::string &amp;name, const T &amp;value)</td></tr>
-<tr class="memdesc:a62cd5c00e0729d6bbbb4cee378fd8b46"><td class="mdescLeft">&#160;</td><td class="mdescRight">Change the value of a given parameter.  <a href="#a62cd5c00e0729d6bbbb4cee378fd8b46">More...</a><br /></td></tr>
-<tr class="separator:a62cd5c00e0729d6bbbb4cee378fd8b46"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a745e01a2db3ac905f74e6080deed0c5d"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a745e01a2db3ac905f74e6080deed0c5d"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; std::is_same&lt; T, bool &gt;::value||std::is_same&lt; T, <a class="el" href="structInputTag.html">InputTag</a> &gt;::value &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classParameterSet.html#a745e01a2db3ac905f74e6080deed0c5d">set</a> (const std::string &amp;name, const T &amp;value)</td></tr>
+<tr class="memdesc:a745e01a2db3ac905f74e6080deed0c5d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Change the value of a given parameter. If the parameter does not exist, it's first created.  <a href="#a745e01a2db3ac905f74e6080deed0c5d">More...</a><br /></td></tr>
+<tr class="separator:a745e01a2db3ac905f74e6080deed0c5d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a450042466bc4359265e0f12a4c3bf42f"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a450042466bc4359265e0f12a4c3bf42f"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; <a class="el" href="structis__string.html">is_string</a>&lt; T &gt;::value &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classParameterSet.html#a450042466bc4359265e0f12a4c3bf42f">set</a> (const std::string &amp;name, const T &amp;value)</td></tr>
+<tr class="memdesc:a450042466bc4359265e0f12a4c3bf42f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Change the value of a given parameter. If the parameter does not exist, it's first created.  <a href="#a450042466bc4359265e0f12a4c3bf42f">More...</a><br /></td></tr>
+<tr class="separator:a450042466bc4359265e0f12a4c3bf42f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab5f7bafe33827e71f6a960f0acd9deaa"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:ab5f7bafe33827e71f6a960f0acd9deaa"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; std::is_integral&lt; T &gt;::value &amp;&amp;!std::is_same&lt; T, bool &gt;::value &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classParameterSet.html#ab5f7bafe33827e71f6a960f0acd9deaa">set</a> (const std::string &amp;name, const T &amp;value)</td></tr>
+<tr class="memdesc:ab5f7bafe33827e71f6a960f0acd9deaa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Change the value of a given parameter. If the parameter does not exist, it's first created.  <a href="#ab5f7bafe33827e71f6a960f0acd9deaa">More...</a><br /></td></tr>
+<tr class="separator:ab5f7bafe33827e71f6a960f0acd9deaa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a203b6c472e4dd17d19108a048b85dca9"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a203b6c472e4dd17d19108a048b85dca9"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; std::is_floating_point&lt; T &gt;::value &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classParameterSet.html#a203b6c472e4dd17d19108a048b85dca9">set</a> (const std::string &amp;name, const T &amp;value)</td></tr>
+<tr class="memdesc:a203b6c472e4dd17d19108a048b85dca9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Change the value of a given parameter. If the parameter does not exist, it's first created.  <a href="#a203b6c472e4dd17d19108a048b85dca9">More...</a><br /></td></tr>
+<tr class="separator:a203b6c472e4dd17d19108a048b85dca9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8030cda85a7a842ce6bfe5b8ceb4ba0f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classParameterSet.html#a8030cda85a7a842ce6bfe5b8ceb4ba0f">parse</a> (lua_State *L, int index)</td></tr>
 <tr class="memdesc:a8030cda85a7a842ce6bfe5b8ceb4ba0f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parse fields of a lua table.  <a href="#a8030cda85a7a842ce6bfe5b8ceb4ba0f">More...</a><br /></td></tr>
 <tr class="separator:a8030cda85a7a842ce6bfe5b8ceb4ba0f"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -205,9 +219,21 @@ Protected Member Functions</h2></td></tr>
 <tr class="memitem:ab4aab9b9a71b2ca7dfb87ef45b02f8cf"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab4aab9b9a71b2ca7dfb87ef45b02f8cf"></a>
 virtual std::pair&lt; boost::any, bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>parseItem</b> (const std::string &amp;key, lua_State *L, int index)</td></tr>
 <tr class="separator:ab4aab9b9a71b2ca7dfb87ef45b02f8cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1f909622632174e03cd69451c855b586"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classParameterSet.html#a1f909622632174e03cd69451c855b586">create</a> (const std::string &amp;name, const boost::any &amp;value)</td></tr>
+<tr class="memdesc:a1f909622632174e03cd69451c855b586"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add a new element to the <a class="el" href="classParameterSet.html" title="A class encapsulating a lua table. ">ParameterSet</a>.  <a href="#a1f909622632174e03cd69451c855b586">More...</a><br /></td></tr>
+<tr class="separator:a1f909622632174e03cd69451c855b586"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0c24a217b32fe853f8a70cb29276d020"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a0c24a217b32fe853f8a70cb29276d020"></a>
 virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>setInternal</b> (const std::string &amp;name, <a class="el" href="structParameterSet_1_1Element.html">Element</a> &amp;element, const boost::any &amp;value)</td></tr>
 <tr class="separator:a0c24a217b32fe853f8a70cb29276d020"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a864e07ef6f9a26d64a8714a092d80b1c"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a864e07ef6f9a26d64a8714a092d80b1c"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>freeze</b> ()</td></tr>
+<tr class="separator:a864e07ef6f9a26d64a8714a092d80b1c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
+Protected Attributes</h2></td></tr>
+<tr class="memitem:a1113848baa1f011b32d85f1ed18fddb9"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a1113848baa1f011b32d85f1ed18fddb9"></a>
+std::map&lt; std::string, <a class="el" href="structParameterSet_1_1Element.html">Element</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>m_set</b></td></tr>
+<tr class="separator:a1113848baa1f011b32d85f1ed18fddb9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="friends"></a>
 Friends</h2></td></tr>
@@ -219,6 +245,55 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>Configuration</b></t
 <tr class="separator:a30221ddc558692a7b52598b963a74bc2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="a1f909622632174e03cd69451c855b586"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ParameterSet::create </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const boost::any &amp;&#160;</td>
+          <td class="paramname"><em>value</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Add a new element to the <a class="el" href="classParameterSet.html" title="A class encapsulating a lua table. ">ParameterSet</a>. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">name</td><td>Name of the new parameter </td></tr>
+    <tr><td class="paramname">value</td><td>Value of the new parameter </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Reimplemented in <a class="el" href="classLazyParameterSet.html#ace57d0de0af5dab9da66b46fe828c759">LazyParameterSet</a>.</p>
+
+<p>Definition at line <a class="el" href="core_2src_2ParameterSet_8cc_source.html#l00072">72</a> of file <a class="el" href="core_2src_2ParameterSet_8cc_source.html">ParameterSet.cc</a>.</p>
+
+<p>Referenced by <a class="el" href="ParameterSet_8h_source.html#l00196">ParameterSet::Element::Element()</a>.</p>
+
+</div>
+</div>
 <a class="anchor" id="a8030cda85a7a842ce6bfe5b8ceb4ba0f"></a>
 <div class="memitem">
 <div class="memproto">
@@ -252,13 +327,13 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>Configuration</b></t
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="ParameterSet_8cc_source.html#l00031">31</a> of file <a class="el" href="ParameterSet_8cc_source.html">ParameterSet.cc</a>.</p>
+<p>Definition at line <a class="el" href="core_2src_2ParameterSet_8cc_source.html#l00031">31</a> of file <a class="el" href="core_2src_2ParameterSet_8cc_source.html">ParameterSet.cc</a>.</p>
 
-<p>Referenced by <a class="el" href="ParameterSet_8h_source.html#l00112">set()</a>, and <a class="el" href="utils_8cc_source.html#l00228">lua::to_any()</a>.</p>
+<p>Referenced by <a class="el" href="ParameterSet_8h_source.html#l00158">set()</a>, and <a class="el" href="utils_8cc_source.html#l00244">lua::to_any()</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a62cd5c00e0729d6bbbb4cee378fd8b46"></a>
+<a class="anchor" id="a745e01a2db3ac905f74e6080deed0c5d"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
@@ -268,7 +343,7 @@ template&lt;typename T &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void ParameterSet::set </td>
+          <td class="memname">std::enable_if&lt;std::is_same&lt;T, bool&gt;::value || std::is_same&lt;T, <a class="el" href="structInputTag.html">InputTag</a>&gt;::value&gt;::type ParameterSet::set </td>
           <td>(</td>
           <td class="paramtype">const std::string &amp;&#160;</td>
           <td class="paramname"><em>name</em>, </td>
@@ -292,7 +367,7 @@ template&lt;typename T &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Change the value of a given parameter. </p>
+<p>Change the value of a given parameter. If the parameter does not exist, it's first created. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">name</td><td>The name of the parameter to change </td></tr>
@@ -300,16 +375,162 @@ template&lt;typename T &gt; </div>
   </table>
   </dd>
 </dl>
-<dl class="section note"><dt>Note</dt><dd>The parameter must already exist</dd></dl>
 <dl class="section warning"><dt>Warning</dt><dd>Vectors are currently not supported </dd></dl>
 
-<p>Definition at line <a class="el" href="ParameterSet_8h_source.html#l00112">112</a> of file <a class="el" href="ParameterSet_8h_source.html">ParameterSet.h</a>.</p>
+<p>Definition at line <a class="el" href="ParameterSet_8h_source.html#l00113">113</a> of file <a class="el" href="ParameterSet_8h_source.html">ParameterSet.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a450042466bc4359265e0f12a4c3bf42f"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::enable_if&lt;<a class="el" href="structis__string.html">is_string</a>&lt;T&gt;::value&gt;::type ParameterSet::set </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const T &amp;&#160;</td>
+          <td class="paramname"><em>value</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Change the value of a given parameter. If the parameter does not exist, it's first created. </p>
+<p>Specialization for string type, with implicit cast to <code>std::string</code></p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">name</td><td>The name of the parameter to change </td></tr>
+    <tr><td class="paramname">value</td><td>The new value of the parameter</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section warning"><dt>Warning</dt><dd>Vectors are currently not supported </dd></dl>
+
+<p>Definition at line <a class="el" href="ParameterSet_8h_source.html#l00128">128</a> of file <a class="el" href="ParameterSet_8h_source.html">ParameterSet.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ab5f7bafe33827e71f6a960f0acd9deaa"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::enable_if&lt;std::is_integral&lt;T&gt;::value &amp;&amp; !std::is_same&lt;T, bool&gt;::value&gt;::type ParameterSet::set </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const T &amp;&#160;</td>
+          <td class="paramname"><em>value</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Change the value of a given parameter. If the parameter does not exist, it's first created. </p>
+<p>Specialization for integral type, with implicit cast to <code>int64_t</code></p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">name</td><td>The name of the parameter to change </td></tr>
+    <tr><td class="paramname">value</td><td>The new value of the parameter</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section warning"><dt>Warning</dt><dd>Vectors are currently not supported </dd></dl>
+
+<p>Definition at line <a class="el" href="ParameterSet_8h_source.html#l00143">143</a> of file <a class="el" href="ParameterSet_8h_source.html">ParameterSet.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a203b6c472e4dd17d19108a048b85dca9"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::enable_if&lt;std::is_floating_point&lt;T&gt;::value&gt;::type ParameterSet::set </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const T &amp;&#160;</td>
+          <td class="paramname"><em>value</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Change the value of a given parameter. If the parameter does not exist, it's first created. </p>
+<p>Specialization for floating-point type, with implicit cast to <code>double</code></p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">name</td><td>The name of the parameter to change </td></tr>
+    <tr><td class="paramname">value</td><td>The new value of the parameter</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section warning"><dt>Warning</dt><dd>Vectors are currently not supported </dd></dl>
+
+<p>Definition at line <a class="el" href="ParameterSet_8h_source.html#l00158">158</a> of file <a class="el" href="ParameterSet_8h_source.html">ParameterSet.h</a>.</p>
 
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following files:<ul>
 <li>include/momemta/<a class="el" href="ParameterSet_8h_source.html">ParameterSet.h</a></li>
-<li>core/src/<a class="el" href="ParameterSet_8cc_source.html">ParameterSet.cc</a></li>
+<li>core/src/<a class="el" href="core_2src_2ParameterSet_8cc_source.html">ParameterSet.cc</a></li>
 </ul>
 </div><!-- contents -->
 <!-- HTML footer for doxygen 1.8.8-->

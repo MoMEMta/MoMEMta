@@ -110,6 +110,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!-- top -->
 <div class="header">
   <div class="summary">
+<a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pro-methods">Protected Member Functions</a> &#124;
 <a href="#friends">Friends</a> &#124;
 <a href="classLazyParameterSet-members.html">List of all members</a>  </div>
@@ -117,50 +118,24 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="title">LazyParameterSet Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-
-<p>A lazy parameter set.  
- <a href="classLazyParameterSet.html#details">More...</a></p>
-
-<p><code>#include &lt;<a class="el" href="ParameterSet_8h_source.html">ParameterSet.h</a>&gt;</code></p>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>A lazy parameter set. </p>
-<p>This class is used to represent global tables that can be modified <b>after</b> the parsing of the configuration file (like the global <code>parameters</code> table). This means that each field of the table <em>must</em> have a delayed evaluation (see <a class="el" href="structlua_1_1LazyTableField.html" title="Lazy table field in lua (delayed table access) ">lua::LazyTableField</a>).</p>
-<p>Actual evaluation of the fields of the table happens during the freezing of this <a class="el" href="classParameterSet.html" title="A class encapsulating a lua table. ">ParameterSet</a>. </p>
-
-<p>Definition at line <a class="el" href="ParameterSet_8h_source.html#l00211">211</a> of file <a class="el" href="ParameterSet_8h_source.html">ParameterSet.h</a>.</p>
+<div class="textblock">
+<p>Definition at line <a class="el" href="ParameterSet_8h_source.html#l00283">283</a> of file <a class="el" href="ParameterSet_8h_source.html">ParameterSet.h</a>.</p>
 </div><div class="dynheader">
 Inheritance diagram for LazyParameterSet:</div>
 <div class="dyncontent">
 <div class="center"><img src="classLazyParameterSet__inherit__graph.png" border="0" usemap="#LazyParameterSet_inherit__map" alt="Inheritance graph"/></div>
 <map name="LazyParameterSet_inherit__map" id="LazyParameterSet_inherit__map">
-<area shape="rect" id="node2" href="classParameterSet.html" title="A class encapsulating a lua table. " alt="" coords="18,5,120,32"/>
+<area shape="rect" id="node3" href="classLazyParameterSetMock.html" title="LazyParameterSetMock" alt="" coords="5,155,168,181"/>
+<area shape="rect" id="node2" href="classParameterSet.html" title="A class encapsulating a lua table. " alt="" coords="35,5,137,32"/>
 </map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
-Protected Member Functions</h2></td></tr>
-<tr class="memitem:aba47a77dae45b6bf1f8737beda8ce047"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aba47a77dae45b6bf1f8737beda8ce047"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>LazyParameterSet</b> (const std::string &amp;name)</td></tr>
-<tr class="separator:aba47a77dae45b6bf1f8737beda8ce047"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab9e9a2e6ce40c734fefeafd7c4ae4ee1"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab9e9a2e6ce40c734fefeafd7c4ae4ee1"></a>
-virtual std::pair&lt; boost::any, bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>parseItem</b> (const std::string &amp;key, lua_State *L, int index) override</td></tr>
-<tr class="separator:ab9e9a2e6ce40c734fefeafd7c4ae4ee1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac9270ce5b6d83395ce9f0d6710772f66"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac9270ce5b6d83395ce9f0d6710772f66"></a>
-virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>setInternal</b> (const std::string &amp;name, <a class="el" href="structParameterSet_1_1Element.html">Element</a> &amp;element, const boost::any &amp;value) override</td></tr>
-<tr class="separator:ac9270ce5b6d83395ce9f0d6710772f66"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="inherit_header pro_methods_classParameterSet"><td colspan="2" onclick="javascript:toggleInherit('pro_methods_classParameterSet')"><img src="closed.png" alt="-"/>&#160;Protected Member Functions inherited from <a class="el" href="classParameterSet.html">ParameterSet</a></td></tr>
-<tr class="memitem:a7bca173d46a58793213d3dba6f621884 inherit pro_methods_classParameterSet"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a7bca173d46a58793213d3dba6f621884"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>ParameterSet</b> (const std::string &amp;module_type, const std::string &amp;module_name)</td></tr>
-<tr class="separator:a7bca173d46a58793213d3dba6f621884 inherit pro_methods_classParameterSet"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="friends"></a>
-Friends</h2></td></tr>
-<tr class="memitem:a8931dbbad8ad230daff858fbd1686fdd"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8931dbbad8ad230daff858fbd1686fdd"></a>
-class&#160;</td><td class="memItemRight" valign="bottom"><b>ConfigurationReader</b></td></tr>
-<tr class="separator:a8931dbbad8ad230daff858fbd1686fdd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
-Additional Inherited Members</h2></td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
+Public Member Functions</h2></td></tr>
+<tr class="memitem:a4fbaf4eff99a922f46ea9e74183715b0"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4fbaf4eff99a922f46ea9e74183715b0"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>LazyParameterSet</b> (std::shared_ptr&lt; lua_State &gt; L, const std::string &amp;name)</td></tr>
+<tr class="separator:a4fbaf4eff99a922f46ea9e74183715b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classParameterSet"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classParameterSet')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classParameterSet.html">ParameterSet</a></td></tr>
 <tr class="memitem:a5f94265a834d7ca4f21aadcdfa49c6a8 inherit pub_methods_classParameterSet"><td class="memTemplParams" colspan="2"><a class="anchor" id="a5f94265a834d7ca4f21aadcdfa49c6a8"></a>
 template&lt;typename T &gt; </td></tr>
@@ -177,10 +152,22 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>exists</b> (const std
 template&lt;typename T &gt; </td></tr>
 <tr class="memitem:a36258e06e8cb2d0340dd4723c4e408f4 inherit pub_methods_classParameterSet"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><b>existsAs</b> (const std::string &amp;name) const </td></tr>
 <tr class="separator:a36258e06e8cb2d0340dd4723c4e408f4 inherit pub_methods_classParameterSet"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a62cd5c00e0729d6bbbb4cee378fd8b46 inherit pub_methods_classParameterSet"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:a62cd5c00e0729d6bbbb4cee378fd8b46 inherit pub_methods_classParameterSet"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classParameterSet.html#a62cd5c00e0729d6bbbb4cee378fd8b46">set</a> (const std::string &amp;name, const T &amp;value)</td></tr>
-<tr class="memdesc:a62cd5c00e0729d6bbbb4cee378fd8b46 inherit pub_methods_classParameterSet"><td class="mdescLeft">&#160;</td><td class="mdescRight">Change the value of a given parameter.  <a href="#a62cd5c00e0729d6bbbb4cee378fd8b46">More...</a><br /></td></tr>
-<tr class="separator:a62cd5c00e0729d6bbbb4cee378fd8b46 inherit pub_methods_classParameterSet"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a745e01a2db3ac905f74e6080deed0c5d inherit pub_methods_classParameterSet"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a745e01a2db3ac905f74e6080deed0c5d inherit pub_methods_classParameterSet"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; std::is_same&lt; T, bool &gt;::value||std::is_same&lt; T, <a class="el" href="structInputTag.html">InputTag</a> &gt;::value &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classParameterSet.html#a745e01a2db3ac905f74e6080deed0c5d">set</a> (const std::string &amp;name, const T &amp;value)</td></tr>
+<tr class="memdesc:a745e01a2db3ac905f74e6080deed0c5d inherit pub_methods_classParameterSet"><td class="mdescLeft">&#160;</td><td class="mdescRight">Change the value of a given parameter. If the parameter does not exist, it's first created.  <a href="#a745e01a2db3ac905f74e6080deed0c5d">More...</a><br /></td></tr>
+<tr class="separator:a745e01a2db3ac905f74e6080deed0c5d inherit pub_methods_classParameterSet"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a450042466bc4359265e0f12a4c3bf42f inherit pub_methods_classParameterSet"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a450042466bc4359265e0f12a4c3bf42f inherit pub_methods_classParameterSet"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; <a class="el" href="structis__string.html">is_string</a>&lt; T &gt;::value &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classParameterSet.html#a450042466bc4359265e0f12a4c3bf42f">set</a> (const std::string &amp;name, const T &amp;value)</td></tr>
+<tr class="memdesc:a450042466bc4359265e0f12a4c3bf42f inherit pub_methods_classParameterSet"><td class="mdescLeft">&#160;</td><td class="mdescRight">Change the value of a given parameter. If the parameter does not exist, it's first created.  <a href="#a450042466bc4359265e0f12a4c3bf42f">More...</a><br /></td></tr>
+<tr class="separator:a450042466bc4359265e0f12a4c3bf42f inherit pub_methods_classParameterSet"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab5f7bafe33827e71f6a960f0acd9deaa inherit pub_methods_classParameterSet"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:ab5f7bafe33827e71f6a960f0acd9deaa inherit pub_methods_classParameterSet"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; std::is_integral&lt; T &gt;::value &amp;&amp;!std::is_same&lt; T, bool &gt;::value &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classParameterSet.html#ab5f7bafe33827e71f6a960f0acd9deaa">set</a> (const std::string &amp;name, const T &amp;value)</td></tr>
+<tr class="memdesc:ab5f7bafe33827e71f6a960f0acd9deaa inherit pub_methods_classParameterSet"><td class="mdescLeft">&#160;</td><td class="mdescRight">Change the value of a given parameter. If the parameter does not exist, it's first created.  <a href="#ab5f7bafe33827e71f6a960f0acd9deaa">More...</a><br /></td></tr>
+<tr class="separator:ab5f7bafe33827e71f6a960f0acd9deaa inherit pub_methods_classParameterSet"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a203b6c472e4dd17d19108a048b85dca9 inherit pub_methods_classParameterSet"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a203b6c472e4dd17d19108a048b85dca9 inherit pub_methods_classParameterSet"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; std::is_floating_point&lt; T &gt;::value &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classParameterSet.html#a203b6c472e4dd17d19108a048b85dca9">set</a> (const std::string &amp;name, const T &amp;value)</td></tr>
+<tr class="memdesc:a203b6c472e4dd17d19108a048b85dca9 inherit pub_methods_classParameterSet"><td class="mdescLeft">&#160;</td><td class="mdescRight">Change the value of a given parameter. If the parameter does not exist, it's first created.  <a href="#a203b6c472e4dd17d19108a048b85dca9">More...</a><br /></td></tr>
+<tr class="separator:a203b6c472e4dd17d19108a048b85dca9 inherit pub_methods_classParameterSet"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8030cda85a7a842ce6bfe5b8ceb4ba0f inherit pub_methods_classParameterSet"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classParameterSet.html#a8030cda85a7a842ce6bfe5b8ceb4ba0f">parse</a> (lua_State *L, int index)</td></tr>
 <tr class="memdesc:a8030cda85a7a842ce6bfe5b8ceb4ba0f inherit pub_methods_classParameterSet"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parse fields of a lua table.  <a href="#a8030cda85a7a842ce6bfe5b8ceb4ba0f">More...</a><br /></td></tr>
 <tr class="separator:a8030cda85a7a842ce6bfe5b8ceb4ba0f inherit pub_methods_classParameterSet"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -193,10 +180,90 @@ std::string&#160;</td><td class="memItemRight" valign="bottom"><b>getModuleType<
 <tr class="memitem:a18faef443e535469709f04710c2e8373 inherit pub_methods_classParameterSet"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a18faef443e535469709f04710c2e8373"></a>
 const <a class="el" href="classParameterSet.html">ParameterSet</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>globalParameters</b> () const </td></tr>
 <tr class="separator:a18faef443e535469709f04710c2e8373 inherit pub_methods_classParameterSet"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
+Protected Member Functions</h2></td></tr>
+<tr class="memitem:ab9e9a2e6ce40c734fefeafd7c4ae4ee1"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab9e9a2e6ce40c734fefeafd7c4ae4ee1"></a>
+virtual std::pair&lt; boost::any, bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>parseItem</b> (const std::string &amp;key, lua_State *L, int index) override</td></tr>
+<tr class="separator:ab9e9a2e6ce40c734fefeafd7c4ae4ee1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ace57d0de0af5dab9da66b46fe828c759"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classLazyParameterSet.html#ace57d0de0af5dab9da66b46fe828c759">create</a> (const std::string &amp;name, const boost::any &amp;value) override</td></tr>
+<tr class="memdesc:ace57d0de0af5dab9da66b46fe828c759"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add a new element to the <a class="el" href="classParameterSet.html" title="A class encapsulating a lua table. ">ParameterSet</a>.  <a href="#ace57d0de0af5dab9da66b46fe828c759">More...</a><br /></td></tr>
+<tr class="separator:ace57d0de0af5dab9da66b46fe828c759"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac9270ce5b6d83395ce9f0d6710772f66"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac9270ce5b6d83395ce9f0d6710772f66"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>setInternal</b> (const std::string &amp;name, <a class="el" href="structParameterSet_1_1Element.html">Element</a> &amp;element, const boost::any &amp;value) override</td></tr>
+<tr class="separator:ac9270ce5b6d83395ce9f0d6710772f66"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaf7231fdb7b0754d1be671560b60e1e0"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aaf7231fdb7b0754d1be671560b60e1e0"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>freeze</b> () override</td></tr>
+<tr class="separator:aaf7231fdb7b0754d1be671560b60e1e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pro_methods_classParameterSet"><td colspan="2" onclick="javascript:toggleInherit('pro_methods_classParameterSet')"><img src="closed.png" alt="-"/>&#160;Protected Member Functions inherited from <a class="el" href="classParameterSet.html">ParameterSet</a></td></tr>
+<tr class="memitem:a7bca173d46a58793213d3dba6f621884 inherit pro_methods_classParameterSet"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a7bca173d46a58793213d3dba6f621884"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>ParameterSet</b> (const std::string &amp;module_type, const std::string &amp;module_name)</td></tr>
+<tr class="separator:a7bca173d46a58793213d3dba6f621884 inherit pro_methods_classParameterSet"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="friends"></a>
+Friends</h2></td></tr>
+<tr class="memitem:a8931dbbad8ad230daff858fbd1686fdd"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8931dbbad8ad230daff858fbd1686fdd"></a>
+class&#160;</td><td class="memItemRight" valign="bottom"><b>ConfigurationReader</b></td></tr>
+<tr class="separator:a8931dbbad8ad230daff858fbd1686fdd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
+Additional Inherited Members</h2></td></tr>
+<tr class="inherit_header pro_attribs_classParameterSet"><td colspan="2" onclick="javascript:toggleInherit('pro_attribs_classParameterSet')"><img src="closed.png" alt="-"/>&#160;Protected Attributes inherited from <a class="el" href="classParameterSet.html">ParameterSet</a></td></tr>
+<tr class="memitem:a1113848baa1f011b32d85f1ed18fddb9 inherit pro_attribs_classParameterSet"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a1113848baa1f011b32d85f1ed18fddb9"></a>
+std::map&lt; std::string, <a class="el" href="structParameterSet_1_1Element.html">Element</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>m_set</b></td></tr>
+<tr class="separator:a1113848baa1f011b32d85f1ed18fddb9 inherit pro_attribs_classParameterSet"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="ace57d0de0af5dab9da66b46fe828c759"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void LazyParameterSet::create </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const boost::any &amp;&#160;</td>
+          <td class="paramname"><em>value</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Add a new element to the <a class="el" href="classParameterSet.html" title="A class encapsulating a lua table. ">ParameterSet</a>. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">name</td><td>Name of the new parameter </td></tr>
+    <tr><td class="paramname">value</td><td>Value of the new parameter </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Reimplemented from <a class="el" href="classParameterSet.html#a1f909622632174e03cd69451c855b586">ParameterSet</a>.</p>
+
+<p>Definition at line <a class="el" href="core_2src_2ParameterSet_8cc_source.html#l00134">134</a> of file <a class="el" href="core_2src_2ParameterSet_8cc_source.html">ParameterSet.cc</a>.</p>
+
+</div>
+</div>
 <hr/>The documentation for this class was generated from the following files:<ul>
 <li>include/momemta/<a class="el" href="ParameterSet_8h_source.html">ParameterSet.h</a></li>
-<li>core/src/<a class="el" href="ParameterSet_8cc_source.html">ParameterSet.cc</a></li>
+<li>core/src/<a class="el" href="core_2src_2ParameterSet_8cc_source.html">ParameterSet.cc</a></li>
 </ul>
 </div><!-- contents -->
 <!-- HTML footer for doxygen 1.8.8-->

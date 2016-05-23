@@ -10,6 +10,8 @@ var searchData=
   ['invalid_5fconfiguration_5ffile',['invalid_configuration_file',['../classlua_1_1invalid__configuration__file.html',1,'lua']]],
   ['invalid_5fstate',['invalid_state',['../classinvalid__state.html',1,'']]],
   ['ionmoduledeclared',['IOnModuleDeclared',['../classIOnModuleDeclared.html',1,'']]],
+  ['is_5fstring',['is_string',['../structis__string.html',1,'']]],
+  ['is_5fstring_3c_20std_3a_3astring_20_3e',['is_string&lt; std::string &gt;',['../structis__string_3_01std_1_1string_01_4.html',1,'']]],
   ['is_5fvirtual_5fmodule',['is_virtual_module',['../classModule.html#ac1fe92d5be8a8591b855691b88e6a56a',1,'Module']]],
   ['isindexed',['isIndexed',['../structInputTag.html#a156101c7d6a26d988b839f08a9225bfb',1,'InputTag']]],
   ['isinputtag',['isInputTag',['../structInputTag.html#a234c02fc061e14f33009ef7e2c917254',1,'InputTag']]]
