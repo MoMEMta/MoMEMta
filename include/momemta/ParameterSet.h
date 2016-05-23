@@ -23,6 +23,8 @@
 #include <memory>
 #include <string>
 
+#include <momemta/InputTag.h>
+#include <momemta/impl/traits.h>
 #include <momemta/Logging.h>
 
 #include <boost/any.hpp>
@@ -99,38 +101,62 @@ class ParameterSet {
         }
 
         /**
-         * \brief Change the value of a given parameter
+         * \brief Change the value of a given parameter. If the parameter does not exist, it's first created.
          *
          * \param name The name of the parameter to change
          * \param value The new value of the parameter
          *
-         * \note The parameter must already exist
+         * \warning Vectors are currently not supported
+         */
+        template<typename T>
+        typename std::enable_if<std::is_same<T, bool>::value ||
+                                std::is_same<T, InputTag>::value>::type set(const std::string& name, const T& value) {
+            set_helper(name, value);
+        }
+
+        /**
+         * \brief Change the value of a given parameter. If the parameter does not exist, it's first created.
+         *
+         * Specialization for string type, with implicit cast to `std::string`
+         *
+         * \param name The name of the parameter to change
+         * \param value The new value of the parameter
          *
          * \warning Vectors are currently not supported
          */
         template<typename T>
-        void set(const std::string& name, const T& value) {
-            static_assert(
-                    std::is_same<T, int64_t>::value ||
-                    std::is_same<T, double>::value ||
-                    std::is_same<T, bool>::value ||
-                    std::is_same<T, std::string>::value,
-                    "Type not supported"
-            );
+        typename std::enable_if<is_string<T>::value>::type set(const std::string& name, const T& value) {
+            set_helper(name, std::string(value));
+        }
 
-            if (frozen) {
-                LOG(fatal) << "You are not allowed to edit a set once frozen.";
-                throw frozen_error("This ParameterSet is frozen");
-            }
+        /**
+         * \brief Change the value of a given parameter. If the parameter does not exist, it's first created.
+         *
+         * Specialization for integral type, with implicit cast to `int64_t`
+         *
+         * \param name The name of the parameter to change
+         * \param value The new value of the parameter
+         *
+         * \warning Vectors are currently not supported
+         */
+        template<typename T>
+        typename std::enable_if<std::is_integral<T>::value && !std::is_same<T, bool>::value>::type set(const std::string& name, const T& value) {
+            set_helper(name, static_cast<int64_t>(value));
+        }
 
-            auto it = m_set.find(name);
-            // If the element does not exist in the set, we create it
-            // Otherwise, we simply update the value
-            if (it == m_set.end()) {
-                create(name, value);
-            } else {
-                setInternal(name, it->second, value);
-            }
+        /**
+         * \brief Change the value of a given parameter. If the parameter does not exist, it's first created.
+         *
+         * Specialization for floating-point type, with implicit cast to `double`
+         *
+         * \param name The name of the parameter to change
+         * \param value The new value of the parameter
+         *
+         * \warning Vectors are currently not supported
+         */
+        template<typename T>
+        typename std::enable_if<std::is_floating_point<T>::value>::type set(const std::string& name, const T& value) {
+            set_helper(name, static_cast<double>(value));
         }
 
         /**
@@ -206,6 +232,40 @@ class ParameterSet {
         };
 
         void setGlobalParameters(const ParameterSet&);
+
+        /**
+         * \brief Change the value of a given parameter. If the parameter does not exist, it's first created.
+         *
+         * \param name The name of the parameter to change
+         * \param value The new value of the parameter
+         *
+         * \warning Vectors are currently not supported
+         */
+        template<typename T>
+        void set_helper(const std::string& name, const T& value) {
+            static_assert(
+                    std::is_same<T, int64_t>::value ||
+                    std::is_same<T, double>::value ||
+                    std::is_same<T, bool>::value ||
+                    std::is_same<T, std::string>::value ||
+                    std::is_same<T, InputTag>::value,
+                    "Type not supported"
+            );
+
+            if (frozen) {
+                LOG(fatal) << "You are not allowed to edit a set once frozen.";
+                throw frozen_error("This ParameterSet is frozen");
+            }
+
+            auto it = m_set.find(name);
+            // If the element does not exist in the set, we create it
+            // Otherwise, we simply update the value
+            if (it == m_set.end()) {
+                create(name, value);
+            } else {
+                setInternal(name, it->second, value);
+            }
+        }
 
         bool frozen = false;
 };
