@@ -36,6 +36,8 @@ if (PROFILING)
     endif()
 endif()
 
+option(COVERAGE "Enable code coverage" OFF)
+
 # Set a default build type for single-configuration
 # CMake generators if no build type is set.
 if (NOT CMAKE_CONFIGURATION_TYPES AND NOT CMAKE_BUILD_TYPE)
@@ -45,6 +47,11 @@ endif(NOT CMAKE_CONFIGURATION_TYPES AND NOT CMAKE_BUILD_TYPE)
 # Default compiler flags
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall -pedantic -Wextra --std=c++11 -fcx-fortran-rules -fcx-limited-range")
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fomit-frame-pointer -ffast-math -Wall --std=c11")
+
+if (COVERAGE)
+    SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --coverage")
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} --coverage")
+endif()
 
 # If profiling, always include debug information
 if (PROFILING)
