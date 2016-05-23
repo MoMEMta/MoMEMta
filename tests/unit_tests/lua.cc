@@ -32,6 +32,7 @@
 #include <momemta/IOnModuleDeclared.h>
 #include <momemta/Logging.h>
 #include <momemta/ModuleFactory.h>
+#include <momemta/ParameterSet.h>
 
 #include <lua/utils.h>
 
@@ -49,6 +50,16 @@ class ModuleDeclaredMock: public IOnModuleDeclared {
         }
 
         std::vector<std::pair<std::string, std::string>> modules;
+};
+
+// A small mock of LazyParameterSet to change visibily of the `freeze` function
+class LazyParameterSetMock: public LazyParameterSet {
+    using LazyParameterSet::LazyParameterSet;
+
+    public:
+        virtual void freeze() override {
+            LazyParameterSet::freeze();
+        }
 };
 
 TEST_CASE("lua parsing utilities", "[lua]") {
@@ -232,6 +243,137 @@ TEST_CASE("lua parsing utilities", "[lua]") {
                 REQUIRE(boost::any_cast<double>(value) == Approx(175.));
             }
         }
+    }
+
+    SECTION("ParameterSet evaluation") {
+        auto def = R"(test_table = {
+    integer = 1,
+    float = 10.,
+    string = "test",
+    inputtag = "module::parameter",
+    vector = {0, 1, 2, 3}
+})";
+
+        execute_string(L, def);
+
+        int type = lua_getglobal(L.get(), "test_table");
+        REQUIRE(type == LUA_TTABLE);
+
+        ParameterSet p;
+        p.parse(L.get(), -1);
+
+        REQUIRE(p.existsAs<int64_t>("integer"));
+        REQUIRE(p.get<int64_t>("integer") == 1);
+
+        REQUIRE(p.existsAs<double>("float"));
+        REQUIRE(p.get<double>("float") == Approx(10.));
+
+        REQUIRE(p.existsAs<std::string>("string"));
+        REQUIRE(p.get<std::string>("string") == "test");
+
+        auto i = InputTag("module", "parameter");
+        REQUIRE(p.existsAs<InputTag>("inputtag"));
+        REQUIRE(p.get<InputTag>("inputtag") == i);
+
+        REQUIRE(p.existsAs<std::vector<int64_t>>("vector"));
+        auto v = p.get<std::vector<int64_t>>("vector");
+        REQUIRE(v.size() == 4);
+        REQUIRE(v[0] == 0);
+        REQUIRE(v[1] == 1);
+        REQUIRE(v[2] == 2);
+        REQUIRE(v[3] == 3);
+
+        lua_pop(L.get(), 1);
+    }
+
+    SECTION("LazyParameterSet evaluation") {
+        auto def = R"(test_table = {
+    integer = 1,
+    float = 10.,
+    string = "test",
+    inputtag = "module::parameter"
+})";
+
+        execute_string(L, def);
+
+        int type = lua_getglobal(L.get(), "test_table");
+        REQUIRE(type == LUA_TTABLE);
+
+        LazyParameterSetMock p(L, "test_table");
+        p.parse(L.get(), -1);
+
+        auto f = p;
+        f.freeze();
+
+        REQUIRE(f.existsAs<int64_t>("integer"));
+        REQUIRE(f.get<int64_t>("integer") == 1);
+
+        REQUIRE(f.existsAs<double>("float"));
+        REQUIRE(f.get<double>("float") == Approx(10.));
+
+        REQUIRE(f.existsAs<std::string>("string"));
+        REQUIRE(f.get<std::string>("string") == "test");
+
+        auto i = InputTag("module", "parameter");
+        REQUIRE(f.existsAs<InputTag>("inputtag"));
+        REQUIRE(f.get<InputTag>("inputtag") == i);
+
+        // Edit the parameter set, and refreeze
+
+        // Change value
+        p.set("integer", 10);
+
+        // Change value AND type
+        p.set("float", true);
+
+        // Add new value
+        p.set("new", 125.);
+
+        f = p;
+        f.freeze();
+
+        REQUIRE(f.existsAs<int64_t>("integer"));
+        REQUIRE(f.get<int64_t>("integer") == 10);
+
+        REQUIRE(f.existsAs<bool>("float"));
+        REQUIRE(f.get<bool>("float") == true);
+
+        REQUIRE(f.existsAs<std::string>("string"));
+        REQUIRE(f.get<std::string>("string") == "test");
+
+        REQUIRE(f.existsAs<InputTag>("inputtag"));
+        REQUIRE(f.get<InputTag>("inputtag") == i);
+
+        REQUIRE(f.existsAs<double>("new"));
+        REQUIRE(f.get<double>("new") == Approx(125));
+
+        lua_pop(L.get(), 1);
+    }
+
+    SECTION("LazyParameterSet with non-existing table") {
+
+        int type = lua_getglobal(L.get(), "test_table");
+        lua_pop(L.get(), 1);
+        REQUIRE(type == LUA_TNIL);
+
+        LazyParameterSetMock p(L, "test_table");
+
+        // Table must not exist
+        type = lua_getglobal(L.get(), "test_table");
+        lua_pop(L.get(), 1);
+        REQUIRE(type == LUA_TNIL);
+
+        p.set("key", "value");
+
+        // Table must have been created
+        type = lua_getglobal(L.get(), "test_table");
+        lua_pop(L.get(), 1);
+        REQUIRE(type == LUA_TTABLE);
+
+        p.freeze();
+
+        REQUIRE(p.existsAs<std::string>("key"));
+        REQUIRE(p.get<std::string>("key") == "value");
     }
 
     REQUIRE(stack_size == lua_gettop(L.get()));

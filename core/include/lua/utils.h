@@ -98,6 +98,11 @@ namespace lua {
         virtual boost::any operator() () const override;
 
         /**
+         * \brief Ensure the global table referenced by this `struct` exist. If not, create it.
+         */
+        void ensure_created();
+
+        /**
          * \brief Replace the value of the table field by a new one
          */
         void set(const boost::any& value);

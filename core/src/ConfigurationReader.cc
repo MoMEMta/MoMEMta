@@ -43,7 +43,7 @@ ConfigurationReader::ConfigurationReader(const std::string& file) {
     // FIXME: Find a better way of doing that
 
     // Read global parameters from global variable named 'configuration'
-    m_global_parameters.reset(new LazyParameterSet("parameters"));
+    m_global_parameters.reset(new LazyParameterSet(lua_state, "parameters"));
     int type = lua_getglobal(lua_state.get(), "parameters");
     if (type == LUA_TTABLE) {
         LOG(debug) << "Parsing global parameters.";
@@ -52,7 +52,7 @@ ConfigurationReader::ConfigurationReader(const std::string& file) {
     lua_pop(lua_state.get(), 1);
 
     // Read cuba configuration
-    m_cuba_configuration.reset(new LazyParameterSet("cuba"));
+    m_cuba_configuration.reset(new LazyParameterSet(lua_state, "cuba"));
     type = lua_getglobal(lua_state.get(), "cuba");
     if (type == LUA_TTABLE) {
         LOG(debug) << "Parsing cuba configuration.";

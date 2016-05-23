@@ -75,6 +75,22 @@ namespace lua {
         this->key = key;
     }
 
+    void LazyTableField::ensure_created() {
+        // Push the table on the stack. Stack +1
+        int type = lua_getglobal(L, table_name.c_str());
+        // Discard the result. Stack -1
+        lua_pop(L, 1);
+
+        // Already existing
+        if (type != LUA_TNIL)
+            return;
+
+        // Create a new table. Stack +1
+        lua_newtable(L);
+        // Set it global. Stack -1
+        lua_setglobal(L, table_name.c_str());
+    }
+
     boost::any LazyTableField::operator() () const {
         LOG(trace) << "[LazyTableField::operator()] >> stack size = " << lua_gettop(L);
 
@@ -314,6 +330,9 @@ namespace lua {
             lua_pushboolean(L, v);
         } else if (value.type() == typeid(std::string)) {
             auto v = boost::any_cast<std::string>(value);
+            lua_pushstring(L, v.c_str());
+        } else if (value.type() == typeid(InputTag)) {
+            auto v = boost::any_cast<InputTag>(value).toString();
             lua_pushstring(L, v.c_str());
         } else {
             LOG(fatal) << "Unsupported C++ value: " << demangle(value.type().name());

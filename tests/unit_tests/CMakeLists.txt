@@ -1,5 +1,6 @@
 set(SOURCES
     "lua.cc"
+    "ParameterSet.cc"
     "unit_tests.cc"
     )
 
