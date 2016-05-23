@@ -282,10 +282,10 @@ class lua_State;
 
 class LazyParameterSet: public ParameterSet {
     friend class ConfigurationReader;
-
-    protected:
+    public:
         LazyParameterSet(std::shared_ptr<lua_State> L, const std::string& name);
 
+    protected:
         virtual std::pair<boost::any, bool> parseItem(const std::string& key, lua_State* L, int index) override;
 
         virtual void create(const std::string& name, const boost::any& value) override;
