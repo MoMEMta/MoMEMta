@@ -331,6 +331,9 @@ namespace lua {
         } else if (value.type() == typeid(std::string)) {
             auto v = boost::any_cast<std::string>(value);
             lua_pushstring(L, v.c_str());
+        } else if (value.type() == typeid(InputTag)) {
+            auto v = boost::any_cast<InputTag>(value).toString();
+            lua_pushstring(L, v.c_str());
         } else {
             LOG(fatal) << "Unsupported C++ value: " << demangle(value.type().name());
             throw lua::unsupported_type_error(demangle(value.type().name()));
