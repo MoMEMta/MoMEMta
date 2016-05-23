@@ -69,6 +69,10 @@ bool ParameterSet::exists(const std::string& name) const {
     return (value != m_set.end());
 }
 
+void ParameterSet::create(const std::string& name, const boost::any& value) {
+    m_set.emplace(name, Element(value, false));
+}
+
 void ParameterSet::setInternal(const std::string& name, Element& element, const boost::any& value) {
     UNUSED(name);
 
@@ -116,13 +120,24 @@ void ParameterSet::setGlobalParameters(const ParameterSet& parameters) {
 
 // ---------
 
-LazyParameterSet::LazyParameterSet(const std::string& name):
-    ParameterSet("table", name) { }
+LazyParameterSet::LazyParameterSet(std::shared_ptr<lua_State> L, const std::string& name):
+    ParameterSet("table", name) {
+    m_lua_state = L;
+}
 
 std::pair<boost::any, bool> LazyParameterSet::parseItem(const std::string& key, lua_State* L, int index) {
     UNUSED(index);
 
     return std::make_pair(lua::LazyTableField(L, getModuleName(), key), true);
+}
+
+void LazyParameterSet::create(const std::string& name, const boost::any& value) {
+
+    lua::LazyTableField lazyField = lua::LazyTableField(m_lua_state.get(), getModuleName(), name);
+    lazyField.ensure_created();
+    lazyField.set(value);
+
+    m_set.emplace(name, Element(lazyField, true));
 }
 
 void LazyParameterSet::setInternal(const std::string& name, Element& element, const boost::any& value) {
@@ -137,4 +152,11 @@ void LazyParameterSet::setInternal(const std::string& name, Element& element, co
     assert(element.value.type() == typeid(lua::LazyTableField));
 
     boost::any_cast<lua::LazyTableField&>(element.value).set(value);
+}
+
+void LazyParameterSet::freeze() {
+    ParameterSet::freeze();
+
+    // Release lua_State. We don't need it anymore
+    m_lua_state.reset();
 }

@@ -124,12 +124,13 @@ class ParameterSet {
             }
 
             auto it = m_set.find(name);
+            // If the element does not exist in the set, we create it
+            // Otherwise, we simply update the value
             if (it == m_set.end()) {
-                LOG(fatal) << "Parameter '" << name << "' not found. You can only set values that already exist.";
-                throw not_found_error("Parameter " + name + " not found");
+                create(name, value);
+            } else {
+                setInternal(name, it->second, value);
             }
-
-            setInternal(name, it->second, value);
         }
 
         /**
@@ -181,7 +182,18 @@ class ParameterSet {
 
         virtual std::pair<boost::any, bool> parseItem(const std::string& key, lua_State* L, int index);
 
+        /**
+         * \brief Add a new element to the ParameterSet
+         *
+         * \param name Name of the new parameter
+         * \param value Value of the new parameter
+         */
+        virtual void create(const std::string& name, const boost::any& value);
         virtual void setInternal(const std::string& name, Element& element, const boost::any& value);
+
+        virtual void freeze();
+
+        std::map<std::string, Element> m_set;
 
     private:
 
@@ -195,10 +207,7 @@ class ParameterSet {
 
         void setGlobalParameters(const ParameterSet&);
 
-        void freeze();
-
         bool frozen = false;
-        std::map<std::string, Element> m_set;
 };
 
 /** \brief A lazy parameter set
@@ -208,13 +217,22 @@ class ParameterSet {
  * Actual evaluation of the fields of the table happens during the freezing of this ParameterSet.
  *
  */
+
+class lua_State;
+
 class LazyParameterSet: public ParameterSet {
     friend class ConfigurationReader;
 
     protected:
-        LazyParameterSet(const std::string& name);
+        LazyParameterSet(std::shared_ptr<lua_State> L, const std::string& name);
 
         virtual std::pair<boost::any, bool> parseItem(const std::string& key, lua_State* L, int index) override;
 
+        virtual void create(const std::string& name, const boost::any& value) override;
         virtual void setInternal(const std::string& name, Element& element, const boost::any& value) override;
+
+        virtual void freeze() override;
+
+    private:
+        std::shared_ptr<lua_State> m_lua_state;
 };
