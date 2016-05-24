@@ -41,7 +41,11 @@ cd "${GH_PAGES_PATH}/dev"
 
 mv ${DOC_OUTPUT_PATH}/* .
 
-git add .
+cd ..
+
+git status
+
+git add -A
 git config user.name "${COMMIT_USER}"
 git config user.email "${COMMIT_EMAIL}"
 git commit -m "Automated documentation build for changeset ${CHANGESET}."
