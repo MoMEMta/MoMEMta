@@ -31,17 +31,21 @@ git clone -b gh-pages "${REPO_PATH}" --single-branch "${GH_PAGES_PATH}"
 # Remove all the content of the dev documentation
 cd "${GH_PAGES_PATH}"
 git rm -rf dev/*
+ls
 cd -
 
 # Make documentation
 make docs
 
-cd "${GH_PAGES_PATH}/dev"
+cd "${GH_PAGES_PATH}"
 
-mv ${DOC_OUTPUT_PATH}/* .
+mv ${DOC_OUTPUT_PATH} dev
 
 git status
 git add -A .
+cd dev
+git add -A .
+cd ..
 
 git config user.name "${COMMIT_USER}"
 git config user.email "${COMMIT_EMAIL}"
