@@ -1,5 +1,8 @@
 # MoMEMta
+
 The Modular Matrix Element Method implementation.
+
+[![Build Status](https://travis-ci.org/MoMEMta/MoMEMta.svg?branch=prototype)](https://travis-ci.org/MoMEMta/MoMEMta) [![Coverage Status](https://coveralls.io/repos/github/MoMEMta/MoMEMta/badge.svg?branch=prototype)](https://coveralls.io/github/MoMEMta/MoMEMta?branch=prototype)
 
 ## Install
 
