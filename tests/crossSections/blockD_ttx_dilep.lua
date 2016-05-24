@@ -137,6 +137,7 @@ jacobians = {
 
 MatrixElement.dummy = {
   pdf = 'CT10nlo',
+  pdf_scale = parameter('top_mass'),
 
   matrix_element = 'pp_ttx_fully_leptonic',
   matrix_element_parameters = {
