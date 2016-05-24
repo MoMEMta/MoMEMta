@@ -42,8 +42,7 @@ class MatrixElement: public Module {
         MatrixElement(PoolPtr pool, const ParameterSet& parameters): Module(pool, parameters.getModuleName()) {
 
             sqrt_s = parameters.globalParameters().get<double>("energy");
-            M_T = parameters.globalParameters().get<double>("top_mass");
-            
+
             use_pdf = parameters.get<bool>("use_pdf", true);
 
             m_partons = get<std::vector<std::vector<LorentzVector>>>(parameters.get<InputTag>("initialState"));
@@ -96,8 +95,12 @@ class MatrixElement: public Module {
             if(use_pdf){
                 // Silence LHAPDF
                 LHAPDF::setVerbosity(0);
+
                 std::string pdf = parameters.get<std::string>("pdf");
                 m_pdf.reset(LHAPDF::mkPDF(pdf, 0));
+
+                double pdf_scale = parameters.get<double>("pdf_scale");
+                pdf_scale_squared = SQ(pdf_scale);
             }
 
         };
@@ -178,8 +181,8 @@ class MatrixElement: public Module {
             // PDF
             double final_integrand = 0;
             for (const auto& me: result) {
-                double pdf1 = use_pdf ? m_pdf->xfxQ2(me.first.first, x1, SQ(M_T)) / x1 : 1;
-                double pdf2 = use_pdf ? m_pdf->xfxQ2(me.first.second, x2, SQ(M_T)) / x2 : 1;
+                double pdf1 = use_pdf ? m_pdf->xfxQ2(me.first.first, x1, pdf_scale_squared) / x1 : 1;
+                double pdf2 = use_pdf ? m_pdf->xfxQ2(me.first.second, x2, pdf_scale_squared) / x2 : 1;
 
                 final_integrand += me.second * pdf1 * pdf2;
             }
@@ -190,8 +193,8 @@ class MatrixElement: public Module {
 
     private:
         double sqrt_s;
-        double M_T;
         bool use_pdf;
+        double pdf_scale_squared = 0;
 
         std::shared_ptr<const std::vector<std::vector<LorentzVector>>> m_partons;
 
