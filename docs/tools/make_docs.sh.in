@@ -26,7 +26,7 @@ CHANGESET=$(git rev-parse --verify HEAD)
 
 rm -rf "${GH_PAGES_PATH}"
 mkdir -p "${GH_PAGES_PATH}"
-git clone -b gh-pages "${REPO_PATH}" --depth=1 --single-branch "${GH_PAGES_PATH}"
+git clone -b gh-pages "${REPO_PATH}" --single-branch "${GH_PAGES_PATH}"
 
 # Remove all the content of the dev documentation
 cd "${GH_PAGES_PATH}"
