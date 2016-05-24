@@ -18,24 +18,28 @@ fi
 echo "Generating documentation"
 
 REPO_PATH=git@github.com:MoMEMta/MoMEMta.git
-HTML_PATH=@CMAKE_BINARY_DIR@/documentation/html
+GH_PAGES_PATH=@CMAKE_BINARY_DIR@/gh_pages
+DOC_OUTPUT_PATH=@CMAKE_BINARY_DIR@/documentation/html
 COMMIT_USER="Documentation Builder"
 COMMIT_EMAIL="momemta@cp3.be"
 CHANGESET=$(git rev-parse --verify HEAD)
 
-rm -rf "${HTML_PATH}"
-mkdir -p "${HTML_PATH}"
-git clone -b gh-pages "${REPO_PATH}" --single-branch "${HTML_PATH}"
+rm -rf "${GH_PAGES_PATH}"
+mkdir -p "${GH_PAGES_PATH}"
+git clone -b gh-pages "${REPO_PATH}" --depth=1 --single-branch "${GH_PAGES_PATH}"
 
-# Remove all the content of the documentation
-cd "${HTML_PATH}"
-git rm -rf .
+# Remove all the content of the dev documentation
+cd "${GH_PAGES_PATH}"
+git rm -rf dev
+mkdir dev
 cd -
 
 # Make documentation
 make docs
 
-cd "${HTML_PATH}"
+cd "${GH_PAGES_PATH}/dev"
+
+mv ${DOC_OUTPUT_PATH}/* .
 
 git add .
 git config user.name "${COMMIT_USER}"
