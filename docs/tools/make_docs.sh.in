@@ -30,8 +30,7 @@ git clone -b gh-pages "${REPO_PATH}" --single-branch "${GH_PAGES_PATH}"
 
 # Remove all the content of the dev documentation
 cd "${GH_PAGES_PATH}"
-git rm -rf dev
-mkdir dev
+git rm -rf dev/*
 cd -
 
 # Make documentation
@@ -41,11 +40,9 @@ cd "${GH_PAGES_PATH}/dev"
 
 mv ${DOC_OUTPUT_PATH}/* .
 
-cd ..
-
 git status
+git add -A .
 
-git add -A
 git config user.name "${COMMIT_USER}"
 git config user.email "${COMMIT_EMAIL}"
 git commit -m "Automated documentation build for changeset ${CHANGESET}."
