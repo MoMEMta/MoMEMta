@@ -145,7 +145,7 @@ class BlockF: public Module {
             
             double q1 = m_ps_point1.get<double>();
             double q2 = m_ps_point2.get<double>();
-
+            
             const double Qm = sqrt_s*(q1-q2)/2.;
             const double Qp = sqrt_s*(q1+q2)/2.;
             
@@ -157,7 +157,7 @@ class BlockF: public Module {
             // E1 = alpha6*p2y + beta6*E2 + gamma6
              
             double alpha1 = (-p3z*p4y+p3y*p4z)/(-p3z*p4x+p3x*p4z);
-            double beta1 = (E4*p3z-E3*p4z)/(p3z*p4x+p3x*p4z);
+            double beta1 = (E4*p3z-E3*p4z)/(-p3z*p4x+p3x*p4z);
             double gamma1 = (p44*p3z-2*E3*Eb*p4z+p33*p4z+2*p3z*p4x*pbx+
                             2*p3y*p4z*pby+2*p3z*p4z*pbz-2*p3z*p4z*Qm+2*E3*p4z*Qp-
                             p4z*(*s13)-p3z*(*s24))/(2*(-p3z*p4x+p3x*p4z));
@@ -175,9 +175,9 @@ class BlockF: public Module {
             double alpha4 = (p3z*p4y-p3y*p4z)/(-p3z*p4x+p3x*p4z);
             double beta4 = (-E4*p3z+E3*p4z)/(-p3z*p4x+p3x*p4z);
             double gamma4 = (-2*p44*p3z+4*E3*Eb*p4z-2*p33*p4z-
-                             4*p3z*p4x*pbx-4*p3y*p4z*pby-4*p3z*p4z*pbz+
+                             4*p3x*p4z*pbx-4*p3y*p4z*pby-4*p3z*p4z*pbz+
                              4*p3z*p4z*Qm-4*E3*p4z*Qp+2*p4z*(*s13)+
-                             2*p3z*(*s24))/(-4*p3z*p4x+4*p3x*p4z)-pbx;
+                             2*p3z*(*s24))/(-4*p3z*p4x+4*p3x*p4z);
               
             double alpha5 = (-p3y*p4x+p3x*p4y)/(p3z*p4x-p3x*p4z);
             double beta5 = (-E4*p3x+E3*p4x)/(p3z*p4x-p3x*p4z);
@@ -218,7 +218,7 @@ class BlockF: public Module {
                 const double e1 = p2y.at(i);
                 const double e2 = E2.at(i);
                 
-                if (e1 < 0. || e2 < 0.)
+                if (e2 < 0.)
                     continue;
                 
                 LorentzVector p1(alpha1*e1+beta1*e2+gamma1,     //p1x
@@ -226,17 +226,21 @@ class BlockF: public Module {
                                  alpha3*e1+beta3*e2+gamma3,     //p1z
                                  alpha6*e1+beta6*e2+gamma6      //E1
                                  );
-                
+
+                if (p1.E() < 0.)
+                    continue;
+
                 LorentzVector p2(alpha4*e1+beta4*e2+gamma4,     //p2x
                                  e1,                            //p2y
                                  alpha5*e1+beta5*e2+gamma5,     //p2z
                                  e2                             //E2
                                  );                  
-                
+                               
                 // Check if solutions are physical
                 LorentzVector tot = p1 + p2 + p3 + p4;
                 double q1Pz = std::abs(tot.Pz() + tot.E()) / 2.;
                 double q2Pz = std::abs(tot.Pz() - tot.E()) / 2.;
+                
                 if(q1Pz > sqrt_s/2 || q2Pz > sqrt_s/2)
                     continue;
                 

@@ -30,7 +30,7 @@ parameters = {
     energy = 13000.,
     W_mass = 80.419002,
     W_width = 2.047600,
-    top_mass = 173.,
+    top_mass = 80.419002,
     top_width = 1.491500,
 }
 

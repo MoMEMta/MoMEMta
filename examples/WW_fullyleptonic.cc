@@ -21,7 +21,13 @@
 #include <momemta/MoMEMta.h>
 #include <momemta/Utils.h>
 
+#include <iostream>
+
 #include <TH1D.h>
+#include <TFile.h>
+#include <TTree.h>
+#include <TLorentzVector.h>
+#include <TCanvas.h>
 
 #include <chrono>
 
@@ -38,10 +44,37 @@ int main(int argc, char** argv) {
 
     MoMEMta weight(configuration.freeze());
 
+    TFile *f = new TFile("/home/fynu/asaggio/scratch/Delphes-3.3.2/new_WW_DelphesCMS.root");
+    TTree *tree = (TTree*)f->Get("T");
+    //Int_t n = tree->GetEntries();
+
+   
+    TLorentzVector* lepton1=0;
+    TLorentzVector* lepton2=0;
+
+    //TBranch *b_lepton1;
+    //TBranch *b_lepton2;
+
+    tree->SetBranchAddress("lepton1", &lepton1);
+    tree->SetBranchAddress("lepton2", &lepton2);
+    
+    TH1D *h_weights = new TH1D("h_weights", "h_weights", 1000, 0, 1);
+
+    for(Int_t i=0; i<3; i++){
+        tree->GetEntry(i);
+        
+        //std::cout << "LEPTOOOOOOOOOON: " << lepton1->E() << std::endl;
+
+        // lepton1
+        LorentzVector p3(lepton1->Px(), lepton1->Py(), lepton1->Pz(), lepton1->E());
+        // lepton2
+        LorentzVector p4(lepton2->Px(), lepton2->Py(), lepton2->Pz(), lepton2->E());
+
+
     // Electron
-    LorentzVector p3(16.171895980835, -13.7919054031372, -3.42997527122497, 21.5293197631836);
-    // Muon
-    LorentzVector p4(-18.9018573760986, 10.0896110534668, -0.602926552295686, 21.4346446990967);
+    //LorentzVector p3(16.171895980835, -13.7919054031372, -3.42997527122497, 21.5293197631836);
+    // Muo
+    //LorentzVector p4(-18.9018573760986, 10.0896110534668, -0.602926552295686, 21.4346446990967);
 
     auto start_time = system_clock::now();
     std::vector<std::pair<double, double>> weights = weight.computeWeights({p3, p4});
@@ -50,10 +83,15 @@ int main(int argc, char** argv) {
     LOG(debug) << "Result:";
     for (const auto& r: weights) {
         LOG(debug) << r.first << " +- " << r.second;
+        h_weights->Fill(r.first);
     }
     
     LOG(info) << "Weight computed in " << std::chrono::duration_cast<milliseconds>(end_time - start_time).count() << "ms";
-       
- 
+
+    }
+
+    new TCanvas();
+    h_weights->Draw("");
+
     return 0;
 }
