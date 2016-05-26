@@ -24,10 +24,11 @@
 #include <vector>
 
 #include <momemta/Configuration.h>
-#include <momemta/IOnModuleDeclared.h>
+#include <momemta/ILuaCallback.h>
 
 class ParameterSet;
-class lua_State;
+struct Path;
+struct lua_State;
 
 /**
  * \brief A lua configuration file parser
@@ -41,14 +42,17 @@ class lua_State;
  * \todo Discuss the `parameters` table, `cuba` table and the concept of freezing and delayed execution
  *
  */
-class ConfigurationReader: public IOnModuleDeclared {
+class ConfigurationReader: public ILuaCallback {
     public:
         ConfigurationReader(const std::string&);
 
         virtual void onModuleDeclared(const std::string& type, const std::string& name) override;
+        virtual void onIntegrandDeclared(const InputTag& tag) override;
+        virtual void onNewPath(Path* path) override;
 
         ParameterSet& getGlobalParameters();
         ParameterSet& getCubaConfiguration();
+        InputTag getIntegrand() const;
 
         /**
          * \brief Freeze the configuration
@@ -63,6 +67,8 @@ class ConfigurationReader: public IOnModuleDeclared {
         std::vector<Configuration::Module> m_modules;
         std::shared_ptr<ParameterSet> m_global_parameters;
         std::shared_ptr<ParameterSet> m_cuba_configuration;
+        InputTag m_integrand;
+        std::vector<Path*> m_paths;
 
         std::shared_ptr<lua_State> lua_state;
 };

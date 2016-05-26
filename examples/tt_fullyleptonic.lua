@@ -29,7 +29,7 @@ else
     }
 end
 
-USE_PERM = true
+--USE_PERM = true
 
 if USE_PERM then
   -- Use permutator module to permutate input particles 0 and 2 using the MC
@@ -54,7 +54,9 @@ parameters = {
 
 cuba = {
     relative_accuracy = 0.01,
-    verbosity = 3
+    verbosity = 3,
+    --max_eval = 10,
+    --n_start = 1,
 }
 
 BreitWignerGenerator.flatter_s13 = {
@@ -146,9 +148,7 @@ BlockD.blockd = {
 }
 
 BuildInitialState.boost = {
-    invisibles = {
-        'blockd::invisibles',
-    },
+    solution = 'looper::solution',
 
     do_transverse_boost = true,
 
@@ -171,10 +171,10 @@ MatrixElement.ttbar = {
       card = '../MatrixElements/Cards/param_card.dat'
   },
 
-  initialState = 'boost::output',
+  initialState = 'boost::partons',
 
   invisibles = {
-    input = 'blockd::invisibles',
+    input = 'looper::solution',
     jacobians = 'blockd::jacobians',
     ids = {
       {
@@ -217,13 +217,37 @@ MatrixElement.ttbar = {
   jacobians = jacobians
 }
 
-DMEM.dmem_ttbar = {
-  x_start = 0.,
-  x_end = 2000.,
-  n_bins = 500,
-  ps_weight = 'cuba::ps_weight',
-  particles = inputs,
-  invisibles = 'blockd::invisibles',
-  integrands = 'ttbar::integrands',
+--SolutionPrinter.solution_printer = {
+    --input = "looper::solution"
+--}
+
+--DoublePrinter.matrix_element_printer = {
+    --input = "ttbar::output"
+--}
+
+--path = Path("solution_printer", "boost", "ttbar", "matrix_element_printer", "integrand")
+
+Looper.looper = {
+    solutions = "blockd::solutions",
+    path = Path("solution_printer", "boost", "ttbar", "integrand")
 }
 
+DoubleSummer.integrand = {
+    input = "ttbar::output"
+}
+
+--DoublePrinter.print_integrand = {
+    --input = "integrand::sum"
+--}
+
+--DMEM.dmem_ttbar = {
+  --x_start = 0.,
+  --x_end = 2000.,
+  --n_bins = 500,
+  --ps_weight = 'cuba::ps_weight',
+  --particles = inputs,
+  --invisibles = 'blockd::invisibles',
+  --integrands = 'ttbar::integrands',
+--}
+
+integrand("integrand::sum")

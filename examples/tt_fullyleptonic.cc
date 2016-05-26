@@ -33,7 +33,7 @@ int main(int argc, char** argv) {
     UNUSED(argc);
     UNUSED(argv);
 
-    logging::set_level(boost::log::trivial::debug);
+    logging::set_level(boost::log::trivial::trace);
 
     ConfigurationReader configuration("../examples/tt_fullyleptonic.lua");
 

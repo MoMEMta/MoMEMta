@@ -91,5 +91,5 @@ class MoMEMta {
         std::shared_ptr<double> m_ps_weight;
         std::shared_ptr<std::vector<LorentzVector>> m_particles;
         std::shared_ptr<LorentzVector> m_met;
-        std::shared_ptr<const std::vector<double>> m_integrands;
+        std::shared_ptr<const double> m_integrand;
 };

@@ -18,6 +18,7 @@
 
 #include <momemta/Configuration.h>
 #include <momemta/ConfigurationReader.h>
+#include <momemta/Path.h>
 
 const std::vector<Configuration::Module>& Configuration::getModules() const {
     return modules;
@@ -31,10 +32,20 @@ const ParameterSet& Configuration::getGlobalParameters() const {
     return global_parameters;
 }
 
+InputTag Configuration::getIntegrand() const {
+    return integrand;
+}
+
+std::vector<Path*> Configuration::getPaths() const {
+    return paths;
+}
+
 Configuration::Configuration(const ConfigurationReader& reader) {
     modules = reader.m_modules;
     global_parameters = *reader.m_global_parameters.get();
     cuba_configuration = *reader.m_cuba_configuration.get();
+    integrand = reader.m_integrand;
+    paths = reader.m_paths;
 
     global_parameters.freeze();
     cuba_configuration.freeze();

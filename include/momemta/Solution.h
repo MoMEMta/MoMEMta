@@ -16,26 +16,21 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 #pragma once
 
-#include <memory>
-#include <string>
-#include <unordered_map>
+#include <momemta/Types.h>
+
+#include <ostream>
 #include <vector>
 
-#include <momemta/PluginFactory.h>
+/** \brief Generic solution structure representing a set of particles, along with its jacobian
+ */
+struct Solution {
+    std::vector<LorentzVector> values; ///< Values
+    double jacobian; ///< Jacobian associated with the solution
+    mutable bool valid; ///< Is the solution valid?
 
-// Forward declaration
-class Module;
-class ParameterSet;
-class Pool;
+    friend std::ostream& operator<< (std::ostream& stream, const Solution& solution);
+};
 
-// Register ModuleFactory used by all the modules
-using ModuleFactory = PluginFactory<Module* (std::shared_ptr<Pool>, const ParameterSet&)>;
-
-#define REGISTER_MODULE(type) \
-    static const ModuleFactory::PMaker<type> PLUGIN_UNIQUE_NAME(s_module , __LINE__)(#type)
-
-#define REGISTER_MODULE_NAME(name, type) \
-    static const ModuleFactory::PMaker<type> PLUGIN_UNIQUE_NAME(s_module , __LINE__)(name)
+using SolutionCollection = std::vector<Solution>;

@@ -23,14 +23,15 @@
 
 #include <momemta/Module.h>
 #include <momemta/ParameterSet.h>
+#include <momemta/Solution.h>
 #include <momemta/Types.h>
 
 /** \brief Build the initial partons given the whole final state
  *
  * Define the initial partons 4-momenta given the visible and invisible particles present in the final state.
  *
- * If no invisibles are present, only one pair of initial partons is output. If there are invisibles, there can
- * be several entries of them (since blocks typically output several solutions): in that case, one pair of initial partons per solution is defined.
+ * If no invisibles are present, only one pair of initial partons is partons. If there are invisibles, there can
+ * be several entries of them (since blocks typically partons several solutions): in that case, one pair of initial partons per solution is defined.
  *
  * If the parameter `do_transverse_boost` is set to `true`, the partons are boosted in the transverse direction
  * to satisfy energy-momentum conservation. 
@@ -61,7 +62,7 @@
  *
  *   | Name | Type | %Description |
  *   |------|------|--------------|
- *   | `output` | vector(vector(LorentzVector)) | Sets of initial parton 4-momenta (one pair per invisibles' solution). | 
+ *   | `partons` | vector(vector(LorentzVector)) | Sets of initial parton 4-momenta (one pair per invisibles' solution). | 
  *
  * \ingroup modules
  */
@@ -75,10 +76,7 @@ class BuildInitialState: public Module {
                 do_compute_initials = compute_initials_trivial;
             }
             
-            std::vector<InputTag> invisibles_tag = parameters.get<std::vector<InputTag>>("invisibles");
-            for (const auto& tag: invisibles_tag) {
-                invisibles.push_back(get<std::vector<std::vector<LorentzVector>>>(tag));
-            }
+            solution = get<Solution>(parameters.get<InputTag>("solution"));
 
             input_particles = parameters.get<std::vector<InputTag>>("particles");
             for (auto& t: input_particles)
@@ -87,39 +85,18 @@ class BuildInitialState: public Module {
 
         virtual void work() override {
 
-            output->clear();
+            partons->clear();
 
-            std::vector<LorentzVector> particles;
+            std::vector<LorentzVector> particles_and_invisibles;
             for (auto& p: input_particles) {
-                particles.push_back(p.get<LorentzVector>());
+                particles_and_invisibles.push_back(p.get<LorentzVector>());
             }
 
-            if (!invisibles.empty()) {
-
-                size_t n_sols = invisibles.front()->size();
-                for (const auto& i: invisibles) {
-                    if (i->size() != n_sols) {
-                        throw std::runtime_error("All invisibles must have the same number of solutions.");
-                    }
-                }
-
-                for (size_t sol_index = 0; sol_index < n_sols; sol_index++) {
-
-                    std::vector<LorentzVector> particles_and_invisibles = particles;
-
-                    for (const auto& i: invisibles) {
-
-                        for (const auto& p: (*i)[sol_index])
-                            particles_and_invisibles.push_back(p);
-                    
-                    }
-                
-                    do_compute_initials(particles_and_invisibles);
-                }
-                
-            } else {
-                do_compute_initials(particles);
+            for (const auto& s: solution->values) {
+                particles_and_invisibles.push_back(s);
             }
+
+            do_compute_initials(particles_and_invisibles);
         }
 
     private:
@@ -134,12 +111,8 @@ class BuildInitialState: public Module {
                 double q1Pz = (tot.Pz() + tot.E()) / 2.;
                 double q2Pz = (tot.Pz() - tot.E()) / 2.;
 
-                std::vector<LorentzVector> partons {
-                    LorentzVector(0., 0., q1Pz, std::abs(q1Pz)),
-                    LorentzVector(0., 0., q2Pz, std::abs(q2Pz))
-                };
-
-                output->push_back(partons);
+                partons->push_back(LorentzVector(0., 0., q1Pz, std::abs(q1Pz)));
+                partons->push_back(LorentzVector(0., 0., q2Pz, std::abs(q2Pz)));
             };
 
         std::function<void(const std::vector<LorentzVector>&)> compute_initials_boost = 
@@ -160,22 +133,18 @@ class BuildInitialState: public Module {
                 double q1Pz = (new_tot.Pz() + new_tot.E()) / 2.;
                 double q2Pz = (new_tot.Pz() - new_tot.E()) / 2.;
 
-                std::vector<LorentzVector> partons {
-                    LorentzVector(0., 0., q1Pz, std::abs(q1Pz)),
-                    LorentzVector(0., 0., q2Pz, std::abs(q2Pz))
-                };
+                partons->push_back(LorentzVector(0., 0., q1Pz, std::abs(q1Pz)));
+                partons->push_back(LorentzVector(0., 0., q2Pz, std::abs(q2Pz)));
 
                 // Boost initial parton momenta by the opposite of the transverse boost needed to put the whole system in its CoM
                 const ROOT::Math::Boost isr_boost( -isr_deBoost_vector );
-                partons[0] = isr_boost*partons[0];
-                partons[1] = isr_boost*partons[1];
-
-                output->push_back(partons);
+                (*partons)[0] = isr_boost * (*partons)[0];
+                (*partons)[1] = isr_boost * (*partons)[1];
             };
 
-        std::vector<std::shared_ptr<const std::vector<std::vector<LorentzVector>>>> invisibles;
+        std::shared_ptr<const Solution> solution;
         std::vector<InputTag> input_particles;
 
-        std::shared_ptr<std::vector<std::vector<LorentzVector>>> output = produce<std::vector<std::vector<LorentzVector>>>("output");
+        std::shared_ptr<std::vector<LorentzVector>> partons = produce<std::vector<LorentzVector>>("partons");
 };
 REGISTER_MODULE(BuildInitialState);

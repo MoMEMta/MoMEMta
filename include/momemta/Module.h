@@ -58,6 +58,13 @@ class Module {
          * \brief Called once at the beginning of the integration
          */
         virtual void beginIntegration() {};
+
+        /**
+         * \brief Called once at the beginning of a loop
+         *
+         * Only relevant if the module is inside a loop
+         */
+        virtual void beginLoop() {};
         
         /**
          * \brief Main function
@@ -67,6 +74,13 @@ class Module {
          * You'll usually want to override this function if you want your module to perform some task.
          */
         virtual void work() { };
+
+        /**
+         * \brief Called once at the end of a loop
+         *
+         * Only relevant if the module is inside a loop
+         */
+        virtual void endLoop() {};
         
         /**
          * \brief Called once at the end of the integration

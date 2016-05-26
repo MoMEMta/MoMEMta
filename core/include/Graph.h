@@ -8,6 +8,8 @@
 #include <string>
 #include <vector>
 
+struct Path;
+
 /// Generic graph representation of the module hierarchy
 namespace graph {
 
@@ -15,6 +17,7 @@ struct Vertex {
     std::string name;
     ModulePtr module;
     uint32_t id;
+    Path* path;
 };
 
 struct Edge {
@@ -38,7 +41,7 @@ typedef boost::graph_traits<Graph>::edge_descriptor edge_t;
  *
  * \sa Pool::description()
  */
-Graph build(const Pool::DescriptionMap& description, std::vector<ModulePtr>& modules, std::function<void(const std::string&)> on_module_removed);
+Graph build(const Pool::DescriptionMap& description, std::vector<ModulePtr>& modules, std::vector<Path*> paths, std::function<void(const std::string&)> on_module_removed);
 
 /**
  * \brief Export a given graph in `dot` format

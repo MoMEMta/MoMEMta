@@ -25,6 +25,7 @@
 #include <momemta/ConfigurationReader.h>
 #include <momemta/ModuleFactory.h>
 #include <momemta/ParameterSet.h>
+#include <momemta/Path.h>
 
 #include <lua/utils.h>
 
@@ -80,12 +81,24 @@ void ConfigurationReader::onModuleDeclared(const std::string& type, const std::s
     m_modules.push_back(module);
 }
 
+void ConfigurationReader::onIntegrandDeclared(const InputTag& tag) {
+    m_integrand = tag;
+}
+
+void ConfigurationReader::onNewPath(Path* path) {
+    m_paths.push_back(path);
+}
+
 ParameterSet& ConfigurationReader::getGlobalParameters() {
     return *m_global_parameters;
 }
 
 ParameterSet& ConfigurationReader::getCubaConfiguration() {
     return *m_cuba_configuration;
+}
+
+InputTag ConfigurationReader::getIntegrand() const {
+    return m_integrand;
 }
 
 Configuration ConfigurationReader::freeze() const {

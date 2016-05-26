@@ -16,26 +16,28 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 #pragma once
 
 #include <memory>
 #include <string>
-#include <unordered_map>
 #include <vector>
 
-#include <momemta/PluginFactory.h>
-
-// Forward declaration
 class Module;
-class ParameterSet;
-class Pool;
 
-// Register ModuleFactory used by all the modules
-using ModuleFactory = PluginFactory<Module* (std::shared_ptr<Pool>, const ParameterSet&)>;
+// FIXME: Find a better way to do that
 
-#define REGISTER_MODULE(type) \
-    static const ModuleFactory::PMaker<type> PLUGIN_UNIQUE_NAME(s_module , __LINE__)(#type)
+/**
+ * \brief An execution path
+ *
+ * The \p names array is filled with user values from the configuration. After parsing
+ * and Graph evaluation, the path instance is updated and the \p modules array is
+ * filled with instance of the modules to execute.
+ *
+ * \sa Looper module
+ */
+struct Path {
+    std::vector<std::string> names; 
+    std::vector<std::shared_ptr<Module>> modules;
+};
 
-#define REGISTER_MODULE_NAME(name, type) \
-    static const ModuleFactory::PMaker<type> PLUGIN_UNIQUE_NAME(s_module , __LINE__)(name)
+using PathPtr = Path*;

@@ -1,0 +1,95 @@
+/*
+ *  MoMEMta: a modular implementation of the Matrix Element Method
+ *  Copyright (C) 2016  Universite catholique de Louvain (UCL), Belgium
+ *
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+#include <momemta/Module.h>
+
+#include <sstream>
+
+#include <momemta/ParameterSet.h>
+#include <momemta/Solution.h>
+#include <momemta/Types.h>
+
+/**
+ * \brief A module printing the value of an input
+ */
+template<typename T>
+class Printer: public Module {
+    public:
+
+        Printer(PoolPtr pool, const ParameterSet& parameters): Module(pool, parameters.getModuleName()) {
+            input = pool->get<T>(parameters.get<InputTag>("input")); 
+        };
+
+        virtual void work() override {
+            LOG(info) << *input;
+        }
+
+        virtual bool leafModule() const override {
+            return true;
+        }
+
+    private:
+
+        // Inputs
+        std::shared_ptr<const T> input;
+};
+
+/**
+ * \brief Specialization of Printer for `std::vector`
+ */
+template<typename T>
+class Printer<std::vector<T>>: public Module {
+    public:
+
+        Printer(PoolPtr pool, const ParameterSet& parameters): Module(pool, parameters.getModuleName()) {
+            input = pool->get<std::vector<T>>(parameters.get<InputTag>("input")); 
+        };
+
+        virtual void work() override {
+            std::stringstream str;
+            str << "{";
+
+            size_t count = 1;
+            for (const auto& i: *input) {
+                str << i;
+                if (count < input->size())
+                    str << ", ";
+                count++;
+            }
+            LOG(info) << str.str() << "}";
+        }
+
+        virtual bool leafModule() const override {
+            return true;
+        }
+
+    private:
+
+        // Inputs
+        std::shared_ptr<const std::vector<T>> input;
+};
+
+REGISTER_MODULE_NAME("IntPrinter", Printer<int64_t>);
+REGISTER_MODULE_NAME("DoublePrinter", Printer<double>);
+REGISTER_MODULE_NAME("P4Printer", Printer<LorentzVector>);
+REGISTER_MODULE_NAME("SolutionPrinter", Printer<Solution>);
+
+REGISTER_MODULE_NAME("IntVectorPrinter", Printer<std::vector<int64_t>>);
+REGISTER_MODULE_NAME("DoubleVectorPrinter", Printer<std::vector<double>>);
+REGISTER_MODULE_NAME("P4VectorPrinter", Printer<std::vector<LorentzVector>>);
+REGISTER_MODULE_NAME("SolutionVectorPrinter", Printer<SolutionCollection>);

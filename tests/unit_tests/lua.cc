@@ -29,10 +29,11 @@
 #include <vector>
 
 #include <momemta/InputTag.h>
-#include <momemta/IOnModuleDeclared.h>
+#include <momemta/ILuaCallback.h>
 #include <momemta/Logging.h>
 #include <momemta/ModuleFactory.h>
 #include <momemta/ParameterSet.h>
+#include <momemta/Path.h>
 
 #include <lua/utils.h>
 
@@ -43,13 +44,23 @@ void execute_string(std::shared_ptr<lua_State> L, const std::string& code) {
     }
 }
 
-class ModuleDeclaredMock: public IOnModuleDeclared {
+class LuaCallbackMock: public ILuaCallback {
     public:
         virtual void onModuleDeclared(const std::string& type, const std::string& name) override {
             modules.push_back({type, name});
         }
 
+        virtual void onIntegrandDeclared(const InputTag& tag) {
+            integrand = tag;
+        }
+
+        virtual void onNewPath(Path* path) {
+            paths.push_back(path);
+        }
+
         std::vector<std::pair<std::string, std::string>> modules;
+        InputTag integrand;
+        std::vector<Path*> paths;
 };
 
 // A small mock of LazyParameterSet to change visibily of the `freeze` function
@@ -67,9 +78,9 @@ TEST_CASE("lua parsing utilities", "[lua]") {
     // Suppress log messages
     logging::set_level(boost::log::trivial::fatal);
 
-    ModuleDeclaredMock moduleDeclared;
-    REQUIRE(moduleDeclared.modules.empty());
-    std::shared_ptr<lua_State> L = lua::init_runtime(&moduleDeclared);
+    LuaCallbackMock luaCallback;
+    REQUIRE(luaCallback.modules.empty());
+    std::shared_ptr<lua_State> L = lua::init_runtime(&luaCallback);
 
     auto stack_size = lua_gettop(L.get());
 
@@ -92,13 +103,13 @@ TEST_CASE("lua parsing utilities", "[lua]") {
 
     SECTION("defining modules") {
         execute_string(L, "BreitWignerGenerator.test = {}");
-        REQUIRE(moduleDeclared.modules.size() == 1);
-        REQUIRE(moduleDeclared.modules.back().first == "BreitWignerGenerator");
-        REQUIRE(moduleDeclared.modules.back().second == "test");
+        REQUIRE(luaCallback.modules.size() == 1);
+        REQUIRE(luaCallback.modules.back().first == "BreitWignerGenerator");
+        REQUIRE(luaCallback.modules.back().second == "test");
 
         execute_string(L, "BreitWignerGenerator.test2 = {}");
-        REQUIRE(moduleDeclared.modules.size() == 2);
-        REQUIRE(moduleDeclared.modules.back().second == "test2");
+        REQUIRE(luaCallback.modules.size() == 2);
+        REQUIRE(luaCallback.modules.back().second == "test2");
     }
 
     SECTION("loading modules") {

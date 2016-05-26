@@ -16,26 +16,38 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 #pragma once
 
-#include <memory>
+#include <momemta/Path.h>
+
 #include <string>
-#include <unordered_map>
 #include <vector>
 
-#include <momemta/PluginFactory.h>
+struct lua_State;
 
-// Forward declaration
-class Module;
-class ParameterSet;
-class Pool;
+/**
+ * \file
+ * \brief Lua binding of C++ Path class
+ */
 
-// Register ModuleFactory used by all the modules
-using ModuleFactory = PluginFactory<Module* (std::shared_ptr<Pool>, const ParameterSet&)>;
+#define LUA_PATH_TYPE_NAME "Path"
 
-#define REGISTER_MODULE(type) \
-    static const ModuleFactory::PMaker<type> PLUGIN_UNIQUE_NAME(s_module , __LINE__)(#type)
+/**
+ * \brief Register Path into lua runtime
+ */
+void path_register(lua_State* L, void* ptr);
 
-#define REGISTER_MODULE_NAME(name, type) \
-    static const ModuleFactory::PMaker<type> PLUGIN_UNIQUE_NAME(s_module , __LINE__)(name)
+/**
+ * \brief Create a new instance of Path
+ **/
+int path_new(lua_State* L);
+
+/**
+ * \brief Free an instance of Path
+ */
+int path_free(lua_State* L);
+
+/**
+ * \brief Retrieve an instance of Path from the lua stack
+ */
+Path* path_get(lua_State* L, int index);

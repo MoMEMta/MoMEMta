@@ -5,6 +5,7 @@
 
 #include <momemta/Logging.h>
 #include <momemta/Module.h>
+#include <momemta/Path.h>
 
 namespace graph {
 
@@ -12,7 +13,7 @@ class unresolved_input: public std::runtime_error {
     using std::runtime_error::runtime_error;
 };
 
-Graph build(const Pool::DescriptionMap& description, std::vector<ModulePtr>& modules, std::function<void(const std::string&)> on_module_removed) {
+Graph build(const Pool::DescriptionMap& description, std::vector<ModulePtr>& modules, std::vector<Path*> paths, std::function<void(const std::string&)> on_module_removed) {
 
     Graph g;
 
@@ -20,6 +21,8 @@ Graph build(const Pool::DescriptionMap& description, std::vector<ModulePtr>& mod
     std::unordered_map<std::string, vertex_t> vertices;
 
     // Create vertices. Each vertex is a module
+    // If a module is part of a Path, then it's not added to the main graph, but
+    // into a subgraph.
     for (const auto& d: description) {
         vertex_t v = boost::add_vertex(g);
         vertices.emplace(d.first, v);
@@ -29,6 +32,19 @@ Graph build(const Pool::DescriptionMap& description, std::vector<ModulePtr>& mod
         auto module = std::find_if(modules.begin(), modules.end(), [&d](const ModulePtr& m) { return m->name() == d.first; });
         if (module != modules.end())
             g[v].module = *module;
+
+        Path* path = nullptr;
+        auto path_it = std::find_if(paths.begin(), paths.end(), [&d](const Path* path) {
+            auto it = std::find_if(path->names.begin(), path->names.end(), [&d](const std::string& name) { return name == d.first; });
+            return it != path->names.end();
+        });
+
+        if (path_it != paths.end())
+            path = *path_it;
+
+        // If null, it means the modules belong to the main path
+        g[v].path = path;
+
         id++;
     }
 
@@ -66,7 +82,7 @@ Graph build(const Pool::DescriptionMap& description, std::vector<ModulePtr>& mod
     for (auto it = vertices.begin(), ite = vertices.end(); it != ite;) {
         if (boost::out_degree(it->second, g) == 0) {
 
-            if (Module::is_virtual_module(it->first) || g[it->second].module->leafModule()) {
+            if (Module::is_virtual_module(it->first) || (g[it->second].module && g[it->second].module->leafModule())) {
                 ++it;
                 continue;
             }
@@ -128,7 +144,23 @@ Graph build(const Pool::DescriptionMap& description, std::vector<ModulePtr>& mod
 
     // Re-fill modules vector with new content (sorted & cleaned)
     for (const auto& vertex: sorted_vertices) {
-        modules.push_back(g[vertex].module);
+        assert(g[vertex].module);
+
+        Path* path = g[vertex].path;
+        if (path) {
+            path->modules.push_back(g[vertex].module);
+        } else {
+            modules.push_back(g[vertex].module);
+        }
+    }
+
+    for (PathPtr path: paths) {
+        for (const auto& name: path->names) {
+            auto it = std::find_if(path->modules.begin(), path->modules.end(), [&name](const ModulePtr& module) { return module->name() == name; });
+            if (it == path->modules.end()) {
+                LOG(warning) << "Module '" << name << "' in path not found.";
+            }
+        }
     }
 
     return g;

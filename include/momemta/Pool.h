@@ -153,6 +153,7 @@ class Pool {
             return m_storage.emplace(tag, content).first;
         }
 
+    public:
         /**
          * \brief Inform the pool of which module is currently created.
          *
@@ -161,6 +162,8 @@ class Pool {
          * \param module The name of the module beeing created
          */
         virtual void current_module(const std::string& module) final;
+
+    private:
 
         /**
          * \brief Freeze the memory pool.

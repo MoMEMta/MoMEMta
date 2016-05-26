@@ -19,6 +19,7 @@
 
 #include <momemta/ParameterSet.h>
 #include <momemta/Module.h>
+#include <momemta/Solution.h>
 #include <momemta/Types.h>
 #include <momemta/Math.h>
 
@@ -108,8 +109,7 @@ class BlockD: public Module {
 
         virtual void work() override {
 
-            invisibles->clear();
-            jacobians->clear();
+            solutions->clear();
 
             // Don't spend time on unphysical corner of the phase-space
             if (*s13 >= *s134 || *s25 >= *s256 || *s13 >= SQ(sqrt_s) || *s134 >= SQ(sqrt_s) || *s25 >= SQ(sqrt_s) || *s256 >= SQ(sqrt_s))
@@ -247,8 +247,9 @@ class BlockD: public Module {
                 if(q1Pz > sqrt_s/2 || q2Pz > sqrt_s/2)
                     continue;
 
-                invisibles->push_back({p1, p2});
-                jacobians->push_back(computeJacobian(p1, p2, p3, p4, p5, p6));
+                double jacobian = computeJacobian(p1, p2, p3, p4, p5, p6);
+                Solution s { {p1, p2}, jacobian, true };
+                solutions->push_back(s);
             }
         }
 
@@ -351,7 +352,6 @@ class BlockD: public Module {
         std::shared_ptr<const double> s25;
         std::shared_ptr<const double> s256;
 
-        std::shared_ptr<std::vector<std::vector<LorentzVector>>> invisibles = produce<std::vector<std::vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<double>>>>>("invisibles");
-        std::shared_ptr<std::vector<double>> jacobians = produce<std::vector<double>>("jacobians");
+        std::shared_ptr<SolutionCollection> solutions = produce<SolutionCollection>("solutions");
 };
 REGISTER_MODULE(BlockD);

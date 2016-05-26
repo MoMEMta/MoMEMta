@@ -100,6 +100,9 @@ struct InputTag {
         /// \return True if the InputTag is indexed, false otherwise
         bool isIndexed() const;
 
+        /// \return True if the InputTag is empty, false otherwise
+        bool empty() const;
+
         /**
          * \brief Link the InputTag to the memory pool
          *

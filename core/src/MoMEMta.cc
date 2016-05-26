@@ -32,7 +32,9 @@
 
 
 MoMEMta::MoMEMta(const Configuration& configuration) {
-    
+
+    auto plugins = ModuleFactory::get().getPluginsList();
+
     // Initialize shared memory pool for modules
     m_pool.reset(new Pool());
 
@@ -65,28 +67,21 @@ MoMEMta::MoMEMta(const Configuration& configuration) {
     // Resize pool ps-points vector
     m_ps_points->resize(m_n_dimensions);
 
-    // Find which modules produces the 'integrands' output, which defines the integrand.
-    // **There can be only one!**
-    m_pool->current_module("momemta");
-    bool foundIntegrands = false;
-    for (const auto& module: m_modules) {
-        if(m_pool->exists({module->name(), "integrands"})) {
-            if(!foundIntegrands){
-                m_integrands = m_pool->get<std::vector<double>>({module->name(), "integrands"});
-                foundIntegrands = true;
-                LOG(debug) << "Module " << module->name() << " produces the integrand.";
-            } else {
-                throw integrands_output_error("Only one module can produce the `integrands` output.");
-            }
-        }
+    // Integrand
+    // First, check if the user defined which integrand to use
+    InputTag integrand = configuration.getIntegrand();
+    if (integrand.empty()) {
+        LOG(fatal) << "No integrand found. Define which module's output you want to use as the integrand using the lua `integrand` function.";
+        throw integrands_output_error("No integrand found");
     }
-    if(!foundIntegrands)
-        throw integrands_output_error("No module found which produces the mandatory `integrands` output.");
+
+    m_pool->current_module("momemta");
+    m_integrand = m_pool->get<double>(integrand);
 
     m_cuba_configuration = configuration.getCubaConfiguration();
 
     const Pool::DescriptionMap& description = m_pool->description();
-    graph::build(description, m_modules, [&description, this](const std::string& module) {
+    graph::build(description, m_modules, configuration.getPaths(), [&description, this](const std::string& module) {
                 // Clean the pool for each removed module
                 const Description& d = description.at(module);
                 for (const auto& input: d.inputs)
@@ -191,12 +186,7 @@ double MoMEMta::integrand(const double* psPoints, const double* weights) {
         module->work();
     }
 
-    double sum = 0;
-    for (const auto& p: *m_integrands) {
-        sum += p;
-    }
-
-    return sum;
+    return *m_integrand;
 }
 
 int MoMEMta::CUBAIntegrand(const int *nDim, const double* psPoint, const int *nComp, double *value, void *inputs, const int *nVec, const int *core, const double *weight) {
