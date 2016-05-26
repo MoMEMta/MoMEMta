@@ -155,36 +155,38 @@ class BlockF: public Module {
             // p2x = alpha4*p2y + beta4*E2 + gamma4
             // p2z = alpha5*p2y + beta5*E2 + gamma5
             // E1 = alpha6*p2y + beta6*E2 + gamma6
-             
-            double alpha1 = (-p3z*p4y+p3y*p4z)/(-p3z*p4x+p3x*p4z);
-            double beta1 = (E4*p3z-E3*p4z)/(p3z*p4x+p3x*p4z);
-            double gamma1 = (p44*p3z-2*E3*Eb*p4z+p33*p4z+2*p3z*p4x*pbx+
+            
+            double den = p3z*p4x-p3x*p4z;
+
+            double alpha1 = (p3z*p4y-p3y*p4z)/den;
+            double beta1 = (-E4*p3z+E3*p4z)/den;
+            double gamma1 = -(p44*p3z-2*E3*Eb*p4z+p33*p4z+2*p3z*p4x*pbx+
                             2*p3y*p4z*pby+2*p3z*p4z*pbz-2*p3z*p4z*Qm+2*E3*p4z*Qp-
-                            p4z*(*s13)-p3z*(*s24))/(2*(-p3z*p4x+p3x*p4z));
+                            p4z*(*s13)-p3z*(*s24))/(2*den);
             
             double alpha2 = -1;
             double beta2 = 0;
             double gamma2 = -pby;
             
-            double alpha3 = (p3y*p4x-p3x*p4y)/(p3z*p4x-p3x*p4z);
-            double beta3 = (E4*p3x-E3*p4x)/(p3z*p4x-p3x*p4z);
-            double gamma3 = 0.5*((p44*p3x-2*E3*Eb*p4x+p33*p4x+2*p3x*p4x*pbx+
+            double alpha3 = (p3y*p4x-p3x*p4y)/den;
+            double beta3 = (E4*p3x-E3*p4x)/den;
+            double gamma3 = (p44*p3x-2*E3*Eb*p4x+p33*p4x+2*p3x*p4x*pbx+
                             2*p3y*p4x*pby+2*p3x*p4z*pbz-2*p3x*p4z*Qm+2*E3*p4x*Qp-
-                            p4x*(*s13)-p3x*(*s24))/(p3z*p4x-p3x*p4z));
+                             p4x*(*s13)-p3x*(*s24))/(2*den);
             
-            double alpha4 = (p3z*p4y-p3y*p4z)/(-p3z*p4x+p3x*p4z);
-            double beta4 = (-E4*p3z+E3*p4z)/(-p3z*p4x+p3x*p4z);
-            double gamma4 = (-2*p44*p3z+4*E3*Eb*p4z-2*p33*p4z-
-                             4*p3z*p4x*pbx-4*p3y*p4z*pby-4*p3z*p4z*pbz+
+            double alpha4 = -alpha1;
+            double beta4 = (E4*p3z-E3*p4z)/den;
+            double gamma4 = -(-2*p44*p3z+4*E3*Eb*p4z-2*p33*p4z-
+                             4*p3x*p4z*pbx-4*p3y*p4z*pby-4*p3z*p4z*pbz+
                              4*p3z*p4z*Qm-4*E3*p4z*Qp+2*p4z*(*s13)+
-                             2*p3z*(*s24))/(-4*p3z*p4x+4*p3x*p4z)-pbx;
+                              2*p3z*(*s24))/(4*den);
               
-            double alpha5 = (-p3y*p4x+p3x*p4y)/(p3z*p4x-p3x*p4z);
-            double beta5 = (-E4*p3x+E3*p4x)/(p3z*p4x-p3x*p4z);
-            double gamma5 = 0.5*((-p44*p3x+2*E3*Eb*p4x-p33*p4x-
+            double alpha5 = -alpha3;
+            double beta5 = (-E4*p3x+E3*p4x)/den;
+            double gamma5 = (-p44*p3x+2*E3*Eb*p4x-p33*p4x-
                             2*p3x*p4x*pbx-2*p3y*p4x*pby-2*p3z*p4x*pbz+
                             2*p3z*p4x*Qm-2*E3*p4x*Qp+p4x*(*s13)+
-                            p3x*(*s24))/(p3z*p4x-p3x*p4z));
+                             p3x*(*s24))/(2*den);
             
             double alpha6 = 0;
             double beta6 = -1;
@@ -200,43 +202,59 @@ class BlockF: public Module {
             double a10 = 2*(alpha6*gamma6 - alpha1*gamma1 - alpha2*gamma2 - alpha3*gamma3);
             double a01 = 2*(beta6*gamma6 - beta1*gamma1 - beta2*gamma2 - beta3*gamma3);
             double a00 = SQ(gamma6) - SQ(gamma1) - SQ(gamma2) - SQ(gamma3);
-            
-            double b11 = 1 + SQ(alpha4) + SQ(alpha5);
-            double b22 = SQ(beta4) + SQ(beta5) -1;
-            double b12 = 2*(alpha4*beta4 + alpha5*beta5);
+ 
             double b10 = 2*(alpha4*gamma4 + alpha5*gamma5);
             double b01 = 2*(beta4*gamma4 + beta5*gamma5);
             double b00 = SQ(gamma4) + SQ(gamma5);
-            
-            solve2Quads(a11, a22, a12, a10, a01, a00, b11, b22, b12, b10, b01, b00, p2y, E2, false);
-            //In this case there will be up to 2 solutions
-            
+
+            //These 2 equations are equivalent to the following system:
+            //a11*p2y^2 + a22*E2^2 + a12*p2y*E2 + a10*p2y + a01*E2 + a00 = 0
+            //E2 = c0 + c1*p2y
+            //From these two, we get a quadratic equation in p2y:
+            //d2*p2y^2 + d1*p2y + d0 = 0
+
+            double c0 = -(a00+b00)/(a01+b01);
+            double c1 = -(a10+b10)/(a01+b01);
+
+            double d0 = a22*SQ(c0) + a01*c0 + a00;
+            double d1 = 2*a22*c1*c0 + a12*c0 + a01*c1 + a10;
+            double d2 = a22*SQ(c1) + a12*c1 + a11;
+
+            solveQuadratic(d2, d1, d0, p2y, false);
+
             if (p2y.size() == 0)
                 return;
             
             for (size_t i=0; i<p2y.size(); i++) {
-                const double e1 = p2y.at(i);
-                const double e2 = E2.at(i);
+                const double e1 = p2y.at(i);      //p2y
+                const double e2 = (c0 + c1*e1);   //E2
                 
-                if (e1 < 0. || e2 < 0.)
+                if (e2 < 0.)
                     continue;
                 
-                LorentzVector p1(alpha6*e1+beta6*e2+gamma6,     //E1
-                                 alpha1*e1+beta1*e2+gamma1,     //p1x
+                LorentzVector p1(alpha1*e1+beta1*e2+gamma1,     //p1x
                                  alpha2*e1+beta2*e2+gamma2,     //p1y
-                                 alpha3*e1+beta3*e2+gamma3      //p1z
+                                 alpha3*e1+beta3*e2+gamma3,     //p1z
+                                 alpha6*e1+beta6*e2+gamma6      //E1
                                  );
-                
-                LorentzVector p2(e2,                            //E2
-                                 alpha4*e1+beta4*e2+gamma4,     //p2x
+
+                if (p1.E() < 0.)
+                    continue;
+
+                LorentzVector p2(alpha4*e1+beta4*e2+gamma4,     //p2x
                                  e1,                            //p2y
-                                 alpha5*e1+beta5*e2+gamma5      //p2z
+                                 alpha5*e1+beta5*e2+gamma5,     //p2z
+                                 e2                             //E2
                                  );                  
-                
+
                 // Check if solutions are physical
-                LorentzVector tot = p1 + p2 + p3 + p4;
+                LorentzVector tot = p1 + p2;
+                for (size_t i = 0; i < m_particle_tags.size(); i++){
+                    tot += m_particle_tags[i].get<LorentzVector>();
+                }
                 double q1Pz = std::abs(tot.Pz() + tot.E()) / 2.;
                 double q2Pz = std::abs(tot.Pz() - tot.E()) / 2.;
+                
                 if(q1Pz > sqrt_s/2 || q2Pz > sqrt_s/2)
                     continue;
                 

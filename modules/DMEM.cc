@@ -57,6 +57,9 @@ class DMEM: public Module {
 
         virtual void work() override {
             
+            if (integrands->size() == 0)
+                return;
+
             LorentzVector tot;
             for(const auto &v: m_particle_tags)
                 tot += v.get<LorentzVector>();
