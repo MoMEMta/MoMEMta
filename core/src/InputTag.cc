@@ -18,6 +18,7 @@
 
 
 #include <momemta/InputTag.h>
+#include <momemta/Utils.h>
 #include <momemta/Pool.h>
 
 std::vector<std::string> split(const std::string& s, const std::string& delimiters) {

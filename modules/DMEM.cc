@@ -20,6 +20,7 @@
 
 #include <momemta/ParameterSet.h>
 #include <momemta/Module.h>
+#include <momemta/Types.h>
 
 /*
  * \brief Module implementing the Differential MEM
