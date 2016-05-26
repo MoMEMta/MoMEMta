@@ -74,6 +74,8 @@
  *   | `invisibles` | vector(vector(LorentzVector)) | LorentzVector of the invisible particles. In this Block \f$p_1\f$. One value per solution.
  *   | `jacobians` | vector(double) | Jacobian of the performed change of variables, leading to an integration on \f$ds_{12}\f$. One jacobian per solution.
  *
+ * \warning This block is **not** validated for the moment. The output is maybe correct, maybe not. Use with caution.
+ *
  * \ingroup modules
  */
 
