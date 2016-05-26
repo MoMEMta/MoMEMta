@@ -26,8 +26,6 @@
 #include <string>
 #include <vector>
 
-#include <momemta/Utils.h>
-
 class Pool;
 
 /** \brief An identifier of a module's output

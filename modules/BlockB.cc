@@ -156,7 +156,10 @@ class BlockB: public Module {
                 LorentzVector p1(-pT.Px(), -pT.Py(), A - B*e1, e1);
                 
                 // Check if solutions are physical
-                LorentzVector tot = p1 + p2;
+                LorentzVector tot = p1;
+                for (size_t i = 0; i < m_particle_tags.size(); i++) {
+                    tot += m_particle_tags[i].get<LorentzVector>();
+                }
                 double q1Pz = std::abs(tot.Pz() + tot.E()) / 2.;
                 double q2Pz = std::abs(tot.Pz() - tot.E()) / 2.;
                 if(q1Pz > sqrt_s/2 || q2Pz > sqrt_s/2)
