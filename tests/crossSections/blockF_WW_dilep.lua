@@ -1,12 +1,7 @@
-M_W = 80.419002
-M_TOP = 173.
-W_W = 2.047600e+00
-W_TOP = 1.491500e+00
-
 parameters = {
     energy = 13000.,
-    top_mass = M_W,
-    W_mass = M_W
+    W_mass = 80.419002,
+    W_width = 2.047600e+00
 }
 
 cuba = {
@@ -59,14 +54,14 @@ inputs = {
 
 BreitWignerGenerator.flatter_s13 = {
     ps_point = getpspoint(),
-    mass = M_W,
-    width = W_W
+    mass = parameter('W_mass'),
+    width = parameter('W_width')
 }
 
 BreitWignerGenerator.flatter_s24 = {
     ps_point = getpspoint(),
-    mass = M_W,
-    width = W_W
+    mass = parameter('W_mass'),
+    width = parameter('W_width')
 }
 
 BlockF.blockf = {
@@ -95,6 +90,7 @@ jacobians = {
 
 MatrixElement.dummy = {
   pdf = 'CT10nlo',
+  pdf_scale = parameter('W_mass'),
 
   matrix_element = 'pp_WW_fully_leptonic_sm_P1_Sigma_sm_uux_epvemumvmx',
   matrix_element_parameters = {

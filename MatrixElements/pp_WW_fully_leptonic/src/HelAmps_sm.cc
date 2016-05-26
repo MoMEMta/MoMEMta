@@ -511,11 +511,8 @@ void FFV2_3(std::complex<double> F1[], std::complex<double> F2[],
 void FFV2_3_3(std::complex<double> F1[], std::complex<double> F2[],
     std::complex<double> COUP1, std::complex<double> COUP2, double M3, double
     W3, std::complex<double> V3[])
-{
-  static std::complex<double> cI = std::complex<double> (0., 1.); 
+{ 
   std::complex<double> denom; 
-  double P3[4]; 
-  double OM3; 
   int i; 
   std::complex<double> Vtmp[6]; 
   FFV2_3(F1, F2, COUP1, M3, W3, V3); 
@@ -531,10 +528,7 @@ void FFV2_5_3(std::complex<double> F1[], std::complex<double> F2[],
     std::complex<double> COUP1, std::complex<double> COUP2, double M3, double
     W3, std::complex<double> V3[])
 {
-  static std::complex<double> cI = std::complex<double> (0., 1.); 
   std::complex<double> denom; 
-  double P3[4]; 
-  double OM3; 
   int i; 
   std::complex<double> Vtmp[6]; 
   FFV2_3(F1, F2, COUP1, M3, W3, V3); 

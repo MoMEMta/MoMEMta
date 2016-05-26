@@ -174,14 +174,14 @@ class BlockF: public Module {
                             2*p3y*p4x*pby+2*p3x*p4z*pbz-2*p3x*p4z*Qm+2*E3*p4x*Qp-
                              p4x*(*s13)-p3x*(*s24))/(2*den);
             
-            double alpha4 = (-p3z*p4y+p3y*p4z)/den;
+            double alpha4 = -alpha1;
             double beta4 = (E4*p3z-E3*p4z)/den;
             double gamma4 = -(-2*p44*p3z+4*E3*Eb*p4z-2*p33*p4z-
                              4*p3x*p4z*pbx-4*p3y*p4z*pby-4*p3z*p4z*pbz+
                              4*p3z*p4z*Qm-4*E3*p4z*Qp+2*p4z*(*s13)+
                               2*p3z*(*s24))/(4*den);
               
-            double alpha5 = (-p3y*p4x+p3x*p4y)/den;
+            double alpha5 = -alpha3;
             double beta5 = (-E4*p3x+E3*p4x)/den;
             double gamma5 = (-p44*p3x+2*E3*Eb*p4x-p33*p4x-
                             2*p3x*p4x*pbx-2*p3y*p4x*pby-2*p3z*p4x*pbz+
@@ -202,18 +202,12 @@ class BlockF: public Module {
             double a10 = 2*(alpha6*gamma6 - alpha1*gamma1 - alpha2*gamma2 - alpha3*gamma3);
             double a01 = 2*(beta6*gamma6 - beta1*gamma1 - beta2*gamma2 - beta3*gamma3);
             double a00 = SQ(gamma6) - SQ(gamma1) - SQ(gamma2) - SQ(gamma3);
-            
-            //double b11 = 1 + SQ(alpha4) + SQ(alpha5);
-            //double b22 = SQ(beta4) + SQ(beta5) -1;
-            //double b12 = 2*(alpha4*beta4 + alpha5*beta5);
+ 
             double b10 = 2*(alpha4*gamma4 + alpha5*gamma5);
             double b01 = 2*(beta4*gamma4 + beta5*gamma5);
             double b00 = SQ(gamma4) + SQ(gamma5);
-            
-            //solve2Quads(a11, a22, a12, a10, a01, a00, 0, 0, 0, b10+a10, b01+a01, b00+a00, p2y, E2, false);
-            //In this case there will be up to 2 solutions
 
-            //These 2 equations are equivalent to:
+            //These 2 equations are equivalent to the following system:
             //a11*p2y^2 + a22*E2^2 + a12*p2y*E2 + a10*p2y + a01*E2 + a00 = 0
             //E2 = c0 + c1*p2y
             //From these two, we get a quadratic equation in p2y:
@@ -254,7 +248,10 @@ class BlockF: public Module {
                                  );                  
                                
                 // Check if solutions are physical
-                LorentzVector tot = p1 + p2 + p3 + p4;
+                LorentzVector tot = p1 + p2;
+                for (size_t i = 0; i < m_particle_tags.size(); i++){
+                    tot += m_particle_tags[i].get<LorentzVector>();
+                }
                 double q1Pz = std::abs(tot.Pz() + tot.E()) / 2.;
                 double q2Pz = std::abs(tot.Pz() - tot.E()) / 2.;
                 

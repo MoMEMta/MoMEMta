@@ -1,14 +1,9 @@
 load_modules('MatrixElements/dummy/libme_dummy.so')
 
-M_W = 250.
-M_TOP = 500.
-W_W = 100.
-W_TOP = 100.
-
 parameters = {
     energy = 1000.,
-    top_mass = M_W,
-    W_mass = M_W
+    W_mass = 250.,
+    W_width = 100.
 }
 
 cuba = {
@@ -61,14 +56,14 @@ inputs = {
 
 BreitWignerGenerator.flatter_s13 = {
     ps_point = getpspoint(),
-    mass = M_W,
-    width = W_W
+    mass = parameter('W_mass'),
+    width = parameter('W_width')
 }
 
 BreitWignerGenerator.flatter_s24 = {
     ps_point = getpspoint(),
-    mass = M_W,
-    width = W_W
+    mass = parameter('W_mass'),
+    width = parameter('W_width')
 }
 
 BlockF.blockf = {

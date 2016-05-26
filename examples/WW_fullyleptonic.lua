@@ -30,8 +30,6 @@ parameters = {
     energy = 13000.,
     W_mass = 80.419002,
     W_width = 2.047600,
-    top_mass = 80.419002,
-    top_width = 1.491500,
 }
 
 cuba = {
@@ -77,7 +75,7 @@ BlockF.blockf = {
     q2 = getpspoint()
 }
 
-BuildInitialState.boost = {
+BuildInitialState.initial_state = {
     invisibles = {
         'blockf::invisibles',
     },
@@ -93,13 +91,14 @@ end
 
 MatrixElement.WW = {
   pdf = 'CT10nlo',
+  pdf_scale = parameter('W_mass'),
 
   matrix_element = 'pp_WW_fully_leptonic_sm_P1_Sigma_sm_uux_epvemumvmx',
   matrix_element_parameters = {
       card = '../MatrixElements/Cards/param_card.dat'
   },
 
-  initialState = 'boost::output',
+  initialState = 'initial_state::output',
 
   invisibles = {
     input = 'blockf::invisibles',
