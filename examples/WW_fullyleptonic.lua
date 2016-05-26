@@ -23,7 +23,7 @@ else
     }
 end
 
-  inputs = inputs_before_perm
+    inputs = inputs_before_perm
 
 
 parameters = {

@@ -78,7 +78,7 @@ class DMEM: public Module {
                     for(const auto &v: (*m_invisibles)[sol])
                       thisTot += v;
 
-                      m_hist->Fill(thisTot.M(), (*integrands)[sol] * (*psWeight));
+                    m_hist->Fill(thisTot.M(), (*integrands)[sol] * (*psWeight));
                 }
 
             }

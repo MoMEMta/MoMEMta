@@ -145,7 +145,7 @@ class BlockF: public Module {
             
             double q1 = m_ps_point1.get<double>();
             double q2 = m_ps_point2.get<double>();
-            
+
             const double Qm = sqrt_s*(q1-q2)/2.;
             const double Qp = sqrt_s*(q1+q2)/2.;
             
@@ -246,7 +246,7 @@ class BlockF: public Module {
                                  alpha5*e1+beta5*e2+gamma5,     //p2z
                                  e2                             //E2
                                  );                  
-                               
+
                 // Check if solutions are physical
                 LorentzVector tot = p1 + p2;
                 for (size_t i = 0; i < m_particle_tags.size(); i++){
