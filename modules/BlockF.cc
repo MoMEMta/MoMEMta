@@ -80,6 +80,8 @@
  *   | `invisibles` | vector(vector(LorentzVector)) | LorentzVector of the invisible particles. Each element contains one of the possible solutions (\f$p1\f$, \f$p2\f$ in this case). |
  *   | `jacobians` | vector(double) | Jacobian of the performed change of variables, leading to an integration on \f$dq_1\f$, \f$dq_2\f$, \f$ds_{13}\f$, \f$ds_{24}\f$. One jacobian per solution. |
  *
+ * \note This block has been validated and is safe to use.
+ *
  * \ingroup modules
  */
 

@@ -74,6 +74,8 @@
  *   |------|------|--------------|
  *   | `invisibles` | vector(vector(LorentzVector)) | LorentzVectors of the invisible particles, one entry (ie. one \f$(p_1, p_2)\f$ pair) per solution. |
  *   | `jacobians` | vector(double) | Jacobian of the performed change of variables (one entry per solution). |
+ *
+ * \note This block has been validated and is safe to use.
  *   
  * \ingroup modules
  */
