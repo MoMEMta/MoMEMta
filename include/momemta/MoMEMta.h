@@ -30,21 +30,50 @@
 class Configuration;
 class SharedLibrary;
 
+/**
+ * \brief A %MoMEMta instance
+ *
+ * Compute weights for a particular event using the Matrix Element Method. See [the documentation](http://momemta.github.io/introduction/) for more details about this method.
+ *
+ */
 class MoMEMta {
     public:
-        MoMEMta(const Configuration&);
+        /** \brief Create a new MoMEMta instance
+         *
+         * \param configuration A frozen snapshot of the configuration, usually obtained by ConfigurationReader::freeze
+         *
+         * \note A single instance of MoMEMta is able to compute weights for any numbers of events. However, if you want to change the configuration, you need to create a new instance.
+         */
+        MoMEMta(const Configuration& configuration);
+        /// Destructor
         virtual ~MoMEMta();
 
+        /** \brief Compute the weights in the current configuration.
+         *
+         * This function is traditionally called from the main event loop.
+         *
+         * \param particles List of LorentzVector representing the final state particles. The order is important, because a mapping is done between these particles and the matrix element inside the configuration file.
+         * \param met Missing transverse energy of the event. This parameter is optional.
+         *
+         * \return A vector of weights. Each weight is represented by a pair of double, the first element being the value of the weight and the second the associated absolute error.
+         */
         std::vector<std::pair<double, double>> computeWeights(const std::vector<LorentzVector>& particles, const LorentzVector& met = LorentzVector());
 
-        double integrand(const double* psPoints, const double* weights);
-
+        /**
+         * \brief Read-only access to the global memory pool
+         *
+         * Use the pool to retrieve outputs from special modules, like DMEM.
+         *
+         * \return A read-only instance of the global memory pool
+         */
         const Pool& getPool() const;
 
     private:
         class integrands_output_error: public std::runtime_error {
             using std::runtime_error::runtime_error;
         };
+
+        double integrand(const double* psPoints, const double* weights);
 
         static int CUBAIntegrand(const int *nDim, const double* psPoint, const int *nComp, double *value, void *inputs, const int *nVec, const int *core, const double *weight);
 
