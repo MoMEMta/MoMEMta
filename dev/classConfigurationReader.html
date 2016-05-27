@@ -124,7 +124,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <p><code>#include &lt;<a class="el" href="ConfigurationReader_8h_source.html">ConfigurationReader.h</a>&gt;</code></p>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>A lua configuration file parser. </p>
-<p>This class handles the parsing of the lua configuration file. The configuration files describes which modules should be run in order to form an integrand. This integrand is then integrated using CUBA and <a class="el" href="classMoMEMta.html">MoMEMta</a> and the result of the integral is returned.</p>
+<p>This class handles the parsing of the lua configuration file. The configuration files describes which modules should be run in order to form an integrand. This integrand is then integrated using CUBA and <a class="el" href="classMoMEMta.html" title="A MoMEMta instance. ">MoMEMta</a> and the result of the integral is returned.</p>
 <p>A module is a single element of a more complex scheme. Itself, it only performs a simple tasks (flattening a Breit-Wigner for example), but combined with other modules, it's possible to define complex integrand.</p>
 <p>A module can be seen like a box with a fixed number of inputs and outputs. The configuration file is used to specify a list of module to run, and to connect outputs of modules to inputs of other modules.</p>
 <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000002">Todo:</a></b></dt><dd>Discuss the <code>parameters</code> table, <code>cuba</code> table and the concept of freezing and delayed execution</dd></dl>
