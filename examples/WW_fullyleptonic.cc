@@ -19,7 +19,7 @@
 
 #include <momemta/ConfigurationReader.h>
 #include <momemta/MoMEMta.h>
-#include <momemta/Utils.h>
+#include <momemta/Unused.h>
 
 #include <TH1D.h>
 

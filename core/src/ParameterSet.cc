@@ -19,7 +19,7 @@
 #include <momemta/ParameterSet.h>
 
 #include <momemta/Logging.h>
-#include <momemta/Utils.h>
+#include <momemta/Unused.h>
 
 #include <lua/utils.h>
 

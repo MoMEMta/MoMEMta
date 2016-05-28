@@ -1,5 +1,5 @@
 #include <momemta/MatrixElement.h>
-#include <momemta/Utils.h>
+#include <momemta/Unused.h>
 
 class DummyMatrixElement : public momemta::MatrixElement {
   public:

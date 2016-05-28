@@ -19,7 +19,8 @@
 
 #include <momemta/ConfigurationReader.h>
 #include <momemta/MoMEMta.h>
-#include <momemta/Utils.h>
+#include <momemta/Types.h>
+#include <momemta/Unused.h>
 
 #include <chrono>
 
