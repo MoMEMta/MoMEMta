@@ -29,10 +29,12 @@ make -j 4
 ```
 You can now use the library `libmomemta.so` with your own code.
 
-If you have admin rights on your system, you can make MoMEMta (public headers and library) available system-wide using:
+Finally, you can make MoMEMta (public headers and library) available system-wide using:
 ```
 make install
 ```
+This step is **mandatory** if you want to link your own code or matrix elements with MoMEMta. If you don't have
+admin rights on your system, have a look at the build options below.
 
 ### Build options
 

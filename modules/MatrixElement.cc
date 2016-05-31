@@ -28,7 +28,125 @@
 #include <momemta/Types.h>
 #include <momemta/Utils.h>
 
-/**
+/** \brief Compute the integrand: matrix element, PDFs, jacobians
+ *
+ * ### Summary
+ *
+ * Evaluate the matrix element, parton density functions, jacobians, 
+ * phase-space density terms, flux factor, ..., to define the final quantity to be integrated.
+ *
+ * The matrix element has to be evaluated on all the initial and final particles' 4-momenta.
+ * In most cases, a subset of those particles are given by a Block. Blocks produce several
+ * equivalent solutions for those particles, and the matrix element, ..., has to be computed on
+ * each of those solutions, along with the rest of the particles in the event. To define the integrand,
+ * these evaluations are then summed together.
+ *
+ * This module loops over the solutions given as input and produces a vector of quantities which will be
+ * summed by MoMEMta to define the final integrand.
+ *
+ * ### In more details
+ *
+ * In the following, the set of solutions will be indexed by \f$j\f$. Particles produced by the Block will be
+ * called 'invisible', while other, uniquely defined particles in the event will be called 'visible'. Since initial
+ * state momenta are computed from the whole event, they have the same multiplicity as the 'invisibles' and will therefore
+ * also be indexed by \f$j\f$.
+ *
+ * If no invisibles are present and the matrix element only has to be evaluated on the uniquely defined visible particles,
+ * this module can still be used to define the integrand: no loop is done in this case, and the index \f$j\f$ can be omitted
+ * in the following.
+ *
+ * As stated above, this modules's ouput is a vector \f$\vec{I}\f$ whose entries are:
+ * \f[
+ *      I_j = \frac{1}{2 x_1^j x_2^j s} \times \left( \sum_{i_1, i_2} f(i_1, x_1^j, Q_f^2) f(i_2, x_2^j, Q_f^2) |\mathcal{M}(i_1, i_2, j)|^2 \right) \times \left( \mathcal{J}^{\text{inv.}}_j \prod_{i} \mathcal{J}_i \right) \times \left( \prod_{i \in \text{vis.}} \frac{|p_i|^2 \sin(\theta_i)}{2 E_i(2\pi)^3} \right)
+ * \f]
+ * where:
+ *    - \f$s\f$ is the hadronic centre-of-mass energy.
+ *    - \f$\mathcal{J}_i\f$ are the jacobians not associated to the Block.
+ *    - \f$x_1^j, x_2^j\f$ are the initial particles' Björken fractions (computed from the entry \f$j\f$ of the initial states given as input).
+ *    - \f$f(i_{1(2)}, x_{1(2)}^j, Q_f^2)\f$ is the PDF of parton flavour \f$i_{1(2)}\f$ evaluated on the first (second) initial particle's Björken-\f$x\f$ and using factorisation scale \f$Q_f\f$.
+ *    - \f$|\mathcal{M}(i_1, i_2, j)|^2\f$ is the matrix element squared evaluated on all the particles' momenta in the event, for solution \f$j\f$. Along with the PDFs, a sum is done over all the initial parton flavours \f$i_1, i_2\f$ defined by the matrix element.
+ *    - \f$\mathcal{J}^{\text{inv.}}_j\f$ is the Block's jacobian for solution \f$j\f$.
+ *
+ * ### Expected parameter sets
+ *
+ * Some inputs expected by this module are not simple parameters, but sets of parameters and input tags. These are used for:
+ *
+ *    - matrix element:
+ *      - `card` (string): Path to the the matrix element's `param_card.dat` file.
+ *
+ *    - 'invisible' particles:
+ *      - `input` (vector(vector(LorentzVector)): Set of solutions for the invisibles, given by the Block.
+ *      - `jacobians`: Set of jacobians given by the Block, one per invisibles' solution.
+ *      - `ids`: Parameter set used to link the invisibles to the matrix element (see below).
+ *
+ *    - 'visible' particles:
+ *      - `inputs` (vector(LorentzVector)): Set of visible particles.
+ *      - `ids`: Parameter set used to link the visibles to the matrix element (see below).
+ *
+ * ### Linking inputs and matrix element
+ *
+ * The matrix element expects the final-state particles' 4-momenta to be given in a certain order, 
+ * but it is agnostic as to how the particles are ordered in MoMEMta. 
+ * It is therefore necessary to specify the index of each input (visible and invisible) 
+ * particle in the matrix element call. Furthermore, since the matrix element library might define several final states,
+ * each input particle's PDG ID has to be set by the user, to ensure the correct final state is retrieved when evaluating the matrix element.
+ *
+ * To find out the ordering the matrix element expects, it is currently necessary to dig into the matrix element's code. 
+ * For instance, for the fully leptonic \f$t\overline{t}\f$ example shipped with MoMEMta, the ordering and PDG IDs can be read from [https://github.com/MoMEMta/MoMEMta/blob/master/MatrixElements/pp_ttx_fully_leptonic/SubProcesses/P1_Sigma_sm_gg_mupvmbmumvmxbx/cpp_pp_ttx_fullylept.cc#L146](here).
+ *
+ * In the Lua configuation for this module, the ordering is defined through the `ids` parameter set mentioned above. For instance,
+ * ```
+ * particles = {
+ *     inputs = { 'input::particles/1', 'input::particles/2' },
+ *     ids = {
+ *         {
+ *             me_index = 2,
+ *             pdg_id = 11
+ *         },
+ *         {
+ *             me_index = 1,
+ *             pdg_id = -11
+ *         }
+ *     }
+ * }
+ * ```
+ * means that the visible particle vector corresponds to (electron, positron), while the matrix element expects to be given first the positron, then the electron.
+ *
+ * ### Integration dimension
+ *
+ * This module adds **0** dimension to the integration.
+ *
+ * ### Global Parameters
+ *
+ *   | Name | Type | %Description |
+ *   |------|------|--------------|
+ *   | `energy` | double | Hadronic centre-of-mass energy (GeV). |
+ *
+ * ### Parameters
+ *
+ *   | Name | Type | %Description |
+ *   |------|------|--------------|
+ *   | `use_pdf` | double, default true | Evaluate PDFs and use them in the integrand. |
+ *   | `pdf` | string | Name of the LHAPDF set to be used (see [https://lhapdf.hepforge.org/pdfsets.html](full list)). |
+ *   | `pdf_scale` | double | Factorisation scale used when evaluating the PDFs. |
+ *   | `matrix_element` | string | Name of the matrix element to be used. |
+ *   | `matrix_element_parameters` | ParameterSet | Set of parameters passed to the matrix element (see above explanation). |
+ * 
+ * ### Inputs
+ *
+ *   | Name | Type | %Description |
+ *   |------|------|--------------|
+ *   | `initialState` | vector(vector(LorentzVector)) | Sets of initial parton 4-momenta (one pair per invisibles' solution), typically coming from a BuildInitialState module. |
+ *   | `invisibles` | ParameterSet | Set of parameters defining the 'invisible' particles (see above explanation). |
+ *   | `particles` | ParameterSet | Set of parameters defining the 'visible' particles (see above explanation). | 
+ *   | `jacobians` | vector(double) | All jacobians defined in the integration (transfer functions, generators, ...). Note: jacobians associated to Blocks are to be given in the `invisibles` parameter set. |
+ *
+ * ### Outputs
+ *
+ *   | Name | Type | %Description |
+ *   |------|------|--------------|
+ *   | `integrands` | vector(double) | Vector of integrands (one per invisibles' solution). All entries in this vector will be summed by MoMEMta to define the final integrand used by Cuba to compute the integral. | 
+ *
  * \ingroup modules
  */
 class MatrixElement: public Module {
