@@ -123,13 +123,13 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="textblock"><p>Generate points distributed according to a Breit-Wigner. </p>
 <p>Transform a phase-space point given by Cuba, distributed uniformly between 0 and 1, into a quantity distributed according to a relativistic Breit-Wigner distribution of mass \(m\) and width \(\Gamma\).</p>
 <p>This transformation has the effect of removing a peak associated to a propagator in the integrand. Indeed, the change of variable applied is: </p><p class="formulaDsp">
-\[ x \to s(x) = m \Gamma \tan (y(x)) + m^2 \text{, with } y(x) = - \atan(m/\Gamma) + \left( \pi/2 + \atan(m/\Gamma) \right) x \]
+\[ x \to s(x) = m \Gamma \tan (y(x)) + m^2 \text{, with } y(x) = - \arctan(m/\Gamma) + \left( \pi/2 + \atan(m/\Gamma) \right) x \]
 </p>
 <p> with Jacobian: </p><p class="formulaDsp">
-\[ \frac{ds}{dx} = \left( \pi/2 + \atan(m/\Gamma) \right) m \Gamma \cos^{-2}(y(x)) \]
+\[ \frac{ds}{dx} = \left( \pi/2 + \arctan(m/\Gamma) \right) m \Gamma \cos^{-2}(y(x)) \]
 </p>
 <p> If \(p(s)\) is a propagator to be integrated on \(s = 0 \to \infty\), applying this change of variable makes the calculation trivial: </p><p class="formulaDsp">
-\[ \int_0^{\infty} ds p(s) = \int_0^1 dx \frac{ds}{dx} p(s(x)) = \int_0^1 \text{ (constant) } dx \]
+\[ \int_0^{\infty} \! ds \, p(s) = \int_0^1 \! dx \frac{ds}{dx} \, p(s(x)) = \int_0^1 \! dx \text{ (constant)} \]
 </p>
 <h3>Integration dimension</h3>
 <p>This module adds <b>1</b> dimension to the integration.</p>
