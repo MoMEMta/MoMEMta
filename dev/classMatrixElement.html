@@ -117,9 +117,98 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="title">MatrixElement Class Reference<div class="ingroups"><a class="el" href="group__modules.html">Modules</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>Compute the integrand: matrix element, PDFs, jacobians.  
+ <a href="classMatrixElement.html#details">More...</a></p>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock">
-<p>Definition at line <a class="el" href="MatrixElement_8cc_source.html#l00034">34</a> of file <a class="el" href="MatrixElement_8cc_source.html">MatrixElement.cc</a>.</p>
+<div class="textblock"><p>Compute the integrand: matrix element, PDFs, jacobians. </p>
+<h3>Summary</h3>
+<p>Evaluate the matrix element, parton density functions, jacobians, phase-space density terms, flux factor, ..., to define the final quantity to be integrated.</p>
+<p>The matrix element has to be evaluated on all the initial and final particles' 4-momenta. In most cases, a subset of those particles are given by a Block. Blocks produce several equivalent solutions for those particles, and the matrix element, ..., has to be computed on each of those solutions, along with the rest of the particles in the event. To define the integrand, these evaluations are then summed together.</p>
+<p>This module loops over the solutions given as input and produces a vector of quantities which will be summed by <a class="el" href="classMoMEMta.html" title="A MoMEMta instance. ">MoMEMta</a> to define the final integrand.</p>
+<h3>In more details</h3>
+<p>In the following, the set of solutions will be indexed by \(j\). Particles produced by the Block will be called 'invisible', while other, uniquely defined particles in the event will be called 'visible'. Since initial state momenta are computed from the whole event, they have the same multiplicity as the 'invisibles' and will therefore also be indexed by \(j\).</p>
+<p>If no invisibles are present and the matrix element only has to be evaluated on the uniquely defined visible particles, this module can still be used to define the integrand: no loop is done in this case, and the index \(j\) can be omitted in the following.</p>
+<p>As stated above, this modules's ouput is a vector \(\vec{I}\) whose entries are: </p><p class="formulaDsp">
+\[ I_j = \frac{1}{2 x_1^j x_2^j s} \times \left( \sum_{i_1, i_2} f(i_1, x_1^j, Q_f^2) f(i_2, x_2^j, Q_f^2) |\mathcal{M}(i_1, i_2, j)|^2 \right) \times \left( \mathcal{J}^{\text{inv.}}_j \prod_{i} \mathcal{J}_i \right) \times \left( \prod_{i \in \text{vis.}} \frac{|p_i|^2 \sin(\theta_i)}{2 E_i(2\pi)^3} \right) \]
+</p>
+<p> where:</p><ul>
+<li>\(s\) is the hadronic centre-of-mass energy.</li>
+<li>\(\mathcal{J}_i\) are the jacobians not associated to the Block.</li>
+<li>\(x_1^j, x_2^j\) are the initial particles' Björken fractions (computed from the entry \(j\) of the initial states given as input).</li>
+<li>\(f(i_{1(2)}, x_{1(2)}^j, Q_f^2)\) is the PDF of parton flavour \(i_{1(2)}\) evaluated on the first (second) initial particle's Björken- \(x\) and using factorisation scale \(Q_f\).</li>
+<li>\(|\mathcal{M}(i_1, i_2, j)|^2\) is the matrix element squared evaluated on all the particles' momenta in the event, for solution \(j\). Along with the PDFs, a sum is done over all the initial parton flavours \(i_1, i_2\) defined by the matrix element.</li>
+<li>\(\mathcal{J}^{\text{inv.}}_j\) is the Block's jacobian for solution \(j\).</li>
+</ul>
+<h3>Expected parameter sets</h3>
+<p>Some inputs expected by this module are not simple parameters, but sets of parameters and input tags. These are used for:</p>
+<ul>
+<li>matrix element:<ul>
+<li><code>card</code> (string): Path to the the matrix element's <code>param_card.dat</code> file.</li>
+</ul>
+</li>
+<li>'invisible' particles:<ul>
+<li><code>input</code> (vector(vector(LorentzVector)): Set of solutions for the invisibles, given by the Block.</li>
+<li><code>jacobians</code>: Set of jacobians given by the Block, one per invisibles' solution.</li>
+<li><code>ids</code>: Parameter set used to link the invisibles to the matrix element (see below).</li>
+</ul>
+</li>
+<li>'visible' particles:<ul>
+<li><code>inputs</code> (vector(LorentzVector)): Set of visible particles.</li>
+<li><code>ids</code>: Parameter set used to link the visibles to the matrix element (see below).</li>
+</ul>
+</li>
+</ul>
+<h3>Linking inputs and matrix element</h3>
+<p>The matrix element expects the final-state particles' 4-momenta to be given in a certain order, but it is agnostic as to how the particles are ordered in <a class="el" href="classMoMEMta.html" title="A MoMEMta instance. ">MoMEMta</a>. It is therefore necessary to specify the index of each input (visible and invisible) particle in the matrix element call. Furthermore, since the matrix element library might define several final states, each input particle's PDG ID has to be set by the user, to ensure the correct final state is retrieved when evaluating the matrix element.</p>
+<p>To find out the ordering the matrix element expects, it is currently necessary to dig into the matrix element's code. For instance, for the fully leptonic \(t\overline{t}\) example shipped with <a class="el" href="classMoMEMta.html" title="A MoMEMta instance. ">MoMEMta</a>, the ordering and PDG IDs can be read from [<a href="https://github.com/MoMEMta/MoMEMta/blob/master/MatrixElements/pp_ttx_fully_leptonic/SubProcesses/P1_Sigma_sm_gg_mupvmbmumvmxbx/cpp_pp_ttx_fullylept.cc#L146">https://github.com/MoMEMta/MoMEMta/blob/master/MatrixElements/pp_ttx_fully_leptonic/SubProcesses/P1_Sigma_sm_gg_mupvmbmumvmxbx/cpp_pp_ttx_fullylept.cc#L146</a>](here).</p>
+<p>In the Lua configuation for this module, the ordering is defined through the <code>ids</code> parameter set mentioned above. For instance, </p><div class="fragment"><div class="line">particles = {</div><div class="line">    inputs = { <span class="stringliteral">&#39;input::particles/1&#39;</span>, <span class="stringliteral">&#39;input::particles/2&#39;</span> },</div><div class="line">    ids = {</div><div class="line">        {</div><div class="line">            me_index = 2,</div><div class="line">            pdg_id = 11</div><div class="line">        },</div><div class="line">        {</div><div class="line">            me_index = 1,</div><div class="line">            pdg_id = -11</div><div class="line">        }</div><div class="line">    }</div><div class="line">}</div></div><!-- fragment --><p> means that the visible particle vector corresponds to (electron, positron), while the matrix element expects to be given first the positron, then the electron.</p>
+<h3>Integration dimension</h3>
+<p>This module adds <b>0</b> dimension to the integration.</p>
+<h3>Global Parameters</h3>
+<table class="doxtable">
+<tr>
+<th>Name </th><th>Type </th><th>Description  </th></tr>
+<tr>
+<td><code>energy</code> </td><td>double </td><td>Hadronic centre-of-mass energy (GeV). </td></tr>
+</table>
+<h3>Parameters</h3>
+<table class="doxtable">
+<tr>
+<th>Name </th><th>Type </th><th>Description  </th></tr>
+<tr>
+<td><code>use_pdf</code> </td><td>double, default true </td><td>Evaluate PDFs and use them in the integrand. </td></tr>
+<tr>
+<td><code>pdf</code> </td><td>string </td><td>Name of the LHAPDF set to be used (see [<a href="https://lhapdf.hepforge.org/pdfsets.html">https://lhapdf.hepforge.org/pdfsets.html</a>](full list)). </td></tr>
+<tr>
+<td><code>pdf_scale</code> </td><td>double </td><td>Factorisation scale used when evaluating the PDFs. </td></tr>
+<tr>
+<td><code>matrix_element</code> </td><td>string </td><td>Name of the matrix element to be used. </td></tr>
+<tr>
+<td><code>matrix_element_parameters</code> </td><td><a class="el" href="classParameterSet.html" title="A class encapsulating a lua table. ">ParameterSet</a> </td><td>Set of parameters passed to the matrix element (see above explanation). </td></tr>
+</table>
+<h3>Inputs</h3>
+<table class="doxtable">
+<tr>
+<th>Name </th><th>Type </th><th>Description  </th></tr>
+<tr>
+<td><code>initialState</code> </td><td>vector(vector(LorentzVector)) </td><td>Sets of initial parton 4-momenta (one pair per invisibles' solution), typically coming from a <a class="el" href="classBuildInitialState.html" title="Build the initial partons given the whole final state. ">BuildInitialState</a> module. </td></tr>
+<tr>
+<td><code>invisibles</code> </td><td><a class="el" href="classParameterSet.html" title="A class encapsulating a lua table. ">ParameterSet</a> </td><td>Set of parameters defining the 'invisible' particles (see above explanation). </td></tr>
+<tr>
+<td><code>particles</code> </td><td><a class="el" href="classParameterSet.html" title="A class encapsulating a lua table. ">ParameterSet</a> </td><td>Set of parameters defining the 'visible' particles (see above explanation). </td></tr>
+<tr>
+<td><code>jacobians</code> </td><td>vector(double) </td><td>All jacobians defined in the integration (transfer functions, generators, ...). Note: jacobians associated to Blocks are to be given in the <code>invisibles</code> parameter set. </td></tr>
+</table>
+<h3>Outputs</h3>
+<table class="doxtable">
+<tr>
+<th>Name </th><th>Type </th><th>Description  </th></tr>
+<tr>
+<td><code>integrands</code> </td><td>vector(double) </td><td>Vector of integrands (one per invisibles' solution). All entries in this vector will be summed by <a class="el" href="classMoMEMta.html" title="A MoMEMta instance. ">MoMEMta</a> to define the final integrand used by Cuba to compute the integral. </td></tr>
+</table>
+
+<p>Definition at line <a class="el" href="MatrixElement_8cc_source.html#l00152">152</a> of file <a class="el" href="MatrixElement_8cc_source.html">MatrixElement.cc</a>.</p>
 </div><div class="dynheader">
 Inheritance diagram for MatrixElement:</div>
 <div class="dyncontent">
@@ -222,7 +311,7 @@ PoolPtr&#160;</td><td class="memItemRight" valign="bottom"><b>m_pool</b></td></t
 
 <p>Reimplemented from <a class="el" href="classModule.html#a9f798ae2775b4f9ef99f7df568261796">Module</a>.</p>
 
-<p>Definition at line <a class="el" href="MatrixElement_8cc_source.html#l00108">108</a> of file <a class="el" href="MatrixElement_8cc_source.html">MatrixElement.cc</a>.</p>
+<p>Definition at line <a class="el" href="MatrixElement_8cc_source.html#l00226">226</a> of file <a class="el" href="MatrixElement_8cc_source.html">MatrixElement.cc</a>.</p>
 
 </div>
 </div>
