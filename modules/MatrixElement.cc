@@ -57,14 +57,14 @@
  *
  * As stated above, this modules's ouput is a vector \f$\vec{I}\f$ whose entries are:
  * \f[
- *      I_j = \frac{1}{2 x_1^j x_2^j s} \times \left( \sum_{i_1, i_2} f(i_1, x_1^j, Q_f^2) f(i_2, x_2^j, Q_f^2) |\mathcal{M}(i_1, i_2, j)|^2 \right) \times \left( \mathcal{J}^{\text{inv.}}_j \prod_{i} \mathcal{J}_i \right) \times \left( \prod_{i \in \text{vis.}} \frac{|p_i|^2 \sin(\theta_i)}{2 E_i(2\pi)^3} \right)
+ *      I_j = \frac{1}{2 x_1^j x_2^j s} \times \left( \sum_{i_1, i_2} \, f(i_1, x_1^j, Q_f^2) \, f(i_2, x_2^j, Q_f^2) \, \left| \mathcal{M}(i_1, i_2, j) \right|^2 \right) \times \left( \mathcal{J}^{\text{inv.}}_j \, \prod_{i} \mathcal{J}_i \right) \times \left( \prod_{i \in \text{vis.}} \frac{\left|p_i\right|^2 \sin(\theta_i)}{2 E_i(2\pi)^3} \right)
  * \f]
  * where:
  *    - \f$s\f$ is the hadronic centre-of-mass energy.
  *    - \f$\mathcal{J}_i\f$ are the jacobians not associated to the Block.
  *    - \f$x_1^j, x_2^j\f$ are the initial particles' Björken fractions (computed from the entry \f$j\f$ of the initial states given as input).
- *    - \f$f(i_{1(2)}, x_{1(2)}^j, Q_f^2)\f$ is the PDF of parton flavour \f$i_{1(2)}\f$ evaluated on the first (second) initial particle's Björken-\f$x\f$ and using factorisation scale \f$Q_f\f$.
- *    - \f$|\mathcal{M}(i_1, i_2, j)|^2\f$ is the matrix element squared evaluated on all the particles' momenta in the event, for solution \f$j\f$. Along with the PDFs, a sum is done over all the initial parton flavours \f$i_1, i_2\f$ defined by the matrix element.
+ *    - \f$f(i, x^j, Q_f^2)\f$ is the PDF of parton flavour \f$i\f$ evaluated on the initial particles' Björken-\f$x\f$ and using factorisation scale \f$Q_f\f$.
+ *    - \f$\left| \mathcal{M}(i_1, i_2, j) \right|^2\f$ is the matrix element squared evaluated on all the particles' momenta in the event, for solution \f$j\f$. Along with the PDFs, a sum is done over all the initial parton flavours \f$i_1, i_2\f$ defined by the matrix element.
  *    - \f$\mathcal{J}^{\text{inv.}}_j\f$ is the Block's jacobian for solution \f$j\f$.
  *
  * ### Expected parameter sets
@@ -76,7 +76,7 @@
  *
  *    - 'invisible' particles:
  *      - `input` (vector(vector(LorentzVector)): Set of solutions for the invisibles, given by the Block.
- *      - `jacobians`: Set of jacobians given by the Block, one per invisibles' solution.
+ *      - `jacobians` (vector(double)): Set of jacobians given by the Block, one per invisibles' solution.
  *      - `ids`: Parameter set used to link the invisibles to the matrix element (see below).
  *
  *    - 'visible' particles:
@@ -92,7 +92,7 @@
  * each input particle's PDG ID has to be set by the user, to ensure the correct final state is retrieved when evaluating the matrix element.
  *
  * To find out the ordering the matrix element expects, it is currently necessary to dig into the matrix element's code. 
- * For instance, for the fully leptonic \f$t\overline{t}\f$ example shipped with MoMEMta, the ordering and PDG IDs can be read from [https://github.com/MoMEMta/MoMEMta/blob/master/MatrixElements/pp_ttx_fully_leptonic/SubProcesses/P1_Sigma_sm_gg_mupvmbmumvmxbx/cpp_pp_ttx_fullylept.cc#L146](here).
+ * For instance, for the fully leptonic \f$t\overline{t}\f$ example shipped with MoMEMta, the ordering and PDG IDs can be read from [here](https://github.com/MoMEMta/MoMEMta/blob/master/MatrixElements/pp_ttx_fully_leptonic/SubProcesses/P1_Sigma_sm_gg_mupvmbmumvmxbx/cpp_pp_ttx_fullylept.cc#L146).
  *
  * In the Lua configuation for this module, the ordering is defined through the `ids` parameter set mentioned above. For instance,
  * ```
@@ -127,7 +127,7 @@
  *   | Name | Type | %Description |
  *   |------|------|--------------|
  *   | `use_pdf` | double, default true | Evaluate PDFs and use them in the integrand. |
- *   | `pdf` | string | Name of the LHAPDF set to be used (see [https://lhapdf.hepforge.org/pdfsets.html](full list)). |
+ *   | `pdf` | string | Name of the LHAPDF set to be used (see [full list](https://lhapdf.hepforge.org/pdfsets.html)). |
  *   | `pdf_scale` | double | Factorisation scale used when evaluating the PDFs. |
  *   | `matrix_element` | string | Name of the matrix element to be used. |
  *   | `matrix_element_parameters` | ParameterSet | Set of parameters passed to the matrix element (see above explanation). |

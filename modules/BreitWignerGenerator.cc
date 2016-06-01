@@ -29,15 +29,15 @@
  * This transformation has the effect of removing a peak associated to a propagator in the integrand.
  * Indeed, the change of variable applied is:
  * \f[
- *      x \to s(x) = m \Gamma \tan (y(x)) + m^2 \text{, with } y(x) = - \atan(m/\Gamma) + \left( \pi/2 + \atan(m/\Gamma) \right) x
+ *      x \to s(x) = m \Gamma \tan (y(x)) + m^2 \text{, with } y(x) = - \arctan(m/\Gamma) + \left( \pi/2 + \atan(m/\Gamma) \right) x
  * \f]
  * with Jacobian:
  * \f[
- *      \frac{ds}{dx} = \left( \pi/2 + \atan(m/\Gamma) \right) m \Gamma \cos^{-2}(y(x))
+ *      \frac{ds}{dx} = \left( \pi/2 + \arctan(m/\Gamma) \right) m \Gamma \cos^{-2}(y(x))
  * \f]
  * If \f$p(s)\f$ is a propagator to be integrated on \f$s = 0 \to \infty\f$, applying this change of variable makes the calculation trivial:
  * \f[
- *      \int_0^{\infty} ds p(s) = \int_0^1 dx \frac{ds}{dx} p(s(x)) = \int_0^1 \text{ (constant) } dx
+ *      \int_0^{\infty} \! ds \, p(s) = \int_0^1 \! dx \frac{ds}{dx} \, p(s(x)) = \int_0^1 \! dx \text{ (constant)}
  * \f]
  *
  * ### Integration dimension

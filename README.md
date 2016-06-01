@@ -41,7 +41,7 @@ admin rights on your system, have a look at the build options below.
 The following options are available when configuring the build (when running `cmake ..`):
    * `-DCMAKE_INSTALL_PREFIX=(path)`: Install MoMEMta in a specific location when running `make install` (useful if you don't have admin rights)
    * `-DPROFILING=ON`: Generate debugging symbols and profiling information (requires `gperftools`)
-   * `-DBOOST_ROOT=(path)`: Use specific Boost library installation
+   * `-DBOOST_ROOT=(path)`: Use specific Boost version (path to its install directory)
    * `-DTESTS=ON`: Also compile the test executables
    * `-DEXAMPLES=OFF`: Do not compile the example executables
 

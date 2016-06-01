@@ -29,9 +29,9 @@
  *  This module defines a 'jacobian' factor, important for the normalisation of the likelihood. Formally, the NWA is defined by
  *  replacing, in the matrix element, a propagator by a Diract delta function:
  *  \f[
- *    \int \! ds \, |\mathcal{M}|^2 = \int \! ds \, \frac{|\mathcal{M}_d|^2}{(s-m^2)^2+(m \Gamma)^2} \to \frac{\pi}{m \Gamma} \int \! ds \, \delta(s-m^2) |\mathcal{M}_d|^2
+ *    \int \! ds \, \left| \mathcal{M} \right|^2 = \int \! ds \, \frac{ \left|\mathcal{M}_d \right|^2}{(s-m^2)^2+(m \Gamma)^2} \to \frac{\pi}{m \Gamma} \int \! ds \, \delta(s-m^2) \left|\mathcal{M}_d \right|^2
  *  \f]
- *  where \f$|\mathcal{M}_d|^2\f$ is the matrix element excluding the propagator, and where the factor \f$\pi/(m\Gamma)\f$ is needed because of the normalisation of the Dirac delta:
+ *  where \f$\left| \mathcal{M}_d \right|^2\f$ is the matrix element squared excluding the propagator, and where the factor \f$\pi/(m\Gamma)\f$ is needed because of the normalisation of the Dirac delta:
  *  
  *  \f$\int_{-\infty}^{+\infty} \! ds \, \delta(s) = 1\f$, but \f$ \int_{-\infty}^{+\infty} \! ds \, \frac{1}{(s-m^2)^2+(m \Gamma)^2} = \frac{\pi}{m\Gamma}\f$.
  *
