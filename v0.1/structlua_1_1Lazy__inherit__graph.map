@@ -1,0 +1,4 @@
+<map id="lua::Lazy" name="lua::Lazy">
+<area shape="rect" id="node3" href="$structlua_1_1LazyFunction.html" title="Lazy function in lua (delayed function evaluation) " alt="" coords="5,83,131,112"/>
+<area shape="rect" id="node5" href="$structlua_1_1LazyTableField.html" title="Lazy table field in lua (delayed table access) " alt="" coords="155,83,288,112"/>
+</map>
