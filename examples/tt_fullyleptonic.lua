@@ -29,7 +29,7 @@ else
     }
 end
 
---USE_PERM = true
+USE_PERM = true
 
 if USE_PERM then
   -- Use permutator module to permutate input particles 0 and 2 using the MC
@@ -55,8 +55,6 @@ parameters = {
 cuba = {
     relative_accuracy = 0.01,
     verbosity = 3,
-    --max_eval = 10,
-    --n_start = 1,
 }
 
 BreitWignerGenerator.flatter_s13 = {
@@ -147,107 +145,97 @@ BlockD.blockd = {
     s256 = 'flatter_s256::s',
 }
 
-BuildInitialState.boost = {
-    solution = 'looper::solution',
-
-    do_transverse_boost = true,
-
-    particles = inputs
-}
-
-
-jacobians = {'flatter_s13::jacobian', 'flatter_s134::jacobian', 'flatter_s25::jacobian', 'flatter_s256::jacobian'}
-
-if USE_TF then
-    append(jacobians, {'tf_p1::TF_times_jacobian', 'tf_p2::TF_times_jacobian', 'tf_p3::TF_times_jacobian', 'tf_p4::TF_times_jacobian'})
-end
-
-MatrixElement.ttbar = {
-  pdf = 'CT10nlo',
-  pdf_scale = parameter('top_mass'),
-
-  matrix_element = 'pp_ttx_fully_leptonic',
-  matrix_element_parameters = {
-      card = '../MatrixElements/Cards/param_card.dat'
-  },
-
-  initialState = 'boost::partons',
-
-  invisibles = {
-    input = 'looper::solution',
-    jacobians = 'blockd::jacobians',
-    ids = {
-      {
-        pdg_id = 12,
-        me_index = 2,
-      },
-
-      {
-        pdg_id = -14,
-        me_index = 5,
-      }
-    }
-  },
-
-  particles = {
-    inputs = inputs,
-    ids = {
-      {
-        pdg_id = -11,
-        me_index = 1,
-      },
-
-      {
-        pdg_id = 5,
-        me_index = 3,
-      },
-
-      {
-        pdg_id = 13,
-        me_index = 4,
-      },
-
-      {
-        pdg_id = -5,
-        me_index = 6,
-      },
-    }
-  },
-
-  jacobians = jacobians
-}
-
---SolutionPrinter.solution_printer = {
-    --input = "looper::solution"
---}
-
---DoublePrinter.matrix_element_printer = {
-    --input = "ttbar::output"
---}
-
---path = Path("solution_printer", "boost", "ttbar", "matrix_element_printer", "integrand")
+-- Loop
 
 Looper.looper = {
     solutions = "blockd::solutions",
-    path = Path("solution_printer", "boost", "ttbar", "integrand")
+    path = Path("boost", "ttbar", "dmem", "integrand")
 }
 
-DoubleSummer.integrand = {
-    input = "ttbar::output"
-}
+    BuildInitialState.boost = {
+        solution = 'looper::solution',
 
---DoublePrinter.print_integrand = {
-    --input = "integrand::sum"
---}
+        do_transverse_boost = true,
 
---DMEM.dmem_ttbar = {
-  --x_start = 0.,
-  --x_end = 2000.,
-  --n_bins = 500,
-  --ps_weight = 'cuba::ps_weight',
-  --particles = inputs,
-  --invisibles = 'blockd::invisibles',
-  --integrands = 'ttbar::integrands',
---}
+        particles = inputs
+    }
+
+
+    jacobians = {'flatter_s13::jacobian', 'flatter_s134::jacobian', 'flatter_s25::jacobian', 'flatter_s256::jacobian'}
+
+    if USE_TF then
+        append(jacobians, {'tf_p1::TF_times_jacobian', 'tf_p2::TF_times_jacobian', 'tf_p3::TF_times_jacobian', 'tf_p4::TF_times_jacobian'})
+    end
+
+    MatrixElement.ttbar = {
+      pdf = 'CT10nlo',
+      pdf_scale = parameter('top_mass'),
+
+      matrix_element = 'pp_ttx_fully_leptonic',
+      matrix_element_parameters = {
+          card = '../MatrixElements/Cards/param_card.dat'
+      },
+
+      initialState = 'boost::partons',
+
+      invisibles = {
+        input = 'looper::solution',
+        ids = {
+          {
+            pdg_id = 12,
+            me_index = 2,
+          },
+
+          {
+            pdg_id = -14,
+            me_index = 5,
+          }
+        }
+      },
+
+      particles = {
+        inputs = inputs,
+        ids = {
+          {
+            pdg_id = -11,
+            me_index = 1,
+          },
+
+          {
+            pdg_id = 5,
+            me_index = 3,
+          },
+
+          {
+            pdg_id = 13,
+            me_index = 4,
+          },
+
+          {
+            pdg_id = -5,
+            me_index = 6,
+          },
+        }
+      },
+
+      jacobians = jacobians
+    }
+
+    DMEM.dmem = {
+      x_start = 0.,
+      x_end = 2000.,
+      n_bins = 500,
+
+      ps_weight = 'cuba::ps_weight',
+      particles = inputs,
+      invisibles = 'looper::solution',
+      me_output = 'ttbar::output',
+    }
+
+    DoubleSummer.integrand = {
+        input = "ttbar::output"
+    }
+
+-- End of loop
 
 integrand("integrand::sum")
