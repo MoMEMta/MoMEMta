@@ -33,7 +33,7 @@ int main(int argc, char** argv) {
     UNUSED(argc);
     UNUSED(argv);
 
-    logging::set_level(boost::log::trivial::trace);
+    logging::set_level(boost::log::trivial::debug);
 
     ConfigurationReader configuration("../examples/tt_fullyleptonic.lua");
 
@@ -59,10 +59,18 @@ int main(int argc, char** argv) {
     for (const auto& r: weights) {
         LOG(debug) << r.first << " +- " << r.second;
     }
-    
-    LOG(debug) << "Hist in pool: " << weight.getPool().exists({"dmem_ttbar", "hist"});
-    std::shared_ptr<const TH1D> dmem = weight.getPool().get<TH1D>({"dmem_ttbar", "hist"});
-    LOG(debug) << "DMEM integral: " << dmem->Integral();
+
+    LOG(debug) << "Integration status: " << (int) weight.getIntegrationStatus();
+
+    InputTag dmemInputTag {"dmem", "hist"};
+    bool exists = weight.getPool().exists(dmemInputTag);
+
+    LOG(debug) << "Hist in pool: " << exists;
+
+    if (exists) {
+        std::shared_ptr<const TH1D> dmem = weight.getPool().get<TH1D>(dmemInputTag);
+        LOG(debug) << "DMEM integral: " << dmem->Integral();
+    }
 
     LOG(info) << "Weight computed in " << std::chrono::duration_cast<milliseconds>(end_time - start_time).count() << "ms";
 

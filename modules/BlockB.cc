@@ -19,6 +19,7 @@
 
 #include <momemta/ParameterSet.h>
 #include <momemta/Module.h>
+#include <momemta/Solution.h>
 #include <momemta/Types.h>
 #include <momemta/Math.h>
 
@@ -102,10 +103,9 @@ class BlockB: public Module {
             }
         }; 
   
-        virtual void work() override {
+        virtual Status work() override {
       
-            invisibles->clear();
-            jacobians->clear();
+            solutions->clear();
 
             // Equations to solve:
             //(1) (p1 + p2)^2 = s12 = M1^2 + M2^2 + 2E1E2 + 2p1xp2x + 2p1yp2y + p1zp2z  
@@ -114,8 +114,8 @@ class BlockB: public Module {
             //(4)  M1 = 0 -> E1^2 = p1x^2 + p1y^2 + p1z^2
 
             // Don't spend time on unphysical part of phase-space
-            if(*s12 > SQ(sqrt_s))
-                return;
+            if (*s12 > SQ(sqrt_s))
+                return Status::NEXT;
             
             const LorentzVector& p2 = m_particle_tags[0].get<LorentzVector>();
             
@@ -148,7 +148,7 @@ class BlockB: public Module {
             solveQuadratic(a, b, c, E1, false);
            
             if (E1.size() == 0)
-                return;
+                return Status::NEXT;
 
             for(unsigned int i=0; i<E1.size(); i++){
                 const double e1 = E1.at(i);
@@ -167,9 +167,11 @@ class BlockB: public Module {
                 if(q1Pz > sqrt_s/2 || q2Pz > sqrt_s/2)
                     continue;
                 
-                invisibles->push_back({p1});
-                jacobians->push_back(computeJacobian(p1, p2));   
+                Solution s { {p1}, computeJacobian(p1, p2), true };
+                solutions->push_back(s);
             }
+
+            return solutions->size() > 0 ? Status::OK : Status::NEXT;
         }
 
         // The extra dimensions not present in the input
@@ -201,7 +203,6 @@ class BlockB: public Module {
 
         std::shared_ptr<const double> s12;
 
-        std::shared_ptr<std::vector<std::vector<LorentzVector>>> invisibles = produce<std::vector<std::vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<double>>>>>("invisibles");
-        std::shared_ptr<std::vector<double>> jacobians = produce<std::vector<double>>("jacobians");
+        std::shared_ptr<SolutionCollection> solutions = produce<SolutionCollection>("solutions");
 };
 REGISTER_MODULE(BlockB);

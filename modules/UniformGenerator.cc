@@ -60,10 +60,12 @@ class UniformGenerator: public Module {
             m_ps_point.resolve(pool);
         };
 
-        virtual void work() override {
+        virtual Status work() override {
             double psPoint = m_ps_point.get<double>();
             *output = m_min + (m_max - m_min) * psPoint;
             *jacobian = m_max - m_min; 
+
+            return Status::OK;
         }
 
         virtual size_t dimensions() const override {

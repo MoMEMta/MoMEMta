@@ -83,7 +83,7 @@ class BuildInitialState: public Module {
                 t.resolve(pool);
         };
 
-        virtual void work() override {
+        virtual Status work() override {
 
             partons->clear();
 
@@ -97,6 +97,8 @@ class BuildInitialState: public Module {
             }
 
             do_compute_initials(particles_and_invisibles);
+
+            return Status::OK;
         }
 
     private:

@@ -32,11 +32,15 @@ class Printer: public Module {
     public:
 
         Printer(PoolPtr pool, const ParameterSet& parameters): Module(pool, parameters.getModuleName()) {
-            input = pool->get<T>(parameters.get<InputTag>("input")); 
+            auto tag = parameters.get<InputTag>("input");
+            input = pool->get<T>(tag); 
+            name = parameters.get<std::string>("name", tag.toString());
         };
 
-        virtual void work() override {
-            LOG(info) << *input;
+        virtual Status work() override {
+            LOG(info) << name << ": " << *input;
+
+            return Status::OK;
         }
 
         virtual bool leafModule() const override {
@@ -44,6 +48,7 @@ class Printer: public Module {
         }
 
     private:
+        std::string name;
 
         // Inputs
         std::shared_ptr<const T> input;
@@ -57,12 +62,14 @@ class Printer<std::vector<T>>: public Module {
     public:
 
         Printer(PoolPtr pool, const ParameterSet& parameters): Module(pool, parameters.getModuleName()) {
-            input = pool->get<std::vector<T>>(parameters.get<InputTag>("input")); 
+            auto tag = parameters.get<InputTag>("input");
+            input = pool->get<std::vector<T>>(tag); 
+            name = parameters.get<std::string>("name", tag.toString());
         };
 
-        virtual void work() override {
+        virtual Status work() override {
             std::stringstream str;
-            str << "{";
+            str << name << ": {";
 
             size_t count = 1;
             for (const auto& i: *input) {
@@ -72,6 +79,8 @@ class Printer<std::vector<T>>: public Module {
                 count++;
             }
             LOG(info) << str.str() << "}";
+
+            return Status::OK;
         }
 
         virtual bool leafModule() const override {
@@ -79,6 +88,7 @@ class Printer<std::vector<T>>: public Module {
         }
 
     private:
+        std::string name;
 
         // Inputs
         std::shared_ptr<const std::vector<T>> input;

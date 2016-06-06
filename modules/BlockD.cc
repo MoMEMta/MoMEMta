@@ -107,13 +107,13 @@ class BlockD: public Module {
             m_met_tag.resolve(pool);
         };
 
-        virtual void work() override {
+        virtual Status work() override {
 
             solutions->clear();
 
             // Don't spend time on unphysical corner of the phase-space
             if (*s13 >= *s134 || *s25 >= *s256 || *s13 >= SQ(sqrt_s) || *s134 >= SQ(sqrt_s) || *s25 >= SQ(sqrt_s) || *s256 >= SQ(sqrt_s))
-                return;
+                return Status::NEXT;
 
             const LorentzVector& p3 = m_particle_tags[0].get<LorentzVector>();
             const LorentzVector& p4 = m_particle_tags[1].get<LorentzVector>();
@@ -216,7 +216,7 @@ class BlockD: public Module {
             // For each solution (E1,E2), find the neutrino 4-momenta p1,p2
 
             if (E1.size() == 0)
-                return;
+                return Status::NEXT;
 
             for(unsigned int i=0; i<E1.size(); i++){
                 const double e1 = E1.at(i);
@@ -251,6 +251,8 @@ class BlockD: public Module {
                 Solution s { {p1, p2}, jacobian, true };
                 solutions->push_back(s);
             }
+
+            return solutions->size() > 0 ? Status::OK : Status::NEXT;
         }
 
         virtual size_t dimensions() const override {

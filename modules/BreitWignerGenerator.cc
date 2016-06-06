@@ -76,7 +76,7 @@ class BreitWignerGenerator: public Module {
             m_ps_point.resolve(pool);
         };
 
-        virtual void work() override {
+        virtual Status work() override {
 
             double psPoint = m_ps_point.get<double>();
             const double range = M_PI / 2. + std::atan(mass / width);
@@ -84,6 +84,8 @@ class BreitWignerGenerator: public Module {
 
             *s = mass * width * std::tan(y) + (mass * mass);
             *jacobian = range * mass * width / (std::cos(y) * std::cos(y));
+
+            return Status::OK;
         }
 
         virtual size_t dimensions() const override {

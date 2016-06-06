@@ -64,7 +64,7 @@ class FlatTransferFunctionOnTheta: public Module {
             m_input.resolve(pool);
         };
 
-        virtual void work() override {
+        virtual Status work() override {
 
             const double& ps_point = m_ps_point.get<double>();
             const LorentzVector& reco_particle = m_input.get<LorentzVector>();
@@ -80,6 +80,8 @@ class FlatTransferFunctionOnTheta: public Module {
 
             // Compute TF*jacobian, ie the jacobian of the transformation of [0,1]->[0,pi]
             *TF_times_jacobian = M_PI;
+
+            return Status::OK;
         }
 
         virtual size_t dimensions() const override {

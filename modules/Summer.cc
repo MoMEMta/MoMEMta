@@ -19,6 +19,7 @@
 #include <momemta/Module.h>
 
 #include <momemta/ParameterSet.h>
+#include <momemta/Types.h>
 
 /**
  * \brief A module performing a sum over a set of values
@@ -35,8 +36,10 @@ class Summer: public Module {
             *result = 0;
         }
 
-        virtual void work() override {
+        virtual Status work() override {
             *result += *input;
+
+            return Status::OK;
         }
 
     private:
@@ -49,6 +52,14 @@ class Summer: public Module {
 
 };
 
+/**
+ * \brief Specialization for LorentzVector
+ */
+template<>
+void Summer<LorentzVector>::beginLoop() {
+  result->SetXYZT(0, 0, 0, 0);
+}
+
 REGISTER_MODULE_NAME("IntSummer", Summer<int64_t>);
 REGISTER_MODULE_NAME("DoubleSummer", Summer<double>);
-//REGISTER_MODULE_NAME("LorentzVectorSummer", Summer<LorentzVector>);
+REGISTER_MODULE_NAME("P4Summer", Summer<LorentzVector>);

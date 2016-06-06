@@ -110,7 +110,7 @@ class BinnedTransferFunctionOnEnergy: public Module {
             LOG(debug) << "\tWill use values at Egen = " << m_fallBackEgenMax << " for out-of-range values.";
         };
 
-        virtual void work() override {
+        virtual Status work() override {
 
             const double& ps_point = m_ps_point.get<double>();
             const LorentzVector& reco_particle = m_input.get<LorentzVector>();
@@ -132,6 +132,8 @@ class BinnedTransferFunctionOnEnergy: public Module {
             const int bin = m_th2->FindFixBin(std::min(gen_E, m_fallBackEgenMax), delta);
             // Compute TF*jacobian, where the jacobian includes the transformation of [0,1]->[range_min,range_max] and d|P|/dE
             *TF_times_jacobian = m_th2->GetBinContent(bin) * range * dP_over_dE(*output);
+
+            return Status::OK;
         }
 
         virtual size_t dimensions() const override {

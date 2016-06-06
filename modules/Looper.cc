@@ -72,16 +72,35 @@ class Looper: public Module {
             CALL(finish);
         }
 
-        virtual void work() override {
+        virtual Status work() override {
             CALL(beginLoop);
+
+            auto status = Status::OK;
 
             // For each solution, loop over all the modules
             for (const auto& s: *solutions) {
                 *solution = s;
-                CALL(work);
+
+                for (auto& m: path->modules) {
+                    auto module_status = m->work();
+
+                    if (module_status == Status::OK)
+                        continue;
+                    else if (module_status == Status::NEXT)
+                        break;
+                    else {
+                        status = module_status;
+                        break;
+                    }
+                }
+
+                if (status != Status::OK)
+                    break;
             }
 
             CALL(endLoop);
+
+            return status;
         }
 
     private:

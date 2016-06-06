@@ -127,6 +127,7 @@ set(MOMEMTA_SOURCES
     "core/src/Math.cc"
     "core/src/MatrixElementFactory.cc"
     "core/src/MoMEMta.cc"
+    "core/src/Module.cc"
     "core/src/ModuleFactory.cc"
     "core/src/ParameterSet.cc"
     "core/src/Pool.cc"

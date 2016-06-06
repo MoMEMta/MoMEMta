@@ -43,8 +43,10 @@ class Counter: public Module {
             *result = 0;
         }
 
-        virtual void work() override {
+        virtual Status work() override {
             *result += input->size();
+
+            return Status::OK;
         }
 
     private:
@@ -78,8 +80,10 @@ class SimpleCounter: public Module {
             *result = 0;
         }
 
-        virtual void work() override {
+        virtual Status work() override {
             *result += 1;
+
+            return Status::OK;
         }
 
     private:

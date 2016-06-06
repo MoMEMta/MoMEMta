@@ -20,7 +20,7 @@
 
 #include <momemta/ParameterSet.h>
 #include <momemta/Module.h>
-#include <momemta/Types.h>
+#include <momemta/Solution.h>
 
 /*
  * \brief Module implementing the Differential MEM
@@ -31,8 +31,7 @@
 class DMEM: public Module {
     public:
 
-        DMEM(PoolPtr pool, const ParameterSet& parameters): Module(pool, parameters.getModuleName())
-        {
+        DMEM(PoolPtr pool, const ParameterSet& parameters): Module(pool, parameters.getModuleName()) {
             x_start = parameters.get<double>("x_start");
             x_end = parameters.get<double>("x_end");
             n_bins = parameters.get<int64_t>("n_bins");
@@ -45,44 +44,30 @@ class DMEM: public Module {
               t.resolve(pool);
             
             InputTag invisibles_tag = parameters.get<InputTag>("invisibles");
-            m_invisibles = get<std::vector<std::vector<LorentzVector>>>(invisibles_tag);
+            m_solution = get<Solution>(invisibles_tag);
 
             psWeight = get<double>(parameters.get<InputTag>("ps_weight"));
-            integrands = get<std::vector<double>>(parameters.get<InputTag>("integrands"));
+            meOutput = get<double>(parameters.get<InputTag>("me_output"));
         }
 
         virtual void beginIntegration() override {
             m_hist->Reset();
         }
 
-        virtual void work() override {
+        virtual Status work() override {
             
-            if (integrands->size() == 0)
-                return;
-
             LorentzVector tot;
-            for(const auto &v: m_particle_tags)
+            for (const auto& v: m_particle_tags)
                 tot += v.get<LorentzVector>();
 
-            // No invisibles -> loop over particles we got as input
-            if(!m_invisibles.get() || m_invisibles->empty()) {
-                
-                m_hist->Fill(tot.M(), (*integrands)[0] * (*psWeight));
-            
-            } else {
-        
-                // Several solutions for the invisibles -> loop over all solution,
-                // fill histogram with corresponding integrand.
-                for(size_t sol = 0; sol < m_invisibles->size(); sol++) {
-                    LorentzVector thisTot = tot;
-                    
-                    for(const auto &v: (*m_invisibles)[sol])
-                      thisTot += v;
+            // Add solution particles if we have some
+            for (const auto& i: m_solution->values)
+                tot += i;
 
-                    m_hist->Fill(thisTot.M(), (*integrands)[sol] * (*psWeight));
-                }
+            // Fill histogram
+            m_hist->Fill(tot.M(), *meOutput * (*psWeight));
 
-            }
+            return Status::OK;
         }
 
         virtual size_t dimensions() const override {
@@ -99,10 +84,10 @@ class DMEM: public Module {
         int64_t n_bins;
         
         std::vector<InputTag> m_particle_tags;
-        std::shared_ptr<const std::vector<std::vector<LorentzVector>>> m_invisibles;
+        std::shared_ptr<const Solution> m_solution;
         
         std::shared_ptr<const double> psWeight;
-        std::shared_ptr<const std::vector<double>> integrands;
+        std::shared_ptr<const double> meOutput;
         
         std::shared_ptr<TH1D> m_hist;
 };

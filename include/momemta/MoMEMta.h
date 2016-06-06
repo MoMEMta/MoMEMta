@@ -38,6 +38,16 @@ class SharedLibrary;
  */
 class MoMEMta {
     public:
+        /// Status of the integration
+        enum class IntegrationStatus {
+            SUCCESS, ///< Integration was successful
+            ACCURARY_NOT_REACHED, ///< Integration was stopped before desired accuracy was reached
+            FAILED, ///< Integration failed
+            ABORTED, ///< Integration aborted
+            DIM_OUT_OF_RANGE, ///< Dimensions out of range
+            NONE ///< No integration was performed
+        };
+
         /** \brief Create a new MoMEMta instance
          *
          * \param configuration A frozen snapshot of the configuration, usually obtained by ConfigurationReader::freeze
@@ -59,6 +69,12 @@ class MoMEMta {
          */
         std::vector<std::pair<double, double>> computeWeights(const std::vector<LorentzVector>& particles, const LorentzVector& met = LorentzVector());
 
+        /** \brief Return the status of the integration
+         *
+         * \return The status of the integration
+         */
+        IntegrationStatus getIntegrationStatus() const;
+
         /**
          * \brief Read-only access to the global memory pool
          *
@@ -73,7 +89,7 @@ class MoMEMta {
             using std::runtime_error::runtime_error;
         };
 
-        double integrand(const double* psPoints, const double* weights);
+        int integrand(const double* psPoints, const double* weights, double* results);
 
         static int CUBAIntegrand(const int *nDim, const double* psPoint, const int *nComp, double *value, void *inputs, const int *nVec, const int *core, const double *weight);
 
@@ -85,6 +101,8 @@ class MoMEMta {
 
         size_t m_n_dimensions;
         ParameterSet m_cuba_configuration;
+
+        IntegrationStatus integration_status = IntegrationStatus::NONE;
 
         // Pool inputs
         std::shared_ptr<std::vector<double>> m_ps_points;

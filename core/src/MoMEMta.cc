@@ -167,6 +167,16 @@ std::vector<std::pair<double, double>> MoMEMta::computeWeights(const std::vector
          &prob                   // (double*) Chi-square p-value that error is not reliable (ie should be <0.95) ([ncomp])
     );
     
+    if (nfail == 0) {
+        integration_status = IntegrationStatus::SUCCESS;
+    } else if (nfail == -1) {
+        integration_status = IntegrationStatus::DIM_OUT_OF_RANGE;
+    } else if (nfail > 0) {
+        integration_status = IntegrationStatus::ACCURARY_NOT_REACHED;
+    } else if (nfail == -99) {
+        integration_status = IntegrationStatus::ABORTED;
+    }
+
     for (const auto& module: m_modules) {
         module->endIntegration();
     }
@@ -174,7 +184,10 @@ std::vector<std::pair<double, double>> MoMEMta::computeWeights(const std::vector
     return std::vector<std::pair<double, double>>({{mcResult, error}});
 }
 
-double MoMEMta::integrand(const double* psPoints, const double* weights) {
+#define CUBA_ABORT -999
+#define CUBA_OK 0
+
+int MoMEMta::integrand(const double* psPoints, const double* weights, double* results) {
 
     // Store phase-space points into the pool
     std::memcpy(m_ps_points->data(), psPoints, sizeof(double) * m_n_dimensions);
@@ -183,10 +196,23 @@ double MoMEMta::integrand(const double* psPoints, const double* weights) {
     *m_ps_weight = *weights;
 
     for (auto& module: m_modules) {
-        module->work();
+        auto status = module->work();
+
+        if (status == Module::Status::NEXT) {
+            // Stop executation for the current integration step
+            // Returns 0 so that cuba knows this phase-space volume is not relevant
+            *results = 0;
+            return CUBA_OK;
+        } else if (status == Module::Status::ABORT) {
+            // Abort integration
+            *results = 0;
+            return CUBA_ABORT;
+        }
     }
 
-    return *m_integrand;
+    *results = *m_integrand;
+
+    return CUBA_OK;
 }
 
 int MoMEMta::CUBAIntegrand(const int *nDim, const double* psPoint, const int *nComp, double *value, void *inputs, const int *nVec, const int *core, const double *weight) {
@@ -195,7 +221,9 @@ int MoMEMta::CUBAIntegrand(const int *nDim, const double* psPoint, const int *nC
     UNUSED(nVec);
     UNUSED(core);
 
-    *value = static_cast<MoMEMta*>(inputs)->integrand(psPoint, weight);
+    return static_cast<MoMEMta*>(inputs)->integrand(psPoint, weight, value);
+}
 
-    return 0;
+MoMEMta::IntegrationStatus MoMEMta::getIntegrationStatus() const {
+    return integration_status;
 }

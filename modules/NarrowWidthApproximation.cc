@@ -86,8 +86,6 @@ class NarrowWidthApproximation: public Module {
             *s = mass*mass; 
         }
 
-        virtual void work() override {}
-
         virtual size_t dimensions() const override {
             return 0;
         }

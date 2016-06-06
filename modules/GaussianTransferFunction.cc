@@ -77,7 +77,7 @@ class GaussianTransferFunction: public Module {
             m_sigma_range = parameters.get<double>("sigma_range", 5);
         };
 
-        virtual void work() override {
+        virtual Status work() override {
 
             const double& ps_point = m_ps_point.get<double>();
             const LorentzVector& reco_particle = m_input.get<LorentzVector>();
@@ -99,6 +99,8 @@ class GaussianTransferFunction: public Module {
 
             // Compute jacobian
             *TF_times_jacobian = ROOT::Math::normal_pdf(gen_E, sigma, reco_particle.E()) * range * dP_over_dE(*output);
+
+            return Status::OK;
         }
 
         virtual size_t dimensions() const override {

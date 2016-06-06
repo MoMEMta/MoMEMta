@@ -21,13 +21,13 @@
 std::ostream& operator<<(std::ostream& stream, const Solution& solution) {
     size_t index = 1;
     for (const auto& p: solution.values) {
-        stream << "p" << index << ": " << p;
+        stream << "{p" << index << ": " << p;
         if (index != solution.values.size())
             stream << ", ";
 
         index++;
     }
-    stream << "; jacobian: " << solution.jacobian;
+    stream << "; jacobian: " << solution.jacobian << "}";
 
     return stream;
 }

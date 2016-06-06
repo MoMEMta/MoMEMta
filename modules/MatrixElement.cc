@@ -219,7 +219,7 @@ class MatrixElement: public Module {
 
         };
 
-        virtual void work() override {
+        virtual Status work() override {
             static std::vector<LorentzVector> empty_vector;
 
             *m_integrand = 0;
@@ -230,6 +230,8 @@ class MatrixElement: public Module {
             }
 
             internal_work(*m_partons, m_solution->values, m_solution->jacobian, particles);
+
+            return Status::OK;
         }
 
         virtual void internal_work(const std::vector<LorentzVector>& partons, const std::vector<LorentzVector>& invisibles, double invisibles_jacobian, const std::vector<LorentzVector> particles) {
