@@ -35,6 +35,8 @@
 #include <momemta/ParameterSet.h>
 #include <momemta/Path.h>
 
+#include <lua/Path.h>
+#include <lua/Types.h>
 #include <lua/utils.h>
 
 void execute_string(std::shared_ptr<lua_State> L, const std::string& code) {
@@ -385,6 +387,40 @@ TEST_CASE("lua parsing utilities", "[lua]") {
 
         REQUIRE(p.existsAs<std::string>("key"));
         REQUIRE(p.get<std::string>("key") == "value");
+    }
+
+    SECTION("Path") {
+        auto def = R"(path = Path("a", "b", "c"))";
+        execute_string(L, def);
+
+        auto type = lua_getglobal(L.get(), "path");
+        REQUIRE(type == LUA_TUSERDATA);
+
+        std::string type_name = get_custom_type_name(L.get(), -1);
+        REQUIRE(type_name == LUA_PATH_TYPE_NAME);
+
+        Path* path = path_get(L.get(), -1);
+        REQUIRE(path != nullptr);
+
+        REQUIRE(path->names.size() == 3);
+        REQUIRE(path->names[0] == "a");
+        REQUIRE(path->names[1] == "b");
+        REQUIRE(path->names[2] == "c");
+
+        lua_pop(L.get(), 1);
+    }
+
+    SECTION("Path to boost::any") {
+        auto def = R"(path = Path("a"))";
+        execute_string(L, def);
+
+        auto type = lua_getglobal(L.get(), "path");
+        REQUIRE(type == LUA_TUSERDATA);
+
+        auto path = get_custom_type_ptr(L.get(), -1);
+        REQUIRE(path.type() == typeid(PathPtr));
+
+        lua_pop(L.get(), 1);
     }
 
     REQUIRE(stack_size == lua_gettop(L.get()));

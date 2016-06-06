@@ -25,6 +25,7 @@
 #include <lua.hpp>
 
 void path_register(lua_State* L, void* ptr) {
+
     // Register metatable for type Path
     push_type_metatable(L, LUA_PATH_TYPE_NAME);
 
@@ -34,6 +35,8 @@ void path_register(lua_State* L, void* ptr) {
         {nullptr, nullptr}
     };
     luaL_setfuncs(L, functions, 0); 
+
+    lua_pop(L, 1);
 
     // Register global `Path` function, acting as a constructor for `Path` struct
     lua_pushlightuserdata(L, ptr);
