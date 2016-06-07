@@ -56,13 +56,13 @@
  *   | Name | Type | %Description |
  *   |------|------|--------------|
  *   | `particles` | vector(LorentzVector) | Set of all visible particles. | 
- *   | `invisibles` | vector(vector(LorentzVector)) | Solutions for invisible particles coming out of a block (typically, several solutions are present). | 
+ *   | `solution` | Solution | Solution for invisible particles coming out of a block. Typically the output of a Looper module. | 
  *
  * ### Outputs
  *
  *   | Name | Type | %Description |
  *   |------|------|--------------|
- *   | `partons` | vector(vector(LorentzVector)) | Sets of initial parton 4-momenta (one pair per invisibles' solution). | 
+ *   | `partons` | vector(LorentzVector) | Sets of initial parton 4-momenta. | 
  *
  * \ingroup modules
  */

@@ -73,10 +73,11 @@
  *
  *   | Name | Type | %Description |
  *   |------|------|--------------|
- *   | `invisibles` | vector(vector(LorentzVector)) | LorentzVectors of the invisible particles, one entry (ie. one \f$(p_1, p_2)\f$ pair) per solution. |
- *   | `jacobians` | vector(double) | Jacobian of the performed change of variables (one entry per solution). |
+ *   | `solutions` | vector(Solution) | Solutions of the change of variable. Each solution embed  the LorentzVectors of the invisible particles (ie. one \f$(p_1, p_2)\f$ pair) and the associated jacobian. These solutions should be fed as input to the Looper module. |
  *
  * \note This block has been validated and is safe to use.
+ *
+ * \sa Looper module to loop over the solutions of this Block
  *   
  * \ingroup modules
  */
