@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['cb',['CB',['../Math_8h.html#a060b8b47ae64b35f239a34b426831292',1,'Math.h']]],
   ['computeweights',['computeWeights',['../classMoMEMta.html#afc501dc0bbc0512f4ec528dbd74729e6',1,'MoMEMta']]],
   ['configuration',['Configuration',['../classConfiguration.html',1,'']]],
   ['configurationreader',['ConfigurationReader',['../classConfigurationReader.html',1,'']]],
