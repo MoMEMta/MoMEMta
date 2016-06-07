@@ -20,7 +20,7 @@
 #include <momemta/ParameterSet.h>
 #include <momemta/Module.h>
 #include <momemta/Types.h>
-#include <momemta/Utils.h>
+#include <momemta/Math.h>
 
 
 /** \brief \f$\require{cancel}\f$ Final (main) Block B, describing \f$q_1 q_2 \to X + s_{12} (\to \cancel{p_1} p_2)\f$

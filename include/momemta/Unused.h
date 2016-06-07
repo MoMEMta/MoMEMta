@@ -16,26 +16,9 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <momemta/Utils.h>
+#pragma once
 
-#ifdef __GNUG__
-#include <cstdlib>
-#include <cxxabi.h>
-#include <memory>
-
-std::string demangle(const char* name) {
-
-    int status = -4; // some arbitrary value to eliminate the compiler warning
-
-    std::unique_ptr<char, void (*)(void*)> res{abi::__cxa_demangle(name, NULL, NULL, &status),
-                                               std::free};
-
-    return (status == 0) ? res.get() : name;
-}
-
-#else
-
-// does nothing if not g++
-std::string demangle(const char* name) { return name; }
-
-#endif
+/**
+ * \brief Mark a variable as unused.
+ */
+template <typename T> void UNUSED(T &&) { }

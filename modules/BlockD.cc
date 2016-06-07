@@ -20,7 +20,7 @@
 #include <momemta/ParameterSet.h>
 #include <momemta/Module.h>
 #include <momemta/Types.h>
-#include <momemta/Utils.h>
+#include <momemta/Math.h>
 
 /** \brief \f$\require{cancel}\f$ Final (main) Block D, describing \f$X + s_{134} (\to p_4 + s_{13} (\to \cancel{p_1} p_3)) + s_{256} (\to p_6 + s_{25} (\to \cancel{p_2} p_5))\f$
  *
