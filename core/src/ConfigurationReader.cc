@@ -43,25 +43,25 @@ ConfigurationReader::ConfigurationReader(const std::string& file) {
 
     // FIXME: Find a better way of doing that
 
-    // Read global parameters from global variable named 'configuration'
-    m_global_parameters.reset(new LazyParameterSet(lua_state, "parameters"));
+    // Read global parameters from global variable named 'parameters'
+    configuration.global_parameters = LazyParameterSet(lua_state, "parameters");
     int type = lua_getglobal(lua_state.get(), "parameters");
     if (type == LUA_TTABLE) {
         LOG(debug) << "Parsing global parameters.";
-        m_global_parameters->parse(lua_state.get(), -1);
+        configuration.global_parameters.parse(lua_state.get(), -1);
     }
     lua_pop(lua_state.get(), 1);
 
     // Read cuba configuration
-    m_cuba_configuration.reset(new LazyParameterSet(lua_state, "cuba"));
+    configuration.cuba_configuration = LazyParameterSet(lua_state, "cuba");
     type = lua_getglobal(lua_state.get(), "cuba");
     if (type == LUA_TTABLE) {
         LOG(debug) << "Parsing cuba configuration.";
-        m_cuba_configuration->parse(lua_state.get(), -1);
+        configuration.cuba_configuration.parse(lua_state.get(), -1);
     }
     lua_pop(lua_state.get(), 1);
 
-    for (auto& m: m_modules) {
+    for (auto& m: configuration.modules) {
         LOG(debug) << "Configuration declared module " << m.type << "::" << m.name;
 
         lua_getglobal(lua_state.get(), m.type.c_str());
@@ -78,29 +78,26 @@ void ConfigurationReader::onModuleDeclared(const std::string& type, const std::s
     Configuration::Module module;
     module.name = name;
     module.type = type;
-    m_modules.push_back(module);
+
+    configuration.modules.push_back(module);
 }
 
 void ConfigurationReader::onIntegrandDeclared(const InputTag& tag) {
-    m_integrand = tag;
+    configuration.integrand = tag;
 }
 
-void ConfigurationReader::onNewPath(Path* path) {
-    m_paths.push_back(path);
+void ConfigurationReader::onNewPath(PathPtr path) {
+    configuration.paths.push_back(path);
 }
 
 ParameterSet& ConfigurationReader::getGlobalParameters() {
-    return *m_global_parameters;
+    return configuration.global_parameters;
 }
 
 ParameterSet& ConfigurationReader::getCubaConfiguration() {
-    return *m_cuba_configuration;
-}
-
-InputTag ConfigurationReader::getIntegrand() const {
-    return m_integrand;
+    return configuration.cuba_configuration;
 }
 
 Configuration ConfigurationReader::freeze() const {
-    return Configuration(*this);
+    return configuration.freeze();
 }

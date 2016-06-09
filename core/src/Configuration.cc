@@ -40,18 +40,16 @@ std::vector<Path*> Configuration::getPaths() const {
     return paths;
 }
 
-Configuration::Configuration(const ConfigurationReader& reader) {
-    modules = reader.m_modules;
-    global_parameters = *reader.m_global_parameters.get();
-    cuba_configuration = *reader.m_cuba_configuration.get();
-    integrand = reader.m_integrand;
-    paths = reader.m_paths;
+Configuration Configuration::freeze() const {
+    Configuration c = *this;
 
-    global_parameters.freeze();
-    cuba_configuration.freeze();
-    for (auto& module: modules) {
+    c.global_parameters.freeze();
+    c.cuba_configuration.freeze();
+    for (auto& module: c.modules) {
         module.parameters.freeze();
         // Attach global configuration to each module
-        module.parameters.setGlobalParameters(global_parameters);
+        module.parameters.setGlobalParameters(c.global_parameters);
     }
+
+    return c;
 }

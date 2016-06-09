@@ -52,7 +52,6 @@ class ConfigurationReader: public ILuaCallback {
 
         ParameterSet& getGlobalParameters();
         ParameterSet& getCubaConfiguration();
-        InputTag getIntegrand() const;
 
         /**
          * \brief Freeze the configuration
@@ -64,11 +63,7 @@ class ConfigurationReader: public ILuaCallback {
     private:
         friend class Configuration;
 
-        std::vector<Configuration::Module> m_modules;
-        std::shared_ptr<ParameterSet> m_global_parameters;
-        std::shared_ptr<ParameterSet> m_cuba_configuration;
-        InputTag m_integrand;
-        std::vector<Path*> m_paths;
+        Configuration configuration;
 
         std::shared_ptr<lua_State> lua_state;
 };

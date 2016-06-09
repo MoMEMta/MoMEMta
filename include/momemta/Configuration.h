@@ -57,7 +57,10 @@ class Configuration {
 
     private:
         friend class ConfigurationReader;
-        Configuration(const ConfigurationReader&);
+        Configuration() = default;
+
+        /// Return a frozen copy of this configuration
+        Configuration freeze() const;
 
         std::vector<Module> modules;
         ParameterSet global_parameters;
