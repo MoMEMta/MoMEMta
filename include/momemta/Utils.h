@@ -43,7 +43,7 @@ template<typename T> T sign(const T x){
 }
 
 // Used to compute Jacobian for Transfer Function
-inline double dE_over_dP(const LorentzVector& v){
+inline double dP_over_dE(const LorentzVector& v){
     const double rad = SQ(v.E()) - SQ(v.M());
     if (rad <= 0)
         return 0.;
