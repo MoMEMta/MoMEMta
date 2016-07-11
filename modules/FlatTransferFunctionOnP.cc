@@ -19,7 +19,7 @@
 #include <momemta/ParameterSet.h>
 #include <momemta/Module.h>
 #include <momemta/Types.h>
-#include <momemta/Utils.h>
+#include <momemta/Math.h>
 
 /** \brief Flat transfer function on |P| (mainly for testing purposes). 
  *

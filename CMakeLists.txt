@@ -120,6 +120,7 @@ set(MOMEMTA_SOURCES
     "core/src/InputTag.cc"
     "core/src/LibraryManager.cc"
     "core/src/logging.cc"
+    "core/src/Math.cc"
     "core/src/MatrixElementFactory.cc"
     "core/src/MoMEMta.cc"
     "core/src/ModuleFactory.cc"

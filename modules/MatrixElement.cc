@@ -24,6 +24,7 @@
 #include <momemta/MatrixElement.h>
 #include <momemta/MatrixElementFactory.h>
 #include <momemta/ParameterSet.h>
+#include <momemta/Math.h>
 #include <momemta/Module.h>
 #include <momemta/Types.h>
 #include <momemta/Utils.h>

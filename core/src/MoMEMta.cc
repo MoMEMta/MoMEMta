@@ -26,6 +26,7 @@
 #include <momemta/Logging.h>
 #include <momemta/ParameterSet.h>
 #include <momemta/Utils.h>
+#include <momemta/Unused.h>
 
 #include <Graph.h>
 
