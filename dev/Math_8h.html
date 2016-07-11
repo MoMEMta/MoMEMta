@@ -173,11 +173,11 @@ Functions</h2></td></tr>
 <tr class="memitem:ae9bf9ca2a51a3c7bbcd32f3d29930684"><td class="memTemplItemLeft" align="right" valign="top">T&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="Math_8h.html#ae9bf9ca2a51a3c7bbcd32f3d29930684">sign</a> (const T &amp;x)</td></tr>
 <tr class="memdesc:ae9bf9ca2a51a3c7bbcd32f3d29930684"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sign function.  <a href="#ae9bf9ca2a51a3c7bbcd32f3d29930684">More...</a><br /></td></tr>
 <tr class="separator:ae9bf9ca2a51a3c7bbcd32f3d29930684"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2001c4e5097f37a32ab4e6a1077bcfe6"><td class="memTemplParams" colspan="2"><a class="anchor" id="a2001c4e5097f37a32ab4e6a1077bcfe6"></a>
+<tr class="memitem:acd71f98345a62df72caf2baa1a99dc00"><td class="memTemplParams" colspan="2"><a class="anchor" id="acd71f98345a62df72caf2baa1a99dc00"></a>
 template&lt;typename T &gt; </td></tr>
-<tr class="memitem:a2001c4e5097f37a32ab4e6a1077bcfe6"><td class="memTemplItemLeft" align="right" valign="top">double&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="Math_8h.html#a2001c4e5097f37a32ab4e6a1077bcfe6">dE_over_dP</a> (const T &amp;v)</td></tr>
-<tr class="memdesc:a2001c4e5097f37a32ab4e6a1077bcfe6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute \( \frac{dE}{dP} \). <br /></td></tr>
-<tr class="separator:a2001c4e5097f37a32ab4e6a1077bcfe6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acd71f98345a62df72caf2baa1a99dc00"><td class="memTemplItemLeft" align="right" valign="top">double&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="Math_8h.html#acd71f98345a62df72caf2baa1a99dc00">dP_over_dE</a> (const T &amp;v)</td></tr>
+<tr class="memdesc:acd71f98345a62df72caf2baa1a99dc00"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute \( \frac{dE}{dP} \). <br /></td></tr>
+<tr class="separator:acd71f98345a62df72caf2baa1a99dc00"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a054014afef6996736a4460292146f78e"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a054014afef6996736a4460292146f78e"></a>
 double&#160;</td><td class="memItemRight" valign="bottom"><b>jacobianNWA</b> (const double mass, const double width)</td></tr>
 <tr class="separator:a054014afef6996736a4460292146f78e"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -307,7 +307,7 @@ template&lt;typename T &gt; </div>
 
 <p>Definition at line <a class="el" href="Math_8cc_source.html#l00347">347</a> of file <a class="el" href="Math_8cc_source.html">Math.cc</a>.</p>
 
-<p>Referenced by <a class="el" href="Math_8h_source.html#l00053">dE_over_dP()</a>, and <a class="el" href="Math_8cc_source.html#l00182">solve2Quads()</a>.</p>
+<p>Referenced by <a class="el" href="Math_8h_source.html#l00053">dP_over_dE()</a>, and <a class="el" href="Math_8cc_source.html#l00182">solve2Quads()</a>.</p>
 
 </div>
 </div>
@@ -429,7 +429,7 @@ template&lt;typename T &gt; </div>
 
 <p>Definition at line <a class="el" href="Math_8cc_source.html#l00182">182</a> of file <a class="el" href="Math_8cc_source.html">Math.cc</a>.</p>
 
-<p>Referenced by <a class="el" href="Math_8h_source.html#l00053">dE_over_dP()</a>, and <a class="el" href="BlockD_8cc_source.html#l00109">BlockD::work()</a>.</p>
+<p>Referenced by <a class="el" href="Math_8h_source.html#l00053">dP_over_dE()</a>, and <a class="el" href="BlockD_8cc_source.html#l00109">BlockD::work()</a>.</p>
 
 </div>
 </div>
@@ -518,7 +518,7 @@ template&lt;typename T &gt; </div>
 <p>Which corresponds to finding the intersection points of two conics.</p>
 <p>Appends the (x,y) solutions to the std::vectors E1, E2, making no attempt to check whether these vectors are empty. </p>
 
-<p>Referenced by <a class="el" href="Math_8h_source.html#l00053">dE_over_dP()</a>, and <a class="el" href="Math_8cc_source.html#l00182">solve2Quads()</a>.</p>
+<p>Referenced by <a class="el" href="Math_8h_source.html#l00053">dP_over_dE()</a>, and <a class="el" href="Math_8cc_source.html#l00182">solve2Quads()</a>.</p>
 
 </div>
 </div>
@@ -588,7 +588,7 @@ Inspired by "Numerical Recipes" (Press, Teukolsky, Vetterling, Flannery), 2007 C
 
 <p>Definition at line <a class="el" href="Math_8cc_source.html#l00068">68</a> of file <a class="el" href="Math_8cc_source.html">Math.cc</a>.</p>
 
-<p>Referenced by <a class="el" href="Math_8h_source.html#l00053">dE_over_dP()</a>, and <a class="el" href="Math_8cc_source.html#l00116">solveQuartic()</a>.</p>
+<p>Referenced by <a class="el" href="Math_8h_source.html#l00053">dP_over_dE()</a>, and <a class="el" href="Math_8cc_source.html#l00116">solveQuartic()</a>.</p>
 
 </div>
 </div>
@@ -648,7 +648,7 @@ Inspired by "Numerical Recipes" (Press, Teukolsky, Vetterling, Flannery), 2007 C
 
 <p>Definition at line <a class="el" href="Math_8cc_source.html#l00025">25</a> of file <a class="el" href="Math_8cc_source.html">Math.cc</a>.</p>
 
-<p>Referenced by <a class="el" href="Math_8h_source.html#l00053">dE_over_dP()</a>, <a class="el" href="Math_8cc_source.html#l00182">solve2Quads()</a>, <a class="el" href="Math_8cc_source.html#l00068">solveCubic()</a>, <a class="el" href="Math_8cc_source.html#l00116">solveQuartic()</a>, <a class="el" href="BlockB_8cc_source.html#l00105">BlockB::work()</a>, and <a class="el" href="BlockF_8cc_source.html#l00109">BlockF::work()</a>.</p>
+<p>Referenced by <a class="el" href="Math_8h_source.html#l00053">dP_over_dE()</a>, <a class="el" href="Math_8cc_source.html#l00182">solve2Quads()</a>, <a class="el" href="Math_8cc_source.html#l00068">solveCubic()</a>, <a class="el" href="Math_8cc_source.html#l00116">solveQuartic()</a>, <a class="el" href="BlockB_8cc_source.html#l00105">BlockB::work()</a>, and <a class="el" href="BlockF_8cc_source.html#l00109">BlockF::work()</a>.</p>
 
 </div>
 </div>
@@ -725,7 +725,7 @@ See <a href="https://en.wikipedia.org/wiki/Quartic_function#Solving_by_factoring
 
 <p>Definition at line <a class="el" href="Math_8cc_source.html#l00116">116</a> of file <a class="el" href="Math_8cc_source.html">Math.cc</a>.</p>
 
-<p>Referenced by <a class="el" href="Math_8h_source.html#l00053">dE_over_dP()</a>, and <a class="el" href="Math_8cc_source.html#l00182">solve2Quads()</a>.</p>
+<p>Referenced by <a class="el" href="Math_8h_source.html#l00053">dP_over_dE()</a>, and <a class="el" href="Math_8cc_source.html#l00182">solve2Quads()</a>.</p>
 
 </div>
 </div>
