@@ -50,7 +50,7 @@ template <typename T> T sign(const T& x) {
 /**
  * \brief Compute \f$ \frac{dE}{dP} \f$
  */
-template <typename T> inline double dE_over_dP(const T& v) {
+template <typename T> inline double dP_over_dE(const T& v) {
     const double rad = SQ(v.E()) - SQ(v.M());
     if (rad <= 0)
         return 0.;

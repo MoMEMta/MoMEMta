@@ -98,7 +98,7 @@ class GaussianTransferFunction: public Module {
                     gen_E);
 
             // Compute jacobian
-            *TF_times_jacobian = ROOT::Math::normal_pdf(gen_E, reco_particle.E(), sigma) * range * dE_over_dP(*output);
+            *TF_times_jacobian = ROOT::Math::normal_pdf(gen_E, sigma, reco_particle.E()) * range * dP_over_dE(*output);
         }
 
         virtual size_t dimensions() const override {
