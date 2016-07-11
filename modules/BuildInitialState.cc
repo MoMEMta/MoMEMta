@@ -61,7 +61,7 @@
  *
  *   | Name | Type | %Description |
  *   |------|------|--------------|
- *   | `output` | vector(vector(LorentzVector)) | Sets of initial parton 4-momenta (one per invisibles' solution). | 
+ *   | `output` | vector(vector(LorentzVector)) | Sets of initial parton 4-momenta (one pair per invisibles' solution). | 
  *
  * \ingroup modules
  */
