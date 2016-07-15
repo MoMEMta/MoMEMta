@@ -103,6 +103,7 @@ set(MOMEMTA_SOURCES
     "modules/BlockB.cc"
     "modules/BlockD.cc"
     "modules/BlockF.cc"
+    "modules/SecondaryBlockCD.cc"
     "modules/BuildInitialState.cc"
     "modules/BreitWignerGenerator.cc"
     "modules/Constant.cc"
@@ -190,7 +191,7 @@ if(EXAMPLES)
     target_link_libraries(example_tt_fullyleptonic momemta)
     set_target_properties(example_tt_fullyleptonic PROPERTIES OUTPUT_NAME
       "tt_fullyleptonic.exe")
-    
+
     add_executable(example_tt_fullyleptonic_NWA "examples/tt_fullyleptonic_NWA.cc")
     target_link_libraries(example_tt_fullyleptonic_NWA momemta)
     set_target_properties(example_tt_fullyleptonic_NWA PROPERTIES OUTPUT_NAME

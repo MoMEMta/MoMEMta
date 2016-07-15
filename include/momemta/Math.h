@@ -22,11 +22,11 @@
 #include <vector>
 
 /// Compute \f$ x^2 \f$
-#define SQ(x) (x * x)
+#define SQ(x) ((x) * (x))
 /// Compute \f$ x^3 \f$
-#define CB(x) (x * x * x)
+#define CB(x) ((x) * (x) * (x))
 /// Compute \f$ x^4 \f$
-#define QU(x) (x * x * x * x)
+#define QU(x) ((x) * (x) * (x) * (x))
 
 /**
  * \file
