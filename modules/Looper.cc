@@ -24,8 +24,7 @@
 #include <momemta/Path.h>
 #include <momemta/Solution.h>
 
-#define CALL(X) { assert(path); \
-    for (auto& m: path->modules) \
+#define CALL(X) { for (auto& m: path.modules()) \
         m->X(); \
     }
 
@@ -65,7 +64,7 @@ class Looper: public Module {
         Looper(PoolPtr pool, const ParameterSet& parameters): Module(pool, parameters.getModuleName()) {
             solutions = pool->get<SolutionCollection>(parameters.get<InputTag>("solutions")); 
 
-            path = parameters.get<PathPtr>("path");
+            path = parameters.get<Path>("path");
         };
 
         virtual void finish() override {
@@ -81,7 +80,7 @@ class Looper: public Module {
             for (const auto& s: *solutions) {
                 *solution = s;
 
-                for (auto& m: path->modules) {
+                for (auto& m: path.modules()) {
                     auto module_status = m->work();
 
                     if (module_status == Status::OK)
@@ -104,7 +103,7 @@ class Looper: public Module {
         }
 
     private:
-        PathPtr path = nullptr;
+        Path path;
 
         // Inputs
         std::shared_ptr<const SolutionCollection> solutions;

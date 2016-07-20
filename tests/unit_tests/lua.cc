@@ -56,13 +56,13 @@ class LuaCallbackMock: public ILuaCallback {
             integrand = tag;
         }
 
-        virtual void onNewPath(Path* path) {
+        virtual void onNewPath(PathElementsPtr path) {
             paths.push_back(path);
         }
 
         std::vector<std::pair<std::string, std::string>> modules;
         InputTag integrand;
-        std::vector<Path*> paths;
+        std::vector<PathElementsPtr> paths;
 };
 
 // A small mock of LazyParameterSet to change visibily of the `freeze` function
@@ -399,13 +399,13 @@ TEST_CASE("lua parsing utilities", "[lua]") {
         std::string type_name = get_custom_type_name(L.get(), -1);
         REQUIRE(type_name == LUA_PATH_TYPE_NAME);
 
-        Path* path = path_get(L.get(), -1);
+        PathElementsPtr path = lua::path_get(L.get(), -1);
         REQUIRE(path != nullptr);
 
-        REQUIRE(path->names.size() == 3);
-        REQUIRE(path->names[0] == "a");
-        REQUIRE(path->names[1] == "b");
-        REQUIRE(path->names[2] == "c");
+        REQUIRE(path->elements.size() == 3);
+        REQUIRE(path->elements[0] == "a");
+        REQUIRE(path->elements[1] == "b");
+        REQUIRE(path->elements[2] == "c");
 
         lua_pop(L.get(), 1);
     }
@@ -418,7 +418,7 @@ TEST_CASE("lua parsing utilities", "[lua]") {
         REQUIRE(type == LUA_TUSERDATA);
 
         auto path = get_custom_type_ptr(L.get(), -1);
-        REQUIRE(path.type() == typeid(PathPtr));
+        REQUIRE(path.type() == typeid(Path));
 
         lua_pop(L.get(), 1);
     }

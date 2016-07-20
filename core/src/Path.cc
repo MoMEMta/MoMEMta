@@ -16,41 +16,16 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#pragma once
+#include <momemta/Path.h>
 
-#include <string>
-#include <vector>
+#include <momemta/Module.h>
 
-struct lua_State;
-struct PathElements;
+Path::Path(PathElementsPtr elements) { this->elements = elements; }
 
-/**
- * \file
- * \brief Lua binding of C++ Path class
- */
+bool Path::resolved() const {
+    return elements && elements->resolved;
+}
 
-#define LUA_PATH_TYPE_NAME "Path"
-
-namespace lua {
-
-/**
- * \brief Register Path into lua runtime
- */
-void path_register(lua_State* L, void* ptr);
-
-/**
- * \brief Create a new instance of Path
- **/
-int path_new(lua_State* L);
-
-/**
- * \brief Free an instance of Path
- */
-int path_free(lua_State* L);
-
-/**
- * \brief Retrieve an instance of Path from the lua stack
- */
-PathElements* path_get(lua_State* L, int index);
-
+const std::vector<ModulePtr>& Path::modules() const {
+    return elements->modules;
 }

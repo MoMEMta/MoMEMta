@@ -19,12 +19,13 @@
 #include <lua/Path.h>
 
 #include <momemta/ILuaCallback.h>
+#include <momemta/Path.h>
 
 #include <lua/Types.h>
 
 #include <lua.hpp>
 
-void path_register(lua_State* L, void* ptr) {
+void lua::path_register(lua_State* L, void* ptr) {
 
     // Register metatable for type Path
     push_type_metatable(L, LUA_PATH_TYPE_NAME);
@@ -44,7 +45,7 @@ void path_register(lua_State* L, void* ptr) {
     lua_setglobal(L, LUA_PATH_TYPE_NAME);
 }
 
-int path_new(lua_State* L) {
+int lua::path_new(lua_State* L) {
 
     int n = lua_gettop(L);
     if (n == 0) {
@@ -57,13 +58,13 @@ int path_new(lua_State* L) {
         module_names.push_back(module_name);
     }
 
-    Path** pPath = static_cast<Path**>(lua_newuserdata(L, sizeof(Path*)));
-    *pPath = new Path();
+    PathElementsPtr* pPath = static_cast<PathElementsPtr*>(lua_newuserdata(L, sizeof(PathElementsPtr)));
+    *pPath = new PathElements();
 
     luaL_getmetatable(L, LUA_PATH_TYPE_NAME);
     lua_setmetatable(L, -2);
 
-    (*pPath)->names = module_names;
+    (*pPath)->elements = module_names;
 
     
     void* cfg_ptr = lua_touserdata(L, lua_upvalueindex(1));
@@ -73,15 +74,15 @@ int path_new(lua_State* L) {
     return 1;
 }
 
-int path_free(lua_State* L) {
+int lua::path_free(lua_State* L) {
     delete *static_cast<Path**>(luaL_checkudata(L, 1, LUA_PATH_TYPE_NAME));
 
     return 0;
 }
 
-Path* path_get(lua_State* L, int index) {
+PathElementsPtr lua::path_get(lua_State* L, int index) {
     luaL_checktype(L, index, LUA_TUSERDATA);
-    Path** path = static_cast<Path**>(luaL_checkudata(L, index, LUA_PATH_TYPE_NAME));
+    PathElementsPtr* path = static_cast<PathElementsPtr*>(luaL_checkudata(L, index, LUA_PATH_TYPE_NAME));
     if (!path) {
         const char *msg = lua_pushfstring(L, "%s expected, got %s",
                 LUA_PATH_TYPE_NAME, luaL_typename(L, index));

@@ -13,7 +13,7 @@ class unresolved_input: public std::runtime_error {
     using std::runtime_error::runtime_error;
 };
 
-Graph build(const Pool::DescriptionMap& description, std::vector<ModulePtr>& modules, std::vector<Path*> paths, std::function<void(const std::string&)> on_module_removed) {
+Graph build(const Pool::DescriptionMap& description, std::vector<ModulePtr>& modules, const std::vector<PathElementsPtr>& paths, std::function<void(const std::string&)> on_module_removed) {
 
     Graph g;
 
@@ -33,14 +33,18 @@ Graph build(const Pool::DescriptionMap& description, std::vector<ModulePtr>& mod
         if (module != modules.end())
             g[v].module = *module;
 
-        Path* path = nullptr;
-        auto path_it = std::find_if(paths.begin(), paths.end(), [&d](const Path* path) {
-            auto it = std::find_if(path->names.begin(), path->names.end(), [&d](const std::string& name) { return name == d.first; });
-            return it != path->names.end();
+        PathElementsPtr path = nullptr;
+        auto path_it = std::find_if(paths.begin(), paths.end(), [&d](const PathElementsPtr path) {
+            auto it = std::find_if(path->elements.begin(), path->elements.end(), [&d](const std::string& name) { return name == d.first; });
+            return it != path->elements.end();
         });
 
         if (path_it != paths.end())
             path = *path_it;
+
+        if (path) {
+            assert(!path->resolved);
+        }
 
         // If null, it means the modules belong to the main path
         g[v].path = path;
@@ -146,7 +150,7 @@ Graph build(const Pool::DescriptionMap& description, std::vector<ModulePtr>& mod
     for (const auto& vertex: sorted_vertices) {
         assert(g[vertex].module);
 
-        Path* path = g[vertex].path;
+        PathElementsPtr path = g[vertex].path;
         if (path) {
             path->modules.push_back(g[vertex].module);
         } else {
@@ -154,8 +158,9 @@ Graph build(const Pool::DescriptionMap& description, std::vector<ModulePtr>& mod
         }
     }
 
-    for (PathPtr path: paths) {
-        for (const auto& name: path->names) {
+    for (auto& path: paths) {
+        path->resolved = true;
+        for (const auto& name: path->elements) {
             auto it = std::find_if(path->modules.begin(), path->modules.end(), [&name](const ModulePtr& module) { return module->name() == name; });
             if (it == path->modules.end()) {
                 LOG(warning) << "Module '" << name << "' in path not found.";

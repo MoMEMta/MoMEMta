@@ -86,7 +86,7 @@ void ConfigurationReader::onIntegrandDeclared(const InputTag& tag) {
     configuration.integrand = tag;
 }
 
-void ConfigurationReader::onNewPath(PathPtr path) {
+void ConfigurationReader::onNewPath(PathElementsPtr path) {
     configuration.paths.push_back(path);
 }
 

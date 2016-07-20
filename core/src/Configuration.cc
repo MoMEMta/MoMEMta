@@ -36,7 +36,7 @@ InputTag Configuration::getIntegrand() const {
     return integrand;
 }
 
-std::vector<Path*> Configuration::getPaths() const {
+std::vector<PathElementsPtr> Configuration::getPaths() const {
     return paths;
 }
 

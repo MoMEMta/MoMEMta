@@ -22,7 +22,7 @@
 #include <string>
 
 struct InputTag;
-struct Path;
+struct PathElements;
 
 /**
  * \brief Notification callback used for communication between the lua file and MoMEMta.
@@ -71,5 +71,5 @@ class ILuaCallback {
          *
          * will result in a call to this function
          */
-        virtual void onNewPath(Path* path) = 0;
+        virtual void onNewPath(PathElements* path) = 0;
 };

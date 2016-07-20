@@ -27,7 +27,7 @@
 #include <momemta/ILuaCallback.h>
 
 class ParameterSet;
-struct Path;
+struct PathElements;
 struct lua_State;
 
 /**
@@ -48,7 +48,7 @@ class ConfigurationReader: public ILuaCallback {
 
         virtual void onModuleDeclared(const std::string& type, const std::string& name) override;
         virtual void onIntegrandDeclared(const InputTag& tag) override;
-        virtual void onNewPath(Path* path) override;
+        virtual void onNewPath(PathElements* path) override;
 
         ParameterSet& getGlobalParameters();
         ParameterSet& getCubaConfiguration();

@@ -24,7 +24,7 @@
 #include <momemta/ParameterSet.h>
 
 class ConfigurationReader;
-struct Path;
+struct PathElements;
 
 /**
  * \brief A frozen snapshot of the configuration file.
@@ -53,7 +53,7 @@ class Configuration {
         /// \return The integrand InputTag as declared in the configuration
         InputTag getIntegrand() const;
         /// \return The list of Paths as declared in the configuration
-        std::vector<Path*> getPaths() const;
+        std::vector<PathElements*> getPaths() const;
 
     private:
         friend class ConfigurationReader;
@@ -66,5 +66,5 @@ class Configuration {
         ParameterSet global_parameters;
         ParameterSet cuba_configuration;
         InputTag integrand;
-        std::vector<Path*> paths;
+        std::vector<PathElements*> paths;
 };

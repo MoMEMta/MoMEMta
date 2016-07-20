@@ -18,8 +18,9 @@
 
 #include <lua/Types.h>
 
-#include <lua/Path.h>
+#include <momemta/Path.h>
 
+#include <lua/Path.h>
 #include <lua.hpp>
 
 void push_type_metatable(lua_State* L, const char* name) {
@@ -49,7 +50,7 @@ boost::any get_custom_type_ptr(lua_State* L, int index) {
 
     boost::any result;
     if (type == LUA_PATH_TYPE_NAME) {
-        Path* path = path_get(L, index);
+        Path path = Path(lua::path_get(L, index));
         result = path;
     }
 
