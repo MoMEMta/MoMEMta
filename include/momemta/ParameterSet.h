@@ -183,6 +183,15 @@ class ParameterSet {
             return boost::any_cast<const ParameterSet&>(it->second.value);
         }
 
+        /**
+         * \brief Clone this ParameterSet
+         *
+         * You must take ownership of the returned pointer.
+         *
+         * @return A clone of this ParameterSet. You must take ownership of the returned value.
+         */
+        virtual ParameterSet* clone() const;
+
     protected:
         friend class ConfigurationReader;
         friend class Configuration;
@@ -284,6 +293,7 @@ class LazyParameterSet: public ParameterSet {
     friend class ConfigurationReader;
     public:
         LazyParameterSet(std::shared_ptr<lua_State> L, const std::string& name);
+        virtual LazyParameterSet* clone() const override;
 
     protected:
         virtual std::pair<boost::any, bool> parseItem(const std::string& key, lua_State* L, int index) override;

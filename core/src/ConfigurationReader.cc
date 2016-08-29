@@ -44,20 +44,20 @@ ConfigurationReader::ConfigurationReader(const std::string& file) {
     // FIXME: Find a better way of doing that
 
     // Read global parameters from global variable named 'parameters'
-    configuration.global_parameters = LazyParameterSet(lua_state, "parameters");
+    configuration.global_parameters.reset(new LazyParameterSet(lua_state, "parameters"));
     int type = lua_getglobal(lua_state.get(), "parameters");
     if (type == LUA_TTABLE) {
         LOG(debug) << "Parsing global parameters.";
-        configuration.global_parameters.parse(lua_state.get(), -1);
+        configuration.global_parameters->parse(lua_state.get(), -1);
     }
     lua_pop(lua_state.get(), 1);
 
     // Read cuba configuration
-    configuration.cuba_configuration = LazyParameterSet(lua_state, "cuba");
+    configuration.cuba_configuration.reset(new LazyParameterSet(lua_state, "cuba"));
     type = lua_getglobal(lua_state.get(), "cuba");
     if (type == LUA_TTABLE) {
         LOG(debug) << "Parsing cuba configuration.";
-        configuration.cuba_configuration.parse(lua_state.get(), -1);
+        configuration.cuba_configuration->parse(lua_state.get(), -1);
     }
     lua_pop(lua_state.get(), 1);
 
@@ -67,8 +67,8 @@ ConfigurationReader::ConfigurationReader(const std::string& file) {
         lua_getglobal(lua_state.get(), m.type.c_str());
         lua_getfield(lua_state.get(), -1, m.name.c_str());
 
-        m.parameters = ParameterSet(m.type, m.name);
-        m.parameters.parse(lua_state.get(), -1);
+        m.parameters.reset(new ParameterSet(m.type, m.name));
+        m.parameters->parse(lua_state.get(), -1);
 
         lua_pop(lua_state.get(), 2);
     }
@@ -91,11 +91,11 @@ void ConfigurationReader::onNewPath(PathElementsPtr path) {
 }
 
 ParameterSet& ConfigurationReader::getGlobalParameters() {
-    return configuration.global_parameters;
+    return *configuration.global_parameters;
 }
 
 ParameterSet& ConfigurationReader::getCubaConfiguration() {
-    return configuration.cuba_configuration;
+    return *configuration.cuba_configuration;
 }
 
 Configuration ConfigurationReader::freeze() const {

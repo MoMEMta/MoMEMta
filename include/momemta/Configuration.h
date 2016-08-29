@@ -18,12 +18,14 @@
 
 #pragma once
 
+#include <memory>
 #include <string>
 #include <vector>
 
-#include <momemta/ParameterSet.h>
+#include <momemta/impl/InputTag_fwd.h>
 
 class ConfigurationReader;
+class ParameterSet;
 struct PathElements;
 
 /**
@@ -40,8 +42,14 @@ class Configuration {
          */
         struct Module {
             std::string name; ///< Name of the module (user-defined from the configuration file)
-            std::string type; ///< Type of the module (mapped one-to-one with a C++ class inherting from Module)
-            ParameterSet parameters; ///< Module's parameters, as parsed from the configuration file
+            std::string type; ///< Type of the module (mapped one-to-one with a C++ class inherting from Module). If
+                              ///< starting with '@', this module is virtual.
+            std::shared_ptr<ParameterSet> parameters; ///< Module's parameters, as parsed from the configuration file
+
+            Module() = default;
+            Module(const Module&);
+            Module(const Module&&);
+            Module& operator=(Module);
         };
 
         /// \return The list of modules declared from the configuration file
@@ -55,6 +63,20 @@ class Configuration {
         /// \return The list of Paths as declared in the configuration
         std::vector<PathElements*> getPaths() const;
 
+        /**
+         * \brief Copy constructor.
+         *
+         * The current implementation *clones* the ParameterSet members.
+         */
+        Configuration(const Configuration&);
+
+        /**
+         * \brief Move constructor.
+         */
+        Configuration(const Configuration&&);
+
+        Configuration& operator=(Configuration);
+
     private:
         friend class ConfigurationReader;
         Configuration() = default;
@@ -63,8 +85,8 @@ class Configuration {
         Configuration freeze() const;
 
         std::vector<Module> modules;
-        ParameterSet global_parameters;
-        ParameterSet cuba_configuration;
+        std::shared_ptr<ParameterSet> global_parameters;
+        std::shared_ptr<ParameterSet> cuba_configuration;
         InputTag integrand;
         std::vector<PathElements*> paths;
 };
