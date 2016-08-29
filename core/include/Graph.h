@@ -1,5 +1,6 @@
 #pragma once
 
+#include <momemta/Configuration.h>
 #include <momemta/Module.h>
 
 #include <boost/config.hpp>
@@ -15,6 +16,7 @@ namespace graph {
 
 struct Vertex {
     std::string name;
+    Configuration::Module configuration_module;
     ModulePtr module;
     uint32_t id;
     PathElements* path;
@@ -22,12 +24,14 @@ struct Vertex {
 
 struct Edge {
     std::string name;
+    std::string description;
 };
 
 typedef boost::adjacency_list<boost::listS, boost::listS, boost::bidirectionalS, Vertex, Edge> Graph;
 
 typedef boost::graph_traits<Graph>::vertex_descriptor vertex_t;
 typedef boost::graph_traits<Graph>::edge_descriptor edge_t;
+typedef boost::graph_traits<Graph>::out_edge_iterator out_edge_iterator_t;
 
 /**
  * \brief Build a graph representation of the modules.

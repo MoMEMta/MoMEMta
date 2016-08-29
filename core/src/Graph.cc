@@ -5,11 +5,16 @@
 
 #include <momemta/Logging.h>
 #include <momemta/Module.h>
+#include <momemta/ParameterSet.h>
 #include <momemta/Path.h>
 
 namespace graph {
 
 class unresolved_input: public std::runtime_error {
+    using std::runtime_error::runtime_error;
+};
+
+class incomplete_looper_path: public std::runtime_error {
     using std::runtime_error::runtime_error;
 };
 
@@ -28,6 +33,7 @@ Graph build(const Pool::DescriptionMap& description, std::vector<ModulePtr>& mod
         vertices.emplace(d.first, v);
 
         g[v].name = d.first;
+        g[v].configuration_module = d.second.module;
         g[v].id = id;
         auto module = std::find_if(modules.begin(), modules.end(), [&d](const ModulePtr& m) { return m->name() == d.first; });
         if (module != modules.end())
@@ -72,8 +78,9 @@ Graph build(const Pool::DescriptionMap& description, std::vector<ModulePtr>& mod
                         bool inserted;
                         std::tie(e, inserted) = boost::add_edge(vertex.second, vertices.at(module.first), g);
                         g[e].name = input.parameter;
+                        g[e].description = input.parameter;
                         if (input.isIndexed()) {
-                            g[e].name += "[" + std::to_string(input.index) + "]";
+                            g[e].description += "[" + std::to_string(input.index) + "]";
                         }
                     }
                 }
@@ -168,6 +175,41 @@ Graph build(const Pool::DescriptionMap& description, std::vector<ModulePtr>& mod
         }
     }
 
+
+    // Check for if a module use a Looper output but is not actually declared in the looper path
+    for (const auto& vertex: sorted_vertices) {
+        if (g[vertex].configuration_module.type == "Looper") {
+            // We know that the module is a Looper
+            // grab its execution path from its configuration
+            auto looper_path = g[vertex].configuration_module.parameters->get<Path>("path");
+            const auto& path_modules = looper_path.modules();
+
+            out_edge_iterator_t e, e_end;
+            std::tie(e, e_end) = boost::out_edges(vertex, g);
+
+            // Iterator over all edges connected to this Looper vertex
+            for (; e != e_end; ++e) {
+                auto target = g[boost::target(*e, g)];
+
+                // Check if target is inside the looper path
+                auto it = std::find_if(path_modules.begin(), path_modules.end(), [&target](const ModulePtr& m) {
+                    return m->name() == target.name;
+                });
+
+                if (it == path_modules.end()) {
+                    LOG(fatal) << "Module '" << target.name << "' is configured to use Looper '" << g[vertex].name
+                               << "' output, but is not actually part of the Looper execution path. This will lead to undefined "
+                               << "behavior. You can fix the issue by adding the module '"
+                               << target.name
+                               << "' to the Looper execution path";
+
+                    throw incomplete_looper_path("A module is using the looper output but not actually path of its "
+                                                 "executation path");
+                }
+            }
+        }
+    }
+
     return g;
 }
 
@@ -187,7 +229,7 @@ void graphviz_export(const Graph& g, const std::string& filename) {
     std::ofstream f(filename.c_str());
 
     auto vertices_name = boost::get(&Vertex::name, g);
-    auto edges_name = boost::get(&Edge::name, g);
+    auto edges_name = boost::get(&Edge::description, g);
 
     boost::write_graphviz(f, g, make_label_writer(vertices_name), make_label_writer(edges_name), boost::default_writer(), boost::get(&Vertex::id, g));
 }
