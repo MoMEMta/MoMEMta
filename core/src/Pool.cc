@@ -47,8 +47,7 @@ boost::any Pool::reserve(const InputTag& tag) {
     }
 
     // Update current module description
-    assert(! m_current_module.empty());
-    Description& description = m_description[m_current_module];
+    Description& description = get_description();
     description.inputs.push_back(tag);
 
     return it->second.ptr;
@@ -83,7 +82,15 @@ bool Pool::exists(const InputTag& tag) const {
     return it != m_storage.end();
 }
 
-void Pool::current_module(const std::string& module) {
+void Pool::current_module(const Configuration::Module& module) {
+    m_current_module = module;
+}
+
+void Pool::current_module(const std::string& name) {
+    Configuration::Module module;
+    module.name = name;
+    module.type = "@" + name;
+
     m_current_module = module;
 }
 
@@ -93,7 +100,8 @@ class invalid_state: public std::runtime_error {
 
 void Pool::freeze() {
     m_frozen = true;
-    m_current_module.clear();
+
+    m_current_module.name.clear();
 
     // Iterate over the storage, and check if any block is invalid.
     for (const auto& it: m_storage) {
@@ -102,4 +110,17 @@ void Pool::freeze() {
             throw invalid_state("Memory pool state is invalid");
         }
     }
+}
+
+Description& Pool::get_description() const {
+    assert(! m_current_module.name.empty());
+
+    auto it = m_description.find(m_current_module.name);
+    if (it == m_description.end()) {
+        Description description;
+        description.module = m_current_module;
+        it = m_description.emplace(std::make_pair(m_current_module.name, description)).first;
+    }
+
+    return it->second;
 }

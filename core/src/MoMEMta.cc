@@ -50,7 +50,7 @@ MoMEMta::MoMEMta(const Configuration& configuration) {
     // Construct modules from configuration
     std::vector<Configuration::Module> light_modules = configuration.getModules();
     for (const auto& module: light_modules) {
-        m_pool->current_module(module.name);
+        m_pool->current_module(module);
         m_modules.push_back(ModuleFactory::get().create(module.type, m_pool, *module.parameters));
         m_modules.back()->configure();
     }
