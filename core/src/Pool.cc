@@ -53,14 +53,6 @@ boost::any Pool::reserve(const InputTag& tag) {
     return it->second.ptr;
 }
 
-boost::any Pool::raw_get(const InputTag& tag) {
-    auto it = m_storage.find(tag);
-    if (it == m_storage.end())
-        throw tag_not_found_error("No such tag in pool: " + tag.toString());
-
-    return it->second.ptr;
-}
-
 void Pool::alias(const InputTag& from, const InputTag& to) {
     if (from.isIndexed() || to.isIndexed()) {
         throw std::invalid_argument("Indexed input tag cannot be passed as argument of the pool. Use the `get` function of the input tag to retrieve its content.");

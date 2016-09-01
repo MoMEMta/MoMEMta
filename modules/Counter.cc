@@ -52,7 +52,7 @@ class Counter: public Module {
     private:
 
         // Inputs
-        std::shared_ptr<const std::vector<T>> input;
+        Value<std::vector<T>> input;
 
         // Outputs
         std::shared_ptr<int64_t> result = produce<int64_t>("count");

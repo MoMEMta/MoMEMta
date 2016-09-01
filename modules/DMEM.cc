@@ -39,9 +39,9 @@ class DMEM: public Module {
             m_hist = produce<TH1D>("hist", (name() + "_DMEM").c_str(), (name() + "_DMEM").c_str(), n_bins, x_start, x_end);
             m_hist->SetDirectory(0);
 
-            m_particle_tags = parameters.get<std::vector<InputTag>>("particles");
-            for (auto& t: m_particle_tags)
-              t.resolve(pool);
+            auto particle_tags = parameters.get<std::vector<InputTag>>("particles");
+            for (auto& t: particle_tags)
+              m_particles.push_back(get<LorentzVector>(t));
             
             InputTag invisibles_tag = parameters.get<InputTag>("invisibles");
             m_solution = get<Solution>(invisibles_tag);
@@ -57,8 +57,8 @@ class DMEM: public Module {
         virtual Status work() override {
             
             LorentzVector tot;
-            for (const auto& v: m_particle_tags)
-                tot += v.get<LorentzVector>();
+            for (const auto& v: m_particles)
+                tot += *v;
 
             // Add solution particles if we have some
             for (const auto& i: m_solution->values)
@@ -82,13 +82,14 @@ class DMEM: public Module {
 
         double x_start, x_end;
         int64_t n_bins;
-        
-        std::vector<InputTag> m_particle_tags;
-        std::shared_ptr<const Solution> m_solution;
-        
-        std::shared_ptr<const double> psWeight;
-        std::shared_ptr<const double> meOutput;
-        
+
+        // Inputs
+        std::vector<Value<LorentzVector>> m_particles;
+        Value<Solution> m_solution;
+        Value<double> psWeight;
+        Value<double> meOutput;
+
+        // Outputs
         std::shared_ptr<TH1D> m_hist;
 };
 REGISTER_MODULE(DMEM);

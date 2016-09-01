@@ -92,20 +92,17 @@ class BlockF: public Module {
 
   BlockF(PoolPtr pool, const ParameterSet& parameters): Module(pool, parameters.getModuleName()) {
 
-            m_ps_point1 = parameters.get<InputTag>("q1");
-            m_ps_point1.resolve(pool);
-
-            m_ps_point2 = parameters.get<InputTag>("q2");
-            m_ps_point2.resolve(pool);
+            m_ps_point1 = get<double>(parameters.get<InputTag>("q1"));
+            m_ps_point2 = get<double>(parameters.get<InputTag>("q2"));
 
             sqrt_s = parameters.globalParameters().get<double>("energy");
 
             s13 = get<double>(parameters.get<InputTag>("s13"));
             s24 = get<double>(parameters.get<InputTag>("s24"));
 	    
-            m_particle_tags = parameters.get<std::vector<InputTag>>("inputs");
-            for (auto& t: m_particle_tags)
-                t.resolve(pool);
+            auto particle_tags = parameters.get<std::vector<InputTag>>("inputs");
+            for (auto& t: particle_tags)
+                m_particles.push_back(get<LorentzVector>(t));
         };
 
         virtual Status work() override {
@@ -116,8 +113,8 @@ class BlockF: public Module {
             if (*s13 > SQ(sqrt_s) || *s24 > SQ(sqrt_s))
                 return Status::NEXT;
             
-            const LorentzVector& p3 = m_particle_tags[0].get<LorentzVector>();
-            const LorentzVector& p4 = m_particle_tags[1].get<LorentzVector>();
+            const LorentzVector& p3 = *m_particles[0];
+            const LorentzVector& p4 = *m_particles[1];
            
             // Leave the variables E2 and p2y as free parameters 
             std::vector<double> E2;
@@ -138,16 +135,16 @@ class BlockF: public Module {
             
             // Total visible momentum
             LorentzVector pb = p3 + p4;
-            for (size_t i = 2; i < m_particle_tags.size(); i++) {
-                pb += m_particle_tags[i].get<LorentzVector>();
+            for (size_t i = 2; i < m_particles.size(); i++) {
+                pb += *m_particles[i];
             }
             double Eb = pb.E();
             double pbx = pb.Px();
             double pby = pb.Py();
             double pbz = pb.Pz();
             
-            double q1 = m_ps_point1.get<double>();
-            double q2 = m_ps_point2.get<double>();
+            double q1 = *m_ps_point1;
+            double q2 = *m_ps_point2;
 
             const double Qm = sqrt_s*(q1-q2)/2.;
             const double Qp = sqrt_s*(q1+q2)/2.;
@@ -252,8 +249,8 @@ class BlockF: public Module {
 
                 // Check if solutions are physical
                 LorentzVector tot = p1 + p2;
-                for (size_t i = 0; i < m_particle_tags.size(); i++){
-                    tot += m_particle_tags[i].get<LorentzVector>();
+                for (size_t i = 0; i < m_particles.size(); i++){
+                    tot += *m_particles[i];
                 }
                 double q1Pz = std::abs(tot.Pz() + tot.E()) / 2.;
                 double q2Pz = std::abs(tot.Pz() - tot.E()) / 2.;
@@ -303,13 +300,14 @@ class BlockF: public Module {
     private:
         double sqrt_s;
 
-        std::vector<InputTag> m_particle_tags;
+        // Inputs
+        Value<double> s13;
+        Value<double> s24;
+        Value<double> m_ps_point1;
+        Value<double> m_ps_point2;
+        std::vector<Value<LorentzVector>> m_particles;
 
-        std::shared_ptr<const double> s13;
-        std::shared_ptr<const double> s24;
-        InputTag m_ps_point1;
-        InputTag m_ps_point2;
-
+        // Outputs
         std::shared_ptr<SolutionCollection> solutions = produce<SolutionCollection>("solutions");
 };
 REGISTER_MODULE(BlockF);

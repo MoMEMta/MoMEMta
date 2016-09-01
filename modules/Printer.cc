@@ -51,7 +51,7 @@ class Printer: public Module {
         std::string name;
 
         // Inputs
-        std::shared_ptr<const T> input;
+        Value<T> input;
 };
 
 /**
@@ -91,7 +91,7 @@ class Printer<std::vector<T>>: public Module {
         std::string name;
 
         // Inputs
-        std::shared_ptr<const std::vector<T>> input;
+        Value<std::vector<T>> input;
 };
 
 REGISTER_MODULE_NAME("IntPrinter", Printer<int64_t>);

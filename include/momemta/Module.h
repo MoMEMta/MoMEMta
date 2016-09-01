@@ -19,9 +19,9 @@
 
 #pragma once
 
-#include <momemta/ModuleFactory.h>
-#include <momemta/Pool.h>
+#include <momemta/impl/Pool.h>
 #include <momemta/InputTag.h>
+#include <momemta/ModuleFactory.h>
 
 /*! \defgroup modules Modules
  * \brief MoMEMta's built-in modules
@@ -176,11 +176,11 @@ class Module {
             return m_pool->put<T>({m_name, name}, std::forward<Args>(args)...);
         }
 
-        template<typename T> std::shared_ptr<const T> get(const std::string& module, const std::string& name) {
+        template<typename T> Value<T> get(const std::string& module, const std::string& name) {
             return m_pool->get<T>({module, name});
         }
 
-        template<typename T> std::shared_ptr<const T> get(const InputTag& tag) {
+        template<typename T> Value<T> get(const InputTag& tag) {
             return m_pool->get<T>(tag);
         }
 

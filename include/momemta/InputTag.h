@@ -20,4 +20,3 @@
 #pragma once
 
 #include <momemta/impl/InputTag_fwd.h>
-#include <momemta/impl/InputTag.h>

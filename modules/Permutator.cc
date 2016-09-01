@@ -59,32 +59,31 @@
 class Permutator: public Module {
     public:
 
-        Permutator(PoolPtr pool, const ParameterSet& parameters): Module(pool, parameters.getModuleName()),
-            m_ps_point(parameters.get<InputTag>("ps_point")),
-            m_input(parameters.get<std::vector<InputTag>>("inputs"))
-        {
-            
-            m_ps_point.resolve(pool);
-            for (auto& t: m_input)
-                t.resolve(pool);
+        Permutator(PoolPtr pool, const ParameterSet& parameters): Module(pool, parameters.getModuleName()) {
 
-            std::vector<uint32_t> tmp(m_input.size());
+            m_ps_point = get<double>(parameters.get<InputTag>("ps_point"));
+
+            auto particle_tags = parameters.get<std::vector<InputTag>>("inputs");
+            for (auto& t: particle_tags)
+                m_inputs.push_back(get<LorentzVector>(t));
+
+            std::vector<uint32_t> tmp(m_inputs.size());
             std::iota(tmp.begin(), tmp.end(), 0);
 
             do {
                 perm_indices.push_back(tmp);
             } while (std::next_permutation(tmp.begin(), tmp.end()));
 
-            (*m_output).resize(m_input.size());
+            (*m_output).resize(m_inputs.size());
         };
 
         virtual Status work() override {
-            double psPoint = m_ps_point.get<double>();
+            double psPoint = *m_ps_point;
             
-            uint32_t chosen_perm = std::lround(psPoint*(perm_indices.size()-1));
+            size_t chosen_perm = std::lround(psPoint * (perm_indices.size() - 1));
             
-            for (uint32_t i = 0; i < m_input.size(); i++)
-                (*m_output)[i] = m_input[ perm_indices[chosen_perm][i] ].get<LorentzVector>();
+            for (size_t i = 0; i < m_inputs.size(); i++)
+                (*m_output)[i] = *m_inputs[perm_indices[chosen_perm][i]];
 
             return Status::OK;
         }
@@ -94,12 +93,14 @@ class Permutator: public Module {
         }
 
     private:
-        InputTag m_ps_point;
-        std::vector<InputTag> m_input;
-
-        std::shared_ptr<std::vector<LorentzVector>> m_output = produce<std::vector<LorentzVector>>("output");
-
         std::vector<std::vector<uint32_t>> perm_indices;
+
+        // Inputs
+        Value<double> m_ps_point;
+        std::vector<Value<LorentzVector>> m_inputs;
+
+        // Outputs
+        std::shared_ptr<std::vector<LorentzVector>> m_output = produce<std::vector<LorentzVector>>("output");
 };
 REGISTER_MODULE(Permutator);
 

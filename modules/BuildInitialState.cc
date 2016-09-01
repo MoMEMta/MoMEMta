@@ -78,9 +78,9 @@ class BuildInitialState: public Module {
             
             solution = get<Solution>(parameters.get<InputTag>("solution"));
 
-            input_particles = parameters.get<std::vector<InputTag>>("particles");
-            for (auto& t: input_particles)
-                t.resolve(pool);
+            std::vector<InputTag> input_particles_tags = parameters.get<std::vector<InputTag>>("particles");
+            for (auto& t: input_particles_tags)
+                input_particles.push_back(get<LorentzVector>(t));
         };
 
         virtual Status work() override {
@@ -89,7 +89,7 @@ class BuildInitialState: public Module {
 
             std::vector<LorentzVector> particles_and_invisibles;
             for (auto& p: input_particles) {
-                particles_and_invisibles.push_back(p.get<LorentzVector>());
+                particles_and_invisibles.push_back(*p);
             }
 
             for (const auto& s: solution->values) {
@@ -144,8 +144,8 @@ class BuildInitialState: public Module {
                 (*partons)[1] = isr_boost * (*partons)[1];
             };
 
-        std::shared_ptr<const Solution> solution;
-        std::vector<InputTag> input_particles;
+        Value<Solution> solution;
+        std::vector<Value<LorentzVector>> input_particles;
 
         std::shared_ptr<std::vector<LorentzVector>> partons = produce<std::vector<LorentzVector>>("partons");
 };

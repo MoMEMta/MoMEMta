@@ -54,7 +54,7 @@ parameters = {
 
 cuba = {
     relative_accuracy = 0.01,
-    verbosity = 3,
+    verbosity = 3
 }
 
 BreitWignerGenerator.flatter_s13 = {
@@ -124,16 +124,8 @@ if USE_TF then
     -- }
 end
 
-if USE_PERM then
-    Permutator.permutator = {
-        ps_point = getpspoint(),
-        inputs = {
-          inputs_before_perm[2],
-          inputs_before_perm[4],
-        }
-    }
-end
-
+-- Declare module before the permutator to test read-access in the pool
+-- for non-existant values.
 BlockD.blockd = {
     inputs = inputs,
 
@@ -144,6 +136,16 @@ BlockD.blockd = {
     s25 = 'flatter_s25::s',
     s256 = 'flatter_s256::s',
 }
+
+if USE_PERM then
+    Permutator.permutator = {
+        ps_point = getpspoint(),
+        inputs = {
+          inputs_before_perm[2],
+          inputs_before_perm[4],
+        }
+    }
+end
 
 -- Loop
 
