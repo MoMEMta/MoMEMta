@@ -50,6 +50,18 @@ class Pool {
     public:
         using DescriptionMap = std::unordered_map<std::string, Description>;
 
+        Pool() = default;
+
+        /**
+         * \brief Allocate a new block in the memory pool.
+         *
+         * \param tag The input tag describing the memory block
+         * \param args Optional constructor arguments for creating a new instance of \p T
+         *
+         * \return A pointer to the newly allocated memory block.
+         */
+        template<typename T, typename... Args> std::shared_ptr<T> put(const InputTag& tag, Args... args);
+
         template<typename T> Value<T> get(const InputTag& tag) const;
 
         void alias(const InputTag& from, const InputTag& to);
@@ -81,18 +93,6 @@ class Pool {
 
         using PoolStorage = std::unordered_map<InputTag, PoolContent>;
 
-        class tag_not_found_error: public std::runtime_error {
-            using std::runtime_error::runtime_error;
-        };
-
-        class duplicated_tag_error: public std::runtime_error {
-            using std::runtime_error::runtime_error;
-        };
-
-        class constructor_tag_error: public std::runtime_error {
-            using std::runtime_error::runtime_error;
-        };
-
         friend struct InputTag;
 
         void remove(const InputTag&, bool force = true);
@@ -101,8 +101,6 @@ class Pool {
         boost::any reserve(const InputTag&);
 
         template<typename T> std::shared_ptr<const T> raw_get(const InputTag& tag) const;
-
-        template<typename T, typename... Args> std::shared_ptr<T> put(const InputTag& tag, Args... args);
 
         template<typename T, typename... Args> PoolStorage::iterator create(const InputTag& tag,
                 bool valid = true, Args... args) const;
@@ -127,7 +125,20 @@ class Pool {
          */
         virtual void current_module(const std::string& name) final;
 
-    private:
+        class tag_not_found_error: public std::runtime_error {
+            using std::runtime_error::runtime_error;
+        };
+
+        class duplicated_tag_error: public std::runtime_error {
+            using std::runtime_error::runtime_error;
+        };
+
+        class constructor_tag_error: public std::runtime_error {
+            using std::runtime_error::runtime_error;
+        };
+
+
+private:
 
         /**
          * \brief Freeze the memory pool.
@@ -145,7 +156,6 @@ class Pool {
          */
         virtual Description& get_description() const final;
 
-        Pool() = default;
         Pool(const Pool&) = delete;
         Pool& operator=(const Pool&) = delete;
 
