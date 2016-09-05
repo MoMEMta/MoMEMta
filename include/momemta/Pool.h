@@ -26,6 +26,7 @@
 #include <boost/any.hpp>
 
 #include <momemta/impl/InputTag_fwd.h>
+#include <momemta/Configuration.h>
 
 // A simple memory pool
 
@@ -37,8 +38,9 @@ struct PoolContent {
     bool valid; /// The state of the memory block. If false, it means that a module requested this block in read-mode, but no module actually provides the block.
 };
 
+// FIXME: Use a more descriptive name, like "ModuleDependencies"
 struct Description {
-    std::string module_name;
+    Configuration::Module module;
     std::vector<InputTag> inputs;
     std::vector<std::string> outputs;
 };
@@ -61,8 +63,7 @@ class Pool {
 
             if (! m_frozen) {
                 // Update current module description
-                assert(! m_current_module.empty());
-                Description& description = m_description[m_current_module];
+                Description& description = get_description();
                 description.inputs.push_back(tag);
             }
 
@@ -137,8 +138,7 @@ class Pool {
             }
 
             // Update current module description
-            assert(! m_current_module.empty());
-            Description& description = m_description[m_current_module];
+            Description& description = get_description();
             description.outputs.push_back(tag.parameter);
 
             return boost::any_cast<std::shared_ptr<T>>(it->second.ptr);
@@ -153,14 +153,27 @@ class Pool {
             return m_storage.emplace(tag, content).first;
         }
 
+    public:
         /**
          * \brief Inform the pool of which module is currently created.
          *
          * It helps tracking down module dependencies.
          *
-         * \param module The name of the module beeing created
+         * \param module The module beeing created
          */
-        virtual void current_module(const std::string& module) final;
+        virtual void current_module(const Configuration::Module& module) final;
+
+        /**
+         * \brief Inform the pool of which module is currently created.
+         *
+         * It helps tracking down module dependencies. This signature indicates
+         * that the current module is virtual.
+         *
+         * \param name Name of the current virtual module
+         */
+        virtual void current_module(const std::string& name) final;
+
+    private:
 
         /**
          * \brief Freeze the memory pool.
@@ -171,11 +184,18 @@ class Pool {
          */
         virtual void freeze() final;
 
+        /**
+         * \brief Retrieve the description for the module being created.
+         *
+         * @return A reference to the module's description. If none exists, a new one is created.
+         */
+        virtual Description& get_description() const final;
+
         Pool() = default;
         Pool(const Pool&) = delete;
         Pool& operator=(const Pool&) = delete;
 
-        std::string m_current_module; /// Name of the module currently created.
+        Configuration::Module m_current_module; /// Module currently created.
         bool m_frozen = false; /// If true, no modification of the pool is allowed
 
         mutable PoolStorage m_storage;

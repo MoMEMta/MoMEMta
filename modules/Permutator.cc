@@ -68,23 +68,25 @@ class Permutator: public Module {
             for (auto& t: m_input)
                 t.resolve(pool);
 
-            std::vector<uint32_t> tmp;
-            for(uint32_t i = 0; i < m_input.size(); i++)
-                tmp.push_back(i);
+            std::vector<uint32_t> tmp(m_input.size());
+            std::iota(tmp.begin(), tmp.end(), 0);
+
             do {
                 perm_indices.push_back(tmp);
-            } while( std::next_permutation(tmp.begin(), tmp.end()) );
+            } while (std::next_permutation(tmp.begin(), tmp.end()));
 
             (*m_output).resize(m_input.size());
         };
 
-        virtual void work() override {
+        virtual Status work() override {
             double psPoint = m_ps_point.get<double>();
             
             uint32_t chosen_perm = std::lround(psPoint*(perm_indices.size()-1));
             
-            for(uint32_t i = 0; i < m_input.size(); i++)
+            for (uint32_t i = 0; i < m_input.size(); i++)
                 (*m_output)[i] = m_input[ perm_indices[chosen_perm][i] ].get<LorentzVector>();
+
+            return Status::OK;
         }
 
         virtual size_t dimensions() const override {

@@ -16,22 +16,21 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#pragma once
 
-#include <momemta/ParameterSet.h>
-#include <momemta/Module.h>
+#include <momemta/Types.h>
 
-/**
- * \internal
+#include <ostream>
+#include <vector>
+
+/** \brief Generic solution structure representing a set of particles, along with its jacobian
  */
-class EmptyModule: public Module {
-    public:
+struct Solution {
+    std::vector<LorentzVector> values; ///< Values
+    double jacobian; ///< Jacobian associated with the solution
+    mutable bool valid; ///< Is the solution valid?
 
-        EmptyModule(PoolPtr pool, const ParameterSet& parameters): Module(pool, parameters.getModuleName()) {
-            // Empty
-        };
-
-        virtual Status work() override {
-            return Status::OK;
-        }
+    friend std::ostream& operator<< (std::ostream& stream, const Solution& solution);
 };
-REGISTER_MODULE(EmptyModule);
+
+using SolutionCollection = std::vector<Solution>;

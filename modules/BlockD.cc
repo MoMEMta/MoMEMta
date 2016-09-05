@@ -19,6 +19,7 @@
 
 #include <momemta/ParameterSet.h>
 #include <momemta/Module.h>
+#include <momemta/Solution.h>
 #include <momemta/Types.h>
 #include <momemta/Math.h>
 
@@ -72,10 +73,11 @@
  *
  *   | Name | Type | %Description |
  *   |------|------|--------------|
- *   | `invisibles` | vector(vector(LorentzVector)) | LorentzVectors of the invisible particles, one entry (ie. one \f$(p_1, p_2)\f$ pair) per solution. |
- *   | `jacobians` | vector(double) | Jacobian of the performed change of variables (one entry per solution). |
+ *   | `solutions` | vector(Solution) | Solutions of the change of variable. Each solution embed  the LorentzVectors of the invisible particles (ie. one \f$(p_1, p_2)\f$ pair) and the associated jacobian. These solutions should be fed as input to the Looper module. |
  *
  * \note This block has been validated and is safe to use.
+ *
+ * \sa Looper module to loop over the solutions of this Block
  *   
  * \ingroup modules
  */
@@ -106,14 +108,13 @@ class BlockD: public Module {
             m_met_tag.resolve(pool);
         };
 
-        virtual void work() override {
+        virtual Status work() override {
 
-            invisibles->clear();
-            jacobians->clear();
+            solutions->clear();
 
             // Don't spend time on unphysical corner of the phase-space
             if (*s13 >= *s134 || *s25 >= *s256 || *s13 >= SQ(sqrt_s) || *s134 >= SQ(sqrt_s) || *s25 >= SQ(sqrt_s) || *s256 >= SQ(sqrt_s))
-                return;
+                return Status::NEXT;
 
             const LorentzVector& p3 = m_particle_tags[0].get<LorentzVector>();
             const LorentzVector& p4 = m_particle_tags[1].get<LorentzVector>();
@@ -216,7 +217,7 @@ class BlockD: public Module {
             // For each solution (E1,E2), find the neutrino 4-momenta p1,p2
 
             if (E1.size() == 0)
-                return;
+                return Status::NEXT;
 
             for(unsigned int i=0; i<E1.size(); i++){
                 const double e1 = E1.at(i);
@@ -247,9 +248,12 @@ class BlockD: public Module {
                 if(q1Pz > sqrt_s/2 || q2Pz > sqrt_s/2)
                     continue;
 
-                invisibles->push_back({p1, p2});
-                jacobians->push_back(computeJacobian(p1, p2, p3, p4, p5, p6));
+                double jacobian = computeJacobian(p1, p2, p3, p4, p5, p6);
+                Solution s { {p1, p2}, jacobian, true };
+                solutions->push_back(s);
             }
+
+            return solutions->size() > 0 ? Status::OK : Status::NEXT;
         }
 
         virtual size_t dimensions() const override {
@@ -351,7 +355,6 @@ class BlockD: public Module {
         std::shared_ptr<const double> s25;
         std::shared_ptr<const double> s256;
 
-        std::shared_ptr<std::vector<std::vector<LorentzVector>>> invisibles = produce<std::vector<std::vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<double>>>>>("invisibles");
-        std::shared_ptr<std::vector<double>> jacobians = produce<std::vector<double>>("jacobians");
+        std::shared_ptr<SolutionCollection> solutions = produce<SolutionCollection>("solutions");
 };
 REGISTER_MODULE(BlockD);

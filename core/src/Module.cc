@@ -16,22 +16,16 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-#include <momemta/ParameterSet.h>
 #include <momemta/Module.h>
 
-/**
- * \internal
- */
-class EmptyModule: public Module {
-    public:
+std::string Module::statusToString(const Status& status) {
+    if (status == Status::OK) {
+        return "OK";
+    } else if (status == Status::NEXT) {
+        return "Next";
+    } else if (status == Status::ABORT) {
+        return "Abort";
+    }
 
-        EmptyModule(PoolPtr pool, const ParameterSet& parameters): Module(pool, parameters.getModuleName()) {
-            // Empty
-        };
-
-        virtual Status work() override {
-            return Status::OK;
-        }
-};
-REGISTER_MODULE(EmptyModule);
+    return "Unknown status";
+}

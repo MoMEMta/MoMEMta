@@ -16,22 +16,41 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#pragma once
 
-#include <momemta/ParameterSet.h>
-#include <momemta/Module.h>
+#include <string>
+#include <vector>
+
+struct lua_State;
+struct PathElements;
 
 /**
- * \internal
+ * \file
+ * \brief Lua binding of C++ Path class
  */
-class EmptyModule: public Module {
-    public:
 
-        EmptyModule(PoolPtr pool, const ParameterSet& parameters): Module(pool, parameters.getModuleName()) {
-            // Empty
-        };
+#define LUA_PATH_TYPE_NAME "Path"
 
-        virtual Status work() override {
-            return Status::OK;
-        }
-};
-REGISTER_MODULE(EmptyModule);
+namespace lua {
+
+/**
+ * \brief Register Path into lua runtime
+ */
+void path_register(lua_State* L, void* ptr);
+
+/**
+ * \brief Create a new instance of Path
+ **/
+int path_new(lua_State* L);
+
+/**
+ * \brief Free an instance of Path
+ */
+int path_free(lua_State* L);
+
+/**
+ * \brief Retrieve an instance of Path from the lua stack
+ */
+PathElements* path_get(lua_State* L, int index);
+
+}

@@ -16,22 +16,18 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <momemta/Solution.h>
 
-#include <momemta/ParameterSet.h>
-#include <momemta/Module.h>
+std::ostream& operator<<(std::ostream& stream, const Solution& solution) {
+    size_t index = 1;
+    for (const auto& p: solution.values) {
+        stream << "{p" << index << ": " << p;
+        if (index != solution.values.size())
+            stream << ", ";
 
-/**
- * \internal
- */
-class EmptyModule: public Module {
-    public:
+        index++;
+    }
+    stream << "; jacobian: " << solution.jacobian << "}";
 
-        EmptyModule(PoolPtr pool, const ParameterSet& parameters): Module(pool, parameters.getModuleName()) {
-            // Empty
-        };
-
-        virtual Status work() override {
-            return Status::OK;
-        }
-};
-REGISTER_MODULE(EmptyModule);
+    return stream;
+}

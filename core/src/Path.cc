@@ -16,22 +16,16 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <momemta/Path.h>
 
-#include <momemta/ParameterSet.h>
 #include <momemta/Module.h>
 
-/**
- * \internal
- */
-class EmptyModule: public Module {
-    public:
+Path::Path(PathElementsPtr elements) { this->elements = elements; }
 
-        EmptyModule(PoolPtr pool, const ParameterSet& parameters): Module(pool, parameters.getModuleName()) {
-            // Empty
-        };
+bool Path::resolved() const {
+    return elements && elements->resolved;
+}
 
-        virtual Status work() override {
-            return Status::OK;
-        }
-};
-REGISTER_MODULE(EmptyModule);
+const std::vector<ModulePtr>& Path::modules() const {
+    return elements->modules;
+}

@@ -36,3 +36,6 @@ using ModuleFactory = PluginFactory<Module* (std::shared_ptr<Pool>, const Parame
 
 #define REGISTER_MODULE(type) \
     static const ModuleFactory::PMaker<type> PLUGIN_UNIQUE_NAME(s_module , __LINE__)(#type)
+
+#define REGISTER_MODULE_NAME(name, type) \
+    static const ModuleFactory::PMaker<type> PLUGIN_UNIQUE_NAME(s_module , __LINE__)(name)

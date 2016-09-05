@@ -21,15 +21,15 @@
 
 #include <string>
 
+struct InputTag;
+struct PathElements;
+
 /**
- * \brief Notification callback fired when a module is declared.
- *
- * This callback is used from the lua interface when the user declare a new module in the
- * configuration file.
+ * \brief Notification callback used for communication between the lua file and MoMEMta.
  */
-class IOnModuleDeclared {
+class ILuaCallback {
     public:
-        virtual ~IOnModuleDeclared() {};
+        virtual ~ILuaCallback() {};
 
         /** \brief A module is declared in the configuration file
          *
@@ -46,4 +46,30 @@ class IOnModuleDeclared {
          * \p name equals to `module_name`.
          */
         virtual void onModuleDeclared(const std::string& type, const std::string& name) = 0;
+
+        /** \brief The integrand was defined in the configuration file
+         *
+         * This function is called when the user calls the `integrand` lua function
+         *
+         * A lua code like
+         * ```
+         * integrand("module::parameter")
+         * ```
+         *
+         * will result in a call to this function with \p tag equals to `module::parameter`
+         */
+        virtual void onIntegrandDeclared(const InputTag& tag) = 0;
+
+        /** \brief A new path is declared in the configuration file
+         *
+         * This function is called when the user declared a new `Path` instance
+         *
+         * A lua code like
+         * ```
+         * p = Path("my", "path")
+         * ```
+         *
+         * will result in a call to this function
+         */
+        virtual void onNewPath(PathElements* path) = 0;
 };

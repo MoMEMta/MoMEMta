@@ -73,62 +73,73 @@ BlockF.blockf = {
     q2 = getpspoint()
 }
 
-BuildInitialState.initial_state = {
-    invisibles = {
-        'blockf::invisibles',
-    },
+-- Loop
 
-    particles = inputs
+Looper.looper = {
+    solutions = "blockf::solutions",
+    path = Path("initial_state", "dummy", "integrand")
 }
 
-jacobians = {
-  'tf_p_1::TF_times_jacobian', 'tf_p_2::TF_times_jacobian', 
-  'tf_phi_1::TF_times_jacobian', 'tf_phi_2::TF_times_jacobian',
-  'tf_theta_1::TF_times_jacobian', 'tf_theta_2::TF_times_jacobian',
-  'flatter_s13::jacobian', 'flatter_s24::jacobian',
-}
-
-MatrixElement.dummy = {
-  pdf = 'CT10nlo',
-  pdf_scale = parameter('W_mass'),
-
-  matrix_element = 'pp_WW_fully_leptonic_sm_P1_Sigma_sm_uux_epvemumvmx',
-  matrix_element_parameters = {
-      card = '../MatrixElements/Cards/param_card.dat'
-  },
-
-  initialState = 'initial_state::output',
-
-  invisibles = {
-    input = 'blockf::invisibles',
-    jacobians = 'blockf::jacobians',
-    ids = {
-      {
-        pdg_id = 12,
-        me_index = 2,
-      },
-
-      {
-        pdg_id = -14,
-        me_index = 4,
-      }
+    BuildInitialState.initial_state = {
+        solution = 'looper::solution',
+        particles = inputs
     }
-  },
 
-  particles = {
-    inputs = inputs,
-    ids = {
-      {
-        pdg_id = -11,
-        me_index = 1,
-      },
-
-      {
-        pdg_id = 13,
-        me_index = 3,
-      },
+    jacobians = {
+      'tf_p_1::TF_times_jacobian', 'tf_p_2::TF_times_jacobian', 
+      'tf_phi_1::TF_times_jacobian', 'tf_phi_2::TF_times_jacobian',
+      'tf_theta_1::TF_times_jacobian', 'tf_theta_2::TF_times_jacobian',
+      'flatter_s13::jacobian', 'flatter_s24::jacobian',
     }
-  },
 
-  jacobians = jacobians
-}
+    MatrixElement.dummy = {
+      pdf = 'CT10nlo',
+      pdf_scale = parameter('W_mass'),
+
+      matrix_element = 'pp_WW_fully_leptonic_sm_P1_Sigma_sm_uux_epvemumvmx',
+      matrix_element_parameters = {
+          card = '../MatrixElements/Cards/param_card.dat'
+      },
+
+      initialState = 'initial_state::partons',
+
+      invisibles = {
+        input = 'looper::solution',
+        ids = {
+          {
+            pdg_id = 12,
+            me_index = 2,
+          },
+
+          {
+            pdg_id = -14,
+            me_index = 4,
+          }
+        }
+      },
+
+      particles = {
+        inputs = inputs,
+        ids = {
+          {
+            pdg_id = -11,
+            me_index = 1,
+          },
+
+          {
+            pdg_id = 13,
+            me_index = 3,
+          },
+        }
+      },
+
+      jacobians = jacobians
+    }
+
+    DoubleSummer.integrand = {
+        input = "dummy::output"
+    }
+
+-- End of loop
+
+integrand("integrand::sum")

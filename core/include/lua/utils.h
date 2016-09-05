@@ -7,7 +7,7 @@
 #include <boost/any.hpp>
 #include <lua.hpp>
 
-class IOnModuleDeclared;
+class ILuaCallback;
 
 /*! \brief Utility functions related to lua configuration file parsing
  *
@@ -262,13 +262,13 @@ namespace lua {
 
     /** \brief Initialize the lua runtime
      *
-     * \param callback A pointer to an instance of IOnModuleDeclared. This callback is called
-     * when a new module is declared in the configuration file.
+     * \param callback A pointer to an instance of ILuaCallback. This callback is used for
+     * communication between lua and C++
      *
      * \return A pointer to the global lua state. Once out-of-scope, the pointer will be
      * released using the `lua_close` function.
      */
-    std::shared_ptr<lua_State> init_runtime(IOnModuleDeclared* callback);
+    std::shared_ptr<lua_State> init_runtime(ILuaCallback* callback);
    
     /** \brief Define Lua function to generate Cuba phase-space point input-tags
      *

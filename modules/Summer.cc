@@ -16,22 +16,50 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-#include <momemta/ParameterSet.h>
 #include <momemta/Module.h>
 
+#include <momemta/ParameterSet.h>
+#include <momemta/Types.h>
+
 /**
- * \internal
+ * \brief A module performing a sum over a set of values
  */
-class EmptyModule: public Module {
+template<typename T>
+class Summer: public Module {
     public:
 
-        EmptyModule(PoolPtr pool, const ParameterSet& parameters): Module(pool, parameters.getModuleName()) {
-            // Empty
+        Summer(PoolPtr pool, const ParameterSet& parameters): Module(pool, parameters.getModuleName()) {
+            input = pool->get<T>(parameters.get<InputTag>("input")); 
         };
 
+        virtual void beginLoop() override {
+            *result = 0;
+        }
+
         virtual Status work() override {
+            *result += *input;
+
             return Status::OK;
         }
+
+    private:
+
+        // Inputs
+        std::shared_ptr<const T> input;
+
+        // Outputs
+        std::shared_ptr<T> result = produce<T>("sum");
+
 };
-REGISTER_MODULE(EmptyModule);
+
+/**
+ * \brief Specialization for LorentzVector
+ */
+template<>
+void Summer<LorentzVector>::beginLoop() {
+  result->SetXYZT(0, 0, 0, 0);
+}
+
+REGISTER_MODULE_NAME("IntSummer", Summer<int64_t>);
+REGISTER_MODULE_NAME("DoubleSummer", Summer<double>);
+REGISTER_MODULE_NAME("P4Summer", Summer<LorentzVector>);

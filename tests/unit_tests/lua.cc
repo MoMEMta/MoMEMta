@@ -29,11 +29,14 @@
 #include <vector>
 
 #include <momemta/InputTag.h>
-#include <momemta/IOnModuleDeclared.h>
+#include <momemta/ILuaCallback.h>
 #include <momemta/Logging.h>
 #include <momemta/ModuleFactory.h>
 #include <momemta/ParameterSet.h>
+#include <momemta/Path.h>
 
+#include <lua/Path.h>
+#include <lua/Types.h>
 #include <lua/utils.h>
 
 void execute_string(std::shared_ptr<lua_State> L, const std::string& code) {
@@ -43,13 +46,23 @@ void execute_string(std::shared_ptr<lua_State> L, const std::string& code) {
     }
 }
 
-class ModuleDeclaredMock: public IOnModuleDeclared {
+class LuaCallbackMock: public ILuaCallback {
     public:
         virtual void onModuleDeclared(const std::string& type, const std::string& name) override {
             modules.push_back({type, name});
         }
 
+        virtual void onIntegrandDeclared(const InputTag& tag) {
+            integrand = tag;
+        }
+
+        virtual void onNewPath(PathElementsPtr path) {
+            paths.push_back(path);
+        }
+
         std::vector<std::pair<std::string, std::string>> modules;
+        InputTag integrand;
+        std::vector<PathElementsPtr> paths;
 };
 
 // A small mock of LazyParameterSet to change visibily of the `freeze` function
@@ -67,9 +80,9 @@ TEST_CASE("lua parsing utilities", "[lua]") {
     // Suppress log messages
     logging::set_level(boost::log::trivial::fatal);
 
-    ModuleDeclaredMock moduleDeclared;
-    REQUIRE(moduleDeclared.modules.empty());
-    std::shared_ptr<lua_State> L = lua::init_runtime(&moduleDeclared);
+    LuaCallbackMock luaCallback;
+    REQUIRE(luaCallback.modules.empty());
+    std::shared_ptr<lua_State> L = lua::init_runtime(&luaCallback);
 
     auto stack_size = lua_gettop(L.get());
 
@@ -92,13 +105,13 @@ TEST_CASE("lua parsing utilities", "[lua]") {
 
     SECTION("defining modules") {
         execute_string(L, "BreitWignerGenerator.test = {}");
-        REQUIRE(moduleDeclared.modules.size() == 1);
-        REQUIRE(moduleDeclared.modules.back().first == "BreitWignerGenerator");
-        REQUIRE(moduleDeclared.modules.back().second == "test");
+        REQUIRE(luaCallback.modules.size() == 1);
+        REQUIRE(luaCallback.modules.back().first == "BreitWignerGenerator");
+        REQUIRE(luaCallback.modules.back().second == "test");
 
         execute_string(L, "BreitWignerGenerator.test2 = {}");
-        REQUIRE(moduleDeclared.modules.size() == 2);
-        REQUIRE(moduleDeclared.modules.back().second == "test2");
+        REQUIRE(luaCallback.modules.size() == 2);
+        REQUIRE(luaCallback.modules.back().second == "test2");
     }
 
     SECTION("loading modules") {
@@ -374,6 +387,40 @@ TEST_CASE("lua parsing utilities", "[lua]") {
 
         REQUIRE(p.existsAs<std::string>("key"));
         REQUIRE(p.get<std::string>("key") == "value");
+    }
+
+    SECTION("Path") {
+        auto def = R"(path = Path("a", "b", "c"))";
+        execute_string(L, def);
+
+        auto type = lua_getglobal(L.get(), "path");
+        REQUIRE(type == LUA_TUSERDATA);
+
+        std::string type_name = get_custom_type_name(L.get(), -1);
+        REQUIRE(type_name == LUA_PATH_TYPE_NAME);
+
+        PathElementsPtr path = lua::path_get(L.get(), -1);
+        REQUIRE(path != nullptr);
+
+        REQUIRE(path->elements.size() == 3);
+        REQUIRE(path->elements[0] == "a");
+        REQUIRE(path->elements[1] == "b");
+        REQUIRE(path->elements[2] == "c");
+
+        lua_pop(L.get(), 1);
+    }
+
+    SECTION("Path to boost::any") {
+        auto def = R"(path = Path("a"))";
+        execute_string(L, def);
+
+        auto type = lua_getglobal(L.get(), "path");
+        REQUIRE(type == LUA_TUSERDATA);
+
+        auto path = get_custom_type_ptr(L.get(), -1);
+        REQUIRE(path.type() == typeid(Path));
+
+        lua_pop(L.get(), 1);
     }
 
     REQUIRE(stack_size == lua_gettop(L.get()));

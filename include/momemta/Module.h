@@ -29,12 +29,22 @@
  * Anyone of these module can be declared and used in the configuration file. More details about each module can be found in the class description.
  */
 
+
 /** \ingroup modules
  *
  * \brief Parent class for all the modules.
  */
 class Module {
     public:
+        // FIXME: Naming
+        enum class Status: std::int8_t {
+            OK,
+            NEXT,
+            ABORT
+        };
+
+        static std::string statusToString(const Status& status);
+
         /**
          * \brief Constructor
          *
@@ -58,6 +68,13 @@ class Module {
          * \brief Called once at the beginning of the integration
          */
         virtual void beginIntegration() {};
+
+        /**
+         * \brief Called once at the beginning of a loop
+         *
+         * Only relevant if the module is inside a loop
+         */
+        virtual void beginLoop() {};
         
         /**
          * \brief Main function
@@ -66,7 +83,14 @@ class Module {
          *
          * You'll usually want to override this function if you want your module to perform some task.
          */
-        virtual void work() { };
+        virtual Status work() { return Status::OK; };
+
+        /**
+         * \brief Called once at the end of a loop
+         *
+         * Only relevant if the module is inside a loop
+         */
+        virtual void endLoop() {};
         
         /**
          * \brief Called once at the end of the integration

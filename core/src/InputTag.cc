@@ -96,6 +96,10 @@ bool InputTag::isIndexed() const {
     return indexed;
 }
 
+bool InputTag::empty() const {
+    return module.empty() || parameter.empty();
+}
+
 void InputTag::resolve(PoolPtr pool) const {
     if (resolved)
         return;

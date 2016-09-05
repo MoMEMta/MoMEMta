@@ -118,6 +118,10 @@ void ParameterSet::setGlobalParameters(const ParameterSet& parameters) {
     m_set.emplace("@global_parameters", Element(parameters, false));
 }
 
+ParameterSet* ParameterSet::clone() const {
+    return new ParameterSet(*this);
+}
+
 // ---------
 
 LazyParameterSet::LazyParameterSet(std::shared_ptr<lua_State> L, const std::string& name):
@@ -159,4 +163,8 @@ void LazyParameterSet::freeze() {
 
     // Release lua_State. We don't need it anymore
     m_lua_state.reset();
+}
+
+LazyParameterSet* LazyParameterSet::clone() const {
+    return new LazyParameterSet(*this);
 }
