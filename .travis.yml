@@ -36,5 +36,5 @@ before_script:
 script:
   - make -j2 && ./tests/unit_tests/unit_tests.exe
 after_success:
-  - if [[ $TRAVIS_PULL_REQUEST == 'false' ]]; then coveralls -e 'external/' --gcov-options '\-lp' -E '.*CMakeCXXCompilerId\.cpp' -E '.*CMakeCCompilerId\.c' -E '.*feature_tests\.c.*' -E '.*MatrixElements/.*' -E '.*/tests/*.' -r .. &> /dev/null; fi
+  - coveralls -e 'external/' --gcov-options '\-lp' -E '.*CMakeCXXCompilerId\.cpp' -E '.*CMakeCCompilerId\.c' -E '.*feature_tests\.c.*' -E '.*MatrixElements/.*' -E '.*/tests/*.' -r .. &> /dev/null;
   - if [[ $TRAVIS_PULL_REQUEST == 'false' ]]; then ./make_docs.sh; fi
