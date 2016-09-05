@@ -55,13 +55,13 @@ class UniformGenerator: public Module {
 
         UniformGenerator(PoolPtr pool, const ParameterSet& parameters): Module(pool, parameters.getModuleName()),
             m_min(parameters.get<double>("min")),
-            m_max(parameters.get<double>("max")),
-            m_ps_point(parameters.get<InputTag>("ps_point")) {
-            m_ps_point.resolve(pool);
+            m_max(parameters.get<double>("max")) {
+
+            m_ps_point = get<double>(parameters.get<InputTag>("ps_point"));
         };
 
         virtual Status work() override {
-            double psPoint = m_ps_point.get<double>();
+            double psPoint = *m_ps_point;
             *output = m_min + (m_max - m_min) * psPoint;
             *jacobian = m_max - m_min; 
 
@@ -74,8 +74,11 @@ class UniformGenerator: public Module {
 
     private:
         const double m_min, m_max;
-        InputTag m_ps_point;
 
+        // Inputs
+        Value<double> m_ps_point;
+
+        // Outputs
         std::shared_ptr<double> output = produce<double>("output");
         std::shared_ptr<double> jacobian = produce<double>("jacobian");
 

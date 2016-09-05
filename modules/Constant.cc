@@ -16,25 +16,35 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#pragma once
+#include <momemta/Module.h>
 
-#include <momemta/Pool.h>
+#include <momemta/ParameterSet.h>
 
-template<typename T> const T& InputTag::get() const {
-    if (! resolved) {
-        throw tag_not_resolved_error("You must call 'resolve' once before calling 'get'");
-    }
+/**
+ * \brief A module declaring a constant
+ */
+template<typename T>
+class Constant: public Module {
+    public:
 
-    if (content.empty()) {
-        // Request the real content to the pool
-        content = pool->raw_get(*this);
-    }
+    Constant(PoolPtr pool, const ParameterSet& parameters): Module(pool, parameters.getModuleName()) {
+            value = parameters.get<T>("value");
+        };
 
-    if (isIndexed()) {
-        auto ptr = boost::any_cast<std::shared_ptr<std::vector<T>>>(content);
-        return (*ptr)[index];
-    } else {
-        auto ptr = boost::any_cast<std::shared_ptr<T>>(content);
-        return (*ptr);
-    }
-}
+        virtual void beginIntegration() const {
+            *constant = value;
+        };
+
+        virtual bool leafModule() const override {
+            return true;
+        }
+
+    private:
+        T value;
+
+        // Outputs
+        std::shared_ptr<T> constant = produce<T>("value");
+};
+
+REGISTER_MODULE_NAME("IntConstant", Constant<int64_t>);
+REGISTER_MODULE_NAME("DoubleConstant", Constant<double>);

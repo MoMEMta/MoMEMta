@@ -105,6 +105,7 @@ set(MOMEMTA_SOURCES
     "modules/BlockF.cc"
     "modules/BuildInitialState.cc"
     "modules/BreitWignerGenerator.cc"
+    "modules/Constant.cc"
     "modules/Counter.cc"
     "modules/DMEM.cc"
     "modules/FlatTransferFunctionOnP.cc"

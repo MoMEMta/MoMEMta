@@ -182,10 +182,11 @@ class MatrixElement: public Module {
 
             const auto& particles_set = parameters.get<ParameterSet>("particles");
 
-            m_particles_tags = particles_set.get<std::vector<InputTag>>("inputs");
-            for (auto& tag: m_particles_tags)
-                tag.resolve(pool);
-            LOG(debug) << "[MatrixElement] # particles input tags: " << m_particles_tags.size();
+            auto particle_tags = particles_set.get<std::vector<InputTag>>("inputs");
+            for (auto& tag: particle_tags)
+                m_particles.push_back(get<LorentzVector>(tag));
+
+            LOG(debug) << "[MatrixElement] # particles input tags: " << particle_tags.size();
 
             const auto& particles_ids_set = particles_set.get<std::vector<ParameterSet>>("ids");
             LOG(debug) << "[MatrixElement] # particles ids: " << particles_ids_set.size();
@@ -224,9 +225,9 @@ class MatrixElement: public Module {
 
             *m_integrand = 0;
 
-            std::vector<LorentzVector> particles(m_particles_tags.size());
-            for (size_t index = 0; index < m_particles_tags.size(); index++) {
-                particles[index] = m_particles_tags[index].get<LorentzVector>();
+            std::vector<LorentzVector> particles(m_particles.size());
+            for (size_t index = 0; index < m_particles.size(); index++) {
+                particles[index] = *m_particles[index];
             }
 
             internal_work(*m_partons, m_solution->values, m_solution->jacobian, particles);
@@ -295,21 +296,21 @@ class MatrixElement: public Module {
         double sqrt_s;
         bool use_pdf;
         double pdf_scale_squared = 0;
-
-        std::shared_ptr<const std::vector<LorentzVector>> m_partons;
-
-        std::shared_ptr<const Solution> m_solution;
-        std::vector<ParticleId> m_invisibles_ids;
-
-        std::vector<InputTag> m_particles_tags;
-        std::vector<ParticleId> m_particles_ids;
-
-        std::vector<std::shared_ptr<const double>> m_jacobians;
-
         std::shared_ptr<momemta::MatrixElement> m_ME;
-
         std::shared_ptr<LHAPDF::PDF> m_pdf;
 
+        // Inputs
+        Value<std::vector<LorentzVector>> m_partons;
+
+        Value<Solution> m_solution;
+        std::vector<ParticleId> m_invisibles_ids;
+
+        std::vector<Value<LorentzVector>> m_particles;
+        std::vector<ParticleId> m_particles_ids;
+
+        std::vector<Value<double>> m_jacobians;
+
+        // Outputs
         std::shared_ptr<double> m_integrand = produce<double>("output");
 };
 REGISTER_MODULE(MatrixElement);

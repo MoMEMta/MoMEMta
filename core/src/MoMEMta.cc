@@ -30,7 +30,6 @@
 
 #include <Graph.h>
 
-
 MoMEMta::MoMEMta(const Configuration& configuration) {
 
     // Initialize shared memory pool for modules

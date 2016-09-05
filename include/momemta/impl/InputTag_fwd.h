@@ -26,8 +26,6 @@
 #include <string>
 #include <vector>
 
-class Pool;
-
 /** \brief An identifier of a module's output
  *
  * An InputTag embed two values:
@@ -103,21 +101,6 @@ struct InputTag {
         /// \return True if the InputTag is empty, false otherwise
         bool empty() const;
 
-        /**
-         * \brief Link the InputTag to the memory pool
-         *
-         * \note You **must** call this function before calling InputTag::get()
-         */
-        void resolve(std::shared_ptr<Pool> pool) const;
-
-        /** \brief Retrieve from the memory pool the data pointed by the InputTag
-         *
-         * \return The data pointed by the InputTag
-         *
-         * \warning You **must** first call once resolve() before calling this function
-         */
-        template<typename T> const T& get() const;
-
         std::string module; ///< The module's name
         std::string parameter; ///< The module's output
         size_t index; ///< The index. Only meaningful if isIndexed() returns true
@@ -130,10 +113,6 @@ struct InputTag {
         bool indexed = false;
 
         std::string string_representation;
-
-        mutable bool resolved = false;
-        mutable boost::any content;
-        mutable std::shared_ptr<Pool> pool;
 };
 
 namespace std {

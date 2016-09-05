@@ -2,6 +2,7 @@ set(SOURCES
     "lua.cc"
     "ParameterSet.cc"
     "unit_tests.cc"
+    "pool.cc"
     )
 
 add_executable(unit_tests ${SOURCES})

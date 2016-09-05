@@ -106,7 +106,7 @@ class Looper: public Module {
         Path path;
 
         // Inputs
-        std::shared_ptr<const SolutionCollection> solutions;
+        Value<SolutionCollection> solutions;
 
         // Outputs
         std::shared_ptr<Solution> solution = produce<Solution>("solution");

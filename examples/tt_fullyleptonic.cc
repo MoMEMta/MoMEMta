@@ -68,7 +68,7 @@ int main(int argc, char** argv) {
     LOG(debug) << "Hist in pool: " << exists;
 
     if (exists) {
-        std::shared_ptr<const TH1D> dmem = weight.getPool().get<TH1D>(dmemInputTag);
+        Value<TH1D> dmem = weight.getPool().get<TH1D>(dmemInputTag);
         LOG(debug) << "DMEM integral: " << dmem->Integral();
     }
 

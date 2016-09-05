@@ -73,11 +73,8 @@ class BinnedTransferFunctionOnEnergy: public Module {
     public:
 
         BinnedTransferFunctionOnEnergy(PoolPtr pool, const ParameterSet& parameters): Module(pool, parameters.getModuleName()) {
-            m_ps_point = parameters.get<InputTag>("ps_point");
-            m_input = parameters.get<InputTag>("reco_particle");
-
-            m_ps_point.resolve(pool);
-            m_input.resolve(pool);
+            m_ps_point = get<double>(parameters.get<InputTag>("ps_point"));
+            m_input = get<LorentzVector>(parameters.get<InputTag>("reco_particle"));
 
             m_file_path = parameters.get<std::string>("file");
             m_th2_name = parameters.get<std::string>("th2_name");
@@ -112,8 +109,8 @@ class BinnedTransferFunctionOnEnergy: public Module {
 
         virtual Status work() override {
 
-            const double& ps_point = m_ps_point.get<double>();
-            const LorentzVector& reco_particle = m_input.get<LorentzVector>();
+            const double& ps_point = *m_ps_point;
+            const LorentzVector& reco_particle = *m_input;
 
             const double rec_E = reco_particle.E();
             const double range = GetDeltaRange(rec_E);
@@ -141,10 +138,6 @@ class BinnedTransferFunctionOnEnergy: public Module {
         }
 
     private:
-
-        InputTag m_ps_point;
-        InputTag m_input;
-
         std::string m_file_path;
         std::string m_th2_name;
 
@@ -155,6 +148,11 @@ class BinnedTransferFunctionOnEnergy: public Module {
         double m_EgenMin, m_EgenMax;
         double m_fallBackEgenMax;
 
+        // Inputs
+        Value<double> m_ps_point;
+        Value<LorentzVector> m_input;
+
+        // Outputs
         std::shared_ptr<LorentzVector> output = produce<LorentzVector>("output");
         std::shared_ptr<double> TF_times_jacobian = produce<double>("TF_times_jacobian");
 

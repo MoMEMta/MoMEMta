@@ -45,7 +45,7 @@ class Summer: public Module {
     private:
 
         // Inputs
-        std::shared_ptr<const T> input;
+        Value<T> input;
 
         // Outputs
         std::shared_ptr<T> result = produce<T>("sum");

@@ -65,7 +65,7 @@ class LuaCallbackMock: public ILuaCallback {
         std::vector<PathElementsPtr> paths;
 };
 
-// A small mock of LazyParameterSet to change visibily of the `freeze` function
+// A small mock of LazyParameterSet to change visibility of the `freeze` function
 class LazyParameterSetMock: public LazyParameterSet {
     using LazyParameterSet::LazyParameterSet;
 

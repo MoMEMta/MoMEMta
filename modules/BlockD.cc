@@ -94,18 +94,20 @@ class BlockD: public Module {
             s25 = get<double>(parameters.get<InputTag>("s25"));
             s256 = get<double>(parameters.get<InputTag>("s256"));
 
-            m_particle_tags = parameters.get<std::vector<InputTag>>("inputs");
-            for (auto& t: m_particle_tags)
-                t.resolve(pool);
+            auto particle_tags = parameters.get<std::vector<InputTag>>("inputs");
+            for (auto& t: particle_tags)
+                m_particles.push_back(get<LorentzVector>(t));
 
             // If the met input is specified, get it, otherwise retrieve default
             // one ("input::met")
+            InputTag met_tag;
             if (parameters.exists("met")) {
-                m_met_tag = parameters.get<InputTag>("met");
+                met_tag = parameters.get<InputTag>("met");
             } else {
-                m_met_tag = InputTag({"input", "met"});
+                met_tag = InputTag({"input", "met"});
             }
-            m_met_tag.resolve(pool);
+
+            m_met = get<LorentzVector>(met_tag);
         };
 
         virtual Status work() override {
@@ -116,10 +118,10 @@ class BlockD: public Module {
             if (*s13 >= *s134 || *s25 >= *s256 || *s13 >= SQ(sqrt_s) || *s134 >= SQ(sqrt_s) || *s25 >= SQ(sqrt_s) || *s256 >= SQ(sqrt_s))
                 return Status::NEXT;
 
-            const LorentzVector& p3 = m_particle_tags[0].get<LorentzVector>();
-            const LorentzVector& p4 = m_particle_tags[1].get<LorentzVector>();
-            const LorentzVector& p5 = m_particle_tags[2].get<LorentzVector>();
-            const LorentzVector& p6 = m_particle_tags[3].get<LorentzVector>();
+            const LorentzVector& p3 = *m_particles[0];
+            const LorentzVector& p4 = *m_particles[1];
+            const LorentzVector& p5 = *m_particles[2];
+            const LorentzVector& p6 = *m_particles[3];
 
             // pT will be used to fix the transverse momentum of the reconstructed neutrinos
             // We can either enforce momentum conservation by disregarding the MET, ie:
@@ -131,11 +133,11 @@ class BlockD: public Module {
             
             LorentzVector pT;
             if (pT_is_met) {
-                pT = - m_met_tag.get<LorentzVector>(); 
+                pT = - *m_met;
             } else {
                 pT = p3 + p4 + p5 + p6;
-                for (size_t i = 4; i < m_particle_tags.size(); i++) {
-                    pT += m_particle_tags[i].get<LorentzVector>();
+                for (size_t i = 4; i < m_particles.size(); i++) {
+                    pT += *m_particles[i];
                 }
             }
 
@@ -240,8 +242,8 @@ class BlockD: public Module {
 
                 // Check if solutions are physical
                 LorentzVector tot = p1 + p2;
-                for (size_t i = 0; i < m_particle_tags.size(); i++) {
-                    tot += m_particle_tags[i].get<LorentzVector>();
+                for (size_t i = 0; i < m_particles.size(); i++) {
+                    tot += *m_particles[i];
                 }
                 double q1Pz = std::abs(tot.Pz() + tot.E()) / 2.;
                 double q2Pz = std::abs(tot.Pz() - tot.E()) / 2.;
@@ -347,14 +349,15 @@ class BlockD: public Module {
         double sqrt_s;
         bool pT_is_met;
 
-        std::vector<InputTag> m_particle_tags;
-        InputTag m_met_tag;
+        // Inputs
+        Value<double> s13;
+        Value<double> s134;
+        Value<double> s25;
+        Value<double> s256;
+        std::vector<Value<LorentzVector>> m_particles;
+        Value<LorentzVector> m_met;
 
-        std::shared_ptr<const double> s13;
-        std::shared_ptr<const double> s134;
-        std::shared_ptr<const double> s25;
-        std::shared_ptr<const double> s256;
-
+        // Outputs
         std::shared_ptr<SolutionCollection> solutions = produce<SolutionCollection>("solutions");
 };
 REGISTER_MODULE(BlockD);
