@@ -121,8 +121,17 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="contents">
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p>Definition at line <a class="el" href="Pool_8h_source.html#l00048">48</a> of file <a class="el" href="Pool_8h_source.html">Pool.h</a>.</p>
+<p>Definition at line <a class="el" href="Pool_8h_source.html#l00049">49</a> of file <a class="el" href="Pool_8h_source.html">Pool.h</a>.</p>
 </div><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPool_1_1constructor__tag__error.html">constructor_tag_error</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPool_1_1duplicated__tag__error.html">duplicated_tag_error</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPool_1_1tag__not__found__error.html">tag_not_found_error</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
 Public Types</h2></td></tr>
 <tr class="memitem:a2fa090f2f0d8177adbb810efc1a7ce1d"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a2fa090f2f0d8177adbb810efc1a7ce1d"></a>
@@ -131,10 +140,14 @@ using&#160;</td><td class="memItemRight" valign="bottom"><b>DescriptionMap</b> =
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a5d2157bb60ffcb87fcb60c5dba607f33"><td class="memTemplParams" colspan="2"><a class="anchor" id="a5d2157bb60ffcb87fcb60c5dba607f33"></a>
+<tr class="memitem:a12dee63d6dfd96fc12bcd170842e4264"><td class="memTemplParams" colspan="2">template&lt;typename T , typename... Args&gt; </td></tr>
+<tr class="memitem:a12dee63d6dfd96fc12bcd170842e4264"><td class="memTemplItemLeft" align="right" valign="top">std::shared_ptr&lt; T &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classPool.html#a12dee63d6dfd96fc12bcd170842e4264">put</a> (const <a class="el" href="structInputTag.html">InputTag</a> &amp;tag, Args...args)</td></tr>
+<tr class="memdesc:a12dee63d6dfd96fc12bcd170842e4264"><td class="mdescLeft">&#160;</td><td class="mdescRight">Allocate a new block in the memory pool.  <a href="#a12dee63d6dfd96fc12bcd170842e4264">More...</a><br /></td></tr>
+<tr class="separator:a12dee63d6dfd96fc12bcd170842e4264"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af9b0dec07f8cb2130b7fd5c51799e624"><td class="memTemplParams" colspan="2"><a class="anchor" id="af9b0dec07f8cb2130b7fd5c51799e624"></a>
 template&lt;typename T &gt; </td></tr>
-<tr class="memitem:a5d2157bb60ffcb87fcb60c5dba607f33"><td class="memTemplItemLeft" align="right" valign="top">std::shared_ptr&lt; const T &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><b>get</b> (const <a class="el" href="structInputTag.html">InputTag</a> &amp;tag) const </td></tr>
-<tr class="separator:a5d2157bb60ffcb87fcb60c5dba607f33"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af9b0dec07f8cb2130b7fd5c51799e624"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classValue.html">Value</a>&lt; T &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><b>get</b> (const <a class="el" href="structInputTag.html">InputTag</a> &amp;tag) const </td></tr>
+<tr class="separator:af9b0dec07f8cb2130b7fd5c51799e624"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8a96eb63b46731b108d9a22a5b1109c9"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8a96eb63b46731b108d9a22a5b1109c9"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>alias</b> (const <a class="el" href="structInputTag.html">InputTag</a> &amp;from, const <a class="el" href="structInputTag.html">InputTag</a> &amp;to)</td></tr>
 <tr class="separator:a8a96eb63b46731b108d9a22a5b1109c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -159,6 +172,10 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>MoMEMta</b></td></tr
 <tr class="memitem:a21f639900c480510650969df9c74d17d"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a21f639900c480510650969df9c74d17d"></a>
 class&#160;</td><td class="memItemRight" valign="bottom"><b>Module</b></td></tr>
 <tr class="separator:a21f639900c480510650969df9c74d17d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a55f8515e14e8f6c2fa274238cad44114"><td class="memTemplParams" colspan="2"><a class="anchor" id="a55f8515e14e8f6c2fa274238cad44114"></a>
+template&lt;typename U &gt; </td></tr>
+<tr class="memitem:a55f8515e14e8f6c2fa274238cad44114"><td class="memTemplItemLeft" align="right" valign="top">class&#160;</td><td class="memTemplItemRight" valign="bottom"><b>ValueProxy</b></td></tr>
+<tr class="separator:a55f8515e14e8f6c2fa274238cad44114"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af7dc5dfc50684276297d67791d7ff58d"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af7dc5dfc50684276297d67791d7ff58d"></a>
 struct&#160;</td><td class="memItemRight" valign="bottom"><b>InputTag</b></td></tr>
 <tr class="separator:af7dc5dfc50684276297d67791d7ff58d"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -195,7 +212,7 @@ struct&#160;</td><td class="memItemRight" valign="bottom"><b>InputTag</b></td></
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="Pool_8cc_source.html#l00085">85</a> of file <a class="el" href="Pool_8cc_source.html">Pool.cc</a>.</p>
+<p>Definition at line <a class="el" href="Pool_8cc_source.html#l00077">77</a> of file <a class="el" href="Pool_8cc_source.html">Pool.cc</a>.</p>
 
 </div>
 </div>
@@ -230,7 +247,7 @@ struct&#160;</td><td class="memItemRight" valign="bottom"><b>InputTag</b></td></
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="Pool_8cc_source.html#l00089">89</a> of file <a class="el" href="Pool_8cc_source.html">Pool.cc</a>.</p>
+<p>Definition at line <a class="el" href="Pool_8cc_source.html#l00081">81</a> of file <a class="el" href="Pool_8cc_source.html">Pool.cc</a>.</p>
 
 </div>
 </div>
@@ -258,7 +275,9 @@ struct&#160;</td><td class="memItemRight" valign="bottom"><b>InputTag</b></td></
 <p>Return the description of the state of the memory pool. </p>
 <dl class="section note"><dt>Note</dt><dd>Result is only valid after a call to Pool::freeze() </dd></dl>
 
-<p>Definition at line <a class="el" href="Pool_8h_source.html#l00089">89</a> of file <a class="el" href="Pool_8h_source.html">Pool.h</a>.</p>
+<p>Definition at line <a class="el" href="Pool_8h_source.html#l00083">83</a> of file <a class="el" href="Pool_8h_source.html">Pool.h</a>.</p>
+
+<p>Referenced by <a class="el" href="impl_2Pool_8h_source.html#l00069">put()</a>.</p>
 
 </div>
 </div>
@@ -286,7 +305,47 @@ struct&#160;</td><td class="memItemRight" valign="bottom"><b>InputTag</b></td></
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>True if the input tag exists in the pool, False otherwise. </dd></dl>
 
-<p>Definition at line <a class="el" href="Pool_8cc_source.html#l00080">80</a> of file <a class="el" href="Pool_8cc_source.html">Pool.cc</a>.</p>
+<p>Definition at line <a class="el" href="Pool_8cc_source.html#l00072">72</a> of file <a class="el" href="Pool_8cc_source.html">Pool.cc</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a12dee63d6dfd96fc12bcd170842e4264"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T , typename... Args&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">std::shared_ptr&lt; T &gt; Pool::put </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structInputTag.html">InputTag</a> &amp;&#160;</td>
+          <td class="paramname"><em>tag</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Args...&#160;</td>
+          <td class="paramname"><em>args</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Allocate a new block in the memory pool. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">tag</td><td>The input tag describing the memory block </td></tr>
+    <tr><td class="paramname">args</td><td>Optional constructor arguments for creating a new instance of <code>T</code> </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A pointer to the newly allocated memory block. </dd></dl>
+
+<p>Definition at line <a class="el" href="impl_2Pool_8h_source.html#l00069">69</a> of file <a class="el" href="impl_2Pool_8h_source.html">Pool.h</a>.</p>
 
 </div>
 </div>

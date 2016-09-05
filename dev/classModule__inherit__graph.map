@@ -5,20 +5,21 @@
 <area shape="rect" id="node5" href="$classBlockF.html" title=" Final (main) Block F, describing &#160;" alt="" coords="182,172,245,199"/>
 <area shape="rect" id="node6" href="$classBreitWignerGenerator.html" title="Generate points distributed according to a Breit&#45;Wigner. " alt="" coords="140,223,287,249"/>
 <area shape="rect" id="node7" href="$classBuildInitialState.html" title="Build the initial partons given the whole final state. " alt="" coords="157,273,270,300"/>
-<area shape="rect" id="node8" href="$classCounter.html" title="A module counting the number of entries in a vector. " alt="" coords="163,324,263,351"/>
-<area shape="rect" id="node9" href="$classDMEM.html" title="DMEM" alt="" coords="182,375,245,401"/>
-<area shape="rect" id="node10" href="$classEmptyModule.html" title="EmptyModule" alt="" coords="162,425,265,452"/>
-<area shape="rect" id="node11" href="$classFlatTransferFunctionOnP.html" title="Flat transfer function on |P| (mainly for testing purposes). " alt="" coords="129,476,297,503"/>
-<area shape="rect" id="node12" href="$classFlatTransferFunctionOnPhi.html" title="Flat transfer function on Phi (mainly for testing purposes). " alt="" coords="124,527,303,553"/>
-<area shape="rect" id="node13" href="$classFlatTransferFunctionOnTheta.html" title="Flat transfer function on Theta (mainly for testing purposes). " alt="" coords="117,577,309,604"/>
-<area shape="rect" id="node14" href="$classGaussianTransferFunction.html" title="Transfer function on energy described by a Gaussian distribution. " alt="" coords="126,628,301,655"/>
-<area shape="rect" id="node15" href="$classLooper.html" title="A module looping over a set of solutions. " alt="" coords="183,679,244,705"/>
-<area shape="rect" id="node16" href="$classMatrixElement.html" title="Compute the integrand: matrix element, PDFs, jacobians. " alt="" coords="160,729,267,756"/>
-<area shape="rect" id="node17" href="$classNarrowWidthApproximation.html" title="Use the Narrow Width Approximation (NWA) to reduce the dimensionality of the integration. " alt="" coords="123,780,304,807"/>
-<area shape="rect" id="node18" href="$classPermutator.html" title="Apply random permutations to a set of inputs. " alt="" coords="170,831,257,857"/>
-<area shape="rect" id="node19" href="$classPrinter.html" title="A module printing the value of an input. " alt="" coords="167,881,259,908"/>
-<area shape="rect" id="node20" href="$classPrinter_3_01std_1_1vector_3_01T_01_4_01_4.html" title="Specialization of Printer for std::vector " alt="" coords="146,933,281,974"/>
-<area shape="rect" id="node21" href="$classSimpleCounter.html" title="A simple module counting the number of time it has been called. " alt="" coords="159,999,267,1025"/>
-<area shape="rect" id="node22" href="$classSummer.html" title="A module performing a sum over a set of values. " alt="" coords="162,1049,265,1076"/>
-<area shape="rect" id="node23" href="$classUniformGenerator.html" title="Generate a random point uniformly in a user&#45;set range. " alt="" coords="151,1100,276,1127"/>
+<area shape="rect" id="node8" href="$classConstant.html" title="A module declaring a constant. " alt="" coords="160,324,267,351"/>
+<area shape="rect" id="node9" href="$classCounter.html" title="A module counting the number of entries in a vector. " alt="" coords="163,375,263,401"/>
+<area shape="rect" id="node10" href="$classDMEM.html" title="DMEM" alt="" coords="182,425,245,452"/>
+<area shape="rect" id="node11" href="$classEmptyModule.html" title="EmptyModule" alt="" coords="162,476,265,503"/>
+<area shape="rect" id="node12" href="$classFlatTransferFunctionOnP.html" title="Flat transfer function on |P| (mainly for testing purposes). " alt="" coords="129,527,297,553"/>
+<area shape="rect" id="node13" href="$classFlatTransferFunctionOnPhi.html" title="Flat transfer function on Phi (mainly for testing purposes). " alt="" coords="124,577,303,604"/>
+<area shape="rect" id="node14" href="$classFlatTransferFunctionOnTheta.html" title="Flat transfer function on Theta (mainly for testing purposes). " alt="" coords="117,628,309,655"/>
+<area shape="rect" id="node15" href="$classGaussianTransferFunction.html" title="Transfer function on energy described by a Gaussian distribution. " alt="" coords="126,679,301,705"/>
+<area shape="rect" id="node16" href="$classLooper.html" title="A module looping over a set of solutions. " alt="" coords="183,729,244,756"/>
+<area shape="rect" id="node17" href="$classMatrixElement.html" title="Compute the integrand: matrix element, PDFs, jacobians. " alt="" coords="160,780,267,807"/>
+<area shape="rect" id="node18" href="$classNarrowWidthApproximation.html" title="Use the Narrow Width Approximation (NWA) to reduce the dimensionality of the integration. " alt="" coords="123,831,304,857"/>
+<area shape="rect" id="node19" href="$classPermutator.html" title="Apply random permutations to a set of inputs. " alt="" coords="170,881,257,908"/>
+<area shape="rect" id="node20" href="$classPrinter.html" title="A module printing the value of an input. " alt="" coords="167,932,259,959"/>
+<area shape="rect" id="node21" href="$classPrinter_3_01std_1_1vector_3_01T_01_4_01_4.html" title="Specialization of Printer for std::vector " alt="" coords="146,983,281,1025"/>
+<area shape="rect" id="node22" href="$classSimpleCounter.html" title="A simple module counting the number of time it has been called. " alt="" coords="159,1049,267,1076"/>
+<area shape="rect" id="node23" href="$classSummer.html" title="A module performing a sum over a set of values. " alt="" coords="162,1100,265,1127"/>
+<area shape="rect" id="node24" href="$classUniformGenerator.html" title="Generate a random point uniformly in a user&#45;set range. " alt="" coords="151,1151,276,1177"/>
 </map>

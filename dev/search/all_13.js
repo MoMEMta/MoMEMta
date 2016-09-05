@@ -1,6 +1,7 @@
 var searchData=
 [
   ['table_5fname',['table_name',['../structlua_1_1LazyTableField.html#ad68cf2a33a149b5e022dcafb8a43545b',1,'lua::LazyTableField']]],
+  ['tag_5fnot_5ffound_5ferror',['tag_not_found_error',['../classPool_1_1tag__not__found__error.html',1,'Pool']]],
   ['to_5fany',['to_any',['../namespacelua.html#ae64a96826456f2844a328f3617c7749f',1,'lua']]],
   ['to_5fvector',['to_vector',['../namespacelua.html#a311087ae9e62db61ce461dbf1393afaf',1,'lua']]],
   ['to_5fvectort',['to_vectorT',['../namespacelua.html#abe127dafbd7ed092cd609c232af587c0',1,'lua']]],

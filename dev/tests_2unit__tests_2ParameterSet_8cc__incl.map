@@ -1,10 +1,7 @@
 <map id="tests/unit_tests/ParameterSet.cc" name="tests/unit_tests/ParameterSet.cc">
-<area shape="rect" id="node3" href="$InputTag_8h_source.html" title="momemta/InputTag.h" alt="" coords="778,171,924,197"/>
-<area shape="rect" id="node15" href="$ParameterSet_8h_source.html" title="momemta/ParameterSet.h" alt="" coords="476,96,650,123"/>
-<area shape="rect" id="node4" href="$InputTag__fwd_8h_source.html" title="momemta/impl/InputTag\l_fwd.h" alt="" coords="876,470,1039,511"/>
-<area shape="rect" id="node10" href="$impl_2InputTag_8h_source.html" title="momemta/impl/InputTag.h" alt="" coords="778,245,952,272"/>
-<area shape="rect" id="node11" href="$Pool_8h_source.html" title="momemta/Pool.h" alt="" coords="805,320,926,347"/>
-<area shape="rect" id="node14" href="$Configuration_8h_source.html" title="momemta/Configuration.h" alt="" coords="1041,395,1212,421"/>
-<area shape="rect" id="node17" href="$traits_8h_source.html" title="momemta/impl/traits.h" alt="" coords="572,171,724,197"/>
-<area shape="rect" id="node19" href="$Logging_8h_source.html" title="momemta/Logging.h" alt="" coords="408,171,547,197"/>
+<area shape="rect" id="node3" href="$InputTag_8h_source.html" title="momemta/InputTag.h" alt="" coords="68,171,215,197"/>
+<area shape="rect" id="node10" href="$ParameterSet_8h_source.html" title="momemta/ParameterSet.h" alt="" coords="422,96,596,123"/>
+<area shape="rect" id="node4" href="$InputTag__fwd_8h_source.html" title="momemta/impl/InputTag\l_fwd.h" alt="" coords="52,246,215,287"/>
+<area shape="rect" id="node12" href="$traits_8h_source.html" title="momemta/impl/traits.h" alt="" coords="861,171,1013,197"/>
+<area shape="rect" id="node14" href="$Logging_8h_source.html" title="momemta/Logging.h" alt="" coords="498,171,637,197"/>
 </map>
