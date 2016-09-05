@@ -98,6 +98,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li class="current"><a href="functions.html"><span>All</span></a></li>
       <li><a href="functions_func.html"><span>Functions</span></a></li>
       <li><a href="functions_vars.html"><span>Variables</span></a></li>
+      <li><a href="functions_enum.html"><span>Enumerations</span></a></li>
     </ul>
   </div>
   <div id="navrow4" class="tabs3">
@@ -109,6 +110,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="#index_f"><span>f</span></a></li>
       <li><a href="#index_g"><span>g</span></a></li>
       <li><a href="#index_i"><span>i</span></a></li>
+      <li><a href="#index_j"><span>j</span></a></li>
       <li><a href="#index_k"><span>k</span></a></li>
       <li><a href="#index_l"><span>l</span></a></li>
       <li><a href="#index_m"><span>m</span></a></li>
@@ -143,15 +145,30 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 <h3><a class="anchor" id="index_b"></a>- b -</h3><ul>
 <li>beginIntegration()
-: <a class="el" href="classDMEM.html#a798fa676dc217a08d44a1326c1a24e97">DMEM</a>
+: <a class="el" href="classCounter.html#afd723cf0b568ed4057d8e71e698a6b5d">Counter&lt; T &gt;</a>
+, <a class="el" href="classDMEM.html#a798fa676dc217a08d44a1326c1a24e97">DMEM</a>
 , <a class="el" href="classModule.html#a0c354091befb60af6b25490e2cb716ec">Module</a>
+, <a class="el" href="classSimpleCounter.html#a708fd850aeaca5e6530d42fe67ae1d97">SimpleCounter</a>
+</li>
+<li>beginLoop()
+: <a class="el" href="classCounter.html#a29b1f89ba01068f4b5683bd5f7096d42">Counter&lt; T &gt;</a>
+, <a class="el" href="classModule.html#ae4e8fd60f1adfbf0aa0f244f39a45ae4">Module</a>
+, <a class="el" href="classSimpleCounter.html#a59251318747ae1f77fcde3118f4d746a">SimpleCounter</a>
+, <a class="el" href="classSummer.html#a821bdc98ada22c9248a0e2e759de773d">Summer&lt; T &gt;</a>
 </li>
 </ul>
 
 
 <h3><a class="anchor" id="index_c"></a>- c -</h3><ul>
+<li>clone()
+: <a class="el" href="classLazyParameterSet.html#a8a9b19ee5b646992a7f75d4aa70635d0">LazyParameterSet</a>
+, <a class="el" href="classParameterSet.html#a90562b2a6136b64d5918db6b92d22094">ParameterSet</a>
+</li>
 <li>computeWeights()
 : <a class="el" href="classMoMEMta.html#afc501dc0bbc0512f4ec528dbd74729e6">MoMEMta</a>
+</li>
+<li>Configuration()
+: <a class="el" href="classConfiguration.html#a7a77596f11e5986dfef897fe7554a0b5">Configuration</a>
 </li>
 <li>configure()
 : <a class="el" href="classModule.html#a1e559c32bbb1442a3100bb6d9c90bca3">Module</a>
@@ -159,6 +176,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>create()
 : <a class="el" href="classLazyParameterSet.html#ace57d0de0af5dab9da66b46fe828c759">LazyParameterSet</a>
 , <a class="el" href="classParameterSet.html#a1f909622632174e03cd69451c855b586">ParameterSet</a>
+</li>
+<li>current_module()
+: <a class="el" href="classPool.html#af3a1e17a97dc3618de1a0955c7f160a9">Pool</a>
 </li>
 </ul>
 
@@ -190,8 +210,14 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>Element()
 : <a class="el" href="structParameterSet_1_1Element.html#aa56f34f3e72cd5e1072bb7f91d109868">ParameterSet::Element</a>
 </li>
+<li>empty()
+: <a class="el" href="structInputTag.html#a0d16c6cc21b6a6b2af124fbea7ce0524">InputTag</a>
+</li>
 <li>endIntegration()
 : <a class="el" href="classModule.html#a871795b8be830f2e9965d1d26be81e5f">Module</a>
+</li>
+<li>endLoop()
+: <a class="el" href="classModule.html#afae6d55124ef2ca6ff004d1e336c00d2">Module</a>
 </li>
 <li>ensure_created()
 : <a class="el" href="structlua_1_1LazyTableField.html#abd0a95b3c772b3eed680aed49dbf5727">lua::LazyTableField</a>
@@ -204,7 +230,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 <h3><a class="anchor" id="index_f"></a>- f -</h3><ul>
 <li>finish()
-: <a class="el" href="classModule.html#a35348490eb9ba5e333c42b5ab0a84e09">Module</a>
+: <a class="el" href="classLooper.html#ad6b4b62372cfefe4b9ca8c2f03f15bc7">Looper</a>
+, <a class="el" href="classModule.html#a35348490eb9ba5e333c42b5ab0a84e09">Module</a>
 </li>
 <li>freeze()
 : <a class="el" href="classConfigurationReader.html#a16d7f89edc9f273b70d5b74258bbdba2">ConfigurationReader</a>
@@ -225,8 +252,17 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>getGlobalParameters()
 : <a class="el" href="classConfiguration.html#ade2f303994bc94727bce4f2bf61bfeeb">Configuration</a>
 </li>
+<li>getIntegrand()
+: <a class="el" href="classConfiguration.html#a17d12e334de5ea429e0f005a0507838a">Configuration</a>
+</li>
+<li>getIntegrationStatus()
+: <a class="el" href="classMoMEMta.html#a54e9c3aa9401059cd4ea2080ad1cdf16">MoMEMta</a>
+</li>
 <li>getModules()
 : <a class="el" href="classConfiguration.html#aeee80ab1fc71cb7c1cd6b7b7ae32e541">Configuration</a>
+</li>
+<li>getPaths()
+: <a class="el" href="classConfiguration.html#a6db9bdf36c7e6bc5bd921da1c5f362a6">Configuration</a>
 </li>
 <li>getPool()
 : <a class="el" href="classMoMEMta.html#a956cb0d4acf9667c7361e6da8f81e0fb">MoMEMta</a>
@@ -241,6 +277,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>InputTag()
 : <a class="el" href="structInputTag.html#a3371e151f53b2e892324665080b034d6">InputTag</a>
 </li>
+<li>IntegrationStatus
+: <a class="el" href="classMoMEMta.html#a1e59ba7df5b4501f970cf07f09562f4b">MoMEMta</a>
+</li>
 <li>is_virtual_module()
 : <a class="el" href="classModule.html#ac1fe92d5be8a8591b855691b88e6a56a">Module</a>
 </li>
@@ -249,6 +288,13 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </li>
 <li>isInputTag()
 : <a class="el" href="structInputTag.html#a234c02fc061e14f33009ef7e2c917254">InputTag</a>
+</li>
+</ul>
+
+
+<h3><a class="anchor" id="index_j"></a>- j -</h3><ul>
+<li>jacobian
+: <a class="el" href="structSolution.html#a39afae2bf453e9e2ac06bca6348390b1">Solution</a>
 </li>
 </ul>
 
@@ -270,6 +316,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>leafModule()
 : <a class="el" href="classDMEM.html#a475048d2a2f697d4015b13e3a73f58d6">DMEM</a>
 , <a class="el" href="classModule.html#ad656e439a7240f832567d99f81d1aa1c">Module</a>
+, <a class="el" href="classPrinter.html#a80acc199e7de5104ed6950c410f48de7">Printer&lt; T &gt;</a>
+, <a class="el" href="classPrinter_3_01std_1_1vector_3_01T_01_4_01_4.html#a0448535bb4fda3ec3e87d6b696e7536a">Printer&lt; std::vector&lt; T &gt; &gt;</a>
 </li>
 </ul>
 
@@ -280,6 +328,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </li>
 <li>Module()
 : <a class="el" href="classModule.html#a17cb586f94658e2048759c4cbdb7968d">Module</a>
+</li>
+<li>modules()
+: <a class="el" href="classPath.html#a98c769d7cc4cef815d3f15fd5407385a">Path</a>
 </li>
 <li>MoMEMta()
 : <a class="el" href="classMoMEMta.html#aa247d4794351a4a0a7c58dfe4e59da27">MoMEMta</a>
@@ -295,10 +346,19 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 
 <h3><a class="anchor" id="index_o"></a>- o -</h3><ul>
+<li>onIntegrandDeclared()
+: <a class="el" href="classConfigurationReader.html#a4c91927e0b97071c9175ba25afa4bf30">ConfigurationReader</a>
+, <a class="el" href="classILuaCallback.html#a1b6f914367a25ed33be1863572c58a2f">ILuaCallback</a>
+, <a class="el" href="classLuaCallbackMock.html#ae6428958e3743c036787caf17eee723f">LuaCallbackMock</a>
+</li>
 <li>onModuleDeclared()
 : <a class="el" href="classConfigurationReader.html#af6481d44f085ae687887c8b94c63b89f">ConfigurationReader</a>
-, <a class="el" href="classIOnModuleDeclared.html#af03155f5d5c5143c35646f571eccd5b1">IOnModuleDeclared</a>
-, <a class="el" href="classModuleDeclaredMock.html#aada7a912d3ec4db07b4ab2e391be1c7c">ModuleDeclaredMock</a>
+, <a class="el" href="classILuaCallback.html#af3971a12abcd2152fc79040c2eaa64dd">ILuaCallback</a>
+, <a class="el" href="classLuaCallbackMock.html#af6f8b9adbeb39f6861a842a9cbc3bc43">LuaCallbackMock</a>
+</li>
+<li>onNewPath()
+: <a class="el" href="classConfigurationReader.html#a755b3214d1dfb949b469f4a65a5784e6">ConfigurationReader</a>
+, <a class="el" href="classILuaCallback.html#a883171411d8ed9f6731e3cec7758b9e8">ILuaCallback</a>
 </li>
 <li>operator()()
 : <a class="el" href="structlua_1_1Lazy.html#a7f2dd4549c381e3c4f7db75344b40cb8">lua::Lazy</a>
@@ -317,10 +377,13 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 : <a class="el" href="structInputTag.html#adee397d7b4d5a87bd49dd1f315c0f0ad">InputTag</a>
 </li>
 <li>parameters
-: <a class="el" href="structConfiguration_1_1Module.html#a2a2d1d9b482aac2810913ad7c62a433c">Configuration::Module</a>
+: <a class="el" href="structConfiguration_1_1Module.html#a4b1dcdbd146d6de8af1b2f92c25bda46">Configuration::Module</a>
 </li>
 <li>parse()
 : <a class="el" href="classParameterSet.html#a8030cda85a7a842ce6bfe5b8ceb4ba0f">ParameterSet</a>
+</li>
+<li>Path()
+: <a class="el" href="classPath.html#a26c54646ff368f1e7b9b6017124c5c65">Path</a>
 </li>
 <li>produce()
 : <a class="el" href="classModule.html#ae4a18ea70d8a5b3bc76756ff4bf64d9b">Module</a>
@@ -335,13 +398,16 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>resolve()
 : <a class="el" href="structInputTag.html#ab4df47f8bbc5f4879af6eb1370c2ac47">InputTag</a>
 </li>
+<li>resolved()
+: <a class="el" href="classPath.html#ae165f9f0f519178d857bff755db6486b">Path</a>
+</li>
 </ul>
 
 
 <h3><a class="anchor" id="index_s"></a>- s -</h3><ul>
 <li>set()
 : <a class="el" href="structlua_1_1LazyTableField.html#aa0443312ec4ce81091b748b7cc0010c6">lua::LazyTableField</a>
-, <a class="el" href="classParameterSet.html#a203b6c472e4dd17d19108a048b85dca9">ParameterSet</a>
+, <a class="el" href="classParameterSet.html#a745e01a2db3ac905f74e6080deed0c5d">ParameterSet</a>
 </li>
 </ul>
 
@@ -362,29 +428,38 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <h3><a class="anchor" id="index_v"></a>- v -</h3><ul>
 <li>valid
 : <a class="el" href="structPoolContent.html#af35b8364f3d17ae3bf0819ce438a796d">PoolContent</a>
+, <a class="el" href="structSolution.html#a1b62d6589fc5e1dda0d9e2d1bef1c1bb">Solution</a>
+</li>
+<li>values
+: <a class="el" href="structSolution.html#aa25b4cdcf84adf18476530d42cafca8b">Solution</a>
 </li>
 </ul>
 
 
 <h3><a class="anchor" id="index_w"></a>- w -</h3><ul>
 <li>work()
-: <a class="el" href="classBinnedTransferFunctionOnEnergy.html#aaee831ebfcaece547072ad24683c5646">BinnedTransferFunctionOnEnergy</a>
-, <a class="el" href="classBlockB.html#a03bec8ea5d9e7309c954f944743dcbbb">BlockB</a>
-, <a class="el" href="classBlockD.html#a6da13c2ea94fe7fa50b093f54917e7f0">BlockD</a>
-, <a class="el" href="classBlockF.html#a931df68e5703171870ed5d30318e601b">BlockF</a>
-, <a class="el" href="classBreitWignerGenerator.html#ac9c74bfd1a582463c7ba23721b08d6c0">BreitWignerGenerator</a>
-, <a class="el" href="classBuildInitialState.html#adb2d7005fd61b6efed57da3ddaf110bc">BuildInitialState</a>
-, <a class="el" href="classDMEM.html#a7d02d76456378b8990506cfed7440e7c">DMEM</a>
-, <a class="el" href="classEmptyModule.html#ad4bf07122cf9babccb6eb5d1835df972">EmptyModule</a>
-, <a class="el" href="classFlatTransferFunctionOnP.html#ae9868e9774c058e86fc5b2821d105210">FlatTransferFunctionOnP</a>
-, <a class="el" href="classFlatTransferFunctionOnPhi.html#a61d8f40b4c95e09a4d86e3722badc259">FlatTransferFunctionOnPhi</a>
-, <a class="el" href="classFlatTransferFunctionOnTheta.html#a16db955963943793f5866e20668ca729">FlatTransferFunctionOnTheta</a>
-, <a class="el" href="classGaussianTransferFunction.html#a1455e520194269efb5f305870e22a71e">GaussianTransferFunction</a>
-, <a class="el" href="classMatrixElement.html#aa6d95d2048047d09654fa6d17edd34ff">MatrixElement</a>
-, <a class="el" href="classModule.html#a9f798ae2775b4f9ef99f7df568261796">Module</a>
-, <a class="el" href="classNarrowWidthApproximation.html#a60c73dce3a7049a7d62a335547c4a194">NarrowWidthApproximation</a>
-, <a class="el" href="classPermutator.html#a2ab2179b776fdf400be1ade1815903b3">Permutator</a>
-, <a class="el" href="classUniformGenerator.html#a91153cbd80a52f144880feffe936833b">UniformGenerator</a>
+: <a class="el" href="classBinnedTransferFunctionOnEnergy.html#a6c6dbf31c88228cedd032de7b8a666f6">BinnedTransferFunctionOnEnergy</a>
+, <a class="el" href="classBlockB.html#a0d7d40a75036ab5f612f20502ed96182">BlockB</a>
+, <a class="el" href="classBlockD.html#aa9fed99b2cd6e073a4304ffa3f18a100">BlockD</a>
+, <a class="el" href="classBlockF.html#a300428b06214e67b01dd8242f9b1c5ad">BlockF</a>
+, <a class="el" href="classBreitWignerGenerator.html#a04be6d5d55752bddbf88dbc206aaa0be">BreitWignerGenerator</a>
+, <a class="el" href="classBuildInitialState.html#a3d587e3c6980acbe9cc12e4d9e1f145f">BuildInitialState</a>
+, <a class="el" href="classCounter.html#ac2d0a21215956aa2d091467c75d430b5">Counter&lt; T &gt;</a>
+, <a class="el" href="classDMEM.html#ae186ae847833baea72181fc1ff70ea94">DMEM</a>
+, <a class="el" href="classEmptyModule.html#a884a80d743a5a8f1337ffb7fd335492c">EmptyModule</a>
+, <a class="el" href="classFlatTransferFunctionOnP.html#a5e6622fe17745b320dcd9613ecdeaef0">FlatTransferFunctionOnP</a>
+, <a class="el" href="classFlatTransferFunctionOnPhi.html#a3111af45d80f6135a638777f6a0daea8">FlatTransferFunctionOnPhi</a>
+, <a class="el" href="classFlatTransferFunctionOnTheta.html#ad4f7d78f78e1ed32cb05c464a7d19b53">FlatTransferFunctionOnTheta</a>
+, <a class="el" href="classGaussianTransferFunction.html#aed67ecdc0a319baa4ad8ecd81e77f0ff">GaussianTransferFunction</a>
+, <a class="el" href="classLooper.html#ab7fcc466052ee6c79eb930c67cd09c4a">Looper</a>
+, <a class="el" href="classMatrixElement.html#a25f5a4703b1c899b6fda9fac5484d267">MatrixElement</a>
+, <a class="el" href="classModule.html#a43c0b7c70e9dd8b0cf6c78aa5052eeee">Module</a>
+, <a class="el" href="classPermutator.html#a54397b9627c6bc0545404cdc42de5517">Permutator</a>
+, <a class="el" href="classPrinter.html#a60bf7a33b536c283d7919e1d42b5ba37">Printer&lt; T &gt;</a>
+, <a class="el" href="classPrinter_3_01std_1_1vector_3_01T_01_4_01_4.html#ad4e54250ef5938b0a3c6ccca996c17c3">Printer&lt; std::vector&lt; T &gt; &gt;</a>
+, <a class="el" href="classSimpleCounter.html#a6e702738d05d843ea3a5e12abf908021">SimpleCounter</a>
+, <a class="el" href="classSummer.html#a0dd09a49e54d29e5ba90b894db39c7f0">Summer&lt; T &gt;</a>
+, <a class="el" href="classUniformGenerator.html#a99b9bc8ff335181bfe584133204e5893">UniformGenerator</a>
 </li>
 </ul>
 

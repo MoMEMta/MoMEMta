@@ -129,13 +129,13 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <p>A module can be seen like a box with a fixed number of inputs and outputs. The configuration file is used to specify a list of module to run, and to connect outputs of modules to inputs of other modules.</p>
 <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000002">Todo:</a></b></dt><dd>Discuss the <code>parameters</code> table, <code>cuba</code> table and the concept of freezing and delayed execution</dd></dl>
 
-<p>Definition at line <a class="el" href="ConfigurationReader_8h_source.html#l00044">44</a> of file <a class="el" href="ConfigurationReader_8h_source.html">ConfigurationReader.h</a>.</p>
+<p>Definition at line <a class="el" href="ConfigurationReader_8h_source.html#l00045">45</a> of file <a class="el" href="ConfigurationReader_8h_source.html">ConfigurationReader.h</a>.</p>
 </div><div class="dynheader">
 Inheritance diagram for ConfigurationReader:</div>
 <div class="dyncontent">
 <div class="center"><img src="classConfigurationReader__inherit__graph.png" border="0" usemap="#ConfigurationReader_inherit__map" alt="Inheritance graph"/></div>
 <map name="ConfigurationReader_inherit__map" id="ConfigurationReader_inherit__map">
-<area shape="rect" id="node2" href="classIOnModuleDeclared.html" title="Notification callback fired when a module is declared. " alt="" coords="6,5,143,32"/>
+<area shape="rect" id="node2" href="classILuaCallback.html" title="Notification callback used for communication between the lua file and MoMEMta. " alt="" coords="25,5,124,32"/>
 </map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
@@ -147,6 +147,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:af6481d44f085ae687887c8b94c63b89f"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classConfigurationReader.html#af6481d44f085ae687887c8b94c63b89f">onModuleDeclared</a> (const std::string &amp;type, const std::string &amp;name) override</td></tr>
 <tr class="memdesc:af6481d44f085ae687887c8b94c63b89f"><td class="mdescLeft">&#160;</td><td class="mdescRight">A module is declared in the configuration file.  <a href="#af6481d44f085ae687887c8b94c63b89f">More...</a><br /></td></tr>
 <tr class="separator:af6481d44f085ae687887c8b94c63b89f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4c91927e0b97071c9175ba25afa4bf30"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classConfigurationReader.html#a4c91927e0b97071c9175ba25afa4bf30">onIntegrandDeclared</a> (const <a class="el" href="structInputTag.html">InputTag</a> &amp;tag) override</td></tr>
+<tr class="memdesc:a4c91927e0b97071c9175ba25afa4bf30"><td class="mdescLeft">&#160;</td><td class="mdescRight">The integrand was defined in the configuration file.  <a href="#a4c91927e0b97071c9175ba25afa4bf30">More...</a><br /></td></tr>
+<tr class="separator:a4c91927e0b97071c9175ba25afa4bf30"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a755b3214d1dfb949b469f4a65a5784e6"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classConfigurationReader.html#a755b3214d1dfb949b469f4a65a5784e6">onNewPath</a> (<a class="el" href="structPathElements.html">PathElements</a> *path) override</td></tr>
+<tr class="memdesc:a755b3214d1dfb949b469f4a65a5784e6"><td class="mdescLeft">&#160;</td><td class="mdescRight">A new path is declared in the configuration file.  <a href="#a755b3214d1dfb949b469f4a65a5784e6">More...</a><br /></td></tr>
+<tr class="separator:a755b3214d1dfb949b469f4a65a5784e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a13eef129f0eb73c63b839ea4f442f035"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a13eef129f0eb73c63b839ea4f442f035"></a>
 <a class="el" href="classParameterSet.html">ParameterSet</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>getGlobalParameters</b> ()</td></tr>
 <tr class="separator:a13eef129f0eb73c63b839ea4f442f035"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -180,7 +186,39 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>Configuration</b></t
 <p>Freeze the configuration. </p>
 <dl class="section return"><dt>Returns</dt><dd>A freezed copy of the configuration </dd></dl>
 
-<p>Definition at line <a class="el" href="ConfigurationReader_8cc_source.html#l00091">91</a> of file <a class="el" href="ConfigurationReader_8cc_source.html">ConfigurationReader.cc</a>.</p>
+<p>Definition at line <a class="el" href="ConfigurationReader_8cc_source.html#l00101">101</a> of file <a class="el" href="ConfigurationReader_8cc_source.html">ConfigurationReader.cc</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a4c91927e0b97071c9175ba25afa4bf30"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ConfigurationReader::onIntegrandDeclared </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structInputTag.html">InputTag</a> &amp;&#160;</td>
+          <td class="paramname"><em>tag</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The integrand was defined in the configuration file. </p>
+<p>This function is called when the user calls the <code>integrand</code> lua function</p>
+<p>A lua code like </p><div class="fragment"><div class="line">integrand(<span class="stringliteral">&quot;module::parameter&quot;</span>)</div></div><!-- fragment --><p>will result in a call to this function with <code>tag</code> equals to <code>module::parameter</code> </p>
+
+<p>Implements <a class="el" href="classILuaCallback.html#a1b6f914367a25ed33be1863572c58a2f">ILuaCallback</a>.</p>
+
+<p>Definition at line <a class="el" href="ConfigurationReader_8cc_source.html#l00085">85</a> of file <a class="el" href="ConfigurationReader_8cc_source.html">ConfigurationReader.cc</a>.</p>
 
 </div>
 </div>
@@ -221,9 +259,41 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>Configuration</b></t
 <p>A lua code like</p>
 <div class="fragment"><div class="line"><a class="code" href="classMatrixElement.html">MatrixElement</a>.module_name = {}</div></div><!-- fragment --><p>will result in a call to this function with <code>type</code> equals to <code><a class="el" href="classMatrixElement.html" title="Compute the integrand: matrix element, PDFs, jacobians. ">MatrixElement</a></code> and <code>name</code> equals to <code>module_name</code>. </p>
 
-<p>Implements <a class="el" href="classIOnModuleDeclared.html#af03155f5d5c5143c35646f571eccd5b1">IOnModuleDeclared</a>.</p>
+<p>Implements <a class="el" href="classILuaCallback.html#af3971a12abcd2152fc79040c2eaa64dd">ILuaCallback</a>.</p>
 
-<p>Definition at line <a class="el" href="ConfigurationReader_8cc_source.html#l00076">76</a> of file <a class="el" href="ConfigurationReader_8cc_source.html">ConfigurationReader.cc</a>.</p>
+<p>Definition at line <a class="el" href="ConfigurationReader_8cc_source.html#l00077">77</a> of file <a class="el" href="ConfigurationReader_8cc_source.html">ConfigurationReader.cc</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a755b3214d1dfb949b469f4a65a5784e6"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ConfigurationReader::onNewPath </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structPathElements.html">PathElements</a> *&#160;</td>
+          <td class="paramname"><em>path</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>A new path is declared in the configuration file. </p>
+<p>This function is called when the user declared a new <code><a class="el" href="classPath.html" title="An execution path. ">Path</a></code> instance</p>
+<p>A lua code like </p><div class="fragment"><div class="line">p = <a class="code" href="classPath.html">Path</a>(<span class="stringliteral">&quot;my&quot;</span>, <span class="stringliteral">&quot;path&quot;</span>)</div></div><!-- fragment --><p>will result in a call to this function </p>
+
+<p>Implements <a class="el" href="classILuaCallback.html#a883171411d8ed9f6731e3cec7758b9e8">ILuaCallback</a>.</p>
+
+<p>Definition at line <a class="el" href="ConfigurationReader_8cc_source.html#l00089">89</a> of file <a class="el" href="ConfigurationReader_8cc_source.html">ConfigurationReader.cc</a>.</p>
 
 </div>
 </div>

@@ -127,6 +127,8 @@ Classes</h2></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classgraph_1_1edge__writer.html">edge_writer</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classgraph_1_1incomplete__looper__path.html">incomplete_looper_path</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classgraph_1_1unresolved__input.html">unresolved_input</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structgraph_1_1Vertex.html">Vertex</a></td></tr>
@@ -143,18 +145,24 @@ typedef boost::graph_traits&lt; Graph &gt;::vertex_descriptor&#160;</td><td clas
 <tr class="memitem:a24445588517da9278ee54639601ef4f7"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a24445588517da9278ee54639601ef4f7"></a>
 typedef boost::graph_traits&lt; Graph &gt;::edge_descriptor&#160;</td><td class="memItemRight" valign="bottom"><b>edge_t</b></td></tr>
 <tr class="separator:a24445588517da9278ee54639601ef4f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a471642285c32ef12191d851411e4d4f1"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a471642285c32ef12191d851411e4d4f1"></a>
+typedef boost::graph_traits&lt; Graph &gt;::out_edge_iterator&#160;</td><td class="memItemRight" valign="bottom"><b>out_edge_iterator_t</b></td></tr>
+<tr class="separator:a471642285c32ef12191d851411e4d4f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:acc95bb5029918edbbfec13e9ddf1da0a"><td class="memItemLeft" align="right" valign="top">Graph&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacegraph.html#acc95bb5029918edbbfec13e9ddf1da0a">build</a> (const Pool::DescriptionMap &amp;description, std::vector&lt; ModulePtr &gt; &amp;modules, std::function&lt; void(const std::string &amp;)&gt; on_module_removed)</td></tr>
-<tr class="memdesc:acc95bb5029918edbbfec13e9ddf1da0a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Build a graph representation of the modules.  <a href="#acc95bb5029918edbbfec13e9ddf1da0a">More...</a><br /></td></tr>
-<tr class="separator:acc95bb5029918edbbfec13e9ddf1da0a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aabe6dcb09438986b02a5da9ced4a89b9"><td class="memItemLeft" align="right" valign="top">Graph&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacegraph.html#aabe6dcb09438986b02a5da9ced4a89b9">build</a> (const Pool::DescriptionMap &amp;description, std::vector&lt; ModulePtr &gt; &amp;modules, const std::vector&lt; <a class="el" href="structPathElements.html">PathElements</a> * &gt; &amp;paths, std::function&lt; void(const std::string &amp;)&gt; on_module_removed)</td></tr>
+<tr class="memdesc:aabe6dcb09438986b02a5da9ced4a89b9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Build a graph representation of the modules.  <a href="#aabe6dcb09438986b02a5da9ced4a89b9">More...</a><br /></td></tr>
+<tr class="separator:aabe6dcb09438986b02a5da9ced4a89b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a591755d74ea6c6673dfeba94d14b7fec"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacegraph.html#a591755d74ea6c6673dfeba94d14b7fec">graphviz_export</a> (const Graph &amp;g, const std::string &amp;filename)</td></tr>
 <tr class="memdesc:a591755d74ea6c6673dfeba94d14b7fec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Export a given graph in <code>dot</code> format.  <a href="#a591755d74ea6c6673dfeba94d14b7fec">More...</a><br /></td></tr>
 <tr class="separator:a591755d74ea6c6673dfeba94d14b7fec"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a00c97bd10f687431f619d08b711e3c28"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a00c97bd10f687431f619d08b711e3c28"></a>
+Graph&#160;</td><td class="memItemRight" valign="bottom"><b>build</b> (const Pool::DescriptionMap &amp;description, std::vector&lt; ModulePtr &gt; &amp;modules, const std::vector&lt; <a class="el" href="structPathElements.html">PathElementsPtr</a> &gt; &amp;paths, std::function&lt; void(const std::string &amp;)&gt; on_module_removed)</td></tr>
+<tr class="separator:a00c97bd10f687431f619d08b711e3c28"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
-<a class="anchor" id="acc95bb5029918edbbfec13e9ddf1da0a"></a>
+<a class="anchor" id="aabe6dcb09438986b02a5da9ced4a89b9"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -169,6 +177,12 @@ Functions</h2></td></tr>
           <td></td>
           <td class="paramtype">std::vector&lt; ModulePtr &gt; &amp;&#160;</td>
           <td class="paramname"><em>modules</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; <a class="el" href="structPathElements.html">PathElements</a> * &gt; &amp;&#160;</td>
+          <td class="paramname"><em>paths</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -195,8 +209,6 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="classPool.html#a74233011e8c1dbd9fdeddace9ebd06e3" title="Return the description of the state of the memory pool. ">Pool::description()</a> </dd></dl>
-
-<p>Definition at line <a class="el" href="Graph_8cc_source.html#l00015">15</a> of file <a class="el" href="Graph_8cc_source.html">Graph.cc</a>.</p>
 
 <p>Referenced by <a class="el" href="MoMEMta_8cc_source.html#l00034">MoMEMta::MoMEMta()</a>.</p>
 
@@ -236,7 +248,7 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="Graph_8cc_source.html#l00148">148</a> of file <a class="el" href="Graph_8cc_source.html">Graph.cc</a>.</p>
+<p>Definition at line <a class="el" href="Graph_8cc_source.html#l00227">227</a> of file <a class="el" href="Graph_8cc_source.html">Graph.cc</a>.</p>
 
 </div>
 </div>

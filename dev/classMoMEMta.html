@@ -111,6 +111,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="header">
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
+<a href="#pub-types">Public Types</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="classMoMEMta-members.html">List of all members</a>  </div>
   <div class="headertitle">
@@ -128,6 +129,21 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 <p>Definition at line <a class="el" href="MoMEMta_8h_source.html#l00039">39</a> of file <a class="el" href="MoMEMta_8h_source.html">MoMEMta.h</a>.</p>
 </div><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
+Public Types</h2></td></tr>
+<tr class="memitem:a1e59ba7df5b4501f970cf07f09562f4b"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMoMEMta.html#a1e59ba7df5b4501f970cf07f09562f4b">IntegrationStatus</a> { <br />
+&#160;&#160;<a class="el" href="classMoMEMta.html#a1e59ba7df5b4501f970cf07f09562f4bad0749aaba8b833466dfcbb0428e4f89c">IntegrationStatus::SUCCESS</a>, 
+<a class="el" href="classMoMEMta.html#a1e59ba7df5b4501f970cf07f09562f4bae2f5bef8c733dee14e3f865f57c50b64">IntegrationStatus::ACCURARY_NOT_REACHED</a>, 
+<a class="el" href="classMoMEMta.html#a1e59ba7df5b4501f970cf07f09562f4bab9e14d9b2886bcff408b85aefa780419">IntegrationStatus::FAILED</a>, 
+<a class="el" href="classMoMEMta.html#a1e59ba7df5b4501f970cf07f09562f4ba4e6c860e5da10e31c5fd9cb76ddc2025">IntegrationStatus::ABORTED</a>, 
+<br />
+&#160;&#160;<a class="el" href="classMoMEMta.html#a1e59ba7df5b4501f970cf07f09562f4bab9929f6a1c43758689de4fa52e28009a">IntegrationStatus::DIM_OUT_OF_RANGE</a>, 
+<a class="el" href="classMoMEMta.html#a1e59ba7df5b4501f970cf07f09562f4bab50339a10e1de285ac99d4c3990b8693">IntegrationStatus::NONE</a>
+<br />
+ }<tr class="memdesc:a1e59ba7df5b4501f970cf07f09562f4b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Status of the integration.  <a href="classMoMEMta.html#a1e59ba7df5b4501f970cf07f09562f4b">More...</a><br /></td></tr>
+</td></tr>
+<tr class="separator:a1e59ba7df5b4501f970cf07f09562f4b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:aa247d4794351a4a0a7c58dfe4e59da27"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMoMEMta.html#aa247d4794351a4a0a7c58dfe4e59da27">MoMEMta</a> (const <a class="el" href="classConfiguration.html">Configuration</a> &amp;configuration)</td></tr>
@@ -140,10 +156,58 @@ virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
 <tr class="memitem:afc501dc0bbc0512f4ec528dbd74729e6"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::pair&lt; double, double &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMoMEMta.html#afc501dc0bbc0512f4ec528dbd74729e6">computeWeights</a> (const std::vector&lt; LorentzVector &gt; &amp;particles, const LorentzVector &amp;met=LorentzVector())</td></tr>
 <tr class="memdesc:afc501dc0bbc0512f4ec528dbd74729e6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute the weights in the current configuration.  <a href="#afc501dc0bbc0512f4ec528dbd74729e6">More...</a><br /></td></tr>
 <tr class="separator:afc501dc0bbc0512f4ec528dbd74729e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a54e9c3aa9401059cd4ea2080ad1cdf16"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classMoMEMta.html#a1e59ba7df5b4501f970cf07f09562f4b">IntegrationStatus</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMoMEMta.html#a54e9c3aa9401059cd4ea2080ad1cdf16">getIntegrationStatus</a> () const </td></tr>
+<tr class="memdesc:a54e9c3aa9401059cd4ea2080ad1cdf16"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the status of the integration.  <a href="#a54e9c3aa9401059cd4ea2080ad1cdf16">More...</a><br /></td></tr>
+<tr class="separator:a54e9c3aa9401059cd4ea2080ad1cdf16"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a956cb0d4acf9667c7361e6da8f81e0fb"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classPool.html">Pool</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMoMEMta.html#a956cb0d4acf9667c7361e6da8f81e0fb">getPool</a> () const </td></tr>
 <tr class="memdesc:a956cb0d4acf9667c7361e6da8f81e0fb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read-only access to the global memory pool.  <a href="#a956cb0d4acf9667c7361e6da8f81e0fb">More...</a><br /></td></tr>
 <tr class="separator:a956cb0d4acf9667c7361e6da8f81e0fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<h2 class="groupheader">Member Enumeration Documentation</h2>
+<a class="anchor" id="a1e59ba7df5b4501f970cf07f09562f4b"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="classMoMEMta.html#a1e59ba7df5b4501f970cf07f09562f4b">MoMEMta::IntegrationStatus</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">strong</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Status of the integration. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a class="anchor" id="a1e59ba7df5b4501f970cf07f09562f4bad0749aaba8b833466dfcbb0428e4f89c"></a>SUCCESS&#160;</td><td class="fielddoc">
+<p>Integration was successful. </p>
+</td></tr>
+<tr><td class="fieldname"><a class="anchor" id="a1e59ba7df5b4501f970cf07f09562f4bae2f5bef8c733dee14e3f865f57c50b64"></a>ACCURARY_NOT_REACHED&#160;</td><td class="fielddoc">
+<p>Integration was stopped before desired accuracy was reached. </p>
+</td></tr>
+<tr><td class="fieldname"><a class="anchor" id="a1e59ba7df5b4501f970cf07f09562f4bab9e14d9b2886bcff408b85aefa780419"></a>FAILED&#160;</td><td class="fielddoc">
+<p>Integration failed. </p>
+</td></tr>
+<tr><td class="fieldname"><a class="anchor" id="a1e59ba7df5b4501f970cf07f09562f4ba4e6c860e5da10e31c5fd9cb76ddc2025"></a>ABORTED&#160;</td><td class="fielddoc">
+<p>Integration aborted. </p>
+</td></tr>
+<tr><td class="fieldname"><a class="anchor" id="a1e59ba7df5b4501f970cf07f09562f4bab9929f6a1c43758689de4fa52e28009a"></a>DIM_OUT_OF_RANGE&#160;</td><td class="fielddoc">
+<p>Dimensions out of range. </p>
+</td></tr>
+<tr><td class="fieldname"><a class="anchor" id="a1e59ba7df5b4501f970cf07f09562f4bab50339a10e1de285ac99d4c3990b8693"></a>NONE&#160;</td><td class="fielddoc">
+<p>No integration was performed. </p>
+</td></tr>
+</table>
+
+<p>Definition at line <a class="el" href="MoMEMta_8h_source.html#l00042">42</a> of file <a class="el" href="MoMEMta_8h_source.html">MoMEMta.h</a>.</p>
+
+</div>
+</div>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="aa247d4794351a4a0a7c58dfe4e59da27"></a>
 <div class="memitem">
@@ -208,7 +272,27 @@ virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A vector of weights. Each weight is represented by a pair of double, the first element being the value of the weight and the second the associated absolute error. </dd></dl>
 
-<p>Definition at line <a class="el" href="MoMEMta_8cc_source.html#l00114">114</a> of file <a class="el" href="MoMEMta_8cc_source.html">MoMEMta.cc</a>.</p>
+<p>Definition at line <a class="el" href="MoMEMta_8cc_source.html#l00107">107</a> of file <a class="el" href="MoMEMta_8cc_source.html">MoMEMta.cc</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a54e9c3aa9401059cd4ea2080ad1cdf16"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classMoMEMta.html#a1e59ba7df5b4501f970cf07f09562f4b">MoMEMta::IntegrationStatus</a> MoMEMta::getIntegrationStatus </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Return the status of the integration. </p>
+<dl class="section return"><dt>Returns</dt><dd>The status of the integration </dd></dl>
+
+<p>Definition at line <a class="el" href="MoMEMta_8cc_source.html#l00225">225</a> of file <a class="el" href="MoMEMta_8cc_source.html">MoMEMta.cc</a>.</p>
 
 </div>
 </div>
@@ -229,7 +313,7 @@ virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
 <p>Use the pool to retrieve outputs from special modules, like <a class="el" href="classDMEM.html">DMEM</a>.</p>
 <dl class="section return"><dt>Returns</dt><dd>A read-only instance of the global memory pool </dd></dl>
 
-<p>Definition at line <a class="el" href="MoMEMta_8cc_source.html#l00110">110</a> of file <a class="el" href="MoMEMta_8cc_source.html">MoMEMta.cc</a>.</p>
+<p>Definition at line <a class="el" href="MoMEMta_8cc_source.html#l00103">103</a> of file <a class="el" href="MoMEMta_8cc_source.html">MoMEMta.cc</a>.</p>
 
 </div>
 </div>

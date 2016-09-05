@@ -121,7 +121,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="contents">
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p>Definition at line <a class="el" href="Pool_8h_source.html#l00046">46</a> of file <a class="el" href="Pool_8h_source.html">Pool.h</a>.</p>
+<p>Definition at line <a class="el" href="Pool_8h_source.html#l00048">48</a> of file <a class="el" href="Pool_8h_source.html">Pool.h</a>.</p>
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
 Public Types</h2></td></tr>
@@ -144,6 +144,12 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>alias</b> (const <a c
 <tr class="memitem:a74233011e8c1dbd9fdeddace9ebd06e3"><td class="memItemLeft" align="right" valign="top">const DescriptionMap &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPool.html#a74233011e8c1dbd9fdeddace9ebd06e3">description</a> () const </td></tr>
 <tr class="memdesc:a74233011e8c1dbd9fdeddace9ebd06e3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the description of the state of the memory pool.  <a href="#a74233011e8c1dbd9fdeddace9ebd06e3">More...</a><br /></td></tr>
 <tr class="separator:a74233011e8c1dbd9fdeddace9ebd06e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af3a1e17a97dc3618de1a0955c7f160a9"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPool.html#af3a1e17a97dc3618de1a0955c7f160a9">current_module</a> (const <a class="el" href="structConfiguration_1_1Module.html">Configuration::Module</a> &amp;module) final</td></tr>
+<tr class="memdesc:af3a1e17a97dc3618de1a0955c7f160a9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Inform the pool of which module is currently created.  <a href="#af3a1e17a97dc3618de1a0955c7f160a9">More...</a><br /></td></tr>
+<tr class="separator:af3a1e17a97dc3618de1a0955c7f160a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a923e7e3eea70827607639137e7b7c97c"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPool.html#a923e7e3eea70827607639137e7b7c97c">current_module</a> (const std::string &amp;name) final</td></tr>
+<tr class="memdesc:a923e7e3eea70827607639137e7b7c97c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Inform the pool of which module is currently created.  <a href="#a923e7e3eea70827607639137e7b7c97c">More...</a><br /></td></tr>
+<tr class="separator:a923e7e3eea70827607639137e7b7c97c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="friends"></a>
 Friends</h2></td></tr>
@@ -158,6 +164,76 @@ struct&#160;</td><td class="memItemRight" valign="bottom"><b>InputTag</b></td></
 <tr class="separator:af7dc5dfc50684276297d67791d7ff58d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="af3a1e17a97dc3618de1a0955c7f160a9"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Pool::current_module </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structConfiguration_1_1Module.html">Configuration::Module</a> &amp;&#160;</td>
+          <td class="paramname"><em>module</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">final</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Inform the pool of which module is currently created. </p>
+<p>It helps tracking down module dependencies.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">module</td><td>The module beeing created </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="Pool_8cc_source.html#l00085">85</a> of file <a class="el" href="Pool_8cc_source.html">Pool.cc</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a923e7e3eea70827607639137e7b7c97c"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Pool::current_module </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>name</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">final</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Inform the pool of which module is currently created. </p>
+<p>It helps tracking down module dependencies. This signature indicates that the current module is virtual.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">name</td><td>Name of the current virtual module </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="Pool_8cc_source.html#l00089">89</a> of file <a class="el" href="Pool_8cc_source.html">Pool.cc</a>.</p>
+
+</div>
+</div>
 <a class="anchor" id="a74233011e8c1dbd9fdeddace9ebd06e3"></a>
 <div class="memitem">
 <div class="memproto">
@@ -182,7 +258,7 @@ struct&#160;</td><td class="memItemRight" valign="bottom"><b>InputTag</b></td></
 <p>Return the description of the state of the memory pool. </p>
 <dl class="section note"><dt>Note</dt><dd>Result is only valid after a call to Pool::freeze() </dd></dl>
 
-<p>Definition at line <a class="el" href="Pool_8h_source.html#l00088">88</a> of file <a class="el" href="Pool_8h_source.html">Pool.h</a>.</p>
+<p>Definition at line <a class="el" href="Pool_8h_source.html#l00089">89</a> of file <a class="el" href="Pool_8h_source.html">Pool.h</a>.</p>
 
 </div>
 </div>
@@ -210,7 +286,7 @@ struct&#160;</td><td class="memItemRight" valign="bottom"><b>InputTag</b></td></
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>True if the input tag exists in the pool, False otherwise. </dd></dl>
 
-<p>Definition at line <a class="el" href="Pool_8cc_source.html#l00081">81</a> of file <a class="el" href="Pool_8cc_source.html">Pool.cc</a>.</p>
+<p>Definition at line <a class="el" href="Pool_8cc_source.html#l00080">80</a> of file <a class="el" href="Pool_8cc_source.html">Pool.cc</a>.</p>
 
 </div>
 </div>

@@ -210,6 +210,9 @@ std::string&#160;</td><td class="memItemRight" valign="bottom"><b>getModuleType<
 <tr class="memitem:a18faef443e535469709f04710c2e8373"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a18faef443e535469709f04710c2e8373"></a>
 const <a class="el" href="classParameterSet.html">ParameterSet</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>globalParameters</b> () const </td></tr>
 <tr class="separator:a18faef443e535469709f04710c2e8373"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a90562b2a6136b64d5918db6b92d22094"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classParameterSet.html">ParameterSet</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classParameterSet.html#a90562b2a6136b64d5918db6b92d22094">clone</a> () const </td></tr>
+<tr class="memdesc:a90562b2a6136b64d5918db6b92d22094"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clone this <a class="el" href="classParameterSet.html" title="A class encapsulating a lua table. ">ParameterSet</a>.  <a href="#a90562b2a6136b64d5918db6b92d22094">More...</a><br /></td></tr>
+<tr class="separator:a90562b2a6136b64d5918db6b92d22094"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
@@ -245,6 +248,39 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>Configuration</b></t
 <tr class="separator:a30221ddc558692a7b52598b963a74bc2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="a90562b2a6136b64d5918db6b92d22094"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classParameterSet.html">ParameterSet</a> * ParameterSet::clone </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Clone this <a class="el" href="classParameterSet.html" title="A class encapsulating a lua table. ">ParameterSet</a>. </p>
+<p>You must take ownership of the returned pointer.</p>
+<dl class="section return"><dt>Returns</dt><dd>A clone of this <a class="el" href="classParameterSet.html" title="A class encapsulating a lua table. ">ParameterSet</a>. You must take ownership of the returned value. </dd></dl>
+
+<p>Reimplemented in <a class="el" href="classLazyParameterSet.html#a8a9b19ee5b646992a7f75d4aa70635d0">LazyParameterSet</a>.</p>
+
+<p>Definition at line <a class="el" href="core_2src_2ParameterSet_8cc_source.html#l00121">121</a> of file <a class="el" href="core_2src_2ParameterSet_8cc_source.html">ParameterSet.cc</a>.</p>
+
+<p>Referenced by <a class="el" href="ParameterSet_8h_source.html#l00158">set()</a>.</p>
+
+</div>
+</div>
 <a class="anchor" id="a1f909622632174e03cd69451c855b586"></a>
 <div class="memitem">
 <div class="memproto">
@@ -290,7 +326,7 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>Configuration</b></t
 
 <p>Definition at line <a class="el" href="core_2src_2ParameterSet_8cc_source.html#l00072">72</a> of file <a class="el" href="core_2src_2ParameterSet_8cc_source.html">ParameterSet.cc</a>.</p>
 
-<p>Referenced by <a class="el" href="ParameterSet_8h_source.html#l00196">ParameterSet::Element::Element()</a>.</p>
+<p>Referenced by <a class="el" href="ParameterSet_8h_source.html#l00205">ParameterSet::Element::Element()</a>.</p>
 
 </div>
 </div>
@@ -329,7 +365,7 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>Configuration</b></t
 
 <p>Definition at line <a class="el" href="core_2src_2ParameterSet_8cc_source.html#l00031">31</a> of file <a class="el" href="core_2src_2ParameterSet_8cc_source.html">ParameterSet.cc</a>.</p>
 
-<p>Referenced by <a class="el" href="ParameterSet_8h_source.html#l00158">set()</a>, and <a class="el" href="utils_8cc_source.html#l00244">lua::to_any()</a>.</p>
+<p>Referenced by <a class="el" href="ParameterSet_8h_source.html#l00158">set()</a>, and <a class="el" href="utils_8cc_source.html#l00246">lua::to_any()</a>.</p>
 
 </div>
 </div>

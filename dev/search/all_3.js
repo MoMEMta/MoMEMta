@@ -1,11 +1,8 @@
 var searchData=
 [
-  ['edge',['Edge',['../structgraph_1_1Edge.html',1,'graph']]],
-  ['edge_5fwriter',['edge_writer',['../classgraph_1_1edge__writer.html',1,'graph']]],
-  ['element',['Element',['../structParameterSet_1_1Element.html#aa56f34f3e72cd5e1072bb7f91d109868',1,'ParameterSet::Element']]],
-  ['element',['Element',['../structParameterSet_1_1Element.html',1,'ParameterSet']]],
-  ['emptymodule',['EmptyModule',['../classEmptyModule.html',1,'']]],
-  ['endintegration',['endIntegration',['../classModule.html#a871795b8be830f2e9965d1d26be81e5f',1,'Module']]],
-  ['ensure_5fcreated',['ensure_created',['../structlua_1_1LazyTableField.html#abd0a95b3c772b3eed680aed49dbf5727',1,'lua::LazyTableField']]],
-  ['exists',['exists',['../classPool.html#ae19c6dfdb3ad53468f2b7d4f882e8c09',1,'Pool']]]
+  ['description',['Description',['../structDescription.html',1,'Description'],['../classPool.html#a74233011e8c1dbd9fdeddace9ebd06e3',1,'Pool::description()']]],
+  ['dim_5fout_5fof_5frange',['DIM_OUT_OF_RANGE',['../classMoMEMta.html#a1e59ba7df5b4501f970cf07f09562f4bab9929f6a1c43758689de4fa52e28009a',1,'MoMEMta']]],
+  ['dimensions',['dimensions',['../classModule.html#a604059ca484c29e5d6ac9d12865e5ed4',1,'Module::dimensions()'],['../classBinnedTransferFunctionOnEnergy.html#a10584e68b90ea6551fd1502dbdc9e09f',1,'BinnedTransferFunctionOnEnergy::dimensions()'],['../classBlockB.html#ab76dffca7d4150add000efbc9c0da361',1,'BlockB::dimensions()'],['../classBlockD.html#a99eecf9c66ab2c9af80c8ea044dc1c5c',1,'BlockD::dimensions()'],['../classBlockF.html#a3f22908aadaa7c904649f52c9c2c55bc',1,'BlockF::dimensions()'],['../classBreitWignerGenerator.html#af3008be669b76c4961e4fb0b5a81c7f8',1,'BreitWignerGenerator::dimensions()'],['../classDMEM.html#ae5d368a448cac96d062aa89d872da610',1,'DMEM::dimensions()'],['../classFlatTransferFunctionOnP.html#a504a7e910b4a3ef1c681ea270fe4daea',1,'FlatTransferFunctionOnP::dimensions()'],['../classFlatTransferFunctionOnPhi.html#a2c0d5ce7e52969d452d1393fe9bc19a1',1,'FlatTransferFunctionOnPhi::dimensions()'],['../classFlatTransferFunctionOnTheta.html#aabe98b374a67ff7c909ea80bfa8118ef',1,'FlatTransferFunctionOnTheta::dimensions()'],['../classGaussianTransferFunction.html#aa68abf0fe71f42ca18b5266141ac17c1',1,'GaussianTransferFunction::dimensions()'],['../classNarrowWidthApproximation.html#ae7350bbf6c912b8635fca20f956b211a',1,'NarrowWidthApproximation::dimensions()'],['../classPermutator.html#a3ba235d4eb31880412f6674b6090025e',1,'Permutator::dimensions()'],['../classUniformGenerator.html#a24920b4c678ba1e16d2db1eb62508fd1',1,'UniformGenerator::dimensions()']]],
+  ['dmem',['DMEM',['../classDMEM.html',1,'']]],
+  ['dp_5fover_5fde',['dP_over_dE',['../Math_8h.html#acd71f98345a62df72caf2baa1a99dc00',1,'Math.h']]]
 ];

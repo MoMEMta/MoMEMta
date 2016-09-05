@@ -154,6 +154,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a4ac05ab107d63681b9a5e14f9cd99cbf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a156101c7d6a26d988b839f08a9225bfb"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structInputTag.html#a156101c7d6a26d988b839f08a9225bfb">isIndexed</a> () const </td></tr>
 <tr class="separator:a156101c7d6a26d988b839f08a9225bfb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0d16c6cc21b6a6b2af124fbea7ce0524"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structInputTag.html#a0d16c6cc21b6a6b2af124fbea7ce0524">empty</a> () const </td></tr>
+<tr class="separator:a0d16c6cc21b6a6b2af124fbea7ce0524"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab4df47f8bbc5f4879af6eb1370c2ac47"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structInputTag.html#ab4df47f8bbc5f4879af6eb1370c2ac47">resolve</a> (std::shared_ptr&lt; <a class="el" href="classPool.html">Pool</a> &gt; pool) const </td></tr>
 <tr class="memdesc:ab4df47f8bbc5f4879af6eb1370c2ac47"><td class="mdescLeft">&#160;</td><td class="mdescRight">Link the <a class="el" href="structInputTag.html" title="An identifier of a module&#39;s output. ">InputTag</a> to the memory pool.  <a href="#ab4df47f8bbc5f4879af6eb1370c2ac47">More...</a><br /></td></tr>
 <tr class="separator:ab4df47f8bbc5f4879af6eb1370c2ac47"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -269,6 +271,26 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="st
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="a0d16c6cc21b6a6b2af124fbea7ce0524"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool InputTag::empty </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>True if the <a class="el" href="structInputTag.html" title="An identifier of a module&#39;s output. ">InputTag</a> is empty, false otherwise </dd></dl>
+
+<p>Definition at line <a class="el" href="InputTag_8cc_source.html#l00099">99</a> of file <a class="el" href="InputTag_8cc_source.html">InputTag.cc</a>.</p>
+
+<p>Referenced by <a class="el" href="MoMEMta_8cc_source.html#l00034">MoMEMta::MoMEMta()</a>.</p>
+
+</div>
+</div>
 <a class="anchor" id="a30857c58fec4bb7bc9de3d790ca8cf2a"></a>
 <div class="memitem">
 <div class="memproto">
@@ -303,7 +325,7 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="st
 
 <p>Definition at line <a class="el" href="InputTag_8cc_source.html#l00077">77</a> of file <a class="el" href="InputTag_8cc_source.html">InputTag.cc</a>.</p>
 
-<p>Referenced by <a class="el" href="utils_8cc_source.html#l00244">lua::to_any()</a>.</p>
+<p>Referenced by <a class="el" href="utils_8cc_source.html#l00471">lua::parameter()</a>, and <a class="el" href="utils_8cc_source.html#l00246">lua::to_any()</a>.</p>
 
 </div>
 </div>
@@ -328,7 +350,7 @@ template&lt;typename T &gt; </div>
 
 <p>Definition at line <a class="el" href="impl_2InputTag_8h_source.html#l00023">23</a> of file <a class="el" href="impl_2InputTag_8h_source.html">InputTag.h</a>.</p>
 
-<p>Referenced by <a class="el" href="UniformGenerator_8cc_source.html#l00063">UniformGenerator::work()</a>, <a class="el" href="FlatTransferFunctionOnTheta_8cc_source.html#l00067">FlatTransferFunctionOnTheta::work()</a>, <a class="el" href="FlatTransferFunctionOnPhi_8cc_source.html#l00069">FlatTransferFunctionOnPhi::work()</a>, <a class="el" href="FlatTransferFunctionOnP_8cc_source.html#l00077">FlatTransferFunctionOnP::work()</a>, <a class="el" href="BreitWignerGenerator_8cc_source.html#l00079">BreitWignerGenerator::work()</a>, <a class="el" href="GaussianTransferFunction_8cc_source.html#l00080">GaussianTransferFunction::work()</a>, <a class="el" href="Permutator_8cc_source.html#l00081">Permutator::work()</a>, <a class="el" href="BlockB_8cc_source.html#l00105">BlockB::work()</a>, <a class="el" href="BlockF_8cc_source.html#l00109">BlockF::work()</a>, <a class="el" href="BlockD_8cc_source.html#l00109">BlockD::work()</a>, and <a class="el" href="BinnedTransferFunctionOnEnergy_8cc_source.html#l00113">BinnedTransferFunctionOnEnergy::work()</a>.</p>
+<p>Referenced by <a class="el" href="UniformGenerator_8cc_source.html#l00063">UniformGenerator::work()</a>, <a class="el" href="FlatTransferFunctionOnTheta_8cc_source.html#l00067">FlatTransferFunctionOnTheta::work()</a>, <a class="el" href="FlatTransferFunctionOnPhi_8cc_source.html#l00069">FlatTransferFunctionOnPhi::work()</a>, <a class="el" href="FlatTransferFunctionOnP_8cc_source.html#l00077">FlatTransferFunctionOnP::work()</a>, <a class="el" href="BreitWignerGenerator_8cc_source.html#l00079">BreitWignerGenerator::work()</a>, <a class="el" href="GaussianTransferFunction_8cc_source.html#l00080">GaussianTransferFunction::work()</a>, <a class="el" href="Permutator_8cc_source.html#l00081">Permutator::work()</a>, <a class="el" href="BlockB_8cc_source.html#l00107">BlockB::work()</a>, <a class="el" href="BlockF_8cc_source.html#l00111">BlockF::work()</a>, <a class="el" href="BlockD_8cc_source.html#l00111">BlockD::work()</a>, and <a class="el" href="BinnedTransferFunctionOnEnergy_8cc_source.html#l00113">BinnedTransferFunctionOnEnergy::work()</a>.</p>
 
 </div>
 </div>
@@ -388,7 +410,7 @@ template&lt;typename T &gt; </div>
 
 <p>Definition at line <a class="el" href="InputTag_8cc_source.html#l00056">56</a> of file <a class="el" href="InputTag_8cc_source.html">InputTag.cc</a>.</p>
 
-<p>Referenced by <a class="el" href="utils_8cc_source.html#l00244">lua::to_any()</a>, and <a class="el" href="utils_8cc_source.html#l00134">lua::type()</a>.</p>
+<p>Referenced by <a class="el" href="utils_8cc_source.html#l00471">lua::parameter()</a>, <a class="el" href="utils_8cc_source.html#l00246">lua::to_any()</a>, and <a class="el" href="utils_8cc_source.html#l00136">lua::type()</a>.</p>
 
 </div>
 </div>
@@ -431,7 +453,7 @@ template&lt;typename T &gt; </div>
 <p>Link the <a class="el" href="structInputTag.html" title="An identifier of a module&#39;s output. ">InputTag</a> to the memory pool. </p>
 <dl class="section note"><dt>Note</dt><dd>You <b>must</b> call this function before calling <a class="el" href="structInputTag.html#a5d5fbd137b7243d954904bb433bc0a58" title="Retrieve from the memory pool the data pointed by the InputTag. ">InputTag::get()</a> </dd></dl>
 
-<p>Definition at line <a class="el" href="InputTag_8cc_source.html#l00099">99</a> of file <a class="el" href="InputTag_8cc_source.html">InputTag.cc</a>.</p>
+<p>Definition at line <a class="el" href="InputTag_8cc_source.html#l00103">103</a> of file <a class="el" href="InputTag_8cc_source.html">InputTag.cc</a>.</p>
 
 </div>
 </div>
@@ -453,7 +475,7 @@ template&lt;typename T &gt; </div>
 
 <p>Definition at line <a class="el" href="InputTag_8cc_source.html#l00091">91</a> of file <a class="el" href="InputTag_8cc_source.html">InputTag.cc</a>.</p>
 
-<p>Referenced by <a class="el" href="Pool_8h_source.html#l00088">Pool::description()</a>.</p>
+<p>Referenced by <a class="el" href="Pool_8h_source.html#l00089">Pool::description()</a>.</p>
 
 </div>
 </div>
