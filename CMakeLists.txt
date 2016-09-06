@@ -8,12 +8,6 @@ set(PROJECT_VERSION_MINOR 1)
 set(PROJECT_VERSION_PATCH 0)
 set(PROJECT_VERSION ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT_VERSION_PATCH})
 
-# Public interface
-include_directories("${CMAKE_CURRENT_LIST_DIR}/include")
-
-# Private interface
-include_directories("${CMAKE_CURRENT_LIST_DIR}/core/include")
-
 # Options
 option(USE_BUILTIN_LUA "Force usage of built-in lua interpreter, even if a system-wide version if available" OFF)
 option(TRACE_LOGGING "Set logging threshold to TRACE instead of DEBUG" OFF)
@@ -82,7 +76,6 @@ find_package(Boost 1.54 REQUIRED log)
 add_definitions(-DBOOST_LOG_DYN_LINK)
 
 # Include external
-set(EXTERNAL_DIR "${PROJECT_SOURCE_DIR}/external")
 add_subdirectory(external)
 
 if (NOT LUA_FOUND)
@@ -96,7 +89,6 @@ if (NOT LUA_FOUND)
 else()
     message(STATUS "Found Lua: ${LUA_LIBRARIES} (found suitable version \"${LUA_VERSION_STRING}\", minimum required is \"5.3\")")
 endif()
-
 
 set(MOMEMTA_SOURCES
     "modules/BinnedTransferFunctionOnEnergy.cc"
@@ -147,40 +139,44 @@ add_library(momemta SHARED ${MOMEMTA_SOURCES})
 set_target_properties(momemta PROPERTIES VERSION ${PROJECT_VERSION}
     SOVERSION ${PROJECT_VERSION_MAJOR})
 
+# Public interface
+target_include_directories(momemta PUBLIC "${CMAKE_CURRENT_LIST_DIR}/include")
+
+# Private interface
+target_include_directories(momemta PRIVATE "${CMAKE_CURRENT_LIST_DIR}/core/include")
+
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-include_directories(SYSTEM ${EXTERNAL_DIR})
-include_directories(SYSTEM ${EXTERNAL_DIR}/cuba)
-include_directories(SYSTEM ${EXTERNAL_DIR}/spdlog)
-include_directories(SYSTEM ${LUA_INCLUDE_DIR})
-include_directories(SYSTEM ${LHAPDF_INCLUDE_DIRS})
-include_directories(SYSTEM ${ROOT_INCLUDE_DIR})
-include_directories(SYSTEM ${Boost_INCLUDE_DIRS})
+target_include_directories(momemta SYSTEM PRIVATE ${EXTERNAL_DIR})
+target_include_directories(momemta SYSTEM PRIVATE ${EXTERNAL_DIR}/cuba)
+target_include_directories(momemta SYSTEM PRIVATE ${LUA_INCLUDE_DIR})
+target_include_directories(momemta SYSTEM PUBLIC ${LHAPDF_INCLUDE_DIRS})
+target_include_directories(momemta SYSTEM PUBLIC ${ROOT_INCLUDE_DIR})
+target_include_directories(momemta SYSTEM PUBLIC ${Boost_INCLUDE_DIRS})
 
-target_link_libraries(momemta LINK_PUBLIC dl)
-target_link_libraries(momemta LINK_PRIVATE cuba)
-target_link_libraries(momemta LINK_PRIVATE ${LUA_LIBRARIES})
-target_link_libraries(momemta LINK_PUBLIC ${LHAPDF_LIBRARIES})
-target_link_libraries(momemta LINK_PUBLIC ${ROOT_LIBRARIES})
-target_link_libraries(momemta LINK_PUBLIC ${Boost_LIBRARIES})
-target_link_libraries(momemta LINK_PUBLIC Threads::Threads)
+target_link_libraries(momemta PUBLIC dl)
+target_link_libraries(momemta PRIVATE cuba)
+target_link_libraries(momemta PRIVATE ${LUA_LIBRARIES})
+target_link_libraries(momemta PUBLIC ${LHAPDF_LIBRARIES})
+target_link_libraries(momemta PUBLIC ${ROOT_LIBRARIES})
+target_link_libraries(momemta PUBLIC ${Boost_LIBRARIES})
+target_link_libraries(momemta PUBLIC Threads::Threads)
 
 find_library(ROOT_GENVECTOR_LIBRARY GenVector HINTS ${ROOT_LIBRARY_DIR})
-target_link_libraries(momemta LINK_PUBLIC ${ROOT_GENVECTOR_LIBRARY})
+target_link_libraries(momemta PUBLIC ${ROOT_GENVECTOR_LIBRARY})
 
 if (PROFILING)
-    target_link_libraries(momemta LINK_PUBLIC "-Wl,--no-as-needed ${GPERF_PROFILER_LIBRARY} -Wl,--as-needed")
-    target_link_libraries(momemta LINK_PUBLIC "-Wl,--no-as-needed ${GPERF_TCMALLOC_LIBRARY} -Wl,--as-needed")
+    target_link_libraries(momemta PUBLIC "-Wl,--no-as-needed ${GPERF_PROFILER_LIBRARY} -Wl,--as-needed")
+    target_link_libraries(momemta PUBLIC "-Wl,--no-as-needed ${GPERF_TCMALLOC_LIBRARY} -Wl,--as-needed")
 endif()
 
 # Matrix elements
 add_subdirectory(MatrixElements)
-target_link_libraries(momemta LINK_PRIVATE me_pp_ttx_fully_leptonic)
-target_link_libraries(momemta LINK_PRIVATE "-Wl,--whole-archive $<TARGET_FILE:me_pp_ttx_fully_leptonic> -Wl,--no-whole-archive")
-target_link_libraries(momemta LINK_PRIVATE me_pp_WW_fully_leptonic)
-target_link_libraries(momemta LINK_PRIVATE "-Wl,--whole-archive $<TARGET_FILE:me_pp_WW_fully_leptonic> -Wl,--no-whole-archive")
+target_sources(momemta PRIVATE $<TARGET_OBJECTS:me_pp_ttx_fully_leptonic>)
+target_sources(momemta PRIVATE $<TARGET_OBJECTS:me_pp_WW_fully_leptonic>)
 
 add_library(empty_module SHARED "modules/EmptyModule.cc")
+target_link_libraries(empty_module momemta)
 
 # Example executables
 

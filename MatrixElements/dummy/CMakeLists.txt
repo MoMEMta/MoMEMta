@@ -3,3 +3,4 @@ set(SOURCES
     )
 
 add_library(me_dummy SHARED ${SOURCES})
+target_link_libraries(me_dummy momemta)
