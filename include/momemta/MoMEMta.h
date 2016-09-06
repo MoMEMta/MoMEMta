@@ -100,6 +100,7 @@ class MoMEMta {
         std::vector<SharedLibraryPtr> m_libraries;
 
         size_t m_n_dimensions;
+        size_t m_n_components;
         ParameterSet m_cuba_configuration;
 
         IntegrationStatus integration_status = IntegrationStatus::NONE;
@@ -109,5 +110,5 @@ class MoMEMta {
         std::shared_ptr<double> m_ps_weight;
         std::shared_ptr<std::vector<LorentzVector>> m_particles;
         std::shared_ptr<LorentzVector> m_met;
-        Value<double> m_integrand;
+        std::vector<Value<double>> m_integrands;
 };

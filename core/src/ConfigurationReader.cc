@@ -83,7 +83,7 @@ void ConfigurationReader::onModuleDeclared(const std::string& type, const std::s
 }
 
 void ConfigurationReader::onIntegrandDeclared(const InputTag& tag) {
-    configuration.integrand = tag;
+    configuration.integrands.push_back(tag);
 }
 
 void ConfigurationReader::onNewPath(PathElementsPtr path) {

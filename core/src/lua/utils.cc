@@ -487,18 +487,20 @@ namespace lua {
 
     int set_final_module(lua_State* L) {
         int n = lua_gettop(L);
-        if (n != 1) {
-            luaL_error(L, "invalid number of arguments: 1 expected, got %d", n);
-        }
-
-        std::string input_tag = luaL_checkstring(L, 1);
-        if (!InputTag::isInputTag(input_tag)) {
-            luaL_error(L, "'%s' is not a valid InputTag", input_tag.c_str());
+        if (n == 0) {
+            luaL_error(L, "invalid number of arguments: at least one expected, got 0");
         }
 
         void* cfg_ptr = lua_touserdata(L, lua_upvalueindex(1));
         ILuaCallback* callback = static_cast<ILuaCallback*>(cfg_ptr);
-        callback->onIntegrandDeclared(InputTag::fromString(input_tag));
+        
+        for(size_t i = 1; i <= size_t(n); i++) {
+            std::string input_tag = luaL_checkstring(L, i);
+            if (!InputTag::isInputTag(input_tag)) {
+                luaL_error(L, "'%s' is not a valid InputTag", input_tag.c_str());
+            }
+            callback->onIntegrandDeclared(InputTag::fromString(input_tag));
+        }
 
         return 0;
     }
