@@ -34,7 +34,7 @@
  *
  * ### Integration dimension
  *
- * This module adds **1** dimension to the integration.
+ * This module requires **1** phase-space point.
  *
  * ### Inputs
  *
@@ -79,10 +79,6 @@ class FlatTransferFunctionOnTheta: public Module {
             *TF_times_jacobian = M_PI;
 
             return Status::OK;
-        }
-
-        virtual size_t dimensions() const override {
-            return 1;
         }
 
     private:

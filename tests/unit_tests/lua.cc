@@ -48,6 +48,8 @@ void execute_string(std::shared_ptr<lua_State> L, const std::string& code) {
 
 class LuaCallbackMock: public ILuaCallback {
     public:
+        LuaCallbackMock(): n_dimensions(0) {}
+
         virtual void onModuleDeclared(const std::string& type, const std::string& name) override {
             modules.push_back({type, name});
         }
@@ -60,9 +62,14 @@ class LuaCallbackMock: public ILuaCallback {
             paths.push_back(path);
         }
 
+        virtual void addIntegrationDimension() {
+            n_dimensions++;
+        }
+
         std::vector<std::pair<std::string, std::string>> modules;
         std::vector<InputTag> integrands;
         std::vector<PathElementsPtr> paths;
+        std::size_t n_dimensions;
 };
 
 // A small mock of LazyParameterSet to change visibility of the `freeze` function
@@ -90,17 +97,19 @@ TEST_CASE("lua parsing utilities", "[lua]") {
         execute_string(L, "load_modules('not_existing.so')");
         execute_string(L, "parameter('not_existing')");
 
-        // Check that the getpspoint() function returns the correct InputTag
+        // Check that the 'add_dimension()' function returns the correct InputTag
         // and that the index gets correctly incremented at each call.
-        execute_string(L, "index1 = getpspoint()");
+        execute_string(L, "index1 = add_dimension()");
         lua_getglobal(L.get(), "index1");
         auto value = lua::to_any(L.get(), -1);
         REQUIRE( (boost::any_cast<InputTag>(value.first)).toString() == "cuba::ps_points/1");
-        execute_string(L, "index2 = getpspoint()");
+        execute_string(L, "index2 = add_dimension()");
         lua_getglobal(L.get(), "index2");
         value = lua::to_any(L.get(), -1);
         REQUIRE( (boost::any_cast<InputTag>(value.first)).toString() == "cuba::ps_points/2");
         lua_pop(L.get(), 2);
+        // 'add_dimension()' has been called twice, so we should have two dimension in the configuation:
+        REQUIRE( luaCallback.n_dimensions == 2 );
 
         execute_string(L, "integrand('integrand1::output', 'integrand2::output')");
         REQUIRE( luaCallback.integrands.size() == 2 );

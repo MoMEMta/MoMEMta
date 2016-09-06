@@ -22,7 +22,7 @@
  *
  * ### Integration dimension
  *
- * This module adds **1** dimension to the integration.
+ * This module requires **1** phase-space point.
  *
  * ### Parameters
  *
@@ -66,10 +66,6 @@ class UniformGenerator: public Module {
             *jacobian = m_max - m_min; 
 
             return Status::OK;
-        }
-
-        virtual size_t dimensions() const override {
-            return 1;
         }
 
     private:

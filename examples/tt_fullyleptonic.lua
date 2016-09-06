@@ -58,66 +58,67 @@ cuba = {
 }
  
 BreitWignerGenerator.flatter_s13 = {
-    -- getpspoint() generates an input tag of type `cuba::ps_points/i`
+    -- add_dimension() generates an input tag of type `cuba::ps_points/i`
     -- where `i` is automatically incremented each time the function is called.
-    ps_point = getpspoint(),
+    -- This function allows MoMEMta to track how many dimensions are needed for the integration.
+    ps_point = add_dimension(),
     mass = parameter('W_mass'),
     width = parameter('W_width')
 }
 
 BreitWignerGenerator.flatter_s134 = {
-    ps_point = getpspoint(),
+    ps_point = add_dimension(),
     mass = parameter('top_mass'),
     width = parameter('top_width')
 }
 
 BreitWignerGenerator.flatter_s25 = {
-    ps_point = getpspoint(),
+    ps_point = add_dimension(),
     mass = parameter('W_mass'),
     width = parameter('W_width')
 }
 
 BreitWignerGenerator.flatter_s256 = {
-    ps_point = getpspoint(),
+    ps_point = add_dimension(),
     mass = parameter('top_mass'),
     width = parameter('top_width')
 }
 
 if USE_TF then
     GaussianTransferFunction.tf_p1 = {
-        ps_point = getpspoint(),
+        ps_point = add_dimension(),
         reco_particle = 'input::particles/1',
         sigma = 0.05,
     }
 
     GaussianTransferFunction.tf_p2 = {
-        ps_point = getpspoint(),
+        ps_point = add_dimension(),
         reco_particle = 'input::particles/2',
         sigma = 0.10,
     }
 
     -- Example for binned transfer function (only works on ingrid)
     -- BinnedTransferFunctionOnEnergy.tf_p2 = {
-    --     ps_point = getpspoint(),
+    --     ps_point = add_dimension(),
     --     reco_particle = 'input::particles/2',
     --     file = '/home/fynu/swertz/tests_MEM/binnedTF/TF_generator/Control_plots_hh_TF.root',
     --     th2_name = 'Binned_Egen_DeltaE_Norm_jet',
     -- }
 
     GaussianTransferFunction.tf_p3 = {
-        ps_point = getpspoint(),
+        ps_point = add_dimension(),
         reco_particle = 'input::particles/3',
         sigma = 0.05,
     }
 
     GaussianTransferFunction.tf_p4 = {
-        ps_point = getpspoint(),
+        ps_point = add_dimension(),
         reco_particle = 'input::particles/4',
         sigma = 0.10,
     }
 
     -- BinnedTransferFunctionOnEnergy.tf_p4 = {
-    --     ps_point = getpspoint(),
+    --     ps_point = add_dimension(),
     --     reco_particle = 'input::particles/4',
     --     file = '/home/fynu/swertz/tests_MEM/binnedTF/TF_generator/Control_plots_hh_TF.root',
     --     th2_name = 'Binned_Egen_DeltaE_Norm_jet',
@@ -139,7 +140,7 @@ BlockD.blockd = {
 
 if USE_PERM then
     Permutator.permutator = {
-        ps_point = getpspoint(),
+        ps_point = add_dimension(),
         inputs = {
           inputs_before_perm[2],
           inputs_before_perm[4],

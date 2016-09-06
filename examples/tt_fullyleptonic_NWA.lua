@@ -49,31 +49,31 @@ NarrowWidthApproximation.nwa_s256 = {
 }
 
 GaussianTransferFunction.tf_p1 = {
-    ps_point = 'cuba::ps_points/1',
+    ps_point = add_dimension(),
     reco_particle = 'input::particles/1',
     sigma = 0.05,
 }
 
 GaussianTransferFunction.tf_p2 = {
-    ps_point = 'cuba::ps_points/2',
+    ps_point = add_dimension(),
     reco_particle = 'input::particles/2',
     sigma = 0.10,
 }
 
 GaussianTransferFunction.tf_p3 = {
-    ps_point = 'cuba::ps_points/3',
+    ps_point = add_dimension(),
     reco_particle = 'input::particles/3',
     sigma = 0.05,
 }
 
 GaussianTransferFunction.tf_p4 = {
-    ps_point = 'cuba::ps_points/4',
+    ps_point = add_dimension(),
     reco_particle = 'input::particles/4',
     sigma = 0.10,
 }
   
 Permutator.permutator = {
-    ps_point = 'cuba::ps_points/5',
+    ps_point = add_dimension(),
     inputs = {
       inputs_before_perm[2],
       inputs_before_perm[4],

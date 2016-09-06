@@ -39,7 +39,7 @@
  *
  * ### Integration dimension
  *
- * This module adds **1** dimension to the integration.
+ * This module requires **1** phase-space point.
  *
  * ### Inputs
  *
@@ -86,10 +86,6 @@ class Permutator: public Module {
                 (*m_output)[i] = *m_inputs[perm_indices[chosen_perm][i]];
 
             return Status::OK;
-        }
-
-        virtual size_t dimensions() const override {
-            return 1;
         }
 
     private:

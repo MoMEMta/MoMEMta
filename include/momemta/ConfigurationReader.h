@@ -49,6 +49,7 @@ class ConfigurationReader: public ILuaCallback {
         virtual void onModuleDeclared(const std::string& type, const std::string& name) override;
         virtual void onIntegrandDeclared(const InputTag& tag) override;
         virtual void onNewPath(PathElements* path) override;
+        virtual void addIntegrationDimension() override;
 
         ParameterSet& getGlobalParameters();
         ParameterSet& getCubaConfiguration();

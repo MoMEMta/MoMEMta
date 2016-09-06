@@ -42,7 +42,7 @@
  *
  * ### Integration dimension
  *
- * This module adds **1** dimension to the integration.
+ * This module requires **1** phase-space point.
  *
  * ### Parameters
  *
@@ -86,10 +86,6 @@ class BreitWignerGenerator: public Module {
             *jacobian = range * mass * width / (std::cos(y) * std::cos(y));
 
             return Status::OK;
-        }
-
-        virtual size_t dimensions() const override {
-            return 1;
         }
 
     private:

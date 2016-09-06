@@ -42,7 +42,7 @@
  *
  * ### Integration dimension
  *
- * This module adds **0** dimension to the integration.
+ * This module requires **0** phase-space point.
  *
  * ### Parameters
  *
@@ -84,10 +84,6 @@ class NarrowWidthApproximation: public Module {
                 *jacobian /= mass*width; 
             
             *s = mass*mass; 
-        }
-
-        virtual size_t dimensions() const override {
-            return 0;
         }
 
     private:
