@@ -57,7 +57,7 @@
  *
  * ### Integration dimension
  *
- * This module adds **2** dimensions to the integration.
+ * This module requires **2** phase-space points.
  *
  * ### Global parameters
  *
@@ -266,10 +266,6 @@ class BlockF: public Module {
             return solutions->size() > 0 ? Status::OK : Status::NEXT;
         }
     
-        virtual size_t dimensions() const override {
-            return 2;
-        }
-
         double computeJacobian(const LorentzVector& p1, const LorentzVector& p2, const LorentzVector& p3, const LorentzVector& p4) {
 
             const double E1  = p1.E();

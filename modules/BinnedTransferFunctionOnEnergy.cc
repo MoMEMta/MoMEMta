@@ -43,7 +43,7 @@
  *
  * ### Integration dimension
  *
- * This module adds **1** dimension to the integration.
+ * This module requires **1** phase-space point.
  *
  * ### Parameters
  *
@@ -131,10 +131,6 @@ class BinnedTransferFunctionOnEnergy: public Module {
             *TF_times_jacobian = m_th2->GetBinContent(bin) * range * dP_over_dE(*output);
 
             return Status::OK;
-        }
-
-        virtual size_t dimensions() const override {
-            return 1;
         }
 
     private:

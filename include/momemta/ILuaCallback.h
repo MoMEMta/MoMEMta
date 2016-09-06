@@ -72,4 +72,17 @@ class ILuaCallback {
          * will result in a call to this function
          */
         virtual void onNewPath(PathElements* path) = 0;
+
+        /** \brief A new integration dimension is requested in the configuration file
+         *
+         * This function is called when the user calls the 'add_dimension' lua function
+         *
+         * A lua code like
+         * ```
+         * ps_point = add_dimension()
+         * ```
+         *
+         * will result in a call to this function
+         */
+        virtual void addIntegrationDimension() = 0;
 };

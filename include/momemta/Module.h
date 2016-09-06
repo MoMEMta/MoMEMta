@@ -103,20 +103,6 @@ class Module {
         virtual void finish() { };
 
         /**
-         * \brief The number of integration's dimension used by the module
-         *
-         * If the module needs one or more integration's dimension to work, you must override
-         * this function and return the number of dimension needed.
-         *
-         * \return The number of integration's dimension added to the integrator.
-         *
-         * \note Default value is 0.
-         */
-        virtual size_t dimensions() const {
-            return 0;
-        }
-
-        /**
          * \brief Check if module produces an output or not
          *
          * If a module produces no output, or if its output is not used as input by any other module, 

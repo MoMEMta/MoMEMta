@@ -51,6 +51,7 @@ Configuration::Configuration(const Configuration& other) {
         cuba_configuration.reset(other.cuba_configuration->clone());
     integrands = other.integrands;
     paths = other.paths;
+    n_dimensions = other.n_dimensions;
 }
 
 Configuration::Configuration(const Configuration&& other) {
@@ -59,6 +60,7 @@ Configuration::Configuration(const Configuration&& other) {
     cuba_configuration = std::move(other.cuba_configuration);
     integrands = std::move(other.integrands);
     paths = std::move(other.paths);
+    n_dimensions = other.n_dimensions;
 }
 
 Configuration& Configuration::operator=(Configuration other) {
@@ -84,6 +86,10 @@ std::vector<InputTag> Configuration::getIntegrands() const {
 
 std::vector<PathElementsPtr> Configuration::getPaths() const {
     return paths;
+}
+
+std::size_t Configuration::getNDimensions() const {
+    return n_dimensions;
 }
 
 Configuration Configuration::freeze() const {

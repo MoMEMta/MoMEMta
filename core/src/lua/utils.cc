@@ -505,6 +505,31 @@ namespace lua {
         return 0;
     }
 
+    int add_integration_dimension(lua_State* L) {
+        int n = lua_gettop(L);
+        if (n != 0) {
+            luaL_error(L, "invalid number of arguments: 0 expected, got %d", n);
+        }
+
+        // Create input tag using current value of the index
+        int64_t cuba_index = lua_tonumber(L, lua_upvalueindex(1));
+        lua_pushnumber(L, cuba_index + 1);
+        lua_replace(L, lua_upvalueindex(1));
+
+        std::string index_tag = "cuba::ps_points/";
+        index_tag += std::to_string(cuba_index);
+
+        // Input tag is return value of the function
+        push_any(L, index_tag);
+        
+        // Add an integration dimension in the configuration
+        void* cfg_ptr = lua_touserdata(L, lua_upvalueindex(2));
+        ILuaCallback* callback = static_cast<ILuaCallback*>(cfg_ptr);
+        callback->addIntegrationDimension();
+
+        return 1;
+    }
+
     void setup_hooks(lua_State* L, void* ptr) {
         lua_pushlightuserdata(L, ptr);
         lua_pushcclosure(L, load_modules, 1);
@@ -514,11 +539,12 @@ namespace lua {
         lua_pushcclosure(L, parameter, 1);
         lua_setglobal(L, "parameter");
 
-        // Define the `getpspoint()` function in Lua and make it available in the global namespace.
-        // See generate_cuba_inputtag for more information.
+        // Define the `add_dimension()` function in Lua and make it available in the global namespace.
+        // See add_integration_dimension for more information.
         lua_pushnumber(L, 1);
-        lua_pushcclosure(L, generate_cuba_inputtag, 1);
-        lua_setglobal(L, "getpspoint");
+        lua_pushlightuserdata(L, ptr);
+        lua_pushcclosure(L, add_integration_dimension, 2);
+        lua_setglobal(L, "add_dimension");
 
         // integrand() function
         lua_pushlightuserdata(L, ptr);
@@ -540,24 +566,5 @@ namespace lua {
         lua::register_modules(L.get(), callback);
     
         return L;
-    }
-
-    int generate_cuba_inputtag(lua_State* L) {
-        int n = lua_gettop(L);
-        if (n != 0) {
-            luaL_error(L, "invalid number of arguments: 0 expected, got %d", n);
-        }
-
-        // Create input tag using current value of the index
-        int64_t cuba_index = lua_tonumber(L, lua_upvalueindex(1));
-        lua_pushnumber(L, cuba_index + 1);
-        lua_replace(L, lua_upvalueindex(1));
-
-        std::string index_tag = "cuba::ps_points/";
-        index_tag += std::to_string(cuba_index);
-
-        push_any(L, index_tag);
-
-        return 1;
     }
 }

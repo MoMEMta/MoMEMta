@@ -70,10 +70,6 @@ class DMEM: public Module {
             return Status::OK;
         }
 
-        virtual size_t dimensions() const override {
-            return 0;
-        }
-
         virtual bool leafModule() const override {
             return true;
         }

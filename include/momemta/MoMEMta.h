@@ -99,8 +99,8 @@ class MoMEMta {
         using SharedLibraryPtr = std::shared_ptr<SharedLibrary>;
         std::vector<SharedLibraryPtr> m_libraries;
 
-        size_t m_n_dimensions;
-        size_t m_n_components;
+        std::size_t m_n_dimensions;
+        std::size_t m_n_components;
         ParameterSet m_cuba_configuration;
 
         IntegrationStatus integration_status = IntegrationStatus::NONE;

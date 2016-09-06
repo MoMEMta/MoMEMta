@@ -34,7 +34,7 @@
  *
  * ### Integration dimension
  *
- * This module adds **1** dimension to the integration.
+ * This module requires **1** phase-space point.
  *
  * ### Parameters
  *
@@ -91,10 +91,6 @@ class FlatTransferFunctionOnP: public Module {
             *TF_times_jacobian = range;
 
             return Status::OK;
-        }
-
-        virtual size_t dimensions() const override {
-            return 1;
         }
 
     private:

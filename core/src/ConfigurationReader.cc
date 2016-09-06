@@ -90,6 +90,10 @@ void ConfigurationReader::onNewPath(PathElementsPtr path) {
     configuration.paths.push_back(path);
 }
 
+void ConfigurationReader::addIntegrationDimension() {
+    configuration.n_dimensions++;
+}
+
 ParameterSet& ConfigurationReader::getGlobalParameters() {
     return *configuration.global_parameters;
 }

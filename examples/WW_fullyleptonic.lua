@@ -38,15 +38,16 @@ cuba = {
 }
 
 BreitWignerGenerator.flatter_s13 = {
-    -- getpspoint() generates an input tag of type `cuba::ps_points/i`
+    -- add_dimension() generates an input tag of type `cuba::ps_points/i`
     -- where `i` is automatically incremented each time the function is called.
-    ps_point = getpspoint(),
+    -- This function allows MoMEMta to track how many dimensions are needed for the integration.
+    ps_point = add_dimension(),
     mass = parameter('W_mass'),
     width = parameter('W_width')
 }
 
 BreitWignerGenerator.flatter_s24 = {
-    ps_point = getpspoint(),
+    ps_point = add_dimension(),
     mass = parameter('W_mass'),
     width = parameter('W_width')
 }
@@ -54,13 +55,13 @@ BreitWignerGenerator.flatter_s24 = {
 
 if USE_TF then
     GaussianTransferFunction.tf_p1 = {
-        ps_point = getpspoint(),
+        ps_point = add_dimension(),
         reco_particle = 'input::particles/1',
         sigma = 0.05,
     }
 
     GaussianTransferFunction.tf_p2 = {
-        ps_point = getpspoint(),
+        ps_point = add_dimension(),
         reco_particle = 'input::particles/2',
         sigma = 0.10,
     }
@@ -71,8 +72,8 @@ BlockF.blockf = {
 
     s13 = 'flatter_s13::s',
     s24 = 'flatter_s24::s',
-    q1 = getpspoint(),
-    q2 = getpspoint()
+    q1 = add_dimension(),
+    q2 = add_dimension()
 }
 
 Looper.looper = {

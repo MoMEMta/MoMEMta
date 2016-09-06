@@ -116,7 +116,7 @@
  *
  * ### Integration dimension
  *
- * This module adds **0** dimension to the integration.
+ * This module requires **0** phase-space point.
  *
  * ### Global Parameters
  *

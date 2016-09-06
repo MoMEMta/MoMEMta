@@ -54,11 +54,7 @@ MoMEMta::MoMEMta(const Configuration& configuration) {
         m_modules.back()->configure();
     }
 
-    m_n_dimensions = 0;
-    for (const auto& module: m_modules) {
-        m_n_dimensions += module->dimensions();
-    }
-
+    m_n_dimensions = configuration.getNDimensions();
     LOG(info) << "Number of dimensions for integration: " << m_n_dimensions;
 
     // Resize pool ps-points vector
