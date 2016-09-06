@@ -10,10 +10,6 @@ set(PROJECT_VERSION ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT_
 
 # Options
 option(USE_BUILTIN_LUA "Force usage of built-in lua interpreter, even if a system-wide version if available" OFF)
-option(TRACE_LOGGING "Set logging threshold to TRACE instead of DEBUG" OFF)
-if (TRACE_LOGGING)
-    add_definitions(-DSPDLOG_TRACE_ON)
-endif()
 
 option(PROFILING "Enable profiling" OFF)
 if (PROFILING)
@@ -39,7 +35,7 @@ if (NOT CMAKE_CONFIGURATION_TYPES AND NOT CMAKE_BUILD_TYPE)
 endif(NOT CMAKE_CONFIGURATION_TYPES AND NOT CMAKE_BUILD_TYPE)
 
 # Default compiler flags
-SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall -pedantic -Wextra --std=c++11 -fcx-fortran-rules -fcx-limited-range")
+SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -pedantic -Wextra -fcx-fortran-rules -fcx-limited-range -std=c++11")
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fomit-frame-pointer -ffast-math -Wall --std=c11")
 
 if (COVERAGE)
