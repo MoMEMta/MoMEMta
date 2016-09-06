@@ -80,10 +80,12 @@ if (NOT LUA_FOUND)
     else()
         message(STATUS "No system-wide Lua found. Using built-in distribution")
     endif()
-    set(LUA_LIBRARIES lua)
-    set(LUA_INCLUDE_DIR "external/lua")
 else()
     message(STATUS "Found Lua: ${LUA_LIBRARIES} (found suitable version \"${LUA_VERSION_STRING}\", minimum required is \"5.3\")")
+    add_library(lua INTERFACE IMPORTED)
+    set_property(TARGET lua PROPERTY INTERFACE_LINK_LIBRARIES ${LUA_LIBRARIES})
+    set_property(TARGET lua PROPERTY INTERFACE_INCLUDE_DIRECTORIES ${LUA_INCLUDE_DIR})
+    set_property(TARGET lua PROPERTY INTERFACE_SYSTEM_INCLUDE_DIRECTORIES ${LUA_INCLUDE_DIR})
 endif()
 
 set(MOMEMTA_SOURCES
@@ -135,26 +137,22 @@ add_library(momemta SHARED ${MOMEMTA_SOURCES})
 set_target_properties(momemta PROPERTIES VERSION ${PROJECT_VERSION}
     SOVERSION ${PROJECT_VERSION_MAJOR})
 
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
 # Public interface
 target_include_directories(momemta PUBLIC "${CMAKE_CURRENT_LIST_DIR}/include")
+target_include_directories(momemta SYSTEM PUBLIC ${Boost_INCLUDE_DIRS})
 
 # Private interface
 target_include_directories(momemta PRIVATE "${CMAKE_CURRENT_LIST_DIR}/core/include")
 
-set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
-
-target_include_directories(momemta SYSTEM PRIVATE ${EXTERNAL_DIR})
-target_include_directories(momemta SYSTEM PRIVATE ${EXTERNAL_DIR}/cuba)
-target_include_directories(momemta SYSTEM PRIVATE ${LUA_INCLUDE_DIR})
-target_include_directories(momemta SYSTEM PUBLIC ${LHAPDF_INCLUDE_DIRS})
-target_include_directories(momemta SYSTEM PUBLIC ${ROOT_INCLUDE_DIR})
-target_include_directories(momemta SYSTEM PUBLIC ${Boost_INCLUDE_DIRS})
+# Libraries
+target_link_libraries(momemta PRIVATE cuba)
+target_link_libraries(momemta PRIVATE lua)
+target_link_libraries(momemta PRIVATE LHAPDF::LHAPDF)
 
 target_link_libraries(momemta PUBLIC dl)
-target_link_libraries(momemta PRIVATE cuba)
-target_link_libraries(momemta PRIVATE ${LUA_LIBRARIES})
-target_link_libraries(momemta PUBLIC ${LHAPDF_LIBRARIES})
-target_link_libraries(momemta PUBLIC ${ROOT_LIBRARIES})
+target_link_libraries(momemta PUBLIC Root::Root)
 target_link_libraries(momemta PUBLIC ${Boost_LIBRARIES})
 target_link_libraries(momemta PUBLIC Threads::Threads)
 

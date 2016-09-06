@@ -1,6 +1,6 @@
-add_definitions(-DLUA_USE_LINUX)
-
 file(GLOB SOURCES *.c)
-include_directories(${CMAKE_CURRENT_SOURCE_DIR})
-
 add_library(lua STATIC ${SOURCES})
+
+target_compile_definitions(lua PRIVATE -DLUA_USE_LINUX)
+set_property(TARGET lua PROPERTY POSITION_INDEPENDENT_CODE ON)
+target_include_directories(lua PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
