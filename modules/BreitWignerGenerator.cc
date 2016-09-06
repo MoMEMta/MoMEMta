@@ -93,8 +93,8 @@ class BreitWignerGenerator: public Module {
         }
 
     private:
-        const float mass;
-        const float width;
+        const double mass;
+        const double width;
 
         // Inputs
         Value<double> m_ps_point;
