@@ -6,7 +6,8 @@ language: cpp
 compiler:
   - gcc
 env:
-  - ROOT_VERSION=6.06.02
+  - ROOT_VERSION=6.06.02 CMAKE_VERSION=3.2.1
+  - ROOT_VERSION=6.06.02 CMAKE_VERSION=3.5.2
 addons:
   apt:
     sources:
