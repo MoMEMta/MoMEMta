@@ -172,8 +172,6 @@ endif()
 
 # Matrix elements
 add_subdirectory(MatrixElements)
-target_sources(momemta PRIVATE $<TARGET_OBJECTS:me_pp_ttx_fully_leptonic>)
-target_sources(momemta PRIVATE $<TARGET_OBJECTS:me_pp_WW_fully_leptonic>)
 
 add_library(empty_module SHARED "modules/EmptyModule.cc")
 target_link_libraries(empty_module momemta)

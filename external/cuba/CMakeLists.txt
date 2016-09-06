@@ -6,6 +6,9 @@ add_definitions(-DLONGLONGINT)
 include_directories(.)
 include_directories(src/common)
 
+# Always build with PIC
+set(CMAKE_POSITION_INDEPENDENT_CODE ON)
+
 add_subdirectory(src/vegas)
 add_subdirectory(src/suave)
 add_subdirectory(src/divonne)
