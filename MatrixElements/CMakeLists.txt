@@ -2,6 +2,8 @@ add_subdirectory(dummy)
 
 file(GLOB children RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/*)
 
+add_library(matrix_elements INTERFACE)
+
 foreach(child ${children})
     if(NOT IS_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/${child})
         continue()
@@ -24,5 +26,5 @@ foreach(child ${children})
     target_include_directories(${TARGET} PRIVATE $<TARGET_PROPERTY:momemta,INTERFACE_INCLUDE_DIRECTORIES>)
 
     # And add sources of this matrix element to the MoMEMta target
-    target_sources(momemta PRIVATE $<TARGET_OBJECTS:${TARGET}>)
+    target_sources(matrix_elements INTERFACE $<TARGET_OBJECTS:${TARGET}>)
 endforeach()

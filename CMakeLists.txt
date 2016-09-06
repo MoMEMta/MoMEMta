@@ -166,6 +166,7 @@ endif()
 
 # Matrix elements
 add_subdirectory(MatrixElements)
+target_link_libraries(momemta PRIVATE matrix_elements)
 
 add_library(empty_module SHARED "modules/EmptyModule.cc")
 target_link_libraries(empty_module momemta)

@@ -12,5 +12,5 @@ add_subdirectory(src/suave)
 add_subdirectory(src/divonne)
 add_subdirectory(src/cuhre)
 
-target_sources(cuba PRIVATE $<TARGET_OBJECTS:vegas> $<TARGET_OBJECTS:suave> $<TARGET_OBJECTS:divonne> $<TARGET_OBJECTS:cuhre>)
+target_sources(cuba INTERFACE $<TARGET_OBJECTS:vegas> $<TARGET_OBJECTS:suave> $<TARGET_OBJECTS:divonne> $<TARGET_OBJECTS:cuhre>)
 target_include_directories(cuba PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
