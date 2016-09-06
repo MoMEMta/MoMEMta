@@ -91,8 +91,8 @@ class BreitWignerGenerator: public Module {
         }
 
     private:
-        const float mass;
-        const float width;
+        const double mass;
+        const double width;
         InputTag m_ps_point;
 
         std::shared_ptr<double> s = produce<double>("s");
