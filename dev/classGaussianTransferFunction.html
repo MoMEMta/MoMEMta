@@ -124,7 +124,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <p>This module takes as inputs a LorentzVector and a phase-space point, generates a new LorentzVector with a different energy (keeping direction and invariant mass), and evaluates the transfer function on the "reconstructed" and "generated" energies.</p>
 <p>The transfer function (TF) is a Gaussian distribution that describes the difference between the reconstructed and the generated energy ( \(E_{rec}-E_{gen}\)). The width of the distribution depends on the "reconstructed" energy and it is set as parameter.</p>
 <h3>Integration dimension</h3>
-<p>This module adds <b>1</b> dimension to the integration.</p>
+<p>This module requires <b>1</b> phase-space point.</p>
 <h3>Parameters</h3>
 <table class="doxtable">
 <tr>
@@ -171,9 +171,6 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aed67ecdc0a319baa4ad8ecd81e77f0ff"><td class="memItemLeft" align="right" valign="top">virtual Status&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGaussianTransferFunction.html#aed67ecdc0a319baa4ad8ecd81e77f0ff">work</a> () override</td></tr>
 <tr class="memdesc:aed67ecdc0a319baa4ad8ecd81e77f0ff"><td class="mdescLeft">&#160;</td><td class="mdescRight">Main function.  <a href="#aed67ecdc0a319baa4ad8ecd81e77f0ff">More...</a><br /></td></tr>
 <tr class="separator:aed67ecdc0a319baa4ad8ecd81e77f0ff"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa68abf0fe71f42ca18b5266141ac17c1"><td class="memItemLeft" align="right" valign="top">virtual size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGaussianTransferFunction.html#aa68abf0fe71f42ca18b5266141ac17c1">dimensions</a> () const  override</td></tr>
-<tr class="memdesc:aa68abf0fe71f42ca18b5266141ac17c1"><td class="mdescLeft">&#160;</td><td class="mdescRight">The number of integration's dimension used by the module.  <a href="#aa68abf0fe71f42ca18b5266141ac17c1">More...</a><br /></td></tr>
-<tr class="separator:aa68abf0fe71f42ca18b5266141ac17c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classModule"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classModule')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classModule.html">Module</a></td></tr>
 <tr class="memitem:a17cb586f94658e2048759c4cbdb7968d inherit pub_methods_classModule"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classModule.html#a17cb586f94658e2048759c4cbdb7968d">Module</a> (PoolPtr pool, const std::string &amp;name)</td></tr>
 <tr class="memdesc:a17cb586f94658e2048759c4cbdb7968d inherit pub_methods_classModule"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor.  <a href="#a17cb586f94658e2048759c4cbdb7968d">More...</a><br /></td></tr>
@@ -241,38 +238,6 @@ PoolPtr&#160;</td><td class="memItemRight" valign="bottom"><b>m_pool</b></td></t
 <tr class="separator:a57f3d4dadaf92477ccfca40dfc0da549 inherit pro_attribs_classModule"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="aa68abf0fe71f42ca18b5266141ac17c1"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual size_t GaussianTransferFunction::dimensions </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>The number of integration's dimension used by the module. </p>
-<p>If the module needs one or more integration's dimension to work, you must override this function and return the number of dimension needed.</p>
-<dl class="section return"><dt>Returns</dt><dd>The number of integration's dimension added to the integrator.</dd></dl>
-<dl class="section note"><dt>Note</dt><dd>Default value is 0. </dd></dl>
-
-<p>Reimplemented from <a class="el" href="classModule.html#a604059ca484c29e5d6ac9d12865e5ed4">Module</a>.</p>
-
-<p>Definition at line <a class="el" href="GaussianTransferFunction_8cc_source.html#l00103">103</a> of file <a class="el" href="GaussianTransferFunction_8cc_source.html">GaussianTransferFunction.cc</a>.</p>
-
-</div>
-</div>
 <a class="anchor" id="aed67ecdc0a319baa4ad8ecd81e77f0ff"></a>
 <div class="memitem">
 <div class="memproto">

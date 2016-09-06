@@ -127,7 +127,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <p>It is assumed the TF is correctly normalised, i.e. integrals of slices along the Y-axis sum up to 1.</p>
 <p>The integration is done over the whole width of the TF. The TF is assumed to continue asymptotically as a constant for \(E_{gen} \to \infty\).</p>
 <h3>Integration dimension</h3>
-<p>This module adds <b>1</b> dimension to the integration.</p>
+<p>This module requires <b>1</b> phase-space point.</p>
 <h3>Parameters</h3>
 <table class="doxtable">
 <tr>
@@ -174,9 +174,6 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a6c6dbf31c88228cedd032de7b8a666f6"><td class="memItemLeft" align="right" valign="top">virtual Status&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBinnedTransferFunctionOnEnergy.html#a6c6dbf31c88228cedd032de7b8a666f6">work</a> () override</td></tr>
 <tr class="memdesc:a6c6dbf31c88228cedd032de7b8a666f6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Main function.  <a href="#a6c6dbf31c88228cedd032de7b8a666f6">More...</a><br /></td></tr>
 <tr class="separator:a6c6dbf31c88228cedd032de7b8a666f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a10584e68b90ea6551fd1502dbdc9e09f"><td class="memItemLeft" align="right" valign="top">virtual size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBinnedTransferFunctionOnEnergy.html#a10584e68b90ea6551fd1502dbdc9e09f">dimensions</a> () const  override</td></tr>
-<tr class="memdesc:a10584e68b90ea6551fd1502dbdc9e09f"><td class="mdescLeft">&#160;</td><td class="mdescRight">The number of integration's dimension used by the module.  <a href="#a10584e68b90ea6551fd1502dbdc9e09f">More...</a><br /></td></tr>
-<tr class="separator:a10584e68b90ea6551fd1502dbdc9e09f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classModule"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classModule')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classModule.html">Module</a></td></tr>
 <tr class="memitem:a17cb586f94658e2048759c4cbdb7968d inherit pub_methods_classModule"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classModule.html#a17cb586f94658e2048759c4cbdb7968d">Module</a> (PoolPtr pool, const std::string &amp;name)</td></tr>
 <tr class="memdesc:a17cb586f94658e2048759c4cbdb7968d inherit pub_methods_classModule"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor.  <a href="#a17cb586f94658e2048759c4cbdb7968d">More...</a><br /></td></tr>
@@ -244,38 +241,6 @@ PoolPtr&#160;</td><td class="memItemRight" valign="bottom"><b>m_pool</b></td></t
 <tr class="separator:a57f3d4dadaf92477ccfca40dfc0da549 inherit pro_attribs_classModule"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="a10584e68b90ea6551fd1502dbdc9e09f"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual size_t BinnedTransferFunctionOnEnergy::dimensions </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>The number of integration's dimension used by the module. </p>
-<p>If the module needs one or more integration's dimension to work, you must override this function and return the number of dimension needed.</p>
-<dl class="section return"><dt>Returns</dt><dd>The number of integration's dimension added to the integrator.</dd></dl>
-<dl class="section note"><dt>Note</dt><dd>Default value is 0. </dd></dl>
-
-<p>Reimplemented from <a class="el" href="classModule.html#a604059ca484c29e5d6ac9d12865e5ed4">Module</a>.</p>
-
-<p>Definition at line <a class="el" href="BinnedTransferFunctionOnEnergy_8cc_source.html#l00136">136</a> of file <a class="el" href="BinnedTransferFunctionOnEnergy_8cc_source.html">BinnedTransferFunctionOnEnergy.cc</a>.</p>
-
-</div>
-</div>
 <a class="anchor" id="a6c6dbf31c88228cedd032de7b8a666f6"></a>
 <div class="memitem">
 <div class="memproto">

@@ -234,6 +234,9 @@ template&lt;&gt; </td></tr>
 <tr class="memitem:a693d8e91c8f0ede80f1f30588bca667a"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a693d8e91c8f0ede80f1f30588bca667a"></a>
 int&#160;</td><td class="memItemRight" valign="bottom"><b>set_final_module</b> (lua_State *L)</td></tr>
 <tr class="separator:a693d8e91c8f0ede80f1f30588bca667a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7b8a76cea9cc2c972a53afa9f602dbdd"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a7b8a76cea9cc2c972a53afa9f602dbdd"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>add_integration_dimension</b> (lua_State *L)</td></tr>
+<tr class="separator:a7b8a76cea9cc2c972a53afa9f602dbdd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Enumeration Type Documentation</h2>
 <a class="anchor" id="a4cb01bc8fe209aafacf11602092c63f8"></a>
@@ -300,9 +303,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>set_final_module</b> (
 <p>The Lua function returns an input tag of type <code>cuba::ps_points/i</code> where <code>i</code> gets incremented each time the function is called (starting from 0). This way, the user is sure to always define the correct input tag fothe phase-space points.</p>
 <dl class="section return"><dt>Returns</dt><dd>always 1 </dd></dl>
 
-<p>Definition at line <a class="el" href="utils_8cc_source.html#l00545">545</a> of file <a class="el" href="utils_8cc_source.html">utils.cc</a>.</p>
-
-<p>Referenced by <a class="el" href="utils_8cc_source.html#l00508">setup_hooks()</a>, and <a class="el" href="utils_8h_source.html#l00172">to_vectorT()</a>.</p>
+<p>Referenced by <a class="el" href="utils_8h_source.html#l00172">to_vectorT()</a>.</p>
 
 </div>
 </div>
@@ -369,7 +370,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>set_final_module</b> (
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A pointer to the global lua state. Once out-of-scope, the pointer will be released using the <code>lua_close</code> function. </dd></dl>
 
-<p>Definition at line <a class="el" href="utils_8cc_source.html#l00531">531</a> of file <a class="el" href="utils_8cc_source.html">utils.cc</a>.</p>
+<p>Definition at line <a class="el" href="utils_8cc_source.html#l00557">557</a> of file <a class="el" href="utils_8cc_source.html">utils.cc</a>.</p>
 
 <p>Referenced by <a class="el" href="utils_8h_source.html#l00172">to_vectorT()</a>.</p>
 
@@ -398,7 +399,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>set_final_module</b> (
 
 <p>Definition at line <a class="el" href="utils_8cc_source.html#l00455">455</a> of file <a class="el" href="utils_8cc_source.html">utils.cc</a>.</p>
 
-<p>Referenced by <a class="el" href="utils_8cc_source.html#l00508">setup_hooks()</a>, and <a class="el" href="utils_8h_source.html#l00172">to_vectorT()</a>.</p>
+<p>Referenced by <a class="el" href="utils_8cc_source.html#l00533">setup_hooks()</a>, and <a class="el" href="utils_8h_source.html#l00172">to_vectorT()</a>.</p>
 
 </div>
 </div>
@@ -522,7 +523,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>set_final_module</b> (
 
 <p>Definition at line <a class="el" href="utils_8cc_source.html#l00471">471</a> of file <a class="el" href="utils_8cc_source.html">utils.cc</a>.</p>
 
-<p>Referenced by <a class="el" href="utils_8cc_source.html#l00508">setup_hooks()</a>, and <a class="el" href="utils_8h_source.html#l00172">to_vectorT()</a>.</p>
+<p>Referenced by <a class="el" href="utils_8cc_source.html#l00533">setup_hooks()</a>, and <a class="el" href="utils_8h_source.html#l00172">to_vectorT()</a>.</p>
 
 </div>
 </div>
@@ -563,7 +564,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>set_final_module</b> (
 
 <p>Definition at line <a class="el" href="utils_8cc_source.html#l00326">326</a> of file <a class="el" href="utils_8cc_source.html">utils.cc</a>.</p>
 
-<p>Referenced by <a class="el" href="utils_8cc_source.html#l00545">generate_cuba_inputtag()</a>, and <a class="el" href="utils_8cc_source.html#l00118">lua::LazyTableField::set()</a>.</p>
+<p>Referenced by <a class="el" href="utils_8cc_source.html#l00471">parameter()</a>, and <a class="el" href="utils_8cc_source.html#l00118">lua::LazyTableField::set()</a>.</p>
 
 </div>
 </div>
@@ -606,7 +607,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>set_final_module</b> (
 
 <p>Definition at line <a class="el" href="utils_8cc_source.html#l00413">413</a> of file <a class="el" href="utils_8cc_source.html">utils.cc</a>.</p>
 
-<p>Referenced by <a class="el" href="utils_8cc_source.html#l00531">init_runtime()</a>, <a class="el" href="utils_8cc_source.html#l00455">load_modules()</a>, and <a class="el" href="utils_8h_source.html#l00172">to_vectorT()</a>.</p>
+<p>Referenced by <a class="el" href="utils_8cc_source.html#l00557">init_runtime()</a>, <a class="el" href="utils_8cc_source.html#l00455">load_modules()</a>, and <a class="el" href="utils_8h_source.html#l00172">to_vectorT()</a>.</p>
 
 </div>
 </div>
@@ -640,9 +641,9 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>set_final_module</b> (
 <li><a class="el" href="namespacelua.html#a95916cfa8c3c82d870ab2bebdbb4b968">parameter</a> </li>
 </ul>
 
-<p>Definition at line <a class="el" href="utils_8cc_source.html#l00508">508</a> of file <a class="el" href="utils_8cc_source.html">utils.cc</a>.</p>
+<p>Definition at line <a class="el" href="utils_8cc_source.html#l00533">533</a> of file <a class="el" href="utils_8cc_source.html">utils.cc</a>.</p>
 
-<p>Referenced by <a class="el" href="utils_8cc_source.html#l00531">init_runtime()</a>, and <a class="el" href="utils_8h_source.html#l00172">to_vectorT()</a>.</p>
+<p>Referenced by <a class="el" href="utils_8cc_source.html#l00557">init_runtime()</a>, and <a class="el" href="utils_8h_source.html#l00172">to_vectorT()</a>.</p>
 
 </div>
 </div>

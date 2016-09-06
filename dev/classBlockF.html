@@ -138,7 +138,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <p>The observed MET is not used in this block since to reconstruct the neutrinos the system requires as input the total 4-momentum of the visible objects (energy and longitudinal momentum included).</p>
 <p>Up to 2 ( \(p_1\), \(p_2\)) solutions are possible.</p>
 <h3>Integration dimension</h3>
-<p>This module adds <b>2</b> dimensions to the integration.</p>
+<p>This module requires <b>2</b> phase-space points.</p>
 <h3>Global parameters</h3>
 <table class="doxtable">
 <tr>
@@ -188,9 +188,6 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a300428b06214e67b01dd8242f9b1c5ad"><td class="memItemLeft" align="right" valign="top">virtual Status&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBlockF.html#a300428b06214e67b01dd8242f9b1c5ad">work</a> () override</td></tr>
 <tr class="memdesc:a300428b06214e67b01dd8242f9b1c5ad"><td class="mdescLeft">&#160;</td><td class="mdescRight">Main function.  <a href="#a300428b06214e67b01dd8242f9b1c5ad">More...</a><br /></td></tr>
 <tr class="separator:a300428b06214e67b01dd8242f9b1c5ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3f22908aadaa7c904649f52c9c2c55bc"><td class="memItemLeft" align="right" valign="top">virtual size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBlockF.html#a3f22908aadaa7c904649f52c9c2c55bc">dimensions</a> () const  override</td></tr>
-<tr class="memdesc:a3f22908aadaa7c904649f52c9c2c55bc"><td class="mdescLeft">&#160;</td><td class="mdescRight">The number of integration's dimension used by the module.  <a href="#a3f22908aadaa7c904649f52c9c2c55bc">More...</a><br /></td></tr>
-<tr class="separator:a3f22908aadaa7c904649f52c9c2c55bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a94deb36a1226f31ab30cf28f9139d881"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a94deb36a1226f31ab30cf28f9139d881"></a>
 double&#160;</td><td class="memItemRight" valign="bottom"><b>computeJacobian</b> (const LorentzVector &amp;p1, const LorentzVector &amp;p2, const LorentzVector &amp;p3, const LorentzVector &amp;p4)</td></tr>
 <tr class="separator:a94deb36a1226f31ab30cf28f9139d881"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -261,38 +258,6 @@ PoolPtr&#160;</td><td class="memItemRight" valign="bottom"><b>m_pool</b></td></t
 <tr class="separator:a57f3d4dadaf92477ccfca40dfc0da549 inherit pro_attribs_classModule"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="a3f22908aadaa7c904649f52c9c2c55bc"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual size_t BlockF::dimensions </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>The number of integration's dimension used by the module. </p>
-<p>If the module needs one or more integration's dimension to work, you must override this function and return the number of dimension needed.</p>
-<dl class="section return"><dt>Returns</dt><dd>The number of integration's dimension added to the integrator.</dd></dl>
-<dl class="section note"><dt>Note</dt><dd>Default value is 0. </dd></dl>
-
-<p>Reimplemented from <a class="el" href="classModule.html#a604059ca484c29e5d6ac9d12865e5ed4">Module</a>.</p>
-
-<p>Definition at line <a class="el" href="BlockF_8cc_source.html#l00269">269</a> of file <a class="el" href="BlockF_8cc_source.html">BlockF.cc</a>.</p>
-
-</div>
-</div>
 <a class="anchor" id="a300428b06214e67b01dd8242f9b1c5ad"></a>
 <div class="memitem">
 <div class="memproto">

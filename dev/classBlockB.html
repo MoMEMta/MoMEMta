@@ -135,7 +135,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </ul>
 <p>Up to two \(p_1\) solutions are possible.</p>
 <h3>Integration dimension</h3>
-<p>This module adds <b>0</b> dimension to the integration.</p>
+<p>This module requires <b>0</b> phase-space point.</p>
 <h3>Global parameters</h3>
 <table class="doxtable">
 <tr>
@@ -189,9 +189,6 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a0d7d40a75036ab5f612f20502ed96182"><td class="memItemLeft" align="right" valign="top">virtual Status&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBlockB.html#a0d7d40a75036ab5f612f20502ed96182">work</a> () override</td></tr>
 <tr class="memdesc:a0d7d40a75036ab5f612f20502ed96182"><td class="mdescLeft">&#160;</td><td class="mdescRight">Main function.  <a href="#a0d7d40a75036ab5f612f20502ed96182">More...</a><br /></td></tr>
 <tr class="separator:a0d7d40a75036ab5f612f20502ed96182"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab76dffca7d4150add000efbc9c0da361"><td class="memItemLeft" align="right" valign="top">virtual size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBlockB.html#ab76dffca7d4150add000efbc9c0da361">dimensions</a> () const  override</td></tr>
-<tr class="memdesc:ab76dffca7d4150add000efbc9c0da361"><td class="mdescLeft">&#160;</td><td class="mdescRight">The number of integration's dimension used by the module.  <a href="#ab76dffca7d4150add000efbc9c0da361">More...</a><br /></td></tr>
-<tr class="separator:ab76dffca7d4150add000efbc9c0da361"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab89dbaa61a07a3c8c03e14e8ad3f8169"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab89dbaa61a07a3c8c03e14e8ad3f8169"></a>
 double&#160;</td><td class="memItemRight" valign="bottom"><b>computeJacobian</b> (const LorentzVector &amp;p1, const LorentzVector &amp;p2)</td></tr>
 <tr class="separator:ab89dbaa61a07a3c8c03e14e8ad3f8169"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -262,38 +259,6 @@ PoolPtr&#160;</td><td class="memItemRight" valign="bottom"><b>m_pool</b></td></t
 <tr class="separator:a57f3d4dadaf92477ccfca40dfc0da549 inherit pro_attribs_classModule"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="ab76dffca7d4150add000efbc9c0da361"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual size_t BlockB::dimensions </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>The number of integration's dimension used by the module. </p>
-<p>If the module needs one or more integration's dimension to work, you must override this function and return the number of dimension needed.</p>
-<dl class="section return"><dt>Returns</dt><dd>The number of integration's dimension added to the integrator.</dd></dl>
-<dl class="section note"><dt>Note</dt><dd>Default value is 0. </dd></dl>
-
-<p>Reimplemented from <a class="el" href="classModule.html#a604059ca484c29e5d6ac9d12865e5ed4">Module</a>.</p>
-
-<p>Definition at line <a class="el" href="BlockB_8cc_source.html#l00182">182</a> of file <a class="el" href="BlockB_8cc_source.html">BlockB.cc</a>.</p>
-
-</div>
-</div>
 <a class="anchor" id="a0d7d40a75036ab5f612f20502ed96182"></a>
 <div class="memitem">
 <div class="memproto">

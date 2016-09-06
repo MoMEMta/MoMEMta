@@ -153,6 +153,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a755b3214d1dfb949b469f4a65a5784e6"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classConfigurationReader.html#a755b3214d1dfb949b469f4a65a5784e6">onNewPath</a> (<a class="el" href="structPathElements.html">PathElements</a> *path) override</td></tr>
 <tr class="memdesc:a755b3214d1dfb949b469f4a65a5784e6"><td class="mdescLeft">&#160;</td><td class="mdescRight">A new path is declared in the configuration file.  <a href="#a755b3214d1dfb949b469f4a65a5784e6">More...</a><br /></td></tr>
 <tr class="separator:a755b3214d1dfb949b469f4a65a5784e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1de2fb7a10e763e8ec14e1d68e45bb0c"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classConfigurationReader.html#a1de2fb7a10e763e8ec14e1d68e45bb0c">addIntegrationDimension</a> () override</td></tr>
+<tr class="memdesc:a1de2fb7a10e763e8ec14e1d68e45bb0c"><td class="mdescLeft">&#160;</td><td class="mdescRight">A new integration dimension is requested in the configuration file.  <a href="#a1de2fb7a10e763e8ec14e1d68e45bb0c">More...</a><br /></td></tr>
+<tr class="separator:a1de2fb7a10e763e8ec14e1d68e45bb0c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a13eef129f0eb73c63b839ea4f442f035"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a13eef129f0eb73c63b839ea4f442f035"></a>
 <a class="el" href="classParameterSet.html">ParameterSet</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>getGlobalParameters</b> ()</td></tr>
 <tr class="separator:a13eef129f0eb73c63b839ea4f442f035"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -170,6 +173,37 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>Configuration</b></t
 <tr class="separator:a30221ddc558692a7b52598b963a74bc2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="a1de2fb7a10e763e8ec14e1d68e45bb0c"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ConfigurationReader::addIntegrationDimension </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>A new integration dimension is requested in the configuration file. </p>
+<p>This function is called when the user calls the 'add_dimension' lua function</p>
+<p>A lua code like </p><div class="fragment"><div class="line">ps_point = add_dimension()</div></div><!-- fragment --><p>will result in a call to this function </p>
+
+<p>Implements <a class="el" href="classILuaCallback.html#ac1093a24f595cecf8e8d2e77aa9ead6d">ILuaCallback</a>.</p>
+
+<p>Definition at line <a class="el" href="ConfigurationReader_8cc_source.html#l00093">93</a> of file <a class="el" href="ConfigurationReader_8cc_source.html">ConfigurationReader.cc</a>.</p>
+
+</div>
+</div>
 <a class="anchor" id="a16d7f89edc9f273b70d5b74258bbdba2"></a>
 <div class="memitem">
 <div class="memproto">
@@ -186,7 +220,7 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>Configuration</b></t
 <p>Freeze the configuration. </p>
 <dl class="section return"><dt>Returns</dt><dd>A freezed copy of the configuration </dd></dl>
 
-<p>Definition at line <a class="el" href="ConfigurationReader_8cc_source.html#l00101">101</a> of file <a class="el" href="ConfigurationReader_8cc_source.html">ConfigurationReader.cc</a>.</p>
+<p>Definition at line <a class="el" href="ConfigurationReader_8cc_source.html#l00105">105</a> of file <a class="el" href="ConfigurationReader_8cc_source.html">ConfigurationReader.cc</a>.</p>
 
 </div>
 </div>

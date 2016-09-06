@@ -10,6 +10,7 @@ var searchData=
   ['getintegrands',['getIntegrands',['../classConfiguration.html#aa0686906c42544ffddf5e374ab327a1c',1,'Configuration']]],
   ['getintegrationstatus',['getIntegrationStatus',['../classMoMEMta.html#a54e9c3aa9401059cd4ea2080ad1cdf16',1,'MoMEMta']]],
   ['getmodules',['getModules',['../classConfiguration.html#aeee80ab1fc71cb7c1cd6b7b7ae32e541',1,'Configuration']]],
+  ['getndimensions',['getNDimensions',['../classConfiguration.html#a9778854d89004eb73f5f9da363d20bf7',1,'Configuration']]],
   ['getpaths',['getPaths',['../classConfiguration.html#a6db9bdf36c7e6bc5bd921da1c5f362a6',1,'Configuration']]],
   ['getpool',['getPool',['../classMoMEMta.html#a956cb0d4acf9667c7361e6da8f81e0fb',1,'MoMEMta']]],
   ['graph',['graph',['../namespacegraph.html',1,'']]],

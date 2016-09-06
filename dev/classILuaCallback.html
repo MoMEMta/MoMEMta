@@ -146,8 +146,42 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a883171411d8ed9f6731e3cec7758b9e8"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classILuaCallback.html#a883171411d8ed9f6731e3cec7758b9e8">onNewPath</a> (<a class="el" href="structPathElements.html">PathElements</a> *path)=0</td></tr>
 <tr class="memdesc:a883171411d8ed9f6731e3cec7758b9e8"><td class="mdescLeft">&#160;</td><td class="mdescRight">A new path is declared in the configuration file.  <a href="#a883171411d8ed9f6731e3cec7758b9e8">More...</a><br /></td></tr>
 <tr class="separator:a883171411d8ed9f6731e3cec7758b9e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac1093a24f595cecf8e8d2e77aa9ead6d"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classILuaCallback.html#ac1093a24f595cecf8e8d2e77aa9ead6d">addIntegrationDimension</a> ()=0</td></tr>
+<tr class="memdesc:ac1093a24f595cecf8e8d2e77aa9ead6d"><td class="mdescLeft">&#160;</td><td class="mdescRight">A new integration dimension is requested in the configuration file.  <a href="#ac1093a24f595cecf8e8d2e77aa9ead6d">More...</a><br /></td></tr>
+<tr class="separator:ac1093a24f595cecf8e8d2e77aa9ead6d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="ac1093a24f595cecf8e8d2e77aa9ead6d"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void ILuaCallback::addIntegrationDimension </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>A new integration dimension is requested in the configuration file. </p>
+<p>This function is called when the user calls the 'add_dimension' lua function</p>
+<p>A lua code like </p><div class="fragment"><div class="line">ps_point = add_dimension()</div></div><!-- fragment --><p>will result in a call to this function </p>
+
+<p>Implemented in <a class="el" href="classLuaCallbackMock.html#a5a717bfd79ce2065af97fb3e947462a4">LuaCallbackMock</a>, and <a class="el" href="classConfigurationReader.html#a1de2fb7a10e763e8ec14e1d68e45bb0c">ConfigurationReader</a>.</p>
+
+<p>Referenced by <a class="el" href="utils_8cc_source.html#l00471">lua::parameter()</a>.</p>
+
+</div>
+</div>
 <a class="anchor" id="a1b6f914367a25ed33be1863572c58a2f"></a>
 <div class="memitem">
 <div class="memproto">

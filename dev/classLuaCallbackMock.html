@@ -140,6 +140,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a7d4fbae075888144e25ce0c3a806ddf6"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a7d4fbae075888144e25ce0c3a806ddf6"></a>
 virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>onNewPath</b> (<a class="el" href="structPathElements.html">PathElementsPtr</a> path)</td></tr>
 <tr class="separator:a7d4fbae075888144e25ce0c3a806ddf6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5a717bfd79ce2065af97fb3e947462a4"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classLuaCallbackMock.html#a5a717bfd79ce2065af97fb3e947462a4">addIntegrationDimension</a> ()</td></tr>
+<tr class="memdesc:a5a717bfd79ce2065af97fb3e947462a4"><td class="mdescLeft">&#160;</td><td class="mdescRight">A new integration dimension is requested in the configuration file.  <a href="#a5a717bfd79ce2065af97fb3e947462a4">More...</a><br /></td></tr>
+<tr class="separator:a5a717bfd79ce2065af97fb3e947462a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classILuaCallback"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classILuaCallback')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classILuaCallback.html">ILuaCallback</a></td></tr>
 <tr class="memitem:a883171411d8ed9f6731e3cec7758b9e8 inherit pub_methods_classILuaCallback"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classILuaCallback.html#a883171411d8ed9f6731e3cec7758b9e8">onNewPath</a> (<a class="el" href="structPathElements.html">PathElements</a> *path)=0</td></tr>
 <tr class="memdesc:a883171411d8ed9f6731e3cec7758b9e8 inherit pub_methods_classILuaCallback"><td class="mdescLeft">&#160;</td><td class="mdescRight">A new path is declared in the configuration file.  <a href="#a883171411d8ed9f6731e3cec7758b9e8">More...</a><br /></td></tr>
@@ -156,8 +159,42 @@ std::vector&lt; <a class="el" href="structInputTag.html">InputTag</a> &gt;&#160;
 <tr class="memitem:a1bb353fe2e580f4e00b38364639595dd"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a1bb353fe2e580f4e00b38364639595dd"></a>
 std::vector&lt; <a class="el" href="structPathElements.html">PathElementsPtr</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>paths</b></td></tr>
 <tr class="separator:a1bb353fe2e580f4e00b38364639595dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acca243369b8e136e3dcc53d11f703a9e"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="acca243369b8e136e3dcc53d11f703a9e"></a>
+std::size_t&#160;</td><td class="memItemRight" valign="bottom"><b>n_dimensions</b></td></tr>
+<tr class="separator:acca243369b8e136e3dcc53d11f703a9e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="a5a717bfd79ce2065af97fb3e947462a4"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void LuaCallbackMock::addIntegrationDimension </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>A new integration dimension is requested in the configuration file. </p>
+<p>This function is called when the user calls the 'add_dimension' lua function</p>
+<p>A lua code like </p><div class="fragment"><div class="line">ps_point = add_dimension()</div></div><!-- fragment --><p>will result in a call to this function </p>
+
+<p>Implements <a class="el" href="classILuaCallback.html#ac1093a24f595cecf8e8d2e77aa9ead6d">ILuaCallback</a>.</p>
+
+<p>Definition at line <a class="el" href="lua_8cc_source.html#l00065">65</a> of file <a class="el" href="lua_8cc_source.html">lua.cc</a>.</p>
+
+</div>
+</div>
 <a class="anchor" id="ae6428958e3743c036787caf17eee723f"></a>
 <div class="memitem">
 <div class="memproto">
@@ -186,7 +223,7 @@ std::vector&lt; <a class="el" href="structPathElements.html">PathElementsPtr</a>
 
 <p>Implements <a class="el" href="classILuaCallback.html#a1b6f914367a25ed33be1863572c58a2f">ILuaCallback</a>.</p>
 
-<p>Definition at line <a class="el" href="lua_8cc_source.html#l00055">55</a> of file <a class="el" href="lua_8cc_source.html">lua.cc</a>.</p>
+<p>Definition at line <a class="el" href="lua_8cc_source.html#l00057">57</a> of file <a class="el" href="lua_8cc_source.html">lua.cc</a>.</p>
 
 </div>
 </div>
@@ -229,7 +266,7 @@ std::vector&lt; <a class="el" href="structPathElements.html">PathElementsPtr</a>
 
 <p>Implements <a class="el" href="classILuaCallback.html#af3971a12abcd2152fc79040c2eaa64dd">ILuaCallback</a>.</p>
 
-<p>Definition at line <a class="el" href="lua_8cc_source.html#l00051">51</a> of file <a class="el" href="lua_8cc_source.html">lua.cc</a>.</p>
+<p>Definition at line <a class="el" href="lua_8cc_source.html#l00053">53</a> of file <a class="el" href="lua_8cc_source.html">lua.cc</a>.</p>
 
 </div>
 </div>
