@@ -7,7 +7,7 @@ var searchData=
   ['get_5findex',['get_index',['../namespacelua.html#adfb25fd4e2e786699ee6545a9c8ef019',1,'lua']]],
   ['getcubaconfiguration',['getCubaConfiguration',['../classConfiguration.html#a6d11b023fb76e4062a546659dcab7910',1,'Configuration']]],
   ['getglobalparameters',['getGlobalParameters',['../classConfiguration.html#ade2f303994bc94727bce4f2bf61bfeeb',1,'Configuration']]],
-  ['getintegrand',['getIntegrand',['../classConfiguration.html#a17d12e334de5ea429e0f005a0507838a',1,'Configuration']]],
+  ['getintegrands',['getIntegrands',['../classConfiguration.html#aa0686906c42544ffddf5e374ab327a1c',1,'Configuration']]],
   ['getintegrationstatus',['getIntegrationStatus',['../classMoMEMta.html#a54e9c3aa9401059cd4ea2080ad1cdf16',1,'MoMEMta']]],
   ['getmodules',['getModules',['../classConfiguration.html#aeee80ab1fc71cb7c1cd6b7b7ae32e541',1,'Configuration']]],
   ['getpaths',['getPaths',['../classConfiguration.html#a6db9bdf36c7e6bc5bd921da1c5f362a6',1,'Configuration']]],
