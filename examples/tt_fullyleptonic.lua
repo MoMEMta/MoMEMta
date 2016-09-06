@@ -148,7 +148,7 @@ if USE_PERM then
     }
 end
 
--- Loop
+-- Loop over block solutions
 
 Looper.looper = {
     solutions = "blockd::solutions",

@@ -89,10 +89,14 @@ BlockD.blockd = {
     s256 = 'nwa_s256::s',
 }
 
+-- Loop over block solutions
+Looper.looper = {
+    solutions = "blockd::solutions",
+    path = Path("initial_state", "ttbar", "integrand")
+}
+
 BuildInitialState.initial_state = {
-    invisibles = {
-        'blockd::invisibles',
-    },
+    solution = 'looper::solution',
 
     particles = inputs
 }
@@ -111,11 +115,10 @@ MatrixElement.ttbar = {
       card = '../MatrixElements/Cards/param_card.dat'
   },
 
-  initialState = 'initial_state::output',
+  initialState = 'initial_state::partons',
 
   invisibles = {
-    input = 'blockd::invisibles',
-    jacobians = 'blockd::jacobians',
+    input = 'looper::solution',
     ids = {
       {
         pdg_id = 12,
@@ -156,3 +159,9 @@ MatrixElement.ttbar = {
 
   jacobians = jacobians
 }
+    DoubleSummer.integrand = {
+        input = "ttbar::output"
+    }
+
+-- End of loop
+integrand("integrand::sum")
