@@ -53,7 +53,7 @@ class LuaCallbackMock: public ILuaCallback {
         }
 
         virtual void onIntegrandDeclared(const InputTag& tag) {
-            integrand = tag;
+            integrands.push_back(tag);
         }
 
         virtual void onNewPath(PathElementsPtr path) {
@@ -61,7 +61,7 @@ class LuaCallbackMock: public ILuaCallback {
         }
 
         std::vector<std::pair<std::string, std::string>> modules;
-        InputTag integrand;
+        std::vector<InputTag> integrands;
         std::vector<PathElementsPtr> paths;
 };
 
@@ -101,6 +101,10 @@ TEST_CASE("lua parsing utilities", "[lua]") {
         value = lua::to_any(L.get(), -1);
         REQUIRE( (boost::any_cast<InputTag>(value.first)).toString() == "cuba::ps_points/2");
         lua_pop(L.get(), 2);
+
+        execute_string(L, "integrand('integrand1::output', 'integrand2::output')");
+        REQUIRE( luaCallback.integrands.size() == 2 );
+        REQUIRE( luaCallback.integrands.at(1).toString() == "integrand2::output" );
     }
 
     SECTION("defining modules") {

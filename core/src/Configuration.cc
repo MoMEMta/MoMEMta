@@ -49,7 +49,7 @@ Configuration::Configuration(const Configuration& other) {
         global_parameters.reset(other.global_parameters->clone());
     if (other.cuba_configuration)
         cuba_configuration.reset(other.cuba_configuration->clone());
-    integrand = other.integrand;
+    integrands = other.integrands;
     paths = other.paths;
 }
 
@@ -57,7 +57,7 @@ Configuration::Configuration(const Configuration&& other) {
     modules = std::move(other.modules);
     global_parameters = std::move(other.global_parameters);
     cuba_configuration = std::move(other.cuba_configuration);
-    integrand = std::move(other.integrand);
+    integrands = std::move(other.integrands);
     paths = std::move(other.paths);
 }
 
@@ -78,8 +78,8 @@ const ParameterSet& Configuration::getGlobalParameters() const {
     return *global_parameters;
 }
 
-InputTag Configuration::getIntegrand() const {
-    return integrand;
+std::vector<InputTag> Configuration::getIntegrands() const {
+    return integrands;
 }
 
 std::vector<PathElementsPtr> Configuration::getPaths() const {

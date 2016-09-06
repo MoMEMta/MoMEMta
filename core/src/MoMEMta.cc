@@ -66,14 +66,20 @@ MoMEMta::MoMEMta(const Configuration& configuration) {
 
     // Integrand
     // First, check if the user defined which integrand to use
-    InputTag integrand = configuration.getIntegrand();
-    if (integrand.empty()) {
+    std::vector<InputTag> integrands = configuration.getIntegrands();
+    if (!integrands.size()) {
         LOG(fatal) << "No integrand found. Define which module's output you want to use as the integrand using the lua `integrand` function.";
         throw integrands_output_error("No integrand found");
     }
 
+    // Next, retrieve all the input tags for the components of the integrand
     m_pool->current_module("momemta");
-    m_integrand = m_pool->get<double>(integrand);
+
+    for(const auto& component: integrands) {
+        m_integrands.push_back(m_pool->get<double>(component));
+        LOG(debug) << "Configuration declared integrand component using: " << component.toString();
+    }
+    m_n_components = m_integrands.size();
 
     m_cuba_configuration = configuration.getCubaConfiguration();
 
@@ -137,11 +143,19 @@ std::vector<std::pair<double, double>> MoMEMta::computeWeights(const std::vector
     // Output from cuba
     long long int neval = 0;
     int nfail = 0;
-    double mcResult = 0, prob = 0, error = 0;
-
+    std::unique_ptr<double[]> mcResult(new double[m_n_components]); 
+    std::unique_ptr<double[]> prob(new double[m_n_components]); 
+    std::unique_ptr<double[]> error(new double[m_n_components]); 
+    
+    for (size_t i = 0; i < m_n_components; i++) {
+        mcResult[i] = 0;
+        prob[i] = 0;
+        error[i] = 0;
+    }
+    
     llVegas(
          m_n_dimensions,         // (int) dimensions of the integrated volume
-         1,                      // (int) dimensions of the integrand
+         m_n_components,         // (int) dimensions of the integrand
          (integrand_t) CUBAIntegrand,  // (integrand_t) integrand (cast to integrand_t)
          (void*) this,           // (void*) pointer to additional arguments passed to integrand
          1,                      // (int) maximum number of points given the integrand in each invocation (=> SIMD) ==> PS points = vector of sets of points (x[ndim][nvec]), integrand returns vector of vector values (f[ncomp][nvec])
@@ -159,9 +173,9 @@ std::vector<std::pair<double, double>> MoMEMta::computeWeights(const std::vector
          NULL,                   // (int*) "spinning cores": -1 || NULL <=> integrator takes care of starting & stopping child processes (other value => keep or retrieve child processes, probably not useful here)
          &neval,                 // (int*) actual number of evaluations done
          &nfail,                 // 0=desired accuracy was reached; -1=dimensions out of range; >0=accuracy was not reached
-         &mcResult,              // (double*) integration result ([ncomp])
-         &error,                 // (double*) integration error ([ncomp])
-         &prob                   // (double*) Chi-square p-value that error is not reliable (ie should be <0.95) ([ncomp])
+         mcResult.get(),         // (double*) integration result ([ncomp])
+         error.get(),            // (double*) integration error ([ncomp])
+         prob.get()              // (double*) Chi-square p-value that error is not reliable (ie should be <0.95) ([ncomp])
     );
     
     if (nfail == 0) {
@@ -178,7 +192,12 @@ std::vector<std::pair<double, double>> MoMEMta::computeWeights(const std::vector
         module->endIntegration();
     }
 
-    return std::vector<std::pair<double, double>>({{mcResult, error}});
+    std::vector<std::pair<double, double>> result;
+    for (size_t i = 0; i < m_n_components; i++) {
+        result.push_back( std::make_pair(mcResult[i], error[i]) );
+    }
+
+    return result;
 }
 
 #define CUBA_ABORT -999
@@ -198,16 +217,19 @@ int MoMEMta::integrand(const double* psPoints, const double* weights, double* re
         if (status == Module::Status::NEXT) {
             // Stop executation for the current integration step
             // Returns 0 so that cuba knows this phase-space volume is not relevant
-            *results = 0;
+            for (size_t i = 0; i < m_n_components; i++)
+                results[i] = 0;
             return CUBA_OK;
         } else if (status == Module::Status::ABORT) {
             // Abort integration
-            *results = 0;
+            for (size_t i = 0; i < m_n_components; i++)
+                results[i] = 0;
             return CUBA_ABORT;
         }
     }
 
-    *results = *m_integrand;
+    for (size_t i = 0; i < m_n_components; i++)
+        results[i] = *(m_integrands[i]);
 
     return CUBA_OK;
 }

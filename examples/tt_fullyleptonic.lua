@@ -54,9 +54,9 @@ parameters = {
 
 cuba = {
     relative_accuracy = 0.01,
-    verbosity = 3
+    verbosity = 3,
 }
-
+ 
 BreitWignerGenerator.flatter_s13 = {
     -- getpspoint() generates an input tag of type `cuba::ps_points/i`
     -- where `i` is automatically incremented each time the function is called.
@@ -239,5 +239,4 @@ Looper.looper = {
     }
 
 -- End of loop
-
 integrand("integrand::sum")
