@@ -1,7 +1,6 @@
 #! /bin/bash
 
-cmake_VERSION=3.5.2
-BUNDLE=cmake-${cmake_VERSION}_gcc-4.9.3_Ubuntu_14.04_x86_64
+BUNDLE=cmake-${CMAKE_VERSION}_gcc-4.9.3_Ubuntu_14.04_x86_64
 
 mkdir -p external/cmake
 cd external/cmake

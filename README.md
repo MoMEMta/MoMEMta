@@ -10,7 +10,7 @@ The Modular Matrix Element Method implementation.
 
 MoMEMta depends on the following libraries and tools:
    * LHAPDF (>=6)
-   * CMake (>=3.2)
+   * CMake (>= 3.2.1)
    * Boost (>=1.54)
    * ROOT (>=5.34.09)
    * A C++11-capable compiler

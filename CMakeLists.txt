@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.2)
+cmake_minimum_required(VERSION 3.2.1 FATAL_ERROR)
 project(MoMEMta)
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_DIR}/cmake/modules")
@@ -8,18 +8,8 @@ set(PROJECT_VERSION_MINOR 1)
 set(PROJECT_VERSION_PATCH 0)
 set(PROJECT_VERSION ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT_VERSION_PATCH})
 
-# Public interface
-include_directories("${CMAKE_CURRENT_LIST_DIR}/include")
-
-# Private interface
-include_directories("${CMAKE_CURRENT_LIST_DIR}/core/include")
-
 # Options
 option(USE_BUILTIN_LUA "Force usage of built-in lua interpreter, even if a system-wide version if available" OFF)
-option(TRACE_LOGGING "Set logging threshold to TRACE instead of DEBUG" OFF)
-if (TRACE_LOGGING)
-    add_definitions(-DSPDLOG_TRACE_ON)
-endif()
 
 option(PROFILING "Enable profiling" OFF)
 if (PROFILING)
@@ -45,7 +35,7 @@ if (NOT CMAKE_CONFIGURATION_TYPES AND NOT CMAKE_BUILD_TYPE)
 endif(NOT CMAKE_CONFIGURATION_TYPES AND NOT CMAKE_BUILD_TYPE)
 
 # Default compiler flags
-SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall -pedantic -Wextra --std=c++11 -fcx-fortran-rules -fcx-limited-range")
+SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -pedantic -Wextra -fcx-fortran-rules -fcx-limited-range -std=c++11")
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fomit-frame-pointer -ffast-math -Wall --std=c11")
 
 if (COVERAGE)
@@ -82,7 +72,6 @@ find_package(Boost 1.54 REQUIRED log)
 add_definitions(-DBOOST_LOG_DYN_LINK)
 
 # Include external
-set(EXTERNAL_DIR "${PROJECT_SOURCE_DIR}/external")
 add_subdirectory(external)
 
 if (NOT LUA_FOUND)
@@ -91,12 +80,13 @@ if (NOT LUA_FOUND)
     else()
         message(STATUS "No system-wide Lua found. Using built-in distribution")
     endif()
-    set(LUA_LIBRARIES lua)
-    set(LUA_INCLUDE_DIR "external/lua")
 else()
     message(STATUS "Found Lua: ${LUA_LIBRARIES} (found suitable version \"${LUA_VERSION_STRING}\", minimum required is \"5.3\")")
+    add_library(lua INTERFACE IMPORTED)
+    set_property(TARGET lua PROPERTY INTERFACE_LINK_LIBRARIES ${LUA_LIBRARIES})
+    set_property(TARGET lua PROPERTY INTERFACE_INCLUDE_DIRECTORIES ${LUA_INCLUDE_DIR})
+    set_property(TARGET lua PROPERTY INTERFACE_SYSTEM_INCLUDE_DIRECTORIES ${LUA_INCLUDE_DIR})
 endif()
-
 
 set(MOMEMTA_SOURCES
     "modules/BinnedTransferFunctionOnEnergy.cc"
@@ -149,38 +139,37 @@ set_target_properties(momemta PROPERTIES VERSION ${PROJECT_VERSION}
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-include_directories(SYSTEM ${EXTERNAL_DIR})
-include_directories(SYSTEM ${EXTERNAL_DIR}/cuba)
-include_directories(SYSTEM ${EXTERNAL_DIR}/spdlog)
-include_directories(SYSTEM ${LUA_INCLUDE_DIR})
-include_directories(SYSTEM ${LHAPDF_INCLUDE_DIRS})
-include_directories(SYSTEM ${ROOT_INCLUDE_DIR})
-include_directories(SYSTEM ${Boost_INCLUDE_DIRS})
+# Public interface
+target_include_directories(momemta PUBLIC "${CMAKE_CURRENT_LIST_DIR}/include")
+target_include_directories(momemta SYSTEM PUBLIC ${Boost_INCLUDE_DIRS})
 
-target_link_libraries(momemta LINK_PUBLIC dl)
-target_link_libraries(momemta LINK_PRIVATE cuba)
-target_link_libraries(momemta LINK_PRIVATE ${LUA_LIBRARIES})
-target_link_libraries(momemta LINK_PUBLIC ${LHAPDF_LIBRARIES})
-target_link_libraries(momemta LINK_PUBLIC ${ROOT_LIBRARIES})
-target_link_libraries(momemta LINK_PUBLIC ${Boost_LIBRARIES})
-target_link_libraries(momemta LINK_PUBLIC Threads::Threads)
+# Private interface
+target_include_directories(momemta PRIVATE "${CMAKE_CURRENT_LIST_DIR}/core/include")
+
+# Libraries
+target_link_libraries(momemta PRIVATE cuba)
+target_link_libraries(momemta PRIVATE lua)
+target_link_libraries(momemta PRIVATE LHAPDF::LHAPDF)
+
+target_link_libraries(momemta PUBLIC dl)
+target_link_libraries(momemta PUBLIC Root::Root)
+target_link_libraries(momemta PUBLIC ${Boost_LIBRARIES})
+target_link_libraries(momemta PUBLIC Threads::Threads)
 
 find_library(ROOT_GENVECTOR_LIBRARY GenVector HINTS ${ROOT_LIBRARY_DIR})
-target_link_libraries(momemta LINK_PUBLIC ${ROOT_GENVECTOR_LIBRARY})
+target_link_libraries(momemta PUBLIC ${ROOT_GENVECTOR_LIBRARY})
 
 if (PROFILING)
-    target_link_libraries(momemta LINK_PUBLIC "-Wl,--no-as-needed ${GPERF_PROFILER_LIBRARY} -Wl,--as-needed")
-    target_link_libraries(momemta LINK_PUBLIC "-Wl,--no-as-needed ${GPERF_TCMALLOC_LIBRARY} -Wl,--as-needed")
+    target_link_libraries(momemta PUBLIC "-Wl,--no-as-needed ${GPERF_PROFILER_LIBRARY} -Wl,--as-needed")
+    target_link_libraries(momemta PUBLIC "-Wl,--no-as-needed ${GPERF_TCMALLOC_LIBRARY} -Wl,--as-needed")
 endif()
 
 # Matrix elements
 add_subdirectory(MatrixElements)
-target_link_libraries(momemta LINK_PRIVATE me_pp_ttx_fully_leptonic)
-target_link_libraries(momemta LINK_PRIVATE "-Wl,--whole-archive $<TARGET_FILE:me_pp_ttx_fully_leptonic> -Wl,--no-whole-archive")
-target_link_libraries(momemta LINK_PRIVATE me_pp_WW_fully_leptonic)
-target_link_libraries(momemta LINK_PRIVATE "-Wl,--whole-archive $<TARGET_FILE:me_pp_WW_fully_leptonic> -Wl,--no-whole-archive")
+target_link_libraries(momemta PRIVATE matrix_elements)
 
 add_library(empty_module SHARED "modules/EmptyModule.cc")
+target_link_libraries(empty_module momemta)
 
 # Example executables
 

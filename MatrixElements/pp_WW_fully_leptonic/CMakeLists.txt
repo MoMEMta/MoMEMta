@@ -4,7 +4,8 @@ set(SOURCES
     "SubProcesses/P1_Sigma_sm_uux_epvemumvmx/P1_Sigma_sm_uux_epvemumvmx.cc"
     )
 
-include_directories("include")
-include_directories("SubProcesses/P1_Sigma_sm_uux_epvemumvmx/")
+add_library(me_pp_WW_fully_leptonic OBJECT ${SOURCES})
 
-add_library(me_pp_WW_fully_leptonic STATIC ${SOURCES})
+target_include_directories(me_pp_WW_fully_leptonic PRIVATE "include")
+target_include_directories(me_pp_WW_fully_leptonic PRIVATE "SubProcesses/P1_Sigma_sm_uux_epvemumvmx/")
+
