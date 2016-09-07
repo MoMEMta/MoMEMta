@@ -8,6 +8,7 @@ compiler:
 env:
   - ROOT_VERSION=6.06.02 CMAKE_VERSION=3.2.1
   - ROOT_VERSION=6.06.02 CMAKE_VERSION=3.5.2
+  - ROOT_VERSION=6.06.02 CMAKE_VERSION=3.6.1
 addons:
   apt:
     sources:
