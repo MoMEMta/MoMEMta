@@ -1,8 +1,9 @@
 set(SOURCES
     "lua.cc"
+    "modules.cc"
     "ParameterSet.cc"
-    "unit_tests.cc"
     "pool.cc"
+    "unit_tests.cc"
     )
 
 add_executable(unit_tests ${SOURCES})
