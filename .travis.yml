@@ -19,6 +19,8 @@ addons:
       - g++-4.9
       - libboost1.55-dev
       - libboost-log1.55-dev
+      - libboost-python1.55-dev
+      - libboost-regex1.55-dev
       - graphviz
 before_install:
   - ./travis/decrypt_key.sh 
@@ -29,13 +31,13 @@ install:
   - source travis/get-cmake.sh
   - source travis/get-root.sh
   - source travis/get-lhapdf.sh
-  - source travis/get-doxygen.sh
+  - if [[ $TRAVIS_PULL_REQUEST == 'false' ]]; then source travis/get-doxygen.sh; fi
 before_script:
   - export CXX=g++-4.9
   - export CC=gcc-4.9
   - mkdir build
   - cd build
-  - cmake .. -DTESTS=ON -DCOVERAGE=ON -DCMAKE_BUILD_TYPE=Debug
+  - cmake .. -DTESTS=ON -DCOVERAGE=ON -DPYTHON_BINDINGS=ON -DCMAKE_BUILD_TYPE=Debug
 script:
   - make -j2 && ./tests/unit_tests/unit_tests.exe
 after_success:
