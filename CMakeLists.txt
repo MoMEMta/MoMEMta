@@ -28,6 +28,8 @@ endif()
 
 option(COVERAGE "Enable code coverage" OFF)
 
+option(PYTHON_BINDINGS "Build python bindings. Python needs to be available" OFF)
+
 # Set a default build type for single-configuration
 # CMake generators if no build type is set.
 if (NOT CMAKE_CONFIGURATION_TYPES AND NOT CMAKE_BUILD_TYPE)
@@ -68,8 +70,59 @@ endif()
 
 set(Boost_NO_BOOST_CMAKE ON)
 find_package(Boost 1.54 REQUIRED log)
+
+if (NOT TARGET Boost::log)
+    add_library(Boost::log INTERFACE IMPORTED)
+    set_property(TARGET Boost::log PROPERTY INTERFACE_LINK_LIBRARIES ${Boost_LOG_LIBRARY})
+    set_property(TARGET Boost::log PROPERTY INTERFACE_INCLUDE_DIRECTORIES ${Boost_INCLUDE_DIRS})
+    set_property(TARGET Boost::log PROPERTY INTERFACE_SYSTEM_INCLUDE_DIRECTORIES ${Boost_INCLUDE_DIRS})
+endif()
+
 # Needed since we don't link to the static library
-add_definitions(-DBOOST_LOG_DYN_LINK)
+set_property(TARGET Boost::log PROPERTY INTERFACE_COMPILE_DEFINITIONS "BOOST_LOG_DYN_LINK")
+
+if (PYTHON_BINDINGS)
+    find_package(PythonLibs 2.6)
+    if (PYTHONLIBS_FOUND)
+
+        if (NOT TARGET Python::libs)
+            add_library(Python::libs INTERFACE IMPORTED)
+            set_property(TARGET Python::libs PROPERTY INTERFACE_LINK_LIBRARIES ${PYTHON_LIBRARIES})
+            set_property(TARGET Python::libs PROPERTY INTERFACE_INCLUDE_DIRECTORIES ${PYTHON_INCLUDE_PATH})
+            set_property(TARGET Python::libs PROPERTY INTERFACE_SYSTEM_INCLUDE_DIRECTORIES ${PYTHON_INCLUDE_PATH})
+        endif()
+
+        find_package(PythonInterp 2.6)
+
+        find_package(Boost 1.54 COMPONENTS python)
+        if (NOT Boost_PYTHON_FOUND)
+            message(WARNING "Boost python not found. Not building python bindings")
+            set(PYTHON_BINDINGS OFF)
+        elseif(NOT TARGET Boost::python)
+            add_library(Boost::python INTERFACE IMPORTED)
+            set_property(TARGET Boost::python PROPERTY INTERFACE_LINK_LIBRARIES ${Boost_PYTHON_LIBRARY})
+            set_property(TARGET Boost::python PROPERTY INTERFACE_INCLUDE_DIRECTORIES ${Boost_INCLUDE_DIRS})
+            set_property(TARGET Boost::python PROPERTY INTERFACE_SYSTEM_INCLUDE_DIRECTORIES ${Boost_INCLUDE_DIRS})
+        endif()
+
+    else()
+        message(WARNING "Python not found. Not building python bindings")
+        set(PYTHON_BINDINGS OFF)
+    endif()
+
+endif()
+
+if (PYTHON_BINDINGS)
+    message(STATUS "Building python bindings")
+
+    # Look for pyroot, optional
+    find_library(ROOT_PYROOT_LIBRARY PyROOT HINTS ${ROOT_LIBRARY_DIR})
+    add_library(Root::python INTERFACE IMPORTED)
+    if (ROOT_PYROOT_LIBRARY)
+        set_property(TARGET Root::python APPEND PROPERTY INTERFACE_COMPILE_DEFINITIONS "ROOT_HAS_PYROOT")
+        set_property(TARGET Root::python APPEND PROPERTY INTERFACE_LINK_LIBRARIES ${ROOT_PYROOT_LIBRARY})
+    endif()
+endif()
 
 # Include external
 add_subdirectory(external)
@@ -141,7 +194,6 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 # Public interface
 target_include_directories(momemta PUBLIC "${CMAKE_CURRENT_LIST_DIR}/include")
-target_include_directories(momemta SYSTEM PUBLIC ${Boost_INCLUDE_DIRS})
 
 # Private interface
 target_include_directories(momemta PRIVATE "${CMAKE_CURRENT_LIST_DIR}/core/include")
@@ -153,7 +205,7 @@ target_link_libraries(momemta PRIVATE LHAPDF::LHAPDF)
 
 target_link_libraries(momemta PUBLIC dl)
 target_link_libraries(momemta PUBLIC Root::Root)
-target_link_libraries(momemta PUBLIC ${Boost_LIBRARIES})
+target_link_libraries(momemta PUBLIC Boost::log)
 target_link_libraries(momemta PUBLIC Threads::Threads)
 
 find_library(ROOT_GENVECTOR_LIBRARY GenVector HINTS ${ROOT_LIBRARY_DIR})
@@ -170,6 +222,20 @@ target_link_libraries(momemta PRIVATE matrix_elements)
 
 add_library(empty_module SHARED "modules/EmptyModule.cc")
 target_link_libraries(empty_module momemta)
+
+# Bindings
+
+if (PYTHON_BINDINGS)
+    set(BINDING_SOURCES
+            core/src/python/bindings.cc
+    )
+
+    add_library(momemta_python SHARED ${BINDING_SOURCES})
+
+    target_link_libraries(momemta_python PRIVATE Python::libs Boost::python Root::python momemta)
+    set_target_properties(momemta_python PROPERTIES PREFIX "")
+    set_target_properties(momemta_python PROPERTIES OUTPUT_NAME "momemta")
+endif()
 
 # Example executables
 
@@ -209,6 +275,14 @@ install(TARGETS momemta
     RUNTIME DESTINATION bin
     LIBRARY DESTINATION lib
     ARCHIVE DESTINATION lib)
+
+if(PYTHON_BINDINGS)
+    execute_process(COMMAND ${PYTHON_EXECUTABLE} -c "import distutils.sysconfig; print(distutils.sysconfig.get_python_lib(prefix='', plat_specific=True))"
+            OUTPUT_VARIABLE PYTHON_INSTALL_PREFIX OUTPUT_STRIP_TRAILING_WHITESPACE)
+
+    install(TARGETS momemta_python
+            LIBRARY DESTINATION ${PYTHON_INSTALL_PREFIX})
+endif()
 
 # Uninstall target
 configure_file(
