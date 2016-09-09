@@ -1,12 +1,18 @@
 #! /bin/env python
 
+import argparse
 import momemta
 import unittest
+import sys
+
+CONFIGURATION_FILE = ''
 
 class IntegrationTest(unittest.TestCase):
     def setUp(self):
+        global CONFIGURATION_FILE
+
         momemta.set_log_level(momemta.log_level.error)
-        self.reader = momemta.ConfigurationReader("../examples/tt_fullyleptonic.lua")
+        self.reader = momemta.ConfigurationReader(CONFIGURATION_FILE)
 
         # Change number of iterations for cuba
         cuba = self.reader.getCubaConfiguration()
@@ -54,4 +60,11 @@ class IntegrationTest(unittest.TestCase):
         self.assertAlmostEquals(result[1], 2.1120765e-21)
 
 if __name__ == '__main__':
-    unittest.main()
+    parser = argparse.ArgumentParser()
+    parser.add_argument('configuration', type=str)
+
+    options, args = parser.parse_known_args()
+
+    CONFIGURATION_FILE = options.configuration
+
+    unittest.main(argv=sys.argv[:1] + args)

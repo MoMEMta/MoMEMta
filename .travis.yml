@@ -39,7 +39,7 @@ before_script:
   - cd build
   - cmake .. -DTESTS=ON -DCOVERAGE=ON -DPYTHON_BINDINGS=ON -DCMAKE_BUILD_TYPE=Debug
 script:
-  - make -j2 && ./tests/unit_tests/unit_tests.exe
+  - make -j2 && ./run_tests.sh
 after_success:
   - coveralls -e 'external/' --gcov-options '\-lp' -E '.*CMakeCXXCompilerId\.cpp' -E '.*CMakeCCompilerId\.c' -E '.*feature_tests\.c.*' -E '.*MatrixElements/.*' -E '.*/tests/*.' -r .. &> /dev/null;
   - if [[ $TRAVIS_PULL_REQUEST == 'false' ]]; then ./make_docs.sh; fi

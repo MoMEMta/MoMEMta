@@ -263,6 +263,11 @@ endif()
 option(TESTS "Compile tests" OFF)
 
 if(TESTS)
+    configure_file(
+            "${CMAKE_CURRENT_SOURCE_DIR}/cmake/scripts/run_tests.sh.in"
+            "${CMAKE_CURRENT_BINARY_DIR}/run_tests.sh"
+            IMMEDIATE @ONLY)
+
     add_subdirectory(tests)
 endif()
 
