@@ -29,6 +29,9 @@
 #include <momemta/Module.h>
 #include <momemta/ParameterSet.h>
 #include <momemta/Pool.h>
+#include <momemta/Solution.h>
+#include <momemta/Types.h>
+#include <momemta/Math.h>
 
 #define N_PS_POINTS 5
 
@@ -38,6 +41,10 @@ public:
     ParameterSetMock(const std::string& name):
             ParameterSet(name, name) {
         // Empty
+    }
+
+    void createMock(const std::string& name, const boost::any& value) {
+        create(name, value);
     }
 };
 
@@ -60,6 +67,19 @@ std::shared_ptr<std::vector<double>> addPhaseSpacePoints(std::shared_ptr<Pool> p
     return ps_points;
 }
 
+std::shared_ptr<std::vector<LorentzVector>> addInputParticles(std::shared_ptr<Pool> pool) {
+    pool->current_module("input");
+
+    auto inputs = pool->put<std::vector<LorentzVector>>({"input", "particles"});
+
+    inputs->push_back( { 16.171895980835, -13.7919054031372, -3.42997527122497, 21.5293197631836 });
+    inputs->push_back( { 71.3899612426758, 96.0094833374023, -77.2513122558594, 142.492813110352 });
+    inputs->push_back( { -18.9018573760986, 10.0896110534668, -0.602926552295686, 21.4346446990967 });
+    inputs->push_back( { -55.7908325195313, -111.59294128418, -122.144721984863, 174.66259765625 });
+    
+    return inputs;
+}
+
 TEST_CASE("Modules", "[modules]") {
     std::shared_ptr<Pool> pool(new Pool());
     std::shared_ptr<ParameterSetMock> parameters;
@@ -80,6 +100,8 @@ TEST_CASE("Modules", "[modules]") {
 
     // Register phase space points, mocking what cuba would do
     auto ps_points = addPhaseSpacePoints(pool);
+    // Put a few random input particles into the pool
+    auto input_particles = addInputParticles(pool);
 
     SECTION("BreitWignerGenerator") {
 
@@ -146,5 +168,68 @@ TEST_CASE("Modules", "[modules]") {
 
         REQUIRE(*output == Approx((max + min) / 2.));
         REQUIRE(*jacobian == Approx(expected_jacobian));
+    }
+
+    SECTION("BlockD") {
+
+        parameters.reset(new ParameterSetMock("BlockD"));
+
+        double sqrt_s = 13000;
+        bool pT_is_met = false;
+
+        parameters->set("energy", sqrt_s);
+        parameters->set("pT_is_met", pT_is_met);
+        
+        parameters->set("s13", InputTag("mockS", "s13"));
+        parameters->set("s134", InputTag("mockS", "s134"));
+        parameters->set("s25", InputTag("mockS", "s25"));
+        parameters->set("s256", InputTag("mockS", "s256"));
+
+        double s_13_25 = SQ(80);
+        double s_134_256 = SQ(170);
+        double s_25 = SQ(80);
+        double s_256 = SQ(170);
+
+        auto s13 = pool->put<double>({"mockS", "s13"});
+        auto s134 = pool->put<double>({"mockS", "s134"});
+        auto s25 = pool->put<double>({"mockS", "s25"});
+        auto s256 = pool->put<double>({"mockS", "s256"});
+
+        *s13 = s_13_25; 
+        *s134 = s_134_256;
+        *s25 = s_13_25;
+        *s256 = s_134_256;
+
+        std::vector<InputTag> inputs { 
+                { "input", "particles", 0 },
+                { "input", "particles", 1 },
+                { "input", "particles", 2 },
+                { "input", "particles", 3 }
+            };
+        parameters->createMock("inputs", inputs);
+
+        Value<SolutionCollection> solutions = pool->get<SolutionCollection>({"BlockD", "solutions"});
+
+        auto module = createModule("BlockD");
+
+        REQUIRE(module->work() == Module::Status::OK);
+        REQUIRE(solutions->size() == 2);
+
+        for (const auto& solution: *solutions) {
+            REQUIRE(solution.valid == true);
+
+            LorentzVector test_p13 = input_particles->at(0) + solution.values.at(0);
+            LorentzVector test_p134 = input_particles->at(1) + test_p13;
+            LorentzVector test_p25 = input_particles->at(2) + solution.values.at(1);
+            LorentzVector test_p256 = input_particles->at(3) + test_p25;
+            
+            REQUIRE(test_p13.M2() == Approx(s_13_25));
+            REQUIRE(test_p134.M2() == Approx(s_134_256));
+            REQUIRE(test_p25.M2() == Approx(s_13_25));
+            REQUIRE(test_p256.M2() == Approx(s_134_256));
+
+            LorentzVector test_pT = test_p134 + test_p256;
+            REQUIRE(test_pT.Pt() == Approx(0));
+        }
     }
 }
