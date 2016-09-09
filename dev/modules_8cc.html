@@ -132,25 +132,31 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <code>#include &lt;momemta/Module.h&gt;</code><br />
 <code>#include &lt;momemta/ParameterSet.h&gt;</code><br />
 <code>#include &lt;momemta/Pool.h&gt;</code><br />
+<code>#include &lt;momemta/Solution.h&gt;</code><br />
+<code>#include &lt;momemta/Types.h&gt;</code><br />
+<code>#include &lt;<a class="el" href="Math_8h_source.html">momemta/Math.h</a>&gt;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for modules.cc:</div>
 <div class="dyncontent">
 <div class="center"><img src="modules_8cc__incl.png" border="0" usemap="#tests_2unit__tests_2modules_8cc" alt=""/></div>
 <map name="tests_2unit__tests_2modules_8cc" id="tests_2unit__tests_2modules_8cc">
-<area shape="rect" id="node3" href="ModuleFactory_8h_source.html" title="momemta/ModuleFactory.h" alt="" coords="135,379,316,405"/>
-<area shape="rect" id="node13" href="Module_8h_source.html" title="momemta/Module.h" alt="" coords="438,80,575,107"/>
-<area shape="rect" id="node15" href="Pool_8h_source.html" title="momemta/Pool.h" alt="" coords="702,304,823,331"/>
-<area shape="rect" id="node26" href="ParameterSet_8h_source.html" title="momemta/ParameterSet.h" alt="" coords="1261,304,1435,331"/>
-<area shape="rect" id="node8" href="PluginFactory_8h_source.html" title="momemta/PluginFactory.h" alt="" coords="314,461,488,488"/>
-<area shape="rect" id="node9" href="Logging_8h_source.html" title="momemta/Logging.h" alt="" coords="765,544,904,571"/>
-<area shape="rect" id="node14" href="impl_2Pool_8h_source.html" title="momemta/impl/Pool.h" alt="" coords="432,155,580,181"/>
-<area shape="rect" id="node25" href="InputTag_8h_source.html" title="momemta/InputTag.h" alt="" coords="1088,379,1235,405"/>
-<area shape="rect" id="node21" href="Value_8h_source.html" title="momemta/Value.h" alt="" coords="443,379,571,405"/>
-<area shape="rect" id="node24" href="ValueProxy_8h_source.html" title="momemta/impl/ValueProxy.h" alt="" coords="545,229,735,256"/>
-<area shape="rect" id="node18" href="InputTag__fwd_8h_source.html" title="momemta/impl/InputTag\l_fwd.h" alt="" coords="969,454,1132,495"/>
-<area shape="rect" id="node20" href="Configuration_8h_source.html" title="momemta/Configuration.h" alt="" coords="790,379,961,405"/>
-<area shape="rect" id="node22" href="ValueProxy__fwd_8h_source.html" title="momemta/impl/ValueProxy\l_fwd.h" alt="" coords="615,454,793,495"/>
-<area shape="rect" id="node28" href="traits_8h_source.html" title="momemta/impl/traits.h" alt="" coords="1308,461,1460,488"/>
+<area shape="rect" id="node3" href="ModuleFactory_8h_source.html" title="momemta/ModuleFactory.h" alt="" coords="484,379,665,405"/>
+<area shape="rect" id="node13" href="Module_8h_source.html" title="momemta/Module.h" alt="" coords="639,80,776,107"/>
+<area shape="rect" id="node15" href="Pool_8h_source.html" title="momemta/Pool.h" alt="" coords="741,304,861,331"/>
+<area shape="rect" id="node26" href="ParameterSet_8h_source.html" title="momemta/ParameterSet.h" alt="" coords="1510,304,1684,331"/>
+<area shape="rect" id="node29" href="Solution_8h_source.html" title="momemta/Solution.h" alt="" coords="931,80,1073,107"/>
+<area shape="rect" id="node30" href="include_2momemta_2Types_8h_source.html" title="momemta/Types.h" alt="" coords="1081,155,1211,181"/>
+<area shape="rect" id="node33" href="Math_8h.html" title="Mathematical functions. " alt="" coords="1187,80,1311,107"/>
+<area shape="rect" id="node8" href="PluginFactory_8h_source.html" title="momemta/PluginFactory.h" alt="" coords="613,461,787,488"/>
+<area shape="rect" id="node9" href="Logging_8h_source.html" title="momemta/Logging.h" alt="" coords="1086,544,1225,571"/>
+<area shape="rect" id="node14" href="impl_2Pool_8h_source.html" title="momemta/impl/Pool.h" alt="" coords="572,155,720,181"/>
+<area shape="rect" id="node25" href="InputTag_8h_source.html" title="momemta/InputTag.h" alt="" coords="1388,379,1535,405"/>
+<area shape="rect" id="node21" href="Value_8h_source.html" title="momemta/Value.h" alt="" coords="785,379,913,405"/>
+<area shape="rect" id="node24" href="ValueProxy_8h_source.html" title="momemta/impl/ValueProxy.h" alt="" coords="621,229,811,256"/>
+<area shape="rect" id="node18" href="InputTag__fwd_8h_source.html" title="momemta/impl/InputTag\l_fwd.h" alt="" coords="1268,454,1431,495"/>
+<area shape="rect" id="node20" href="Configuration_8h_source.html" title="momemta/Configuration.h" alt="" coords="1090,379,1261,405"/>
+<area shape="rect" id="node22" href="ValueProxy__fwd_8h_source.html" title="momemta/impl/ValueProxy\l_fwd.h" alt="" coords="863,454,1041,495"/>
+<area shape="rect" id="node28" href="traits_8h_source.html" title="momemta/impl/traits.h" alt="" coords="1556,461,1708,488"/>
 </map>
 </div>
 </div>
@@ -172,6 +178,9 @@ Functions</h2></td></tr>
 <tr class="memitem:ad88717b3dc5e581a574a1c9ba6a19e75"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad88717b3dc5e581a574a1c9ba6a19e75"></a>
 std::shared_ptr&lt; std::vector&lt; double &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>addPhaseSpacePoints</b> (std::shared_ptr&lt; <a class="el" href="classPool.html">Pool</a> &gt; pool)</td></tr>
 <tr class="separator:ad88717b3dc5e581a574a1c9ba6a19e75"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab3c93e127947c1cf04932ac7681f85fe"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab3c93e127947c1cf04932ac7681f85fe"></a>
+std::shared_ptr&lt; std::vector&lt; LorentzVector &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>addInputParticles</b> (std::shared_ptr&lt; <a class="el" href="classPool.html">Pool</a> &gt; pool)</td></tr>
+<tr class="separator:ab3c93e127947c1cf04932ac7681f85fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a91722e799d4adb9693e06fa0434f185c"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a91722e799d4adb9693e06fa0434f185c"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>TEST_CASE</b> (&quot;Modules&quot;,&quot;[modules]&quot;)</td></tr>
 <tr class="separator:a91722e799d4adb9693e06fa0434f185c"><td class="memSeparator" colspan="2">&#160;</td></tr>
