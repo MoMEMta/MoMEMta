@@ -27,6 +27,12 @@
 #include <TPython.h>
 #endif
 
+/**
+ * \file
+ * \brief Python bindings
+ * \defgroup Python Python bindings
+ */
+
 namespace bp = boost::python;
 
 void set_log_level(boost::log::trivial::severity_level severity) {
