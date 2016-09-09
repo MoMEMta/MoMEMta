@@ -6,10 +6,14 @@ language: cpp
 compiler:
   - gcc
 env:
-  - ROOT_VERSION=6.06.02 CMAKE_VERSION=3.2.1
-  - ROOT_VERSION=6.06.02 CMAKE_VERSION=3.5.2
-  - ROOT_VERSION=6.06.02 CMAKE_VERSION=3.6.1
-  - ROOT_VERSION=5.34.25 CMAKE_VERSION=3.6.1
+  global:
+    - PYTHON=true
+  matrix:
+    - ROOT_VERSION=6.06.02 CMAKE_VERSION=3.2.1
+    - ROOT_VERSION=6.06.02 CMAKE_VERSION=3.5.2
+    - ROOT_VERSION=6.06.02 CMAKE_VERSION=3.6.1
+    - ROOT_VERSION=5.34.25 CMAKE_VERSION=3.6.1
+    - ROOT_VERSION=6.06.02 CMAKE_VERSION=3.6.1 PYTHON=false
 addons:
   apt:
     sources:
@@ -19,12 +23,12 @@ addons:
       - g++-4.9
       - libboost1.55-dev
       - libboost-log1.55-dev
-      - libboost-python1.55-dev
       - libboost-regex1.55-dev
       - graphviz
 before_install:
   - ./travis/decrypt_key.sh 
   - pip install --user cpp-coveralls
+  - if [[ $PYTHON == 'true' ]]; then sudo apt-get -y install libboost-python1.55-dev; fi
 install:
   - export CXX=g++-4.9
   - export CC=gcc-4.9
