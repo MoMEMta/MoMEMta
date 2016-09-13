@@ -1,3 +1,5 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$classMoMEMta.html" title="A MoMEMta instance. " alt="" coords="5,5,88,32"/>
+<area shape="rect" id="node1" href="$structlua_1_1Lazy.html" title="Lazy value in lua (delayed evaluation) " alt="" coords="5,31,80,57"/>
+<area shape="rect" id="node2" href="$structlua_1_1LazyFunction.html" title="Lazy function in lua (delayed function evaluation) " alt="" coords="133,5,259,32"/>
+<area shape="rect" id="node3" href="$structlua_1_1LazyTableField.html" title="Lazy table field in lua (delayed table access) " alt="" coords="129,56,263,83"/>
 </map>
