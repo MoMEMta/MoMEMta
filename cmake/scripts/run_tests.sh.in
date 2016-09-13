@@ -1,0 +1,15 @@
+#! /bin/bash
+
+echo "Running tests for MoMEMta"
+
+# Exit on error
+set -e
+
+# C++ unit tests
+./tests/unit_tests/unit_tests.exe
+
+if [[ "@PYTHON_BINDINGS@" == "ON" ]]; then
+    # Python integration tests
+    export PYTHONPATH="@CMAKE_BINARY_DIR@:$PYTHONPATH"
+    python "@CMAKE_SOURCE_DIR@/tests/bindings/python/integration_tests.py" "@CMAKE_SOURCE_DIR@/tests/bindings/python/configuration.lua"
+fi

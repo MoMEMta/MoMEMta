@@ -6,10 +6,14 @@ language: cpp
 compiler:
   - gcc
 env:
-  - ROOT_VERSION=6.06.02 CMAKE_VERSION=3.2.1
-  - ROOT_VERSION=6.06.02 CMAKE_VERSION=3.5.2
-  - ROOT_VERSION=6.06.02 CMAKE_VERSION=3.6.1
-  - ROOT_VERSION=5.34.25 CMAKE_VERSION=3.6.1
+  global:
+    - PYTHON=true
+  matrix:
+    - ROOT_VERSION=6.06.02 CMAKE_VERSION=3.2.1
+    - ROOT_VERSION=6.06.02 CMAKE_VERSION=3.5.2
+    - ROOT_VERSION=6.06.02 CMAKE_VERSION=3.6.1
+    - ROOT_VERSION=5.34.25 CMAKE_VERSION=3.6.1
+    - ROOT_VERSION=6.06.02 CMAKE_VERSION=3.6.1 PYTHON=false
 addons:
   apt:
     sources:
@@ -19,25 +23,27 @@ addons:
       - g++-4.9
       - libboost1.55-dev
       - libboost-log1.55-dev
+      - libboost-regex1.55-dev
       - graphviz
 before_install:
   - ./travis/decrypt_key.sh 
   - pip install --user cpp-coveralls
+  - if [[ $PYTHON == 'true' ]]; then sudo apt-get -y install libboost-python1.55-dev; fi
 install:
   - export CXX=g++-4.9
   - export CC=gcc-4.9
   - source travis/get-cmake.sh
   - source travis/get-root.sh
   - source travis/get-lhapdf.sh
-  - source travis/get-doxygen.sh
+  - if [[ $TRAVIS_PULL_REQUEST == 'false' ]]; then source travis/get-doxygen.sh; fi
 before_script:
   - export CXX=g++-4.9
   - export CC=gcc-4.9
   - mkdir build
   - cd build
-  - cmake .. -DTESTS=ON -DCOVERAGE=ON -DCMAKE_BUILD_TYPE=Debug
+  - cmake .. -DTESTS=ON -DCOVERAGE=ON -DPYTHON_BINDINGS=ON -DCMAKE_BUILD_TYPE=Debug
 script:
-  - make -j2 && ./tests/unit_tests/unit_tests.exe
+  - make -j2 && ./run_tests.sh
 after_success:
   - coveralls -e 'external/' --gcov-options '\-lp' -E '.*CMakeCXXCompilerId\.cpp' -E '.*CMakeCCompilerId\.c' -E '.*feature_tests\.c.*' -E '.*MatrixElements/.*' -E '.*/tests/*.' -r .. &> /dev/null;
   - if [[ $TRAVIS_PULL_REQUEST == 'false' ]]; then ./make_docs.sh; fi
