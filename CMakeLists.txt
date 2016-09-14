@@ -143,6 +143,7 @@ endif()
 
 set(MOMEMTA_SOURCES
     "modules/BinnedTransferFunctionOnEnergy.cc"
+    "modules/BlockA.cc"
     "modules/BlockB.cc"
     "modules/BlockD.cc"
     "modules/BlockF.cc"
