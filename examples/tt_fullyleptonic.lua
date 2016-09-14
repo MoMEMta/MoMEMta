@@ -85,13 +85,13 @@ BreitWignerGenerator.flatter_s256 = {
 }
 
 if USE_TF then
-    GaussianTransferFunction.tf_p1 = {
+    GaussianTransferFunctionOnEnergy.tf_p1 = {
         ps_point = add_dimension(),
         reco_particle = 'input::particles/1',
         sigma = 0.05,
     }
 
-    GaussianTransferFunction.tf_p2 = {
+    GaussianTransferFunctionOnEnergy.tf_p2 = {
         ps_point = add_dimension(),
         reco_particle = 'input::particles/2',
         sigma = 0.10,
@@ -105,13 +105,13 @@ if USE_TF then
     --     th2_name = 'Binned_Egen_DeltaE_Norm_jet',
     -- }
 
-    GaussianTransferFunction.tf_p3 = {
+    GaussianTransferFunctionOnEnergy.tf_p3 = {
         ps_point = add_dimension(),
         reco_particle = 'input::particles/3',
         sigma = 0.05,
     }
 
-    GaussianTransferFunction.tf_p4 = {
+    GaussianTransferFunctionOnEnergy.tf_p4 = {
         ps_point = add_dimension(),
         reco_particle = 'input::particles/4',
         sigma = 0.10,

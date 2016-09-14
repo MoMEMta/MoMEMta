@@ -54,13 +54,13 @@ BreitWignerGenerator.flatter_s24 = {
 
 
 if USE_TF then
-    GaussianTransferFunction.tf_p1 = {
+    GaussianTransferFunctionOnEnergy.tf_p1 = {
         ps_point = add_dimension(),
         reco_particle = 'input::particles/1',
         sigma = 0.05,
     }
 
-    GaussianTransferFunction.tf_p2 = {
+    GaussianTransferFunctionOnEnergy.tf_p2 = {
         ps_point = add_dimension(),
         reco_particle = 'input::particles/2',
         sigma = 0.10,

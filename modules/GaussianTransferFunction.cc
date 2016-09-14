@@ -63,54 +63,88 @@
  * 
  * \ingroup modules
  */
-class GaussianTransferFunction: public Module {
+
+class GaussianTransferFunctionOnEnergyBase: public Module {
     public:
 
-        GaussianTransferFunction(PoolPtr pool, const ParameterSet& parameters): Module(pool, parameters.getModuleName()) {
-            m_ps_point = get<double>(parameters.get<InputTag>("ps_point"));
-            m_input = get<LorentzVector>(parameters.get<InputTag>("reco_particle"));
+        GaussianTransferFunctionOnEnergyBase(PoolPtr pool, const ParameterSet& parameters): Module(pool, parameters.getModuleName()) {
+            m_reco_input = get<LorentzVector>(parameters.get<InputTag>("reco_particle"));
 
             m_sigma = parameters.get<double>("sigma", 0.10);
             m_sigma_range = parameters.get<double>("sigma_range", 5);
-        };
+        }
+
+    protected:
+        double m_sigma;
+        double m_sigma_range;
+
+        // Input
+        Value<LorentzVector> m_reco_input;
+};
+
+class GaussianTransferFunctionOnEnergy: public GaussianTransferFunctionOnEnergyBase {
+    public:
+        GaussianTransferFunctionOnEnergy(PoolPtr pool, const ParameterSet& parameters): GaussianTransferFunctionOnEnergyBase(pool, parameters) {
+            m_ps_point = get<double>(parameters.get<InputTag>("ps_point"));
+        }
 
         virtual Status work() override {
+            // Estimate the width over which to integrate using the width of the TF at E_rec ...
+            const double sigma_E_rec = m_reco_input->E() * m_sigma;
 
-            const double& ps_point = *m_ps_point;
-            const LorentzVector& reco_particle = *m_input;
-
-            double sigma = reco_particle.E() * m_sigma;
-
-            double range_min = std::max(0., reco_particle.E() - (m_sigma_range * sigma));
-            double range_max = reco_particle.E() + (m_sigma_range * sigma);
+            double range_min = std::max(0., m_reco_input->E() - (m_sigma_range * sigma_E_rec));
+            double range_max = m_reco_input->E() + (m_sigma_range * sigma_E_rec);
             double range = (range_max - range_min);
 
-            double gen_E = range_min + (range * ps_point);
-            double gen_pt = std::sqrt(SQ(gen_E) - SQ(reco_particle.M())) / std::cosh(reco_particle.Eta());
+            double gen_E = range_min + range * (*m_ps_point);
+            double gen_pt = std::sqrt(SQ(gen_E) - SQ(m_reco_input->M())) / std::cosh(m_reco_input->Eta());
 
             output->SetCoordinates(
-                    gen_pt * std::cos(reco_particle.Phi()),
-                    gen_pt * std::sin(reco_particle.Phi()),
-                    gen_pt * std::sinh(reco_particle.Eta()),
+                    gen_pt * std::cos(m_reco_input->Phi()),
+                    gen_pt * std::sin(m_reco_input->Phi()),
+                    gen_pt * std::sinh(m_reco_input->Eta()),
                     gen_E);
 
-            // Compute jacobian
-            *TF_times_jacobian = ROOT::Math::normal_pdf(gen_E, sigma, reco_particle.E()) * range * dP_over_dE(*output);
+            // ... but compute the width of the TF at E_gen!
+            const double sigma_E_gen = gen_E * m_sigma;
+
+            // Compute TF*jacobian, where the jacobian includes the transformation of [0,1]->[range_min,range_max] and d|P|/dE
+            *TF_times_jacobian = ROOT::Math::normal_pdf(gen_E, sigma_E_gen, m_reco_input->E()) * range * dP_over_dE(*output);
 
             return Status::OK;
         }
 
     private:
-        double m_sigma;
-        double m_sigma_range;
-
-        // Inputs
+        // Input
         Value<double> m_ps_point;
-        Value<LorentzVector> m_input;
 
         // Outputs
         std::shared_ptr<LorentzVector> output = produce<LorentzVector>("output");
         std::shared_ptr<double> TF_times_jacobian = produce<double>("TF_times_jacobian");
 
 };
-REGISTER_MODULE(GaussianTransferFunction);
+
+class GaussianTransferFunctionOnEnergyEvaluator: public GaussianTransferFunctionOnEnergyBase {
+    public:
+        GaussianTransferFunctionOnEnergyEvaluator(PoolPtr pool, const ParameterSet& parameters): GaussianTransferFunctionOnEnergyBase(pool, parameters) {
+            m_gen_input = get<LorentzVector>(parameters.get<InputTag>("gen_particle"));
+        }
+
+        virtual Status work() override {
+            // Compute TF value
+            *TF_value = ROOT::Math::normal_pdf(m_gen_input->E(), m_gen_input->E() * m_sigma, m_reco_input->E());
+
+            return Status::OK;
+        }
+
+    private:
+        // Input
+        Value<LorentzVector> m_gen_input;
+
+        // Outputs
+        std::shared_ptr<double> TF_value = produce<double>("TF");
+
+};
+
+REGISTER_MODULE(GaussianTransferFunctionOnEnergy);
+REGISTER_MODULE(GaussianTransferFunctionOnEnergyEvaluator);
