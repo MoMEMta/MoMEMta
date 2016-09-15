@@ -175,6 +175,7 @@ set(MOMEMTA_SOURCES
     "core/src/MoMEMta.cc"
     "core/src/Module.cc"
     "core/src/ModuleFactory.cc"
+    "core/src/MEParameters.cc"
     "core/src/ParameterSet.cc"
     "core/src/Path.cc"
     "core/src/Pool.cc"

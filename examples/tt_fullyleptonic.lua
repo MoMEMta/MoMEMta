@@ -176,7 +176,11 @@ Looper.looper = {
 
       matrix_element = 'pp_ttx_fully_leptonic',
       matrix_element_parameters = {
-          card = '../MatrixElements/Cards/param_card.dat'
+          card = '../MatrixElements/Cards/param_card.dat',
+      },
+
+      override_parameters = {
+          mdl_MT = parameter('top_mass'),
       },
 
       initialState = 'boost::partons',

@@ -122,6 +122,15 @@ ParameterSet* ParameterSet::clone() const {
     return new ParameterSet(*this);
 }
 
+std::vector<std::string> ParameterSet::getNames() const {
+    std::vector<std::string> names;
+    for (const auto& it: m_set) {
+        names.push_back(it.first);
+    }
+
+    return names;
+}
+
 // ---------
 
 LazyParameterSet::LazyParameterSet(std::shared_ptr<lua_State> L, const std::string& name):
