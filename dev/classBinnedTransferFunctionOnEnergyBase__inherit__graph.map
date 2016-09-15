@@ -1,0 +1,5 @@
+<map id="BinnedTransferFunctionOnEnergyBase" name="BinnedTransferFunctionOnEnergyBase">
+<area shape="rect" id="node3" href="$classBinnedTransferFunctionOnEnergy.html" title="Integrate over a transfer function on energy described by a 2D histogram retrieved from a ROOT file..." alt="" coords="5,171,181,213"/>
+<area shape="rect" id="node4" href="$classBinnedTransferFunctionOnEnergyEvaluator.html" title="Evaluate a transfer function on energy described by a 2D histogram retrieved from a ROOT file..." alt="" coords="206,171,383,213"/>
+<area shape="rect" id="node2" href="$classModule.html" title="Parent class for all the modules. " alt="" coords="161,5,225,32"/>
+</map>

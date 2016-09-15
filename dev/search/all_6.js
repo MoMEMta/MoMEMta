@@ -1,6 +1,8 @@
 var searchData=
 [
-  ['gaussiantransferfunction',['GaussianTransferFunction',['../classGaussianTransferFunction.html',1,'']]],
+  ['gaussiantransferfunctiononenergy',['GaussianTransferFunctionOnEnergy',['../classGaussianTransferFunctionOnEnergy.html',1,'']]],
+  ['gaussiantransferfunctiononenergybase',['GaussianTransferFunctionOnEnergyBase',['../classGaussianTransferFunctionOnEnergyBase.html',1,'']]],
+  ['gaussiantransferfunctiononenergyevaluator',['GaussianTransferFunctionOnEnergyEvaluator',['../classGaussianTransferFunctionOnEnergyEvaluator.html',1,'']]],
   ['generate_5fcuba_5finputtag',['generate_cuba_inputtag',['../namespacelua.html#a6b5682096f08d96e3f46d8e403c52081',1,'lua']]],
   ['get_5fcustom_5ftype_5fname',['get_custom_type_name',['../core_2include_2lua_2Types_8h.html#a3a9050c88d82c5571a5ec3d5917ca31b',1,'Types.cc']]],
   ['get_5fcustom_5ftype_5fptr',['get_custom_type_ptr',['../core_2include_2lua_2Types_8h.html#a65731f3013241a58fead7d6bcde3bcff',1,'Types.cc']]],

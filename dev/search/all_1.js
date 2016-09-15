@@ -4,6 +4,8 @@ var searchData=
   ['beginloop',['beginLoop',['../classModule.html#ae4e8fd60f1adfbf0aa0f244f39a45ae4',1,'Module::beginLoop()'],['../classCounter.html#a29b1f89ba01068f4b5683bd5f7096d42',1,'Counter::beginLoop()'],['../classSimpleCounter.html#a59251318747ae1f77fcde3118f4d746a',1,'SimpleCounter::beginLoop()'],['../classSummer.html#a5c8e7ecd91c81862200cf886578d71c6',1,'Summer::beginLoop() override'],['../classSummer.html#a821bdc98ada22c9248a0e2e759de773d',1,'Summer::beginLoop()']]],
   ['bindings_2ecc',['bindings.cc',['../bindings_8cc.html',1,'']]],
   ['binnedtransferfunctiononenergy',['BinnedTransferFunctionOnEnergy',['../classBinnedTransferFunctionOnEnergy.html',1,'']]],
+  ['binnedtransferfunctiononenergybase',['BinnedTransferFunctionOnEnergyBase',['../classBinnedTransferFunctionOnEnergyBase.html',1,'']]],
+  ['binnedtransferfunctiononenergyevaluator',['BinnedTransferFunctionOnEnergyEvaluator',['../classBinnedTransferFunctionOnEnergyEvaluator.html',1,'']]],
   ['block',['Block',['../classSLHA_1_1Block.html',1,'SLHA']]],
   ['blockb',['BlockB',['../classBlockB.html',1,'']]],
   ['blockd',['BlockD',['../classBlockD.html',1,'']]],

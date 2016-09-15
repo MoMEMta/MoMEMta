@@ -11,7 +11,7 @@
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-scrollTo/2.1.2/jquery.scrollTo.min.js"></script>
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-powertip/1.2.0/jquery.powertip.min.js"></script>
-        <title>MoMEMta: BinnedTransferFunctionOnEnergy Class Reference</title>
+        <title>MoMEMta: GaussianTransferFunctionOnEnergy Class Reference</title>
         <!--<link href="tabs.css" rel="stylesheet" type="text/css"/>-->
         <script type="text/javascript" src="dynsections.js"></script>
         <link href="search/search.css" rel="stylesheet" type="text/css"/>
@@ -111,20 +111,19 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="classBinnedTransferFunctionOnEnergy-members.html">List of all members</a>  </div>
+<a href="classGaussianTransferFunctionOnEnergy-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">BinnedTransferFunctionOnEnergy Class Reference<div class="ingroups"><a class="el" href="group__modules.html">Modules</a></div></div>  </div>
+<div class="title">GaussianTransferFunctionOnEnergy Class Reference<div class="ingroups"><a class="el" href="group__modules.html">Modules</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p>Integrate over a transfer function on energy described by a 2D histogram retrieved from a ROOT file.  
- <a href="classBinnedTransferFunctionOnEnergy.html#details">More...</a></p>
+<p>Integrate over a transfer function on energy described by a Gaussian distribution.  
+ <a href="classGaussianTransferFunctionOnEnergy.html#details">More...</a></p>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Integrate over a transfer function on energy described by a 2D histogram retrieved from a ROOT file. </p>
-<p>This module takes as input a LorentzVector and a phase-space point, generates a new LorentzVector with a different energy (keeping direction and invariant mass), and evaluates the transfer function on the "reconstructed" and "generated" energies.</p>
-<p>The transfer function (TF) is described by a 2D histogram (a ROOT TH2), where the X-axis defines the "generated" (true) energy \(E_{gen}\), and the Y-axis the difference between the reconstructed and the generated energy ( \(E_{rec}-E_{gen}\)).</p>
-<p>It is assumed the TF is correctly normalised, i.e. integrals of slices along the Y-axis sum up to 1.</p>
-<p>The integration is done over the whole width of the TF. The TF is assumed to continue asymptotically as a constant for \(E_{gen} \to \infty\).</p>
+<div class="textblock"><p>Integrate over a transfer function on energy described by a Gaussian distribution. </p>
+<p>This module takes as inputs a LorentzVector and a phase-space point, generates a new LorentzVector with a different energy (keeping direction and invariant mass), and evaluates the transfer function on the "reconstructed" and "generated" energies.</p>
+<p>The transfer function (TF) is a Gaussian distribution that describes the difference between the reconstructed and the generated energy ( \(E_{rec}-E_{gen}\)). The width of the distribution, parametrised as a fraction of \(E_{gen}\), is set as parameter.</p>
+<p>The range of the integration is determined using the width of the Gaussian at \(E_{rec}\), integrating over a user-defined 'number of sigmas' <code>n</code>: \(E_{gen} \in \pm n \cdot \sigma \cdot E_{rec}\).</p>
 <h3>Integration dimension</h3>
 <p>This module requires <b>1</b> phase-space point.</p>
 <h3>Parameters</h3>
@@ -132,9 +131,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <tr>
 <th>Name </th><th>Type </th><th>Description  </th></tr>
 <tr>
-<td><code>file</code> </td><td>string </td><td><a class="el" href="classPath.html" title="An execution path. ">Path</a> to the ROOT file in which the transfer function is saved. </td></tr>
+<td><code>sigma</code> </td><td>double </td><td>Fraction of the energy yielding the width of the Gaussian distribution (with <code>sigma</code> at <code>0.1</code>, \(\sigma_{gauss} = 0.1 \cdot E_{gen}\)). </td></tr>
 <tr>
-<td><code>th2_name</code> </td><td>string </td><td>Name of the TH2 stored in file <code>file</code> </td></tr>
+<td><code>sigma_range</code> </td><td>double </td><td>Range of integration expressed in number of sigma. </td></tr>
 </table>
 <h3>Inputs</h3>
 <table class="doxtable">
@@ -154,31 +153,31 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <tr>
 <td><code>TF_times_jacobian</code> </td><td>double </td><td>Product of the TF evaluated on the <em>reco</em> and <em>gen</em> energies, times the jacobian of the transformation needed stretch the integration range from \([0,1]\) to the width of the TF, times the jacobian \(dE/d|P|\) due to the fact that the integration is done w.r.t \(|P|\), while the TF is parametrised in terms of energy. </td></tr>
 </table>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="classBinnedTransferFunctionOnEnergyEvaluator.html" title="Evaluate a transfer function on energy described by a 2D histogram retrieved from a ROOT file...">BinnedTransferFunctionOnEnergyEvaluator</a> </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="classGaussianTransferFunctionOnEnergyEvaluator.html" title="Evaluate a transfer function on energy described by a Gaussian distribution. ">GaussianTransferFunctionOnEnergyEvaluator</a> </dd></dl>
 
-<p>Definition at line <a class="el" href="BinnedTransferFunctionOnEnergy_8cc_source.html#l00146">146</a> of file <a class="el" href="BinnedTransferFunctionOnEnergy_8cc_source.html">BinnedTransferFunctionOnEnergy.cc</a>.</p>
+<p>Definition at line <a class="el" href="GaussianTransferFunctionOnEnergy_8cc_source.html#l00092">92</a> of file <a class="el" href="GaussianTransferFunctionOnEnergy_8cc_source.html">GaussianTransferFunctionOnEnergy.cc</a>.</p>
 </div><div class="dynheader">
-Inheritance diagram for BinnedTransferFunctionOnEnergy:</div>
+Inheritance diagram for GaussianTransferFunctionOnEnergy:</div>
 <div class="dyncontent">
-<div class="center"><img src="classBinnedTransferFunctionOnEnergy__inherit__graph.png" border="0" usemap="#BinnedTransferFunctionOnEnergy_inherit__map" alt="Inheritance graph"/></div>
-<map name="BinnedTransferFunctionOnEnergy_inherit__map" id="BinnedTransferFunctionOnEnergy_inherit__map">
-<area shape="rect" id="node2" href="classBinnedTransferFunctionOnEnergyBase.html" title="Helper class for binned transfer function modules. " alt="" coords="5,81,181,122"/>
-<area shape="rect" id="node3" href="classModule.html" title="Parent class for all the modules. " alt="" coords="61,5,125,32"/>
+<div class="center"><img src="classGaussianTransferFunctionOnEnergy__inherit__graph.png" border="0" usemap="#GaussianTransferFunctionOnEnergy_inherit__map" alt="Inheritance graph"/></div>
+<map name="GaussianTransferFunctionOnEnergy_inherit__map" id="GaussianTransferFunctionOnEnergy_inherit__map">
+<area shape="rect" id="node2" href="classGaussianTransferFunctionOnEnergyBase.html" title="Helper class for Gaussian transfer function modules. " alt="" coords="5,81,179,122"/>
+<area shape="rect" id="node3" href="classModule.html" title="Parent class for all the modules. " alt="" coords="60,5,124,32"/>
 </map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:afa5c00840fa6c8202842d38ceb369b3a"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="afa5c00840fa6c8202842d38ceb369b3a"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>BinnedTransferFunctionOnEnergy</b> (PoolPtr pool, const <a class="el" href="classParameterSet.html">ParameterSet</a> &amp;parameters)</td></tr>
-<tr class="separator:afa5c00840fa6c8202842d38ceb369b3a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6c6dbf31c88228cedd032de7b8a666f6"><td class="memItemLeft" align="right" valign="top">virtual Status&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBinnedTransferFunctionOnEnergy.html#a6c6dbf31c88228cedd032de7b8a666f6">work</a> () override</td></tr>
-<tr class="memdesc:a6c6dbf31c88228cedd032de7b8a666f6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Main function.  <a href="#a6c6dbf31c88228cedd032de7b8a666f6">More...</a><br /></td></tr>
-<tr class="separator:a6c6dbf31c88228cedd032de7b8a666f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="inherit_header pub_methods_classBinnedTransferFunctionOnEnergyBase"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classBinnedTransferFunctionOnEnergyBase')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classBinnedTransferFunctionOnEnergyBase.html">BinnedTransferFunctionOnEnergyBase</a></td></tr>
-<tr class="memitem:adde148480c0dc446bb2460c11d2fb5d6 inherit pub_methods_classBinnedTransferFunctionOnEnergyBase"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="adde148480c0dc446bb2460c11d2fb5d6"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>BinnedTransferFunctionOnEnergyBase</b> (PoolPtr pool, const <a class="el" href="classParameterSet.html">ParameterSet</a> &amp;parameters)</td></tr>
-<tr class="separator:adde148480c0dc446bb2460c11d2fb5d6 inherit pub_methods_classBinnedTransferFunctionOnEnergyBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a08f0b413a882f154b459f123ba8aee46"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a08f0b413a882f154b459f123ba8aee46"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>GaussianTransferFunctionOnEnergy</b> (PoolPtr pool, const <a class="el" href="classParameterSet.html">ParameterSet</a> &amp;parameters)</td></tr>
+<tr class="separator:a08f0b413a882f154b459f123ba8aee46"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a98771cb6b31e175bccbef93569b77295"><td class="memItemLeft" align="right" valign="top">virtual Status&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGaussianTransferFunctionOnEnergy.html#a98771cb6b31e175bccbef93569b77295">work</a> () override</td></tr>
+<tr class="memdesc:a98771cb6b31e175bccbef93569b77295"><td class="mdescLeft">&#160;</td><td class="mdescRight">Main function.  <a href="#a98771cb6b31e175bccbef93569b77295">More...</a><br /></td></tr>
+<tr class="separator:a98771cb6b31e175bccbef93569b77295"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_methods_classGaussianTransferFunctionOnEnergyBase"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classGaussianTransferFunctionOnEnergyBase')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classGaussianTransferFunctionOnEnergyBase.html">GaussianTransferFunctionOnEnergyBase</a></td></tr>
+<tr class="memitem:afc893600688bc8262e00210698bcc2de inherit pub_methods_classGaussianTransferFunctionOnEnergyBase"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="afc893600688bc8262e00210698bcc2de"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>GaussianTransferFunctionOnEnergyBase</b> (PoolPtr pool, const <a class="el" href="classParameterSet.html">ParameterSet</a> &amp;parameters)</td></tr>
+<tr class="separator:afc893600688bc8262e00210698bcc2de inherit pub_methods_classGaussianTransferFunctionOnEnergyBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classModule"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classModule')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classModule.html">Module</a></td></tr>
 <tr class="memitem:a17cb586f94658e2048759c4cbdb7968d inherit pub_methods_classModule"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classModule.html#a17cb586f94658e2048759c4cbdb7968d">Module</a> (PoolPtr pool, const std::string &amp;name)</td></tr>
 <tr class="memdesc:a17cb586f94658e2048759c4cbdb7968d inherit pub_methods_classModule"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor.  <a href="#a17cb586f94658e2048759c4cbdb7968d">More...</a><br /></td></tr>
@@ -240,38 +239,23 @@ template&lt;typename T &gt; </td></tr>
 template&lt;typename T &gt; </td></tr>
 <tr class="memitem:ae6103bc712c92e199f6cbb327197b97a inherit pro_methods_classModule"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classValue.html">Value</a>&lt; T &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><b>get</b> (const <a class="el" href="structInputTag.html">InputTag</a> &amp;tag)</td></tr>
 <tr class="separator:ae6103bc712c92e199f6cbb327197b97a inherit pro_methods_classModule"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="inherit_header pro_attribs_classBinnedTransferFunctionOnEnergyBase"><td colspan="2" onclick="javascript:toggleInherit('pro_attribs_classBinnedTransferFunctionOnEnergyBase')"><img src="closed.png" alt="-"/>&#160;Protected Attributes inherited from <a class="el" href="classBinnedTransferFunctionOnEnergyBase.html">BinnedTransferFunctionOnEnergyBase</a></td></tr>
-<tr class="memitem:ae9201e6ad8eeda4175f7cddbb3b3d275 inherit pro_attribs_classBinnedTransferFunctionOnEnergyBase"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae9201e6ad8eeda4175f7cddbb3b3d275"></a>
-std::unique_ptr&lt; TH2 &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>m_th2</b></td></tr>
-<tr class="separator:ae9201e6ad8eeda4175f7cddbb3b3d275 inherit pro_attribs_classBinnedTransferFunctionOnEnergyBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4034d7a1064bf3bb39264d3fa8749473 inherit pro_attribs_classBinnedTransferFunctionOnEnergyBase"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4034d7a1064bf3bb39264d3fa8749473"></a>
-double&#160;</td><td class="memItemRight" valign="bottom"><b>m_deltaMin</b></td></tr>
-<tr class="separator:a4034d7a1064bf3bb39264d3fa8749473 inherit pro_attribs_classBinnedTransferFunctionOnEnergyBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa9561c13a81db572cc408c7aea0d1d17 inherit pro_attribs_classBinnedTransferFunctionOnEnergyBase"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa9561c13a81db572cc408c7aea0d1d17"></a>
-double&#160;</td><td class="memItemRight" valign="bottom"><b>m_deltaMax</b></td></tr>
-<tr class="separator:aa9561c13a81db572cc408c7aea0d1d17 inherit pro_attribs_classBinnedTransferFunctionOnEnergyBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a71ede8c131375eb4d1d4359ec8e93dd1 inherit pro_attribs_classBinnedTransferFunctionOnEnergyBase"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a71ede8c131375eb4d1d4359ec8e93dd1"></a>
-double&#160;</td><td class="memItemRight" valign="bottom"><b>m_deltaRange</b></td></tr>
-<tr class="separator:a71ede8c131375eb4d1d4359ec8e93dd1 inherit pro_attribs_classBinnedTransferFunctionOnEnergyBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aeb324a816407f6506aab92bf5655d745 inherit pro_attribs_classBinnedTransferFunctionOnEnergyBase"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aeb324a816407f6506aab92bf5655d745"></a>
-double&#160;</td><td class="memItemRight" valign="bottom"><b>m_EgenMin</b></td></tr>
-<tr class="separator:aeb324a816407f6506aab92bf5655d745 inherit pro_attribs_classBinnedTransferFunctionOnEnergyBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aafd0a5c36f69b06cc76a1b24ce6018f6 inherit pro_attribs_classBinnedTransferFunctionOnEnergyBase"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aafd0a5c36f69b06cc76a1b24ce6018f6"></a>
-double&#160;</td><td class="memItemRight" valign="bottom"><b>m_EgenMax</b></td></tr>
-<tr class="separator:aafd0a5c36f69b06cc76a1b24ce6018f6 inherit pro_attribs_classBinnedTransferFunctionOnEnergyBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac692c5537d160793c87db995f6fa7585 inherit pro_attribs_classBinnedTransferFunctionOnEnergyBase"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac692c5537d160793c87db995f6fa7585"></a>
-double&#160;</td><td class="memItemRight" valign="bottom"><b>m_fallBackEgenMax</b></td></tr>
-<tr class="separator:ac692c5537d160793c87db995f6fa7585 inherit pro_attribs_classBinnedTransferFunctionOnEnergyBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aaed22fd922797c20a5a1a4011dbf449e inherit pro_attribs_classBinnedTransferFunctionOnEnergyBase"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aaed22fd922797c20a5a1a4011dbf449e"></a>
+<tr class="inherit_header pro_attribs_classGaussianTransferFunctionOnEnergyBase"><td colspan="2" onclick="javascript:toggleInherit('pro_attribs_classGaussianTransferFunctionOnEnergyBase')"><img src="closed.png" alt="-"/>&#160;Protected Attributes inherited from <a class="el" href="classGaussianTransferFunctionOnEnergyBase.html">GaussianTransferFunctionOnEnergyBase</a></td></tr>
+<tr class="memitem:a54ab9b67368944afa8fc50f9824c04a4 inherit pro_attribs_classGaussianTransferFunctionOnEnergyBase"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a54ab9b67368944afa8fc50f9824c04a4"></a>
+double&#160;</td><td class="memItemRight" valign="bottom"><b>m_sigma</b></td></tr>
+<tr class="separator:a54ab9b67368944afa8fc50f9824c04a4 inherit pro_attribs_classGaussianTransferFunctionOnEnergyBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a684b9952043fa5ac18d2fdd3703a2365 inherit pro_attribs_classGaussianTransferFunctionOnEnergyBase"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a684b9952043fa5ac18d2fdd3703a2365"></a>
+double&#160;</td><td class="memItemRight" valign="bottom"><b>m_sigma_range</b></td></tr>
+<tr class="separator:a684b9952043fa5ac18d2fdd3703a2365 inherit pro_attribs_classGaussianTransferFunctionOnEnergyBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1b69190022ef98a34c1bfc9079d658ae inherit pro_attribs_classGaussianTransferFunctionOnEnergyBase"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a1b69190022ef98a34c1bfc9079d658ae"></a>
 <a class="el" href="classValue.html">Value</a>&lt; LorentzVector &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>m_reco_input</b></td></tr>
-<tr class="separator:aaed22fd922797c20a5a1a4011dbf449e inherit pro_attribs_classBinnedTransferFunctionOnEnergyBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="separator:a1b69190022ef98a34c1bfc9079d658ae inherit pro_attribs_classGaussianTransferFunctionOnEnergyBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pro_attribs_classModule"><td colspan="2" onclick="javascript:toggleInherit('pro_attribs_classModule')"><img src="closed.png" alt="-"/>&#160;Protected Attributes inherited from <a class="el" href="classModule.html">Module</a></td></tr>
 <tr class="memitem:a57f3d4dadaf92477ccfca40dfc0da549 inherit pro_attribs_classModule"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a57f3d4dadaf92477ccfca40dfc0da549"></a>
 PoolPtr&#160;</td><td class="memItemRight" valign="bottom"><b>m_pool</b></td></tr>
 <tr class="separator:a57f3d4dadaf92477ccfca40dfc0da549 inherit pro_attribs_classModule"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="a6c6dbf31c88228cedd032de7b8a666f6"></a>
+<a class="anchor" id="a98771cb6b31e175bccbef93569b77295"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -279,7 +263,7 @@ PoolPtr&#160;</td><td class="memItemRight" valign="bottom"><b>m_pool</b></td></t
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual Status BinnedTransferFunctionOnEnergy::work </td>
+          <td class="memname">virtual Status GaussianTransferFunctionOnEnergy::work </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -298,12 +282,12 @@ PoolPtr&#160;</td><td class="memItemRight" valign="bottom"><b>m_pool</b></td></t
 
 <p>Reimplemented from <a class="el" href="classModule.html#a43c0b7c70e9dd8b0cf6c78aa5052eeee">Module</a>.</p>
 
-<p>Definition at line <a class="el" href="BinnedTransferFunctionOnEnergy_8cc_source.html#l00153">153</a> of file <a class="el" href="BinnedTransferFunctionOnEnergy_8cc_source.html">BinnedTransferFunctionOnEnergy.cc</a>.</p>
+<p>Definition at line <a class="el" href="GaussianTransferFunctionOnEnergy_8cc_source.html#l00098">98</a> of file <a class="el" href="GaussianTransferFunctionOnEnergy_8cc_source.html">GaussianTransferFunctionOnEnergy.cc</a>.</p>
 
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>modules/<a class="el" href="BinnedTransferFunctionOnEnergy_8cc_source.html">BinnedTransferFunctionOnEnergy.cc</a></li>
+<li>modules/<a class="el" href="GaussianTransferFunctionOnEnergy_8cc_source.html">GaussianTransferFunctionOnEnergy.cc</a></li>
 </ul>
 </div><!-- contents -->
 <!-- HTML footer for doxygen 1.8.8-->
