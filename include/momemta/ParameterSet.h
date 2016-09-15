@@ -192,6 +192,8 @@ class ParameterSet {
          */
         virtual ParameterSet* clone() const;
 
+        std::vector<std::string> getNames() const;
+
     protected:
         friend class ConfigurationReader;
         friend class Configuration;

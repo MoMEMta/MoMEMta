@@ -16,33 +16,16 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#pragma once
+#include <momemta/MEParameters.h>
 
-#ifndef MOMEMTA_MEPARAMETERS_H
-#define MOMEMTA_MEPARAMETERS_H
+#include <momemta/Logging.h>
 
-#include <string>
-#include <unordered_map>
+void momemta::MEParameters::setParameter(const std::string& name, double value) {
+    auto it = m_card_parameters.find(name);
+    if (it == m_card_parameters.end()) {
+        LOG(warning) << "Parameter '" << name << "' does not exists";
+        return;
+    }
 
-namespace momemta {
-
-    class MEParameters {
-        public:
-            MEParameters() = default;
-            virtual ~MEParameters() {};
-
-            virtual void cacheParameters() = 0;
-            virtual void cacheCouplings() = 0;
-
-            virtual void updateParameters() = 0; 
-            virtual void updateCouplings() = 0;
-
-            void setParameter(const std::string& name, double value);
-
-        protected:
-            std::unordered_map<std::string, double> m_card_parameters;
-    };
-
+    it->second = value;
 }
-
-#endif

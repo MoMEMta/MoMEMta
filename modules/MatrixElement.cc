@@ -133,6 +133,7 @@
  *   | `pdf_scale` | double | Factorisation scale used when evaluating the PDFs. |
  *   | `matrix_element` | string | Name of the matrix element to be used. |
  *   | `matrix_element_parameters` | ParameterSet | Set of parameters passed to the matrix element (see above explanation). |
+ *   | `override_parameters` | ParameterSet (optional) | Overrides the value of the ME parameters (usually those specified in the param card) by the ones specified. |
  * 
  * ### Inputs
  *
@@ -205,6 +206,19 @@ class MatrixElement: public Module {
             std::string matrix_element = parameters.get<std::string>("matrix_element");
             const ParameterSet& matrix_element_configuration = parameters.get<ParameterSet>("matrix_element_parameters");
             m_ME = MatrixElementFactory::get().create(matrix_element, matrix_element_configuration);
+
+            if (parameters.exists("override_parameters")) {
+                const ParameterSet& matrix_element_params = parameters.get<ParameterSet>("override_parameters");
+                auto p = m_ME->getParameters();
+
+                for (const auto& name: matrix_element_params.getNames()) {
+                    double value = matrix_element_params.get<double>(name);
+                    p->setParameter(name, value);
+                }
+
+                p->cacheParameters();
+                p->cacheCouplings();
+            }
 
             // PDF, if asked
             if (use_pdf) {
