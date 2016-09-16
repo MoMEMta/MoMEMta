@@ -26,7 +26,6 @@
 #include <momemta/ParameterSet.h>
 #include <momemta/Math.h>
 #include <momemta/Module.h>
-#include <momemta/Solution.h>
 #include <momemta/Types.h>
 #include <momemta/Utils.h>
 
@@ -40,11 +39,11 @@
  * The matrix element has to be evaluated on all the initial and final particles' 4-momenta.
  * In most cases, a subset of those particles are given by a Block. Blocks produce several
  * equivalent solutions for those particles, and the matrix element, ..., has to be computed on
- * each of those solutions, along with the rest of the particles in the event. To define the integrand,
- * these evaluations are then summed together.
+ * each of those solutions, along with the rest of the particles in the event. For that, you need
+ * to use a Looper module, with this module in the execution path.
  *
- * This module loops over the solutions given as input and produces a vector of quantities which will be
- * summed by MoMEMta to define the final integrand.
+ * To define the integrand, the quantities produced by this module (one quantity per solution) has to be summed. Use the
+ * DoubleSummer module for this purpose.
  *
  * ### In more details
  *
@@ -53,21 +52,22 @@
  * state momenta are computed from the whole event, they have the same multiplicity as the 'invisibles' and will therefore
  * also be indexed by \f$j\f$.
  *
+ * \warning Keep in mind that the loop describe below is **not** done by this module. A Looper must be used for this.
+ *
  * If no invisibles are present and the matrix element only has to be evaluated on the uniquely defined visible particles,
  * this module can still be used to define the integrand: no loop is done in this case, and the index \f$j\f$ can be omitted
  * in the following.
  *
- * As stated above, this modules's ouput is a vector \f$\vec{I}\f$ whose entries are:
+ * As stated above, for each solution \f$j\f$, this modules's ouput is a scalar \f$I\f$:
  * \f[
- *      I_j = \frac{1}{2 x_1^j x_2^j s} \times \left( \sum_{i_1, i_2} \, f(i_1, x_1^j, Q_f^2) \, f(i_2, x_2^j, Q_f^2) \, \left| \mathcal{M}(i_1, i_2, j) \right|^2 \right) \times \left( \mathcal{J}^{\text{inv.}}_j \, \prod_{i} \mathcal{J}_i \right) \times \left( \prod_{i \in \text{vis.}} \frac{\left|p_i\right|^2 \sin(\theta_i)}{2 E_i(2\pi)^3} \right)
+ *      I_j = \frac{1}{2 x_1^j x_2^j s} \times \left( \sum_{i_1, i_2} \, f(i_1, x_1^j, Q_f^2) \, f(i_2, x_2^j, Q_f^2) \, \left| \mathcal{M}(i_1, i_2, j) \right|^2 \right) \times \left( \prod_{i} \mathcal{J}_i \right)
  * \f]
  * where:
  *    - \f$s\f$ is the hadronic centre-of-mass energy.
- *    - \f$\mathcal{J}_i\f$ are the jacobians not associated to the Block.
+ *    - \f$\mathcal{J}_i\f$ are the jacobians.
  *    - \f$x_1^j, x_2^j\f$ are the initial particles' Björken fractions (computed from the entry \f$j\f$ of the initial states given as input).
  *    - \f$f(i, x^j, Q_f^2)\f$ is the PDF of parton flavour \f$i\f$ evaluated on the initial particles' Björken-\f$x\f$ and using factorisation scale \f$Q_f\f$.
  *    - \f$\left| \mathcal{M}(i_1, i_2, j) \right|^2\f$ is the matrix element squared evaluated on all the particles' momenta in the event, for solution \f$j\f$. Along with the PDFs, a sum is done over all the initial parton flavours \f$i_1, i_2\f$ defined by the matrix element.
- *    - \f$\mathcal{J}^{\text{inv.}}_j\f$ is the Block's jacobian for solution \f$j\f$.
  *
  * ### Expected parameter sets
  *
@@ -76,13 +76,8 @@
  *    - matrix element:
  *      - `card` (string): Path to the the matrix element's `param_card.dat` file.
  *
- *    - 'invisible' particles:
- *      - `input` (vector(vector(LorentzVector)): Set of solutions for the invisibles, given by the Block.
- *      - `jacobians` (vector(double)): Set of jacobians given by the Block, one per invisibles' solution.
- *      - `ids`: Parameter set used to link the invisibles to the matrix element (see below).
- *
- *    - 'visible' particles:
- *      - `inputs` (vector(LorentzVector)): Set of visible particles.
+ *    - particles:
+ *      - `inputs` (vector(LorentzVector)): Set of particles.
  *      - `ids`: Parameter set used to link the visibles to the matrix element (see below).
  *
  * ### Linking inputs and matrix element
@@ -112,7 +107,7 @@
  *     }
  * }
  * ```
- * means that the visible particle vector corresponds to (electron, positron), while the matrix element expects to be given first the positron, then the electron.
+ * means that the particle vector corresponds to (electron, positron), while the matrix element expects to be given first the positron, then the electron.
  *
  * ### Integration dimension
  *
@@ -140,9 +135,8 @@
  *   | Name | Type | %Description |
  *   |------|------|--------------|
  *   | `initialState` | vector(vector(LorentzVector)) | Sets of initial parton 4-momenta (one pair per invisibles' solution), typically coming from a BuildInitialState module. |
- *   | `invisibles` | ParameterSet | Set of parameters defining the 'invisible' particles (see above explanation). |
- *   | `particles` | ParameterSet | Set of parameters defining the 'visible' particles (see above explanation). | 
- *   | `jacobians` | vector(double) | All jacobians defined in the integration (transfer functions, generators, ...). Note: jacobians associated to Blocks are to be given in the `invisibles` parameter set. |
+ *   | `particles` | ParameterSet | Set of parameters defining the particles (see above explanation). |
+ *   | `jacobians` | vector(double) | All jacobians defined in the integration (transfer functions, generators, blocks...). |
  *
  * ### Outputs
  *
@@ -168,19 +162,6 @@ class MatrixElement: public Module {
 
             m_partons = get<std::vector<LorentzVector>>(parameters.get<InputTag>("initialState"));
 
-            const auto& invisibles_set = parameters.get<ParameterSet>("invisibles");
-
-            InputTag solution_tag = invisibles_set.get<InputTag>("input");
-            m_solution = get<Solution>(solution_tag);
-
-            const auto& invisibles_ids_set = invisibles_set.get<std::vector<ParameterSet>>("ids");
-            for (const auto& s: invisibles_ids_set) {
-                ParticleId id;
-                id.pdg_id = s.get<int64_t>("pdg_id");
-                id.me_index = s.get<int64_t>("me_index");
-                m_invisibles_ids.push_back(id);
-            }
-
             const auto& particles_set = parameters.get<ParameterSet>("particles");
 
             auto particle_tags = particles_set.get<std::vector<InputTag>>("inputs");
@@ -196,6 +177,13 @@ class MatrixElement: public Module {
                 id.pdg_id = s.get<int64_t>("pdg_id");
                 id.me_index = s.get<int64_t>("me_index");
                 m_particles_ids.push_back(id);
+            }
+
+            if (m_particles.size() != m_particles_ids.size()) {
+                LOG(fatal) << "The number of particles ids is not consistent with the number of particles. Did you"
+                            " forget some ids?";
+
+                throw Module::invalid_configuration("Inconsistent number of ids and number of particles");
             }
 
             const auto& jacobians_tags = parameters.get<std::vector<InputTag>>("jacobians");
@@ -232,48 +220,42 @@ class MatrixElement: public Module {
                 pdf_scale_squared = SQ(pdf_scale);
             }
 
+            // Prepare arrays for sorting particles
+            for (size_t i = 0; i < m_particles_ids.size(); i++) {
+                indexing.push_back(m_particles_ids[i].me_index - 1);
+            }
+
+            // Pre-allocate memory for the finalState array
+            finalState.resize(m_particles_ids.size());
+
+            // Sort the array taking into account the indexing in the configuration
+            std::vector<int64_t> suite(indexing.size());
+            std::iota(suite.begin(), suite.end(), 0);
+
+            permutations = get_permutations(suite, indexing);
         };
 
         virtual Status work() override {
             static std::vector<LorentzVector> empty_vector;
 
             *m_integrand = 0;
+            const std::vector<LorentzVector>& partons = *m_partons;
 
-            std::vector<LorentzVector> particles(m_particles.size());
-            for (size_t index = 0; index < m_particles.size(); index++) {
-                particles[index] = *m_particles[index];
-            }
-
-            internal_work(*m_partons, m_solution->values, m_solution->jacobian, particles);
-
-            return Status::OK;
-        }
-
-        virtual void internal_work(const std::vector<LorentzVector>& partons, const std::vector<LorentzVector>& invisibles, double invisibles_jacobian, const std::vector<LorentzVector> particles) {
-            std::vector<std::pair<int, std::vector<double>>> finalStates;
-            std::vector<int64_t> indexing;
-
-            for (size_t i = 0; i < m_invisibles_ids.size(); i++) {
-                finalStates.push_back(std::make_pair(m_invisibles_ids[i].pdg_id, toVector(invisibles[i])));
-                indexing.push_back(m_invisibles_ids[i].me_index - 1);
-            }
+            LorentzVectorRefCollection particles;
+            for (const auto& p: m_particles)
+                particles.push_back(std::ref(*p));
 
             for (size_t i = 0; i < m_particles_ids.size(); i++) {
-                finalStates.push_back(std::make_pair(m_particles_ids[i].pdg_id, toVector(particles[i])));
-                indexing.push_back(m_particles_ids[i].me_index - 1);
+                finalState[i] = std::make_pair(m_particles_ids[i].pdg_id, toVector(particles[i].get()));
             }
 
             // Sort the array taking into account the indexing in the configuration
-            std::vector<int64_t> suite(indexing.size());
-            for (size_t i = 0; i < indexing.size(); i++)
-                suite[i] = i;
+            apply_permutations(finalState, permutations);
 
-            auto permutations = get_permutations(suite, indexing);
-            apply_permutations(finalStates, permutations);
+            std::pair<std::vector<double>, std::vector<double>> initialState { toVector(partons[0]),
+                                                                               toVector(partons[1]) };
 
-            std::pair<std::vector<double>, std::vector<double>> initialState { toVector(partons[0]), toVector(partons[1]) };
-
-            auto result = m_ME->compute(initialState, finalStates);
+            auto result = m_ME->compute(initialState, finalState);
 
             double x1 = std::abs(partons[0].Pz() / (sqrt_s / 2.));
             double x2 = std::abs(partons[1].Pz() / (sqrt_s / 2.));
@@ -281,14 +263,7 @@ class MatrixElement: public Module {
             // Compute flux factor 1/(2*x1*x2*s)
             double phaseSpaceIn = 1. / (2. * x1 * x2 * SQ(sqrt_s));
 
-            // Compute phase space density for observed particles (not concerned by the change of variable)
-            // dPhi = |P|^2 sin(theta)/(2*E*(2pi)^3)
-            double phaseSpaceOut = 1.;
-            for (const auto& p: particles) {
-                phaseSpaceOut *= SQ(p.P()) * sin(p.Theta()) / (2.0 * p.E() * CB(2. * M_PI));
-            }
-
-            double integrand = phaseSpaceIn * phaseSpaceOut * invisibles_jacobian;
+            double integrand = phaseSpaceIn;
             for (const auto& jacobian: m_jacobians) {
                 integrand *= (*jacobian);
             }
@@ -304,6 +279,8 @@ class MatrixElement: public Module {
 
             final_integrand *= integrand;
             *m_integrand = final_integrand;
+
+            return Status::OK;
         }
 
     private:
@@ -313,11 +290,12 @@ class MatrixElement: public Module {
         std::shared_ptr<momemta::MatrixElement> m_ME;
         std::shared_ptr<LHAPDF::PDF> m_pdf;
 
+        std::vector<int64_t> indexing;
+        std::vector<size_t> permutations;
+        std::vector<std::pair<int, std::vector<double>>> finalState;
+
         // Inputs
         Value<std::vector<LorentzVector>> m_partons;
-
-        Value<Solution> m_solution;
-        std::vector<ParticleId> m_invisibles_ids;
 
         std::vector<Value<LorentzVector>> m_particles;
         std::vector<ParticleId> m_particles_ids;

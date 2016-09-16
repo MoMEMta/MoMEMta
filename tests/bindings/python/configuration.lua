@@ -93,6 +93,10 @@ Permutator.permutator = {
     }
 }
 
+StandardPhaseSpace.phaseSpaceOut = {
+    particles = inputs -- only on visible particles
+}
+
 -- Loop over block solutions
 
 Looper.looper = {
@@ -100,15 +104,25 @@ Looper.looper = {
     path = Path("boost", "ttbar", "dmem", "integrand")
 }
 
-BuildInitialState.boost = {
-    solution = 'looper::solution',
-    do_transverse_boost = true,
-    particles = inputs
+full_inputs = {
+    'tf_p1::output',
+    'permutator::output/1',
+    'tf_p3::output',
+    'permutator::output/2',
+    'looper::particles/1',
+    'looper::particles/2',
 }
 
-jacobians = { 'flatter_s13::jacobian', 'flatter_s134::jacobian', 'flatter_s25::jacobian', 'flatter_s256::jacobian' }
-append(jacobians, { 'tf_p1::TF_times_jacobian', 'tf_p2::TF_times_jacobian', 'tf_p3::TF_times_jacobian', 'tf_p4::TF_times_jacobian' })
+BuildInitialState.boost = {
+    do_transverse_boost = true,
+    particles = full_inputs
+}
 
+jacobians = {
+    'flatter_s13::jacobian', 'flatter_s134::jacobian', 'flatter_s25::jacobian', 'flatter_s256::jacobian',
+    'tf_p1::TF_times_jacobian', 'tf_p2::TF_times_jacobian', 'tf_p3::TF_times_jacobian', 'tf_p4::TF_times_jacobian',
+    'looper::jacobian', 'phaseSpaceOut::phase_space'
+}
 
 MatrixElement.ttbar = {
     pdf = 'CT10nlo',
@@ -133,7 +147,7 @@ MatrixElement.ttbar = {
         }
     },
     particles = {
-        inputs = inputs,
+        inputs = full_inputs,
         ids = {
             {
                 pdg_id = -11,
@@ -154,6 +168,16 @@ MatrixElement.ttbar = {
                 pdg_id = -5,
                 me_index = 6,
             },
+
+            {
+                pdg_id = 12,
+                me_index = 2,
+            },
+
+            {
+                pdg_id = -14,
+                me_index = 5,
+            }
         }
     },
     jacobians = jacobians

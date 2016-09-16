@@ -89,21 +89,34 @@ BlockD.blockd = {
     s256 = 'nwa_s256::s',
 }
 
+StandardPhaseSpace.phaseSpaceOut = {
+    particles = inputs -- only on visible particles
+}
+
 -- Loop over block solutions
 Looper.looper = {
     solutions = "blockd::solutions",
     path = Path("initial_state", "ttbar", "integrand")
 }
 
+full_inputs = {
+    inputs_before_perm[1],
+    'permutator::output/1',
+    inputs_before_perm[3],
+    'permutator::output/2',
+    'looper::particles/1',
+    'looper::particles/2',
+}
+
 BuildInitialState.initial_state = {
     solution = 'looper::solution',
-
-    particles = inputs
+    particles = full_inputs
 }
 
 
 jacobians = {
-  'nwa_s13::jacobian', 'nwa_s134::jacobian', 'nwa_s25::jacobian', 'nwa_s256::jacobian', 
+  'nwa_s13::jacobian', 'nwa_s134::jacobian', 'nwa_s25::jacobian', 'nwa_s256::jacobian',
+  'looper::jacobian', 'phaseSpaceOut::phase_space'
 }
 
 MatrixElement.ttbar = {
@@ -117,23 +130,8 @@ MatrixElement.ttbar = {
 
   initialState = 'initial_state::partons',
 
-  invisibles = {
-    input = 'looper::solution',
-    ids = {
-      {
-        pdg_id = 12,
-        me_index = 2,
-      },
-
-      {
-        pdg_id = -14,
-        me_index = 5,
-      }
-    }
-  },
-
   particles = {
-    inputs = inputs,
+    inputs = full_inputs,
     ids = {
       {
         pdg_id = -11,
@@ -154,6 +152,16 @@ MatrixElement.ttbar = {
         pdg_id = -5,
         me_index = 6,
       },
+
+      {
+        pdg_id = 12,
+        me_index = 2,
+      },
+
+      {
+        pdg_id = -14,
+        me_index = 5,
+      }
     }
   },
 

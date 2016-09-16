@@ -75,4 +75,14 @@ TEST_CASE("ParameterSet unit tests", "[core]") {
         REQUIRE(p.existsAs<double>("parameter"));
         REQUIRE(p.get<double>("parameter") == Approx(10));
     }
+
+    SECTION("Names should return the list of keys") {
+        p.set("p1", false);
+        p.set("p2", true);
+
+        auto names = p.getNames();
+        REQUIRE(names.size() == 2);
+        REQUIRE(names[0] == "p1");
+        REQUIRE(names[1] == "p2");
+    }
 }

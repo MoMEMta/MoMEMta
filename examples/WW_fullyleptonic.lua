@@ -6,6 +6,14 @@ function append(t1, t2)
     return t1
 end
 
+function copy_and_append(t1, t2)
+    local t3 = {}
+
+    append(t3, t1)
+    append(t3, t2)
+
+    return t3
+end
 
 USE_TF = true
 
@@ -76,6 +84,10 @@ BlockF.blockf = {
     q2 = add_dimension()
 }
 
+StandardPhaseSpace.phaseSpaceOut = {
+    particles = inputs -- only on visible particles
+}
+
 Looper.looper = {
     solutions = "blockf::solutions",
     path = Path("initial_state", "WW", "integrand")
@@ -83,12 +95,13 @@ Looper.looper = {
 
 -- Loop
 
+    full_inputs = copy_and_append(inputs, {'looper::particles/1', 'looper::particles/2'})
+
     BuildInitialState.initial_state = {
-        solution = 'looper::solution',
-        particles = inputs
+        particles = full_inputs
     }
 
-    jacobians = {'flatter_s13::jacobian', 'flatter_s24::jacobian'}
+    jacobians = {'flatter_s13::jacobian', 'flatter_s24::jacobian', 'looper::jacobian', 'phaseSpaceOut::phase_space'}
 
     if USE_TF then
         append(jacobians, {'tf_p1::TF_times_jacobian', 'tf_p2::TF_times_jacobian'})
@@ -105,23 +118,8 @@ Looper.looper = {
 
       initialState = 'initial_state::partons',
 
-      invisibles = {
-        input = 'looper::solution',
-        ids = {
-          {
-            pdg_id = 12,
-            me_index = 2,
-          },
-
-          {
-            pdg_id = -14,
-            me_index = 4,
-          }
-        }
-      },
-
       particles = {
-        inputs = inputs,
+        inputs = full_inputs,
         ids = {
           {
             pdg_id = -11,
@@ -132,6 +130,16 @@ Looper.looper = {
             pdg_id = 13,
             me_index = 3,
           },
+
+          {
+            pdg_id = 12,
+            me_index = 2,
+          },
+
+          {
+            pdg_id = -14,
+            me_index = 4,
+          }
         }
       },
 

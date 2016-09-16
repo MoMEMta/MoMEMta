@@ -20,7 +20,7 @@
 
 #include <momemta/ParameterSet.h>
 #include <momemta/Module.h>
-#include <momemta/Solution.h>
+#include <momemta/Types.h>
 
 /*
  * \brief Module implementing the Differential MEM
@@ -42,9 +42,6 @@ class DMEM: public Module {
             auto particle_tags = parameters.get<std::vector<InputTag>>("particles");
             for (auto& t: particle_tags)
               m_particles.push_back(get<LorentzVector>(t));
-            
-            InputTag invisibles_tag = parameters.get<InputTag>("invisibles");
-            m_solution = get<Solution>(invisibles_tag);
 
             psWeight = get<double>(parameters.get<InputTag>("ps_weight"));
             meOutput = get<double>(parameters.get<InputTag>("me_output"));
@@ -59,10 +56,6 @@ class DMEM: public Module {
             LorentzVector tot;
             for (const auto& v: m_particles)
                 tot += *v;
-
-            // Add solution particles if we have some
-            for (const auto& i: m_solution->values)
-                tot += i;
 
             // Fill histogram
             m_hist->Fill(tot.M(), *meOutput * (*psWeight));
@@ -81,7 +74,6 @@ class DMEM: public Module {
 
         // Inputs
         std::vector<Value<LorentzVector>> m_particles;
-        Value<Solution> m_solution;
         Value<double> psWeight;
         Value<double> meOutput;
 

@@ -31,8 +31,52 @@
 /**
  * \brief A module looping over a set of solutions
  *
- * For each solution, the modules of the path are executed. At least one module
- * of the path must use the `solution` output produced by this module.
+ * A loop is done over the set of solution. For each solution, the outputs are filled with the
+ * list of particles and the jacobian, and the modules of the path are executed. At least one module
+ * must use the output produced by this module.
+ *
+ * If the path is executed, the solution is ensured to be valid.
+ *
+ * ### In details
+ *
+ * Each blocks produce a set of solutions. In order to define the final integrand value, various computations
+ * (matrix element, initial state, …) must be performed on **each** solution. Letting each module handling multiple
+ * solutions, but it leads to many problems, the biggest one being the synchronization between modules: a solution
+ * can be seen as valid from a module, but not for another. Instead, each module only handles a set of particle,
+ * without the necessity to know where it comes from (input particle or solution of a block), and the iteration
+ * over the solutions is delegated to this Looper module. For each solution, a sequence of module is executed,
+ * as described by the `path` argument.
+ *
+ * Schematically, things can be represented by this graph:
+ *
+ * ```
+ *  ───────
+ *   Block
+ *  ───┬───
+ *     │
+ *     ├─ Solutions
+ *     │
+ *  ───┴────
+ *   Looper
+ *  ─┬────┬─
+ *   │    │
+ *   │    ├─ Solution
+ *   │    │
+ *   │  ──┴─────
+ *   │   Module
+ *   │  ──┬─────
+ *   │    │
+ *   │    │
+ *   │  ──┴─────
+ *   │   Module
+ *   │  ──┬─────
+ *   │    │
+ *   └─┬──┘
+ *     │
+ *  ───┴───
+ *   Module
+ *  ───┬───
+ * ```
  *
  * ### Integration dimension
  *
@@ -54,7 +98,8 @@
  *
  *   | Name | Type | %Description |
  *   |------|------|--------------|
- *   | `solution` | Solution | The current solution. This output only makes sense for a module inside the execution path. For any other module, this output is invalid. |
+ *   | `particles` | vector(LorentzVector) | The particles of the current solution. This output only makes sense for a module inside the execution path. For any other module, this output is invalid. |
+ *   | `jacobian` | double | The jacobian of the current solution. This output only makes sense for a module inside the execution path. For any other module, this output is invalid. |
  *
  * \ingroup modules
  */
@@ -72,13 +117,19 @@ class Looper: public Module {
         }
 
         virtual Status work() override {
+            particles->clear();
+
             CALL(beginLoop);
 
             auto status = Status::OK;
 
             // For each solution, loop over all the modules
             for (const auto& s: *solutions) {
-                *solution = s;
+                if (!s.valid)
+                    continue;
+
+                *particles = s.values;
+                *jacobian = s.jacobian;
 
                 for (auto& m: path.modules()) {
                     auto module_status = m->work();
@@ -109,7 +160,8 @@ class Looper: public Module {
         Value<SolutionCollection> solutions;
 
         // Outputs
-        std::shared_ptr<Solution> solution = produce<Solution>("solution");
+        std::shared_ptr<std::vector<LorentzVector>> particles = produce<std::vector<LorentzVector>>("particles");
+        std::shared_ptr<double> jacobian = produce<double>("jacobian");
 
 };
 REGISTER_MODULE(Looper);

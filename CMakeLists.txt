@@ -159,6 +159,7 @@ set(MOMEMTA_SOURCES
     "modules/NarrowWidthApproximation.cc"
     "modules/Permutator.cc"
     "modules/Printer.cc"
+    "modules/StandardPhaseSpace.cc"
     "modules/Summer.cc"
     "modules/UniformGenerator.cc"
     "core/src/Configuration.cc"
