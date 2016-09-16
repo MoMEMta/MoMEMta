@@ -18,6 +18,48 @@ class incomplete_looper_path: public std::runtime_error {
     using std::runtime_error::runtime_error;
 };
 
+bool isConnectedToByOut(Graph& g, vertex_t vertex, vertex_t to) {
+    out_edge_iterator_t o, o_end;
+    std::tie(o, o_end) = boost::out_edges(vertex, g);
+
+    for (; o != o_end; ++o) {
+        vertex_t target = boost::target(*o, g);
+        if (target == to)
+            return true;
+
+        if (isConnectedToByOut(g, target, to))
+            return true;
+    }
+
+    return false;
+}
+
+bool isConnectedToByIn(Graph& g, vertex_t vertex, vertex_t to) {
+    in_edge_iterator_t i, i_end;
+    std::tie(i, i_end) = boost::in_edges(vertex, g);
+
+    for (; i != i_end; ++i) {
+        vertex_t source = boost::source(*i, g);
+        if (source == to)
+            return true;
+
+        if (isConnectedToByIn(g, source, to))
+            return true;
+    }
+
+    return false;
+}
+
+bool isConnectedTo(Graph& g, vertex_t vertex, vertex_t to) {
+    if (isConnectedToByOut(g, vertex, to))
+        return true;
+
+    if (isConnectedToByIn(g, vertex, to))
+        return true;
+
+    return false;
+}
+
 Graph build(const Pool::DescriptionMap& description, std::vector<ModulePtr>& modules, const std::vector<PathElementsPtr>& paths, std::function<void(const std::string&)> on_module_removed) {
 
     Graph g;
@@ -136,6 +178,37 @@ Graph build(const Pool::DescriptionMap& description, std::vector<ModulePtr>& mod
         }
     }
 
+    // We need to make sure that any dependencies of a module inside a looper
+    // is ran before the looper itself.
+    for (const auto& vertex: vertices) {
+        if (g[vertex.second].configuration_module.type == "Looper") {
+
+            out_edge_iterator_t e, e_end;
+            std::tie(e, e_end) = boost::out_edges(vertex.second, g);
+
+            // Iterator over all edges this Looper vertex is connected to
+            for (; e != e_end; ++e) {
+                auto target = boost::target(*e, g);
+
+                // Iterate over all edges connected to the module
+                in_edge_iterator_t i, i_end;
+                std::tie(i, i_end) = boost::in_edges(target, g);
+
+                for (; i != i_end; ++i) {
+                    auto source = boost::source(*i, g);
+
+                    if (source == vertex.second)
+                        continue;
+
+                    // Check if the source vertex is connected to the looper in any way
+                    if (!isConnectedTo(g, source, vertex.second)) {
+                        boost::add_edge(source, vertex.second, g);
+                    }
+                }
+            }
+        }
+    }
+
     // Re-assign each vertex a continuous id
     id = 0;
     typename boost::graph_traits<Graph>::vertex_iterator it_i, it_end;
@@ -145,7 +218,14 @@ Graph build(const Pool::DescriptionMap& description, std::vector<ModulePtr>& mod
 
     // Sort graph
     std::list<vertex_t> sorted_vertices;
-    boost::topological_sort(g, std::front_inserter(sorted_vertices), boost::vertex_index_map(boost::get(&graph::Vertex::id, g)));
+    try {
+        boost::topological_sort(g, std::front_inserter(sorted_vertices), boost::vertex_index_map(boost::get(&graph::Vertex::id, g)));
+    } catch (...) {
+        graphviz_export(g, "graph.debug");
+        LOG(fatal) << "Exception while sorting the graph. Graphviz representation saved as graph.debug";
+        throw;
+    }
+
 
     // Remove virtual vertices
     sorted_vertices.erase(std::remove_if(sorted_vertices.begin(), sorted_vertices.end(),

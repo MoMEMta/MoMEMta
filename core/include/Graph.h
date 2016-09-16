@@ -32,6 +32,7 @@ typedef boost::adjacency_list<boost::listS, boost::listS, boost::bidirectionalS,
 typedef boost::graph_traits<Graph>::vertex_descriptor vertex_t;
 typedef boost::graph_traits<Graph>::edge_descriptor edge_t;
 typedef boost::graph_traits<Graph>::out_edge_iterator out_edge_iterator_t;
+typedef boost::graph_traits<Graph>::in_edge_iterator in_edge_iterator_t;
 
 /**
  * \brief Build a graph representation of the modules.
