@@ -117,7 +117,7 @@ std::vector<std::pair<double, double>> MoMEMta::computeWeights(const std::vector
     // Read cuba configuration
     uint8_t verbosity = m_cuba_configuration.get<int64_t>("verbosity", 0);
     bool subregion = m_cuba_configuration.get<bool>("subregion", false);
-    bool smoothing = m_cuba_configuration.get<bool>("smoothing", false);
+    bool smoothing = m_cuba_configuration.get<bool>("smoothing", true);
     bool retainStateFile = m_cuba_configuration.get<bool>("retainStateFile", false);
     bool takeOnlyGridFromFile = m_cuba_configuration.get<bool>("takeOnlyGridFromFile", true);
     uint64_t level = m_cuba_configuration.get<int64_t>("level", 0);
