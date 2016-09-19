@@ -5,8 +5,9 @@
 <area shape="rect" id="node5" href="$classlua_1_1invalid__array__error.html" title="lua::invalid_array\l_error" alt="" coords="192,158,312,199"/>
 <area shape="rect" id="node6" href="$classlua_1_1invalid__configuration__file.html" title="&lt; Thrown if the configuration file is not valid " alt="" coords="157,224,347,251"/>
 <area shape="rect" id="node7" href="$classlua_1_1unsupported__type__error.html" title="lua::unsupported_type\l_error" alt="" coords="177,275,327,317"/>
-<area shape="rect" id="node8" href="$classPool_1_1constructor__tag__error.html" title="Pool::constructor_tag\l_error" alt="" coords="179,341,325,382"/>
-<area shape="rect" id="node9" href="$classPool_1_1duplicated__tag__error.html" title="Pool::duplicated_tag\l_error" alt="" coords="182,406,322,447"/>
-<area shape="rect" id="node10" href="$classPool_1_1tag__not__found__error.html" title="Pool::tag_not_found\l_error" alt="" coords="183,471,321,513"/>
-<area shape="rect" id="node11" href="$classSLHA_1_1invalid__card__error.html" title="SLHA::invalid_card\l_error" alt="" coords="185,537,319,578"/>
+<area shape="rect" id="node8" href="$classModule_1_1invalid__configuration.html" title="Module::invalid_configuration" alt="" coords="157,341,347,368"/>
+<area shape="rect" id="node9" href="$classPool_1_1constructor__tag__error.html" title="Pool::constructor_tag\l_error" alt="" coords="179,393,325,434"/>
+<area shape="rect" id="node10" href="$classPool_1_1duplicated__tag__error.html" title="Pool::duplicated_tag\l_error" alt="" coords="182,458,322,499"/>
+<area shape="rect" id="node11" href="$classPool_1_1tag__not__found__error.html" title="Pool::tag_not_found\l_error" alt="" coords="183,523,321,565"/>
+<area shape="rect" id="node12" href="$classSLHA_1_1invalid__card__error.html" title="SLHA::invalid_card\l_error" alt="" coords="185,589,319,630"/>
 </map>

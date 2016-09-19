@@ -110,6 +110,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!-- top -->
 <div class="header">
   <div class="summary">
+<a href="#nested-classes">Classes</a> &#124;
 <a href="#pub-types">Public Types</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pub-static-methods">Static Public Member Functions</a> &#124;
@@ -156,8 +157,9 @@ Inheritance diagram for Module:</div>
 <area shape="rect" id="node25" href="classPrinter_3_01std_1_1vector_3_01T_01_4_01_4.html" title="Specialization of Printer for std::vector " alt="" coords="146,1031,281,1073"/>
 <area shape="rect" id="node26" href="classSecondaryBlockCD.html" title="Secondary Block C/D, describing . " alt="" coords="145,1097,282,1124"/>
 <area shape="rect" id="node27" href="classSimpleCounter.html" title="A simple module counting the number of time it has been called. " alt="" coords="159,1148,267,1175"/>
-<area shape="rect" id="node28" href="classSummer.html" title="A module performing a sum over a set of values. " alt="" coords="162,1199,265,1225"/>
-<area shape="rect" id="node29" href="classUniformGenerator.html" title="Generate a random point uniformly in a user&#45;set range. " alt="" coords="151,1249,276,1276"/>
+<area shape="rect" id="node28" href="classStandardPhaseSpace.html" title="Compute the phase space density for observed particles (not concerned by the change of variable) ..." alt="" coords="139,1199,287,1225"/>
+<area shape="rect" id="node29" href="classSummer.html" title="A module performing a sum over a set of values. " alt="" coords="162,1249,265,1276"/>
+<area shape="rect" id="node30" href="classUniformGenerator.html" title="Generate a random point uniformly in a user&#45;set range. " alt="" coords="151,1300,276,1327"/>
 <area shape="rect" id="node3" href="classBinnedTransferFunctionOnEnergy.html" title="Integrate over a transfer function on energy described by a 2D histogram retrieved from a ROOT file..." alt="" coords="358,5,535,46"/>
 <area shape="rect" id="node4" href="classBinnedTransferFunctionOnEnergyEvaluator.html" title="Evaluate a transfer function on energy described by a 2D histogram retrieved from a ROOT file..." alt="" coords="358,70,535,111"/>
 <area shape="rect" id="node18" href="classGaussianTransferFunctionOnEnergy.html" title="Integrate over a transfer function on energy described by a Gaussian distribution. " alt="" coords="359,679,534,721"/>
@@ -165,6 +167,11 @@ Inheritance diagram for Module:</div>
 </map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classModule_1_1invalid__configuration.html">invalid_configuration</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
 Public Types</h2></td></tr>
 <tr class="memitem:ac3e8c0e68f4cc065d834e6691a1a4e54"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac3e8c0e68f4cc065d834e6691a1a4e54"></a>enum &#160;</td><td class="memItemRight" valign="bottom"><b>Status</b> : std::int8_t { <b>OK</b>, 
@@ -283,7 +290,7 @@ PoolPtr&#160;</td><td class="memItemRight" valign="bottom"><b>m_pool</b></td></t
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="Module_8h_source.html#l00057">57</a> of file <a class="el" href="Module_8h_source.html">Module.h</a>.</p>
+<p>Definition at line <a class="el" href="Module_8h_source.html#l00061">61</a> of file <a class="el" href="Module_8h_source.html">Module.h</a>.</p>
 
 </div>
 </div>
@@ -314,9 +321,9 @@ PoolPtr&#160;</td><td class="memItemRight" valign="bottom"><b>m_pool</b></td></t
 
 <p>Reimplemented in <a class="el" href="classSimpleCounter.html#a59251318747ae1f77fcde3118f4d746a">SimpleCounter</a>, <a class="el" href="classSummer.html#a821bdc98ada22c9248a0e2e759de773d">Summer&lt; T &gt;</a>, <a class="el" href="classCounter.html#a29b1f89ba01068f4b5683bd5f7096d42">Counter&lt; T &gt;</a>, and <a class="el" href="classSummer.html#a5c8e7ecd91c81862200cf886578d71c6">Summer&lt; T &gt;</a>.</p>
 
-<p>Definition at line <a class="el" href="Module_8h_source.html#l00077">77</a> of file <a class="el" href="Module_8h_source.html">Module.h</a>.</p>
+<p>Definition at line <a class="el" href="Module_8h_source.html#l00081">81</a> of file <a class="el" href="Module_8h_source.html">Module.h</a>.</p>
 
-<p>Referenced by <a class="el" href="Looper_8cc_source.html#l00074">Looper::work()</a>.</p>
+<p>Referenced by <a class="el" href="Looper_8cc_source.html#l00119">Looper::work()</a>.</p>
 
 </div>
 </div>
@@ -344,9 +351,9 @@ PoolPtr&#160;</td><td class="memItemRight" valign="bottom"><b>m_pool</b></td></t
 <p>Called once at the end of a loop. </p>
 <p>Only relevant if the module is inside a loop </p>
 
-<p>Definition at line <a class="el" href="Module_8h_source.html#l00093">93</a> of file <a class="el" href="Module_8h_source.html">Module.h</a>.</p>
+<p>Definition at line <a class="el" href="Module_8h_source.html#l00097">97</a> of file <a class="el" href="Module_8h_source.html">Module.h</a>.</p>
 
-<p>Referenced by <a class="el" href="Looper_8cc_source.html#l00074">Looper::work()</a>.</p>
+<p>Referenced by <a class="el" href="Looper_8cc_source.html#l00119">Looper::work()</a>.</p>
 
 </div>
 </div>
@@ -382,7 +389,7 @@ PoolPtr&#160;</td><td class="memItemRight" valign="bottom"><b>m_pool</b></td></t
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>True if <code>name</code> is the name of a virtual module, false otherwise. </dd></dl>
 
-<p>Definition at line <a class="el" href="Module_8h_source.html#l00135">135</a> of file <a class="el" href="Module_8h_source.html">Module.h</a>.</p>
+<p>Definition at line <a class="el" href="Module_8h_source.html#l00139">139</a> of file <a class="el" href="Module_8h_source.html">Module.h</a>.</p>
 
 </div>
 </div>
@@ -415,7 +422,7 @@ PoolPtr&#160;</td><td class="memItemRight" valign="bottom"><b>m_pool</b></td></t
 
 <p>Reimplemented in <a class="el" href="classPrinter_3_01std_1_1vector_3_01T_01_4_01_4.html#a0448535bb4fda3ec3e87d6b696e7536a">Printer&lt; std::vector&lt; T &gt; &gt;</a>, <a class="el" href="classDMEM.html#a475048d2a2f697d4015b13e3a73f58d6">DMEM</a>, <a class="el" href="classPrinter.html#a80acc199e7de5104ed6950c410f48de7">Printer&lt; T &gt;</a>, and <a class="el" href="classConstant.html#aca201ffcbfb3519e3fd950a331f7137b">Constant&lt; T &gt;</a>.</p>
 
-<p>Definition at line <a class="el" href="Module_8h_source.html#l00119">119</a> of file <a class="el" href="Module_8h_source.html">Module.h</a>.</p>
+<p>Definition at line <a class="el" href="Module_8h_source.html#l00123">123</a> of file <a class="el" href="Module_8h_source.html">Module.h</a>.</p>
 
 </div>
 </div>
@@ -470,7 +477,7 @@ template&lt;typename T , typename... Args&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A std::shared_ptr&lt;T&gt; pointing to newly allocated memory in the memory pool. Change the content of this pointer to change the output. </dd></dl>
 
-<p>Definition at line <a class="el" href="Module_8h_source.html#l00161">161</a> of file <a class="el" href="Module_8h_source.html">Module.h</a>.</p>
+<p>Definition at line <a class="el" href="Module_8h_source.html#l00165">165</a> of file <a class="el" href="Module_8h_source.html">Module.h</a>.</p>
 
 </div>
 </div>
@@ -499,9 +506,9 @@ template&lt;typename T , typename... Args&gt; </div>
 <p>This method is called for each integration step. The module's logic and work happen here.</p>
 <p>You'll usually want to override this function if you want your module to perform some task. </p>
 
-<p>Reimplemented in <a class="el" href="classBinnedTransferFunctionOnEnergyEvaluator.html#ac203b3e5457f18bde05be0ae74275f20">BinnedTransferFunctionOnEnergyEvaluator</a>, <a class="el" href="classMatrixElement.html#a25f5a4703b1c899b6fda9fac5484d267">MatrixElement</a>, <a class="el" href="classGaussianTransferFunctionOnEnergyEvaluator.html#a5587ec521249a41dfc3d55d17921653e">GaussianTransferFunctionOnEnergyEvaluator</a>, <a class="el" href="classBinnedTransferFunctionOnEnergy.html#a6c6dbf31c88228cedd032de7b8a666f6">BinnedTransferFunctionOnEnergy</a>, <a class="el" href="classBlockD.html#aa9fed99b2cd6e073a4304ffa3f18a100">BlockD</a>, <a class="el" href="classBlockB.html#a0d7d40a75036ab5f612f20502ed96182">BlockB</a>, <a class="el" href="classBlockF.html#a300428b06214e67b01dd8242f9b1c5ad">BlockF</a>, <a class="el" href="classGaussianTransferFunctionOnEnergy.html#a98771cb6b31e175bccbef93569b77295">GaussianTransferFunctionOnEnergy</a>, <a class="el" href="classBuildInitialState.html#a3d587e3c6980acbe9cc12e4d9e1f145f">BuildInitialState</a>, <a class="el" href="classSimpleCounter.html#a6e702738d05d843ea3a5e12abf908021">SimpleCounter</a>, <a class="el" href="classPermutator.html#a54397b9627c6bc0545404cdc42de5517">Permutator</a>, <a class="el" href="classSecondaryBlockCD.html#afe161a3284e8153c0e91aad07c893916">SecondaryBlockCD</a>, <a class="el" href="classBreitWignerGenerator.html#a04be6d5d55752bddbf88dbc206aaa0be">BreitWignerGenerator</a>, <a class="el" href="classFlatTransferFunctionOnP.html#a5e6622fe17745b320dcd9613ecdeaef0">FlatTransferFunctionOnP</a>, <a class="el" href="classLooper.html#ab7fcc466052ee6c79eb930c67cd09c4a">Looper</a>, <a class="el" href="classPrinter_3_01std_1_1vector_3_01T_01_4_01_4.html#ad4e54250ef5938b0a3c6ccca996c17c3">Printer&lt; std::vector&lt; T &gt; &gt;</a>, <a class="el" href="classFlatTransferFunctionOnPhi.html#a3111af45d80f6135a638777f6a0daea8">FlatTransferFunctionOnPhi</a>, <a class="el" href="classFlatTransferFunctionOnTheta.html#ad4f7d78f78e1ed32cb05c464a7d19b53">FlatTransferFunctionOnTheta</a>, <a class="el" href="classUniformGenerator.html#a99b9bc8ff335181bfe584133204e5893">UniformGenerator</a>, <a class="el" href="classDMEM.html#ae186ae847833baea72181fc1ff70ea94">DMEM</a>, <a class="el" href="classCounter.html#ac2d0a21215956aa2d091467c75d430b5">Counter&lt; T &gt;</a>, <a class="el" href="classPrinter.html#a60bf7a33b536c283d7919e1d42b5ba37">Printer&lt; T &gt;</a>, <a class="el" href="classSummer.html#a0dd09a49e54d29e5ba90b894db39c7f0">Summer&lt; T &gt;</a>, and <a class="el" href="classEmptyModule.html#a884a80d743a5a8f1337ffb7fd335492c">EmptyModule</a>.</p>
+<p>Reimplemented in <a class="el" href="classBinnedTransferFunctionOnEnergyEvaluator.html#ac203b3e5457f18bde05be0ae74275f20">BinnedTransferFunctionOnEnergyEvaluator</a>, <a class="el" href="classMatrixElement.html#a25f5a4703b1c899b6fda9fac5484d267">MatrixElement</a>, <a class="el" href="classGaussianTransferFunctionOnEnergyEvaluator.html#a5587ec521249a41dfc3d55d17921653e">GaussianTransferFunctionOnEnergyEvaluator</a>, <a class="el" href="classBinnedTransferFunctionOnEnergy.html#a6c6dbf31c88228cedd032de7b8a666f6">BinnedTransferFunctionOnEnergy</a>, <a class="el" href="classLooper.html#ab7fcc466052ee6c79eb930c67cd09c4a">Looper</a>, <a class="el" href="classBlockD.html#aa9fed99b2cd6e073a4304ffa3f18a100">BlockD</a>, <a class="el" href="classBlockB.html#a0d7d40a75036ab5f612f20502ed96182">BlockB</a>, <a class="el" href="classBlockF.html#a300428b06214e67b01dd8242f9b1c5ad">BlockF</a>, <a class="el" href="classGaussianTransferFunctionOnEnergy.html#a98771cb6b31e175bccbef93569b77295">GaussianTransferFunctionOnEnergy</a>, <a class="el" href="classSimpleCounter.html#a6e702738d05d843ea3a5e12abf908021">SimpleCounter</a>, <a class="el" href="classPermutator.html#a54397b9627c6bc0545404cdc42de5517">Permutator</a>, <a class="el" href="classSecondaryBlockCD.html#afe161a3284e8153c0e91aad07c893916">SecondaryBlockCD</a>, <a class="el" href="classBreitWignerGenerator.html#a04be6d5d55752bddbf88dbc206aaa0be">BreitWignerGenerator</a>, <a class="el" href="classBuildInitialState.html#a3d587e3c6980acbe9cc12e4d9e1f145f">BuildInitialState</a>, <a class="el" href="classFlatTransferFunctionOnP.html#a5e6622fe17745b320dcd9613ecdeaef0">FlatTransferFunctionOnP</a>, <a class="el" href="classPrinter_3_01std_1_1vector_3_01T_01_4_01_4.html#ad4e54250ef5938b0a3c6ccca996c17c3">Printer&lt; std::vector&lt; T &gt; &gt;</a>, <a class="el" href="classFlatTransferFunctionOnPhi.html#a3111af45d80f6135a638777f6a0daea8">FlatTransferFunctionOnPhi</a>, <a class="el" href="classFlatTransferFunctionOnTheta.html#ad4f7d78f78e1ed32cb05c464a7d19b53">FlatTransferFunctionOnTheta</a>, <a class="el" href="classUniformGenerator.html#a99b9bc8ff335181bfe584133204e5893">UniformGenerator</a>, <a class="el" href="classStandardPhaseSpace.html#af2ee9063ce2cba4e4fd568555f4f186b">StandardPhaseSpace</a>, <a class="el" href="classDMEM.html#ae186ae847833baea72181fc1ff70ea94">DMEM</a>, <a class="el" href="classCounter.html#ac2d0a21215956aa2d091467c75d430b5">Counter&lt; T &gt;</a>, <a class="el" href="classPrinter.html#a60bf7a33b536c283d7919e1d42b5ba37">Printer&lt; T &gt;</a>, <a class="el" href="classSummer.html#a0dd09a49e54d29e5ba90b894db39c7f0">Summer&lt; T &gt;</a>, and <a class="el" href="classEmptyModule.html#a884a80d743a5a8f1337ffb7fd335492c">EmptyModule</a>.</p>
 
-<p>Definition at line <a class="el" href="Module_8h_source.html#l00086">86</a> of file <a class="el" href="Module_8h_source.html">Module.h</a>.</p>
+<p>Definition at line <a class="el" href="Module_8h_source.html#l00090">90</a> of file <a class="el" href="Module_8h_source.html">Module.h</a>.</p>
 
 </div>
 </div>

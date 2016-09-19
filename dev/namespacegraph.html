@@ -148,6 +148,9 @@ typedef boost::graph_traits&lt; Graph &gt;::edge_descriptor&#160;</td><td class=
 <tr class="memitem:a471642285c32ef12191d851411e4d4f1"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a471642285c32ef12191d851411e4d4f1"></a>
 typedef boost::graph_traits&lt; Graph &gt;::out_edge_iterator&#160;</td><td class="memItemRight" valign="bottom"><b>out_edge_iterator_t</b></td></tr>
 <tr class="separator:a471642285c32ef12191d851411e4d4f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6bd93409bbc1f6ac6ee2f5220712f054"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a6bd93409bbc1f6ac6ee2f5220712f054"></a>
+typedef boost::graph_traits&lt; Graph &gt;::in_edge_iterator&#160;</td><td class="memItemRight" valign="bottom"><b>in_edge_iterator_t</b></td></tr>
+<tr class="separator:a6bd93409bbc1f6ac6ee2f5220712f054"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
@@ -157,6 +160,15 @@ Functions</h2></td></tr>
 <tr class="memitem:a591755d74ea6c6673dfeba94d14b7fec"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacegraph.html#a591755d74ea6c6673dfeba94d14b7fec">graphviz_export</a> (const Graph &amp;g, const std::string &amp;filename)</td></tr>
 <tr class="memdesc:a591755d74ea6c6673dfeba94d14b7fec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Export a given graph in <code>dot</code> format.  <a href="#a591755d74ea6c6673dfeba94d14b7fec">More...</a><br /></td></tr>
 <tr class="separator:a591755d74ea6c6673dfeba94d14b7fec"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aedc8b672621f4fc7f7aed2f059779f0e"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aedc8b672621f4fc7f7aed2f059779f0e"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>isConnectedToByOut</b> (Graph &amp;g, vertex_t vertex, vertex_t to)</td></tr>
+<tr class="separator:aedc8b672621f4fc7f7aed2f059779f0e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab532f2cbdf9c02ace10f2ce16a00a2c8"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab532f2cbdf9c02ace10f2ce16a00a2c8"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>isConnectedToByIn</b> (Graph &amp;g, vertex_t vertex, vertex_t to)</td></tr>
+<tr class="separator:ab532f2cbdf9c02ace10f2ce16a00a2c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a891af4fc85e24a26794009c060176465"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a891af4fc85e24a26794009c060176465"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>isConnectedTo</b> (Graph &amp;g, vertex_t vertex, vertex_t to)</td></tr>
+<tr class="separator:a891af4fc85e24a26794009c060176465"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a00c97bd10f687431f619d08b711e3c28"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a00c97bd10f687431f619d08b711e3c28"></a>
 Graph&#160;</td><td class="memItemRight" valign="bottom"><b>build</b> (const Pool::DescriptionMap &amp;description, std::vector&lt; ModulePtr &gt; &amp;modules, const std::vector&lt; <a class="el" href="structPathElements.html">PathElementsPtr</a> &gt; &amp;paths, std::function&lt; void(const std::string &amp;)&gt; on_module_removed)</td></tr>
 <tr class="separator:a00c97bd10f687431f619d08b711e3c28"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -248,7 +260,7 @@ Graph&#160;</td><td class="memItemRight" valign="bottom"><b>build</b> (const Poo
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="Graph_8cc_source.html#l00227">227</a> of file <a class="el" href="Graph_8cc_source.html">Graph.cc</a>.</p>
+<p>Definition at line <a class="el" href="Graph_8cc_source.html#l00307">307</a> of file <a class="el" href="Graph_8cc_source.html">Graph.cc</a>.</p>
 
 </div>
 </div>

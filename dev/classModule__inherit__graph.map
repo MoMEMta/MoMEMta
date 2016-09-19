@@ -21,8 +21,9 @@
 <area shape="rect" id="node25" href="$classPrinter_3_01std_1_1vector_3_01T_01_4_01_4.html" title="Specialization of Printer for std::vector " alt="" coords="146,1031,281,1073"/>
 <area shape="rect" id="node26" href="$classSecondaryBlockCD.html" title="Secondary Block C/D, describing . " alt="" coords="145,1097,282,1124"/>
 <area shape="rect" id="node27" href="$classSimpleCounter.html" title="A simple module counting the number of time it has been called. " alt="" coords="159,1148,267,1175"/>
-<area shape="rect" id="node28" href="$classSummer.html" title="A module performing a sum over a set of values. " alt="" coords="162,1199,265,1225"/>
-<area shape="rect" id="node29" href="$classUniformGenerator.html" title="Generate a random point uniformly in a user&#45;set range. " alt="" coords="151,1249,276,1276"/>
+<area shape="rect" id="node28" href="$classStandardPhaseSpace.html" title="Compute the phase space density for observed particles (not concerned by the change of variable) ..." alt="" coords="139,1199,287,1225"/>
+<area shape="rect" id="node29" href="$classSummer.html" title="A module performing a sum over a set of values. " alt="" coords="162,1249,265,1276"/>
+<area shape="rect" id="node30" href="$classUniformGenerator.html" title="Generate a random point uniformly in a user&#45;set range. " alt="" coords="151,1300,276,1327"/>
 <area shape="rect" id="node3" href="$classBinnedTransferFunctionOnEnergy.html" title="Integrate over a transfer function on energy described by a 2D histogram retrieved from a ROOT file..." alt="" coords="358,5,535,46"/>
 <area shape="rect" id="node4" href="$classBinnedTransferFunctionOnEnergyEvaluator.html" title="Evaluate a transfer function on energy described by a 2D histogram retrieved from a ROOT file..." alt="" coords="358,70,535,111"/>
 <area shape="rect" id="node18" href="$classGaussianTransferFunctionOnEnergy.html" title="Integrate over a transfer function on energy described by a Gaussian distribution. " alt="" coords="359,679,534,721"/>

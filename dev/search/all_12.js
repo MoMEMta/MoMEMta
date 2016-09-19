@@ -15,6 +15,7 @@ var searchData=
   ['solvequartic',['solveQuartic',['../Math_8h.html#a0f997820a313ec0c77d142a733c34940',1,'Math.cc']]],
   ['special_5fany_5fcast',['special_any_cast',['../namespacelua.html#a699edfce49152283b8fd6745e6a2f84d',1,'lua']]],
   ['sq',['SQ',['../Math_8h.html#ac3644f84794a8bfdacf39c4b2c2495fc',1,'Math.h']]],
+  ['standardphasespace',['StandardPhaseSpace',['../classStandardPhaseSpace.html',1,'']]],
   ['string',['STRING',['../namespacelua.html#a4cb01bc8fe209aafacf11602092c63f8a4dedf3e0f2f7e7792b0c7773ef52fbee',1,'lua']]],
   ['success',['SUCCESS',['../classMoMEMta.html#a1e59ba7df5b4501f970cf07f09562f4bad0749aaba8b833466dfcbb0428e4f89c',1,'MoMEMta']]],
   ['summer',['Summer',['../classSummer.html',1,'']]]

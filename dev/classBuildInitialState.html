@@ -121,8 +121,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
  <a href="classBuildInitialState.html#details">More...</a></p>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Build the initial partons given the whole final state. </p>
-<p>Define the initial partons 4-momenta given the visible and invisible particles present in the final state.</p>
-<p>If no invisibles are present, only one pair of initial partons is partons. If there are invisibles, there can be several entries of them (since blocks typically partons several solutions): in that case, one pair of initial partons per solution is defined.</p>
+<p>Define the initial partons 4-momenta given the particles present in the final state.</p>
 <p>If the parameter <code>do_transverse_boost</code> is set to <code>true</code>, the partons are boosted in the transverse direction to satisfy energy-momentum conservation. Otherwise, the partons are simply built using the total energy and longitudinal momentum, without enforcing conservation of transverse momentum.</p>
 <p>Use of the transverse boost or not can depend on how the invisibles are reconstructed by the blocks: if the block already enforces momentum conservation, applying the boost or not will yield the same result.</p>
 <h3>Integration dimension</h3>
@@ -139,9 +138,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <tr>
 <th>Name </th><th>Type </th><th>Description  </th></tr>
 <tr>
-<td><code>particles</code> </td><td>vector(LorentzVector) </td><td>Set of all visible particles. </td></tr>
-<tr>
-<td><code>solution</code> </td><td><a class="el" href="structSolution.html" title="Generic solution structure representing a set of particles, along with its jacobian. ">Solution</a> </td><td><a class="el" href="structSolution.html" title="Generic solution structure representing a set of particles, along with its jacobian. ">Solution</a> for invisible particles coming out of a block. Typically the output of a <a class="el" href="classLooper.html" title="A module looping over a set of solutions. ">Looper</a> module. </td></tr>
+<td><code>particles</code> </td><td>vector(LorentzVector) </td><td>Set of all particles. </td></tr>
 </table>
 <h3>Outputs</h3>
 <table class="doxtable">
@@ -151,7 +148,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <td><code>partons</code> </td><td>vector(LorentzVector) </td><td>Sets of initial parton 4-momenta. </td></tr>
 </table>
 
-<p>Definition at line <a class="el" href="BuildInitialState_8cc_source.html#l00069">69</a> of file <a class="el" href="BuildInitialState_8cc_source.html">BuildInitialState.cc</a>.</p>
+<p>Definition at line <a class="el" href="BuildInitialState_8cc_source.html#l00064">64</a> of file <a class="el" href="BuildInitialState_8cc_source.html">BuildInitialState.cc</a>.</p>
 </div><div class="dynheader">
 Inheritance diagram for BuildInitialState:</div>
 <div class="dyncontent">
@@ -263,7 +260,7 @@ PoolPtr&#160;</td><td class="memItemRight" valign="bottom"><b>m_pool</b></td></t
 
 <p>Reimplemented from <a class="el" href="classModule.html#a43c0b7c70e9dd8b0cf6c78aa5052eeee">Module</a>.</p>
 
-<p>Definition at line <a class="el" href="BuildInitialState_8cc_source.html#l00086">86</a> of file <a class="el" href="BuildInitialState_8cc_source.html">BuildInitialState.cc</a>.</p>
+<p>Definition at line <a class="el" href="BuildInitialState_8cc_source.html#l00079">79</a> of file <a class="el" href="BuildInitialState_8cc_source.html">BuildInitialState.cc</a>.</p>
 
 </div>
 </div>

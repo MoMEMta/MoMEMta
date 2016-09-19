@@ -121,8 +121,12 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
  <a href="classLooper.html#details">More...</a></p>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>A module looping over a set of solutions. </p>
-<p>For each solution, the modules of the path are executed. At least one module of the path must use the <code>solution</code> output produced by this module.</p>
-<h3>Integration dimension</h3>
+<p>A loop is done over the set of solution. For each solution, the outputs are filled with the list of particles and the jacobian, and the modules of the path are executed. At least one module must use the output produced by this module.</p>
+<p>If the path is executed, the solution is ensured to be valid.</p>
+<h3>In details</h3>
+<p>Each blocks produce a set of solutions. In order to define the final integrand value, various computations (matrix element, initial state, …) must be performed on <b>each</b> solution. Letting each module handling multiple solutions, but it leads to many problems, the biggest one being the synchronization between modules: a solution can be seen as valid from a module, but not for another. Instead, each module only handles a set of particle, without the necessity to know where it comes from (input particle or solution of a block), and the iteration over the solutions is delegated to this <a class="el" href="classLooper.html" title="A module looping over a set of solutions. ">Looper</a> module. For each solution, a sequence of module is executed, as described by the <code>path</code> argument.</p>
+<p>Schematically, things can be represented by this graph:</p>
+<div class="fragment"><div class="line">───────</div><div class="line"> Block</div><div class="line">───┬───</div><div class="line">   │</div><div class="line">   ├─ Solutions</div><div class="line">   │</div><div class="line">───┴────</div><div class="line"> <a class="code" href="classLooper.html">Looper</a></div><div class="line">─┬────┬─</div><div class="line"> │    │</div><div class="line"> │    ├─ <a class="code" href="structSolution.html">Solution</a></div><div class="line"> │    │</div><div class="line"> │  ──┴─────</div><div class="line"> │   <a class="code" href="classModule.html">Module</a></div><div class="line"> │  ──┬─────</div><div class="line"> │    │</div><div class="line"> │    │</div><div class="line"> │  ──┴─────</div><div class="line"> │   <a class="code" href="classModule.html">Module</a></div><div class="line"> │  ──┬─────</div><div class="line"> │    │</div><div class="line"> └─┬──┘</div><div class="line">   │</div><div class="line">───┴───</div><div class="line"> <a class="code" href="classModule.html">Module</a></div><div class="line">───┬───</div></div><!-- fragment --><h3>Integration dimension</h3>
 <p>This module requires <b>0</b> phase-space point.</p>
 <h3>Parameters</h3>
 <table class="doxtable">
@@ -143,10 +147,12 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <tr>
 <th>Name </th><th>Type </th><th>Description  </th></tr>
 <tr>
-<td><code>solution</code> </td><td><a class="el" href="structSolution.html" title="Generic solution structure representing a set of particles, along with its jacobian. ">Solution</a> </td><td>The current solution. This output only makes sense for a module inside the execution path. For any other module, this output is invalid. </td></tr>
+<td><code>particles</code> </td><td>vector(LorentzVector) </td><td>The particles of the current solution. This output only makes sense for a module inside the execution path. For any other module, this output is invalid. </td></tr>
+<tr>
+<td><code>jacobian</code> </td><td>double </td><td>The jacobian of the current solution. This output only makes sense for a module inside the execution path. For any other module, this output is invalid. </td></tr>
 </table>
 
-<p>Definition at line <a class="el" href="Looper_8cc_source.html#l00061">61</a> of file <a class="el" href="Looper_8cc_source.html">Looper.cc</a>.</p>
+<p>Definition at line <a class="el" href="Looper_8cc_source.html#l00106">106</a> of file <a class="el" href="Looper_8cc_source.html">Looper.cc</a>.</p>
 </div><div class="dynheader">
 Inheritance diagram for Looper:</div>
 <div class="dyncontent">
@@ -258,7 +264,7 @@ PoolPtr&#160;</td><td class="memItemRight" valign="bottom"><b>m_pool</b></td></t
 
 <p>Reimplemented from <a class="el" href="classModule.html#a43c0b7c70e9dd8b0cf6c78aa5052eeee">Module</a>.</p>
 
-<p>Definition at line <a class="el" href="Looper_8cc_source.html#l00074">74</a> of file <a class="el" href="Looper_8cc_source.html">Looper.cc</a>.</p>
+<p>Definition at line <a class="el" href="Looper_8cc_source.html#l00119">119</a> of file <a class="el" href="Looper_8cc_source.html">Looper.cc</a>.</p>
 
 </div>
 </div>
