@@ -6,6 +6,15 @@ function append(t1, t2)
     return t1
 end
 
+function copy_and_append(t1, t2)
+    local t3 = {}
+
+    append(t3, t1)
+    append(t3, t2)
+
+    return t3
+end
+
 load_modules('libempty_module.so')
 load_modules('MatrixElements/dummy/libme_dummy.so')
 
@@ -125,6 +134,10 @@ if USE_TF then
     -- }
 end
 
+StandardPhaseSpace.phaseSpaceOut = {
+    particles = inputs -- only on visible particles
+}
+
 -- Declare module before the permutator to test read-access in the pool
 -- for non-existant values.
 BlockD.blockd = {
@@ -155,20 +168,21 @@ Looper.looper = {
     path = Path("boost", "ttbar", "dmem", "integrand")
 }
 
+    -- Block D produce solutions with two particles
+    full_inputs = copy_and_append(inputs, {'looper::particles/1', 'looper::particles/2'})
+
     BuildInitialState.boost = {
-        solution = 'looper::solution',
-
         do_transverse_boost = true,
-
-        particles = inputs
+        particles = full_inputs
     }
-
 
     jacobians = {'flatter_s13::jacobian', 'flatter_s134::jacobian', 'flatter_s25::jacobian', 'flatter_s256::jacobian'}
 
     if USE_TF then
         append(jacobians, {'tf_p1::TF_times_jacobian', 'tf_p2::TF_times_jacobian', 'tf_p3::TF_times_jacobian', 'tf_p4::TF_times_jacobian'})
     end
+
+    append(jacobians, {'phaseSpaceOut::phase_space', 'looper::jacobian'})
 
     MatrixElement.ttbar = {
       pdf = 'CT10nlo',
@@ -185,23 +199,8 @@ Looper.looper = {
 
       initialState = 'boost::partons',
 
-      invisibles = {
-        input = 'looper::solution',
-        ids = {
-          {
-            pdg_id = 12,
-            me_index = 2,
-          },
-
-          {
-            pdg_id = -14,
-            me_index = 5,
-          }
-        }
-      },
-
       particles = {
-        inputs = inputs,
+        inputs = full_inputs,
         ids = {
           {
             pdg_id = -11,
@@ -222,6 +221,16 @@ Looper.looper = {
             pdg_id = -5,
             me_index = 6,
           },
+
+          {
+            pdg_id = 12,
+            me_index = 2,
+          },
+
+          {
+            pdg_id = -14,
+            me_index = 5,
+          }
         }
       },
 
@@ -234,8 +243,7 @@ Looper.looper = {
       n_bins = 500,
 
       ps_weight = 'cuba::ps_weight',
-      particles = inputs,
-      invisibles = 'looper::solution',
+      particles = full_inputs,
       me_output = 'ttbar::output',
     }
 

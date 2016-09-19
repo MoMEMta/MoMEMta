@@ -21,4 +21,8 @@
 
 #include <Math/Vector4D.h>
 
+#include <functional>
+#include <vector>
+
 using LorentzVector = ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<double>>;
+using LorentzVectorRefCollection = std::vector<std::reference_wrapper<const LorentzVector>>;

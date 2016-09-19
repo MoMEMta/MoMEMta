@@ -43,6 +43,10 @@ class Module {
             ABORT
         };
 
+        class invalid_configuration: public std::runtime_error {
+            using std::runtime_error::runtime_error;
+        };
+
         static std::string statusToString(const Status& status);
 
         /**

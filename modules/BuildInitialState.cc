@@ -23,15 +23,11 @@
 
 #include <momemta/Module.h>
 #include <momemta/ParameterSet.h>
-#include <momemta/Solution.h>
 #include <momemta/Types.h>
 
 /** \brief Build the initial partons given the whole final state
  *
- * Define the initial partons 4-momenta given the visible and invisible particles present in the final state.
- *
- * If no invisibles are present, only one pair of initial partons is partons. If there are invisibles, there can
- * be several entries of them (since blocks typically partons several solutions): in that case, one pair of initial partons per solution is defined.
+ * Define the initial partons 4-momenta given the particles present in the final state.
  *
  * If the parameter `do_transverse_boost` is set to `true`, the partons are boosted in the transverse direction
  * to satisfy energy-momentum conservation. 
@@ -55,8 +51,7 @@
  *
  *   | Name | Type | %Description |
  *   |------|------|--------------|
- *   | `particles` | vector(LorentzVector) | Set of all visible particles. | 
- *   | `solution` | Solution | Solution for invisible particles coming out of a block. Typically the output of a Looper module. | 
+ *   | `particles` | vector(LorentzVector) | Set of all particles. |
  *
  * ### Outputs
  *
@@ -75,8 +70,6 @@ class BuildInitialState: public Module {
             } else {
                 do_compute_initials = compute_initials_trivial;
             }
-            
-            solution = get<Solution>(parameters.get<InputTag>("solution"));
 
             std::vector<InputTag> input_particles_tags = parameters.get<std::vector<InputTag>>("particles");
             for (auto& t: input_particles_tags)
@@ -87,28 +80,26 @@ class BuildInitialState: public Module {
 
             partons->clear();
 
-            std::vector<LorentzVector> particles_and_invisibles;
+            LorentzVectorRefCollection particles;
             for (auto& p: input_particles) {
-                particles_and_invisibles.push_back(*p);
+                particles.push_back(std::ref(*p));
             }
 
-            for (const auto& s: solution->values) {
-                particles_and_invisibles.push_back(s);
-            }
-
-            do_compute_initials(particles_and_invisibles);
+            do_compute_initials(particles);
 
             return Status::OK;
         }
 
     private:
-        std::function<void(const std::vector<LorentzVector>&)> do_compute_initials; 
+        using compute_initials_signature = std::function<void(const LorentzVectorRefCollection&)>;
 
-        std::function<void(const std::vector<LorentzVector>&)> compute_initials_trivial = 
-            [&](const std::vector<LorentzVector>& particles) {
+        compute_initials_signature do_compute_initials;
+
+        compute_initials_signature compute_initials_trivial =
+            [&](const LorentzVectorRefCollection& particles) {
                 LorentzVector tot;
                 for (const auto& p: particles)
-                    tot += p;
+                    tot += p.get();
 
                 double q1Pz = (tot.Pz() + tot.E()) / 2.;
                 double q2Pz = (tot.Pz() - tot.E()) / 2.;
@@ -117,11 +108,11 @@ class BuildInitialState: public Module {
                 partons->push_back(LorentzVector(0., 0., q2Pz, std::abs(q2Pz)));
             };
 
-        std::function<void(const std::vector<LorentzVector>&)> compute_initials_boost = 
-            [&](const std::vector<LorentzVector>& particles) {
+        compute_initials_signature compute_initials_boost =
+            [&](const LorentzVectorRefCollection& particles) {
                 LorentzVector tot;
                 for (const auto& p: particles)
-                    tot += p;
+                    tot += p.get();
                 
                 // Define boost that puts the transverse total momentum vector in its CoM frame 
                 LorentzVector transverse_tot = tot;
@@ -144,7 +135,6 @@ class BuildInitialState: public Module {
                 (*partons)[1] = isr_boost * (*partons)[1];
             };
 
-        Value<Solution> solution;
         std::vector<Value<LorentzVector>> input_particles;
 
         std::shared_ptr<std::vector<LorentzVector>> partons = produce<std::vector<LorentzVector>>("partons");

@@ -78,9 +78,6 @@ if (NOT TARGET Boost::log)
     set_property(TARGET Boost::log PROPERTY INTERFACE_SYSTEM_INCLUDE_DIRECTORIES ${Boost_INCLUDE_DIRS})
 endif()
 
-# Needed since we don't link to the static library
-set_property(TARGET Boost::log PROPERTY INTERFACE_COMPILE_DEFINITIONS "BOOST_LOG_DYN_LINK")
-
 if (PYTHON_BINDINGS)
     find_package(PythonLibs 2.6)
     if (PYTHONLIBS_FOUND)
@@ -162,6 +159,7 @@ set(MOMEMTA_SOURCES
     "modules/NarrowWidthApproximation.cc"
     "modules/Permutator.cc"
     "modules/Printer.cc"
+    "modules/StandardPhaseSpace.cc"
     "modules/Summer.cc"
     "modules/UniformGenerator.cc"
     "core/src/Configuration.cc"

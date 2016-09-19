@@ -27,6 +27,8 @@
 
 #include <boost/any.hpp>
 
+#include <momemta/Logging.h>
+#include <momemta/Utils.h>
 #include <momemta/Value.h>
 #include <momemta/impl/ValueProxy.h>
 
@@ -61,9 +63,19 @@ template <typename T> std::shared_ptr<const T> Pool::raw_get(const InputTag& tag
         throw tag_not_found_error("No such tag in pool: " + tag.toString());
 
     PoolContent& v = it->second;
-    std::shared_ptr<T>& ptr = boost::any_cast<std::shared_ptr<T>&>(v.ptr);
 
-    return std::const_pointer_cast<const T>(ptr);
+    try {
+        std::shared_ptr<T>& ptr = boost::any_cast<std::shared_ptr<T>&>(v.ptr);
+
+        return std::const_pointer_cast<const T>(ptr);
+    } catch (boost::bad_any_cast e) {
+        LOG(fatal) << "Exception while trying to get pool content for '" << tag.toString() << "'. Requested a '"
+                   << demangle(typeid(std::shared_ptr<T>).name())
+                   << "' while parameter is a '"
+                   << demangle(v.ptr.type().name())
+                   << "'";
+        throw e;
+    }
 }
 
 template <typename T, typename... Args> std::shared_ptr<T> Pool::put(const InputTag& tag, Args... args) {
