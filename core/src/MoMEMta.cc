@@ -30,6 +30,9 @@
 
 #include <Graph.h>
 
+#define CUBA_ABORT -999
+#define CUBA_OK 0
+
 MoMEMta::MoMEMta(const Configuration& configuration) {
 
     // Initialize shared memory pool for modules
@@ -106,82 +109,101 @@ const Pool& MoMEMta::getPool() const {
 }
 
 std::vector<std::pair<double, double>> MoMEMta::computeWeights(const std::vector<LorentzVector>& particles, const LorentzVector& met) {
-    
-    for (const auto& module: m_modules) {
-        module->beginIntegration();
-    }
 
     *m_particles = particles;
     *m_met = met;
 
-    // Read cuba configuration
-    uint8_t verbosity = m_cuba_configuration.get<int64_t>("verbosity", 0);
-    bool subregion = m_cuba_configuration.get<bool>("subregion", false);
-    bool smoothing = m_cuba_configuration.get<bool>("smoothing", true);
-    bool retainStateFile = m_cuba_configuration.get<bool>("retainStateFile", false);
-    bool takeOnlyGridFromFile = m_cuba_configuration.get<bool>("takeOnlyGridFromFile", true);
-    uint64_t level = m_cuba_configuration.get<int64_t>("level", 0);
+    for (const auto& module: m_modules) {
+        module->beginIntegration();
+    }
 
-    double relative_accuracy = m_cuba_configuration.get<double>("relative_accuracy", 0.005);
-    double absolute_accuracy = m_cuba_configuration.get<double>("absolute_accuracy", 0.);
-    int64_t seed = m_cuba_configuration.get<int64_t>("seed", 0);
-    int64_t min_eval = m_cuba_configuration.get<int64_t>("min_eval", 0);
-    int64_t max_eval = m_cuba_configuration.get<int64_t>("max_eval", 500000);
-    int64_t n_start = m_cuba_configuration.get<int64_t>("n_start", 25000);
-    int64_t n_increase = m_cuba_configuration.get<int64_t>("n_increase", 0);
-    int64_t batch_size = m_cuba_configuration.get<int64_t>("batch_size", 12500);
+    std::unique_ptr<double[]> mcResult(new double[m_n_components]);
+    std::unique_ptr<double[]> error(new double[m_n_components]);
 
-    unsigned int flags = cuba::createFlagsBitset(verbosity, subregion, retainStateFile, level, smoothing, takeOnlyGridFromFile);
-
-    std::string grid_file = m_cuba_configuration.get<std::string>("grid_file", "");
-    int64_t grid_number = m_cuba_configuration.get<int64_t>("grid_number", 0);
-    
-    // Output from cuba
-    long long int neval = 0;
-    int nfail = 0;
-    std::unique_ptr<double[]> mcResult(new double[m_n_components]); 
-    std::unique_ptr<double[]> prob(new double[m_n_components]); 
-    std::unique_ptr<double[]> error(new double[m_n_components]); 
-    
     for (size_t i = 0; i < m_n_components; i++) {
         mcResult[i] = 0;
-        prob[i] = 0;
         error[i] = 0;
     }
-    
-    llVegas(
-         m_n_dimensions,         // (int) dimensions of the integrated volume
-         m_n_components,         // (int) dimensions of the integrand
-         (integrand_t) CUBAIntegrand,  // (integrand_t) integrand (cast to integrand_t)
-         (void*) this,           // (void*) pointer to additional arguments passed to integrand
-         1,                      // (int) maximum number of points given the integrand in each invocation (=> SIMD) ==> PS points = vector of sets of points (x[ndim][nvec]), integrand returns vector of vector values (f[ncomp][nvec])
-         relative_accuracy,      // (double) requested relative accuracy  /
-         absolute_accuracy,      // (double) requested absolute accuracy /-> error < max(rel*value,abs)
-         flags,                  // (int) various control flags in binary format, see setFlags function
-         seed,                   // (int) seed (seed==0 => SOBOL; seed!=0 && control flag "level"==0 => Mersenne Twister)
-         min_eval,               // (int) minimum number of integrand evaluations
-         max_eval,               // (int) maximum number of integrand evaluations (approx.!)
-         n_start,                // (int) number of integrand evaluations per interations (to start)
-         n_increase,             // (int) increase in number of integrand evaluations per interations
-         batch_size,             // (int) batch size for sampling
-         grid_number,            // (int) grid number, 1-10 => up to 10 grids can be stored, and re-used for other integrands (provided they are not too different)
-         grid_file.c_str(),      // (char*) name of state file => state can be stored and retrieved for further refinement
-         NULL,                   // (int*) "spinning cores": -1 || NULL <=> integrator takes care of starting & stopping child processes (other value => keep or retrieve child processes, probably not useful here)
-         &neval,                 // (int*) actual number of evaluations done
-         &nfail,                 // 0=desired accuracy was reached; -1=dimensions out of range; >0=accuracy was not reached
-         mcResult.get(),         // (double*) integration result ([ncomp])
-         error.get(),            // (double*) integration error ([ncomp])
-         prob.get()              // (double*) Chi-square p-value that error is not reliable (ie should be <0.95) ([ncomp])
-    );
-    
-    if (nfail == 0) {
-        integration_status = IntegrationStatus::SUCCESS;
-    } else if (nfail == -1) {
-        integration_status = IntegrationStatus::DIM_OUT_OF_RANGE;
-    } else if (nfail > 0) {
-        integration_status = IntegrationStatus::ACCURARY_NOT_REACHED;
-    } else if (nfail == -99) {
-        integration_status = IntegrationStatus::ABORTED;
+
+    if (m_n_dimensions > 0) {
+
+        // Read cuba configuration
+        uint8_t verbosity = m_cuba_configuration.get<int64_t>("verbosity", 0);
+        bool subregion = m_cuba_configuration.get<bool>("subregion", false);
+        bool smoothing = m_cuba_configuration.get<bool>("smoothing", true);
+        bool retainStateFile = m_cuba_configuration.get<bool>("retainStateFile", false);
+        bool takeOnlyGridFromFile = m_cuba_configuration.get<bool>("takeOnlyGridFromFile", true);
+        uint64_t level = m_cuba_configuration.get<int64_t>("level", 0);
+
+        double relative_accuracy = m_cuba_configuration.get<double>("relative_accuracy", 0.005);
+        double absolute_accuracy = m_cuba_configuration.get<double>("absolute_accuracy", 0.);
+        int64_t seed = m_cuba_configuration.get<int64_t>("seed", 0);
+        int64_t min_eval = m_cuba_configuration.get<int64_t>("min_eval", 0);
+        int64_t max_eval = m_cuba_configuration.get<int64_t>("max_eval", 500000);
+        int64_t n_start = m_cuba_configuration.get<int64_t>("n_start", 25000);
+        int64_t n_increase = m_cuba_configuration.get<int64_t>("n_increase", 0);
+        int64_t batch_size = m_cuba_configuration.get<int64_t>("batch_size", 12500);
+
+        unsigned int flags = cuba::createFlagsBitset(verbosity, subregion, retainStateFile, level, smoothing, takeOnlyGridFromFile);
+
+        std::string grid_file = m_cuba_configuration.get<std::string>("grid_file", "");
+        int64_t grid_number = m_cuba_configuration.get<int64_t>("grid_number", 0);
+
+        // Output from cuba
+        long long int neval = 0;
+        int nfail = 0;
+        std::unique_ptr<double[]> prob(new double[m_n_components]);
+
+        for (size_t i = 0; i < m_n_components; i++) {
+            prob[i] = 0;
+        }
+
+        llVegas(
+                m_n_dimensions,         // (int) dimensions of the integrated volume
+                m_n_components,         // (int) dimensions of the integrand
+                (integrand_t) CUBAIntegrand,  // (integrand_t) integrand (cast to integrand_t)
+                (void *) this,           // (void*) pointer to additional arguments passed to integrand
+                1,                      // (int) maximum number of points given the integrand in each invocation (=> SIMD) ==> PS points = vector of sets of points (x[ndim][nvec]), integrand returns vector of vector values (f[ncomp][nvec])
+                relative_accuracy,      // (double) requested relative accuracy  /
+                absolute_accuracy,      // (double) requested absolute accuracy /-> error < max(rel*value,abs)
+                flags,                  // (int) various control flags in binary format, see setFlags function
+                seed,                   // (int) seed (seed==0 => SOBOL; seed!=0 && control flag "level"==0 => Mersenne Twister)
+                min_eval,               // (int) minimum number of integrand evaluations
+                max_eval,               // (int) maximum number of integrand evaluations (approx.!)
+                n_start,                // (int) number of integrand evaluations per interations (to start)
+                n_increase,             // (int) increase in number of integrand evaluations per interations
+                batch_size,             // (int) batch size for sampling
+                grid_number,            // (int) grid number, 1-10 => up to 10 grids can be stored, and re-used for other integrands (provided they are not too different)
+                grid_file.c_str(),      // (char*) name of state file => state can be stored and retrieved for further refinement
+                NULL,                   // (int*) "spinning cores": -1 || NULL <=> integrator takes care of starting & stopping child processes (other value => keep or retrieve child processes, probably not useful here)
+                &neval,                 // (int*) actual number of evaluations done
+                &nfail,                 // 0=desired accuracy was reached; -1=dimensions out of range; >0=accuracy was not reached
+                mcResult.get(),         // (double*) integration result ([ncomp])
+                error.get(),            // (double*) integration error ([ncomp])
+                prob.get()              // (double*) Chi-square p-value that error is not reliable (ie should be <0.95) ([ncomp])
+        );
+
+        if (nfail == 0) {
+            integration_status = IntegrationStatus::SUCCESS;
+        } else if (nfail == -1) {
+            integration_status = IntegrationStatus::DIM_OUT_OF_RANGE;
+        } else if (nfail > 0) {
+            integration_status = IntegrationStatus::ACCURARY_NOT_REACHED;
+        } else if (nfail == -99) {
+            integration_status = IntegrationStatus::ABORTED;
+        }
+    } else {
+
+        LOG(debug) << "No integration dimension requested, bypassing integration.";
+
+        // Directly call integrand
+        int status = integrand(nullptr, nullptr, mcResult.get());
+
+        if (status == CUBA_OK) {
+            integration_status = IntegrationStatus::SUCCESS;
+        } else {
+            integration_status = IntegrationStatus::ABORTED;
+        }
     }
 
     for (const auto& module: m_modules) {
@@ -196,16 +218,15 @@ std::vector<std::pair<double, double>> MoMEMta::computeWeights(const std::vector
     return result;
 }
 
-#define CUBA_ABORT -999
-#define CUBA_OK 0
-
 int MoMEMta::integrand(const double* psPoints, const double* weights, double* results) {
 
     // Store phase-space points into the pool
     std::memcpy(m_ps_points->data(), psPoints, sizeof(double) * m_n_dimensions);
 
-    // Store phase-space weight into the pool
-    *m_ps_weight = *weights;
+    if (weights != nullptr) {
+        // Store phase-space weight into the pool
+        *m_ps_weight = *weights;
+    }
 
     for (auto& module: m_modules) {
         auto status = module->work();
