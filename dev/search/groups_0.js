@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['modules',['Modules',['../group__modules.html',1,'']]]
+  ['integration_20tests',['Integration tests',['../group__IntegrationTests.html',1,'']]]
 ];

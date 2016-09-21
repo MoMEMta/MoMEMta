@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['python_20bindings',['Python bindings',['../group__Python.html',1,'']]]
+  ['modules',['Modules',['../group__modules.html',1,'']]]
 ];
