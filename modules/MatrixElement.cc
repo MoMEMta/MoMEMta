@@ -186,7 +186,7 @@ class MatrixElement: public Module {
                 throw Module::invalid_configuration("Inconsistent number of ids and number of particles");
             }
 
-            const auto& jacobians_tags = parameters.get<std::vector<InputTag>>("jacobians");
+            const auto& jacobians_tags = parameters.get<std::vector<InputTag>>("jacobians", std::vector<InputTag>());
             for (const auto& tag: jacobians_tags) {
                 m_jacobians.push_back(get<double>(tag));
             }

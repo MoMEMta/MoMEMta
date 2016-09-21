@@ -8,6 +8,11 @@ set -e
 # C++ unit tests
 ./tests/unit_tests/unit_tests.exe
 
+# C++ integration tests
+pushd "@CMAKE_SOURCE_DIR@/tests/integration_tests" &> /dev/null
+    "@CMAKE_BINARY_DIR@/tests/integration_tests/integration_tests.exe"
+popd &> /dev/null
+
 if [[ "@PYTHON_BINDINGS@" == "ON" ]]; then
     # Python integration tests
     export PYTHONPATH="@CMAKE_BINARY_DIR@:$PYTHONPATH"
