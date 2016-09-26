@@ -308,8 +308,6 @@ class ParameterSet {
  *
  */
 
-class lua_State;
-
 class LazyParameterSet: public ParameterSet {
     friend class ConfigurationReader;
     public:
