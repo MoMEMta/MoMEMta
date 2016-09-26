@@ -227,7 +227,7 @@ enum { uninitialized = 0x61627563 };
 #endif
 #endif
 #endif
-  
+
 #define FrameAlloc(t, who) \
   SHM_ONLY(ShmAlloc(t, who) else) \
   MemAlloc(t->frame, t->nframe*SAMPLESIZE);
@@ -408,6 +408,9 @@ typedef const real creal;
 
 typedef void (*subroutine)(void *, cint *);
 
+typedef void (*logging_callback)(const char*);
+extern logging_callback logging_function;
+
 typedef struct {
   subroutine initfun;
   void *initarg;
@@ -512,6 +515,11 @@ static inline real Weight(creal sum, creal sqsum, cnumber n) {
   return (n - 1)/Max((w + sum)*(w - sum), NOTZERO);
 }
 
+static inline void cubalog_(const char* s) {
+  puts(s);
+  fflush(stdout);
+}
+
 
 /* (a < 0) ? -1 : 0 */
 #define NegQ(a) ((a) >> (sizeof(a)*8 - 1))
@@ -553,7 +561,7 @@ static inline void Print(MLCONST char *s)
 
 #else
 
-#define Print(s) puts(s); fflush(stdout)
+#define Print(s) (logging_function(s));
 
 #endif
 

@@ -16,7 +16,6 @@ extern int cubaverb_;
 extern corespec cubaworkers_;
 #endif
 
-
 Extern void SUFFIX(cubaverbose)(cint verb)
 {
   cubaverb_ = verb;
@@ -56,3 +55,9 @@ Extern void SUFFIX(cubaexit)(subroutine f, void *arg)
   cubafun_.exitarg = arg;
 }
 
+/*********************************************************************/
+
+Extern void SUFFIX(cubalogging)(logging_callback fct)
+{
+    logging_function = fct;
+}

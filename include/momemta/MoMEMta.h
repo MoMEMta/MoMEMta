@@ -92,6 +92,7 @@ class MoMEMta {
         int integrand(const double* psPoints, const double* weights, double* results);
 
         static int CUBAIntegrand(const int *nDim, const double* psPoint, const int *nComp, double *value, void *inputs, const int *nVec, const int *core, const double *weight);
+        static void cuba_logging(const char*);
 
         PoolPtr m_pool;
         std::vector<ModulePtr> m_modules;

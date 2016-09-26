@@ -96,6 +96,9 @@ MoMEMta::MoMEMta(const Configuration& configuration) {
     m_pool->freeze();
 
     cubacores(0, 0);
+
+    // Register logging function
+    cubalogging(MoMEMta::cuba_logging);
 }
 
 MoMEMta::~MoMEMta() {
@@ -258,6 +261,16 @@ int MoMEMta::CUBAIntegrand(const int *nDim, const double* psPoint, const int *nC
     UNUSED(core);
 
     return static_cast<MoMEMta*>(inputs)->integrand(psPoint, weight, value);
+}
+
+void MoMEMta::cuba_logging(const char* s) {
+    std::stringstream ss(s);
+    std::string line;
+
+    while(std::getline(ss, line, '\n')) {
+        if (line.length() > 0)
+            LOG(debug) << line;
+    }
 }
 
 MoMEMta::IntegrationStatus MoMEMta::getIntegrationStatus() const {
