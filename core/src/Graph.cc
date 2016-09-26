@@ -60,6 +60,22 @@ bool isConnectedTo(Graph& g, vertex_t vertex, vertex_t to) {
     return false;
 }
 
+bool checkInPath(Graph& g, vertex_t looper, vertex_t module) {
+
+    // We know that the module is a Looper
+    // grab its execution path from its configuration
+    auto looper_path = g[looper].configuration_module.parameters->get<Path>("path");
+    const auto& path_modules = looper_path.modules();
+
+    const auto& target = g[module];
+
+    auto it = std::find_if(path_modules.begin(), path_modules.end(), [&target](const ModulePtr& m) {
+        return m->name() == target.name;
+    });
+
+    return it != path_modules.end();
+}
+
 Graph build(const Pool::DescriptionMap& description, std::vector<ModulePtr>& modules, const std::vector<PathElementsPtr>& paths, std::function<void(const std::string&)> on_module_removed) {
 
     Graph g;
@@ -257,37 +273,53 @@ Graph build(const Pool::DescriptionMap& description, std::vector<ModulePtr>& mod
 
 
     // Check for if a module use a Looper output but is not actually declared in the looper path
+    std::map<vertex_t, std::vector<vertex_t>> modules_not_in_path;
     for (const auto& vertex: sorted_vertices) {
         if (g[vertex].configuration_module.type == "Looper") {
-            // We know that the module is a Looper
-            // grab its execution path from its configuration
-            auto looper_path = g[vertex].configuration_module.parameters->get<Path>("path");
-            const auto& path_modules = looper_path.modules();
-
             out_edge_iterator_t e, e_end;
             std::tie(e, e_end) = boost::out_edges(vertex, g);
 
             // Iterator over all edges connected to this Looper vertex
             for (; e != e_end; ++e) {
-                auto target = g[boost::target(*e, g)];
+                auto target = boost::target(*e, g);
 
                 // Check if target is inside the looper path
-                auto it = std::find_if(path_modules.begin(), path_modules.end(), [&target](const ModulePtr& m) {
-                    return m->name() == target.name;
-                });
-
-                if (it == path_modules.end()) {
-                    LOG(fatal) << "Module '" << target.name << "' is configured to use Looper '" << g[vertex].name
-                               << "' output, but is not actually part of the Looper execution path. This will lead to undefined "
-                               << "behavior. You can fix the issue by adding the module '"
-                               << target.name
-                               << "' to the Looper execution path";
-
-                    throw incomplete_looper_path("A module is using the looper output but not actually path of its "
-                                                 "executation path");
+                if (! checkInPath(g, vertex, target)) {
+                    auto& loopers = modules_not_in_path[target];
+                    auto it = std::find(loopers.begin(), loopers.end(), vertex);
+                    if (it == loopers.end())
+                        loopers.push_back(vertex);
+                } else {
+                    modules_not_in_path.erase(target);
                 }
             }
         }
+    }
+
+    if (modules_not_in_path.size() != 0) {
+        // Only print a message for the first module not in path
+        auto it = modules_not_in_path.begin();
+
+        auto target = g[it->first];
+
+        std::stringstream loopers;
+        for (size_t i = 0; i < it->second.size(); i++) {
+            loopers << "'" << g[it->second[i]].name << "'";
+            if (i != it->second.size() - 1)
+                loopers << ", ";
+        }
+
+        std::string plural = it->second.size() ? "s" : "";
+        std::string one_of_the = it->second.size() ? "one of the" : "the";
+
+        LOG(fatal) << "Module '" << target.name << "' is configured to use Looper " << loopers.str()
+            << " output" << plural << ", but is not actually part of the Looper" << plural << " execution path. This will lead to undefined "
+            << "behavior. You can fix the issue by adding the module '"
+            << target.name
+            << "' to " << one_of_the << " Looper" << plural << " execution path";
+
+        throw incomplete_looper_path("A module is using the looper output but not actually part of its "
+                "execution path");
     }
 
     return g;
