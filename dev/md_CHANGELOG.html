@@ -124,6 +124,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>GaussianTransferFunction renamed to <a class="el" href="classGaussianTransferFunctionOnEnergy.html" title="Integrate over a transfer function on energy described by a Gaussian distribution. ">GaussianTransferFunctionOnEnergy</a> to be consistent. Also, the width of the Gaussian is computed from the 'gen' energy, not the 'reco' (more correct). The width over which the integration is performed, however, is still computed using the 'reco' energy (no choice there): i.e. integrating over +/- 5 sigma with a resolution of 10% gives an integration range of 'E_gen' in +/- 5*0.1*E_reco.</li>
 <li>Cuba <code>smoothing</code> option is now enabled by default to mitigate numerical instabilities during the integration. See <a href="https://github.com/MoMEMta/MoMEMta/pull/91">this</a> for more details.</li>
 <li>If no integration dimension is requested, no integration is performed and the graph is only evaluated once. As such, no error is provided on the final result.</li>
+<li>Cuba logging is now handled by <a class="el" href="classMoMEMta.html" title="A MoMEMta instance. ">MoMEMta</a> logger, at <code>debug</code> level.</li>
 </ul>
 <h3>Fixed</h3>
 <ul>
