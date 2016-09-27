@@ -118,9 +118,17 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="title">LazyParameterSet Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>A lazy parameter set.  
+ <a href="classLazyParameterSet.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="ParameterSet_8h_source.html">ParameterSet.h</a>&gt;</code></p>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock">
-<p>Definition at line <a class="el" href="ParameterSet_8h_source.html#l00313">313</a> of file <a class="el" href="ParameterSet_8h_source.html">ParameterSet.h</a>.</p>
+<div class="textblock"><p>A lazy parameter set. </p>
+<p>This class is used to represent global tables that can be modified <b>after</b> the parsing of the configuration file (like the global <code>parameters</code> table). This means that each field of the table <em>must</em> have a delayed evaluation (see <a class="el" href="structlua_1_1LazyTableField.html" title="Lazy table field in lua (delayed table access) ">lua::LazyTableField</a>).</p>
+<p>Actual evaluation of the fields of the table happens during the freezing of this <a class="el" href="classParameterSet.html" title="A class encapsulating a lua table. ">ParameterSet</a>. </p>
+
+<p>Definition at line <a class="el" href="ParameterSet_8h_source.html#l00311">311</a> of file <a class="el" href="ParameterSet_8h_source.html">ParameterSet.h</a>.</p>
 </div><div class="dynheader">
 Inheritance diagram for LazyParameterSet:</div>
 <div class="dyncontent">
