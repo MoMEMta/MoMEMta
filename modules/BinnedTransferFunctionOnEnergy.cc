@@ -44,11 +44,11 @@ class BinnedTransferFunctionOnEnergyBase: public Module {
             m_file_path = parameters.get<std::string>("file");
             m_th2_name = parameters.get<std::string>("th2_name");
 
-            m_file = std::move( std::unique_ptr<TFile>( TFile::Open(m_file_path.c_str()) ) );
+            m_file = std::unique_ptr<TFile>(TFile::Open(m_file_path.c_str()));
             if(!m_file->IsOpen() || m_file->IsZombie())
                 throw file_not_found_error("Could not open file " + m_file_path);
 
-            m_th2 = std::move( std::unique_ptr<TH2>( static_cast<TH2*>( m_file->Get(m_th2_name.c_str()) ) ) );
+            m_th2 = std::unique_ptr<TH2>(static_cast<TH2*>(m_file->Get(m_th2_name.c_str())));
             if(!m_th2->InheritsFrom("TH2") || !m_th2.get())
                 throw th2_not_found_error("Could not retrieve object " + m_th2_name + " deriving from class TH2 in file " + m_file_path + ".");
             m_th2->SetDirectory(0);

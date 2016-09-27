@@ -103,7 +103,7 @@ class Pool {
         template<typename T> std::shared_ptr<const T> raw_get(const InputTag& tag) const;
 
         template<typename T, typename... Args> PoolStorage::iterator create(const InputTag& tag,
-                bool valid = true, Args... args) const;
+                bool valid, Args... args) const;
 
     public:
         /**

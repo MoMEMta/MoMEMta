@@ -31,7 +31,7 @@ class Constant: public Module {
             value = parameters.get<T>("value");
         };
 
-        virtual void beginIntegration() const {
+        virtual void beginIntegration() override {
             *constant = value;
         };
 

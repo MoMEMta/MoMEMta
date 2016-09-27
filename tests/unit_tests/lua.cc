@@ -54,15 +54,15 @@ class LuaCallbackMock: public ILuaCallback {
             modules.push_back({type, name});
         }
 
-        virtual void onIntegrandDeclared(const InputTag& tag) {
+        virtual void onIntegrandDeclared(const InputTag& tag) override {
             integrands.push_back(tag);
         }
 
-        virtual void onNewPath(PathElementsPtr path) {
+        virtual void onNewPath(PathElementsPtr path) override {
             paths.push_back(path);
         }
 
-        virtual void addIntegrationDimension() {
+        virtual void addIntegrationDimension() override {
             n_dimensions++;
         }
 
