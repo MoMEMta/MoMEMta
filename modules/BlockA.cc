@@ -25,7 +25,7 @@
 #include <momemta/Utils.h>
 #include <momemta/Math.h>
 
-/** \brief \f$\require{cancel}\f$ Final (main) Block A, describing \f$q_1 q_2 \to p_1 + p_2 + X\f$
+/** \brief Final (main) Block A, describing \f$q_1 q_2 \to p_1 + p_2 + X\f$
  *
  * \f$q_1\f$ and \f$q_2\f$ are Bjorken fractions, \f$p_1\f$ and \f$p_2\f$ are the 4-momenta of the visible
  * particles produced in the process.
@@ -39,7 +39,7 @@
  *
  * - \f$|p_1| sin \theta_1 cos \phi_1 + |p_2| sin \theta_2 cos \phi_2 = -p_{x}^{branches}\f$
  * - \f$|p_1| sin \theta_1 sin \phi_1 + |p_2| sin \theta_2 sin \phi_2 = -p_{y}^{branches}\f$
- * i.e. balance of the transverse momentum \f$ p_{T}^{branches} of the particles present in the process.
+ * i.e. balance of the transverse momentum \f$ p_{T}^{branches} \f$ of the particles present in the process.
  *
  * Only one solution (\f$|p_1|, |p_2|\f$)  is possible.
  *
