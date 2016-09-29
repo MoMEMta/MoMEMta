@@ -4,6 +4,7 @@ var searchData=
   ['binnedtransferfunctiononenergybase',['BinnedTransferFunctionOnEnergyBase',['../classBinnedTransferFunctionOnEnergyBase.html',1,'']]],
   ['binnedtransferfunctiononenergyevaluator',['BinnedTransferFunctionOnEnergyEvaluator',['../classBinnedTransferFunctionOnEnergyEvaluator.html',1,'']]],
   ['block',['Block',['../classSLHA_1_1Block.html',1,'SLHA']]],
+  ['blocka',['BlockA',['../classBlockA.html',1,'']]],
   ['blockb',['BlockB',['../classBlockB.html',1,'']]],
   ['blockd',['BlockD',['../classBlockD.html',1,'']]],
   ['blockf',['BlockF',['../classBlockF.html',1,'']]],
