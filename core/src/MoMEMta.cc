@@ -230,6 +230,9 @@ int MoMEMta::integrand(const double* psPoints, const double* weights, double* re
         // Store phase-space weight into the pool
         *m_ps_weight = *weights;
     }
+    
+    for (auto& module: m_modules)
+        module->beginPoint();
 
     for (auto& module: m_modules) {
         auto status = module->work();
@@ -247,6 +250,9 @@ int MoMEMta::integrand(const double* psPoints, const double* weights, double* re
             return CUBA_ABORT;
         }
     }
+
+    for (auto& module: m_modules)
+        module->endPoint();
 
     for (size_t i = 0; i < m_n_components; i++)
         results[i] = *(m_integrands[i]);
