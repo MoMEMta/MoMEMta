@@ -112,8 +112,28 @@ class Looper: public Module {
             path = parameters.get<Path>("path");
         };
 
+        virtual void configure() override {
+            CALL(configure);
+        }
+
         virtual void finish() override {
             CALL(finish);
+        }
+
+        virtual void beginIntegration() override {
+            CALL(beginIntegration);
+        }
+
+        virtual void endIntegration() override {
+            CALL(endIntegration);
+        }
+
+        virtual void beginPoint() override {
+            CALL(beginPoint);
+        }
+
+        virtual void endPoint() override {
+            CALL(endPoint);
         }
 
         virtual Status work() override {

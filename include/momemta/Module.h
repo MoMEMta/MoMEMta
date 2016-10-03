@@ -74,6 +74,13 @@ class Module {
         virtual void beginIntegration() {};
 
         /**
+         * \brief Called once when a new PS point is started
+         *
+         * Only relevant if the module is inside a loop, since otherwise the module is called only once anyway
+         */
+        virtual void beginPoint() {};
+
+        /**
          * \brief Called once at the beginning of a loop
          *
          * Only relevant if the module is inside a loop
@@ -96,6 +103,13 @@ class Module {
          */
         virtual void endLoop() {};
         
+        /**
+         * \brief Called once when a PS point is finished
+         *
+         * Only relevant if the module is inside a loop, since otherwise the module is called only once anyway
+         */
+        virtual void endPoint() {};
+
         /**
          * \brief Called once at the end of the integration
          */

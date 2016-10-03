@@ -25,14 +25,14 @@
  * \brief A module performing a sum over a set of values
  */
 template<typename T>
-class Summer: public Module {
+class LooperSummer: public Module {
     public:
 
-        Summer(PoolPtr pool, const ParameterSet& parameters): Module(pool, parameters.getModuleName()) {
+        LooperSummer(PoolPtr pool, const ParameterSet& parameters): Module(pool, parameters.getModuleName()) {
             input = pool->get<T>(parameters.get<InputTag>("input")); 
         };
 
-        virtual void beginLoop() override {
+        virtual void beginPoint() override {
             *result = 0;
         }
 
@@ -56,10 +56,10 @@ class Summer: public Module {
  * \brief Specialization for LorentzVector
  */
 template<>
-void Summer<LorentzVector>::beginLoop() {
+void LooperSummer<LorentzVector>::beginPoint() {
   result->SetXYZT(0, 0, 0, 0);
 }
 
-REGISTER_MODULE_NAME("IntSummer", Summer<int64_t>);
-REGISTER_MODULE_NAME("DoubleSummer", Summer<double>);
-REGISTER_MODULE_NAME("P4Summer", Summer<LorentzVector>);
+REGISTER_MODULE_NAME("IntLooperSummer", LooperSummer<int64_t>);
+REGISTER_MODULE_NAME("DoubleLooperSummer", LooperSummer<double>);
+REGISTER_MODULE_NAME("P4LooperSummer", LooperSummer<LorentzVector>);

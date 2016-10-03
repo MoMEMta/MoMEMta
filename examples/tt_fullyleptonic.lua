@@ -247,7 +247,7 @@ Looper.looper = {
       me_output = 'ttbar::output',
     }
 
-    DoubleSummer.integrand = {
+    DoubleLooperSummer.integrand = {
         input = "ttbar::output"
     }
 

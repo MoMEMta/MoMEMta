@@ -146,7 +146,7 @@ Looper.looper = {
       jacobians = jacobians
     }
 
-    DoubleSummer.integrand = {
+    DoubleLooperSummer.integrand = {
         input = "WW::output"
     }
 
