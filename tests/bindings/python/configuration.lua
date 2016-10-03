@@ -183,7 +183,7 @@ MatrixElement.ttbar = {
     jacobians = jacobians
 }
 
-DoubleSummer.integrand = {
+DoubleLooperSummer.integrand = {
     input = "ttbar::output"
 }
 
