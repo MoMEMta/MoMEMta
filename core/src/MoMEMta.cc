@@ -191,7 +191,7 @@ std::vector<std::pair<double, double>> MoMEMta::computeWeights(const std::vector
         } else if (nfail == -1) {
             integration_status = IntegrationStatus::DIM_OUT_OF_RANGE;
         } else if (nfail > 0) {
-            integration_status = IntegrationStatus::ACCURARY_NOT_REACHED;
+            integration_status = IntegrationStatus::ACCURACY_NOT_REACHED;
         } else if (nfail == -99) {
             integration_status = IntegrationStatus::ABORTED;
         }

@@ -41,7 +41,7 @@ class MoMEMta {
         /// Status of the integration
         enum class IntegrationStatus {
             SUCCESS, ///< Integration was successful
-            ACCURARY_NOT_REACHED, ///< Integration was stopped before desired accuracy was reached
+            ACCURACY_NOT_REACHED, ///< Integration was stopped before desired accuracy was reached
             FAILED, ///< Integration failed
             ABORTED, ///< Integration aborted
             DIM_OUT_OF_RANGE, ///< Dimensions out of range

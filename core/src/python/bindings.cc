@@ -193,7 +193,7 @@ BOOST_PYTHON_MODULE(momemta) {
 
     enum_<MoMEMta::IntegrationStatus>("IntegrationStatus")
             .value("ABORTED", MoMEMta::IntegrationStatus::ABORTED)
-            .value("ACCURACY_NOT_REACHED", MoMEMta::IntegrationStatus::ACCURARY_NOT_REACHED)
+            .value("ACCURACY_NOT_REACHED", MoMEMta::IntegrationStatus::ACCURACY_NOT_REACHED)
             .value("DIM_OUT_OF_RANGE", MoMEMta::IntegrationStatus::DIM_OUT_OF_RANGE)
             .value("FAILED", MoMEMta::IntegrationStatus::FAILED)
             .value("NONE", MoMEMta::IntegrationStatus::NONE)
