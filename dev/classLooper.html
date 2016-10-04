@@ -167,10 +167,20 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ab54879ca6ffab0b6142254827b27128f"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab54879ca6ffab0b6142254827b27128f"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>Looper</b> (PoolPtr pool, const <a class="el" href="classParameterSet.html">ParameterSet</a> &amp;parameters)</td></tr>
 <tr class="separator:ab54879ca6ffab0b6142254827b27128f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad6b4b62372cfefe4b9ca8c2f03f15bc7"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad6b4b62372cfefe4b9ca8c2f03f15bc7"></a>
-virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classLooper.html#ad6b4b62372cfefe4b9ca8c2f03f15bc7">finish</a> () override</td></tr>
-<tr class="memdesc:ad6b4b62372cfefe4b9ca8c2f03f15bc7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Called once at the end of the job. <br /></td></tr>
-<tr class="separator:ad6b4b62372cfefe4b9ca8c2f03f15bc7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3ed060fc1ed62271b87b9d8c57999ea6"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3ed060fc1ed62271b87b9d8c57999ea6"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classLooper.html#a3ed060fc1ed62271b87b9d8c57999ea6">beginIntegration</a> () override</td></tr>
+<tr class="memdesc:a3ed060fc1ed62271b87b9d8c57999ea6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Called once at the beginning of the integration. <br /></td></tr>
+<tr class="separator:a3ed060fc1ed62271b87b9d8c57999ea6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7f9434ac9c8eb3aaa952ad3e991b9ac9"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a7f9434ac9c8eb3aaa952ad3e991b9ac9"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classLooper.html#a7f9434ac9c8eb3aaa952ad3e991b9ac9">endIntegration</a> () override</td></tr>
+<tr class="memdesc:a7f9434ac9c8eb3aaa952ad3e991b9ac9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Called once at the end of the integration. <br /></td></tr>
+<tr class="separator:a7f9434ac9c8eb3aaa952ad3e991b9ac9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa025d4f08ac92c6b765ade5299e12b47"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classLooper.html#aa025d4f08ac92c6b765ade5299e12b47">beginPoint</a> () override</td></tr>
+<tr class="memdesc:aa025d4f08ac92c6b765ade5299e12b47"><td class="mdescLeft">&#160;</td><td class="mdescRight">Called once when a new PS point is started.  <a href="#aa025d4f08ac92c6b765ade5299e12b47">More...</a><br /></td></tr>
+<tr class="separator:aa025d4f08ac92c6b765ade5299e12b47"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aad3a65c18678f86bae2c6d3dada0424d"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classLooper.html#aad3a65c18678f86bae2c6d3dada0424d">endPoint</a> () override</td></tr>
+<tr class="memdesc:aad3a65c18678f86bae2c6d3dada0424d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Called once when a PS point is finished.  <a href="#aad3a65c18678f86bae2c6d3dada0424d">More...</a><br /></td></tr>
+<tr class="separator:aad3a65c18678f86bae2c6d3dada0424d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab7fcc466052ee6c79eb930c67cd09c4a"><td class="memItemLeft" align="right" valign="top">virtual Status&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classLooper.html#ab7fcc466052ee6c79eb930c67cd09c4a">work</a> () override</td></tr>
 <tr class="memdesc:ab7fcc466052ee6c79eb930c67cd09c4a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Main function.  <a href="#ab7fcc466052ee6c79eb930c67cd09c4a">More...</a><br /></td></tr>
 <tr class="separator:ab7fcc466052ee6c79eb930c67cd09c4a"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -182,20 +192,16 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hr
 virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classModule.html#a1e559c32bbb1442a3100bb6d9c90bca3">configure</a> ()</td></tr>
 <tr class="memdesc:a1e559c32bbb1442a3100bb6d9c90bca3 inherit pub_methods_classModule"><td class="mdescLeft">&#160;</td><td class="mdescRight">Called once at the beginning of the job. <br /></td></tr>
 <tr class="separator:a1e559c32bbb1442a3100bb6d9c90bca3 inherit pub_methods_classModule"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0c354091befb60af6b25490e2cb716ec inherit pub_methods_classModule"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a0c354091befb60af6b25490e2cb716ec"></a>
-virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classModule.html#a0c354091befb60af6b25490e2cb716ec">beginIntegration</a> ()</td></tr>
-<tr class="memdesc:a0c354091befb60af6b25490e2cb716ec inherit pub_methods_classModule"><td class="mdescLeft">&#160;</td><td class="mdescRight">Called once at the beginning of the integration. <br /></td></tr>
-<tr class="separator:a0c354091befb60af6b25490e2cb716ec inherit pub_methods_classModule"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae4e8fd60f1adfbf0aa0f244f39a45ae4 inherit pub_methods_classModule"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classModule.html#ae4e8fd60f1adfbf0aa0f244f39a45ae4">beginLoop</a> ()</td></tr>
 <tr class="memdesc:ae4e8fd60f1adfbf0aa0f244f39a45ae4 inherit pub_methods_classModule"><td class="mdescLeft">&#160;</td><td class="mdescRight">Called once at the beginning of a loop.  <a href="#ae4e8fd60f1adfbf0aa0f244f39a45ae4">More...</a><br /></td></tr>
 <tr class="separator:ae4e8fd60f1adfbf0aa0f244f39a45ae4 inherit pub_methods_classModule"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afae6d55124ef2ca6ff004d1e336c00d2 inherit pub_methods_classModule"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classModule.html#afae6d55124ef2ca6ff004d1e336c00d2">endLoop</a> ()</td></tr>
 <tr class="memdesc:afae6d55124ef2ca6ff004d1e336c00d2 inherit pub_methods_classModule"><td class="mdescLeft">&#160;</td><td class="mdescRight">Called once at the end of a loop.  <a href="#afae6d55124ef2ca6ff004d1e336c00d2">More...</a><br /></td></tr>
 <tr class="separator:afae6d55124ef2ca6ff004d1e336c00d2 inherit pub_methods_classModule"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a871795b8be830f2e9965d1d26be81e5f inherit pub_methods_classModule"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a871795b8be830f2e9965d1d26be81e5f"></a>
-virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classModule.html#a871795b8be830f2e9965d1d26be81e5f">endIntegration</a> ()</td></tr>
-<tr class="memdesc:a871795b8be830f2e9965d1d26be81e5f inherit pub_methods_classModule"><td class="mdescLeft">&#160;</td><td class="mdescRight">Called once at the end of the integration. <br /></td></tr>
-<tr class="separator:a871795b8be830f2e9965d1d26be81e5f inherit pub_methods_classModule"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a35348490eb9ba5e333c42b5ab0a84e09 inherit pub_methods_classModule"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a35348490eb9ba5e333c42b5ab0a84e09"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classModule.html#a35348490eb9ba5e333c42b5ab0a84e09">finish</a> ()</td></tr>
+<tr class="memdesc:a35348490eb9ba5e333c42b5ab0a84e09 inherit pub_methods_classModule"><td class="mdescLeft">&#160;</td><td class="mdescRight">Called once at the end of the job. <br /></td></tr>
+<tr class="separator:a35348490eb9ba5e333c42b5ab0a84e09 inherit pub_methods_classModule"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad656e439a7240f832567d99f81d1aa1c inherit pub_methods_classModule"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classModule.html#ad656e439a7240f832567d99f81d1aa1c">leafModule</a> () const </td></tr>
 <tr class="memdesc:ad656e439a7240f832567d99f81d1aa1c inherit pub_methods_classModule"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if module produces an output or not.  <a href="#ad656e439a7240f832567d99f81d1aa1c">More...</a><br /></td></tr>
 <tr class="separator:ad656e439a7240f832567d99f81d1aa1c inherit pub_methods_classModule"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -237,6 +243,66 @@ PoolPtr&#160;</td><td class="memItemRight" valign="bottom"><b>m_pool</b></td></t
 <tr class="separator:a57f3d4dadaf92477ccfca40dfc0da549 inherit pro_attribs_classModule"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="aa025d4f08ac92c6b765ade5299e12b47"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void Looper::beginPoint </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Called once when a new PS point is started. </p>
+<p>Only relevant if the module is inside a loop, since otherwise the module is called only once anyway </p>
+
+<p>Reimplemented from <a class="el" href="classModule.html#a34290e98ac276c8edc6cd196d3ac93b2">Module</a>.</p>
+
+<p>Definition at line <a class="el" href="Looper_8cc_source.html#l00123">123</a> of file <a class="el" href="Looper_8cc_source.html">Looper.cc</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aad3a65c18678f86bae2c6d3dada0424d"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void Looper::endPoint </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Called once when a PS point is finished. </p>
+<p>Only relevant if the module is inside a loop, since otherwise the module is called only once anyway </p>
+
+<p>Reimplemented from <a class="el" href="classModule.html#a0a9ffe256b3c8eeeec8dbc507061c847">Module</a>.</p>
+
+<p>Definition at line <a class="el" href="Looper_8cc_source.html#l00127">127</a> of file <a class="el" href="Looper_8cc_source.html">Looper.cc</a>.</p>
+
+</div>
+</div>
 <a class="anchor" id="ab7fcc466052ee6c79eb930c67cd09c4a"></a>
 <div class="memitem">
 <div class="memproto">
@@ -264,7 +330,7 @@ PoolPtr&#160;</td><td class="memItemRight" valign="bottom"><b>m_pool</b></td></t
 
 <p>Reimplemented from <a class="el" href="classModule.html#a43c0b7c70e9dd8b0cf6c78aa5052eeee">Module</a>.</p>
 
-<p>Definition at line <a class="el" href="Looper_8cc_source.html#l00119">119</a> of file <a class="el" href="Looper_8cc_source.html">Looper.cc</a>.</p>
+<p>Definition at line <a class="el" href="Looper_8cc_source.html#l00131">131</a> of file <a class="el" href="Looper_8cc_source.html">Looper.cc</a>.</p>
 
 </div>
 </div>

@@ -11,6 +11,7 @@ var searchData=
   ['librarymanager',['LibraryManager',['../classLibraryManager.html',1,'']]],
   ['load_5fmodules',['load_modules',['../namespacelua.html#ad246f302aaa3e1366fbe61147db20182',1,'lua']]],
   ['looper',['Looper',['../classLooper.html',1,'']]],
+  ['loopersummer',['LooperSummer',['../classLooperSummer.html',1,'']]],
   ['lorentzvector_5ffrom_5fpython',['LorentzVector_from_python',['../structLorentzVector__from__python.html',1,'']]],
   ['lorentzvector_5fto_5fpython',['LorentzVector_to_python',['../structLorentzVector__to__python.html',1,'']]],
   ['lua',['lua',['../namespacelua.html',1,'']]],

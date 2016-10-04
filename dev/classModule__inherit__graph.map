@@ -15,15 +15,15 @@
 <area shape="rect" id="node17" href="$classFlatTransferFunctionOnTheta.html" title="Flat transfer function on Theta (mainly for testing purposes). " alt="" coords="117,711,309,737"/>
 <area shape="rect" id="node18" href="$classGaussianTransferFunctionOnEnergyBase.html" title="Helper class for Gaussian transfer function modules. " alt="" coords="126,762,301,803"/>
 <area shape="rect" id="node21" href="$classLooper.html" title="A module looping over a set of solutions. " alt="" coords="183,828,244,855"/>
-<area shape="rect" id="node22" href="$classMatrixElement.html" title="Compute the integrand: matrix element, PDFs, jacobians. " alt="" coords="160,879,267,905"/>
-<area shape="rect" id="node23" href="$classNarrowWidthApproximation.html" title="Use the Narrow Width Approximation (NWA) to reduce the dimensionality of the integration. " alt="" coords="123,929,304,956"/>
-<area shape="rect" id="node24" href="$classPermutator.html" title="Apply random permutations to a set of inputs. " alt="" coords="170,980,257,1007"/>
-<area shape="rect" id="node25" href="$classPrinter.html" title="A module printing the value of an input. " alt="" coords="167,1031,259,1057"/>
-<area shape="rect" id="node26" href="$classPrinter_3_01std_1_1vector_3_01T_01_4_01_4.html" title="Specialization of Printer for std::vector " alt="" coords="146,1082,281,1123"/>
-<area shape="rect" id="node27" href="$classSecondaryBlockCD.html" title="Secondary Block C/D, describing . " alt="" coords="145,1148,282,1175"/>
-<area shape="rect" id="node28" href="$classSimpleCounter.html" title="A simple module counting the number of time it has been called. " alt="" coords="159,1199,267,1225"/>
-<area shape="rect" id="node29" href="$classStandardPhaseSpace.html" title="Compute the phase space density for observed particles (not concerned by the change of variable) ..." alt="" coords="139,1249,287,1276"/>
-<area shape="rect" id="node30" href="$classSummer.html" title="A module performing a sum over a set of values. " alt="" coords="162,1300,265,1327"/>
+<area shape="rect" id="node22" href="$classLooperSummer.html" title="A module performing a sum over a set of values. " alt="" coords="142,879,285,905"/>
+<area shape="rect" id="node23" href="$classMatrixElement.html" title="Compute the integrand: matrix element, PDFs, jacobians. " alt="" coords="160,929,267,956"/>
+<area shape="rect" id="node24" href="$classNarrowWidthApproximation.html" title="Use the Narrow Width Approximation (NWA) to reduce the dimensionality of the integration. " alt="" coords="123,980,304,1007"/>
+<area shape="rect" id="node25" href="$classPermutator.html" title="Apply random permutations to a set of inputs. " alt="" coords="170,1031,257,1057"/>
+<area shape="rect" id="node26" href="$classPrinter.html" title="A module printing the value of an input. " alt="" coords="167,1081,259,1108"/>
+<area shape="rect" id="node27" href="$classPrinter_3_01std_1_1vector_3_01T_01_4_01_4.html" title="Specialization of Printer for std::vector " alt="" coords="146,1133,281,1174"/>
+<area shape="rect" id="node28" href="$classSecondaryBlockCD.html" title="Secondary Block C/D, describing . " alt="" coords="145,1199,282,1225"/>
+<area shape="rect" id="node29" href="$classSimpleCounter.html" title="A simple module counting the number of time it has been called. " alt="" coords="159,1249,267,1276"/>
+<area shape="rect" id="node30" href="$classStandardPhaseSpace.html" title="Compute the phase space density for observed particles (not concerned by the change of variable) ..." alt="" coords="139,1300,287,1327"/>
 <area shape="rect" id="node31" href="$classUniformGenerator.html" title="Generate a random point uniformly in a user&#45;set range. " alt="" coords="151,1351,276,1377"/>
 <area shape="rect" id="node3" href="$classBinnedTransferFunctionOnEnergy.html" title="Integrate over a transfer function on energy described by a 2D histogram retrieved from a ROOT file..." alt="" coords="358,5,535,46"/>
 <area shape="rect" id="node4" href="$classBinnedTransferFunctionOnEnergyEvaluator.html" title="Evaluate a transfer function on energy described by a 2D histogram retrieved from a ROOT file..." alt="" coords="358,70,535,111"/>
