@@ -28,6 +28,14 @@ ParameterSet::ParameterSet(const std::string& module_type, const std::string& mo
     m_set.emplace("@name", Element(module_name));
 }
 
+const boost::any& ParameterSet::rawGet(const std::string& name) const {
+    auto value = m_set.find(name);
+    if (value == m_set.end())
+        throw not_found_error("Parameter '" + name + "' not found.");
+
+    return value->second.value;
+}
+
 bool ParameterSet::lazy() const {
     return false;
 }

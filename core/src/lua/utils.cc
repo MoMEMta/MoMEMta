@@ -506,4 +506,12 @@ namespace lua {
 
         return L;
     }
+
+    void inject_parameters(lua_State* L, const ParameterSet& parameters) {
+        for (const auto& parameter: parameters.getNames()) {
+            LOG(debug) << "Injecting parameter " << parameter;
+            lua::push_any(L, parameters.rawGet(parameter));
+            lua_setglobal(L, parameter.c_str());
+        }
+    }
 }

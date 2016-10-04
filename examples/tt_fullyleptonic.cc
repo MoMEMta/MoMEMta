@@ -35,7 +35,11 @@ int main(int argc, char** argv) {
 
     logging::set_level(boost::log::trivial::debug);
 
-    ConfigurationReader configuration("../examples/tt_fullyleptonic.lua");
+    ParameterSet lua_parameters;
+    lua_parameters.set("USE_TF", true);
+    lua_parameters.set("USE_PERM", true);
+
+    ConfigurationReader configuration("../examples/tt_fullyleptonic.lua", lua_parameters);
 
     // Change top mass
     configuration.getGlobalParameters().set("top_mass", 173.);

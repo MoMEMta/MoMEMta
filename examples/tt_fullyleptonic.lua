@@ -18,7 +18,7 @@ end
 load_modules('libempty_module.so')
 load_modules('MatrixElements/dummy/libme_dummy.so')
 
-USE_TF = true
+-- Note: USE_PERM and USE_TF are defined in the C++ code and injected in lua before parsing this file
 
 if USE_TF then
     -- With transfer functions
@@ -37,8 +37,6 @@ else
         'input::particles/4',
     }
 end
-
-USE_PERM = true
 
 if USE_PERM then
   -- Use permutator module to permutate input particles 0 and 2 using the MC
@@ -65,7 +63,7 @@ cuba = {
     relative_accuracy = 0.01,
     verbosity = 3,
 }
- 
+
 BreitWignerGenerator.flatter_s13 = {
     -- add_dimension() generates an input tag of type `cuba::ps_points/i`
     -- where `i` is automatically incremented each time the function is called.

@@ -8,6 +8,7 @@
 #include <lua.hpp>
 
 class ILuaCallback;
+class ParameterSet;
 
 /*! \brief Utility functions related to lua configuration file parsing
  *
@@ -256,4 +257,14 @@ namespace lua {
      * \return always 1
      */
     int generate_cuba_inputtag(lua_State* L);
+
+    /**
+     * \brief Inject parameters into the current lua state
+     *
+     * For each parameter inside \p parameters, a global variable is created inside the lua state.
+     *
+     * \param L The lua state
+     * \param parameters Parameters to inject into the lua state
+     */
+    void inject_parameters(lua_State* L, const ParameterSet& parameters);
 }

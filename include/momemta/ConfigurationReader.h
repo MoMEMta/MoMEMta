@@ -45,6 +45,7 @@ struct lua_State;
 class ConfigurationReader: public ILuaCallback {
     public:
         ConfigurationReader(const std::string&);
+        ConfigurationReader(const std::string&, const ParameterSet&);
 
         virtual void onModuleDeclared(const std::string& type, const std::string& name) override;
         virtual void onIntegrandDeclared(const InputTag& tag) override;

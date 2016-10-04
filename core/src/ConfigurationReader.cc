@@ -29,11 +29,19 @@
 
 #include <lua/LazyTable.h>
 #include <lua/ParameterSetParser.h>
+#include <lua/utils.h>
 
-ConfigurationReader::ConfigurationReader(const std::string& file) {
+ConfigurationReader::ConfigurationReader(const std::string& file) :
+        ConfigurationReader(file, ParameterSet()) {
+    // Empty
+}
+
+ConfigurationReader::ConfigurationReader(const std::string& file, const ParameterSet& parameters) {
 
     LOG(debug) << "Parsing LUA configuration from " << file;
     lua_state = lua::init_runtime(this);
+
+    lua::inject_parameters(lua_state.get(), parameters);
 
     // Parse file
     if (luaL_dofile(lua_state.get(), file.c_str())) {

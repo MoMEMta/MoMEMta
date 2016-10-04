@@ -110,6 +110,15 @@ class ParameterSet {
             }
         }
 
+        /**
+         * Retrieve a raw value from this ParameterSet.
+         *
+         * @param name The name of the parameter
+         * @return The raw value of the parameter. A `not_found_error` exception is thrown if \p parameter does not
+         * exist in this set.
+         */
+        const boost::any& rawGet(const std::string& name) const;
+
         bool exists(const std::string& name) const;
         template<typename T> bool existsAs(const std::string& name) const {
             auto value = m_set.find(name);
