@@ -87,30 +87,6 @@ namespace lua {
     };
 
     /**
-     * \brief Lazy table field in lua (delayed table access)
-     *
-     * It's a wrapper around table's field access. Evaluation of this lazy value means accessing the field of the table.
-     */
-    struct LazyTableField: public Lazy {
-        std::string table_name; ///< The name of the global table
-        std::string key; ///< The name of the field inside the table to retrieve when evaluated
-
-        virtual boost::any operator() () const override;
-
-        /**
-         * \brief Ensure the global table referenced by this `struct` exist. If not, create it.
-         */
-        void ensure_created();
-
-        /**
-         * \brief Replace the value of the table field by a new one
-         */
-        void set(const boost::any& value);
-
-        LazyTableField(lua_State* L, const std::string& table_name, const std::string& key);
-    };
-
-    /**
      * \brief Extract the type of a lua value
      *
      * \param L The current lua state
@@ -269,7 +245,7 @@ namespace lua {
      * released using the `lua_close` function.
      */
     std::shared_ptr<lua_State> init_runtime(ILuaCallback* callback);
-   
+
     /** \brief Define Lua function to generate Cuba phase-space point input-tags
      *
      * \param L The current lua state

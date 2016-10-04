@@ -30,7 +30,6 @@
 
 #include <boost/any.hpp>
 
-struct lua_State;
 class ConfigurationReader;
 class Configuration;
 
@@ -59,7 +58,7 @@ class Configuration;
  * }
  * ```
  *
- * The resulting `ParameterSet` will encapsulates three values:
+ * The resulting `ParameterSet` will encapsulate three values:
  *   - `x` of type `double` = `91.`
  *   - `y` of type `std::string` = `"string"`
  *   - `z` of type `std::vector<int64_t>` = `[10, 20, 30, 40]`
@@ -71,8 +70,6 @@ class Configuration;
  * ```
  *
  * \todo Document the freezing of the configuration in ConfigurationReader
- *
- * \note You should *never* try to create a ParameterSet yourself. Always use the ConfigurationReader class to parse the configuration file
  *
  */
 class ParameterSet {
@@ -178,14 +175,6 @@ class ParameterSet {
             set_helper(name, static_cast<double>(value));
         }
 
-        /**
-         * \brief Parse fields of a lua table
-         *
-         * \param L the lua state
-         * \param index The index on the stack of the table to parse
-         */
-        void parse(lua_State* L, int index);
-
         std::string getModuleName() const {
             return get<std::string>("@name", "");
         }
@@ -216,6 +205,7 @@ class ParameterSet {
     protected:
         friend class ConfigurationReader;
         friend class Configuration;
+        friend class ParameterSetParser;
 
         /// A small wrapper around a boost::any value
         struct Element {
@@ -236,7 +226,12 @@ class ParameterSet {
 
         ParameterSet(const std::string& module_type, const std::string& module_name);
 
-        virtual std::pair<boost::any, bool> parseItem(const std::string& key, lua_State* L, int index);
+        /**
+         * \brief A flag indicating if this ParameterSet lazy loads its fields or not
+         *
+         * \return True if doing lazy loading, false otherwise
+         */
+        virtual bool lazy() const;
 
         /**
          * \brief Add a new element to the ParameterSet
@@ -298,30 +293,4 @@ class ParameterSet {
         }
 
         bool frozen = false;
-};
-
-/** \brief A lazy parameter set
- *
- * This class is used to represent global tables that can be modified **after** the parsing of the configuration file (like the global `parameters` table). This means that each field of the table *must* have a delayed evaluation (see lua::LazyTableField).
- *
- * Actual evaluation of the fields of the table happens during the freezing of this ParameterSet.
- *
- */
-
-class LazyParameterSet: public ParameterSet {
-    friend class ConfigurationReader;
-    public:
-        LazyParameterSet(std::shared_ptr<lua_State> L, const std::string& name);
-        virtual LazyParameterSet* clone() const override;
-
-    protected:
-        virtual std::pair<boost::any, bool> parseItem(const std::string& key, lua_State* L, int index) override;
-
-        virtual void create(const std::string& name, const boost::any& value) override;
-        virtual void setInternal(const std::string& name, Element& element, const boost::any& value) override;
-
-        virtual void freeze() override;
-
-    private:
-        std::shared_ptr<lua_State> m_lua_state;
 };

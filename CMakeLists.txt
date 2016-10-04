@@ -185,6 +185,8 @@ set(MOMEMTA_SOURCES
     "core/src/SLHAReader.cc"
     "core/src/Solution.cc"
     "core/src/Utils.cc"
+    "core/src/lua/LazyTable.cc"
+    "core/src/lua/ParameterSetParser.cc"
     "core/src/lua/Path.cc"
     "core/src/lua/Types.cc"
     "core/src/lua/utils.cc"
