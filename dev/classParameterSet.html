@@ -139,24 +139,23 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li><code>std::vector&lt;&gt;</code> of one of the above types</li>
 </ul>
 <p>Consider the following lua snippet:</p>
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;{</div><div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;     x = 91.,</div><div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;     y = &quot;string&quot;,</div><div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;     z = {10, 20, 30, 40}</div><div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;}</div></div><!-- fragment --><p>The resulting <code><a class="el" href="classParameterSet.html" title="A class encapsulating a lua table. ">ParameterSet</a></code> will encapsulates three values:</p><ul>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;{</div><div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;     x = 91.,</div><div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;     y = &quot;string&quot;,</div><div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;     z = {10, 20, 30, 40}</div><div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;}</div></div><!-- fragment --><p>The resulting <code><a class="el" href="classParameterSet.html" title="A class encapsulating a lua table. ">ParameterSet</a></code> will encapsulate three values:</p><ul>
 <li><code>x</code> of type <code>double</code> = <code>91.</code></li>
 <li><code>y</code> of type <code>std::string</code> = <code>"string"</code></li>
 <li><code>z</code> of type <code>std::vector&lt;int64_t&gt;</code> = <code>[10, 20, 30, 40]</code></li>
 </ul>
 <p>and you would use the following code to access the <code>z</code> value:</p>
 <div class="fragment"><div class="line">std::vector&lt;int64_t&gt; values = <span class="keyword">set</span>.get&lt;std::vector&lt;int64_t&gt;&gt;(<span class="stringliteral">&quot;z&quot;</span>);</div></div><!-- fragment --><dl class="todo"><dt><b><a class="el" href="todo.html#_todo000003">Todo:</a></b></dt><dd>Document the freezing of the configuration in <a class="el" href="classConfigurationReader.html" title="A lua configuration file parser. ">ConfigurationReader</a></dd></dl>
-<dl class="section note"><dt>Note</dt><dd>You should <em>never</em> try to create a <a class="el" href="classParameterSet.html" title="A class encapsulating a lua table. ">ParameterSet</a> yourself. Always use the <a class="el" href="classConfigurationReader.html" title="A lua configuration file parser. ">ConfigurationReader</a> class to parse the configuration file </dd></dl>
 
-<p>Definition at line <a class="el" href="ParameterSet_8h_source.html#l00078">78</a> of file <a class="el" href="ParameterSet_8h_source.html">ParameterSet.h</a>.</p>
+<p>Definition at line <a class="el" href="ParameterSet_8h_source.html#l00075">75</a> of file <a class="el" href="ParameterSet_8h_source.html">ParameterSet.h</a>.</p>
 </div><div class="dynheader">
 Inheritance diagram for ParameterSet:</div>
 <div class="dyncontent">
 <div class="center"><img src="classParameterSet__inherit__graph.png" border="0" usemap="#ParameterSet_inherit__map" alt="Inheritance graph"/></div>
 <map name="ParameterSet_inherit__map" id="ParameterSet_inherit__map">
-<area shape="rect" id="node2" href="classLazyParameterSet.html" title="A lazy parameter set. " alt="" coords="21,80,151,107"/>
-<area shape="rect" id="node4" href="classParameterSetMock.html" title="ParameterSetMock" alt="" coords="177,80,311,107"/>
-<area shape="rect" id="node3" href="classLazyParameterSetMock.html" title="LazyParameterSetMock" alt="" coords="5,155,168,181"/>
+<area shape="rect" id="node2" href="classlua_1_1LazyTable.html" title="A specialization of ParameterSet for lazy loading of lua tables. " alt="" coords="9,80,116,107"/>
+<area shape="rect" id="node4" href="classParameterSetMock.html" title="ParameterSetMock" alt="" coords="141,80,275,107"/>
+<area shape="rect" id="node3" href="classLazyTableMock.html" title="LazyTableMock" alt="" coords="5,155,120,181"/>
 </map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
@@ -176,6 +175,8 @@ template&lt;typename T &gt; </td></tr>
 template&lt;typename T &gt; </td></tr>
 <tr class="memitem:aa391adf00d8d9ccdb302d05a41efdb11"><td class="memTemplItemLeft" align="right" valign="top">const T &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><b>get</b> (const std::string &amp;name, const T &amp;defaultValue) const </td></tr>
 <tr class="separator:aa391adf00d8d9ccdb302d05a41efdb11"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3ffe7842f54ec744d97cf08bc053abcf"><td class="memItemLeft" align="right" valign="top">const boost::any &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classParameterSet.html#a3ffe7842f54ec744d97cf08bc053abcf">rawGet</a> (const std::string &amp;name) const </td></tr>
+<tr class="separator:a3ffe7842f54ec744d97cf08bc053abcf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0a1e4e0181df2736fe195991a561a6fa"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a0a1e4e0181df2736fe195991a561a6fa"></a>
 bool&#160;</td><td class="memItemRight" valign="bottom"><b>exists</b> (const std::string &amp;name) const </td></tr>
 <tr class="separator:a0a1e4e0181df2736fe195991a561a6fa"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -199,9 +200,6 @@ template&lt;typename T &gt; </td></tr>
 <tr class="memitem:a203b6c472e4dd17d19108a048b85dca9"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; std::is_floating_point&lt; T &gt;::value &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classParameterSet.html#a203b6c472e4dd17d19108a048b85dca9">set</a> (const std::string &amp;name, const T &amp;value)</td></tr>
 <tr class="memdesc:a203b6c472e4dd17d19108a048b85dca9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Change the value of a given parameter. If the parameter does not exist, it's first created.  <a href="#a203b6c472e4dd17d19108a048b85dca9">More...</a><br /></td></tr>
 <tr class="separator:a203b6c472e4dd17d19108a048b85dca9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8030cda85a7a842ce6bfe5b8ceb4ba0f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classParameterSet.html#a8030cda85a7a842ce6bfe5b8ceb4ba0f">parse</a> (lua_State *L, int index)</td></tr>
-<tr class="memdesc:a8030cda85a7a842ce6bfe5b8ceb4ba0f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parse fields of a lua table.  <a href="#a8030cda85a7a842ce6bfe5b8ceb4ba0f">More...</a><br /></td></tr>
-<tr class="separator:a8030cda85a7a842ce6bfe5b8ceb4ba0f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab67a1f38b81bd021dd295c9d401967a5"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab67a1f38b81bd021dd295c9d401967a5"></a>
 std::string&#160;</td><td class="memItemRight" valign="bottom"><b>getModuleName</b> () const </td></tr>
 <tr class="separator:ab67a1f38b81bd021dd295c9d401967a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -223,9 +221,9 @@ Protected Member Functions</h2></td></tr>
 <tr class="memitem:a7bca173d46a58793213d3dba6f621884"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a7bca173d46a58793213d3dba6f621884"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>ParameterSet</b> (const std::string &amp;module_type, const std::string &amp;module_name)</td></tr>
 <tr class="separator:a7bca173d46a58793213d3dba6f621884"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab4aab9b9a71b2ca7dfb87ef45b02f8cf"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab4aab9b9a71b2ca7dfb87ef45b02f8cf"></a>
-virtual std::pair&lt; boost::any, bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>parseItem</b> (const std::string &amp;key, lua_State *L, int index)</td></tr>
-<tr class="separator:ab4aab9b9a71b2ca7dfb87ef45b02f8cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:add310305b90f9085af68f50533ffcddc"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classParameterSet.html#add310305b90f9085af68f50533ffcddc">lazy</a> () const </td></tr>
+<tr class="memdesc:add310305b90f9085af68f50533ffcddc"><td class="mdescLeft">&#160;</td><td class="mdescRight">A flag indicating if this <a class="el" href="classParameterSet.html" title="A class encapsulating a lua table. ">ParameterSet</a> lazy loads its fields or not.  <a href="#add310305b90f9085af68f50533ffcddc">More...</a><br /></td></tr>
+<tr class="separator:add310305b90f9085af68f50533ffcddc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1f909622632174e03cd69451c855b586"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classParameterSet.html#a1f909622632174e03cd69451c855b586">create</a> (const std::string &amp;name, const boost::any &amp;value)</td></tr>
 <tr class="memdesc:a1f909622632174e03cd69451c855b586"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add a new element to the <a class="el" href="classParameterSet.html" title="A class encapsulating a lua table. ">ParameterSet</a>.  <a href="#a1f909622632174e03cd69451c855b586">More...</a><br /></td></tr>
 <tr class="separator:a1f909622632174e03cd69451c855b586"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -250,6 +248,9 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>ConfigurationReader<
 <tr class="memitem:a30221ddc558692a7b52598b963a74bc2"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a30221ddc558692a7b52598b963a74bc2"></a>
 class&#160;</td><td class="memItemRight" valign="bottom"><b>Configuration</b></td></tr>
 <tr class="separator:a30221ddc558692a7b52598b963a74bc2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab5511b620b971cf61426770d6fd8b55a"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab5511b620b971cf61426770d6fd8b55a"></a>
+class&#160;</td><td class="memItemRight" valign="bottom"><b>ParameterSetParser</b></td></tr>
+<tr class="separator:ab5511b620b971cf61426770d6fd8b55a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Member Function Documentation</h2>
 <a class="anchor" id="a90562b2a6136b64d5918db6b92d22094"></a>
@@ -277,11 +278,11 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>Configuration</b></t
 <p>You must take ownership of the returned pointer.</p>
 <dl class="section return"><dt>Returns</dt><dd>A clone of this <a class="el" href="classParameterSet.html" title="A class encapsulating a lua table. ">ParameterSet</a>. You must take ownership of the returned value. </dd></dl>
 
-<p>Reimplemented in <a class="el" href="classLazyParameterSet.html#a8a9b19ee5b646992a7f75d4aa70635d0">LazyParameterSet</a>.</p>
+<p>Reimplemented in <a class="el" href="classlua_1_1LazyTable.html#ae5fbdda7f5860cb8648797c0cffff008">lua::LazyTable</a>.</p>
 
-<p>Definition at line <a class="el" href="core_2src_2ParameterSet_8cc_source.html#l00121">121</a> of file <a class="el" href="core_2src_2ParameterSet_8cc_source.html">ParameterSet.cc</a>.</p>
+<p>Definition at line <a class="el" href="core_2src_2ParameterSet_8cc_source.html#l00097">97</a> of file <a class="el" href="core_2src_2ParameterSet_8cc_source.html">ParameterSet.cc</a>.</p>
 
-<p>Referenced by <a class="el" href="ParameterSet_8h_source.html#l00177">set()</a>.</p>
+<p>Referenced by <a class="el" href="ParameterSet_8h_source.html#l00183">set()</a>.</p>
 
 </div>
 </div>
@@ -326,50 +327,71 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>Configuration</b></t
   </dd>
 </dl>
 
-<p>Reimplemented in <a class="el" href="classLazyParameterSet.html#ace57d0de0af5dab9da66b46fe828c759">LazyParameterSet</a>.</p>
+<p>Reimplemented in <a class="el" href="classlua_1_1LazyTable.html#ad80257e2e69aa24a1ceaad124b6fd8b8">lua::LazyTable</a>.</p>
 
-<p>Definition at line <a class="el" href="core_2src_2ParameterSet_8cc_source.html#l00072">72</a> of file <a class="el" href="core_2src_2ParameterSet_8cc_source.html">ParameterSet.cc</a>.</p>
+<p>Definition at line <a class="el" href="core_2src_2ParameterSet_8cc_source.html#l00048">48</a> of file <a class="el" href="core_2src_2ParameterSet_8cc_source.html">ParameterSet.cc</a>.</p>
 
-<p>Referenced by <a class="el" href="ParameterSet_8h_source.html#l00226">ParameterSet::Element::Element()</a>.</p>
+<p>Referenced by <a class="el" href="ParameterSet_8h_source.html#l00225">ParameterSet::Element::Element()</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="a8030cda85a7a842ce6bfe5b8ceb4ba0f"></a>
+<a class="anchor" id="add310305b90f9085af68f50533ffcddc"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool ParameterSet::lazy </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>A flag indicating if this <a class="el" href="classParameterSet.html" title="A class encapsulating a lua table. ">ParameterSet</a> lazy loads its fields or not. </p>
+<dl class="section return"><dt>Returns</dt><dd>True if doing lazy loading, false otherwise </dd></dl>
+
+<p>Reimplemented in <a class="el" href="classlua_1_1LazyTable.html#a54c91e344827f97228cb88bf619c68cb">lua::LazyTable</a>.</p>
+
+<p>Definition at line <a class="el" href="core_2src_2ParameterSet_8cc_source.html#l00039">39</a> of file <a class="el" href="core_2src_2ParameterSet_8cc_source.html">ParameterSet.cc</a>.</p>
+
+<p>Referenced by <a class="el" href="ParameterSetParser_8cc_source.html#l00026">ParameterSetParser::parse()</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a3ffe7842f54ec744d97cf08bc053abcf"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void ParameterSet::parse </td>
+          <td class="memname">const boost::any &amp; ParameterSet::rawGet </td>
           <td>(</td>
-          <td class="paramtype">lua_State *&#160;</td>
-          <td class="paramname"><em>L</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>index</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>name</em></td><td>)</td>
+          <td> const</td>
         </tr>
       </table>
 </div><div class="memdoc">
-
-<p>Parse fields of a lua table. </p>
+<p>Retrieve a raw value from this <a class="el" href="classParameterSet.html" title="A class encapsulating a lua table. ">ParameterSet</a>.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">L</td><td>the lua state </td></tr>
-    <tr><td class="paramname">index</td><td>The index on the stack of the table to parse </td></tr>
+    <tr><td class="paramname">name</td><td>The name of the parameter </td></tr>
   </table>
   </dd>
 </dl>
+<dl class="section return"><dt>Returns</dt><dd>The raw value of the parameter. A <code>not_found_error</code> exception is thrown if <code>parameter</code> does not exist in this set. </dd></dl>
 
 <p>Definition at line <a class="el" href="core_2src_2ParameterSet_8cc_source.html#l00031">31</a> of file <a class="el" href="core_2src_2ParameterSet_8cc_source.html">ParameterSet.cc</a>.</p>
 
-<p>Referenced by <a class="el" href="ParameterSet_8h_source.html#l00177">set()</a>, and <a class="el" href="utils_8cc_source.html#l00246">lua::to_any()</a>.</p>
+<p>Referenced by <a class="el" href="utils_8cc_source.html#l00510">lua::inject_parameters()</a>.</p>
 
 </div>
 </div>
@@ -417,7 +439,7 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section warning"><dt>Warning</dt><dd>Vectors are currently not supported </dd></dl>
 
-<p>Definition at line <a class="el" href="ParameterSet_8h_source.html#l00132">132</a> of file <a class="el" href="ParameterSet_8h_source.html">ParameterSet.h</a>.</p>
+<p>Definition at line <a class="el" href="ParameterSet_8h_source.html#l00138">138</a> of file <a class="el" href="ParameterSet_8h_source.html">ParameterSet.h</a>.</p>
 
 </div>
 </div>
@@ -466,7 +488,7 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section warning"><dt>Warning</dt><dd>Vectors are currently not supported </dd></dl>
 
-<p>Definition at line <a class="el" href="ParameterSet_8h_source.html#l00147">147</a> of file <a class="el" href="ParameterSet_8h_source.html">ParameterSet.h</a>.</p>
+<p>Definition at line <a class="el" href="ParameterSet_8h_source.html#l00153">153</a> of file <a class="el" href="ParameterSet_8h_source.html">ParameterSet.h</a>.</p>
 
 </div>
 </div>
@@ -515,7 +537,7 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section warning"><dt>Warning</dt><dd>Vectors are currently not supported </dd></dl>
 
-<p>Definition at line <a class="el" href="ParameterSet_8h_source.html#l00162">162</a> of file <a class="el" href="ParameterSet_8h_source.html">ParameterSet.h</a>.</p>
+<p>Definition at line <a class="el" href="ParameterSet_8h_source.html#l00168">168</a> of file <a class="el" href="ParameterSet_8h_source.html">ParameterSet.h</a>.</p>
 
 </div>
 </div>
@@ -564,7 +586,7 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section warning"><dt>Warning</dt><dd>Vectors are currently not supported </dd></dl>
 
-<p>Definition at line <a class="el" href="ParameterSet_8h_source.html#l00177">177</a> of file <a class="el" href="ParameterSet_8h_source.html">ParameterSet.h</a>.</p>
+<p>Definition at line <a class="el" href="ParameterSet_8h_source.html#l00183">183</a> of file <a class="el" href="ParameterSet_8h_source.html">ParameterSet.h</a>.</p>
 
 </div>
 </div>

@@ -135,6 +135,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <code>#include &lt;momemta/ModuleFactory.h&gt;</code><br />
 <code>#include &lt;momemta/ParameterSet.h&gt;</code><br />
 <code>#include &lt;momemta/Path.h&gt;</code><br />
+<code>#include &lt;lua/LazyTable.h&gt;</code><br />
+<code>#include &lt;lua/ParameterSetParser.h&gt;</code><br />
 <code>#include &lt;<a class="el" href="core_2include_2lua_2Path_8h_source.html">lua/Path.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="core_2include_2lua_2Types_8h_source.html">lua/Types.h</a>&gt;</code><br />
 <code>#include &lt;lua/utils.h&gt;</code><br />
@@ -143,19 +145,21 @@ Include dependency graph for lua.cc:</div>
 <div class="dyncontent">
 <div class="center"><img src="lua_8cc__incl.png" border="0" usemap="#tests_2unit__tests_2lua_8cc" alt=""/></div>
 <map name="tests_2unit__tests_2lua_8cc" id="tests_2unit__tests_2lua_8cc">
-<area shape="rect" id="node6" href="InputTag_8h_source.html" title="momemta/InputTag.h" alt="" coords="1519,155,1665,181"/>
-<area shape="rect" id="node11" href="ILuaCallback_8h_source.html" title="momemta/ILuaCallback.h" alt="" coords="1011,80,1181,107"/>
-<area shape="rect" id="node12" href="Logging_8h_source.html" title="momemta/Logging.h" alt="" coords="198,320,337,347"/>
-<area shape="rect" id="node16" href="ModuleFactory_8h_source.html" title="momemta/ModuleFactory.h" alt="" coords="467,155,648,181"/>
-<area shape="rect" id="node19" href="ParameterSet_8h_source.html" title="momemta/ParameterSet.h" alt="" coords="1206,80,1380,107"/>
-<area shape="rect" id="node25" href="include_2momemta_2Path_8h_source.html" title="momemta/Path.h" alt="" coords="1269,237,1392,264"/>
-<area shape="rect" id="node26" href="core_2include_2lua_2Path_8h.html" title="Lua binding of C++ Path class. " alt="" coords="657,237,737,264"/>
-<area shape="rect" id="node27" href="core_2include_2lua_2Types_8h.html" title="Generic functions to deal with custom lua types. " alt="" coords="1755,237,1845,264"/>
-<area shape="rect" id="node28" href="utils_8h_source.html" title="lua/utils.h" alt="" coords="1870,237,1948,264"/>
-<area shape="rect" id="node7" href="InputTag__fwd_8h_source.html" title="momemta/impl/InputTag\l_fwd.h" alt="" coords="1517,230,1680,271"/>
-<area shape="rect" id="node18" href="PluginFactory_8h_source.html" title="momemta/PluginFactory.h" alt="" coords="458,237,632,264"/>
-<area shape="rect" id="node21" href="traits_8h_source.html" title="momemta/impl/traits.h" alt="" coords="1235,155,1387,181"/>
-<area shape="rect" id="node23" href="Utils_8h_source.html" title="momemta/Utils.h" alt="" coords="763,237,885,264"/>
+<area shape="rect" id="node6" href="InputTag_8h_source.html" title="momemta/InputTag.h" alt="" coords="1700,229,1847,256"/>
+<area shape="rect" id="node11" href="ILuaCallback_8h_source.html" title="momemta/ILuaCallback.h" alt="" coords="817,155,988,181"/>
+<area shape="rect" id="node12" href="Logging_8h_source.html" title="momemta/Logging.h" alt="" coords="198,395,337,421"/>
+<area shape="rect" id="node16" href="ModuleFactory_8h_source.html" title="momemta/ModuleFactory.h" alt="" coords="537,229,719,256"/>
+<area shape="rect" id="node19" href="ParameterSet_8h_source.html" title="momemta/ParameterSet.h" alt="" coords="1282,155,1456,181"/>
+<area shape="rect" id="node25" href="include_2momemta_2Path_8h_source.html" title="momemta/Path.h" alt="" coords="1063,312,1185,339"/>
+<area shape="rect" id="node26" href="LazyTable_8h_source.html" title="lua/LazyTable.h" alt="" coords="1569,80,1684,107"/>
+<area shape="rect" id="node27" href="utils_8h_source.html" title="lua/utils.h" alt="" coords="1973,312,2051,339"/>
+<area shape="rect" id="node30" href="ParameterSetParser_8h_source.html" title="lua/ParameterSetParser.h" alt="" coords="1250,80,1421,107"/>
+<area shape="rect" id="node31" href="core_2include_2lua_2Path_8h.html" title="Lua binding of C++ Path class. " alt="" coords="658,312,739,339"/>
+<area shape="rect" id="node32" href="core_2include_2lua_2Types_8h.html" title="Generic functions to deal with custom lua types. " alt="" coords="1569,312,1660,339"/>
+<area shape="rect" id="node7" href="InputTag__fwd_8h_source.html" title="momemta/impl/InputTag\l_fwd.h" alt="" coords="1684,305,1847,346"/>
+<area shape="rect" id="node18" href="PluginFactory_8h_source.html" title="momemta/PluginFactory.h" alt="" coords="407,312,581,339"/>
+<area shape="rect" id="node21" href="traits_8h_source.html" title="momemta/impl/traits.h" alt="" coords="1169,229,1321,256"/>
+<area shape="rect" id="node23" href="Utils_8h_source.html" title="momemta/Utils.h" alt="" coords="764,312,887,339"/>
 </map>
 </div>
 </div>
@@ -165,7 +169,7 @@ Include dependency graph for lua.cc:</div>
 Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classLuaCallbackMock.html">LuaCallbackMock</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classLazyParameterSetMock.html">LazyParameterSetMock</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classLazyTableMock.html">LazyTableMock</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
