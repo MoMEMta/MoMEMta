@@ -27,12 +27,21 @@
 #include <momemta/ParameterSet.h>
 #include <momemta/Path.h>
 
+#include <lua/LazyTable.h>
+#include <lua/ParameterSetParser.h>
 #include <lua/utils.h>
 
-ConfigurationReader::ConfigurationReader(const std::string& file) {
+ConfigurationReader::ConfigurationReader(const std::string& file) :
+        ConfigurationReader(file, ParameterSet()) {
+    // Empty
+}
+
+ConfigurationReader::ConfigurationReader(const std::string& file, const ParameterSet& parameters) {
 
     LOG(debug) << "Parsing LUA configuration from " << file;
     lua_state = lua::init_runtime(this);
+
+    lua::inject_parameters(lua_state.get(), parameters);
 
     // Parse file
     if (luaL_dofile(lua_state.get(), file.c_str())) {
@@ -44,20 +53,20 @@ ConfigurationReader::ConfigurationReader(const std::string& file) {
     // FIXME: Find a better way of doing that
 
     // Read global parameters from global variable named 'parameters'
-    configuration.global_parameters.reset(new LazyParameterSet(lua_state, "parameters"));
+    configuration.global_parameters.reset(new lua::LazyTable(lua_state, "parameters"));
     int type = lua_getglobal(lua_state.get(), "parameters");
     if (type == LUA_TTABLE) {
         LOG(debug) << "Parsing global parameters.";
-        configuration.global_parameters->parse(lua_state.get(), -1);
+        ParameterSetParser::parse(*configuration.global_parameters, lua_state.get(), -1);
     }
     lua_pop(lua_state.get(), 1);
 
     // Read cuba configuration
-    configuration.cuba_configuration.reset(new LazyParameterSet(lua_state, "cuba"));
+    configuration.cuba_configuration.reset(new lua::LazyTable(lua_state, "cuba"));
     type = lua_getglobal(lua_state.get(), "cuba");
     if (type == LUA_TTABLE) {
         LOG(debug) << "Parsing cuba configuration.";
-        configuration.cuba_configuration->parse(lua_state.get(), -1);
+        ParameterSetParser::parse(*configuration.cuba_configuration, lua_state.get(), -1);
     }
     lua_pop(lua_state.get(), 1);
 
@@ -68,7 +77,7 @@ ConfigurationReader::ConfigurationReader(const std::string& file) {
         lua_getfield(lua_state.get(), -1, m.name.c_str());
 
         m.parameters.reset(new ParameterSet(m.type, m.name));
-        m.parameters->parse(lua_state.get(), -1);
+        ParameterSetParser::parse(*m.parameters, lua_state.get(), -1);
 
         lua_pop(lua_state.get(), 2);
     }

@@ -8,6 +8,7 @@
 #include <lua.hpp>
 
 class ILuaCallback;
+class ParameterSet;
 
 /*! \brief Utility functions related to lua configuration file parsing
  *
@@ -84,30 +85,6 @@ namespace lua {
          * \param index The index of the anonymous function on the stack
          */
         LazyFunction(lua_State* L, int index);
-    };
-
-    /**
-     * \brief Lazy table field in lua (delayed table access)
-     *
-     * It's a wrapper around table's field access. Evaluation of this lazy value means accessing the field of the table.
-     */
-    struct LazyTableField: public Lazy {
-        std::string table_name; ///< The name of the global table
-        std::string key; ///< The name of the field inside the table to retrieve when evaluated
-
-        virtual boost::any operator() () const override;
-
-        /**
-         * \brief Ensure the global table referenced by this `struct` exist. If not, create it.
-         */
-        void ensure_created();
-
-        /**
-         * \brief Replace the value of the table field by a new one
-         */
-        void set(const boost::any& value);
-
-        LazyTableField(lua_State* L, const std::string& table_name, const std::string& key);
     };
 
     /**
@@ -269,7 +246,7 @@ namespace lua {
      * released using the `lua_close` function.
      */
     std::shared_ptr<lua_State> init_runtime(ILuaCallback* callback);
-   
+
     /** \brief Define Lua function to generate Cuba phase-space point input-tags
      *
      * \param L The current lua state
@@ -280,4 +257,14 @@ namespace lua {
      * \return always 1
      */
     int generate_cuba_inputtag(lua_State* L);
+
+    /**
+     * \brief Inject parameters into the current lua state
+     *
+     * For each parameter inside \p parameters, a global variable is created inside the lua state.
+     *
+     * \param L The lua state
+     * \param parameters Parameters to inject into the lua state
+     */
+    void inject_parameters(lua_State* L, const ParameterSet& parameters);
 }

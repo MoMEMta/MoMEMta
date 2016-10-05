@@ -26,6 +26,7 @@
 #include <momemta/Utils.h>
 
 #include <LibraryManager.h>
+#include <lua/ParameterSetParser.h>
 #include <lua/Path.h>
 #include <lua/Types.h>
 
@@ -69,68 +70,6 @@ namespace lua {
         LOG(trace) << "[LazyFunction::operator()] << stack size = " << lua_gettop(L);
 
         return value;
-    }
-
-    LazyTableField::LazyTableField(lua_State* L, const std::string& table_name, const std::string& key):
-        Lazy(L) {
-        this->table_name = table_name;
-        this->key = key;
-    }
-
-    void LazyTableField::ensure_created() {
-        // Push the table on the stack. Stack +1
-        int type = lua_getglobal(L, table_name.c_str());
-        // Discard the result. Stack -1
-        lua_pop(L, 1);
-
-        // Already existing
-        if (type != LUA_TNIL)
-            return;
-
-        // Create a new table. Stack +1
-        lua_newtable(L);
-        // Set it global. Stack -1
-        lua_setglobal(L, table_name.c_str());
-    }
-
-    boost::any LazyTableField::operator() () const {
-        LOG(trace) << "[LazyTableField::operator()] >> stack size = " << lua_gettop(L);
-
-        // Push the table on the stack. Stack +1
-        lua_getglobal(L, table_name.c_str());
-
-        // Push the requested field from the table to the stack. Stack +1
-        lua_getfield(L, -1, key.c_str());
-
-        boost::any value;
-        bool lazy = false;
-        std::tie(value, lazy) = to_any(L, -1);
-        assert(!lazy);
-
-        // Pop the field and the table from the stack. Stack -2
-        lua_pop(L, 2);
-
-        LOG(trace) << "[LazyTableField::operator()] << stack size = " << lua_gettop(L);
-
-        return value;
-    }
-
-    void LazyTableField::set(const boost::any& value) {
-        LOG(trace) << "[LazyTableField::set] >> stack size = " << lua_gettop(L);
-
-        // Push the table on the stack. Stack +1
-        lua_getglobal(L, table_name.c_str());
-
-        // Push the value to the stack. Stack +1
-        lua::push_any(L, value);
-
-        // Pop the requested field from the stack and assign it to the table. Stack -1
-        lua_setfield(L, -2, key.c_str());
-
-        // Pop the table from the stack. Stack -1
-        lua_pop(L, 1);
-
-        LOG(trace) << "[LazyTableField::set] << stack size = " << lua_gettop(L);
     }
 
     Type type(lua_State* L, int index) {
@@ -292,7 +231,7 @@ namespace lua {
 
                 } else {
                     ParameterSet cfg;
-                    cfg.parse(L, absolute_index);
+                    ParameterSetParser::parse(cfg, L, absolute_index);
                     result = cfg;
                 }
                 LOG(trace) << "[to_any::table] << stack size = " << lua_gettop(L);
@@ -493,7 +432,7 @@ namespace lua {
 
         void* cfg_ptr = lua_touserdata(L, lua_upvalueindex(1));
         ILuaCallback* callback = static_cast<ILuaCallback*>(cfg_ptr);
-        
+
         for(size_t i = 1; i <= size_t(n); i++) {
             std::string input_tag = luaL_checkstring(L, i);
             if (!InputTag::isInputTag(input_tag)) {
@@ -521,7 +460,7 @@ namespace lua {
 
         // Input tag is return value of the function
         push_any(L, index_tag);
-        
+
         // Add an integration dimension in the configuration
         void* cfg_ptr = lua_touserdata(L, lua_upvalueindex(2));
         ILuaCallback* callback = static_cast<ILuaCallback*>(cfg_ptr);
@@ -564,7 +503,15 @@ namespace lua {
 
         // Register existing modules
         lua::register_modules(L.get(), callback);
-    
+
         return L;
+    }
+
+    void inject_parameters(lua_State* L, const ParameterSet& parameters) {
+        for (const auto& parameter: parameters.getNames()) {
+            LOG(debug) << "Injecting parameter " << parameter;
+            lua::push_any(L, parameters.rawGet(parameter));
+            lua_setglobal(L, parameter.c_str());
+        }
     }
 }

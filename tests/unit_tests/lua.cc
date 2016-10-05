@@ -35,6 +35,8 @@
 #include <momemta/ParameterSet.h>
 #include <momemta/Path.h>
 
+#include <lua/LazyTable.h>
+#include <lua/ParameterSetParser.h>
 #include <lua/Path.h>
 #include <lua/Types.h>
 #include <lua/utils.h>
@@ -73,12 +75,12 @@ class LuaCallbackMock: public ILuaCallback {
 };
 
 // A small mock of LazyParameterSet to change visibility of the `freeze` function
-class LazyParameterSetMock: public LazyParameterSet {
-    using LazyParameterSet::LazyParameterSet;
+class LazyTableMock: public lua::LazyTable {
+    using lua::LazyTable::LazyTable;
 
     public:
         virtual void freeze() override {
-            LazyParameterSet::freeze();
+            lua::LazyTable::freeze();
         }
 };
 
@@ -286,7 +288,7 @@ TEST_CASE("lua parsing utilities", "[lua]") {
         REQUIRE(type == LUA_TTABLE);
 
         ParameterSet p;
-        p.parse(L.get(), -1);
+        ParameterSetParser::parse(p, L.get(), -1);
 
         REQUIRE(p.existsAs<int64_t>("integer"));
         REQUIRE(p.get<int64_t>("integer") == 1);
@@ -325,8 +327,8 @@ TEST_CASE("lua parsing utilities", "[lua]") {
         int type = lua_getglobal(L.get(), "test_table");
         REQUIRE(type == LUA_TTABLE);
 
-        LazyParameterSetMock p(L, "test_table");
-        p.parse(L.get(), -1);
+        LazyTableMock p(L, "test_table");
+        ParameterSetParser::parse(p, L.get(), -1);
 
         auto f = p;
         f.freeze();
@@ -382,7 +384,7 @@ TEST_CASE("lua parsing utilities", "[lua]") {
         lua_pop(L.get(), 1);
         REQUIRE(type == LUA_TNIL);
 
-        LazyParameterSetMock p(L, "test_table");
+        LazyTableMock p(L, "test_table");
 
         // Table must not exist
         type = lua_getglobal(L.get(), "test_table");

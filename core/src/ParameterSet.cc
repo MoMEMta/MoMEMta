@@ -18,9 +18,9 @@
 
 #include <momemta/ParameterSet.h>
 
-#include <momemta/Logging.h>
 #include <momemta/Unused.h>
 
+#include <lua/LazyTable.h>
 #include <lua/utils.h>
 
 ParameterSet::ParameterSet(const std::string& module_type, const std::string& module_name) {
@@ -28,40 +28,16 @@ ParameterSet::ParameterSet(const std::string& module_type, const std::string& mo
     m_set.emplace("@name", Element(module_name));
 }
 
-void ParameterSet::parse(lua_State* L, int index) {
+const boost::any& ParameterSet::rawGet(const std::string& name) const {
+    auto value = m_set.find(name);
+    if (value == m_set.end())
+        throw not_found_error("Parameter '" + name + "' not found.");
 
-    LOG(trace) << "[parse] >> stack size = " << lua_gettop(L);
-    size_t absolute_index = lua::get_index(L, index);
-
-    lua_pushnil(L);
-    while (lua_next(L, absolute_index) != 0) {
-
-        std::string key = lua_tostring(L, -2);
-
-        LOG(trace) << "[parse] >> key = " << key;
-
-        try {
-            boost::any value;
-            bool lazy = false;
-            std::tie(value, lazy) = parseItem(key, L, -1);
-
-            m_set.emplace(key, Element(value, lazy));
-        } catch(...) {
-            LOG(fatal) << "Exception while trying to parse parameter " << getModuleType() << "." << getModuleName() << "::" << key;
-            lua_pop(L, 1);
-            std::rethrow_exception(std::current_exception());
-        }
-
-        lua_pop(L, 1);
-    }
-
-    LOG(trace) << "[parse] << stack size = " << lua_gettop(L);
+    return value->second.value;
 }
 
-std::pair<boost::any, bool> ParameterSet::parseItem(const std::string& key, lua_State* L, int index) {
-    UNUSED(key);
-
-    return lua::to_any(L, index);
+bool ParameterSet::lazy() const {
+    return false;
 }
 
 bool ParameterSet::exists(const std::string& name) const {
@@ -129,51 +105,4 @@ std::vector<std::string> ParameterSet::getNames() const {
     }
 
     return names;
-}
-
-// ---------
-
-LazyParameterSet::LazyParameterSet(std::shared_ptr<lua_State> L, const std::string& name):
-    ParameterSet("table", name) {
-    m_lua_state = L;
-}
-
-std::pair<boost::any, bool> LazyParameterSet::parseItem(const std::string& key, lua_State* L, int index) {
-    UNUSED(index);
-
-    return std::make_pair(lua::LazyTableField(L, getModuleName(), key), true);
-}
-
-void LazyParameterSet::create(const std::string& name, const boost::any& value) {
-
-    lua::LazyTableField lazyField = lua::LazyTableField(m_lua_state.get(), getModuleName(), name);
-    lazyField.ensure_created();
-    lazyField.set(value);
-
-    m_set.emplace(name, Element(lazyField, true));
-}
-
-void LazyParameterSet::setInternal(const std::string& name, Element& element, const boost::any& value) {
-
-    // We know that this set is not frozen, so *all* the items in the map
-    // are actually lazy reference to lua table values.
-    // Instead of editing directly the value, we edit the value of the global table
-    // directly in lua user-space
-    UNUSED(name);
-
-    assert(element.lazy);
-    assert(element.value.type() == typeid(lua::LazyTableField));
-
-    boost::any_cast<lua::LazyTableField&>(element.value).set(value);
-}
-
-void LazyParameterSet::freeze() {
-    ParameterSet::freeze();
-
-    // Release lua_State. We don't need it anymore
-    m_lua_state.reset();
-}
-
-LazyParameterSet* LazyParameterSet::clone() const {
-    return new LazyParameterSet(*this);
 }
