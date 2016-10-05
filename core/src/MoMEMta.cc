@@ -53,8 +53,14 @@ MoMEMta::MoMEMta(const Configuration& configuration) {
     std::vector<Configuration::Module> light_modules = configuration.getModules();
     for (const auto& module: light_modules) {
         m_pool->current_module(module);
-        m_modules.push_back(ModuleFactory::get().create(module.type, m_pool, *module.parameters));
-        m_modules.back()->configure();
+        try {
+            m_modules.push_back(ModuleFactory::get().create(module.type, m_pool, *module.parameters));
+            m_modules.back()->configure();
+        } catch (...) {
+            LOG(fatal) << "Exception while trying to create module " << module.type << "::" << module.name
+                       << ". See message above for a (possible) more detailed description of the error.";
+            std::rethrow_exception(std::current_exception());
+        }
     }
 
     m_n_dimensions = configuration.getNDimensions();
@@ -230,7 +236,7 @@ int MoMEMta::integrand(const double* psPoints, const double* weights, double* re
         // Store phase-space weight into the pool
         *m_ps_weight = *weights;
     }
-    
+
     for (auto& module: m_modules)
         module->beginPoint();
 
