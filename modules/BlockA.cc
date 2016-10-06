@@ -144,6 +144,16 @@ class BlockA: public Module {
             LorentzVector gen_p1(mod_p1 * sin_theta1 * cos_phi1, mod_p1 * sin_theta1 * sin_phi1, mod_p1 * cos_theta1, E1);
             LorentzVector gen_p2(mod_p2 * sin_theta2 * cos_phi2, mod_p2 * sin_theta2 * sin_phi2, mod_p2 * cos_theta2, E2);
 
+            // Check if solutions are physical
+            LorentzVector tot = gen_p1 + gen_p2;
+            for (size_t i = 0; i < m_particles.size(); i++) {
+                tot += *m_particles[i];
+            }
+            double q1Pz = std::abs(tot.Pz() + tot.E()) / 2.;
+            double q2Pz = std::abs(tot.Pz() - tot.E()) / 2.;
+            if (q1Pz > sqrt_s / 2 || q2Pz > sqrt_s / 2)
+                return Status::NEXT;
+
             double jacobian = (SQ(mod_p1) * SQ(mod_p2)) / (8 * SQ(M_PI * sqrt_s) * E1 * E2);
             jacobian *= 1. / std::abs(cos_phi1 * sin_phi2 - sin_phi1 * cos_phi2);
 
