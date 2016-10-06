@@ -64,6 +64,7 @@ SET(CMAKE_CXX_FLAGS_DEBUG  "-O0 -g")
 SET(CMAKE_C_FLAGS_DEBUG  "-O0 -g")
 
 # Find dependencies
+include(CMSSW)
 find_package(ROOT 5.34.09 REQUIRED)
 find_package(LHAPDF 6.0 REQUIRED)
 
@@ -319,6 +320,16 @@ if(PYTHON_BINDINGS)
 
     install(TARGETS momemta_python
             LIBRARY DESTINATION ${PYTHON_INSTALL_PREFIX})
+endif()
+
+if (IN_CMSSW)
+    # Tool XML description
+    configure_file(
+        "${CMAKE_CURRENT_SOURCE_DIR}/cmake/scripts/cmssw_tool.xml.in"
+        "${CMAKE_CURRENT_BINARY_DIR}/cmssw_tool.xml"
+        IMMEDIATE @ONLY)
+
+    install(CODE "execute_process(COMMAND scram setup \"${CMAKE_CURRENT_BINARY_DIR}/cmssw_tool.xml\")")
 endif()
 
 # Uninstall target

@@ -1,0 +1,16 @@
+<tool name="MoMEMta" version="0.2.0">
+    <info url="http://momemta.github.io" />
+    <lib name="momemta" />
+
+    <client>
+        <environment name="MOMEMTA_BASE" default="@CMAKE_INSTALL_PREFIX@" />
+        <environment name="LIBDIR" default="$MOMEMTA_BASE/lib" />
+        <environment name="INCLUDE" default="$MOMEMTA_BASE/include" />
+    </client>
+
+    <runtime name="ROOT_INCLUDE_PATH" value="$INCLUDE" type="path" />
+
+    <use name="root_cxxdefaults" />
+    <use name="boost" />
+</tool>
+

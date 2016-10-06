@@ -44,6 +44,7 @@ The following options are available when configuring the build (when running `cm
    * `-DBOOST_ROOT=(path)`: Use specific Boost version (path to its install directory)
    * `-DTESTS=ON`: Also compile the test executables
    * `-DEXAMPLES=OFF`: Do not compile the example executables
+   * `-DPYTHON_BINDINGS=ON|OFF` (`OFF` by default). Builds python bindings for MoMEMta. Requires python and boost::python.
 
 ## Examples
 

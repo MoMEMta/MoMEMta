@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
  - Matrix element parameters can now be edited from the configuration file.
  - `ConfigurationReader` constructor now accepts an optional second argument allowing the definition of variables accessible from the lua configuration. 
  - When an exception occurs while constructing a module, try to give useful information to help debugging.
+ - Support for CMSSW environment. Python, boost and LHAPDF libraries from CMSSW are automatically used and running `make install` will automatically register MoMEMta as a new external tool. Please note that CMSSW does not ship with boost::log. As a consequence, logging is disabled when building inside such an environment.
 
 ### Changed
  - The way to handle multiple solutions coming from blocks has changed. A module is no longer responsible for looping over the solutions itself, this role is delegated to the `Looper` module. As a consequence, most of the module were rewritten to handle this change. See this [pull request](https://github.com/MoMEMta/MoMEMta/pull/69) and [this one](https://github.com/MoMEMta/MoMEMta/pull/91) for a more technical description, and this [documentation entry](http://momemta.github.io/) for more details
@@ -22,6 +23,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
  - Cuba `smoothing` option is now enabled by default to mitigate numerical instabilities during the integration. See [this](https://github.com/MoMEMta/MoMEMta/pull/91) for more details.
  - If no integration dimension is requested, no integration is performed and the graph is only evaluated once. As such, no error is provided on the final result.
  - Cuba logging is now handled by MoMEMta logger, at `debug` level.
+ - Boost::log is no longer a required dependency. If not found, logging is simply disabled.
 
 ### Fixed
  - Cuba forking mode was broken when building in release mode (with `-DCMAKE_RELEASE_TYPE=Release`).
