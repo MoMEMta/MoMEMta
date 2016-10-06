@@ -18,6 +18,8 @@
 
 #include <lua/LazyTable.h>
 
+#include <cassert>
+
 #include <momemta/Logging.h>
 #include <momemta/Unused.h>
 

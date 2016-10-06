@@ -18,6 +18,12 @@
 
 #pragma once
 
+#include <memory>
+
+#include <momemta/config.h>
+
+#ifdef BOOST_HAS_LOG
+
 #define BOOST_LOG_DYN_LINK 1
 
 #include <boost/log/core.hpp>
@@ -35,3 +41,47 @@ void set_level(boost::log::trivial::severity_level lvl);
 #define LOG(lvl)\
     BOOST_LOG_STREAM_WITH_PARAMS(*::logging::get(),\
         (::boost::log::keywords::severity = ::boost::log::trivial::lvl))
+
+#else
+
+class NullStream {
+public:
+    template<typename T> NullStream& operator<<(T const&) {
+        /* no-op */
+        return *this;
+    }
+};
+
+namespace boost {
+
+namespace log {
+
+namespace trivial {
+
+//! Trivial severity levels
+enum severity_level
+{
+    trace,
+    debug,
+    info,
+    warning,
+    error,
+    fatal
+};
+
+}
+
+}
+
+}
+
+namespace logging {
+
+std::shared_ptr<NullStream>& get();
+void set_level(::boost::log::trivial::severity_level);
+}
+
+#define LOG(lvl)\
+    (*::logging::get())
+
+#endif
