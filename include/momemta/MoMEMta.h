@@ -88,10 +88,14 @@ class MoMEMta {
         class integrands_output_error: public std::runtime_error {
             using std::runtime_error::runtime_error;
         };
+        class cuba_configuration_error: public std::runtime_error {
+            using std::runtime_error::runtime_error;
+        };
 
-        int integrand(const double* psPoints, const double* weights, double* results);
+        int integrand(const double* psPoints, double* results, const double* weights);
 
-        static int CUBAIntegrand(const int *nDim, const double* psPoint, const int *nComp, double *value, void *inputs, const int *nVec, const int *core, const double *weight);
+        static int CUBAIntegrand(const int *nDim, const double* psPoint, const int *nComp, double *value, void *inputs, const int *nVec, const int *core);
+        static int CUBAIntegrandWeighted(const int *nDim, const double* psPoint, const int *nComp, double *value, void *inputs, const int *nVec, const int *core, const double *weight);
         static void cuba_logging(const char*);
 
         PoolPtr m_pool;
