@@ -21,6 +21,8 @@
 #include <memory>
 #include <unistd.h>
 
+#ifdef BOOST_HAS_LOG
+
 #include <boost/smart_ptr/shared_ptr.hpp>
 #include <boost/smart_ptr/make_shared_object.hpp>
 #include <boost/log/core.hpp>
@@ -125,3 +127,20 @@ void set_level(boost::log::trivial::severity_level lvl) {
 }
 
 }
+
+#else
+
+namespace logging {
+
+::std::shared_ptr<NullStream>& get() {
+    static ::std::shared_ptr<NullStream> s_logger = ::std::make_shared<NullStream>();
+    return s_logger;
+}
+
+void set_level(::boost::log::trivial::severity_level) {
+    /* no-op */
+}
+
+}
+
+#endif

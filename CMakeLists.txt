@@ -64,22 +64,40 @@ SET(CMAKE_CXX_FLAGS_DEBUG  "-O0 -g")
 SET(CMAKE_C_FLAGS_DEBUG  "-O0 -g")
 
 # Find dependencies
+include(CMSSW)
 find_package(ROOT 5.34.09 REQUIRED)
 find_package(LHAPDF 6.0 REQUIRED)
-find_package(Threads REQUIRED)
 
 if (NOT USE_BUILTIN_LUA)
     find_package(Lua 5.3 QUIET)
 endif()
 
 set(Boost_NO_BOOST_CMAKE ON)
-find_package(Boost 1.54 REQUIRED log)
 
-if (NOT TARGET Boost::log)
-    add_library(Boost::log INTERFACE IMPORTED)
-    set_property(TARGET Boost::log PROPERTY INTERFACE_LINK_LIBRARIES ${Boost_LOG_LIBRARY})
-    set_property(TARGET Boost::log PROPERTY INTERFACE_INCLUDE_DIRECTORIES ${Boost_INCLUDE_DIRS})
-    set_property(TARGET Boost::log PROPERTY INTERFACE_SYSTEM_INCLUDE_DIRECTORIES ${Boost_INCLUDE_DIRS})
+# Find boost headers
+find_package(Boost 1.54 REQUIRED)
+if (NOT TARGET Boost)
+    add_library(Boost INTERFACE IMPORTED)
+    set_property(TARGET Boost PROPERTY INTERFACE_INCLUDE_DIRECTORIES ${Boost_INCLUDE_DIRS})
+    set_property(TARGET Boost PROPERTY INTERFACE_SYSTEM_INCLUDE_DIRECTORIES ${Boost_INCLUDE_DIRS})
+endif()
+
+# Find Boost::log. If not found, logging is disabled
+find_package(Boost 1.54 QUIET COMPONENTS log)
+if (Boost_LOG_FOUND)
+    find_package(Threads REQUIRED)
+
+    if (NOT TARGET Boost::log)
+        add_library(Boost::log INTERFACE IMPORTED)
+        set_property(TARGET Boost::log PROPERTY INTERFACE_LINK_LIBRARIES ${Boost_LOG_LIBRARY})
+        set_property(TARGET Boost::log PROPERTY INTERFACE_INCLUDE_DIRECTORIES ${Boost_INCLUDE_DIRS})
+        set_property(TARGET Boost::log PROPERTY INTERFACE_SYSTEM_INCLUDE_DIRECTORIES ${Boost_INCLUDE_DIRS})
+    endif()
+
+    set(BOOST_HAS_LOG 1)
+else()
+    message(STATUS "Boost::log not found. Disabling logging.")
+    set(BOOST_HAS_LOG 0)
 endif()
 
 if (PYTHON_BINDINGS)
@@ -141,6 +159,11 @@ else()
     set_property(TARGET lua PROPERTY INTERFACE_INCLUDE_DIRECTORIES ${LUA_INCLUDE_DIR})
     set_property(TARGET lua PROPERTY INTERFACE_SYSTEM_INCLUDE_DIRECTORIES ${LUA_INCLUDE_DIR})
 endif()
+
+# Generate config.h
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/cmake/scripts/config.h.in
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/momemta/config.h
+    )
 
 set(MOMEMTA_SOURCES
     "modules/BinnedTransferFunctionOnEnergy.cc"
@@ -210,9 +233,13 @@ target_link_libraries(momemta PRIVATE lua)
 target_link_libraries(momemta PRIVATE LHAPDF::LHAPDF)
 
 target_link_libraries(momemta PUBLIC dl)
+target_link_libraries(momemta PUBLIC Boost)
 target_link_libraries(momemta PUBLIC Root::Root)
-target_link_libraries(momemta PUBLIC Boost::log)
-target_link_libraries(momemta PUBLIC Threads::Threads)
+
+if ("${BOOST_HAS_LOG}" STREQUAL "1")
+    target_link_libraries(momemta PUBLIC Boost::log)
+    target_link_libraries(momemta PUBLIC Threads::Threads)
+endif()
 
 find_library(ROOT_GENVECTOR_LIBRARY GenVector HINTS ${ROOT_LIBRARY_DIR})
 target_link_libraries(momemta PUBLIC ${ROOT_GENVECTOR_LIBRARY})
@@ -293,6 +320,16 @@ if(PYTHON_BINDINGS)
 
     install(TARGETS momemta_python
             LIBRARY DESTINATION ${PYTHON_INSTALL_PREFIX})
+endif()
+
+if (IN_CMSSW)
+    # Tool XML description
+    configure_file(
+        "${CMAKE_CURRENT_SOURCE_DIR}/cmake/scripts/cmssw_tool.xml.in"
+        "${CMAKE_CURRENT_BINARY_DIR}/cmssw_tool.xml"
+        IMMEDIATE @ONLY)
+
+    install(CODE "execute_process(COMMAND scram setup \"${CMAKE_CURRENT_BINARY_DIR}/cmssw_tool.xml\")")
 endif()
 
 # Uninstall target

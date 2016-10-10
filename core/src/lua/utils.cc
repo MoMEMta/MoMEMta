@@ -18,6 +18,8 @@
 
 #include <lua/utils.h>
 
+#include <cassert>
+
 #include <momemta/InputTag.h>
 #include <momemta/ILuaCallback.h>
 #include <momemta/Logging.h>
