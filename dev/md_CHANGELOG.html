@@ -119,6 +119,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li><code><a class="el" href="classConfigurationReader.html" title="A lua configuration file parser. ">ConfigurationReader</a></code> constructor now accepts an optional second argument allowing the definition of variables accessible from the lua configuration.</li>
 <li>When an exception occurs while constructing a module, try to give useful information to help debugging.</li>
 <li>Support for CMSSW environment. Python, boost and LHAPDF libraries from CMSSW are automatically used and running <code>make install</code> will automatically register <a class="el" href="classMoMEMta.html" title="A MoMEMta instance. ">MoMEMta</a> as a new external tool. Please note that CMSSW does not ship with boost::log. As a consequence, logging is disabled when building inside such an environment.</li>
+<li>Support use of other integration algorithms implemented in Cuba (Suave, Divonne, Cuhre)</li>
 </ul>
 <h3>Changed</h3>
 <ul>
