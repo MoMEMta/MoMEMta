@@ -200,9 +200,9 @@ std::vector<std::pair<double, double>> MoMEMta::computeWeights(const std::vector
                     prob.get()              // (double*) Chi-square p-value that error is not reliable (ie should be <0.95) ([ncomp])
             );
         } else if (algorithm == "suave") {
-            int64_t n_new = m_cuba_configuration.get<int64_t>("n_new", 25000);
-            int64_t n_min = m_cuba_configuration.get<int64_t>("n_min", 0);
-            double flatness = m_cuba_configuration.get<double>("flatness", 100.);
+            int64_t n_new = m_cuba_configuration.get<int64_t>("n_new", 1000);
+            int64_t n_min = m_cuba_configuration.get<int64_t>("n_min", 2);
+            double flatness = m_cuba_configuration.get<double>("flatness", 0.25);
             
             int nregions = 0;
 
@@ -231,13 +231,13 @@ std::vector<std::pair<double, double>> MoMEMta::computeWeights(const std::vector
                     prob.get()
             );
         } else if (algorithm == "divonne") {
-            int64_t key1 = m_cuba_configuration.get<int64_t>("key1", -25000);
-            int64_t key2 = m_cuba_configuration.get<int64_t>("key2", 5);
+            int64_t key1 = m_cuba_configuration.get<int64_t>("key1", 47);
+            int64_t key2 = m_cuba_configuration.get<int64_t>("key2", 1);
             int64_t key3 = m_cuba_configuration.get<int64_t>("key3", 1);
-            int64_t maxpass = m_cuba_configuration.get<int64_t>("maxpass", 3);
+            int64_t maxpass = m_cuba_configuration.get<int64_t>("maxpass", 5);
             double border = m_cuba_configuration.get<double>("border", 0);
-            double maxchisq = m_cuba_configuration.get<double>("maxchisq", 100);
-            double mindeviation = m_cuba_configuration.get<double>("mindeviation", 0);
+            double maxchisq = m_cuba_configuration.get<double>("maxchisq", 10.0);
+            double mindeviation = m_cuba_configuration.get<double>("mindeviation", 0.25);
             
             int nregions = 0;
 
@@ -273,7 +273,7 @@ std::vector<std::pair<double, double>> MoMEMta::computeWeights(const std::vector
                     prob.get()
             );
         } else if (algorithm == "cuhre") {
-            int64_t key = m_cuba_configuration.get<int64_t>("key", 9);
+            int64_t key = m_cuba_configuration.get<int64_t>("key", 0);
             
             int nregions = 0;
 
