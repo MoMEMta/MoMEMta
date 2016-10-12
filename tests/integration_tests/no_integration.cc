@@ -29,7 +29,7 @@
 #include <momemta/MoMEMta.h>
 
 TEST_CASE("No integration", "[integration_tests]") {
-    logging::set_level(boost::log::trivial::fatal);
+    logging::set_level(logging::level::fatal);
 
     ConfigurationReader configuration("no_integration.lua");
     MoMEMta weight(configuration.freeze());

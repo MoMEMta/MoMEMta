@@ -16,23 +16,40 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+// Heavily inspired by spdlog, Copyright(c) 2015 Gabi Melman
+
 #pragma once
 
-#include <momemta/config.h>
+#include <sstream>
+#include <string>
+#include <utility>
+
 #include <momemta/impl/logger/common.h>
-#include <momemta/impl/logger/logger.h>
+#include <momemta/impl/logger/os.h>
 
-#define MERGE(a, b) a##b
-#define UNIQUE_WRAPPER_NAME_INTERNAL(a) MERGE(_momemta_logger_, a)
-#define UNIQUE_WRAPPER_NAME UNIQUE_WRAPPER_NAME_INTERNAL(__LINE__)
+namespace logger {
 
-#define LOG_INTERNAL(lvl, wrapper) \
-    for (::logger::ostream_wrapper wrapper(*::logger::get(), ::logging::level::lvl); wrapper.valid(); wrapper.destroy()) \
-        wrapper
+namespace details {
 
-#define LOG(lvl) \
-    LOG_INTERNAL(lvl, UNIQUE_WRAPPER_NAME)
+struct log_msg {
+    log_msg() = default;
+    log_msg(logging::level::level_enum lvl) : level(lvl) {
+        time = os::now();
+        thread_id = os::thread_id();
+    }
 
-namespace logging {
-    void set_level(::logging::level::level_enum lvl);
+    log_msg(const log_msg& other) = delete;
+    log_msg& operator=(log_msg&& other) = delete;
+    log_msg(log_msg&& other) = delete;
+
+    logging::level::level_enum level;
+    size_t index;
+    log_clock::time_point time;
+    size_t thread_id;
+    std::ostringstream raw;
+    std::ostringstream formatted;
+};
+
+}
+
 }

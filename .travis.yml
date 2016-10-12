@@ -22,11 +22,9 @@ addons:
       - gcc-4.9
       - g++-4.9
       - libboost1.55-dev
-      - libboost-log1.55-dev
-      - libboost-regex1.55-dev
       - graphviz
 before_install:
-  - ./travis/decrypt_key.sh 
+  - ./travis/decrypt_key.sh
   - pip install --user cpp-coveralls
   - if [[ $PYTHON == 'true' ]]; then sudo apt-get -y install libboost-python1.55-dev; fi
 install:

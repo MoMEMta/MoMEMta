@@ -16,38 +16,46 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <momemta/Logging.h>
+// Heavily inspired by spdlog, Copyright(c) 2015 Gabi Melman
 
+#pragma once
+
+#include <logger/base_sink.h>
+#include <logger/null_mutex.h>
+
+#include <cstdio>
 #include <memory>
-#include <unistd.h>
-
-#include <logger/stdout_sink.h>
+#include <mutex>
 
 namespace logger {
-static logger_ptr init_logger() {
-    bool in_terminal = isatty(fileno(stdout)) == 1;
 
-    auto sink = sinks::stdout_sink_st::instance();
+namespace sinks {
 
-    auto l = std::make_shared<logger>(sink);
-    l->flush_on(logging::level::trace);
-
-    if (in_terminal) {
-        l->set_formatter(std::make_shared<ansi_color_full_formatter>());
+template <class Mutex>
+class stdout_sink: public base_sink<Mutex> {
+    using type = stdout_sink<Mutex>;
+public:
+    stdout_sink() {}
+    static std::shared_ptr<type> instance() {
+        static std::shared_ptr<type> instance = std::make_shared<type>();
+        return instance;
     }
 
-    return l;
-}
-
-logger_ptr get() {
-    static logger_ptr s_logger = init_logger();
-    return s_logger;
-}
-
-}
-
-namespace logging {
-    void set_level(::logging::level::level_enum lvl) {
-        ::logger::get()->set_level(lvl);
+    void _sink_it(const details::log_msg& msg) override {
+        auto s = msg.formatted.str();
+        fwrite(s.data(), sizeof(char), s.size(), stdout);
+        flush();
     }
+
+    void flush() override {
+        fflush(stdout);
+    }
+};
+
+typedef stdout_sink<details::null_mutex> stdout_sink_st;
+typedef stdout_sink<std::mutex> stdout_sink_mt;
+
+
+}
+
 }

@@ -35,8 +35,8 @@
 
 namespace bp = boost::python;
 
-void set_log_level(boost::log::trivial::severity_level severity) {
-    logging::set_level(severity);
+void set_log_level(logging::level::level_enum lvl) {
+    logging::set_level(lvl);
 }
 
 bp::list MoMEMta_computeWeights_MET(MoMEMta& m, bp::list particles_, bp::list met_) {
@@ -156,13 +156,14 @@ BOOST_PYTHON_MODULE(momemta) {
     convert_py_root_to_cpp_root<LorentzVector>();
 #endif
 
-    enum_<boost::log::trivial::severity_level>("log_level")
-            .value("trace", boost::log::trivial::severity_level::trace)
-            .value("debug", boost::log::trivial::severity_level::debug)
-            .value("info", boost::log::trivial::severity_level::info)
-            .value("warning", boost::log::trivial::severity_level::warning)
-            .value("error", boost::log::trivial::severity_level::error)
-            .value("fatal", boost::log::trivial::severity_level::fatal);
+    enum_<logging::level::level_enum>("log_level")
+            .value("trace", logging::level::trace)
+            .value("debug", logging::level::debug)
+            .value("info", logging::level::info)
+            .value("warning", logging::level::warning)
+            .value("error", logging::level::error)
+            .value("fatal", logging::level::fatal)
+            .value("off", logging::level::off);
 
     def("set_log_level", set_log_level);
 

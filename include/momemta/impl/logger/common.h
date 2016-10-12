@@ -16,23 +16,51 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+// Heavily inspired by spdlog, Copyright(c) 2015 Gabi Melman
+
 #pragma once
 
-#include <momemta/config.h>
-#include <momemta/impl/logger/common.h>
-#include <momemta/impl/logger/logger.h>
+#include <atomic>
+#include <chrono>
+#include <memory>
 
-#define MERGE(a, b) a##b
-#define UNIQUE_WRAPPER_NAME_INTERNAL(a) MERGE(_momemta_logger_, a)
-#define UNIQUE_WRAPPER_NAME UNIQUE_WRAPPER_NAME_INTERNAL(__LINE__)
+namespace logger {
 
-#define LOG_INTERNAL(lvl, wrapper) \
-    for (::logger::ostream_wrapper wrapper(*::logger::get(), ::logging::level::lvl); wrapper.valid(); wrapper.destroy()) \
-        wrapper
+class formatter;
+class logger;
 
-#define LOG(lvl) \
-    LOG_INTERNAL(lvl, UNIQUE_WRAPPER_NAME)
+namespace sinks {
+struct sink;
+}
+
+using formatter_ptr = std::shared_ptr<::logger::formatter>;
+using level_t = std::atomic<int>;
+using logger_ptr = std::shared_ptr<::logger::logger>;
+using log_clock = std::chrono::system_clock;
+using sink_ptr = std::shared_ptr<sinks::sink>;
+
+}
 
 namespace logging {
-    void set_level(::logging::level::level_enum lvl);
+
+namespace level {
+
+typedef enum {
+    trace = 0,
+    debug = 1,
+    info = 2,
+    warning = 3,
+    error = 4,
+    fatal = 5,
+    off = 6
+} level_enum;
+
+static const char* level_names[] { "trace", "debug", "info", "warning", "error", "fatal", "off" };
+
+inline const char* to_str(logging::level::level_enum l) {
+    return level_names[l];
+}
+
+}
+
 }

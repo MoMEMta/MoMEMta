@@ -33,7 +33,7 @@ int main(int argc, char** argv) {
     UNUSED(argc);
     UNUSED(argv);
 
-    logging::set_level(boost::log::trivial::debug);
+    logging::set_level(logging::level::debug);
 
     ParameterSet lua_parameters;
     lua_parameters.set("USE_TF", true);
