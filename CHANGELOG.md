@@ -29,3 +29,4 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Fixed
  - Cuba forking mode was broken when building in release mode (with `-DCMAKE_RELEASE_TYPE=Release`).
  - SLHA card reader (matrix element parameter cards) retrieved from MadGraph was broken.
+ - Transfer functions on energy take as lower bound the mass of the given "reco" particle
