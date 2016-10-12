@@ -149,6 +149,7 @@ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/cmake/scripts/config.h.in
 
 set(MOMEMTA_SOURCES
     "modules/BinnedTransferFunctionOnEnergy.cc"
+    "modules/BinnedTransferFunctionOnPt.cc"
     "modules/BlockA.cc"
     "modules/BlockB.cc"
     "modules/BlockD.cc"
@@ -163,6 +164,7 @@ set(MOMEMTA_SOURCES
     "modules/FlatTransferFunctionOnPhi.cc"
     "modules/FlatTransferFunctionOnTheta.cc"
     "modules/GaussianTransferFunctionOnEnergy.cc"
+    "modules/GaussianTransferFunctionOnPt.cc"
     "modules/Looper.cc"
     "modules/LooperSummer.cc"
     "modules/MatrixElement.cc"

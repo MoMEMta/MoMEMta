@@ -84,7 +84,7 @@ class GaussianTransferFunctionOnEnergyBase: public Module {
  *   | Name | Type | %Description |
  *   |------|------|--------------|
  *   | `output` | LorentzVector | Output *generated* LorentzVector, only differing from *reco_particle* by its energy. |
- *   | `TF_times_jacobian` | double | Product of the TF evaluated on the *reco* and *gen* energies, times the jacobian of the transformation needed stretch the integration range from \f$[0,1]\f$ to the width of the TF, times the jacobian \f$dE/d|P|\f$ due to the fact that the integration is done w.r.t \f$|P|\f$, while the TF is parametrised in terms of energy. |
+ *   | `TF_times_jacobian` | double | Product of the TF evaluated on the *reco* and *gen* energies, times the jacobian of the transformation needed stretch the integration range from \f$[0,1]\f$ to the width of the TF, times the jacobian \f$d|P|/dE\f$ due to the fact that the integration is done w.r.t \f$|P|\f$, while the TF is parametrised in terms of energy. |
  * 
  * \ingroup modules
  * \sa GaussianTransferFunctionOnEnergyEvaluator
