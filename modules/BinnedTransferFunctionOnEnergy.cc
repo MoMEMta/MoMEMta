@@ -152,12 +152,13 @@ class BinnedTransferFunctionOnEnergy: public BinnedTransferFunctionOnEnergyBase 
         
         virtual Status work() override {
             const double rec_E = m_reco_input->E();
-            const double range = GetDeltaRange(rec_E);
-            const double gen_E = rec_E - GetDeltaMax(rec_E) + range * (*m_ps_point);
+            const double rec_M = m_reco_input->M();
+            const double range = GetDeltaRange(rec_E, rec_M);
+            const double gen_E = rec_E - GetDeltaMax(rec_E, rec_M) + range * (*m_ps_point);
             const double delta = rec_E - gen_E;
 
             // To change the particle's energy without changing its direction and mass:
-            const double gen_pt = std::sqrt(SQ(gen_E) - SQ(m_reco_input->M())) / std::cosh(m_reco_input->Eta());
+            const double gen_pt = std::sqrt(SQ(gen_E) - SQ(rec_M)) / std::cosh(m_reco_input->Eta());
             output->SetCoordinates(
                     gen_pt * std::cos(m_reco_input->Phi()),
                     gen_pt * std::sin(m_reco_input->Phi()),
@@ -185,12 +186,15 @@ class BinnedTransferFunctionOnEnergy: public BinnedTransferFunctionOnEnergyBase 
         // We assume TF=0 for Egen < lower limit of the TH2, and
         //           TF=constant for Egen > upper limit of the TH2
         // In the former case, the integrated range is adapted (shortened) to the range where TF!=0
-        inline double GetDeltaRange(const double Erec) const {
-            return GetDeltaMax(Erec) - m_deltaMin;
+        // The range also takes into account the particle's given mass: Egen has to be larger than M
+        inline double GetDeltaRange(const double Erec, const double Mrec) const {
+            return GetDeltaMax(Erec, Mrec) - m_deltaMin;
         }
 
-        inline double GetDeltaMax(const double Erec) const {
-            return std::min(m_deltaMax, Erec - m_EgenMin); 
+        inline double GetDeltaMax(const double Erec, const double Mrec) const {
+            if (Erec <= Mrec || m_deltaMax <= Mrec)
+                return 0;
+            return std::min(m_deltaMax, Erec - m_EgenMin) - Mrec; 
         }
 };
 
