@@ -41,6 +41,12 @@
  *
  * This module requires **0** phase-space point.
  *
+ * ### Global parameters
+ *
+ *   | Name | Type | %Description |
+ *   |------|------|--------------|
+ *   | `energy` | double | Collision energy. |
+ *
  * ### Parameters
  *
  *   | Name | Type | %Description |
@@ -71,6 +77,8 @@ class BuildInitialState: public Module {
                 do_compute_initials = compute_initials_trivial;
             }
 
+            halved_sqrt_s = parameters.globalParameters().get<double>("energy") / 2;
+
             std::vector<InputTag> input_particles_tags = parameters.get<std::vector<InputTag>>("particles");
             for (auto& t: input_particles_tags)
                 input_particles.push_back(get<LorentzVector>(t));
@@ -86,6 +94,10 @@ class BuildInitialState: public Module {
             }
 
             do_compute_initials(particles);
+
+            // Check if solutions are physical
+            if ((*partons)[0].E() > halved_sqrt_s || (*partons)[1].E() > halved_sqrt_s )
+                return Status::NEXT;
 
             return Status::OK;
         }
@@ -134,6 +146,8 @@ class BuildInitialState: public Module {
                 (*partons)[0] = isr_boost * (*partons)[0];
                 (*partons)[1] = isr_boost * (*partons)[1];
             };
+
+        double halved_sqrt_s;
 
         std::vector<Value<LorentzVector>> input_particles;
 
