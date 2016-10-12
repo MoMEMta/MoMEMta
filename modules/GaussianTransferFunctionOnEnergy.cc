@@ -99,7 +99,7 @@ class GaussianTransferFunctionOnEnergy: public GaussianTransferFunctionOnEnergyB
             // Estimate the width over which to integrate using the width of the TF at E_rec ...
             const double sigma_E_rec = m_reco_input->E() * m_sigma;
 
-            double range_min = std::max(0., m_reco_input->E() - (m_sigma_range * sigma_E_rec));
+            double range_min = std::max(m_reco_input->M(), m_reco_input->E() - (m_sigma_range * sigma_E_rec));
             double range_max = m_reco_input->E() + (m_sigma_range * sigma_E_rec);
             double range = (range_max - range_min);
 
