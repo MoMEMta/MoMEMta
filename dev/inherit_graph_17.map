@@ -1,3 +1,6 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$classmomemta_1_1MatrixElement.html" title="momemta::MatrixElement" alt="" coords="6,5,178,32"/>
+<area shape="rect" id="node1" href="$classlogger_1_1sinks_1_1sink.html" title="logger::sinks::sink" alt="" coords="5,45,133,72"/>
+<area shape="rect" id="node2" href="$classlogger_1_1sinks_1_1base__sink.html" title="logger::sinks::base\l_sink\&lt; Mutex \&gt;" alt="" coords="182,38,314,79"/>
+<area shape="rect" id="node3" href="$classlogger_1_1sinks_1_1null__sink.html" title="logger::sinks::null\l_sink\&lt; Mutex \&gt;" alt="" coords="371,5,495,46"/>
+<area shape="rect" id="node4" href="$classlogger_1_1sinks_1_1stdout__sink.html" title="logger::sinks::stdout\l_sink\&lt; Mutex \&gt;" alt="" coords="363,70,503,111"/>
 </map>

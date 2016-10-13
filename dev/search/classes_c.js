@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['reader',['Reader',['../classSLHA_1_1Reader.html',1,'SLHA']]]
+  ['ostream_5fwrapper',['ostream_wrapper',['../classlogger_1_1ostream__wrapper.html',1,'logger']]]
 ];

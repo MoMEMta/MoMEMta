@@ -1,0 +1,5 @@
+<map id="logger::sinks::sink" name="logger::sinks::sink">
+<area shape="rect" id="node2" href="$classlogger_1_1sinks_1_1base__sink.html" title="logger::sinks::base\l_sink\&lt; Mutex \&gt;" alt="" coords="78,81,209,122"/>
+<area shape="rect" id="node3" href="$classlogger_1_1sinks_1_1null__sink.html" title="logger::sinks::null\l_sink\&lt; Mutex \&gt;" alt="" coords="5,171,128,213"/>
+<area shape="rect" id="node4" href="$classlogger_1_1sinks_1_1stdout__sink.html" title="logger::sinks::stdout\l_sink\&lt; Mutex \&gt;" alt="" coords="153,171,292,213"/>
+</map>
