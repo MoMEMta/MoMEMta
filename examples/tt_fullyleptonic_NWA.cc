@@ -31,7 +31,7 @@ int main(int argc, char** argv) {
     UNUSED(argc);
     UNUSED(argv);
 
-    logging::set_level(boost::log::trivial::debug);
+    logging::set_level(logging::level::debug);
 
     ConfigurationReader configuration("../examples/tt_fullyleptonic_NWA.lua");
     MoMEMta weight(configuration.freeze());

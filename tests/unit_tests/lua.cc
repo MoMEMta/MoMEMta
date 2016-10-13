@@ -87,7 +87,7 @@ class LazyTableMock: public lua::LazyTable {
 TEST_CASE("lua parsing utilities", "[lua]") {
 
     // Suppress log messages
-    logging::set_level(boost::log::trivial::fatal);
+    logging::set_level(logging::level::fatal);
 
     LuaCallbackMock luaCallback;
     REQUIRE(luaCallback.modules.empty());

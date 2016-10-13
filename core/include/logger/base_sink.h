@@ -16,23 +16,37 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+// Heavily inspired by spdlog, Copyright(c) 2015 Gabi Melman
+
 #pragma once
 
-#include <momemta/config.h>
-#include <momemta/impl/logger/common.h>
-#include <momemta/impl/logger/logger.h>
+#include <momemta/impl/logger/sink.h>
 
-#define MERGE(a, b) a##b
-#define UNIQUE_WRAPPER_NAME_INTERNAL(a) MERGE(_momemta_logger_, a)
-#define UNIQUE_WRAPPER_NAME UNIQUE_WRAPPER_NAME_INTERNAL(__LINE__)
+#include <mutex>
 
-#define LOG_INTERNAL(lvl, wrapper) \
-    for (::logger::ostream_wrapper wrapper(*::logger::get(), ::logging::level::lvl); wrapper.valid(); wrapper.destroy()) \
-        wrapper
+namespace logger {
 
-#define LOG(lvl) \
-    LOG_INTERNAL(lvl, UNIQUE_WRAPPER_NAME)
+namespace sinks {
 
-namespace logging {
-    void set_level(::logging::level::level_enum lvl);
+template <class Mutex>
+class base_sink: public sink {
+public:
+    base_sink(): _mutex() {}
+    virtual ~base_sink() = default;
+
+    base_sink(const base_sink&) = delete;
+    base_sink& operator=(const base_sink&) = delete;
+
+    void log(const details::log_msg& msg) override {
+        std::lock_guard<Mutex> lock(_mutex);
+        _sink_it(msg);
+    }
+
+protected:
+    virtual void _sink_it(const details::log_msg& msg) = 0;
+    Mutex _mutex;
+};
+
+}
+
 }

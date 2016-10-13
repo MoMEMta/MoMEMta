@@ -16,23 +16,53 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+// Heavily inspired by spdlog, Copyright(c) 2015 Gabi Melman
+
 #pragma once
 
-#include <momemta/config.h>
 #include <momemta/impl/logger/common.h>
-#include <momemta/impl/logger/logger.h>
 
-#define MERGE(a, b) a##b
-#define UNIQUE_WRAPPER_NAME_INTERNAL(a) MERGE(_momemta_logger_, a)
-#define UNIQUE_WRAPPER_NAME UNIQUE_WRAPPER_NAME_INTERNAL(__LINE__)
+#include <chrono>
+#include <ctime>
+#include <sys/syscall.h>
+#include <thread>
+#include <unistd.h>
 
-#define LOG_INTERNAL(lvl, wrapper) \
-    for (::logger::ostream_wrapper wrapper(*::logger::get(), ::logging::level::lvl); wrapper.valid(); wrapper.destroy()) \
-        wrapper
+namespace logger {
 
-#define LOG(lvl) \
-    LOG_INTERNAL(lvl, UNIQUE_WRAPPER_NAME)
+namespace details {
 
-namespace logging {
-    void set_level(::logging::level::level_enum lvl);
+namespace os {
+
+inline log_clock::time_point now() {
+    return log_clock::now();
+}
+
+inline std::tm localtime(const std::time_t& time_tt) {
+    std::tm tm;
+    localtime_r(&time_tt, &tm);
+
+    return tm;
+}
+
+inline std::tm localtime() {
+    std::time_t now_t = time(nullptr);
+    return localtime(now_t);
+}
+
+inline size_t thread_id() {
+    return static_cast<size_t>(syscall(SYS_gettid));
+}
+
+#if !defined (LOGGER_EOL)
+#define LOGGER_EOL "\n"
+#endif
+
+constexpr static const char* eol = LOGGER_EOL;
+constexpr static int eol_size = sizeof(LOGGER_EOL) - 1;
+
+}
+
+}
+
 }

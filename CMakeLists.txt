@@ -82,24 +82,6 @@ if (NOT TARGET Boost)
     set_property(TARGET Boost PROPERTY INTERFACE_SYSTEM_INCLUDE_DIRECTORIES ${Boost_INCLUDE_DIRS})
 endif()
 
-# Find Boost::log. If not found, logging is disabled
-find_package(Boost 1.54 QUIET COMPONENTS log)
-if (Boost_LOG_FOUND)
-    find_package(Threads REQUIRED)
-
-    if (NOT TARGET Boost::log)
-        add_library(Boost::log INTERFACE IMPORTED)
-        set_property(TARGET Boost::log PROPERTY INTERFACE_LINK_LIBRARIES ${Boost_LOG_LIBRARY})
-        set_property(TARGET Boost::log PROPERTY INTERFACE_INCLUDE_DIRECTORIES ${Boost_INCLUDE_DIRS})
-        set_property(TARGET Boost::log PROPERTY INTERFACE_SYSTEM_INCLUDE_DIRECTORIES ${Boost_INCLUDE_DIRS})
-    endif()
-
-    set(BOOST_HAS_LOG 1)
-else()
-    message(STATUS "Boost::log not found. Disabling logging.")
-    set(BOOST_HAS_LOG 0)
-endif()
-
 if (PYTHON_BINDINGS)
     find_package(PythonLibs 2.6)
     if (PYTHONLIBS_FOUND)
@@ -208,6 +190,9 @@ set(MOMEMTA_SOURCES
     "core/src/SLHAReader.cc"
     "core/src/Solution.cc"
     "core/src/Utils.cc"
+    "core/src/logger/formatter.cc"
+    "core/src/logger/logger.cc"
+    "core/src/logger/sink.cc"
     "core/src/lua/LazyTable.cc"
     "core/src/lua/ParameterSetParser.cc"
     "core/src/lua/Path.cc"
@@ -235,11 +220,6 @@ target_link_libraries(momemta PRIVATE LHAPDF::LHAPDF)
 target_link_libraries(momemta PUBLIC dl)
 target_link_libraries(momemta PUBLIC Boost)
 target_link_libraries(momemta PUBLIC Root::Root)
-
-if ("${BOOST_HAS_LOG}" STREQUAL "1")
-    target_link_libraries(momemta PUBLIC Boost::log)
-    target_link_libraries(momemta PUBLIC Threads::Threads)
-endif()
 
 find_library(ROOT_GENVECTOR_LIBRARY GenVector HINTS ${ROOT_LIBRARY_DIR})
 target_link_libraries(momemta PUBLIC ${ROOT_GENVECTOR_LIBRARY})

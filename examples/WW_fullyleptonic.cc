@@ -32,7 +32,7 @@ int main(int argc, char** argv) {
     UNUSED(argc);
     UNUSED(argv);
 
-    logging::set_level(boost::log::trivial::debug);
+    logging::set_level(logging::level::debug);
 
     ConfigurationReader configuration("../examples/WW_fullyleptonic.lua");
 
@@ -51,7 +51,7 @@ int main(int argc, char** argv) {
     for (const auto& r: weights) {
         LOG(debug) << r.first << " +- " << r.second;
     }
-    
+
     LOG(info) << "Weight computed in " << std::chrono::duration_cast<milliseconds>(end_time - start_time).count() << "ms";
 
 

@@ -16,23 +16,26 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#pragma once
+// Heavily inspired by spdlog, Copyright(c) 2015 Gabi Melman
 
-#include <momemta/config.h>
-#include <momemta/impl/logger/common.h>
-#include <momemta/impl/logger/logger.h>
+#include <momemta/impl/logger/sink.h>
 
-#define MERGE(a, b) a##b
-#define UNIQUE_WRAPPER_NAME_INTERNAL(a) MERGE(_momemta_logger_, a)
-#define UNIQUE_WRAPPER_NAME UNIQUE_WRAPPER_NAME_INTERNAL(__LINE__)
+namespace logger {
 
-#define LOG_INTERNAL(lvl, wrapper) \
-    for (::logger::ostream_wrapper wrapper(*::logger::get(), ::logging::level::lvl); wrapper.valid(); wrapper.destroy()) \
-        wrapper
+namespace sinks {
 
-#define LOG(lvl) \
-    LOG_INTERNAL(lvl, UNIQUE_WRAPPER_NAME)
+bool sink::should_log(logging::level::level_enum msg_level) const {
+    return msg_level >= _level.load(std::memory_order_relaxed);
+}
 
-namespace logging {
-    void set_level(::logging::level::level_enum lvl);
+void sink::set_level(logging::level::level_enum log_level) {
+    _level.store(log_level);
+}
+
+logging::level::level_enum sink::level() const {
+    return static_cast<logging::level::level_enum>(_level.load(std::memory_order_relaxed));
+}
+
+}
+
 }
