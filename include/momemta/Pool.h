@@ -23,8 +23,7 @@
 #include <memory>
 #include <unordered_map>
 
-#include <boost/any.hpp>
-
+#include <momemta/any.h>
 #include <momemta/impl/InputTag_fwd.h>
 #include <momemta/Configuration.h>
 #include <momemta/Value.h>
@@ -35,7 +34,7 @@
  * A simple container for the memory block inside the global memory pool
  */
 struct PoolContent {
-    boost::any ptr; /// Pointer to the memory allocated for this block
+    momemta::any ptr; /// Pointer to the memory allocated for this block
     bool valid; /// The state of the memory block. If false, it means that a module requested this block in read-mode, but no module actually provides the block.
 };
 
@@ -98,7 +97,7 @@ class Pool {
         void remove(const InputTag&, bool force = true);
         void remove_if_invalid(const InputTag&);
 
-        boost::any reserve(const InputTag&);
+        momemta::any reserve(const InputTag&);
 
         template<typename T> std::shared_ptr<const T> raw_get(const InputTag& tag) const;
 

@@ -36,7 +36,7 @@ void ParameterSetParser::parse(ParameterSet& p, lua_State* L, int index) {
         LOG(trace) << "[parse] >> key = " << key;
 
         try {
-            boost::any value;
+            momemta::any value;
             bool lazy = p.lazy();
 
             if (lazy) {

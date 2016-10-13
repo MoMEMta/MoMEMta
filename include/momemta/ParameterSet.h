@@ -23,12 +23,11 @@
 #include <memory>
 #include <string>
 
+#include <momemta/any.h>
 #include <momemta/InputTag.h>
 #include <momemta/impl/traits.h>
 #include <momemta/Logging.h>
 #include <momemta/Utils.h>
-
-#include <boost/any.hpp>
 
 class ConfigurationReader;
 class Configuration;
@@ -82,8 +81,8 @@ class ParameterSet {
                 throw not_found_error("Parameter '" + name + "' not found.");
 
             try {
-                return boost::any_cast<const T&>(value->second.value);
-            } catch (boost::bad_any_cast e) {
+                return momemta::any_cast<const T&>(value->second.value);
+            } catch (momemta::bad_any_cast e) {
                 LOG(fatal) << "Exception while trying to get parameter '" << name << "'. Requested a '"
                            << demangle(typeid(T).name())
                            << "' while parameter is a '"
@@ -99,8 +98,8 @@ class ParameterSet {
                 return defaultValue;
 
             try {
-                return boost::any_cast<const T&>(value->second.value);
-            } catch (boost::bad_any_cast e) {
+                return momemta::any_cast<const T&>(value->second.value);
+            } catch (momemta::bad_any_cast e) {
                 LOG(fatal) << "Exception while trying to get parameter '" << name << "'. Requested a '"
                            << demangle(typeid(T).name())
                            << "' while parameter is a '"
@@ -117,7 +116,7 @@ class ParameterSet {
          * @return The raw value of the parameter. A `not_found_error` exception is thrown if \p parameter does not
          * exist in this set.
          */
-        const boost::any& rawGet(const std::string& name) const;
+        const momemta::any& rawGet(const std::string& name) const;
 
         bool exists(const std::string& name) const;
         template<typename T> bool existsAs(const std::string& name) const {
@@ -197,7 +196,7 @@ class ParameterSet {
             if (it == m_set.end())
                 return *this;
 
-            return boost::any_cast<const ParameterSet&>(it->second.value);
+            return momemta::any_cast<const ParameterSet&>(it->second.value);
         }
 
         /**
@@ -216,9 +215,9 @@ class ParameterSet {
         friend class Configuration;
         friend class ParameterSetParser;
 
-        /// A small wrapper around a boost::any value
+        /// A small wrapper around a momemta::any value
         struct Element {
-            boost::any value;
+            momemta::any value;
             bool lazy = false; /// If true, it means we hold a lazy value which should be evaluated
 
             template <typename T>
@@ -248,8 +247,8 @@ class ParameterSet {
          * \param name Name of the new parameter
          * \param value Value of the new parameter
          */
-        virtual void create(const std::string& name, const boost::any& value);
-        virtual void setInternal(const std::string& name, Element& element, const boost::any& value);
+        virtual void create(const std::string& name, const momemta::any& value);
+        virtual void setInternal(const std::string& name, Element& element, const momemta::any& value);
 
         virtual void freeze();
 

@@ -4,7 +4,7 @@
 #include <stdexcept>
 #include <tuple>
 
-#include <boost/any.hpp>
+#include <momemta/any.h>
 #include <lua.hpp>
 
 class ILuaCallback;
@@ -60,7 +60,7 @@ namespace lua {
          *
          * \return The value after evaluation
          */
-        virtual boost::any operator() () const = 0;
+        virtual momemta::any operator() () const = 0;
     };
 
     /**
@@ -76,7 +76,7 @@ namespace lua {
          *
          * \return The return value of the anonymous function
          */
-        virtual boost::any operator() () const override;
+        virtual momemta::any operator() () const override;
 
         /**
          * \brief Bind a anonymous lua function
@@ -115,18 +115,18 @@ namespace lua {
     int lua_is_array(lua_State* L, int index);
 
     /**
-     * \brief Convert a lua type to boost::any
+     * \brief Convert a lua type to momemta::any
      *
      * \return A std::pair containing :
-     *   - a new boost::any encapsulating the lua type and a boolean. If the lua type is not supported, an exception is thrown.
+     *   - a new momemta::any encapsulating the lua type and a boolean. If the lua type is not supported, an exception is thrown.
      *   - a boolean. If true, it means the encapsulated type is a Lazy value, which must be evaluated later on.
      */
-    std::pair<boost::any, bool> to_any(lua_State* L, int index);
+    std::pair<momemta::any, bool> to_any(lua_State* L, int index);
 
     /**
-     * \brief Convert a boost::any to a lua type, and push it to the top of the stack
+     * \brief Convert a momemta::any to a lua type, and push it to the top of the stack
      *
-     * This method does the opposite of lua::to_any: convert a boost::any to the corresponding lua type, and pushing it
+     * This method does the opposite of lua::to_any: convert a momemta::any to the corresponding lua type, and pushing it
      * to the top of the stack.
      *
      * \param L the current lua state
@@ -134,19 +134,19 @@ namespace lua {
      *
      * \warning Vectors are currently not supported
      */
-    void push_any(lua_State* L, const boost::any& value);
+    void push_any(lua_State* L, const momemta::any& value);
 
-    template<typename T> T special_any_cast(const boost::any& value) {
-        return boost::any_cast<T>(value);
+    template<typename T> T special_any_cast(const momemta::any& value) {
+        return momemta::any_cast<T>(value);
     }
 
     /**
-     * \brief Convert a lua array to a typed vector, encapsulated into a boost::any
+     * \brief Convert a lua array to a typed vector, encapsulated into a momemta::any
      *
-     * \return A new boost::any encapsulating the lua array. If the lua type is not supported, an exception is thrown
+     * \return A new momemta::any encapsulating the lua array. If the lua type is not supported, an exception is thrown
      */
     template<typename T>
-    boost::any to_vectorT(lua_State* L, int index) {
+    momemta::any to_vectorT(lua_State* L, int index) {
 
         std::vector<T> result;
         size_t absolute_index = get_index(L, index);
@@ -156,22 +156,22 @@ namespace lua {
 
         lua_pushnil(L);
         while (lua_next(L, absolute_index) != 0) {
-            boost::any value;
+            momemta::any value;
             bool lazy = false;
             std::tie(value, lazy) = to_any(L, -1);
             result.push_back(special_any_cast<T>(value));
             lua_pop(L, 1);
         }
 
-        return boost::any(result);
+        return momemta::any(result);
     }
 
     /**
-     * \brief Convert a lua array to a typed vector, encapsulated into a boost::any
+     * \brief Convert a lua array to a typed vector, encapsulated into a momemta::any
      *
-     * \return A new boost::any encapsulating the lua array. If the lua type is not supported, an exception is thrown
+     * \return A new momemta::any encapsulating the lua array. If the lua type is not supported, an exception is thrown
      */
-    boost::any to_vector(lua_State* L, int index, Type type);
+    momemta::any to_vector(lua_State* L, int index, Type type);
 
     /*!
      *  \brief Register all C function in the lua userspace.

@@ -20,7 +20,7 @@
 
 #include <string>
 
-#include <boost/any.hpp>
+#include <momemta/any.h>
 
 struct lua_State;
 
@@ -52,11 +52,11 @@ void push_type_metatable(lua_State* L, const char* name);
 std::string get_custom_type_name(lua_State* L, int index);
 
 /**
- * \brief Convert a lua custom table to a boost::any value
+ * \brief Convert a lua custom table to a momemta::any value
  *
  * \param L the lua state
  * \param index the index on the stack of the custom table to convert
  *
- * \return a boost::any value encapsulating the custom type
+ * \return a momemta::any value encapsulating the custom type
  */
-boost::any get_custom_type_ptr(lua_State* L, int index);
+momemta::any get_custom_type_ptr(lua_State* L, int index);

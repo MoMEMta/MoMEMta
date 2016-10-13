@@ -28,7 +28,7 @@ ParameterSet::ParameterSet(const std::string& module_type, const std::string& mo
     m_set.emplace("@name", Element(module_name));
 }
 
-const boost::any& ParameterSet::rawGet(const std::string& name) const {
+const momemta::any& ParameterSet::rawGet(const std::string& name) const {
     auto value = m_set.find(name);
     if (value == m_set.end())
         throw not_found_error("Parameter '" + name + "' not found.");
@@ -45,11 +45,11 @@ bool ParameterSet::exists(const std::string& name) const {
     return (value != m_set.end());
 }
 
-void ParameterSet::create(const std::string& name, const boost::any& value) {
+void ParameterSet::create(const std::string& name, const momemta::any& value) {
     m_set.emplace(name, Element(value, false));
 }
 
-void ParameterSet::setInternal(const std::string& name, Element& element, const boost::any& value) {
+void ParameterSet::setInternal(const std::string& name, Element& element, const momemta::any& value) {
     UNUSED(name);
 
     element.value = value;
@@ -68,17 +68,17 @@ void ParameterSet::freeze() {
             if (element.lazy) {
                 element.lazy = false;
                 if (element.value.type() == typeid(lua::LazyFunction)) {
-                    element.value = boost::any_cast<lua::LazyFunction>(element.value)();
+                    element.value = momemta::any_cast<lua::LazyFunction>(element.value)();
                 } else if (element.value.type() == typeid(lua::LazyTableField)) {
-                    element.value = boost::any_cast<lua::LazyTableField>(element.value)();
+                    element.value = momemta::any_cast<lua::LazyTableField>(element.value)();
                 }
             } else {
                 // Recursion
                 if (element.value.type() == typeid(ParameterSet)) {
-                    ParameterSet& s = boost::any_cast<ParameterSet&>(element.value);
+                    ParameterSet& s = momemta::any_cast<ParameterSet&>(element.value);
                     s.freeze();
                 } else if (element.value.type() == typeid(std::vector<ParameterSet>)) {
-                    std::vector<ParameterSet>& v = boost::any_cast<std::vector<ParameterSet>&>(element.value);
+                    std::vector<ParameterSet>& v = momemta::any_cast<std::vector<ParameterSet>&>(element.value);
                     for (auto& c: v)
                         c.freeze();
                 }

@@ -17,10 +17,9 @@
  */
 
 
-#include <boost/any.hpp>
-
 #include <lua.hpp>
 
+#include <momemta/any.h>
 #include <momemta/Logging.h>
 #include <momemta/ConfigurationReader.h>
 #include <momemta/ModuleFactory.h>

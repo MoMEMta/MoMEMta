@@ -48,7 +48,7 @@ namespace lua {
         ref_index = luaL_ref(L, LUA_REGISTRYINDEX);
     }
 
-    boost::any LazyFunction::operator() () const {
+    momemta::any LazyFunction::operator() () const {
 
         LOG(trace) << "[LazyFunction::operator()] >> stack size = " << lua_gettop(L);
 
@@ -62,7 +62,7 @@ namespace lua {
             LOG(fatal) << "Fail to call lua anonymous function. Return value is " << result << ". Error message: " << error;
         }
 
-        boost::any value;
+        momemta::any value;
         bool lazy = false;
         std::tie(value, lazy) = to_any(L, -1);
         assert(!lazy);
@@ -184,12 +184,12 @@ namespace lua {
         return result;
     }
 
-    std::pair<boost::any, bool> to_any(lua_State* L, int index) {
+    std::pair<momemta::any, bool> to_any(lua_State* L, int index) {
 
         LOG(trace) << "[to_any] >> stack size = " << lua_gettop(L);
         size_t absolute_index = get_index(L, index);
 
-        boost::any result;
+        momemta::any result;
         bool lazy = false;
 
         auto type = lua_type(L, absolute_index);
@@ -264,23 +264,23 @@ namespace lua {
         return {result, lazy};
     }
 
-    void push_any(lua_State* L, const boost::any& value) {
+    void push_any(lua_State* L, const momemta::any& value) {
         LOG(trace) << "[push_any] >> stack size = " << lua_gettop(L);
 
         if (value.type() == typeid(int64_t)) {
-            int64_t v = boost::any_cast<int64_t>(value);
+            int64_t v = momemta::any_cast<int64_t>(value);
             lua_pushinteger(L, v);
         } else if (value.type() == typeid(double)) {
-            double v = boost::any_cast<double>(value);
+            double v = momemta::any_cast<double>(value);
             lua_pushnumber(L, v);
         } else if (value.type() == typeid(bool)) {
-            bool v = boost::any_cast<bool>(value);
+            bool v = momemta::any_cast<bool>(value);
             lua_pushboolean(L, v);
         } else if (value.type() == typeid(std::string)) {
-            auto v = boost::any_cast<std::string>(value);
+            auto v = momemta::any_cast<std::string>(value);
             lua_pushstring(L, v.c_str());
         } else if (value.type() == typeid(InputTag)) {
-            auto v = boost::any_cast<InputTag>(value).toString();
+            auto v = momemta::any_cast<InputTag>(value).toString();
             lua_pushstring(L, v.c_str());
         } else {
             LOG(fatal) << "Unsupported C++ value: " << demangle(value.type().name());
@@ -290,7 +290,7 @@ namespace lua {
         LOG(trace) << "[push_any] << stack size = " << lua_gettop(L);
     }
 
-    boost::any to_vector(lua_State* L, int index, Type t) {
+    momemta::any to_vector(lua_State* L, int index, Type t) {
         switch (t) {
             case BOOLEAN:
                 return to_vectorT<bool>(L, index);
@@ -318,11 +318,11 @@ namespace lua {
     }
 
     //! Specialization for double type, with implicit conversion from integer
-    template<> double special_any_cast(const boost::any& value) {
+    template<> double special_any_cast(const momemta::any& value) {
         if (value.type() == typeid(int64_t))
-            return static_cast<double>(boost::any_cast<int64_t>(value));
+            return static_cast<double>(momemta::any_cast<int64_t>(value));
 
-        return boost::any_cast<double>(value);
+        return momemta::any_cast<double>(value);
     }
 
     int module_table_newindex(lua_State* L) {

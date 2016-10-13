@@ -25,8 +25,7 @@
 #include <memory>
 #include <unordered_map>
 
-#include <boost/any.hpp>
-
+#include <momemta/any.h>
 #include <momemta/Logging.h>
 #include <momemta/Utils.h>
 #include <momemta/Value.h>
@@ -65,10 +64,10 @@ template <typename T> std::shared_ptr<const T> Pool::raw_get(const InputTag& tag
     PoolContent& v = it->second;
 
     try {
-        std::shared_ptr<T>& ptr = boost::any_cast<std::shared_ptr<T>&>(v.ptr);
+        std::shared_ptr<T>& ptr = momemta::any_cast<std::shared_ptr<T>&>(v.ptr);
 
         return std::const_pointer_cast<const T>(ptr);
-    } catch (boost::bad_any_cast e) {
+    } catch (momemta::bad_any_cast e) {
         LOG(fatal) << "Exception while trying to get pool content for '" << tag.toString() << "'. Requested a '"
                    << demangle(typeid(std::shared_ptr<T>).name())
                    << "' while parameter is a '"
@@ -93,7 +92,7 @@ template <typename T, typename... Args> std::shared_ptr<T> Pool::put(const Input
         // If the block is empty, it's a delayed instantiation. Simply flag the block as valid, and allocate memory for it
         if (it->second.ptr.empty()) {
             std::shared_ptr<T> ptr(new T(std::forward<Args>(args)...));
-            it->second.ptr = boost::any(ptr);
+            it->second.ptr = momemta::any(ptr);
         }
 
     } else {
@@ -104,14 +103,14 @@ template <typename T, typename... Args> std::shared_ptr<T> Pool::put(const Input
     Description& description = get_description();
     description.outputs.push_back(tag.parameter);
 
-    return boost::any_cast<std::shared_ptr<T>>(it->second.ptr);
+    return momemta::any_cast<std::shared_ptr<T>>(it->second.ptr);
 }
 
 template <typename T, typename... Args> Pool::PoolStorage::iterator Pool::create(
         const InputTag& tag, bool valid/* = true*/, Args... args) const {
 
     std::shared_ptr<T> ptr = std::make_shared<T>(std::forward<Args>(args)...);
-    PoolContent content = {boost::any(ptr), valid};
+    PoolContent content = {momemta::any(ptr), valid};
 
     return m_storage.emplace(tag, content).first;
 }

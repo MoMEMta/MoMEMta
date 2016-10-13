@@ -49,7 +49,7 @@ void LazyTableField::ensure_created() {
     lua_setglobal(L, table_name.c_str());
 }
 
-boost::any LazyTableField::operator()() const {
+momemta::any LazyTableField::operator()() const {
     LOG(trace) << "[LazyTableField::operator()] >> stack size = " << lua_gettop(L);
 
     // Push the table on the stack. Stack +1
@@ -58,7 +58,7 @@ boost::any LazyTableField::operator()() const {
     // Push the requested field from the table to the stack. Stack +1
     lua_getfield(L, -1, key.c_str());
 
-    boost::any value;
+    momemta::any value;
     bool lazy = false;
     std::tie(value, lazy) = to_any(L, -1);
     assert(!lazy);
@@ -71,7 +71,7 @@ boost::any LazyTableField::operator()() const {
     return value;
 }
 
-void LazyTableField::set(const boost::any& value) {
+void LazyTableField::set(const momemta::any& value) {
     LOG(trace) << "[LazyTableField::set] >> stack size = " << lua_gettop(L);
 
     // Push the table on the stack. Stack +1
@@ -98,7 +98,7 @@ bool LazyTable::lazy() const {
     return true;
 }
 
-void LazyTable::create(const std::string& name, const boost::any& value) {
+void LazyTable::create(const std::string& name, const momemta::any& value) {
 
     lua::LazyTableField lazyField = lua::LazyTableField(m_lua_state.get(), getModuleName(), name);
     lazyField.ensure_created();
@@ -107,7 +107,7 @@ void LazyTable::create(const std::string& name, const boost::any& value) {
     m_set.emplace(name, Element(lazyField, true));
 }
 
-void LazyTable::setInternal(const std::string& name, Element& element, const boost::any& value) {
+void LazyTable::setInternal(const std::string& name, Element& element, const momemta::any& value) {
 
     // We know that this set is not frozen, so *all* the items in the map
     // are actually lazy reference to lua table values.
@@ -118,7 +118,7 @@ void LazyTable::setInternal(const std::string& name, Element& element, const boo
     assert(element.lazy);
     assert(element.value.type() == typeid(lua::LazyTableField));
 
-    boost::any_cast<lua::LazyTableField&>(element.value).set(value);
+    momemta::any_cast<lua::LazyTableField&>(element.value).set(value);
 }
 
 void LazyTable::freeze() {

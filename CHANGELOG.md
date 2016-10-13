@@ -25,6 +25,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
  - If no integration dimension is requested, no integration is performed and the graph is only evaluated once. As such, no error is provided on the final result.
  - Cuba logging is now handled by MoMEMta logger, at `debug` level.
  - We no longer use boost-log for logging, but our own implementation heavily inspired by [spdlog](https://github.com/gabime/spdlog). As a consequence, boost-log is no longer required to build MoMEMta.
+ - Boost is no longer a dependency when **using** MoMEMta (but it's still a build dependency)
 
 ### Fixed
  - Cuba forking mode was broken when building in release mode (with `-DCMAKE_RELEASE_TYPE=Release`).

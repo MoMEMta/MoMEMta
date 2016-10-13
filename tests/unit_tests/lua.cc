@@ -104,11 +104,11 @@ TEST_CASE("lua parsing utilities", "[lua]") {
         execute_string(L, "index1 = add_dimension()");
         lua_getglobal(L.get(), "index1");
         auto value = lua::to_any(L.get(), -1);
-        REQUIRE( (boost::any_cast<InputTag>(value.first)).toString() == "cuba::ps_points/1");
+        REQUIRE( (momemta::any_cast<InputTag>(value.first)).toString() == "cuba::ps_points/1");
         execute_string(L, "index2 = add_dimension()");
         lua_getglobal(L.get(), "index2");
         value = lua::to_any(L.get(), -1);
-        REQUIRE( (boost::any_cast<InputTag>(value.first)).toString() == "cuba::ps_points/2");
+        REQUIRE( (momemta::any_cast<InputTag>(value.first)).toString() == "cuba::ps_points/2");
         lua_pop(L.get(), 2);
         // 'add_dimension()' has been called twice, so we should have two dimension in the configuation:
         REQUIRE( luaCallback.n_dimensions == 2 );
@@ -142,7 +142,7 @@ TEST_CASE("lua parsing utilities", "[lua]") {
         lua_pushinteger(L.get(), 42);
         auto value = lua::to_any(L.get(), -1);
         REQUIRE(value.first.type() == typeid(int64_t));
-        REQUIRE(boost::any_cast<int64_t>(value.first) == 42);
+        REQUIRE(momemta::any_cast<int64_t>(value.first) == 42);
         REQUIRE_FALSE(value.second);
         lua_pop(L.get(), 1);
 
@@ -150,7 +150,7 @@ TEST_CASE("lua parsing utilities", "[lua]") {
         lua_pushnumber(L.get(), 38.5);
         value = lua::to_any(L.get(), -1);
         REQUIRE(value.first.type() == typeid(double));
-        REQUIRE(boost::any_cast<double>(value.first) == Approx(38.5));
+        REQUIRE(momemta::any_cast<double>(value.first) == Approx(38.5));
         REQUIRE_FALSE(value.second);
         lua_pop(L.get(), 1);
 
@@ -158,7 +158,7 @@ TEST_CASE("lua parsing utilities", "[lua]") {
         lua_pushboolean(L.get(), true);
         value = lua::to_any(L.get(), -1);
         REQUIRE(value.first.type() == typeid(bool));
-        REQUIRE(boost::any_cast<bool>(value.first) == true);
+        REQUIRE(momemta::any_cast<bool>(value.first) == true);
         REQUIRE_FALSE(value.second);
         lua_pop(L.get(), 1);
 
@@ -166,7 +166,7 @@ TEST_CASE("lua parsing utilities", "[lua]") {
         lua_pushliteral(L.get(), "lua is fun");
         value = lua::to_any(L.get(), -1);
         REQUIRE(value.first.type() == typeid(std::string));
-        REQUIRE(boost::any_cast<std::string>(value.first) == "lua is fun");
+        REQUIRE(momemta::any_cast<std::string>(value.first) == "lua is fun");
         REQUIRE_FALSE(value.second);
         lua_pop(L.get(), 1);
 
@@ -176,7 +176,7 @@ TEST_CASE("lua parsing utilities", "[lua]") {
         REQUIRE(value.first.type() == typeid(std::vector<double>));
         REQUIRE_FALSE(value.second);
         {
-            auto v = boost::any_cast<std::vector<double>>(value.first);
+            auto v = momemta::any_cast<std::vector<double>>(value.first);
             REQUIRE(v.size() == 3);
             REQUIRE(v[0] == Approx(0.1));
             REQUIRE(v[1] == Approx(0.2));
@@ -190,7 +190,7 @@ TEST_CASE("lua parsing utilities", "[lua]") {
         REQUIRE(value.first.type() == typeid(std::vector<double>));
         REQUIRE_FALSE(value.second);
         {
-            auto v = boost::any_cast<std::vector<double>>(value.first);
+            auto v = momemta::any_cast<std::vector<double>>(value.first);
             REQUIRE(v.size() == 3);
             REQUIRE(v[0] == Approx(0.1));
             REQUIRE(v[1] == Approx(2));
@@ -204,7 +204,7 @@ TEST_CASE("lua parsing utilities", "[lua]") {
         REQUIRE(value.first.type() == typeid(std::vector<int64_t>));
         REQUIRE_FALSE(value.second);
         {
-            auto v = boost::any_cast<std::vector<int64_t>>(value.first);
+            auto v = momemta::any_cast<std::vector<int64_t>>(value.first);
             REQUIRE(v.size() == 3);
             REQUIRE(v[0] == 1);
             REQUIRE(v[1] == 2);
@@ -228,10 +228,10 @@ TEST_CASE("lua parsing utilities", "[lua]") {
             auto value = lua::to_any(L.get(), -1);
             REQUIRE(value.second == true);
             REQUIRE(value.first.type() == typeid(lua::LazyFunction));
-            auto fct = boost::any_cast<lua::LazyFunction>(value.first);
+            auto fct = momemta::any_cast<lua::LazyFunction>(value.first);
             auto fct_evaluated = fct();
             REQUIRE(fct_evaluated.type() == typeid(double));
-            REQUIRE(boost::any_cast<double>(fct_evaluated) == Approx(173.));
+            REQUIRE(momemta::any_cast<double>(fct_evaluated) == Approx(173.));
             lua_pop(L.get(), 1);
         }
 
@@ -247,10 +247,10 @@ TEST_CASE("lua parsing utilities", "[lua]") {
             lua_setfield(L.get(), -2, "top_mass");
             lua_pop(L.get(), 1);
 
-            auto fct = boost::any_cast<lua::LazyFunction>(value.first);
+            auto fct = momemta::any_cast<lua::LazyFunction>(value.first);
             auto fct_evaluated = fct();
             REQUIRE(fct_evaluated.type() == typeid(double));
-            REQUIRE(boost::any_cast<double>(fct_evaluated) == Approx(175.));
+            REQUIRE(momemta::any_cast<double>(fct_evaluated) == Approx(175.));
             lua_pop(L.get(), 1);
         }
 
@@ -260,7 +260,7 @@ TEST_CASE("lua parsing utilities", "[lua]") {
             SECTION("evaluation") {
                 auto value = lazy();
                 REQUIRE(value.type() == typeid(double));
-                REQUIRE(boost::any_cast<double>(value) == Approx(173.));
+                REQUIRE(momemta::any_cast<double>(value) == Approx(173.));
             }
 
             SECTION("edition") {
@@ -268,7 +268,7 @@ TEST_CASE("lua parsing utilities", "[lua]") {
 
                 auto value = lazy();
                 REQUIRE(value.type() == typeid(double));
-                REQUIRE(boost::any_cast<double>(value) == Approx(175.));
+                REQUIRE(momemta::any_cast<double>(value) == Approx(175.));
             }
         }
     }
@@ -425,7 +425,7 @@ TEST_CASE("lua parsing utilities", "[lua]") {
         lua_pop(L.get(), 1);
     }
 
-    SECTION("Path to boost::any") {
+    SECTION("Path to momemta::any") {
         auto def = R"(path = Path("a"))";
         execute_string(L, def);
 

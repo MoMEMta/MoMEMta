@@ -216,9 +216,9 @@ target_include_directories(momemta PRIVATE "${CMAKE_CURRENT_LIST_DIR}/core/inclu
 target_link_libraries(momemta PRIVATE cuba)
 target_link_libraries(momemta PRIVATE lua)
 target_link_libraries(momemta PRIVATE LHAPDF::LHAPDF)
+target_link_libraries(momemta PRIVATE Boost)
 
 target_link_libraries(momemta PUBLIC dl)
-target_link_libraries(momemta PUBLIC Boost)
 target_link_libraries(momemta PUBLIC Root::Root)
 
 find_library(ROOT_GENVECTOR_LIBRARY GenVector HINTS ${ROOT_LIBRARY_DIR})
