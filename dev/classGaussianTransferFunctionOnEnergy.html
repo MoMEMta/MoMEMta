@@ -134,6 +134,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <td><code>sigma</code> </td><td>double </td><td>Fraction of the energy yielding the width of the Gaussian distribution (with <code>sigma</code> at <code>0.1</code>, \(\sigma_{gauss} = 0.1 \cdot E_{gen}\)). </td></tr>
 <tr>
 <td><code>sigma_range</code> </td><td>double </td><td>Range of integration expressed in number of sigma. </td></tr>
+<tr>
+<td><code>min_E</code> </td><td>double </td><td>Optional: cut on energy to avoid divergences </td></tr>
 </table>
 <h3>Inputs</h3>
 <table class="doxtable">
@@ -151,11 +153,11 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <tr>
 <td><code>output</code> </td><td>LorentzVector </td><td>Output <em>generated</em> LorentzVector, only differing from <em>reco_particle</em> by its energy. </td></tr>
 <tr>
-<td><code>TF_times_jacobian</code> </td><td>double </td><td>Product of the TF evaluated on the <em>reco</em> and <em>gen</em> energies, times the jacobian of the transformation needed stretch the integration range from \([0,1]\) to the width of the TF, times the jacobian \(dE/d|P|\) due to the fact that the integration is done w.r.t \(|P|\), while the TF is parametrised in terms of energy. </td></tr>
+<td><code>TF_times_jacobian</code> </td><td>double </td><td>Product of the TF evaluated on the <em>reco</em> and <em>gen</em> energies, times the jacobian of the transformation needed stretch the integration range from \([0,1]\) to the width of the TF, times the jacobian \(d|P|/dE\) due to the fact that the integration is done w.r.t \(|P|\), while the TF is parametrised in terms of energy. </td></tr>
 </table>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="classGaussianTransferFunctionOnEnergyEvaluator.html" title="Evaluate a transfer function on energy described by a Gaussian distribution. ">GaussianTransferFunctionOnEnergyEvaluator</a> </dd></dl>
 
-<p>Definition at line <a class="el" href="GaussianTransferFunctionOnEnergy_8cc_source.html#l00092">92</a> of file <a class="el" href="GaussianTransferFunctionOnEnergy_8cc_source.html">GaussianTransferFunctionOnEnergy.cc</a>.</p>
+<p>Definition at line <a class="el" href="GaussianTransferFunctionOnEnergy_8cc_source.html#l00095">95</a> of file <a class="el" href="GaussianTransferFunctionOnEnergy_8cc_source.html">GaussianTransferFunctionOnEnergy.cc</a>.</p>
 </div><div class="dynheader">
 Inheritance diagram for GaussianTransferFunctionOnEnergy:</div>
 <div class="dyncontent">
@@ -246,6 +248,9 @@ template&lt;typename T &gt; </td></tr>
 <tr class="memitem:ae6103bc712c92e199f6cbb327197b97a inherit pro_methods_classModule"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classValue.html">Value</a>&lt; T &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><b>get</b> (const <a class="el" href="structInputTag.html">InputTag</a> &amp;tag)</td></tr>
 <tr class="separator:ae6103bc712c92e199f6cbb327197b97a inherit pro_methods_classModule"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pro_attribs_classGaussianTransferFunctionOnEnergyBase"><td colspan="2" onclick="javascript:toggleInherit('pro_attribs_classGaussianTransferFunctionOnEnergyBase')"><img src="closed.png" alt="-"/>&#160;Protected Attributes inherited from <a class="el" href="classGaussianTransferFunctionOnEnergyBase.html">GaussianTransferFunctionOnEnergyBase</a></td></tr>
+<tr class="memitem:a5be580323c1a3bc39455095b13ea205a inherit pro_attribs_classGaussianTransferFunctionOnEnergyBase"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a5be580323c1a3bc39455095b13ea205a"></a>
+double&#160;</td><td class="memItemRight" valign="bottom"><b>m_min_E</b></td></tr>
+<tr class="separator:a5be580323c1a3bc39455095b13ea205a inherit pro_attribs_classGaussianTransferFunctionOnEnergyBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a54ab9b67368944afa8fc50f9824c04a4 inherit pro_attribs_classGaussianTransferFunctionOnEnergyBase"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a54ab9b67368944afa8fc50f9824c04a4"></a>
 double&#160;</td><td class="memItemRight" valign="bottom"><b>m_sigma</b></td></tr>
 <tr class="separator:a54ab9b67368944afa8fc50f9824c04a4 inherit pro_attribs_classGaussianTransferFunctionOnEnergyBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -288,7 +293,7 @@ PoolPtr&#160;</td><td class="memItemRight" valign="bottom"><b>m_pool</b></td></t
 
 <p>Reimplemented from <a class="el" href="classModule.html#a43c0b7c70e9dd8b0cf6c78aa5052eeee">Module</a>.</p>
 
-<p>Definition at line <a class="el" href="GaussianTransferFunctionOnEnergy_8cc_source.html#l00098">98</a> of file <a class="el" href="GaussianTransferFunctionOnEnergy_8cc_source.html">GaussianTransferFunctionOnEnergy.cc</a>.</p>
+<p>Definition at line <a class="el" href="GaussianTransferFunctionOnEnergy_8cc_source.html#l00101">101</a> of file <a class="el" href="GaussianTransferFunctionOnEnergy_8cc_source.html">GaussianTransferFunctionOnEnergy.cc</a>.</p>
 
 </div>
 </div>

@@ -1,0 +1,5 @@
+<map id="BinnedTransferFunctionOnPtBase" name="BinnedTransferFunctionOnPtBase">
+<area shape="rect" id="node3" href="$classBinnedTransferFunctionOnPt.html" title="Integrate over a transfer function on Pt described by a 2D histogram retrieved from a ROOT file..." alt="" coords="5,179,195,205"/>
+<area shape="rect" id="node4" href="$classBinnedTransferFunctionOnPtEvaluator.html" title="Evaluate a transfer function on Pt described by a 2D histogram retrieved from a ROOT file..." alt="" coords="219,171,396,213"/>
+<area shape="rect" id="node2" href="$classModule.html" title="Parent class for all the modules. " alt="" coords="172,5,236,32"/>
+</map>
