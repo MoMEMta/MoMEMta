@@ -40,16 +40,16 @@ class BinnedTransferFunctionOnPtBase: public Module {
         BinnedTransferFunctionOnPtBase(PoolPtr pool, const ParameterSet& parameters): Module(pool, parameters.getModuleName()) {
             m_reco_input = get<LorentzVector>(parameters.get<InputTag>("reco_particle"));
 
-            m_file_path = parameters.get<std::string>("file");
-            m_th2_name = parameters.get<std::string>("th2_name");
+            std::string file_path = parameters.get<std::string>("file");
+            std::string th2_name = parameters.get<std::string>("th2_name");
 
-            m_file = std::unique_ptr<TFile>(TFile::Open(m_file_path.c_str()));
-            if(!m_file->IsOpen() || m_file->IsZombie())
-                throw file_not_found_error("Could not open file " + m_file_path);
+            std::unique_ptr<TFile> file(TFile::Open(file_path.c_str()));
+            if(!file->IsOpen() || file->IsZombie())
+                throw file_not_found_error("Could not open file " + file_path);
 
-            m_th2 = std::unique_ptr<TH2>(static_cast<TH2*>(m_file->Get(m_th2_name.c_str())));
+            m_th2 = std::unique_ptr<TH2>(static_cast<TH2*>(file->Get(th2_name.c_str())));
             if(!m_th2->InheritsFrom("TH2") || !m_th2.get())
-                throw th2_not_found_error("Could not retrieve object " + m_th2_name + " deriving from class TH2 in file " + m_file_path + ".");
+                throw th2_not_found_error("Could not retrieve object " + th2_name + " deriving from class TH2 in file " + file_path + ".");
             m_th2->SetDirectory(0);
 
             TAxis* yAxis = m_th2->GetYaxis();
@@ -67,13 +67,13 @@ class BinnedTransferFunctionOnPtBase: public Module {
             // fetching the TH2's overflow bin.
             m_fallBackPtgenMax = xAxis->GetBinCenter(xAxis->GetNbins());
             
-            LOG(debug) << "Loaded TH2 " << m_th2_name << " from file " << m_file_path << ".";
+            LOG(debug) << "Loaded TH2 " << th2_name << " from file " << file_path << ".";
             LOG(debug) << "\tDelta range is " << m_deltaMin << " to " << m_deltaMax << ".";
             LOG(debug) << "\tPt range is " << m_PtgenMin << " to " << m_PtgenMax << ".";
             LOG(debug) << "\tWill use values at Ptgen = " << m_fallBackPtgenMax << " for out-of-range values.";
 
-            m_file->Close();
-            m_file.reset();
+            file->Close();
+            file.reset();
         };
 
     protected:
@@ -87,11 +87,6 @@ class BinnedTransferFunctionOnPtBase: public Module {
         Value<LorentzVector> m_reco_input;
 
     private:
-        std::string m_file_path;
-        std::string m_th2_name;
-
-        std::unique_ptr<TFile> m_file;
-
         class file_not_found_error: public std::runtime_error{
             using std::runtime_error::runtime_error;
         };
@@ -179,7 +174,7 @@ class BinnedTransferFunctionOnPt: public BinnedTransferFunctionOnPtBase {
 
         // Input
         Value<double> m_ps_point;
-        
+ 
         // Outputs
         std::shared_ptr<LorentzVector> output = produce<LorentzVector>("output");
         std::shared_ptr<double> TF_times_jacobian = produce<double>("TF_times_jacobian");
