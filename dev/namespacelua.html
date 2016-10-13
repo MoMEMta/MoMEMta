@@ -188,23 +188,23 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="names
 <tr class="memitem:a00ce3f18febb0a73cf121067c0834a25"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacelua.html#a00ce3f18febb0a73cf121067c0834a25">lua_is_array</a> (lua_State *L, int index)</td></tr>
 <tr class="memdesc:a00ce3f18febb0a73cf121067c0834a25"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if a lua table is an array.  <a href="#a00ce3f18febb0a73cf121067c0834a25">More...</a><br /></td></tr>
 <tr class="separator:a00ce3f18febb0a73cf121067c0834a25"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae64a96826456f2844a328f3617c7749f"><td class="memItemLeft" align="right" valign="top">std::pair&lt; boost::any, bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacelua.html#ae64a96826456f2844a328f3617c7749f">to_any</a> (lua_State *L, int index)</td></tr>
-<tr class="memdesc:ae64a96826456f2844a328f3617c7749f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert a lua type to boost::any.  <a href="#ae64a96826456f2844a328f3617c7749f">More...</a><br /></td></tr>
-<tr class="separator:ae64a96826456f2844a328f3617c7749f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8a88a449efa818a192207dd080a4cd29"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacelua.html#a8a88a449efa818a192207dd080a4cd29">push_any</a> (lua_State *L, const boost::any &amp;value)</td></tr>
-<tr class="memdesc:a8a88a449efa818a192207dd080a4cd29"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert a boost::any to a lua type, and push it to the top of the stack.  <a href="#a8a88a449efa818a192207dd080a4cd29">More...</a><br /></td></tr>
-<tr class="separator:a8a88a449efa818a192207dd080a4cd29"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acc0950a2257c8d0c4e03fc2d523dac15"><td class="memTemplParams" colspan="2"><a class="anchor" id="acc0950a2257c8d0c4e03fc2d523dac15"></a>
+<tr class="memitem:ad249e292ee0183edba37b12ce63c9700"><td class="memItemLeft" align="right" valign="top">std::pair&lt; <a class="el" href="classmomemta_1_1any.html">momemta::any</a>, bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacelua.html#ad249e292ee0183edba37b12ce63c9700">to_any</a> (lua_State *L, int index)</td></tr>
+<tr class="memdesc:ad249e292ee0183edba37b12ce63c9700"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert a lua type to <a class="el" href="classmomemta_1_1any.html">momemta::any</a>.  <a href="#ad249e292ee0183edba37b12ce63c9700">More...</a><br /></td></tr>
+<tr class="separator:ad249e292ee0183edba37b12ce63c9700"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeafd581fa53444348679a93c12ba0167"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacelua.html#aeafd581fa53444348679a93c12ba0167">push_any</a> (lua_State *L, const <a class="el" href="classmomemta_1_1any.html">momemta::any</a> &amp;value)</td></tr>
+<tr class="memdesc:aeafd581fa53444348679a93c12ba0167"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert a <a class="el" href="classmomemta_1_1any.html">momemta::any</a> to a lua type, and push it to the top of the stack.  <a href="#aeafd581fa53444348679a93c12ba0167">More...</a><br /></td></tr>
+<tr class="separator:aeafd581fa53444348679a93c12ba0167"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a37378f4f0b12b182f59901e88ed5ac3f"><td class="memTemplParams" colspan="2"><a class="anchor" id="a37378f4f0b12b182f59901e88ed5ac3f"></a>
 template&lt;typename T &gt; </td></tr>
-<tr class="memitem:acc0950a2257c8d0c4e03fc2d523dac15"><td class="memTemplItemLeft" align="right" valign="top">T&#160;</td><td class="memTemplItemRight" valign="bottom"><b>special_any_cast</b> (const boost::any &amp;value)</td></tr>
-<tr class="separator:acc0950a2257c8d0c4e03fc2d523dac15"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abe127dafbd7ed092cd609c232af587c0"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:abe127dafbd7ed092cd609c232af587c0"><td class="memTemplItemLeft" align="right" valign="top">boost::any&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacelua.html#abe127dafbd7ed092cd609c232af587c0">to_vectorT</a> (lua_State *L, int index)</td></tr>
-<tr class="memdesc:abe127dafbd7ed092cd609c232af587c0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert a lua array to a typed vector, encapsulated into a boost::any.  <a href="#abe127dafbd7ed092cd609c232af587c0">More...</a><br /></td></tr>
-<tr class="separator:abe127dafbd7ed092cd609c232af587c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a311087ae9e62db61ce461dbf1393afaf"><td class="memItemLeft" align="right" valign="top">boost::any&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacelua.html#a311087ae9e62db61ce461dbf1393afaf">to_vector</a> (lua_State *L, int index, <a class="el" href="namespacelua.html#a4cb01bc8fe209aafacf11602092c63f8">Type</a> <a class="el" href="namespacelua.html#a353ef12f829066a6aae1c40dfca2883c">type</a>)</td></tr>
-<tr class="memdesc:a311087ae9e62db61ce461dbf1393afaf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert a lua array to a typed vector, encapsulated into a boost::any.  <a href="#a311087ae9e62db61ce461dbf1393afaf">More...</a><br /></td></tr>
-<tr class="separator:a311087ae9e62db61ce461dbf1393afaf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a37378f4f0b12b182f59901e88ed5ac3f"><td class="memTemplItemLeft" align="right" valign="top">T&#160;</td><td class="memTemplItemRight" valign="bottom"><b>special_any_cast</b> (const <a class="el" href="classmomemta_1_1any.html">momemta::any</a> &amp;value)</td></tr>
+<tr class="separator:a37378f4f0b12b182f59901e88ed5ac3f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a94f49173a15a1da1ce857ef4821b9c75"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a94f49173a15a1da1ce857ef4821b9c75"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classmomemta_1_1any.html">momemta::any</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacelua.html#a94f49173a15a1da1ce857ef4821b9c75">to_vectorT</a> (lua_State *L, int index)</td></tr>
+<tr class="memdesc:a94f49173a15a1da1ce857ef4821b9c75"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert a lua array to a typed vector, encapsulated into a <a class="el" href="classmomemta_1_1any.html">momemta::any</a>.  <a href="#a94f49173a15a1da1ce857ef4821b9c75">More...</a><br /></td></tr>
+<tr class="separator:a94f49173a15a1da1ce857ef4821b9c75"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1ffea6f8bb6b7bf591f2c3a01d1a361f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classmomemta_1_1any.html">momemta::any</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacelua.html#a1ffea6f8bb6b7bf591f2c3a01d1a361f">to_vector</a> (lua_State *L, int index, <a class="el" href="namespacelua.html#a4cb01bc8fe209aafacf11602092c63f8">Type</a> <a class="el" href="namespacelua.html#a353ef12f829066a6aae1c40dfca2883c">type</a>)</td></tr>
+<tr class="memdesc:a1ffea6f8bb6b7bf591f2c3a01d1a361f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert a lua array to a typed vector, encapsulated into a <a class="el" href="classmomemta_1_1any.html">momemta::any</a>.  <a href="#a1ffea6f8bb6b7bf591f2c3a01d1a361f">More...</a><br /></td></tr>
+<tr class="separator:a1ffea6f8bb6b7bf591f2c3a01d1a361f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a25deab3d14bb69aabdd65279fda4851d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacelua.html#a25deab3d14bb69aabdd65279fda4851d">setup_hooks</a> (lua_State *L, void *ptr)</td></tr>
 <tr class="memdesc:a25deab3d14bb69aabdd65279fda4851d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Register all C function in the lua userspace.  <a href="#a25deab3d14bb69aabdd65279fda4851d">More...</a><br /></td></tr>
 <tr class="separator:a25deab3d14bb69aabdd65279fda4851d"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -232,11 +232,11 @@ template&lt;typename T &gt; </td></tr>
 <tr class="memitem:aa7c8be06da6475ed356bc3d71ac85150"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespacelua.html#a4cb01bc8fe209aafacf11602092c63f8">Type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacelua.html#aa7c8be06da6475ed356bc3d71ac85150">lua_array_unique_type</a> (lua_State *L, int index)</td></tr>
 <tr class="memdesc:aa7c8be06da6475ed356bc3d71ac85150"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if a lua table contains only value from the same type.  <a href="#aa7c8be06da6475ed356bc3d71ac85150">More...</a><br /></td></tr>
 <tr class="separator:aa7c8be06da6475ed356bc3d71ac85150"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a699edfce49152283b8fd6745e6a2f84d"><td class="memTemplParams" colspan="2"><a class="anchor" id="a699edfce49152283b8fd6745e6a2f84d"></a>
+<tr class="memitem:a83b0a045d0763d290a6dfd31a743c293"><td class="memTemplParams" colspan="2"><a class="anchor" id="a83b0a045d0763d290a6dfd31a743c293"></a>
 template&lt;&gt; </td></tr>
-<tr class="memitem:a699edfce49152283b8fd6745e6a2f84d"><td class="memTemplItemLeft" align="right" valign="top">double&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacelua.html#a699edfce49152283b8fd6745e6a2f84d">special_any_cast</a> (const boost::any &amp;value)</td></tr>
-<tr class="memdesc:a699edfce49152283b8fd6745e6a2f84d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Specialization for double type, with implicit conversion from integer. <br /></td></tr>
-<tr class="separator:a699edfce49152283b8fd6745e6a2f84d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a83b0a045d0763d290a6dfd31a743c293"><td class="memTemplItemLeft" align="right" valign="top">double&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespacelua.html#a83b0a045d0763d290a6dfd31a743c293">special_any_cast</a> (const <a class="el" href="classmomemta_1_1any.html">momemta::any</a> &amp;value)</td></tr>
+<tr class="memdesc:a83b0a045d0763d290a6dfd31a743c293"><td class="mdescLeft">&#160;</td><td class="mdescRight">Specialization for double type, with implicit conversion from integer. <br /></td></tr>
+<tr class="separator:a83b0a045d0763d290a6dfd31a743c293"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a693d8e91c8f0ede80f1f30588bca667a"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a693d8e91c8f0ede80f1f30588bca667a"></a>
 int&#160;</td><td class="memItemRight" valign="bottom"><b>set_final_module</b> (lua_State *L)</td></tr>
 <tr class="separator:a693d8e91c8f0ede80f1f30588bca667a"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -573,7 +573,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>add_integration_dimens
 
 </div>
 </div>
-<a class="anchor" id="a8a88a449efa818a192207dd080a4cd29"></a>
+<a class="anchor" id="aeafd581fa53444348679a93c12ba0167"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -586,7 +586,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>add_integration_dimens
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const boost::any &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="classmomemta_1_1any.html">momemta::any</a> &amp;&#160;</td>
           <td class="paramname"><em>value</em>&#160;</td>
         </tr>
         <tr>
@@ -597,8 +597,8 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>add_integration_dimens
       </table>
 </div><div class="memdoc">
 
-<p>Convert a boost::any to a lua type, and push it to the top of the stack. </p>
-<p>This method does the opposite of <a class="el" href="namespacelua.html#ae64a96826456f2844a328f3617c7749f" title="Convert a lua type to boost::any. ">lua::to_any</a>: convert a boost::any to the corresponding lua type, and pushing it to the top of the stack.</p>
+<p>Convert a <a class="el" href="classmomemta_1_1any.html">momemta::any</a> to a lua type, and push it to the top of the stack. </p>
+<p>This method does the opposite of <a class="el" href="namespacelua.html#ad249e292ee0183edba37b12ce63c9700" title="Convert a lua type to momemta::any. ">lua::to_any</a>: convert a <a class="el" href="classmomemta_1_1any.html">momemta::any</a> to the corresponding lua type, and pushing it to the top of the stack.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">L</td><td>the current lua state </td></tr>
@@ -693,12 +693,12 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>add_integration_dimens
 
 </div>
 </div>
-<a class="anchor" id="ae64a96826456f2844a328f3617c7749f"></a>
+<a class="anchor" id="ad249e292ee0183edba37b12ce63c9700"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">std::pair&lt; boost::any, bool &gt; lua::to_any </td>
+          <td class="memname">std::pair&lt; <a class="el" href="classmomemta_1_1any.html">momemta::any</a>, bool &gt; lua::to_any </td>
           <td>(</td>
           <td class="paramtype">lua_State *&#160;</td>
           <td class="paramname"><em>L</em>, </td>
@@ -717,9 +717,9 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>add_integration_dimens
       </table>
 </div><div class="memdoc">
 
-<p>Convert a lua type to boost::any. </p>
+<p>Convert a lua type to <a class="el" href="classmomemta_1_1any.html">momemta::any</a>. </p>
 <dl class="section return"><dt>Returns</dt><dd>A std::pair containing :<ul>
-<li>a new boost::any encapsulating the lua type and a boolean. If the lua type is not supported, an exception is thrown.</li>
+<li>a new <a class="el" href="classmomemta_1_1any.html">momemta::any</a> encapsulating the lua type and a boolean. If the lua type is not supported, an exception is thrown.</li>
 <li>a boolean. If true, it means the encapsulated type is a <a class="el" href="structlua_1_1Lazy.html" title="Lazy value in lua (delayed evaluation) ">Lazy</a> value, which must be evaluated later on. </li>
 </ul>
 </dd></dl>
@@ -730,12 +730,12 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>add_integration_dimens
 
 </div>
 </div>
-<a class="anchor" id="a311087ae9e62db61ce461dbf1393afaf"></a>
+<a class="anchor" id="a1ffea6f8bb6b7bf591f2c3a01d1a361f"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">boost::any lua::to_vector </td>
+          <td class="memname"><a class="el" href="classmomemta_1_1any.html">momemta::any</a> lua::to_vector </td>
           <td>(</td>
           <td class="paramtype">lua_State *&#160;</td>
           <td class="paramname"><em>L</em>, </td>
@@ -760,8 +760,8 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>add_integration_dimens
       </table>
 </div><div class="memdoc">
 
-<p>Convert a lua array to a typed vector, encapsulated into a boost::any. </p>
-<dl class="section return"><dt>Returns</dt><dd>A new boost::any encapsulating the lua array. If the lua type is not supported, an exception is thrown </dd></dl>
+<p>Convert a lua array to a typed vector, encapsulated into a <a class="el" href="classmomemta_1_1any.html">momemta::any</a>. </p>
+<dl class="section return"><dt>Returns</dt><dd>A new <a class="el" href="classmomemta_1_1any.html">momemta::any</a> encapsulating the lua array. If the lua type is not supported, an exception is thrown </dd></dl>
 
 <p>Definition at line <a class="el" href="utils_8cc_source.html#l00293">293</a> of file <a class="el" href="utils_8cc_source.html">utils.cc</a>.</p>
 
@@ -769,14 +769,14 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>add_integration_dimens
 
 </div>
 </div>
-<a class="anchor" id="abe127dafbd7ed092cd609c232af587c0"></a>
+<a class="anchor" id="a94f49173a15a1da1ce857ef4821b9c75"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
 template&lt;typename T &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">boost::any lua::to_vectorT </td>
+          <td class="memname"><a class="el" href="classmomemta_1_1any.html">momemta::any</a> lua::to_vectorT </td>
           <td>(</td>
           <td class="paramtype">lua_State *&#160;</td>
           <td class="paramname"><em>L</em>, </td>
@@ -795,8 +795,8 @@ template&lt;typename T &gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p>Convert a lua array to a typed vector, encapsulated into a boost::any. </p>
-<dl class="section return"><dt>Returns</dt><dd>A new boost::any encapsulating the lua array. If the lua type is not supported, an exception is thrown </dd></dl>
+<p>Convert a lua array to a typed vector, encapsulated into a <a class="el" href="classmomemta_1_1any.html">momemta::any</a>. </p>
+<dl class="section return"><dt>Returns</dt><dd>A new <a class="el" href="classmomemta_1_1any.html">momemta::any</a> encapsulating the lua array. If the lua type is not supported, an exception is thrown </dd></dl>
 
 <p>Definition at line <a class="el" href="utils_8h_source.html#l00149">149</a> of file <a class="el" href="utils_8h_source.html">utils.h</a>.</p>
 

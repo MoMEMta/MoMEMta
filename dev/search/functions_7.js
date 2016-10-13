@@ -2,7 +2,7 @@ var searchData=
 [
   ['generate_5fcuba_5finputtag',['generate_cuba_inputtag',['../namespacelua.html#a6b5682096f08d96e3f46d8e403c52081',1,'lua']]],
   ['get_5fcustom_5ftype_5fname',['get_custom_type_name',['../core_2include_2lua_2Types_8h.html#a3a9050c88d82c5571a5ec3d5917ca31b',1,'Types.cc']]],
-  ['get_5fcustom_5ftype_5fptr',['get_custom_type_ptr',['../core_2include_2lua_2Types_8h.html#a65731f3013241a58fead7d6bcde3bcff',1,'Types.cc']]],
+  ['get_5fcustom_5ftype_5fptr',['get_custom_type_ptr',['../core_2include_2lua_2Types_8h.html#a8e2b082ca46502b1f7df181768493cf7',1,'Types.cc']]],
   ['get_5findex',['get_index',['../namespacelua.html#adfb25fd4e2e786699ee6545a9c8ef019',1,'lua']]],
   ['getcubaconfiguration',['getCubaConfiguration',['../classConfiguration.html#a6d11b023fb76e4062a546659dcab7910',1,'Configuration']]],
   ['getglobalparameters',['getGlobalParameters',['../classConfiguration.html#ade2f303994bc94727bce4f2bf61bfeeb',1,'Configuration']]],

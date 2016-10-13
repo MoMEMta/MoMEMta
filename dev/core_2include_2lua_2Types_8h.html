@@ -125,12 +125,13 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 <p>Definition in file <a class="el" href="core_2include_2lua_2Types_8h_source.html">Types.h</a>.</p>
 </div><div class="textblock"><code>#include &lt;string&gt;</code><br />
-<code>#include &lt;boost/any.hpp&gt;</code><br />
+<code>#include &lt;momemta/any.h&gt;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for Types.h:</div>
 <div class="dyncontent">
 <div class="center"><img src="core_2include_2lua_2Types_8h__incl.png" border="0" usemap="#core_2include_2lua_2Types_8h" alt=""/></div>
 <map name="core_2include_2lua_2Types_8h" id="core_2include_2lua_2Types_8h">
+<area shape="rect" id="node3" href="any_8h_source.html" title="momemta/any.h" alt="" coords="86,80,201,107"/>
 </map>
 </div>
 </div><div class="textblock"><div class="dynheader">
@@ -155,9 +156,9 @@ Functions</h2></td></tr>
 <tr class="memitem:a3a9050c88d82c5571a5ec3d5917ca31b"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="core_2include_2lua_2Types_8h.html#a3a9050c88d82c5571a5ec3d5917ca31b">get_custom_type_name</a> (lua_State *L, int index)</td></tr>
 <tr class="memdesc:a3a9050c88d82c5571a5ec3d5917ca31b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the type of a custom table.  <a href="#a3a9050c88d82c5571a5ec3d5917ca31b">More...</a><br /></td></tr>
 <tr class="separator:a3a9050c88d82c5571a5ec3d5917ca31b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a65731f3013241a58fead7d6bcde3bcff"><td class="memItemLeft" align="right" valign="top">boost::any&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="core_2include_2lua_2Types_8h.html#a65731f3013241a58fead7d6bcde3bcff">get_custom_type_ptr</a> (lua_State *L, int index)</td></tr>
-<tr class="memdesc:a65731f3013241a58fead7d6bcde3bcff"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert a lua custom table to a boost::any value.  <a href="#a65731f3013241a58fead7d6bcde3bcff">More...</a><br /></td></tr>
-<tr class="separator:a65731f3013241a58fead7d6bcde3bcff"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8e2b082ca46502b1f7df181768493cf7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classmomemta_1_1any.html">momemta::any</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="core_2include_2lua_2Types_8h.html#a8e2b082ca46502b1f7df181768493cf7">get_custom_type_ptr</a> (lua_State *L, int index)</td></tr>
+<tr class="memdesc:a8e2b082ca46502b1f7df181768493cf7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert a lua custom table to a <a class="el" href="classmomemta_1_1any.html">momemta::any</a> value.  <a href="#a8e2b082ca46502b1f7df181768493cf7">More...</a><br /></td></tr>
+<tr class="separator:a8e2b082ca46502b1f7df181768493cf7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
 <a class="anchor" id="a3a9050c88d82c5571a5ec3d5917ca31b"></a>
@@ -200,12 +201,12 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a65731f3013241a58fead7d6bcde3bcff"></a>
+<a class="anchor" id="a8e2b082ca46502b1f7df181768493cf7"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">boost::any get_custom_type_ptr </td>
+          <td class="memname"><a class="el" href="classmomemta_1_1any.html">momemta::any</a> get_custom_type_ptr </td>
           <td>(</td>
           <td class="paramtype">lua_State *&#160;</td>
           <td class="paramname"><em>L</em>, </td>
@@ -224,7 +225,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Convert a lua custom table to a boost::any value. </p>
+<p>Convert a lua custom table to a <a class="el" href="classmomemta_1_1any.html">momemta::any</a> value. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">L</td><td>the lua state </td></tr>
@@ -232,7 +233,7 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>a boost::any value encapsulating the custom type </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>a <a class="el" href="classmomemta_1_1any.html">momemta::any</a> value encapsulating the custom type </dd></dl>
 
 <p>Definition at line <a class="el" href="Types_8cc_source.html#l00048">48</a> of file <a class="el" href="Types_8cc_source.html">Types.cc</a>.</p>
 
