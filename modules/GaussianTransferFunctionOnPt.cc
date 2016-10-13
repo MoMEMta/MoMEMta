@@ -40,9 +40,11 @@ class GaussianTransferFunctionOnPtBase: public Module {
 
             m_sigma = parameters.get<double>("sigma", 0.10);
             m_sigma_range = parameters.get<double>("sigma_range", 5);
+            m_min_Pt = parameters.get<double>("min_Pt", 0.);
         }
 
     protected:
+        double m_min_Pt;
         double m_sigma;
         double m_sigma_range;
 
@@ -71,6 +73,7 @@ class GaussianTransferFunctionOnPtBase: public Module {
  *   |------|------|--------------|
  *   | `sigma` | double | Fraction of the Pt yielding the width of the Gaussian distribution (with `sigma` at `0.1`, \f$\sigma_{gauss} = 0.1 \cdot P_T_{gen}\f$). |
  *   | `sigma_range` | double | Range of integration expressed in number of sigma. |
+ *   | `min_Pt` | double | Optional: cut on Pt to avoid divergences |
  * 
  * ### Inputs
  *
@@ -84,7 +87,7 @@ class GaussianTransferFunctionOnPtBase: public Module {
  *   | Name | Type | %Description |
  *   |------|------|--------------|
  *   | `output` | LorentzVector | Output *generated* LorentzVector, only differing from *reco_particle* by its Pt. |
- *   | `TF_times_jacobian` | double | Product of the TF evaluated on the *reco* and *gen* energies, times the jacobian of the transformation needed stretch the integration range from \f$[0,1]\f$ to the width of the TF, times the jacobian \f$dE/d|P|\f$ due to the fact that the integration is done w.r.t \f$|P|\f$, while the TF is parametrised in terms of Pt. |
+ *   | `TF_times_jacobian` | double | Product of the TF evaluated on the *reco* and *gen* energies, times the jacobian of the transformation needed stretch the integration range from \f$[0,1]\f$ to the width of the TF, times the jacobian \f$d|P|/dP_T\f$ due to the fact that the integration is done w.r.t \f$|P|\f$, while the TF is parametrised in terms of Pt. |
  * 
  * \ingroup modules
  * \sa GaussianTransferFunctionOnPtEvaluator
@@ -100,7 +103,7 @@ class GaussianTransferFunctionOnPt: public GaussianTransferFunctionOnPtBase {
             const double sigma_Pt_rec = m_reco_input->Pt() * m_sigma;
 
             const double cosh_eta = std::cosh(m_reco_input->Eta());
-            double range_min = std::max(0., m_reco_input->Pt() - (m_sigma_range * sigma_Pt_rec));
+            double range_min = std::max(m_min_Pt, m_reco_input->Pt() - (m_sigma_range * sigma_Pt_rec));
             double range_max = m_reco_input->Pt() + (m_sigma_range * sigma_Pt_rec);
             double range = (range_max - range_min);
 

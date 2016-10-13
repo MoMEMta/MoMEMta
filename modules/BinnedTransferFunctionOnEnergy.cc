@@ -59,7 +59,8 @@ class BinnedTransferFunctionOnEnergyBase: public Module {
             m_deltaRange = m_deltaMax - m_deltaMin;
             
             TAxis* xAxis = m_th2->GetXaxis();
-            m_EgenMin = xAxis->GetXmin();
+            double E_cut = parameters.get<double>("min_E", 0.);
+            m_EgenMin = std::max(xAxis->GetXmin(), E_cut);
             m_EgenMax = xAxis->GetXmax();
 
             // Since we assume the TF continues as a constant for E->infty,
@@ -125,6 +126,7 @@ class BinnedTransferFunctionOnEnergyBase: public Module {
  *   |------|------|--------------|
  *   | `file` | string | Path to the ROOT file in which the transfer function is saved. |
  *   | `th2_name` | string | Name of the TH2 stored in file `file` |
+ *   | `min_E` | double | Optional: cut on energy to avoid divergences |
  *
  * ### Inputs
  *
