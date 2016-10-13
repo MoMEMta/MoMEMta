@@ -58,7 +58,8 @@ class BinnedTransferFunctionOnPtBase: public Module {
             m_deltaRange = m_deltaMax - m_deltaMin;
             
             TAxis* xAxis = m_th2->GetXaxis();
-            m_PtgenMin = xAxis->GetXmin();
+            double Pt_cut = parameters.get<double>("min_Pt", 0.);
+            m_PtgenMin = std::max(xAxis->GetXmin(), Pt_cut);
             m_PtgenMax = xAxis->GetXmax();
 
             // Since we assume the TF continues as a constant for Pt->infty,
@@ -124,6 +125,7 @@ class BinnedTransferFunctionOnPtBase: public Module {
  *   |------|------|--------------|
  *   | `file` | string | Path to the ROOT file in which the transfer function is saved. |
  *   | `th2_name` | string | Name of the TH2 stored in file `file` |
+ *   | `min_Pt` | double | Optional: cut on Pt to avoid divergences |
  *
  * ### Inputs
  *

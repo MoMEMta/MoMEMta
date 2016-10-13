@@ -40,9 +40,11 @@ class GaussianTransferFunctionOnEnergyBase: public Module {
 
             m_sigma = parameters.get<double>("sigma", 0.10);
             m_sigma_range = parameters.get<double>("sigma_range", 5);
+            m_min_E = parameters.get<double>("min_E", 0.);
         }
 
     protected:
+        double m_min_E;
         double m_sigma;
         double m_sigma_range;
 
@@ -71,6 +73,7 @@ class GaussianTransferFunctionOnEnergyBase: public Module {
  *   |------|------|--------------|
  *   | `sigma` | double | Fraction of the energy yielding the width of the Gaussian distribution (with `sigma` at `0.1`, \f$\sigma_{gauss} = 0.1 \cdot E_{gen}\f$). |
  *   | `sigma_range` | double | Range of integration expressed in number of sigma. |
+ *   | `min_E` | double | Optional: cut on energy to avoid divergences |
  * 
  * ### Inputs
  *
@@ -99,7 +102,7 @@ class GaussianTransferFunctionOnEnergy: public GaussianTransferFunctionOnEnergyB
             // Estimate the width over which to integrate using the width of the TF at E_rec ...
             const double sigma_E_rec = m_reco_input->E() * m_sigma;
 
-            double range_min = std::max(m_reco_input->M(), m_reco_input->E() - (m_sigma_range * sigma_E_rec));
+            double range_min = std::max( { m_min_E, m_reco_input->M(), m_reco_input->E() - (m_sigma_range * sigma_E_rec) } );
             double range_max = m_reco_input->E() + (m_sigma_range * sigma_E_rec);
             double range = (range_max - range_min);
 
