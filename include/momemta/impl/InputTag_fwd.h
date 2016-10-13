@@ -19,7 +19,7 @@
 
 #pragma once
 
-#include <boost/any.hpp>
+#include <momemta/any.h>
 
 #include <memory>
 #include <stdexcept>

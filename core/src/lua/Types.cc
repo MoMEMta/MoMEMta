@@ -45,10 +45,10 @@ std::string get_custom_type_name(lua_State* L, int index) {
     return "";
 }
 
-boost::any get_custom_type_ptr(lua_State* L, int index) {
+momemta::any get_custom_type_ptr(lua_State* L, int index) {
     std::string type = get_custom_type_name(L, index);
 
-    boost::any result;
+    momemta::any result;
     if (type == LUA_PATH_TYPE_NAME) {
         Path path = Path(lua::path_get(L, index));
         result = path;

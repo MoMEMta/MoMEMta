@@ -35,14 +35,14 @@ void Pool::remove_if_invalid(const InputTag& tag) {
     remove(tag, false);
 }
 
-boost::any Pool::reserve(const InputTag& tag) {
+momemta::any Pool::reserve(const InputTag& tag) {
     auto it = m_storage.find(tag);
     if (it == m_storage.end()) {
         // This tag do not exist currently in the pool
         // Reserve a slot, but mark it as invalid.
         // Once a module inform the pool it produces such a tag, the slot will
         // be flagged as valid.
-        PoolContent content { boost::any(), false };
+        PoolContent content { momemta::any(), false };
         it = m_storage.emplace(tag, content).first;
     }
 

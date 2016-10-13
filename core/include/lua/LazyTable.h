@@ -36,7 +36,7 @@ struct LazyTableField : public Lazy {
     std::string table_name; ///< The name of the global table
     std::string key; ///< The name of the field inside the table to retrieve when evaluated
 
-    virtual boost::any operator()() const override;
+    virtual momemta::any operator()() const override;
 
     /**
      * \brief Ensure the global table referenced by this `struct` exist. If not, create it.
@@ -46,7 +46,7 @@ struct LazyTableField : public Lazy {
     /**
      * \brief Replace the value of the table field by a new one
      */
-    void set(const boost::any& value);
+    void set(const momemta::any& value);
 
     LazyTableField(lua_State *L, const std::string& table_name, const std::string& key);
 };
@@ -67,8 +67,8 @@ public:
     virtual LazyTable* clone() const override;
 
 protected:
-    virtual void create(const std::string& name, const boost::any& value) override;
-    virtual void setInternal(const std::string& name, Element& element, const boost::any& value) override;
+    virtual void create(const std::string& name, const momemta::any& value) override;
+    virtual void setInternal(const std::string& name, Element& element, const momemta::any& value) override;
 
     virtual bool lazy() const override;
 
