@@ -19,10 +19,10 @@
 /** \brief Use the Narrow Width Approximation (NWA) to reduce the dimensionality of the integration.
  *
  *  It is possible to reduce the number of integrated dimensions by fixing the mass of one of the propagators
- *  one is integrating over to the observed mass of the corresponding particle. 
+ *  one is integrating over to the observed mass of the corresponding particle.
  *  This approximation is exact in the limit \f$\Gamma/m \to 0\f$.
  *
- *  To implement this approximation in MoMEMta, you need to change the way the Block is fed the `s` (propagator mass squared) variable: 
+ *  To implement this approximation in MoMEMta, you need to change the way the Block is fed the `s` (propagator mass squared) variable:
  *  Instead of retrieving it from the `BreitWignerGenerator` module (which adds a dimension to carry out integration over
  *  the propagator mass), use this module's output as input to the Block.
  *
@@ -32,7 +32,7 @@
  *    \int \! ds \, \left| \mathcal{M} \right|^2 = \int \! ds \, \frac{ \left|\mathcal{M}_d \right|^2}{(s-m^2)^2+(m \Gamma)^2} \to \frac{\pi}{m \Gamma} \int \! ds \, \delta(s-m^2) \left|\mathcal{M}_d \right|^2
  *  \f]
  *  where \f$\left| \mathcal{M}_d \right|^2\f$ is the matrix element squared excluding the propagator, and where the factor \f$\pi/(m\Gamma)\f$ is needed because of the normalisation of the Dirac delta:
- *  
+ *
  *  \f$\int_{-\infty}^{+\infty} \! ds \, \delta(s) = 1\f$, but \f$ \int_{-\infty}^{+\infty} \! ds \, \frac{1}{(s-m^2)^2+(m \Gamma)^2} = \frac{\pi}{m\Gamma}\f$.
  *
  *  However, in most of the cases, the matrix element used by the user still includes the propagator (ie, what is used is \f$\mathcal{M}\f$, not \f$\mathcal{M}_d\f$). The propagator
@@ -69,6 +69,8 @@
 #include <momemta/ParameterSet.h>
 #include <momemta/Module.h>
 
+#include <cmath>
+
 class NarrowWidthApproximation: public Module {
     public:
 
@@ -79,15 +81,15 @@ class NarrowWidthApproximation: public Module {
 
             *jacobian = M_PI;
             if(parameters.get<bool>("propagator_in_me", true))
-                *jacobian *= mass*width; 
+                *jacobian *= mass*width;
             else
-                *jacobian /= mass*width; 
-            
-            *s = mass*mass; 
+                *jacobian /= mass*width;
+
+            *s = mass*mass;
         }
 
     private:
-        
+
         std::shared_ptr<double> s = produce<double>("s");
         std::shared_ptr<double> jacobian = produce<double>("jacobian");
 };
