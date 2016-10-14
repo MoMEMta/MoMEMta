@@ -20,6 +20,8 @@
 #include <momemta/ParameterSet.h>
 #include <momemta/Module.h>
 
+#include <cmath>
+
 /** \brief Generate points distributed according to a Breit-Wigner
  *
  * Transform a phase-space point given by Cuba, distributed uniformly between 0 and 1,
@@ -50,7 +52,7 @@
  *   |------|------|--------------|
  *   | `mass` | double | Mass of the propagator to be integrated over (GeV). |
  *   | `width` | double | Width of the propagator to be integrated over (GeV). |
- * 
+ *
  * ### Inputs
  *
  *   | Name | Type | %Description |

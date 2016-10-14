@@ -3,6 +3,7 @@
 #include <memory>
 #include <stdexcept>
 #include <tuple>
+#include <vector>
 
 #include <momemta/any.h>
 #include <lua.hpp>
