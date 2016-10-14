@@ -209,7 +209,8 @@ set_target_properties(momemta PROPERTIES VERSION ${PROJECT_VERSION}
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 # Public interface
-target_include_directories(momemta PUBLIC "${CMAKE_CURRENT_LIST_DIR}/include")
+target_include_directories(momemta PUBLIC
+        "$<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/include>")
 
 # Private interface
 target_include_directories(momemta PRIVATE "${CMAKE_CURRENT_LIST_DIR}/core/include")
@@ -291,10 +292,11 @@ endif()
 # First, headers
 install(DIRECTORY include/ DESTINATION include)
 # And MoMEMta library
-install(TARGETS momemta
+install(TARGETS momemta EXPORT momemta_targets
     RUNTIME DESTINATION bin
     LIBRARY DESTINATION lib
-    ARCHIVE DESTINATION lib)
+    ARCHIVE DESTINATION lib
+    INCLUDES DESTINATION include)
 
 if(PYTHON_BINDINGS)
     execute_process(COMMAND ${PYTHON_EXECUTABLE} -c "import distutils.sysconfig; print(distutils.sysconfig.get_python_lib(prefix='', plat_specific=True))"
@@ -303,6 +305,37 @@ if(PYTHON_BINDINGS)
     install(TARGETS momemta_python
             LIBRARY DESTINATION ${PYTHON_INSTALL_PREFIX})
 endif()
+
+include(CMakePackageConfigHelpers)
+write_basic_package_version_file(
+        "${CMAKE_CURRENT_BINARY_DIR}/MoMEMtaConfigVersion.cmake"
+        VERSION ${PROJECT_VERSION}
+        COMPATIBILITY AnyNewerVersion
+)
+
+set(ConfigPackageLocation lib/cmake/MoMEMta)
+
+configure_package_config_file("${CMAKE_CURRENT_SOURCE_DIR}/cmake/scripts/MoMEMtaConfig.cmake.in"
+        "${CMAKE_CURRENT_BINARY_DIR}/MoMEMtaConfig.cmake"
+        INSTALL_DESTINATION "${ConfigPackageLocation}"
+        )
+
+install(EXPORT momemta_targets
+        FILE
+            MoMEMtaTargets.cmake
+        NAMESPACE
+            momemta::
+        DESTINATION
+            ${ConfigPackageLocation}
+        )
+
+install(FILES
+            "${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules/FindROOT.cmake"
+            "${CMAKE_CURRENT_BINARY_DIR}/MoMEMtaConfig.cmake"
+            "${CMAKE_CURRENT_BINARY_DIR}/MoMEMtaConfigVersion.cmake"
+        DESTINATION
+            ${ConfigPackageLocation}
+)
 
 if (IN_CMSSW)
     # Tool XML description
