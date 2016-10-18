@@ -112,7 +112,7 @@ class BlockB: public Module {
             solutions->clear();
 
             // Equations to solve:
-            //(1) (p1 + p2)^2 = s12 = M1^2 + M2^2 + 2E1E2 + 2p1xp2x + 2p1yp2y + p1zp2z
+            //(1) (p1 + p2)^2 = s12 = M1^2 + M2^2 + 2 E1 E2 - 2 p1x p2x - 2 p1y p2y - 2 p1z p2z
             //(2)  p1x = - pTx  #Coming from pT neutrino = -pT visible = - (p2 + ISR)
             //(3)  p1y = - pTy  #Coming from pT neutrino = -pT visible = - (p2 + ISR)
             //(4)  M1 = 0 -> E1^2 = p1x^2 + p1y^2 + p1z^2
@@ -135,17 +135,17 @@ class BlockB: public Module {
 
             const double p22 = p2.M2();
 
-            // From eq.(1) p1z = -B*E1 + A
-            // From eq.(4) + eq.(1) (1-B^2)* E1^2 + 2AB* E1 - C = 0
+            // From eq.(1) p1z = B*E1 + A
+            // From eq.(4) + eq.(1) (1 - B^2) E1^2 - 2 A B E1 + C - A^2 = 0
 
-            const double A = (*s12 - p22 + 2*(pT.Px()*p2.Px() + pT.Py()*p2.Py()))/(2*p2.Pz());
-            const double B = p2.E()/p2.Pz();
-            const double C = SQ(pT.Px()) + SQ(pT.Py());
+            const double A = - (*s12 - p22 - 2 * (pT.Px() * p2.Px() + pT.Py() * p2.Py())) / (2 * p2.Pz());
+            const double B = p2.E() / p2.Pz();
+            const double C = - SQ(pT.Px()) - SQ(pT.Py());
 
             // Solve quadratic a*E1^2 + b*E1 + c = 0
             const double a = 1 - SQ(B);
-            const double b = 2*A*B;
-            const double c = -C;
+            const double b = - 2 * A * B;
+            const double c = C - SQ(A);
 
             std::vector<double> E1;
 
@@ -159,11 +159,11 @@ class BlockB: public Module {
 
                 if (e1 < 0.) continue;
 
-                LorentzVector p1(-pT.Px(), -pT.Py(), A - B*e1, e1);
+                LorentzVector p1(-pT.Px(), -pT.Py(), A + B*e1, e1);
 
                 // Check if solutions are physical
-                LorentzVector tot = p1;
-                for (size_t i = 0; i < m_particles.size(); i++) {
+                LorentzVector tot = p1 + p2;
+                for (size_t i = 1; i < m_particles.size(); i++) {
                     tot += *m_particles[i];
                 }
                 double q1Pz = std::abs(tot.Pz() + tot.E()) / 2.;
@@ -171,26 +171,13 @@ class BlockB: public Module {
                 if(q1Pz > sqrt_s/2 || q2Pz > sqrt_s/2)
                     continue;
 
-                Solution s { {p1}, computeJacobian(p1, p2), true };
+                const double inv_jacobian = SQ(sqrt_s) * std::abs(p2.Pz() * e1 - p2.E() * p1.Pz());
+
+                Solution s { {p1}, M_PI/inv_jacobian, true };
                 solutions->push_back(s);
             }
 
             return solutions->size() > 0 ? Status::OK : Status::NEXT;
-        }
-
-        double computeJacobian(const LorentzVector& p1, const LorentzVector& p2) {
-
-            const double E1  = p1.E();
-            const double p1z = p1.Pz();
-
-            const double E2  = p2.E();
-            const double p2z = p2.Pz();
-
-            // Some extra info in MadWeight Source/MadWeight/blocks/class_b.f Good luck!!
-
-            double inv_jac = 4.*SQ(M_PI*sqrt_s)*( p2z*E1 - E2*p1z);
-
-            return 1. / std::abs(inv_jac);
         }
 
     private:
