@@ -119,11 +119,20 @@ bool solveQuartic(const double a, const double b, const double c, const double d
     if (!a)
         return solveCubic(b, c, d, e, roots, verbose);
 
-    if (!b && !c && !d) {
+    if (!b && !c && !d && !e) {
         roots.push_back(0.);
         roots.push_back(0.);
         roots.push_back(0.);
         roots.push_back(0.);
+    } else if (!b && !d) {
+        std::vector<double> sq_sol;
+        solveQuadratic(a, c, e, sq_sol, verbose);
+        for (unsigned short i = 0; i < sq_sol.size(); ++i) {
+            if (sq_sol[i] < 0)
+                continue;
+            roots.push_back(sqrt(sq_sol[i]));
+            roots.push_back(-sqrt(sq_sol[i]));
+        }
     } else {
         const double an = b / a;
         const double bn = c / a - (3. / 8.) * SQ(b / a);
