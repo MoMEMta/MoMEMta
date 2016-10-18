@@ -22,7 +22,7 @@ parameters = {
 }
 
 cuba = {
-    verbosity = 2,
+    verbosity = 3,
     max_eval = 20000000000,
     relative_accuracy = 0.005,
     n_start = 1000000000,   
@@ -154,7 +154,7 @@ Looper.looper = {
       jacobians = jacobians
     }
 
-    DoubleSummer.integrand = {
+    DoubleLooperSummer.integrand = {
         input = "dummy::output"
     }
 

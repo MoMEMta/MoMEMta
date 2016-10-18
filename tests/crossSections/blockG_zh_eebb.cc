@@ -33,16 +33,16 @@ int main(int argc, char** argv) {
 
     logging::set_level(logging::level::debug);
 
-    ConfigurationReader configuration("../tests/crossSections/blockF_WW_dilep.lua");
+    ConfigurationReader configuration("../tests/crossSections/blockG_zh_eebb.lua");
     MoMEMta weight(configuration.freeze());
 
-    // Electron
-    LorentzVector p3(-25, 0, 0, 25);
-    // Muon
-    LorentzVector p4(0, 50, 0, 50);
+    LorentzVector p1(-25, 0, 0, 25);
+    LorentzVector p2(-50, 0, 0, 50);
+    LorentzVector p3(0, 50, 0, 50);
+    LorentzVector p4(0, -25, 0, 25);
 
     auto start_time = system_clock::now();
-    std::vector<std::pair<double, double>> weights = weight.computeWeights({p3, p4});
+    std::vector<std::pair<double, double>> weights = weight.computeWeights({p1, p2, p3, p4});
     auto end_time = system_clock::now();
 
     LOG(debug) << "Result:";

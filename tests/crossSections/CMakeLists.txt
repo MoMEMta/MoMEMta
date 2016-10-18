@@ -11,3 +11,12 @@ add_executable(test_XS_blockF_WW_dilep "blockF_WW_dilep.cc")
 target_link_libraries(test_XS_blockF_WW_dilep momemta)
 set_target_properties(test_XS_blockF_WW_dilep PROPERTIES OUTPUT_NAME
   "crossSection_blockF_WW_dilep.exe")
+
+
+### BlockG, p p > z h, (z > e+ e-), (h > b b~)
+### MadGraph: 0.01874(3) pb = 4.812e-14 GeV-2
+### Massless b's, "correct" yukawa
+add_executable(test_XS_blockG_zh_eebb "blockG_zh_eebb.cc")
+target_link_libraries(test_XS_blockG_zh_eebb momemta)
+set_target_properties(test_XS_blockG_zh_eebb PROPERTIES OUTPUT_NAME
+  "crossSection_blockG_zh_eebb.exe")
