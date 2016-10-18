@@ -25,7 +25,7 @@ parameters = {
 }
 
 cuba = {
-    verbosity = 2,
+    verbosity = 3,
     max_eval = 2000000000,
     relative_accuracy = 0.005,
     n_start = 100000000,   
@@ -172,7 +172,7 @@ Looper.looper = {
       initialState = 'initial_state::partons',
 
       particles = {
-        inputs = fullinputs,
+        inputs = full_inputs,
         ids = {
           {
             pdg_id = -11,
@@ -209,7 +209,7 @@ Looper.looper = {
       jacobians = jacobians
     }
 
-    DoubleSummer.integrand = {
+    DoubleLooperSummer.integrand = {
         input = "dummy::output"
     }
 

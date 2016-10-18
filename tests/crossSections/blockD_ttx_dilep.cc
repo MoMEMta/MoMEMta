@@ -31,6 +31,8 @@ int main(int argc, char** argv) {
     UNUSED(argc);
     UNUSED(argv);
 
+    logging::set_level(logging::level::debug);
+
     ConfigurationReader configuration("../tests/crossSections/blockD_ttx_dilep.lua");
     MoMEMta weight(configuration.freeze());
 
