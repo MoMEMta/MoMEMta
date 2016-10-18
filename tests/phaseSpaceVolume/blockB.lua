@@ -1,32 +1,17 @@
-function append(t1, t2)
-    for i = 1, #t2 do
-        t1[#t1 + 1] = t2[i]
-    end
-
-    return t1
-end
-
-function copy_and_append(t1, t2)
-    local t3 = {}
-
-    append(t3, t1)
-    append(t3, t2)
-
-    return t3
-end
+load_modules('MatrixElements/dummy/libme_dummy.so')
 
 parameters = {
-    energy = 13000.,
-    W_mass = 80.419002,
-    W_width = 2.047600e+00
+    energy = 1000.,
+    W_mass = 500.,
+    W_width = 500.
 }
 
 cuba = {
     verbosity = 3,
     max_eval = 200000000,
-    relative_accuracy = 0.005,
-    n_start = 10000000,   
-    seed = 5468730,        
+    relative_accuracy = 0.001,
+    n_start = 20000000,   
+    seed = 5468960,        
 }
 
 -- 'Flat' transfer functions to integrate over the visible particle's energies and angles
@@ -69,13 +54,7 @@ inputs = {
   'tf_theta_2::output',
 }
 
-BreitWignerGenerator.flatter_s13 = {
-    ps_point = add_dimension(),
-    mass = parameter('W_mass'),
-    width = parameter('W_width')
-}
-
-BreitWignerGenerator.flatter_s24 = {
+BreitWignerGenerator.flatter = {
     ps_point = add_dimension(),
     mass = parameter('W_mass'),
     width = parameter('W_width')
@@ -85,49 +64,42 @@ StandardPhaseSpace.phaseSpaceOut = {
     particles = inputs
 }
 
-BlockF.blockf = {
+BlockB.blockb = {
     inputs = inputs,
-
-    s13 = 'flatter_s13::s',
-    s24 = 'flatter_s24::s',
-    q1 = add_dimension(),
-    q2 = add_dimension()
+    s12 = 'flatter::s',
 }
 
 -- Loop
 
 Looper.looper = {
-    solutions = "blockf::solutions",
+    solutions = "blockb::solutions",
     path = Path("initial_state", "dummy", "integrand")
 }
 
-    full_inputs = copy_and_append(inputs, {'looper::particles/1', 'looper::particles/2'})
-    
+    gen_inputs = { inputs[1], inputs[2], 'looper::particles/1' }
+
     BuildInitialState.initial_state = {
-        particles = full_inputs
+        particles = gen_inputs
     }
 
     jacobians = {
-      'tf_p_1::TF_times_jacobian', 'tf_p_2::TF_times_jacobian', 
+      'tf_p_1::TF_times_jacobian', 'tf_p_2::TF_times_jacobian',
       'tf_phi_1::TF_times_jacobian', 'tf_phi_2::TF_times_jacobian',
       'tf_theta_1::TF_times_jacobian', 'tf_theta_2::TF_times_jacobian',
-      'flatter_s13::jacobian', 'flatter_s24::jacobian',
+      'flatter::jacobian',
       'looper::jacobian', 'phaseSpaceOut::phase_space'
     }
 
     MatrixElement.dummy = {
-      pdf = 'CT10nlo',
-      pdf_scale = parameter('W_mass'),
+      use_pdf = false,
 
-      matrix_element = 'pp_WW_fully_leptonic_sm_P1_Sigma_sm_uux_epvemumvmx',
-      matrix_element_parameters = {
-          card = '../MatrixElements/Cards/param_card.dat'
-      },
-
+      matrix_element = 'dummy_matrix_element',
+      matrix_element_parameters = {},
+ 
       initialState = 'initial_state::partons',
 
       particles = {
-        inputs = full_inputs,
+        inputs = gen_inputs,
         ids = {
           {
             pdg_id = -11,
@@ -136,18 +108,13 @@ Looper.looper = {
 
           {
             pdg_id = 13,
-            me_index = 3,
-          },
-          
-          {
-            pdg_id = 12,
             me_index = 2,
           },
 
           {
-            pdg_id = -14,
-            me_index = 4,
-          }
+            pdg_id = 13,
+            me_index = 3,
+          },
         }
       },
 
