@@ -17,68 +17,39 @@ end
 
 load_modules('MatrixElements/dummy/libme_dummy.so')
 
-M_W = 250.
-M_TOP = 500.
-W_W = 100.
-W_TOP = 100.
+Mass = 250.
+Width = 500.
 
 parameters = {
     energy = 1000.,
-    top_mass = M_TOP,
-    W_mass = M_W
 }
 
 cuba = {
     verbosity = 3,
-    max_eval = 2000000000,
-    relative_accuracy = 0.005,
-    n_start = 1000000,   
+    max_eval = 200000000,
+    relative_accuracy = 0.001,
+    n_start = 20000000,   
     seed = 5468460,        
 }
 
--- 'Flat' transfer functions to integrate over the visible particle's energies and angles
--- First |P|
-FlatTransferFunctionOnP.tf_p_1 = {
-    ps_point = add_dimension(),
-    reco_particle = 'input::particles/1',
-    min = 0.,
-    max = parameters.energy/2,
-}
-FlatTransferFunctionOnP.tf_p_2 = {
-    ps_point = add_dimension(),
-    reco_particle = 'input::particles/2',
-    min = 0.,
-    max = parameters.energy/2,
-}
-FlatTransferFunctionOnP.tf_p_3 = {
-    ps_point = add_dimension(),
-    reco_particle = 'input::particles/3',
-    min = 0.,
-    max = parameters.energy/2,
-}
-FlatTransferFunctionOnP.tf_p_4 = {
-    ps_point = add_dimension(),
-    reco_particle = 'input::particles/4',
-    min = 0.,
-    max = parameters.energy/2,
-}
+-- 'Flat' transfer functions to integrate over the visible particle's angles
 
 -- Pass these outputs over for Phi
 FlatTransferFunctionOnPhi.tf_phi_1 = {
     ps_point = add_dimension(),
-    reco_particle = 'tf_p_1::output',
+    reco_particle = 'input::particles/1',
 }
 FlatTransferFunctionOnPhi.tf_phi_2 = {
     ps_point = add_dimension(),
-    reco_particle = 'tf_p_2::output',
+    reco_particle = 'input::particles/2',
 }
 FlatTransferFunctionOnPhi.tf_phi_3 = {
     ps_point = add_dimension(),
-    reco_particle = 'tf_p_3::output',
+    reco_particle = 'input::particles/3',
 }
 FlatTransferFunctionOnPhi.tf_phi_4 = {
     ps_point = add_dimension(),
-    reco_particle = 'tf_p_4::output',
+    reco_particle = 'input::particles/4',
 }
 
 -- Finally, do Theta 
@@ -106,62 +77,43 @@ inputs = {
   'tf_theta_4::output',
 }
 
-BreitWignerGenerator.flatter_s13 = {
+BreitWignerGenerator.flatter_s12 = {
     ps_point = add_dimension(),
-    mass = M_W,
-    width = W_W
+    mass = Mass,
+    width = Width
 }
 
-BreitWignerGenerator.flatter_s134 = {
+BreitWignerGenerator.flatter_s34 = {
     ps_point = add_dimension(),
-    mass = M_TOP,
-    width = W_TOP
+    mass = Mass,
+    width = Width
 }
 
-BreitWignerGenerator.flatter_s25 = {
-    ps_point = add_dimension(),
-    mass = M_W,
-    width = W_W
-}
-
-BreitWignerGenerator.flatter_s256 = {
-    ps_point = add_dimension(),
-    mass = M_TOP,
-    width = W_TOP
-}
-
-StandardPhaseSpace.phaseSpaceOut = {
-    particles = inputs
-}
-
-BlockD.blockd = {
+BlockG.blockg = {
     inputs = inputs,
 
-    s13 = 'flatter_s13::s',
-    s134 = 'flatter_s134::s',
-    s25 = 'flatter_s25::s',
-    s256 = 'flatter_s256::s',
+    s12 = 'flatter_s12::s',
+    s34 = 'flatter_s34::s',
 }
 
 -- Loop
 
 Looper.looper = {
-    solutions = "blockd::solutions",
+    solutions = "blockg::solutions",
     path = Path("initial_state", "dummy", "integrand")
 }
     
-    full_inputs = copy_and_append(inputs, {'looper::particles/1', 'looper::particles/2'})
+    gen_inputs = {'looper::particles/1', 'looper::particles/2', 'looper::particles/3', 'looper::particles/4'}
 
     BuildInitialState.initial_state = {
-        particles = full_inputs
+        particles = gen_inputs
     }
 
     jacobians = {
-      'tf_p_1::TF_times_jacobian', 'tf_p_2::TF_times_jacobian', 'tf_p_3::TF_times_jacobian', 'tf_p_4::TF_times_jacobian', 
       'tf_phi_1::TF_times_jacobian', 'tf_phi_2::TF_times_jacobian', 'tf_phi_3::TF_times_jacobian', 'tf_phi_4::TF_times_jacobian', 
       'tf_theta_1::TF_times_jacobian', 'tf_theta_2::TF_times_jacobian', 'tf_theta_3::TF_times_jacobian', 'tf_theta_4::TF_times_jacobian', 
-      'flatter_s13::jacobian', 'flatter_s134::jacobian', 'flatter_s25::jacobian', 'flatter_s256::jacobian',
-      'looper::jacobian', 'phaseSpaceOut::phase_space'
+      'flatter_s12::jacobian', 'flatter_s34::jacobian',
+      'looper::jacobian',
     }
 
     MatrixElement.dummy = {
@@ -173,7 +125,7 @@ Looper.looper = {
       initialState = 'initial_state::partons',
 
       particles = {
-        inputs = full_inputs,
+        inputs = gen_inputs,
         ids = {
           {
             pdg_id = -11,
@@ -186,24 +138,14 @@ Looper.looper = {
           },
 
           {
-            pdg_id = 13,
-            me_index = 4,
-          },
-
-          {
-            pdg_id = -5,
-            me_index = 6,
-          },
-
-          {
-            pdg_id = 12,
+            pdg_id = 11,
             me_index = 2,
           },
 
           {
-            pdg_id = -14,
-            me_index = 5,
-          }
+            pdg_id = -5,
+            me_index = 4,
+          },
         }
       },
 

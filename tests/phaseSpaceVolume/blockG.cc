@@ -33,16 +33,12 @@ int main(int argc, char** argv) {
 
     logging::set_level(logging::level::debug);
 
-    ConfigurationReader configuration("../tests/phaseSpaceVolume/blockD.lua");
+    ConfigurationReader configuration("../tests/phaseSpaceVolume/blockG.lua");
     MoMEMta weight(configuration.freeze());
 
-    // Electron
     LorentzVector p3(-25, 0, 0, 25);
-    // b-quark
     LorentzVector p4(-50, 0, 0, 50);
-    // Muon
     LorentzVector p5(0, 50, 0, 50);
-    // Anti b-quark
     LorentzVector p6(0, -25, 0, 25);
 
     auto start_time = system_clock::now();
