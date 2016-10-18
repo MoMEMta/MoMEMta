@@ -28,7 +28,8 @@ cuba = {
     verbosity = 3,
     max_eval = 200000000,
     relative_accuracy = 0.005,
-    n_start = 20000000,   
+    n_start = 100000,   
+    n_increase = 100000,
     seed = 5468460,        
 }
 
