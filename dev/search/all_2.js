@@ -16,6 +16,7 @@ var searchData=
   ['blockb',['BlockB',['../classBlockB.html',1,'']]],
   ['blockd',['BlockD',['../classBlockD.html',1,'']]],
   ['blockf',['BlockF',['../classBlockF.html',1,'']]],
+  ['blockg',['BlockG',['../classBlockG.html',1,'']]],
   ['boolean',['BOOLEAN',['../namespacelua.html#a4cb01bc8fe209aafacf11602092c63f8a694dcfd88be831361a4024215cc72d26',1,'lua']]],
   ['breitwigner',['BreitWigner',['../Math_8h.html#ae19ca2bf646e868bee58526c8489251f',1,'Math.cc']]],
   ['breitwignergenerator',['BreitWignerGenerator',['../classBreitWignerGenerator.html',1,'']]],

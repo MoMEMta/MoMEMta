@@ -6,11 +6,12 @@
 <area shape="rect" id="node6" href="$BlockB_8cc_source.html" title="modules/BlockB.cc" alt="" coords="783,88,917,115"/>
 <area shape="rect" id="node7" href="$BlockD_8cc_source.html" title="modules/BlockD.cc" alt="" coords="943,88,1077,115"/>
 <area shape="rect" id="node8" href="$BlockF_8cc_source.html" title="modules/BlockF.cc" alt="" coords="1103,88,1237,115"/>
-<area shape="rect" id="node9" href="$FlatTransferFunctionOnP_8cc_source.html" title="modules/FlatTransferFunction\lOnP.cc" alt="" coords="1263,81,1457,122"/>
-<area shape="rect" id="node10" href="$GaussianTransferFunctionOnEnergy_8cc_source.html" title="modules/GaussianTransfer\lFunctionOnEnergy.cc" alt="" coords="1481,81,1660,122"/>
-<area shape="rect" id="node11" href="$GaussianTransferFunctionOnPt_8cc_source.html" title="modules/GaussianTransfer\lFunctionOnPt.cc" alt="" coords="1684,81,1863,122"/>
-<area shape="rect" id="node12" href="$MatrixElement_8cc_source.html" title="modules/MatrixElement.cc" alt="" coords="1887,88,2064,115"/>
-<area shape="rect" id="node13" href="$SecondaryBlockCD_8cc_source.html" title="modules/SecondaryBlockCD.cc" alt="" coords="2089,88,2297,115"/>
-<area shape="rect" id="node14" href="$StandardPhaseSpace_8cc_source.html" title="modules/StandardPhaseSpace.cc" alt="" coords="2321,88,2540,115"/>
-<area shape="rect" id="node15" href="$modules_8cc.html" title="Unit tests for modules. " alt="" coords="2565,88,2747,115"/>
+<area shape="rect" id="node9" href="$BlockG_8cc_source.html" title="modules/BlockG.cc" alt="" coords="1263,88,1397,115"/>
+<area shape="rect" id="node10" href="$FlatTransferFunctionOnP_8cc_source.html" title="modules/FlatTransferFunction\lOnP.cc" alt="" coords="1423,81,1617,122"/>
+<area shape="rect" id="node11" href="$GaussianTransferFunctionOnEnergy_8cc_source.html" title="modules/GaussianTransfer\lFunctionOnEnergy.cc" alt="" coords="1641,81,1820,122"/>
+<area shape="rect" id="node12" href="$GaussianTransferFunctionOnPt_8cc_source.html" title="modules/GaussianTransfer\lFunctionOnPt.cc" alt="" coords="1844,81,2023,122"/>
+<area shape="rect" id="node13" href="$MatrixElement_8cc_source.html" title="modules/MatrixElement.cc" alt="" coords="2047,88,2224,115"/>
+<area shape="rect" id="node14" href="$SecondaryBlockCD_8cc_source.html" title="modules/SecondaryBlockCD.cc" alt="" coords="2249,88,2457,115"/>
+<area shape="rect" id="node15" href="$StandardPhaseSpace_8cc_source.html" title="modules/StandardPhaseSpace.cc" alt="" coords="2481,88,2700,115"/>
+<area shape="rect" id="node16" href="$modules_8cc.html" title="Unit tests for modules. " alt="" coords="2725,88,2907,115"/>
 </map>
