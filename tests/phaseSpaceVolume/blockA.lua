@@ -13,7 +13,7 @@ cuba = {
 }
 
 -- 'Flat' transfer functions to integrate over the visible particle's energies and angles
--- First |P|: only the first input is integrated over
+-- First |P|: only the input not concerned by blockA is integrated over
 FlatTransferFunctionOnP.tf_p_3 = {
     ps_point = add_dimension(),
     reco_particle = 'input::particles/3',
@@ -95,20 +95,9 @@ Looper.looper = {
       particles = {
         inputs = full_inputs,
         ids = {
-          {
-            pdg_id = -11,
-            me_index = 1,
-          },
-
-          {
-            pdg_id = 13,
-            me_index = 3,
-          },
-
-          {
-            pdg_id = 12,
-            me_index = 2,
-          },
+            { pdg_id = 1, me_index = 1 },
+            { pdg_id = 1, me_index = 2 },
+            { pdg_id = 1, me_index = 3 },
         }
       },
 

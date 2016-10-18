@@ -175,35 +175,12 @@ Looper.looper = {
       particles = {
         inputs = full_inputs,
         ids = {
-          {
-            pdg_id = -11,
-            me_index = 1,
-          },
-
-          {
-            pdg_id = 5,
-            me_index = 3,
-          },
-
-          {
-            pdg_id = 13,
-            me_index = 4,
-          },
-
-          {
-            pdg_id = -5,
-            me_index = 6,
-          },
-
-          {
-            pdg_id = 12,
-            me_index = 2,
-          },
-
-          {
-            pdg_id = -14,
-            me_index = 5,
-          }
+            { pdg_id = 1, me_index = 1 },
+            { pdg_id = 1, me_index = 2 },
+            { pdg_id = 1, me_index = 3 },
+            { pdg_id = 1, me_index = 4 },
+            { pdg_id = 1, me_index = 5 },
+            { pdg_id = 1, me_index = 6 },
         }
       },
 

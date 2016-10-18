@@ -32,3 +32,11 @@ add_executable(test_psVol_blockG "blockG.cc")
 target_link_libraries(test_psVol_blockG momemta)
 set_target_properties(test_psVol_blockG PROPERTIES OUTPUT_NAME
   "phaseSpaceVolume_blockG.exe")
+
+### BlockA + SecondaryBlockCD
+
+add_executable(test_psVol_blockA_secondaryBlockCD "blockA_secondaryBlockCD.cc")
+target_link_libraries(test_psVol_blockA_secondaryBlockCD momemta)
+set_target_properties(test_psVol_blockA_secondaryBlockCD PROPERTIES OUTPUT_NAME
+  "phaseSpaceVolume_blockA_secondaryBlockCD.exe")
+

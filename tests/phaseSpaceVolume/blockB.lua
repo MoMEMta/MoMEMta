@@ -101,20 +101,9 @@ Looper.looper = {
       particles = {
         inputs = gen_inputs,
         ids = {
-          {
-            pdg_id = -11,
-            me_index = 1,
-          },
-
-          {
-            pdg_id = 13,
-            me_index = 2,
-          },
-
-          {
-            pdg_id = 13,
-            me_index = 3,
-          },
+            { pdg_id = 1, me_index = 1 },
+            { pdg_id = 1, me_index = 2 },
+            { pdg_id = 1, me_index = 3 },
         }
       },
 
