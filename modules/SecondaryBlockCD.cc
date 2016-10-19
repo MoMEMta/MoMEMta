@@ -109,7 +109,7 @@ class SecondaryBlockCD: public Module {
 
             for (const double& E1: E1_solutions) {
                 // Skip unphysical solutions
-                if (E1 <= 0 || E1 < m1)
+                if (E1 <= 0 || E1 <= m1)
                     continue;
                 // Avoid introducing spurious solution from the equation s12 = (p1+p2)^2 that has to be squared in the computation
                 if ((SQ(m1) + SQ(m2) + 2 * E1 * E2 - *s12) * cos_theta12 < 0)
@@ -123,7 +123,7 @@ class SecondaryBlockCD: public Module {
                         norm1 * std::cos(theta1),
                         E1);
                 // Compute jacobian
-                double jacobian = E1 * std::sin(theta1) * SQ(norm1) / (2 * std::abs(norm1 * E2 - E1 * norm2 * cos_theta12));
+                double jacobian = std::abs( std::sin(theta1) * SQ(norm1) / (32 * CB(M_PI) * (norm1 * E2 - E1 * norm2 * cos_theta12)) );
                 Solution s { {gen_p1_sol}, jacobian, true };
                 gen_p1->push_back(s);
             }

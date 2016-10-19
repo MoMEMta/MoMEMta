@@ -8,7 +8,7 @@ parameters = {
 
 cuba = {
     verbosity = 3,
-    max_eval = 200000000,
+    max_eval = 20000000,
     relative_accuracy = 0.001,
     n_start = 2000000,   
     n_increase = 1000000,   
@@ -112,7 +112,7 @@ Looper.looperCD = {
           'tf_p_1::TF_times_jacobian',
           'tf_phi_1::TF_times_jacobian', 'tf_phi_2::TF_times_jacobian', 'tf_phi_3::TF_times_jacobian', 'tf_phi_4::TF_times_jacobian', 
           'tf_theta_1::TF_times_jacobian', 'tf_theta_2::TF_times_jacobian', 'tf_theta_3::TF_times_jacobian', 'tf_theta_4::TF_times_jacobian', 
-          'looperCD::jacobian', 'looperA::jacobian', 'phaseSpaceOut::phase_space'
+          'flatter::jacobian', 'looperCD::jacobian', 'looperA::jacobian', 'phaseSpaceOut::phase_space'
         }
 
         MatrixElement.dummy = {
