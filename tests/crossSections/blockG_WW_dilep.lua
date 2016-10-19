@@ -1,27 +1,7 @@
-function append(t1, t2)
-    for i = 1, #t2 do
-        t1[#t1 + 1] = t2[i]
-    end
-
-    return t1
-end
-
-function copy_and_append(t1, t2)
-    local t3 = {}
-
-    append(t3, t1)
-    append(t3, t2)
-
-    return t3
-end
-
-z_mass = 91.1188
-z_width = 2.441404
-h_mass = 125.0
-h_width = 0.006382339
-
 parameters = {
     energy = 13000.,
+    W_mass = 80.419002,
+    W_width = 2.0476
 }
 
 cuba = {
@@ -78,30 +58,30 @@ inputs = {
   'tf_theta_4::output',
 }
 
-BreitWignerGenerator.flatter_z = {
+BreitWignerGenerator.flatter_w1 = {
     ps_point = add_dimension(),
-    mass = z_mass,
-    width = z_width
+    mass = parameter('W_mass'),
+    width = parameter('W_width'),
 }
 
-BreitWignerGenerator.flatter_h = {
+BreitWignerGenerator.flatter_w2 = {
     ps_point = add_dimension(),
-    mass = h_mass,
-    width = h_width
+    mass = parameter('W_mass'),
+    width = parameter('W_width'),
 }
 
 BlockG.blockg = {
     inputs = inputs,
 
-    s12 = 'flatter_z::s',
-    s34 = 'flatter_h::s',
+    s12 = 'flatter_w1::s',
+    s34 = 'flatter_w2::s',
 }
 
 -- Loop
 
 Looper.looper = {
     solutions = "blockg::solutions",
-    path = Path("initial_state", "me_zh", "integrand")
+    path = Path("initial_state", "me_ww", "integrand")
 }
 
     gen_inputs = {'looper::particles/1', 'looper::particles/2', 'looper::particles/3', 'looper::particles/4'}
@@ -113,17 +93,17 @@ Looper.looper = {
     jacobians = {
       'tf_phi_1::TF_times_jacobian', 'tf_phi_2::TF_times_jacobian', 'tf_phi_3::TF_times_jacobian', 'tf_phi_4::TF_times_jacobian', 
       'tf_theta_1::TF_times_jacobian', 'tf_theta_2::TF_times_jacobian', 'tf_theta_3::TF_times_jacobian', 'tf_theta_4::TF_times_jacobian', 
-      'flatter_z::jacobian', 'flatter_h::jacobian',
+      'flatter_w1::jacobian', 'flatter_w2::jacobian',
       'looper::jacobian',
     }
 
-    MatrixElement.me_zh = {
+    MatrixElement.me_ww = {
       pdf = 'CT10nlo',
-      pdf_scale = z_mass + h_mass,
+      pdf_scale = parameter('W_mass'),
 
-      matrix_element = 'pp_zh_z_ee_h_bb_sm',
+      matrix_element = 'pp_WW_fully_leptonic_sm_P1_Sigma_sm_uux_epvemumvmx',
       matrix_element_parameters = {
-          card = '../MatrixElements/Cards/param_card_sm_5fs.dat'
+          card = '../MatrixElements/Cards/param_card.dat'
       },
 
       initialState = 'initial_state::partons',
@@ -137,17 +117,17 @@ Looper.looper = {
           },
 
           {
-            pdg_id = 11,
+            pdg_id = 12,
             me_index = 2,
           },
 
           {
-            pdg_id = 5,
+            pdg_id = 13,
             me_index = 3,
           },
 
           {
-            pdg_id = -5,
+            pdg_id = -14,
             me_index = 4,
           },
         }
@@ -157,7 +137,7 @@ Looper.looper = {
     }
 
     DoubleLooperSummer.integrand = {
-        input = "me_zh::output"
+        input = "me_ww::output"
     }
 
 -- End of loop

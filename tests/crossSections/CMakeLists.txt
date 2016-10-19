@@ -30,13 +30,12 @@ set_target_properties(test_XS_blockF_WW_dilep PROPERTIES OUTPUT_NAME
   "crossSection_blockF_WW_dilep.exe")
 
 
-### BlockG, p p > z h, (z > e+ e-), (h > b b~)
-### MadGraph: 0.01874(3) pb = 4.812(1)e-11 GeV-2
-### Massless b's, "correct" yukawa
-add_executable(test_XS_blockG_zh_eebb "blockG_zh_eebb.cc")
-target_link_libraries(test_XS_blockG_zh_eebb momemta)
-set_target_properties(test_XS_blockG_zh_eebb PROPERTIES OUTPUT_NAME
-  "crossSection_blockG_zh_eebb.exe")
+### BlockG, p p > W+ W-, (W+ > e+ ve), (W- > mu- vm~)
+### MadGraph: 0.867 +- 0.005 pb = 2.22(1)e-9 GeV^-2
+add_executable(test_XS_blockG_WW_dilep "blockG_WW_dilep.cc")
+target_link_libraries(test_XS_blockG_WW_dilep momemta)
+set_target_properties(test_XS_blockG_WW_dilep PROPERTIES OUTPUT_NAME
+  "crossSection_blockG_WW_dilep.exe")
 
 
 ### BlockB + SecondaryBlockCD, p p > W+ W-, (W+ > e+ ve), (W- > mu- vm~)

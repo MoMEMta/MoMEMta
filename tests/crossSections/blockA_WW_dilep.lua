@@ -6,10 +6,10 @@ parameters = {
 
 cuba = {
     verbosity = 3,
-    max_eval = 500000000,
+    max_eval = 1000000000,
     relative_accuracy = 0.005,
-    n_start = 50000000,   
-    n_increase = 10000000,
+    n_start = 100000000,   
+    n_increase = 100000000,
     seed = 5468460,        
 }
 
