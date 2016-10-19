@@ -64,8 +64,11 @@
  *   | Name | Type | %Description |
  *   |------|------|--------------|
  *   | `solutions` | vector(Solution) | Solutions of the change of variable. Each solution embeds the LorentzVectors of the balanced visible particles (ie. one \f$(p_1, p_2)\f$ pair) and the associated jacobian. |
- * \warning This block is **not** validated for the moment. The output is maybe correct, maybe not. Use with caution.
  *
+ * \note This block has been validated and is safe to use.
+ *
+ * \sa Looper module to loop over the solutions of this Block
+ *   
  * \ingroup modules
  */
 

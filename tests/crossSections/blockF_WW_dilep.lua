@@ -18,7 +18,7 @@ end
 parameters = {
     energy = 13000.,
     W_mass = 80.419002,
-    W_width = 2.047600e+00
+    W_width = 2.0476
 }
 
 cuba = {
