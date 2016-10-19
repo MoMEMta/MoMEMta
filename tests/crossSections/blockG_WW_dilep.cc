@@ -33,7 +33,7 @@ int main(int argc, char** argv) {
 
     logging::set_level(logging::level::debug);
 
-    ConfigurationReader configuration("../tests/crossSections/blockG_zh_eebb.lua");
+    ConfigurationReader configuration("../tests/crossSections/blockG_WW_dilep.lua");
     MoMEMta weight(configuration.freeze());
 
     LorentzVector p1(-25, 0, 0, 25);

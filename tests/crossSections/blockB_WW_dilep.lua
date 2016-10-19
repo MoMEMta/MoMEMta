@@ -6,7 +6,7 @@ parameters = {
 
 cuba = {
     verbosity = 3,
-    max_eval = 500000000,
+    max_eval = 280000000,
     relative_accuracy = 0.005,
     n_start = 10000000,   
     n_increase = 10000000,
