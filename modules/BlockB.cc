@@ -74,7 +74,7 @@
  *   |------|------|--------------|
  *   | `solutions` | vector(Solution) | Solutions of the change of variable. Each solution embed  the LorentzVector of the invisible particle (\f$p_1\f$ in this case) and the associated jacobian. These solutions should be fed as input to the Looper module. |
  *
- * \warning This block is **not** validated for the moment. The output is maybe correct, maybe not. Use with caution.
+ * \note This block has been validated and is safe to use.
  *
  * \sa Looper module to loop over the solutions of this Block
  *

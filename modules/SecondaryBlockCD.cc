@@ -61,7 +61,9 @@
  *   |------|------|--------------|
  *   | `gen_p1` | vector(Solution) | Solutions of the equation \f$s_{12} = (p_1 + p_2)^2\f$. Each solution embed the parton level LorentzVector of the decay product with energy fixed by this equation and the jacobian associated with the change of variable mentioned above.|
  *
- * \warning This secondary block has been tested for the E1 solution, the jacobian has not been tested yet.
+ * \note This block has been validated and is safe to use.
+ *
+ * \sa Looper module to loop over the solutions of this Block
  *
  * \ingroup modules
  */

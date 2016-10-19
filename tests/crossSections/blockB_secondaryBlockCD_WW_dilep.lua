@@ -1,27 +1,30 @@
-z_mass = 91.1188
-z_width = 2.441404
-h_mass = 125.0
-h_width = 0.006382339
-
 parameters = {
     energy = 13000.,
+    W_mass = 80.419002,
+    W_width = 2.0476
 }
 
 cuba = {
     verbosity = 3,
-    max_eval = 200000000,
+    max_eval = 20000000,
     relative_accuracy = 0.005,
     n_start = 1000000,   
     n_increase = 1000000,
     seed = 5468460,        
 }
 
--- 'Flat' transfer functions to integrate over the visible particle's angles
+-- 'Flat' transfer functions to integrate over the visible particle's angles and energies
 
 -- First |P|
-FlatTransferFunctionOnP.tf_p_4 = {
+FlatTransferFunctionOnP.tf_p_1 = {
     ps_point = add_dimension(),
-    reco_particle = 'input::particles/4',
+    reco_particle = 'input::particles/1',
+    min = 0.,
+    max = parameters.energy/2,
+}
+FlatTransferFunctionOnP.tf_p_3 = {
+    ps_point = add_dimension(),
+    reco_particle = 'input::particles/3',
     min = 0.,
     max = parameters.energy/2,
 }
@@ -29,7 +32,7 @@ FlatTransferFunctionOnP.tf_p_4 = {
 -- Then Phi
 FlatTransferFunctionOnPhi.tf_phi_1 = {
     ps_point = add_dimension(),
-    reco_particle = 'input::particles/1',
+    reco_particle = 'tf_p_1::output',
 }
 FlatTransferFunctionOnPhi.tf_phi_2 = {
     ps_point = add_dimension(),
@@ -37,11 +40,7 @@ FlatTransferFunctionOnPhi.tf_phi_2 = {
 }
 FlatTransferFunctionOnPhi.tf_phi_3 = {
     ps_point = add_dimension(),
-    reco_particle = 'input::particles/3',
-}
-FlatTransferFunctionOnPhi.tf_phi_4 = {
-    ps_point = add_dimension(),
-    reco_particle = 'tf_p_4::output',
+    reco_particle = 'tf_p_3::output',
 }
 
 -- Finally, do Theta 
@@ -57,73 +56,75 @@ FlatTransferFunctionOnTheta.tf_theta_3 = {
     ps_point = add_dimension(),
     reco_particle = 'tf_phi_3::output',
 }
-FlatTransferFunctionOnTheta.tf_theta_4 = {
+
+BreitWignerGenerator.flatter_w1 = {
     ps_point = add_dimension(),
-    reco_particle = 'tf_phi_4::output',
+    mass = parameter('W_mass'),
+    width = parameter('W_width'),
 }
 
-BreitWignerGenerator.flatter_h = {
+BreitWignerGenerator.flatter_w2 = {
     ps_point = add_dimension(),
-    mass = h_mass,
-    width = h_width
+    mass = parameter('W_mass'),
+    width = parameter('W_width'),
 }
 
 inputs = {
   'tf_theta_1::output',
   'tf_theta_2::output',
   'tf_theta_3::output',
-  'tf_theta_4::output',
 }
 
 StandardPhaseSpace.phaseSpaceOut = {
-    particles = { inputs[4] }
+    particles = { inputs[1], inputs[3] }
 }
 
 SecondaryBlockCD.secBlockCD = {
-    s12 = 'flatter_h::s',
-    gen_p2 = inputs[4],
-    reco_p1 = inputs[3]
+    s12 = 'flatter_w1::s',
+    gen_p2 = inputs[1],
+    reco_p1 = inputs[2]
 }
 
 -- Loop for secondary
 
 Looper.looperCD = {
     solutions = 'secBlockCD::gen_p1',
-    path = Path('blocka', 'looperA')
+    path = Path('blockb', 'looperB')
 }
 
-    BlockA.blocka = {
-        inputs = { inputs[1], inputs[2], 'looperCD::particles/1', inputs[4] },
+    BlockB.blockb = {
+        s12 = 'flatter_w2::s',
+        inputs = { inputs[3], inputs[1], 'looperCD::particles/1' },
     }
     
     -- Loop for main block
     
-    Looper.looperA = {
-        solutions = "blocka::solutions",
-        path = Path("initial_state", "me_zh", "integrand")
+    Looper.looperB = {
+        solutions = "blockb::solutions",
+        path = Path("initial_state", "me_ww", "integrand")
     }
     
-        gen_inputs = { 'looperA::particles/1', 'looperA::particles/2', 'looperCD::particles/1', inputs[4] }
+        gen_inputs = { inputs[1], 'looperCD::particles/1', inputs[3], 'looperB::particles/1' }
         
         BuildInitialState.initial_state = {
             particles = gen_inputs
         }
     
         jacobians = {
-          'tf_p_4::TF_times_jacobian',
-          'tf_phi_1::TF_times_jacobian', 'tf_phi_2::TF_times_jacobian', 'tf_phi_3::TF_times_jacobian', 'tf_phi_4::TF_times_jacobian', 
-          'tf_theta_1::TF_times_jacobian', 'tf_theta_2::TF_times_jacobian', 'tf_theta_3::TF_times_jacobian', 'tf_theta_4::TF_times_jacobian', 
+          'tf_p_1::TF_times_jacobian', 'tf_p_3::TF_times_jacobian',
+          'tf_phi_1::TF_times_jacobian', 'tf_phi_2::TF_times_jacobian', 'tf_phi_3::TF_times_jacobian',
+          'tf_theta_1::TF_times_jacobian', 'tf_theta_2::TF_times_jacobian', 'tf_theta_3::TF_times_jacobian',
           'phaseSpaceOut::phase_space',
-          'flatter_h::jacobian', 'looperCD::jacobian', 'looperA::jacobian',
+          'flatter_w1::jacobian', 'flatter_w2::jacobian', 'looperCD::jacobian', 'looperB::jacobian',
         }
     
-        MatrixElement.me_zh = {
+        MatrixElement.me_ww = {
           pdf = 'CT10nlo',
-          pdf_scale = z_mass + h_mass,
+          pdf_scale = parameter('W_mass'),
     
-          matrix_element = 'pp_zh_z_ee_h_bb_sm',
+          matrix_element = 'pp_WW_fully_leptonic_sm_P1_Sigma_sm_uux_epvemumvmx',
           matrix_element_parameters = {
-              card = '../MatrixElements/Cards/param_card_sm_5fs.dat'
+              card = '../MatrixElements/Cards/param_card.dat'
           },
     
           initialState = 'initial_state::partons',
@@ -137,17 +138,17 @@ Looper.looperCD = {
               },
     
               {
-                pdg_id = 11,
+                pdg_id = 12,
                 me_index = 2,
               },
     
               {
-                pdg_id = 5,
+                pdg_id = 13,
                 me_index = 3,
               },
     
               {
-                pdg_id = -5,
+                pdg_id = -14,
                 me_index = 4,
               },
             }
@@ -157,7 +158,7 @@ Looper.looperCD = {
         }
     
         DoubleLooperSummer.integrand = {
-            input = "me_zh::output"
+            input = "me_ww::output"
         }
 
 -- End of loops

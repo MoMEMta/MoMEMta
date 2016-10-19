@@ -1,18 +1,15 @@
-z_mass = 91.1188
-z_width = 2.441404
-h_mass = 125.0
-h_width = 0.006382339
-
 parameters = {
     energy = 13000.,
+    W_mass = 80.419002,
+    W_width = 2.0476
 }
 
 cuba = {
     verbosity = 3,
-    max_eval = 200000000,
+    max_eval = 500000000,
     relative_accuracy = 0.005,
-    n_start = 10000000,   
-    n_increase = 5000000,
+    n_start = 50000000,   
+    n_increase = 10000000,
     seed = 5468460,        
 }
 
@@ -87,7 +84,7 @@ BlockA.blocka = {
 
 Looper.looper = {
     solutions = "blocka::solutions",
-    path = Path("initial_state", "me_zh", "integrand")
+    path = Path("initial_state", "me_ww", "integrand")
 }
 
     gen_inputs = { 'looper::particles/1', 'looper::particles/2', inputs[3], inputs[4] }
@@ -103,13 +100,13 @@ Looper.looper = {
       'phaseSpaceOut::phase_space', 'looper::jacobian',
     }
 
-    MatrixElement.me_zh = {
+    MatrixElement.me_ww = {
       pdf = 'CT10nlo',
-      pdf_scale = z_mass + h_mass,
+      pdf_scale = parameter('W_mass'),
 
-      matrix_element = 'pp_zh_z_ee_h_bb_sm',
+      matrix_element = 'pp_WW_fully_leptonic_sm_P1_Sigma_sm_uux_epvemumvmx',
       matrix_element_parameters = {
-          card = '../MatrixElements/Cards/param_card_sm_5fs.dat'
+          card = '../MatrixElements/Cards/param_card.dat'
       },
 
       initialState = 'initial_state::partons',
@@ -123,17 +120,17 @@ Looper.looper = {
           },
 
           {
-            pdg_id = 11,
+            pdg_id = 12,
             me_index = 2,
           },
 
           {
-            pdg_id = 5,
+            pdg_id = 13,
             me_index = 3,
           },
 
           {
-            pdg_id = -5,
+            pdg_id = -14,
             me_index = 4,
           },
         }
@@ -143,7 +140,7 @@ Looper.looper = {
     }
 
     DoubleLooperSummer.integrand = {
-        input = "me_zh::output"
+        input = "me_ww::output"
     }
 
 -- End of loop
