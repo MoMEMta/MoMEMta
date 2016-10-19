@@ -45,6 +45,7 @@ The following options are available when configuring the build (when running `cm
    * `-DTESTS=ON`: Also compile the test executables
    * `-DEXAMPLES=OFF`: Do not compile the example executables
    * `-DPYTHON_BINDINGS=ON|OFF` (`OFF` by default). Builds python bindings for MoMEMta. Requires python and boost::python.
+   * `-DDEBUG_TIMING=ON|OFF` (`OFF` by default). If `ON`, a summary of how long each module ran is printed at the end of the integration. Can be useful to see which module to optimize.
 
 ## Examples
 

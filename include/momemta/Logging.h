@@ -18,7 +18,6 @@
 
 #pragma once
 
-#include <momemta/config.h>
 #include <momemta/impl/logger/common.h>
 #include <momemta/impl/logger/logger.h>
 

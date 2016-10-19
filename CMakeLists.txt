@@ -30,6 +30,8 @@ option(COVERAGE "Enable code coverage" OFF)
 
 option(PYTHON_BINDINGS "Build python bindings. Python needs to be available" OFF)
 
+option(DEBUG_TIMING "Debug modules runtime. After each weight computation, a summry of each module runtime is printed" OFF)
+
 # Set a default build type for single-configuration
 # CMake generators if no build type is set.
 if (NOT CMAKE_CONFIGURATION_TYPES AND NOT CMAKE_BUILD_TYPE)
