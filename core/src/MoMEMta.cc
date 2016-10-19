@@ -30,6 +30,10 @@
 
 #include <Graph.h>
 
+#ifdef DEBUG_TIMING
+using namespace std::chrono;
+#endif
+
 #define CUBA_ABORT -999
 #define CUBA_OK 0
 
@@ -325,6 +329,13 @@ std::vector<std::pair<double, double>> MoMEMta::computeWeights(const std::vector
         }
     }
 
+#ifdef DEBUG_TIMING
+    LOG(info) << "Time spent evaluating modules (more details for loopers below):";
+    for (auto it: m_module_timing) {
+        LOG(info) << "    " << it.first->name() << ": " << duration_cast<duration<double>>(it.second).count() << "s";
+    }
+#endif
+
     for (const auto& module: m_modules) {
         module->endIntegration();
     }
@@ -351,7 +362,13 @@ int MoMEMta::integrand(const double* psPoints, double* results, const double* we
         module->beginPoint();
 
     for (auto& module: m_modules) {
+#ifdef DEBUG_TIMING
+        auto start = high_resolution_clock::now();
+#endif
         auto status = module->work();
+#ifdef DEBUG_TIMING
+        m_module_timing[module.get()] += high_resolution_clock::now() - start;
+#endif
 
         if (status == Module::Status::NEXT) {
             // Stop executation for the current integration step

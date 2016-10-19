@@ -22,6 +22,7 @@
 #include <memory>
 #include <vector>
 
+#include <momemta/config.h>
 #include <momemta/Module.h>
 #include <momemta/ParameterSet.h>
 #include <momemta/Pool.h>
@@ -29,6 +30,10 @@
 
 class Configuration;
 class SharedLibrary;
+
+#ifdef DEBUG_TIMING
+#include <chrono>
+#endif
 
 /**
  * \brief A %MoMEMta instance
@@ -116,4 +121,8 @@ class MoMEMta {
         std::shared_ptr<std::vector<LorentzVector>> m_particles;
         std::shared_ptr<LorentzVector> m_met;
         std::vector<Value<double>> m_integrands;
+
+#ifdef DEBUG_TIMING
+        std::unordered_map<Module*, std::chrono::high_resolution_clock::duration> m_module_timing;
+#endif
 };

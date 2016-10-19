@@ -20,9 +20,15 @@
 
 #include <vector>
 
+#include <momemta/config.h>
 #include <momemta/ParameterSet.h>
 #include <momemta/Path.h>
 #include <momemta/Solution.h>
+
+#ifdef DEBUG_TIMING
+#include <chrono>
+using namespace std::chrono;
+#endif
 
 #define CALL(X) { for (auto& m: path.modules()) \
         m->X(); \
@@ -118,6 +124,13 @@ class Looper: public Module {
 
         virtual void endIntegration() override {
             CALL(endIntegration);
+
+#ifdef DEBUG_TIMING
+            LOG(info) << "Time spent evaluating modules of looper " << name() << ":";
+            for (auto it: m_timings) {
+                LOG(info) << "    " << it.first->name() << ": " << duration_cast<duration<double>>(it.second).count() << "s";
+            }
+#endif
         }
 
         virtual void beginPoint() override {
@@ -144,7 +157,13 @@ class Looper: public Module {
                 *jacobian = s.jacobian;
 
                 for (auto& m: path.modules()) {
+#ifdef DEBUG_TIMING
+                    auto start = high_resolution_clock::now();
+#endif
                     auto module_status = m->work();
+#ifdef DEBUG_TIMING
+                    m_timings[m.get()] += high_resolution_clock::now() - start;
+#endif
 
                     if (module_status == Status::OK)
                         continue;
@@ -174,6 +193,10 @@ class Looper: public Module {
         // Outputs
         std::shared_ptr<std::vector<LorentzVector>> particles = produce<std::vector<LorentzVector>>("particles");
         std::shared_ptr<double> jacobian = produce<double>("jacobian");
+
+#ifdef DEBUG_TIMING
+        std::unordered_map<Module*, std::chrono::high_resolution_clock::duration> m_timings;
+#endif
 
 };
 REGISTER_MODULE(Looper);
