@@ -1,20 +1,3 @@
-function append(t1, t2)
-    for i = 1, #t2 do
-        t1[#t1 + 1] = t2[i]
-    end
-
-    return t1
-end
-
-function copy_and_append(t1, t2)
-    local t3 = {}
-
-    append(t3, t1)
-    append(t3, t2)
-
-    return t3
-end
-
 z_mass = 91.1188
 z_width = 2.441404
 h_mass = 125.0
@@ -28,8 +11,8 @@ cuba = {
     verbosity = 3,
     max_eval = 200000000,
     relative_accuracy = 0.005,
-    n_start = 10000000,   
-    n_increase = 5000000,
+    n_start = 1000000,   
+    n_increase = 1000000,
     seed = 5468460,        
 }
 
