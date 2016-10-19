@@ -74,7 +74,7 @@
  *   | `invisibles` | vector(vector(LorentzVector)) | LorentzVector of the invisible particles. In this Block \f$p_1\f$. One value per solution.
  *   | `jacobians` | vector(double) | Jacobian of the performed change of variables, leading to an integration on \f$ds_{12}\f$. One jacobian per solution.
  *
- * \warning This block is **not** validated for the moment. The output is maybe correct, maybe not. Use with caution.
+ * \note This block has been validated and is safe to use.
  *
  * \ingroup modules
  */
@@ -131,17 +131,17 @@ class BlockB: public Module {
             
             const double p22 = p2.M2();
             
-            // From eq.(1) p1z = -B*E1 + A
-            // From eq.(4) + eq.(1) (1-B^2)* E1^2 + 2AB* E1 - C = 0    
- 
-            const double A = (*s12 - p22 + 2*(pT.Px()*p2.Px() + pT.Py()*p2.Py()))/(2*p2.Pz());
-            const double B = p2.E()/p2.Pz();
-            const double C = SQ(pT.Px()) + SQ(pT.Py());
-                 
+            // From eq.(1) p1z = B*E1 + A
+            // From eq.(4) + eq.(1) (1 - B^2) E1^2 - 2 A B E1 + C - A^2 = 0
+
+            const double A = - (*s12 - p22 - 2 * (pT.Px() * p2.Px() + pT.Py() * p2.Py())) / (2 * p2.Pz());
+            const double B = p2.E() / p2.Pz();
+            const double C = - SQ(pT.Px()) - SQ(pT.Py());
+
             // Solve quadratic a*E1^2 + b*E1 + c = 0
             const double a = 1 - SQ(B);
-            const double b = 2*A*B;
-            const double c = -C;
+            const double b = - 2 * A * B;
+            const double c = C - SQ(A);
 
             std::vector<double> E1;
             
@@ -155,11 +155,11 @@ class BlockB: public Module {
                 
                 if (e1 < 0.) continue;
                 
-                LorentzVector p1(-pT.Px(), -pT.Py(), A - B*e1, e1);
+                LorentzVector p1(-pT.Px(), -pT.Py(), A + B*e1, e1);
                 
                 // Check if solutions are physical
-                LorentzVector tot = p1;
-                for (size_t i = 0; i < m_particle_tags.size(); i++) {
+                LorentzVector tot = p1 + p2;
+                for (size_t i = 1; i < m_particle_tags.size(); i++) {
                     tot += m_particle_tags[i].get<LorentzVector>();
                 }
                 double q1Pz = std::abs(tot.Pz() + tot.E()) / 2.;
@@ -167,29 +167,15 @@ class BlockB: public Module {
                 if(q1Pz > sqrt_s/2 || q2Pz > sqrt_s/2)
                     continue;
                 
+                const double inv_jacobian = SQ(sqrt_s) * std::abs(p2.Pz() * e1 - p2.E() * p1.Pz());
+                
                 invisibles->push_back({p1});
-                jacobians->push_back(computeJacobian(p1, p2));   
+                jacobians->push_back(M_PI/inv_jacobian);   
             }
         }
 
-        // The extra dimensions not present in the input
         virtual size_t dimensions() const override {
             return 0;
-        }
-
-        double computeJacobian(const LorentzVector& p1, const LorentzVector& p2) {
-          
-            const double E1  = p1.E();
-            const double p1z = p1.Pz();
-
-            const double E2  = p2.E();
-            const double p2z = p2.Pz();
-            
-            // Some extra info in MadWeight Source/MadWeight/blocks/class_b.f Good luck!!
-            
-            double inv_jac = 4.*SQ(M_PI*sqrt_s)*( p2z*E1 - E2*p1z);
-            
-            return 1. / std::abs(inv_jac);
         }
 
     private:
