@@ -105,8 +105,6 @@ MoMEMta::MoMEMta(const Configuration& configuration) {
     // Freeze the pool after removing unneeded modules
     m_pool->freeze();
 
-    cubacores(0, 0);
-
     // Register logging function
     cubalogging(MoMEMta::cuba_logging);
 }
@@ -161,8 +159,12 @@ std::vector<std::pair<double, double>> MoMEMta::computeWeights(const std::vector
         bool takeOnlyGridFromFile = m_cuba_configuration.get<bool>("takeOnlyGridFromFile", true);
         // Only used by vegas and suave!
         bool smoothing = m_cuba_configuration.get<bool>("smoothing", true);
-        
+
         unsigned int flags = cuba::createFlagsBitset(verbosity, subregion, retainStateFile, level, smoothing, takeOnlyGridFromFile);
+
+        int64_t ncores = m_cuba_configuration.get<int64_t>("ncores", 0);
+        int64_t pcores = m_cuba_configuration.get<int64_t>("pcores", 1000000);
+        cubacores(ncores, pcores);
 
         // Output from cuba
         long long int neval = 0;
@@ -172,11 +174,11 @@ std::vector<std::pair<double, double>> MoMEMta::computeWeights(const std::vector
         for (size_t i = 0; i < m_n_components; i++) {
             prob[i] = 0;
         }
-        
+
         if (algorithm == "vegas") {
             int64_t n_start = m_cuba_configuration.get<int64_t>("n_start", 25000);
             int64_t n_increase = m_cuba_configuration.get<int64_t>("n_increase", 0);
-            int64_t batch_size = m_cuba_configuration.get<int64_t>("batch_size", 2000);
+            int64_t batch_size = m_cuba_configuration.get<int64_t>("batch_size", n_start);
             int64_t grid_number = m_cuba_configuration.get<int64_t>("grid_number", 0);
 
             llVegas(
@@ -207,7 +209,7 @@ std::vector<std::pair<double, double>> MoMEMta::computeWeights(const std::vector
             int64_t n_new = m_cuba_configuration.get<int64_t>("n_new", 1000);
             int64_t n_min = m_cuba_configuration.get<int64_t>("n_min", 2);
             double flatness = m_cuba_configuration.get<double>("flatness", 0.25);
-            
+
             int nregions = 0;
 
             llSuave(
@@ -242,7 +244,7 @@ std::vector<std::pair<double, double>> MoMEMta::computeWeights(const std::vector
             double border = m_cuba_configuration.get<double>("border", 0);
             double maxchisq = m_cuba_configuration.get<double>("maxchisq", 10.0);
             double mindeviation = m_cuba_configuration.get<double>("mindeviation", 0.25);
-            
+
             int nregions = 0;
 
             llDivonne(
@@ -278,7 +280,7 @@ std::vector<std::pair<double, double>> MoMEMta::computeWeights(const std::vector
             );
         } else if (algorithm == "cuhre") {
             int64_t key = m_cuba_configuration.get<int64_t>("key", 0);
-            
+
             int nregions = 0;
 
             llCuhre(

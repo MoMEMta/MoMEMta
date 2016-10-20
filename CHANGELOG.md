@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
  - Binned and Gaussian transfer function on Pt
  - Main Block G (not present in MadWeight)
  - `DEBUG_TIMING` cmake option, to print a summary of each module runtime at the end of the integration.
+ - New cuba option to configure multi-core integration, `ncores` and `pcores`.
 
 ### Changed
  - The way to handle multiple solutions coming from blocks has changed. A module is no longer responsible for looping over the solutions itself, this role is delegated to the `Looper` module. As a consequence, most of the module were rewritten to handle this change. See this [pull request](https://github.com/MoMEMta/MoMEMta/pull/69) and [this one](https://github.com/MoMEMta/MoMEMta/pull/91) for a more technical description, and this [documentation entry](http://momemta.github.io/) for more details
