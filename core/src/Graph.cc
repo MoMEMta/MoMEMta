@@ -117,6 +117,9 @@ Graph build(const Pool::DescriptionMap& description, std::vector<ModulePtr>& mod
     }
 
     modules.clear();
+    for (auto& path: paths) {
+        path->modules.clear();
+    }
 
     // Create edges. One edge connect one module output to one module input
     for (const auto& vertex: vertices) {
