@@ -155,7 +155,7 @@ class BinnedTransferFunctionOnEnergy: public BinnedTransferFunctionOnEnergyBase 
             const double delta = rec_E - gen_E;
 
             // To change the particle's energy without changing its direction and mass:
-            const double gen_pt = std::sqrt(SQ(gen_E) - SQ(rec_M)) / std::cosh(m_reco_input->Eta());
+            const double gen_pt = std::sqrt((gen_E - rec_M) * (gen_E + rec_M)) / std::cosh(m_reco_input->Eta());
             output->SetCoordinates(
                     gen_pt * std::cos(m_reco_input->Phi()),
                     gen_pt * std::sin(m_reco_input->Phi()),
