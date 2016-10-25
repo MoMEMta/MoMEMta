@@ -121,6 +121,11 @@ const Pool& MoMEMta::getPool() const {
 
 std::vector<std::pair<double, double>> MoMEMta::computeWeights(const std::vector<LorentzVector>& particles, const LorentzVector& met) {
 
+    for (const auto& p: particles)
+        checkIfPhysical(p);
+
+    checkIfPhysical(met);
+
     *m_particles = particles;
     *m_met = met;
 
@@ -425,4 +430,26 @@ void MoMEMta::cuba_logging(const char* s) {
 
 MoMEMta::IntegrationStatus MoMEMta::getIntegrationStatus() const {
     return integration_status;
+}
+
+void MoMEMta::checkIfPhysical(const LorentzVector& p4) {
+    // Use M2() to prevent computation of the square root
+    if ((p4.M2() < 0) || (p4.E() < 0)) {
+        auto exception = unphysical_lorentzvector_error(p4);
+        LOG(fatal) << exception.what();
+        throw exception;
+    }
+}
+
+MoMEMta::unphysical_lorentzvector_error::unphysical_lorentzvector_error(const LorentzVector& p4) {
+    std::stringstream msg;
+
+    msg << "Unphysical lorentz vector: " << p4;
+    msg << ". Please ensure that the energy and the mass are positive or null.";
+
+    _what = msg.str();
+}
+
+const char* MoMEMta::unphysical_lorentzvector_error::what() const noexcept {
+    return _what.c_str();
 }

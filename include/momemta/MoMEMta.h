@@ -96,6 +96,22 @@ class MoMEMta {
         class cuba_configuration_error: public std::runtime_error {
             using std::runtime_error::runtime_error;
         };
+        class unphysical_lorentzvector_error: public std::exception {
+        public:
+            unphysical_lorentzvector_error(const LorentzVector& p4);
+            virtual const char* what() const noexcept override;
+        private:
+            std::string _what;
+        };
+
+        /**
+         * \brief Test if a LorentzVector is physical or not
+         *
+         * To be considered as physical, the energy and the mass of the lorentz vector must be positive
+         *
+         * \param p4 The lorentz vector to test
+         */
+        void checkIfPhysical(const LorentzVector& p4);
 
         int integrand(const double* psPoints, double* results, const double* weights);
 
