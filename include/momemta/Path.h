@@ -81,17 +81,15 @@ class Path {
         const std::vector<std::shared_ptr<Module>>& modules() const;
 
         /**
-         * \brief Test if this instance was already resolved
+         * \brief Freeze this Path.
          *
-         * A Path must be resolved first before one can access the list of modules. This is done
-         * by the Graph system after all modules have been created.
+         * This ensure that any later modification to the configuration won't affect this path
          *
-         * The return values of Path::modules() is only valid if resolved() returns `true`
-         *
-         * \return True if this Path has already been resolved, false otherwise
          */
-        bool resolved() const;
+        void freeze();
 
     private:
-        PathElementsPtr elements = nullptr;
+        PathElementsPtr elements_ = nullptr;
+        bool frozen = false;
+        std::vector<std::shared_ptr<Module>> modules_;
 };

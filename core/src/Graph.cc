@@ -64,7 +64,7 @@ bool checkInPath(Graph& g, vertex_t looper, vertex_t module) {
 
     // We know that the module is a Looper
     // grab its execution path from its configuration
-    auto looper_path = g[looper].configuration_module.parameters->get<Path>("path");
+    const auto& looper_path = g[looper].configuration_module.parameters->get<Path>("path");
     const auto& path_modules = looper_path.modules();
 
     const auto& target = g[module];
@@ -265,7 +265,9 @@ Graph build(const Pool::DescriptionMap& description, std::vector<ModulePtr>& mod
     }
 
     for (auto& path: paths) {
+        // This path can't change anymore, so it's safe to freeze it
         path->resolved = true;
+
         for (const auto& name: path->elements) {
             auto it = std::find_if(path->modules.begin(), path->modules.end(), [&name](const ModulePtr& module) { return module->name() == name; });
             if (it == path->modules.end()) {
