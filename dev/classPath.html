@@ -123,7 +123,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <p><code>#include &lt;<a class="el" href="include_2momemta_2Path_8h_source.html">Path.h</a>&gt;</code></p>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>An execution path. </p>
-<p>A <a class="el" href="classPath.html" title="An execution path. ">Path</a> represents an ordered sequence of modules, accessible using the <a class="el" href="classPath.html#a98c769d7cc4cef815d3f15fd5407385a" title="The sequence of modules of this executation Path. ">Path::modules()</a> method. An instance of <a class="el" href="classPath.html" title="An execution path. ">Path</a> is only valid if it was previsouly resolved by the Graph system. This can be tested using the <a class="el" href="classPath.html#ae165f9f0f519178d857bff755db6486b" title="Test if this instance was already resolved. ">Path::resolved()</a> method.</p>
+<p>A <a class="el" href="classPath.html" title="An execution path. ">Path</a> represents an ordered sequence of modules, accessible using the <a class="el" href="classPath.html#a98c769d7cc4cef815d3f15fd5407385a" title="The sequence of modules of this executation Path. ">Path::modules()</a> method. An instance of <a class="el" href="classPath.html" title="An execution path. ">Path</a> is only valid if it was previsouly resolved by the Graph system. This can be tested using the Path::resolved() method.</p>
 <dl class="section note"><dt>Note</dt><dd>A <a class="el" href="classPath.html" title="An execution path. ">Path</a> does not by itself execute any modules, this is left to the user of this class</dd></dl>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="classLooper.html" title="A module looping over a set of solutions. ">Looper</a> module </dd></dl>
 
@@ -144,9 +144,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a98c769d7cc4cef815d3f15fd5407385a"><td class="memItemLeft" align="right" valign="top">const std::vector&lt; std::shared_ptr&lt; <a class="el" href="classModule.html">Module</a> &gt; &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPath.html#a98c769d7cc4cef815d3f15fd5407385a">modules</a> () const </td></tr>
 <tr class="memdesc:a98c769d7cc4cef815d3f15fd5407385a"><td class="mdescLeft">&#160;</td><td class="mdescRight">The sequence of modules of this executation <a class="el" href="classPath.html" title="An execution path. ">Path</a>.  <a href="#a98c769d7cc4cef815d3f15fd5407385a">More...</a><br /></td></tr>
 <tr class="separator:a98c769d7cc4cef815d3f15fd5407385a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae165f9f0f519178d857bff755db6486b"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPath.html#ae165f9f0f519178d857bff755db6486b">resolved</a> () const </td></tr>
-<tr class="memdesc:ae165f9f0f519178d857bff755db6486b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Test if this instance was already resolved.  <a href="#ae165f9f0f519178d857bff755db6486b">More...</a><br /></td></tr>
-<tr class="separator:ae165f9f0f519178d857bff755db6486b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4eb1de86ded9e1eb6e7b9e53d5ec1850"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPath.html#a4eb1de86ded9e1eb6e7b9e53d5ec1850">freeze</a> ()</td></tr>
+<tr class="memdesc:a4eb1de86ded9e1eb6e7b9e53d5ec1850"><td class="mdescLeft">&#160;</td><td class="mdescRight">Freeze this <a class="el" href="classPath.html" title="An execution path. ">Path</a>.  <a href="#a4eb1de86ded9e1eb6e7b9e53d5ec1850">More...</a><br /></td></tr>
+<tr class="separator:a4eb1de86ded9e1eb6e7b9e53d5ec1850"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="a26c54646ff368f1e7b9b6017124c5c65"></a>
@@ -208,6 +208,26 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="a4eb1de86ded9e1eb6e7b9e53d5ec1850"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Path::freeze </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Freeze this <a class="el" href="classPath.html" title="An execution path. ">Path</a>. </p>
+<p>This ensure that any later modification to the configuration won't affect this path </p>
+
+<p>Definition at line <a class="el" href="Path_8cc_source.html#l00038">38</a> of file <a class="el" href="Path_8cc_source.html">Path.cc</a>.</p>
+
+</div>
+</div>
 <a class="anchor" id="a98c769d7cc4cef815d3f15fd5407385a"></a>
 <div class="memitem">
 <div class="memproto">
@@ -222,32 +242,10 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>The sequence of modules of this executation <a class="el" href="classPath.html" title="An execution path. ">Path</a>. </p>
-<p>The return value is only valid if <a class="el" href="classPath.html#ae165f9f0f519178d857bff755db6486b" title="Test if this instance was already resolved. ">resolved()</a> returns <code>true</code>.</p>
+<p>The return value is only valid if resolved() returns <code>true</code>.</p>
 <dl class="section return"><dt>Returns</dt><dd>Sequence of modules </dd></dl>
 
-<p>Definition at line <a class="el" href="Path_8cc_source.html#l00029">29</a> of file <a class="el" href="Path_8cc_source.html">Path.cc</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="ae165f9f0f519178d857bff755db6486b"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool Path::resolved </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Test if this instance was already resolved. </p>
-<p>A <a class="el" href="classPath.html" title="An execution path. ">Path</a> must be resolved first before one can access the list of modules. This is done by the Graph system after all modules have been created.</p>
-<p>The return values of <a class="el" href="classPath.html#a98c769d7cc4cef815d3f15fd5407385a" title="The sequence of modules of this executation Path. ">Path::modules()</a> is only valid if <a class="el" href="classPath.html#ae165f9f0f519178d857bff755db6486b" title="Test if this instance was already resolved. ">resolved()</a> returns <code>true</code></p>
-<dl class="section return"><dt>Returns</dt><dd>True if this <a class="el" href="classPath.html" title="An execution path. ">Path</a> has already been resolved, false otherwise </dd></dl>
-
-<p>Definition at line <a class="el" href="Path_8cc_source.html#l00025">25</a> of file <a class="el" href="Path_8cc_source.html">Path.cc</a>.</p>
+<p>Definition at line <a class="el" href="Path_8cc_source.html#l00027">27</a> of file <a class="el" href="Path_8cc_source.html">Path.cc</a>.</p>
 
 </div>
 </div>

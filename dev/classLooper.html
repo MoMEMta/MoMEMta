@@ -167,6 +167,10 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ab54879ca6ffab0b6142254827b27128f"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab54879ca6ffab0b6142254827b27128f"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>Looper</b> (PoolPtr pool, const <a class="el" href="classParameterSet.html">ParameterSet</a> &amp;parameters)</td></tr>
 <tr class="separator:ab54879ca6ffab0b6142254827b27128f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a03f32cd9643774bb9e4a6d505e160f06"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a03f32cd9643774bb9e4a6d505e160f06"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classLooper.html#a03f32cd9643774bb9e4a6d505e160f06">configure</a> () override</td></tr>
+<tr class="memdesc:a03f32cd9643774bb9e4a6d505e160f06"><td class="mdescLeft">&#160;</td><td class="mdescRight">Called once at the beginning of the job. <br /></td></tr>
+<tr class="separator:a03f32cd9643774bb9e4a6d505e160f06"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3ed060fc1ed62271b87b9d8c57999ea6"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3ed060fc1ed62271b87b9d8c57999ea6"></a>
 virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classLooper.html#a3ed060fc1ed62271b87b9d8c57999ea6">beginIntegration</a> () override</td></tr>
 <tr class="memdesc:a3ed060fc1ed62271b87b9d8c57999ea6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Called once at the beginning of the integration. <br /></td></tr>
@@ -188,10 +192,6 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hr
 <tr class="memitem:a17cb586f94658e2048759c4cbdb7968d inherit pub_methods_classModule"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classModule.html#a17cb586f94658e2048759c4cbdb7968d">Module</a> (PoolPtr pool, const std::string &amp;name)</td></tr>
 <tr class="memdesc:a17cb586f94658e2048759c4cbdb7968d inherit pub_methods_classModule"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor.  <a href="#a17cb586f94658e2048759c4cbdb7968d">More...</a><br /></td></tr>
 <tr class="separator:a17cb586f94658e2048759c4cbdb7968d inherit pub_methods_classModule"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1e559c32bbb1442a3100bb6d9c90bca3 inherit pub_methods_classModule"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a1e559c32bbb1442a3100bb6d9c90bca3"></a>
-virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classModule.html#a1e559c32bbb1442a3100bb6d9c90bca3">configure</a> ()</td></tr>
-<tr class="memdesc:a1e559c32bbb1442a3100bb6d9c90bca3 inherit pub_methods_classModule"><td class="mdescLeft">&#160;</td><td class="mdescRight">Called once at the beginning of the job. <br /></td></tr>
-<tr class="separator:a1e559c32bbb1442a3100bb6d9c90bca3 inherit pub_methods_classModule"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae4e8fd60f1adfbf0aa0f244f39a45ae4 inherit pub_methods_classModule"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classModule.html#ae4e8fd60f1adfbf0aa0f244f39a45ae4">beginLoop</a> ()</td></tr>
 <tr class="memdesc:ae4e8fd60f1adfbf0aa0f244f39a45ae4 inherit pub_methods_classModule"><td class="mdescLeft">&#160;</td><td class="mdescRight">Called once at the beginning of a loop.  <a href="#ae4e8fd60f1adfbf0aa0f244f39a45ae4">More...</a><br /></td></tr>
 <tr class="separator:ae4e8fd60f1adfbf0aa0f244f39a45ae4 inherit pub_methods_classModule"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -269,7 +269,7 @@ PoolPtr&#160;</td><td class="memItemRight" valign="bottom"><b>m_pool</b></td></t
 
 <p>Reimplemented from <a class="el" href="classModule.html#a34290e98ac276c8edc6cd196d3ac93b2">Module</a>.</p>
 
-<p>Definition at line <a class="el" href="Looper_8cc_source.html#l00136">136</a> of file <a class="el" href="Looper_8cc_source.html">Looper.cc</a>.</p>
+<p>Definition at line <a class="el" href="Looper_8cc_source.html#l00141">141</a> of file <a class="el" href="Looper_8cc_source.html">Looper.cc</a>.</p>
 
 </div>
 </div>
@@ -299,7 +299,7 @@ PoolPtr&#160;</td><td class="memItemRight" valign="bottom"><b>m_pool</b></td></t
 
 <p>Reimplemented from <a class="el" href="classModule.html#a0a9ffe256b3c8eeeec8dbc507061c847">Module</a>.</p>
 
-<p>Definition at line <a class="el" href="Looper_8cc_source.html#l00140">140</a> of file <a class="el" href="Looper_8cc_source.html">Looper.cc</a>.</p>
+<p>Definition at line <a class="el" href="Looper_8cc_source.html#l00145">145</a> of file <a class="el" href="Looper_8cc_source.html">Looper.cc</a>.</p>
 
 </div>
 </div>
@@ -330,7 +330,7 @@ PoolPtr&#160;</td><td class="memItemRight" valign="bottom"><b>m_pool</b></td></t
 
 <p>Reimplemented from <a class="el" href="classModule.html#a43c0b7c70e9dd8b0cf6c78aa5052eeee">Module</a>.</p>
 
-<p>Definition at line <a class="el" href="Looper_8cc_source.html#l00144">144</a> of file <a class="el" href="Looper_8cc_source.html">Looper.cc</a>.</p>
+<p>Definition at line <a class="el" href="Looper_8cc_source.html#l00149">149</a> of file <a class="el" href="Looper_8cc_source.html">Looper.cc</a>.</p>
 
 </div>
 </div>
