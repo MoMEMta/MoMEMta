@@ -113,10 +113,15 @@ class Looper: public Module {
     public:
 
         Looper(PoolPtr pool, const ParameterSet& parameters): Module(pool, parameters.getModuleName()) {
-            solutions = pool->get<SolutionCollection>(parameters.get<InputTag>("solutions")); 
+            solutions = pool->get<SolutionCollection>(parameters.get<InputTag>("solutions"));
 
             path = parameters.get<Path>("path");
         };
+
+        virtual void configure() override {
+            path.freeze();
+            CALL(configure);
+        }
 
         virtual void beginIntegration() override {
             CALL(beginIntegration);

@@ -24,6 +24,7 @@
 
 #include <momemta/Configuration.h>
 #include <momemta/Logging.h>
+#include <momemta/Path.h>
 #include <momemta/ParameterSet.h>
 #include <momemta/Utils.h>
 #include <momemta/Unused.h>
@@ -59,7 +60,6 @@ MoMEMta::MoMEMta(const Configuration& configuration) {
         m_pool->current_module(module);
         try {
             m_modules.push_back(ModuleFactory::get().create(module.type, m_pool, *module.parameters));
-            m_modules.back()->configure();
         } catch (...) {
             LOG(fatal) << "Exception while trying to create module " << module.type << "::" << module.name
                        << ". See message above for a (possible) more detailed description of the error.";
@@ -104,6 +104,16 @@ MoMEMta::MoMEMta(const Configuration& configuration) {
 
     // Freeze the pool after removing unneeded modules
     m_pool->freeze();
+
+    for (const auto& module: m_modules) {
+        module->configure();
+    }
+
+    // Reset configuration path to the configuration state
+    for (auto& path: configuration.getPaths()) {
+        path->modules.clear();
+        path->resolved = false;
+    }
 
     // Register logging function
     cubalogging(MoMEMta::cuba_logging);

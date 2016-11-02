@@ -35,7 +35,7 @@ void lua::path_register(lua_State* L, void* ptr) {
         {"__gc", path_free},
         {nullptr, nullptr}
     };
-    luaL_setfuncs(L, functions, 0); 
+    luaL_setfuncs(L, functions, 0);
 
     lua_pop(L, 1);
 
@@ -66,7 +66,7 @@ int lua::path_new(lua_State* L) {
 
     (*pPath)->elements = module_names;
 
-    
+
     void* cfg_ptr = lua_touserdata(L, lua_upvalueindex(1));
     ILuaCallback* callback = static_cast<ILuaCallback*>(cfg_ptr);
     callback->onNewPath(*pPath);
@@ -75,7 +75,7 @@ int lua::path_new(lua_State* L) {
 }
 
 int lua::path_free(lua_State* L) {
-    delete *static_cast<Path**>(luaL_checkudata(L, 1, LUA_PATH_TYPE_NAME));
+    delete *static_cast<PathElementsPtr*>(luaL_checkudata(L, 1, LUA_PATH_TYPE_NAME));
 
     return 0;
 }
