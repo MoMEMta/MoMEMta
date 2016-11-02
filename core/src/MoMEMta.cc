@@ -48,11 +48,18 @@ MoMEMta::MoMEMta(const Configuration& configuration) {
     m_ps_points = m_pool->put<std::vector<double>>({"cuba", "ps_points"});
     m_ps_weight = m_pool->put<double>({"cuba", "ps_weight"});
 
-    // Create vector for input particles
-    m_pool->current_module("input");
-    m_particles = m_pool->put<std::vector<LorentzVector>>({"input", "particles"});
+    // For each input declared in the configuration, create pool entries for p4 and type
+    auto inputs = configuration.getInputs();
+    for (const auto& input: inputs) {
+        LOG(debug) << "Input declared: " << input;
+        m_pool->current_module(input);
+        m_inputs_p4.emplace(input, m_pool->put<LorentzVector>({input, "p4"}));
+        m_inputs_type.emplace(input, m_pool->put<int64_t>({input, "type"}));
+    }
+
     // Create input for met
-    m_met = m_pool->put<LorentzVector>({"input", "met"});
+    m_pool->current_module("met");
+    m_met = m_pool->put<LorentzVector>({"met", "p4"});
 
     // Construct modules from configuration
     std::vector<Configuration::Module> light_modules = configuration.getModules();
@@ -68,6 +75,7 @@ MoMEMta::MoMEMta(const Configuration& configuration) {
     }
 
     m_n_dimensions = configuration.getNDimensions();
+    LOG(info) << "Number of expected inputs: " << m_inputs_p4.size();
     LOG(info) << "Number of dimensions for integration: " << m_n_dimensions;
 
     // Resize pool ps-points vector
@@ -129,14 +137,39 @@ const Pool& MoMEMta::getPool() const {
     return *m_pool;
 }
 
-std::vector<std::pair<double, double>> MoMEMta::computeWeights(const std::vector<LorentzVector>& particles, const LorentzVector& met) {
+std::vector<std::pair<double, double>> MoMEMta::computeWeights(const std::vector<momemta::Particle>& particles, const LorentzVector& met) {
 
-    for (const auto& p: particles)
-        checkIfPhysical(p);
+    if (particles.size() != m_inputs_p4.size()) {
+        auto exception = invalid_inputs("Some inputs are missing. " + std::to_string(m_inputs_p4.size()) + " expected, "
+                                     + std::to_string(particles.size()) + " provided.");
+        LOG(fatal) << exception.what();
+        throw exception;
+    }
+
+    std::vector<std::string> consumed_inputs;
+    for (const auto& p: particles) {
+        checkIfPhysical(p.p4);
+
+        if (m_inputs_p4.count(p.name) == 0) {
+            auto exception = invalid_inputs(p.name + " is not a declared input");
+            LOG(fatal) << exception.what();
+            throw exception;
+        }
+
+        if (std::find(consumed_inputs.begin(), consumed_inputs.end(), p.name) != consumed_inputs.end()) {
+            auto exception = invalid_inputs("Duplicated input " + p.name);
+            LOG(fatal) << exception.what();
+            throw exception;
+        }
+
+        *m_inputs_p4[p.name] = p.p4;
+        *m_inputs_type[p.name] = p.type;
+
+        consumed_inputs.push_back(p.name);
+    }
 
     checkIfPhysical(met);
 
-    *m_particles = particles;
     *m_met = met;
 
     for (const auto& module: m_modules) {
@@ -193,7 +226,7 @@ std::vector<std::pair<double, double>> MoMEMta::computeWeights(const std::vector
         if (algorithm == "vegas") {
             int64_t n_start = m_cuba_configuration.get<int64_t>("n_start", 25000);
             int64_t n_increase = m_cuba_configuration.get<int64_t>("n_increase", 0);
-            int64_t batch_size = m_cuba_configuration.get<int64_t>("batch_size", n_start);
+            int64_t batch_size = m_cuba_configuration.get<int64_t>("batch_size", std::min(n_start, 50000L));
             int64_t grid_number = m_cuba_configuration.get<int64_t>("grid_number", 0);
 
             llVegas(

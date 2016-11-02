@@ -28,10 +28,10 @@
  * This Block addresses the change of variables needed to pass from the standard phase-space
  * parametrisation for \f$p_{1 \dots 6} \times \delta^4\f$ to a parametrisation in terms of the four (squared) masses
  * of the intermediate propagators.
- * 
- * The integration is performed over \f$s_{13}, s_{134}, s_{25}, s_{256}\f$ with \f$p_{3 \dots 6}\f$ as input. Per integration point, 
- * the LorentzVector of the invisible particles, \f$p_1\f$ and \f$p_2\f$, are computed based on the following set 
- * of equations:   
+ *
+ * The integration is performed over \f$s_{13}, s_{134}, s_{25}, s_{256}\f$ with \f$p_{3 \dots 6}\f$ as input. Per integration point,
+ * the LorentzVector of the invisible particles, \f$p_1\f$ and \f$p_2\f$, are computed based on the following set
+ * of equations:
  *
  * - \f$s_{13} = (p_1 + p_3)^2\f$
  * - \f$s_{134} = (p_1 + p_3 + p_4)^2\f$
@@ -67,7 +67,7 @@
  *   |------|------|--------------|
  *   | `s13` <br/> `s134` <br/> `s25` <br/> `s256` | double | Squared invariant masses of the propagators. Typically coming from a BreitWignerGenerator or NarrowWidthApproximation module.
  *   | `inputs` | vector(LorentzVector) | LorentzVectors of all the experimentally reconstructed particles. Only the first four are used explicitly by the block, but there can be other visible objects in the the event, taken into account when computing \f$\vec{p}_{T}^{tot}\f$ if needed.
- *   | `met` | LorentzVector, default `input::met` | LorentzVector of the MET |
+ *   | `met` | LorentzVector, default `met::p4` | LorentzVector of the MET |
  *
  * ### Outputs
  *
@@ -78,7 +78,7 @@
  * \note This block has been validated and is safe to use.
  *
  * \sa Looper module to loop over the solutions of this Block
- *   
+ *
  * \ingroup modules
  */
 
@@ -99,12 +99,12 @@ class BlockD: public Module {
                 m_particles.push_back(get<LorentzVector>(t));
 
             // If the met input is specified, get it, otherwise retrieve default
-            // one ("input::met")
+            // one ("met::p4")
             InputTag met_tag;
             if (parameters.exists("met")) {
                 met_tag = parameters.get<InputTag>("met");
             } else {
-                met_tag = InputTag({"input", "met"});
+                met_tag = InputTag({"met", "p4"});
             }
 
             m_met = get<LorentzVector>(met_tag);
@@ -125,12 +125,12 @@ class BlockD: public Module {
 
             // pT will be used to fix the transverse momentum of the reconstructed neutrinos
             // We can either enforce momentum conservation by disregarding the MET, ie:
-            //  pT = sum of all the visible particles, 
+            //  pT = sum of all the visible particles,
             // Or we can fix it using the MET given as input:
             //  pT = -MET
             // In the latter case, it is the user's job to ensure momentum conservation at
             // the matrix element level (by using the Boost module, for instance).
-            
+
             LorentzVector pT;
             if (pT_is_met) {
                 pT = - *m_met;
@@ -303,37 +303,37 @@ class BlockD: public Module {
             // copied from Source/MadWeight/blocks/class_d.f
 
             double inv_jac = E3*(E5*
-                    (p34z*(p1y*p2z*p56x - p1x*p2z*p56y - p1y*p2x*p56z + 
-                           p1x*p2y*p56z) + 
-                     p1z*(-(p2z*p34y*p56x) + p2z*p34x*p56y - 
-                         p2y*p34x*p56z + p2x*p34y*p56z)) + 
+                    (p34z*(p1y*p2z*p56x - p1x*p2z*p56y - p1y*p2x*p56z +
+                           p1x*p2y*p56z) +
+                     p1z*(-(p2z*p34y*p56x) + p2z*p34x*p56y -
+                         p2y*p34x*p56z + p2x*p34y*p56z)) +
                     (E56*p2z - E2*p56z)*
-                    (p1z*p34y*p5x - p1y*p34z*p5x - p1z*p34x*p5y + 
-                     p1x*p34z*p5y) + 
-                    (E56*(p1z*p2y*p34x - p1z*p2x*p34y + p1y*p2x*p34z - 
-                          p1x*p2y*p34z) + 
-                     E2*(p1z*p34y*p56x - p1y*p34z*p56x - p1z*p34x*p56y + 
-                         p1x*p34z*p56y))*p5z) + 
-                E34*(E5*p2z*(p1z*p3y*p56x - p1y*p3z*p56x - p1z*p3x*p56y + 
-                            p1x*p3z*p56y) + 
-                        E5*(p1z*p2y*p3x - p1z*p2x*p3y + p1y*p2x*p3z - 
-                            p1x*p2y*p3z)*p56z - 
+                    (p1z*p34y*p5x - p1y*p34z*p5x - p1z*p34x*p5y +
+                     p1x*p34z*p5y) +
+                    (E56*(p1z*p2y*p34x - p1z*p2x*p34y + p1y*p2x*p34z -
+                          p1x*p2y*p34z) +
+                     E2*(p1z*p34y*p56x - p1y*p34z*p56x - p1z*p34x*p56y +
+                         p1x*p34z*p56y))*p5z) +
+                E34*(E5*p2z*(p1z*p3y*p56x - p1y*p3z*p56x - p1z*p3x*p56y +
+                            p1x*p3z*p56y) +
+                        E5*(p1z*p2y*p3x - p1z*p2x*p3y + p1y*p2x*p3z -
+                            p1x*p2y*p3z)*p56z -
                         (E56*p2z - E2*p56z)*
                         (p1z*p3y*p5x - p1y*p3z*p5x - p1z*p3x*p5y + p1x*p3z*p5y)
-                        - (E56*(p1z*p2y*p3x - p1z*p2x*p3y + p1y*p2x*p3z - 
-                                p1x*p2y*p3z) + 
-                            E2*(p1z*p3y*p56x - p1y*p3z*p56x - p1z*p3x*p56y + 
-                                p1x*p3z*p56y))*p5z) + 
-                E1*(E5*(p2z*(-(p34z*p3y*p56x) + p34y*p3z*p56x + 
-                                p34z*p3x*p56y - p34x*p3z*p56y) + 
-                            (-(p2y*p34z*p3x) + p2x*p34z*p3y + p2y*p34x*p3z - 
-                             p2x*p34y*p3z)*p56z) + 
+                        - (E56*(p1z*p2y*p3x - p1z*p2x*p3y + p1y*p2x*p3z -
+                                p1x*p2y*p3z) +
+                            E2*(p1z*p3y*p56x - p1y*p3z*p56x - p1z*p3x*p56y +
+                                p1x*p3z*p56y))*p5z) +
+                E1*(E5*(p2z*(-(p34z*p3y*p56x) + p34y*p3z*p56x +
+                                p34z*p3x*p56y - p34x*p3z*p56y) +
+                            (-(p2y*p34z*p3x) + p2x*p34z*p3y + p2y*p34x*p3z -
+                             p2x*p34y*p3z)*p56z) +
                         (E56*p2z - E2*p56z)*
-                        (p34z*p3y*p5x - p34y*p3z*p5x - p34z*p3x*p5y + 
-                         p34x*p3z*p5y) + 
-                        (E56*(p2y*p34z*p3x - p2x*p34z*p3y - p2y*p34x*p3z + 
-                              p2x*p34y*p3z) + 
-                         E2*(p34z*p3y*p56x - p34y*p3z*p56x - p34z*p3x*p56y + 
+                        (p34z*p3y*p5x - p34y*p3z*p5x - p34z*p3x*p5y +
+                         p34x*p3z*p5y) +
+                        (E56*(p2y*p34z*p3x - p2x*p34z*p3y - p2y*p34x*p3z +
+                              p2x*p34y*p3z) +
+                         E2*(p34z*p3y*p56x - p34y*p3z*p56x - p34z*p3x*p56y +
                              p34x*p3z*p56y))*p5z);
 
             inv_jac *= 8.*16.*SQ(M_PI*sqrt_s);

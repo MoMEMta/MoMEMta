@@ -66,7 +66,7 @@
  *   |------|------|--------------|
  *   | `s12` | double | Invariant mass of the particle decaying into the missing particle (\f$p_1\f$) and the visible particle, \f$p_2\f$. Typically coming from a BreitWignerGenerator module.
  *   | `inputs` | vector(LorentzVector) | LorentzVector of all the experimentally reconstructed particles. In this Block there is only one visible particle used explicitly, \f$p_2\f$, but there can be other visible objects in the the event, taken into account when computing \f$\vec{p}_{T}^{tot}\f$.
- *   | `met` | LorentzVector, default `input::met` | LorentzVector of the MET |
+ *   | `met` | LorentzVector, default `met::p4` | LorentzVector of the MET |
  *
  * ### Outputs
  *
@@ -96,12 +96,12 @@ class BlockB: public Module {
                 m_particles.push_back(get<LorentzVector>(t));
 
             // If the met input is specified, get it, otherwise retrieve default
-            // one ("input::met")
+            // one ("met::p4")
             InputTag met_tag;
             if (parameters.exists("met")) {
                 met_tag = parameters.get<InputTag>("met");
             } else {
-                met_tag = InputTag({"input", "met"});
+                met_tag = InputTag({"met", "p4"});
             }
 
             m_met = get<LorentzVector>(met_tag);

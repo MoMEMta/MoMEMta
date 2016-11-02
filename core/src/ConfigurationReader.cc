@@ -70,7 +70,7 @@ ConfigurationReader::ConfigurationReader(const std::string& file, const Paramete
     lua_pop(lua_state.get(), 1);
 
     for (auto& m: configuration.modules) {
-        LOG(debug) << "Configuration declared module " << m.type << "::" << m.name;
+        LOG(debug) << "Module declared: " << m.type << "::" << m.name;
 
         lua_getglobal(lua_state.get(), m.type.c_str());
         lua_getfield(lua_state.get(), -1, m.name.c_str());
@@ -100,6 +100,10 @@ void ConfigurationReader::onNewPath(PathElementsPtr path) {
 
 void ConfigurationReader::addIntegrationDimension() {
     configuration.n_dimensions++;
+}
+
+void ConfigurationReader::onNewInputDeclared(const std::string& name) {
+    configuration.inputs.push_back(name);
 }
 
 ParameterSet& ConfigurationReader::getGlobalParameters() {

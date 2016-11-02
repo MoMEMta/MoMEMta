@@ -32,6 +32,9 @@
 #include <lua/Path.h>
 #include <lua/Types.h>
 
+// Defined by `embedLua.py` at build-time
+extern void execute_embed_lua_code(lua_State*);
+
 namespace lua {
 
     Lazy::Lazy(lua_State* L) {
@@ -418,7 +421,7 @@ namespace lua {
         std::string parameter_name = luaL_checkstring(L, 1);
 
         // Create an anonymous function return the value of the parameter
-        // Assumes there's a global table named `configuration`
+        // Assumes there's a global table named `parameters`
 
         std::string code = "return function() return parameters['" + parameter_name + "'] end";
         luaL_dostring(L, code.c_str());
@@ -471,6 +474,30 @@ namespace lua {
         return 1;
     }
 
+    /**
+    * \brief The configuration file declared a new input
+    *
+    * One argument is expected on the stack:
+    *   - name (string): the name of the input
+    *
+    * \param L The lua state
+    */
+    int declare_input(lua_State* L) {
+        int n = lua_gettop(L);
+        if (n != 1) {
+            luaL_error(L, "invalid number of arguments: 1 expected, got %d", n);
+        }
+
+        std::string input_name = luaL_checkstring(L, 1);
+
+        void* cfg_ptr = lua_touserdata(L, lua_upvalueindex(1));
+        ILuaCallback* callback = static_cast<ILuaCallback*>(cfg_ptr);
+
+        callback->onNewInputDeclared(input_name);
+
+        return 0;
+    }
+
     void setup_hooks(lua_State* L, void* ptr) {
         lua_pushlightuserdata(L, ptr);
         lua_pushcclosure(L, load_modules, 1);
@@ -492,6 +519,11 @@ namespace lua {
         lua_pushcclosure(L, set_final_module, 1);
         lua_setglobal(L, "integrand");
 
+        // momemta_declare_input function
+        lua_pushlightuserdata(L, ptr);
+        lua_pushcclosure(L, declare_input, 1);
+        lua_setglobal(L, "momemta_declare_input");
+
         path_register(L, ptr);
     }
 
@@ -505,6 +537,10 @@ namespace lua {
 
         // Register existing modules
         lua::register_modules(L.get(), callback);
+
+        // Default functions
+        // Function defined by `embedLua.py` at build-time
+        execute_embed_lua_code(L.get());
 
         return L;
     }

@@ -1,17 +1,8 @@
-function append(t1, t2)
-    for i = 1, #t2 do
-        t1[#t1 + 1] = t2[i]
-    end
-
-    return t1
-end
-
-inputs = {
-    'tf_p1::output',
-    'permutator::output/1',
-    'tf_p3::output',
-    'permutator::output/2',
-}
+-- Register inputs
+local electron = declare_input("electron")
+local muon = declare_input("muon")
+local bjet1 = declare_input("bjet1")
+local bjet2 = declare_input("bjet2")
 
 parameters = {
     energy = 13000.,
@@ -52,26 +43,39 @@ BreitWignerGenerator.flatter_s256 = {
 
 GaussianTransferFunctionOnEnergy.tf_p1 = {
     ps_point = add_dimension(),
-    reco_particle = 'input::particles/1',
+    reco_particle = electron.reco_p4,
     sigma = 0.05,
 }
+electron.set_gen_p4("tf_p1::output")
 
 GaussianTransferFunctionOnEnergy.tf_p2 = {
     ps_point = add_dimension(),
-    reco_particle = 'input::particles/2',
+    reco_particle = bjet1.reco_p4,
     sigma = 0.10,
 }
+bjet1.set_gen_p4("tf_p2::output")
 
 GaussianTransferFunctionOnEnergy.tf_p3 = {
     ps_point = add_dimension(),
-    reco_particle = 'input::particles/3',
+    reco_particle = muon.reco_p4,
     sigma = 0.05,
 }
+muon.set_gen_p4("tf_p3::output")
 
 GaussianTransferFunctionOnEnergy.tf_p4 = {
     ps_point = add_dimension(),
-    reco_particle = 'input::particles/4',
+    reco_particle = bjet2.reco_p4,
     sigma = 0.10,
+}
+bjet2.set_gen_p4("tf_p4::output")
+
+add_gen_permutations(bjet1, bjet2)
+
+inputs = {
+    electron.gen_p4,
+    bjet1.gen_p4,
+    muon.gen_p4,
+    bjet2.gen_p4
 }
 
 -- Declare module before the permutator to test read-access in the pool
@@ -85,14 +89,6 @@ BlockD.blockd = {
     s256 = 'flatter_s256::s',
 }
 
-Permutator.permutator = {
-    ps_point = add_dimension(),
-    inputs = {
-        'tf_p2::output',
-        'tf_p4::output',
-    }
-}
-
 StandardPhaseSpace.phaseSpaceOut = {
     particles = inputs -- only on visible particles
 }
@@ -101,17 +97,10 @@ StandardPhaseSpace.phaseSpaceOut = {
 
 Looper.looper = {
     solutions = "blockd::solutions",
-    path = Path("boost", "ttbar", "dmem", "integrand")
+    path = Path("boost", "ttbar", "integrand")
 }
 
-full_inputs = {
-    'tf_p1::output',
-    'permutator::output/1',
-    'tf_p3::output',
-    'permutator::output/2',
-    'looper::particles/1',
-    'looper::particles/2',
-}
+full_inputs = copy_and_append(inputs, {'looper::particles/1', 'looper::particles/2'})
 
 BuildInitialState.boost = {
     do_transverse_boost = true,
@@ -132,20 +121,6 @@ MatrixElement.ttbar = {
         card = '../MatrixElements/Cards/param_card.dat'
     },
     initialState = 'boost::partons',
-    invisibles = {
-        input = 'looper::solution',
-        ids = {
-            {
-                pdg_id = 12,
-                me_index = 2,
-            },
-
-            {
-                pdg_id = -14,
-                me_index = 5,
-            }
-        }
-    },
     particles = {
         inputs = full_inputs,
         ids = {

@@ -1,3 +1,7 @@
+local p1 = declare_input("p1")
+local p2 = declare_input("p2")
+local p3 = declare_input("p3")
+
 parameters = {
     energy = 13000.,
     W_mass = 80.419002,
@@ -8,9 +12,9 @@ cuba = {
     verbosity = 3,
     max_eval = 20000000,
     relative_accuracy = 0.005,
-    n_start = 1000000,   
+    n_start = 1000000,
     n_increase = 1000000,
-    seed = 5468460,        
+    seed = 5468460,
 }
 
 -- 'Flat' transfer functions to integrate over the visible particle's angles and energies
@@ -18,13 +22,13 @@ cuba = {
 -- First |P|
 FlatTransferFunctionOnP.tf_p_1 = {
     ps_point = add_dimension(),
-    reco_particle = 'input::particles/1',
+    reco_particle = p1.reco_p4,
     min = 0.,
     max = parameters.energy/2,
 }
 FlatTransferFunctionOnP.tf_p_3 = {
     ps_point = add_dimension(),
-    reco_particle = 'input::particles/3',
+    reco_particle = p3.reco_p4,
     min = 0.,
     max = parameters.energy/2,
 }
@@ -36,14 +40,14 @@ FlatTransferFunctionOnPhi.tf_phi_1 = {
 }
 FlatTransferFunctionOnPhi.tf_phi_2 = {
     ps_point = add_dimension(),
-    reco_particle = 'input::particles/2',
+    reco_particle = p2.reco_p4,
 }
 FlatTransferFunctionOnPhi.tf_phi_3 = {
     ps_point = add_dimension(),
     reco_particle = 'tf_p_3::output',
 }
 
--- Finally, do Theta 
+-- Finally, do Theta
 FlatTransferFunctionOnTheta.tf_theta_1 = {
     ps_point = add_dimension(),
     reco_particle = 'tf_phi_1::output',
@@ -96,20 +100,20 @@ Looper.looperCD = {
         s12 = 'flatter_w2::s',
         inputs = { inputs[3], inputs[1], 'looperCD::particles/1' },
     }
-    
+
     -- Loop for main block
-    
+
     Looper.looperB = {
         solutions = "blockb::solutions",
         path = Path("initial_state", "me_ww", "integrand")
     }
-    
+
         gen_inputs = { inputs[1], 'looperCD::particles/1', inputs[3], 'looperB::particles/1' }
-        
+
         BuildInitialState.initial_state = {
             particles = gen_inputs
         }
-    
+
         jacobians = {
           'tf_p_1::TF_times_jacobian', 'tf_p_3::TF_times_jacobian',
           'tf_phi_1::TF_times_jacobian', 'tf_phi_2::TF_times_jacobian', 'tf_phi_3::TF_times_jacobian',
@@ -117,18 +121,18 @@ Looper.looperCD = {
           'phaseSpaceOut::phase_space',
           'flatter_w1::jacobian', 'flatter_w2::jacobian', 'looperCD::jacobian', 'looperB::jacobian',
         }
-    
+
         MatrixElement.me_ww = {
           pdf = 'CT10nlo',
           pdf_scale = parameter('W_mass'),
-    
+
           matrix_element = 'pp_WW_fully_leptonic_sm_P1_Sigma_sm_uux_epvemumvmx',
           matrix_element_parameters = {
               card = '../MatrixElements/Cards/param_card.dat'
           },
-    
+
           initialState = 'initial_state::partons',
-    
+
           particles = {
             inputs = gen_inputs,
             ids = {
@@ -136,27 +140,27 @@ Looper.looperCD = {
                 pdg_id = -11,
                 me_index = 1,
               },
-    
+
               {
                 pdg_id = 12,
                 me_index = 2,
               },
-    
+
               {
                 pdg_id = 13,
                 me_index = 3,
               },
-    
+
               {
                 pdg_id = -14,
                 me_index = 4,
               },
             }
           },
-    
+
           jacobians = jacobians
         }
-    
+
         DoubleLooperSummer.integrand = {
             input = "me_ww::output"
         }

@@ -28,6 +28,8 @@
 #include <momemta/Logging.h>
 #include <momemta/MoMEMta.h>
 
+using namespace momemta;
+
 TEST_CASE("No integration", "[integration_tests]") {
     logging::set_level(logging::level::fatal);
 
@@ -35,19 +37,19 @@ TEST_CASE("No integration", "[integration_tests]") {
     MoMEMta weight(configuration.freeze());
 
     // Electron
-    LorentzVector p3(16.171895980835, -13.7919054031372, -3.42997527122497, 21.5293197631836);
+    Particle electron { "electron", LorentzVector(16.171895980835, -13.7919054031372, -3.42997527122497, 21.5293197631836), -11 };
     // b-quark
-    LorentzVector p4(-55.7908325195313, -111.59294128418, -122.144721984863, 174.66259765625);
+    Particle bjet1 { "bjet1", LorentzVector(-55.7908325195313, -111.59294128418, -122.144721984863, 174.66259765625), 5 };
     // Muon
-    LorentzVector p5(-18.9018573760986, 10.0896110534668, -0.602926552295686, 21.4346446990967);
+    Particle muon { "muon", LorentzVector(-18.9018573760986, 10.0896110534668, -0.602926552295686, 21.4346446990967), +13 };
     // Anti b-quark
-    LorentzVector p6(71.3899612426758, 96.0094833374023, -77.2513122558594, 142.492813110352);
+    Particle bjet2 { "bjet2", LorentzVector(71.3899612426758, 96.0094833374023, -77.2513122558594, 142.492813110352), -5 };
     // Electronic neutrino
-    LorentzVector p1(-57.9413, 40.7629, -54.2982, 89.2587);
+    Particle nu1 { "neutrino1", LorentzVector(-57.9413, 40.7629, -54.2982, 89.2587), +12 };
     // Muonic neutrino
-    LorentzVector p2(57.9413, -40.7629, -40.8437, 81.7742);
+    Particle nu2 { "neutrino2", LorentzVector(57.9413, -40.7629, -40.8437, 81.7742), -14 };
 
-    std::vector<std::pair<double, double>> weights = weight.computeWeights({p3, p4, p5, p6, p1, p2});
+    std::vector<std::pair<double, double>> weights = weight.computeWeights({electron, muon, bjet1, bjet2, nu1, nu2});
 
     REQUIRE(weight.getIntegrationStatus() == MoMEMta::IntegrationStatus::SUCCESS);
 

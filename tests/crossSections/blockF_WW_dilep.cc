@@ -25,6 +25,7 @@
 #include <chrono>
 
 using namespace std::chrono;
+using namespace momemta;
 
 int main(int argc, char** argv) {
 
@@ -37,12 +38,12 @@ int main(int argc, char** argv) {
     MoMEMta weight(configuration.freeze());
 
     // Electron
-    LorentzVector p3(-25, 0, 0, 25);
+    Particle p1 { "p1", LorentzVector(-25, 0, 0, 25), 0 };
     // Muon
-    LorentzVector p4(0, 50, 0, 50);
+    Particle p2 { "p2", LorentzVector(0, 50, 0, 50), 0 };
 
     auto start_time = system_clock::now();
-    std::vector<std::pair<double, double>> weights = weight.computeWeights({p3, p4});
+    std::vector<std::pair<double, double>> weights = weight.computeWeights({p1, p2});
     auto end_time = system_clock::now();
 
     LOG(debug) << "Result:";

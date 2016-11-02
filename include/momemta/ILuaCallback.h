@@ -85,4 +85,17 @@ class ILuaCallback {
          * will result in a call to this function
          */
         virtual void addIntegrationDimension() = 0;
+
+        /** \brief The configuration file declared a new input
+        *
+        * This function is called when the user calls the `declare_input` lua function
+        *
+        * A lua code like
+        * ```
+        * declare_input("lepton")
+        * ```
+        *
+        * will result in a call to this function with \p name equals to `lepton`
+        */
+        virtual void onNewInputDeclared(const std::string& name) = 0;
 };

@@ -1,3 +1,8 @@
+local p1 = declare_input("p1")
+local p2 = declare_input("p2")
+local p3 = declare_input("p3")
+local p4 = declare_input("p4")
+
 parameters = {
     energy = 13000.,
     W_mass = 80.419002,
@@ -8,9 +13,11 @@ cuba = {
     verbosity = 3,
     max_eval = 1000000000,
     relative_accuracy = 0.005,
-    n_start = 100000000,   
+    n_start = 100000000,
     n_increase = 100000000,
-    seed = 5468460,        
+    seed = 5468460,
+    ncores = 2,
+    batch_size = 1000000
 }
 
 -- 'Flat' transfer functions to integrate over the visible particle's angles
@@ -18,58 +25,75 @@ cuba = {
 -- First |P|
 FlatTransferFunctionOnP.tf_p_3 = {
     ps_point = add_dimension(),
-    reco_particle = 'input::particles/3',
+    reco_particle = p3.reco_p4,
     min = 0.,
     max = parameters.energy/2,
 }
+p3.set_gen_p4("tf_p_3::output")
+
 FlatTransferFunctionOnP.tf_p_4 = {
     ps_point = add_dimension(),
-    reco_particle = 'input::particles/4',
+    reco_particle = p4.reco_p4,
     min = 0.,
     max = parameters.energy/2,
 }
+p4.set_gen_p4("tf_p_4::output")
 
 -- Then Phi
 FlatTransferFunctionOnPhi.tf_phi_1 = {
     ps_point = add_dimension(),
-    reco_particle = 'input::particles/1',
+    reco_particle = p1.reco_p4,
 }
+p1.set_gen_p4("tf_phi_1::output")
+
 FlatTransferFunctionOnPhi.tf_phi_2 = {
     ps_point = add_dimension(),
-    reco_particle = 'input::particles/2',
+    reco_particle = p2.reco_p4,
 }
+p2.set_gen_p4("tf_phi_2::output")
+
 FlatTransferFunctionOnPhi.tf_phi_3 = {
     ps_point = add_dimension(),
-    reco_particle = 'tf_p_3::output',
+    reco_particle = p3.gen_p4,
 }
+p3.set_gen_p4("tf_phi_3::output")
+
 FlatTransferFunctionOnPhi.tf_phi_4 = {
     ps_point = add_dimension(),
-    reco_particle = 'tf_p_4::output',
+    reco_particle = p4.gen_p4,
 }
+p4.set_gen_p4("tf_phi_4::output")
 
--- Finally, do Theta 
+-- Finally, do Theta
 FlatTransferFunctionOnTheta.tf_theta_1 = {
     ps_point = add_dimension(),
-    reco_particle = 'tf_phi_1::output',
+    reco_particle = p1.gen_p4,
 }
+p1.set_gen_p4('tf_phi_1::output')
+
 FlatTransferFunctionOnTheta.tf_theta_2 = {
     ps_point = add_dimension(),
-    reco_particle = 'tf_phi_2::output',
+    reco_particle = p2.gen_p4,
 }
+p2.set_gen_p4('tf_phi_2::output')
+
 FlatTransferFunctionOnTheta.tf_theta_3 = {
     ps_point = add_dimension(),
-    reco_particle = 'tf_phi_3::output',
+    reco_particle = p3.gen_p4,
 }
+p3.set_gen_p4('tf_phi_3::output')
+
 FlatTransferFunctionOnTheta.tf_theta_4 = {
     ps_point = add_dimension(),
-    reco_particle = 'tf_phi_4::output',
+    reco_particle = p4.gen_p4,
 }
+p4.set_gen_p4('tf_phi_4::output')
 
 inputs = {
-  'tf_theta_1::output',
-  'tf_theta_2::output',
-  'tf_theta_3::output',
-  'tf_theta_4::output',
+  p1.gen_p4,
+  p2.gen_p4,
+  p3.gen_p4,
+  p4.gen_p4,
 }
 
 StandardPhaseSpace.phaseSpaceOut = {
@@ -88,15 +112,15 @@ Looper.looper = {
 }
 
     gen_inputs = { 'looper::particles/1', 'looper::particles/2', inputs[3], inputs[4] }
-    
+
     BuildInitialState.initial_state = {
         particles = gen_inputs
     }
 
     jacobians = {
-      'tf_p_3::TF_times_jacobian', 'tf_p_4::TF_times_jacobian', 
-      'tf_phi_1::TF_times_jacobian', 'tf_phi_2::TF_times_jacobian', 'tf_phi_3::TF_times_jacobian', 'tf_phi_4::TF_times_jacobian', 
-      'tf_theta_1::TF_times_jacobian', 'tf_theta_2::TF_times_jacobian', 'tf_theta_3::TF_times_jacobian', 'tf_theta_4::TF_times_jacobian', 
+      'tf_p_3::TF_times_jacobian', 'tf_p_4::TF_times_jacobian',
+      'tf_phi_1::TF_times_jacobian', 'tf_phi_2::TF_times_jacobian', 'tf_phi_3::TF_times_jacobian', 'tf_phi_4::TF_times_jacobian',
+      'tf_theta_1::TF_times_jacobian', 'tf_theta_2::TF_times_jacobian', 'tf_theta_3::TF_times_jacobian', 'tf_theta_4::TF_times_jacobian',
       'phaseSpaceOut::phase_space', 'looper::jacobian',
     }
 

@@ -1,3 +1,6 @@
+local p1 = declare_input("p1")
+local p2 = declare_input("p2")
+
 load_modules('MatrixElements/dummy/libme_dummy.so')
 
 parameters = {
@@ -10,21 +13,21 @@ cuba = {
     verbosity = 3,
     max_eval = 200000000,
     relative_accuracy = 0.001,
-    n_start = 20000000,   
-    seed = 5468960,        
+    n_start = 20000000,
+    seed = 5468960,
 }
 
 -- 'Flat' transfer functions to integrate over the visible particle's energies and angles
 -- First |P|
 FlatTransferFunctionOnP.tf_p_1 = {
     ps_point = add_dimension(),
-    reco_particle = 'input::particles/1',
+    reco_particle = p1.reco_p4,
     min = 0.,
     max = parameters.energy/2,
 }
 FlatTransferFunctionOnP.tf_p_2 = {
     ps_point = add_dimension(),
-    reco_particle = 'input::particles/2',
+    reco_particle = p2.reco_p4,
     min = 0.,
     max = parameters.energy/2,
 }
@@ -39,7 +42,7 @@ FlatTransferFunctionOnPhi.tf_phi_2 = {
     reco_particle = 'tf_p_2::output',
 }
 
--- Finally, do Theta 
+-- Finally, do Theta
 FlatTransferFunctionOnTheta.tf_theta_1 = {
     ps_point = add_dimension(),
     reco_particle = 'tf_phi_1::output',
@@ -95,7 +98,7 @@ Looper.looper = {
 
       matrix_element = 'dummy_matrix_element',
       matrix_element_parameters = {},
- 
+
       initialState = 'initial_state::partons',
 
       particles = {

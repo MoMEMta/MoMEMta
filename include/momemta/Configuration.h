@@ -60,7 +60,9 @@ class Configuration {
         const ParameterSet& getGlobalParameters() const;
         /// \return The integrand InputTag as declared in the configuration
         std::vector<InputTag> getIntegrands() const;
-        
+        /// \return The list of inputs declared in the configuration
+        std::vector<std::string> getInputs() const;
+
         /// \return The list of Paths as declared in the configuration
         std::vector<PathElements*> getPaths() const;
 
@@ -93,5 +95,6 @@ class Configuration {
         std::shared_ptr<ParameterSet> cuba_configuration;
         std::vector<InputTag> integrands;
         std::vector<PathElements*> paths;
+        std::vector<std::string> inputs;
         std::size_t n_dimensions;
 };

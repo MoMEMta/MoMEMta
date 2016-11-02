@@ -1,38 +1,8 @@
-function append(t1, t2)
-    for i = 1, #t2 do
-        t1[#t1 + 1] = t2[i]
-    end
-
-    return t1
-end
-
-function copy_and_append(t1, t2)
-    local t3 = {}
-
-    append(t3, t1)
-    append(t3, t2)
-
-    return t3
-end
+-- Register inputs
+local electron = declare_input("electron")
+local muon = declare_input("muon")
 
 USE_TF = true
-
-if USE_TF then
-    -- With transfer functions
-    inputs_before_perm = {
-        'tf_p1::output',
-        'tf_p2::output',
-    }
-else
-    -- No transfer functions
-    inputs_before_perm = {
-        'input::particles/1',
-        'input::particles/2',
-    }
-end
-
-    inputs = inputs_before_perm
-
 
 parameters = {
     energy = 13000.,
@@ -60,20 +30,23 @@ BreitWignerGenerator.flatter_s24 = {
     width = parameter('W_width')
 }
 
-
 if USE_TF then
     GaussianTransferFunctionOnEnergy.tf_p1 = {
         ps_point = add_dimension(),
-        reco_particle = 'input::particles/1',
+        reco_particle = electron.reco_p4,
         sigma = 0.05,
     }
+    electron.set_gen_p4("tf_p1::output")
 
     GaussianTransferFunctionOnEnergy.tf_p2 = {
         ps_point = add_dimension(),
-        reco_particle = 'input::particles/2',
+        reco_particle = muon.reco_p4,
         sigma = 0.10,
     }
+    muon.set_gen_p4("tf_p2::output")
 end
+
+inputs = {electron.gen_p4, muon.gen_p4}
 
 BlockF.blockf = {
     inputs = inputs,

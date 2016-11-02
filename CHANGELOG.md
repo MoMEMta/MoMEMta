@@ -20,6 +20,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
  - Main Block G (not present in MadWeight)
  - `DEBUG_TIMING` cmake option, to print a summary of each module runtime at the end of the integration.
  - New cuba option to configure multi-core integration, `ncores` and `pcores`.
+ - `declare_input` lua function, used to declare a new input.
+ - `append` and `copy_and_append` lua functions are now built-in MoMEMta.
+ - Two new lua functions, `add_reco_permutations` and `add_gen_permutations` are available to easily insert a permutator module permutating between the function arguments. 
 
 ### Changed
  - The way to handle multiple solutions coming from blocks has changed. A module is no longer responsible for looping over the solutions itself, this role is delegated to the `Looper` module. As a consequence, most of the module were rewritten to handle this change. See this [pull request](https://github.com/MoMEMta/MoMEMta/pull/69) and [this one](https://github.com/MoMEMta/MoMEMta/pull/91) for a more technical description, and this [documentation entry](http://momemta.github.io/) for more details
@@ -30,6 +33,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
  - Cuba logging is now handled by MoMEMta logger, at `debug` level.
  - We no longer use boost-log for logging, but our own implementation heavily inspired by [spdlog](https://github.com/gabime/spdlog). As a consequence, boost-log is no longer required to build MoMEMta.
  - Boost is no longer a dependency when **using** MoMEMta (but it's still a build dependency)
+ - `MoMEMta::computeWeights` now expects a vector of `Particle` and no longer a vector of `LorentzVector`. A `Particle` has a name, a `LorentzVector` and a type. As a result, configuration files must now declare which inputs are expected.
 
 ### Fixed
  - Cuba forking mode was broken when building in release mode (with `-DCMAKE_RELEASE_TYPE=Release`).

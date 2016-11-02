@@ -25,6 +25,7 @@
 #include <chrono>
 
 using namespace std::chrono;
+using namespace momemta;
 
 int main(int argc, char** argv) {
 
@@ -36,13 +37,13 @@ int main(int argc, char** argv) {
     ConfigurationReader configuration("../tests/phaseSpaceVolume/blockG.lua");
     MoMEMta weight(configuration.freeze());
 
-    LorentzVector p3(-25, 0, 0, 25);
-    LorentzVector p4(-50, 0, 0, 50);
-    LorentzVector p5(0, 50, 0, 50);
-    LorentzVector p6(0, -25, 0, 25);
+    Particle p1 { "p1", LorentzVector(-25, 0, 0, 25), 0 };
+    Particle p2 { "p2", LorentzVector(-50, 0, 0, 50), 0 };
+    Particle p3 { "p3", LorentzVector(0, 50, 0, 50), 0 };
+    Particle p4 { "p4", LorentzVector(0, -25, 0, 25), 0 };
 
     auto start_time = system_clock::now();
-    std::vector<std::pair<double, double>> weights = weight.computeWeights({p3, p4, p5, p6});
+    std::vector<std::pair<double, double>> weights = weight.computeWeights({p1, p2, p3, p4});
     auto end_time = system_clock::now();
 
     LOG(debug) << "Result:";

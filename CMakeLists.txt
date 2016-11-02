@@ -189,6 +189,7 @@ set(MOMEMTA_SOURCES
     "core/src/ModuleFactory.cc"
     "core/src/MEParameters.cc"
     "core/src/ParameterSet.cc"
+    "core/src/Particle.cc"
     "core/src/Path.cc"
     "core/src/Pool.cc"
     "core/src/SharedLibrary.cc"
@@ -204,6 +205,21 @@ set(MOMEMTA_SOURCES
     "core/src/lua/Types.cc"
     "core/src/lua/utils.cc"
     )
+
+# Embed lua scripts into the C++ code
+file(GLOB LUA_FILES
+        "${CMAKE_CURRENT_LIST_DIR}/lua/*.lua"
+        )
+add_custom_command(
+        OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/generated/lua_code.cc
+        COMMAND ${CMAKE_CURRENT_LIST_DIR}/scripts/embedLua.py
+            ARGS -i ${CMAKE_CURRENT_LIST_DIR}/lua -o ${CMAKE_CURRENT_BINARY_DIR}/generated/lua_code.cc
+        DEPENDS
+            ${CMAKE_CURRENT_LIST_DIR}/scripts/embedLua.py
+            ${LUA_FILES}
+        COMMENT "Embedding lua code..."
+)
+list(APPEND MOMEMTA_SOURCES ${CMAKE_CURRENT_BINARY_DIR}/generated/lua_code.cc)
 
 add_library(momemta SHARED ${MOMEMTA_SOURCES})
 set_target_properties(momemta PROPERTIES VERSION ${PROJECT_VERSION}
