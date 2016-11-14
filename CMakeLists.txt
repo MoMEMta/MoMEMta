@@ -158,6 +158,7 @@ set(MOMEMTA_SOURCES
     "modules/BlockF.cc"
     "modules/BlockG.cc"
     "modules/SecondaryBlockCD.cc"
+    "modules/SecondaryBlockB.cc"
     "modules/BuildInitialState.cc"
     "modules/BreitWignerGenerator.cc"
     "modules/Constant.cc"
