@@ -18,6 +18,8 @@ cuba = {
     n_start = 2000000,
     n_increase = 1000000,
     seed = 5468960,
+    ncores = 8,
+    batch_size = 8000000
 }
 
 -- 'Flat' transfer functions to integrate over the visible particle's energies and angles

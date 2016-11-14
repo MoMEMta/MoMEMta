@@ -18,10 +18,13 @@ parameters = {
 
 cuba = {
     verbosity = 3,
-    max_eval = 2000000000,
+    max_eval = 200000000000,
     relative_accuracy = 0.005,
-    n_start = 1000000,
+    n_start    = 5000000,
+    n_increase = 1000000,
     seed = 5468460,
+    ncores = 8,
+    batch_size = 8000000
 }
 
 -- 'Flat' transfer functions to integrate over the visible particle's energies and angles
