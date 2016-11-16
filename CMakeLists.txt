@@ -177,6 +177,7 @@ set(MOMEMTA_SOURCES
     "modules/Printer.cc"
     "modules/StandardPhaseSpace.cc"
     "modules/UniformGenerator.cc"
+    "modules/VectorLinearCombinator.cc"
     "core/src/Configuration.cc"
     "core/src/ConfigurationReader.cc"
     "core/src/Graph.cc"
