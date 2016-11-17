@@ -168,8 +168,6 @@ std::vector<std::pair<double, double>> MoMEMta::computeWeights(const std::vector
         consumed_inputs.push_back(p.name);
     }
 
-    checkIfPhysical(met);
-
     *m_met = met;
 
     for (const auto& module: m_modules) {
