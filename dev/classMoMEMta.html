@@ -127,7 +127,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="textblock"><p>A MoMEMta instance. </p>
 <p>Compute weights for a particular event using the Matrix Element Method. See <a href="http://momemta.github.io/introduction/">the documentation</a> for more details about this method. </p>
 
-<p>Definition at line <a class="el" href="MoMEMta_8h_source.html#l00044">44</a> of file <a class="el" href="MoMEMta_8h_source.html">MoMEMta.h</a>.</p>
+<p>Definition at line <a class="el" href="MoMEMta_8h_source.html#l00045">45</a> of file <a class="el" href="MoMEMta_8h_source.html">MoMEMta.h</a>.</p>
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
 Public Types</h2></td></tr>
@@ -153,9 +153,9 @@ Public Member Functions</h2></td></tr>
 virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMoMEMta.html#a667f3d90760357163fc1e64ffc864eab">~MoMEMta</a> ()</td></tr>
 <tr class="memdesc:a667f3d90760357163fc1e64ffc864eab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destructor. <br /></td></tr>
 <tr class="separator:a667f3d90760357163fc1e64ffc864eab"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afc501dc0bbc0512f4ec528dbd74729e6"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::pair&lt; double, double &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMoMEMta.html#afc501dc0bbc0512f4ec528dbd74729e6">computeWeights</a> (const std::vector&lt; LorentzVector &gt; &amp;particles, const LorentzVector &amp;met=LorentzVector())</td></tr>
-<tr class="memdesc:afc501dc0bbc0512f4ec528dbd74729e6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute the weights in the current configuration.  <a href="#afc501dc0bbc0512f4ec528dbd74729e6">More...</a><br /></td></tr>
-<tr class="separator:afc501dc0bbc0512f4ec528dbd74729e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7022a8573e8232c75cda198f59a64cbe"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::pair&lt; double, double &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMoMEMta.html#a7022a8573e8232c75cda198f59a64cbe">computeWeights</a> (const std::vector&lt; <a class="el" href="structmomemta_1_1Particle.html">momemta::Particle</a> &gt; &amp;particles, const LorentzVector &amp;met=LorentzVector())</td></tr>
+<tr class="memdesc:a7022a8573e8232c75cda198f59a64cbe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute the weights in the current configuration.  <a href="#a7022a8573e8232c75cda198f59a64cbe">More...</a><br /></td></tr>
+<tr class="separator:a7022a8573e8232c75cda198f59a64cbe"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a54e9c3aa9401059cd4ea2080ad1cdf16"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classMoMEMta.html#a1e59ba7df5b4501f970cf07f09562f4b">IntegrationStatus</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMoMEMta.html#a54e9c3aa9401059cd4ea2080ad1cdf16">getIntegrationStatus</a> () const </td></tr>
 <tr class="memdesc:a54e9c3aa9401059cd4ea2080ad1cdf16"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the status of the integration.  <a href="#a54e9c3aa9401059cd4ea2080ad1cdf16">More...</a><br /></td></tr>
 <tr class="separator:a54e9c3aa9401059cd4ea2080ad1cdf16"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -204,7 +204,7 @@ virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
 </td></tr>
 </table>
 
-<p>Definition at line <a class="el" href="MoMEMta_8h_source.html#l00047">47</a> of file <a class="el" href="MoMEMta_8h_source.html">MoMEMta.h</a>.</p>
+<p>Definition at line <a class="el" href="MoMEMta_8h_source.html#l00048">48</a> of file <a class="el" href="MoMEMta_8h_source.html">MoMEMta.h</a>.</p>
 
 </div>
 </div>
@@ -237,14 +237,14 @@ virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="afc501dc0bbc0512f4ec528dbd74729e6"></a>
+<a class="anchor" id="a7022a8573e8232c75cda198f59a64cbe"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">std::vector&lt; std::pair&lt; double, double &gt; &gt; MoMEMta::computeWeights </td>
           <td>(</td>
-          <td class="paramtype">const std::vector&lt; LorentzVector &gt; &amp;&#160;</td>
+          <td class="paramtype">const std::vector&lt; <a class="el" href="structmomemta_1_1Particle.html">momemta::Particle</a> &gt; &amp;&#160;</td>
           <td class="paramname"><em>particles</em>, </td>
         </tr>
         <tr>
@@ -265,14 +265,14 @@ virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
 <p>This function is traditionally called from the main event loop.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">particles</td><td>List of LorentzVector representing the final state particles. The order is important, because a mapping is done between these particles and the matrix element inside the configuration file. </td></tr>
+    <tr><td class="paramname">particles</td><td>List of Particle representing the final state particles. </td></tr>
     <tr><td class="paramname">met</td><td>Missing transverse energy of the event. This parameter is optional.</td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A vector of weights. Each weight is represented by a pair of double, the first element being the value of the weight and the second the associated absolute error. </dd></dl>
 
-<p>Definition at line <a class="el" href="MoMEMta_8cc_source.html#l00132">132</a> of file <a class="el" href="MoMEMta_8cc_source.html">MoMEMta.cc</a>.</p>
+<p>Definition at line <a class="el" href="MoMEMta_8cc_source.html#l00140">140</a> of file <a class="el" href="MoMEMta_8cc_source.html">MoMEMta.cc</a>.</p>
 
 </div>
 </div>
@@ -292,7 +292,7 @@ virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
 <p>Return the status of the integration. </p>
 <dl class="section return"><dt>Returns</dt><dd>The status of the integration </dd></dl>
 
-<p>Definition at line <a class="el" href="MoMEMta_8cc_source.html#l00441">441</a> of file <a class="el" href="MoMEMta_8cc_source.html">MoMEMta.cc</a>.</p>
+<p>Definition at line <a class="el" href="MoMEMta_8cc_source.html#l00474">474</a> of file <a class="el" href="MoMEMta_8cc_source.html">MoMEMta.cc</a>.</p>
 
 </div>
 </div>
@@ -313,7 +313,7 @@ virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
 <p>Use the pool to retrieve outputs from special modules, like <a class="el" href="classDMEM.html">DMEM</a>.</p>
 <dl class="section return"><dt>Returns</dt><dd>A read-only instance of the global memory pool </dd></dl>
 
-<p>Definition at line <a class="el" href="MoMEMta_8cc_source.html#l00128">128</a> of file <a class="el" href="MoMEMta_8cc_source.html">MoMEMta.cc</a>.</p>
+<p>Definition at line <a class="el" href="MoMEMta_8cc_source.html#l00136">136</a> of file <a class="el" href="MoMEMta_8cc_source.html">MoMEMta.cc</a>.</p>
 
 </div>
 </div>

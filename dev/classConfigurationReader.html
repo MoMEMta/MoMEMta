@@ -159,6 +159,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a1de2fb7a10e763e8ec14e1d68e45bb0c"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classConfigurationReader.html#a1de2fb7a10e763e8ec14e1d68e45bb0c">addIntegrationDimension</a> () override</td></tr>
 <tr class="memdesc:a1de2fb7a10e763e8ec14e1d68e45bb0c"><td class="mdescLeft">&#160;</td><td class="mdescRight">A new integration dimension is requested in the configuration file.  <a href="#a1de2fb7a10e763e8ec14e1d68e45bb0c">More...</a><br /></td></tr>
 <tr class="separator:a1de2fb7a10e763e8ec14e1d68e45bb0c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aedfbe00e7da29052dbeb9cc8caaf1cf5"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classConfigurationReader.html#aedfbe00e7da29052dbeb9cc8caaf1cf5">onNewInputDeclared</a> (const std::string &amp;name) override</td></tr>
+<tr class="memdesc:aedfbe00e7da29052dbeb9cc8caaf1cf5"><td class="mdescLeft">&#160;</td><td class="mdescRight">The configuration file declared a new input.  <a href="#aedfbe00e7da29052dbeb9cc8caaf1cf5">More...</a><br /></td></tr>
+<tr class="separator:aedfbe00e7da29052dbeb9cc8caaf1cf5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a13eef129f0eb73c63b839ea4f442f035"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a13eef129f0eb73c63b839ea4f442f035"></a>
 <a class="el" href="classParameterSet.html">ParameterSet</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>getGlobalParameters</b> ()</td></tr>
 <tr class="separator:a13eef129f0eb73c63b839ea4f442f035"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -223,7 +226,7 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>Configuration</b></t
 <p>Freeze the configuration. </p>
 <dl class="section return"><dt>Returns</dt><dd>A freezed copy of the configuration </dd></dl>
 
-<p>Definition at line <a class="el" href="ConfigurationReader_8cc_source.html#l00113">113</a> of file <a class="el" href="ConfigurationReader_8cc_source.html">ConfigurationReader.cc</a>.</p>
+<p>Definition at line <a class="el" href="ConfigurationReader_8cc_source.html#l00117">117</a> of file <a class="el" href="ConfigurationReader_8cc_source.html">ConfigurationReader.cc</a>.</p>
 
 </div>
 </div>
@@ -299,6 +302,38 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>Configuration</b></t
 <p>Implements <a class="el" href="classILuaCallback.html#af3971a12abcd2152fc79040c2eaa64dd">ILuaCallback</a>.</p>
 
 <p>Definition at line <a class="el" href="ConfigurationReader_8cc_source.html#l00085">85</a> of file <a class="el" href="ConfigurationReader_8cc_source.html">ConfigurationReader.cc</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aedfbe00e7da29052dbeb9cc8caaf1cf5"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ConfigurationReader::onNewInputDeclared </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>name</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The configuration file declared a new input. </p>
+<p>This function is called when the user calls the <code>declare_input</code> lua function</p>
+<p>A lua code like </p><div class="fragment"><div class="line"><a class="code" href="namespacelua.html#ae5e6c961fcf6ff32cefdb60819a0d8c8">declare_input</a>(<span class="stringliteral">&quot;lepton&quot;</span>)</div></div><!-- fragment --><p>will result in a call to this function with <code>name</code> equals to <code>lepton</code> </p>
+
+<p>Implements <a class="el" href="classILuaCallback.html#a429b473a13b251f635fd9ce8fdf47dce">ILuaCallback</a>.</p>
+
+<p>Definition at line <a class="el" href="ConfigurationReader_8cc_source.html#l00105">105</a> of file <a class="el" href="ConfigurationReader_8cc_source.html">ConfigurationReader.cc</a>.</p>
 
 </div>
 </div>

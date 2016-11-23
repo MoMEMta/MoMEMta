@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['declare_5finput',['declare_input',['../namespacelua.html#ae5e6c961fcf6ff32cefdb60819a0d8c8',1,'lua']]],
   ['description',['Description',['../structDescription.html',1,'Description'],['../classPool.html#a74233011e8c1dbd9fdeddace9ebd06e3',1,'Pool::description()']]],
   ['dim_5fout_5fof_5frange',['DIM_OUT_OF_RANGE',['../classMoMEMta.html#a1e59ba7df5b4501f970cf07f09562f4bab9929f6a1c43758689de4fa52e28009a',1,'MoMEMta']]],
   ['dmem',['DMEM',['../classDMEM.html',1,'']]],

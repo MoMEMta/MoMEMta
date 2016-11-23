@@ -145,6 +145,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:ade2f303994bc94727bce4f2bf61bfeeb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa0686906c42544ffddf5e374ab327a1c"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="structInputTag.html">InputTag</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classConfiguration.html#aa0686906c42544ffddf5e374ab327a1c">getIntegrands</a> () const </td></tr>
 <tr class="separator:aa0686906c42544ffddf5e374ab327a1c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1822d2b96fc52963adb69e51bb87791d"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classConfiguration.html#a1822d2b96fc52963adb69e51bb87791d">getInputs</a> () const </td></tr>
+<tr class="separator:a1822d2b96fc52963adb69e51bb87791d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6db9bdf36c7e6bc5bd921da1c5f362a6"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="structPathElements.html">PathElements</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classConfiguration.html#a6db9bdf36c7e6bc5bd921da1c5f362a6">getPaths</a> () const </td></tr>
 <tr class="separator:a6db9bdf36c7e6bc5bd921da1c5f362a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9778854d89004eb73f5f9da363d20bf7"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classConfiguration.html#a9778854d89004eb73f5f9da363d20bf7">getNDimensions</a> () const </td></tr>
@@ -205,7 +207,7 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>ConfigurationReader<
 </div><div class="memdoc">
 <dl class="section return"><dt>Returns</dt><dd>The cuba configuration as declared in the configuration file </dd></dl>
 
-<p>Definition at line <a class="el" href="Configuration_8cc_source.html#l00075">75</a> of file <a class="el" href="Configuration_8cc_source.html">Configuration.cc</a>.</p>
+<p>Definition at line <a class="el" href="Configuration_8cc_source.html#l00077">77</a> of file <a class="el" href="Configuration_8cc_source.html">Configuration.cc</a>.</p>
 
 <p>Referenced by <a class="el" href="MoMEMta_8cc_source.html#l00041">MoMEMta::MoMEMta()</a>.</p>
 
@@ -225,7 +227,27 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>ConfigurationReader<
 </div><div class="memdoc">
 <dl class="section return"><dt>Returns</dt><dd>The global parameters as declared in the configuration file </dd></dl>
 
-<p>Definition at line <a class="el" href="Configuration_8cc_source.html#l00079">79</a> of file <a class="el" href="Configuration_8cc_source.html">Configuration.cc</a>.</p>
+<p>Definition at line <a class="el" href="Configuration_8cc_source.html#l00081">81</a> of file <a class="el" href="Configuration_8cc_source.html">Configuration.cc</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a1822d2b96fc52963adb69e51bb87791d"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; std::string &gt; Configuration::getInputs </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>The list of inputs declared in the configuration </dd></dl>
+
+<p>Definition at line <a class="el" href="Configuration_8cc_source.html#l00097">97</a> of file <a class="el" href="Configuration_8cc_source.html">Configuration.cc</a>.</p>
+
+<p>Referenced by <a class="el" href="MoMEMta_8cc_source.html#l00041">MoMEMta::MoMEMta()</a>.</p>
 
 </div>
 </div>
@@ -243,7 +265,7 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>ConfigurationReader<
 </div><div class="memdoc">
 <dl class="section return"><dt>Returns</dt><dd>The integrand <a class="el" href="structInputTag.html" title="An identifier of a module&#39;s output. ">InputTag</a> as declared in the configuration </dd></dl>
 
-<p>Definition at line <a class="el" href="Configuration_8cc_source.html#l00083">83</a> of file <a class="el" href="Configuration_8cc_source.html">Configuration.cc</a>.</p>
+<p>Definition at line <a class="el" href="Configuration_8cc_source.html#l00085">85</a> of file <a class="el" href="Configuration_8cc_source.html">Configuration.cc</a>.</p>
 
 <p>Referenced by <a class="el" href="MoMEMta_8cc_source.html#l00041">MoMEMta::MoMEMta()</a>.</p>
 
@@ -263,7 +285,7 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>ConfigurationReader<
 </div><div class="memdoc">
 <dl class="section return"><dt>Returns</dt><dd>The list of modules declared from the configuration file </dd></dl>
 
-<p>Definition at line <a class="el" href="Configuration_8cc_source.html#l00071">71</a> of file <a class="el" href="Configuration_8cc_source.html">Configuration.cc</a>.</p>
+<p>Definition at line <a class="el" href="Configuration_8cc_source.html#l00073">73</a> of file <a class="el" href="Configuration_8cc_source.html">Configuration.cc</a>.</p>
 
 <p>Referenced by <a class="el" href="MoMEMta_8cc_source.html#l00041">MoMEMta::MoMEMta()</a>.</p>
 
@@ -283,7 +305,7 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>ConfigurationReader<
 </div><div class="memdoc">
 <dl class="section return"><dt>Returns</dt><dd>The number of integration dimensions required in the configuration </dd></dl>
 
-<p>Definition at line <a class="el" href="Configuration_8cc_source.html#l00091">91</a> of file <a class="el" href="Configuration_8cc_source.html">Configuration.cc</a>.</p>
+<p>Definition at line <a class="el" href="Configuration_8cc_source.html#l00093">93</a> of file <a class="el" href="Configuration_8cc_source.html">Configuration.cc</a>.</p>
 
 <p>Referenced by <a class="el" href="MoMEMta_8cc_source.html#l00041">MoMEMta::MoMEMta()</a>.</p>
 
@@ -303,7 +325,7 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>ConfigurationReader<
 </div><div class="memdoc">
 <dl class="section return"><dt>Returns</dt><dd>The list of Paths as declared in the configuration </dd></dl>
 
-<p>Definition at line <a class="el" href="Configuration_8cc_source.html#l00087">87</a> of file <a class="el" href="Configuration_8cc_source.html">Configuration.cc</a>.</p>
+<p>Definition at line <a class="el" href="Configuration_8cc_source.html#l00089">89</a> of file <a class="el" href="Configuration_8cc_source.html">Configuration.cc</a>.</p>
 
 <p>Referenced by <a class="el" href="MoMEMta_8cc_source.html#l00041">MoMEMta::MoMEMta()</a>.</p>
 

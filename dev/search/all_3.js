@@ -2,7 +2,7 @@ var searchData=
 [
   ['cb',['CB',['../Math_8h.html#a060b8b47ae64b35f239a34b426831292',1,'Math.h']]],
   ['clone',['clone',['../classlua_1_1LazyTable.html#ae5fbdda7f5860cb8648797c0cffff008',1,'lua::LazyTable::clone()'],['../classParameterSet.html#a90562b2a6136b64d5918db6b92d22094',1,'ParameterSet::clone()']]],
-  ['computeweights',['computeWeights',['../classMoMEMta.html#afc501dc0bbc0512f4ec528dbd74729e6',1,'MoMEMta']]],
+  ['computeweights',['computeWeights',['../classMoMEMta.html#a7022a8573e8232c75cda198f59a64cbe',1,'MoMEMta']]],
   ['configuration',['Configuration',['../classConfiguration.html',1,'Configuration'],['../classConfiguration.html#a7a77596f11e5986dfef897fe7554a0b5',1,'Configuration::Configuration(const Configuration &amp;)'],['../classConfiguration.html#a36794d3e40bbf41ac7a71c84c6afa026',1,'Configuration::Configuration(const Configuration &amp;&amp;)']]],
   ['configurationreader',['ConfigurationReader',['../classConfigurationReader.html',1,'']]],
   ['configure',['configure',['../classModule.html#a1e559c32bbb1442a3100bb6d9c90bca3',1,'Module::configure()'],['../classLooper.html#a03f32cd9643774bb9e4a6d505e160f06',1,'Looper::configure()']]],
