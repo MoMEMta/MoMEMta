@@ -52,6 +52,7 @@ Configuration::Configuration(const Configuration& other) {
     integrands = other.integrands;
     paths = other.paths;
     n_dimensions = other.n_dimensions;
+    inputs = other.inputs;
 }
 
 Configuration::Configuration(const Configuration&& other) {
@@ -61,6 +62,7 @@ Configuration::Configuration(const Configuration&& other) {
     integrands = std::move(other.integrands);
     paths = std::move(other.paths);
     n_dimensions = other.n_dimensions;
+    inputs = std::move(other.inputs);
 }
 
 Configuration& Configuration::operator=(Configuration other) {
@@ -90,6 +92,10 @@ std::vector<PathElementsPtr> Configuration::getPaths() const {
 
 std::size_t Configuration::getNDimensions() const {
     return n_dimensions;
+}
+
+std::vector<std::string> Configuration::getInputs() const {
+    return inputs;
 }
 
 Configuration Configuration::freeze() const {

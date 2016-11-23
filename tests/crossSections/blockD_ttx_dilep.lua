@@ -1,19 +1,7 @@
-function append(t1, t2)
-    for i = 1, #t2 do
-        t1[#t1 + 1] = t2[i]
-    end
-
-    return t1
-end
-
-function copy_and_append(t1, t2)
-    local t3 = {}
-
-    append(t3, t1)
-    append(t3, t2)
-
-    return t3
-end
+local p1 = declare_input("p1")
+local p2 = declare_input("p2")
+local p3 = declare_input("p3")
+local p4 = declare_input("p4")
 
 M_W = 80.419002
 M_TOP = 173.
@@ -22,39 +10,40 @@ W_TOP = 1.491500e+00
 
 parameters = {
     energy = 13000.,
+    top_mass = 173.,
 }
 
 cuba = {
     verbosity = 3,
     max_eval = 2000000000,
     relative_accuracy = 0.005,
-    n_start = 100000000,   
-    seed = 5468460,        
+    n_start = 100000000,
+    seed = 5468460,
 }
 
 -- 'Flat' transfer functions to integrate over the visible particle's energies and angles
 -- First |P|
 FlatTransferFunctionOnP.tf_p_1 = {
     ps_point = add_dimension(),
-    reco_particle = 'input::particles/1',
+    reco_particle = p1.reco_p4,
     min = 0.,
     max = parameters.energy/2,
 }
 FlatTransferFunctionOnP.tf_p_2 = {
     ps_point = add_dimension(),
-    reco_particle = 'input::particles/2',
+    reco_particle = p2.reco_p4,
     min = 0.,
     max = parameters.energy/2,
 }
 FlatTransferFunctionOnP.tf_p_3 = {
     ps_point = add_dimension(),
-    reco_particle = 'input::particles/3',
+    reco_particle = p3.reco_p4,
     min = 0.,
     max = parameters.energy/2,
 }
 FlatTransferFunctionOnP.tf_p_4 = {
     ps_point = add_dimension(),
-    reco_particle = 'input::particles/4',
+    reco_particle = p4.reco_p4,
     min = 0.,
     max = parameters.energy/2,
 }
@@ -77,7 +66,7 @@ FlatTransferFunctionOnPhi.tf_phi_4 = {
     reco_particle = 'tf_p_4::output',
 }
 
--- Finally, do Theta 
+-- Finally, do Theta
 FlatTransferFunctionOnTheta.tf_theta_1 = {
     ps_point = add_dimension(),
     reco_particle = 'tf_phi_1::output',
@@ -147,15 +136,15 @@ Looper.looper = {
 }
 
     full_inputs = copy_and_append(inputs, {'looper::particles/1', 'looper::particles/2'})
-    
+
     BuildInitialState.initial_state = {
         particles = full_inputs
     }
 
     jacobians = {
-      'tf_p_1::TF_times_jacobian', 'tf_p_2::TF_times_jacobian', 'tf_p_3::TF_times_jacobian', 'tf_p_4::TF_times_jacobian', 
-      'tf_phi_1::TF_times_jacobian', 'tf_phi_2::TF_times_jacobian', 'tf_phi_3::TF_times_jacobian', 'tf_phi_4::TF_times_jacobian', 
-      'tf_theta_1::TF_times_jacobian', 'tf_theta_2::TF_times_jacobian', 'tf_theta_3::TF_times_jacobian', 'tf_theta_4::TF_times_jacobian', 
+      'tf_p_1::TF_times_jacobian', 'tf_p_2::TF_times_jacobian', 'tf_p_3::TF_times_jacobian', 'tf_p_4::TF_times_jacobian',
+      'tf_phi_1::TF_times_jacobian', 'tf_phi_2::TF_times_jacobian', 'tf_phi_3::TF_times_jacobian', 'tf_phi_4::TF_times_jacobian',
+      'tf_theta_1::TF_times_jacobian', 'tf_theta_2::TF_times_jacobian', 'tf_theta_3::TF_times_jacobian', 'tf_theta_4::TF_times_jacobian',
       'flatter_s13::jacobian', 'flatter_s134::jacobian', 'flatter_s25::jacobian', 'flatter_s256::jacobian',
       'looper::jacobian', 'phaseSpaceOut::phase_space'
     }
@@ -193,7 +182,7 @@ Looper.looper = {
             pdg_id = -5,
             me_index = 6,
           },
-          
+
           {
             pdg_id = 12,
             me_index = 2,

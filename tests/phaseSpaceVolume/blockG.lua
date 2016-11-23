@@ -1,19 +1,7 @@
-function append(t1, t2)
-    for i = 1, #t2 do
-        t1[#t1 + 1] = t2[i]
-    end
-
-    return t1
-end
-
-function copy_and_append(t1, t2)
-    local t3 = {}
-
-    append(t3, t1)
-    append(t3, t2)
-
-    return t3
-end
+local p1 = declare_input("p1")
+local p2 = declare_input("p2")
+local p3 = declare_input("p3")
+local p4 = declare_input("p4")
 
 load_modules('MatrixElements/dummy/libme_dummy.so')
 
@@ -28,8 +16,10 @@ cuba = {
     verbosity = 3,
     max_eval = 200000000,
     relative_accuracy = 0.001,
-    n_start = 20000000,   
-    seed = 5468460,        
+    n_start = 20000000,
+    seed = 5468460,
+    ncores = 8,
+    batch_size = 8000000
 }
 
 -- 'Flat' transfer functions to integrate over the visible particle's angles
@@ -37,22 +27,22 @@ cuba = {
 -- Pass these outputs over for Phi
 FlatTransferFunctionOnPhi.tf_phi_1 = {
     ps_point = add_dimension(),
-    reco_particle = 'input::particles/1',
+    reco_particle = p1.reco_p4,
 }
 FlatTransferFunctionOnPhi.tf_phi_2 = {
     ps_point = add_dimension(),
-    reco_particle = 'input::particles/2',
+    reco_particle = p2.reco_p4,
 }
 FlatTransferFunctionOnPhi.tf_phi_3 = {
     ps_point = add_dimension(),
-    reco_particle = 'input::particles/3',
+    reco_particle = p3.reco_p4,
 }
 FlatTransferFunctionOnPhi.tf_phi_4 = {
     ps_point = add_dimension(),
-    reco_particle = 'input::particles/4',
+    reco_particle = p4.reco_p4,
 }
 
--- Finally, do Theta 
+-- Finally, do Theta
 FlatTransferFunctionOnTheta.tf_theta_1 = {
     ps_point = add_dimension(),
     reco_particle = 'tf_phi_1::output',
@@ -102,7 +92,7 @@ Looper.looper = {
     solutions = "blockg::solutions",
     path = Path("initial_state", "dummy", "integrand")
 }
-    
+
     gen_inputs = {'looper::particles/1', 'looper::particles/2', 'looper::particles/3', 'looper::particles/4'}
 
     BuildInitialState.initial_state = {
@@ -110,8 +100,8 @@ Looper.looper = {
     }
 
     jacobians = {
-      'tf_phi_1::TF_times_jacobian', 'tf_phi_2::TF_times_jacobian', 'tf_phi_3::TF_times_jacobian', 'tf_phi_4::TF_times_jacobian', 
-      'tf_theta_1::TF_times_jacobian', 'tf_theta_2::TF_times_jacobian', 'tf_theta_3::TF_times_jacobian', 'tf_theta_4::TF_times_jacobian', 
+      'tf_phi_1::TF_times_jacobian', 'tf_phi_2::TF_times_jacobian', 'tf_phi_3::TF_times_jacobian', 'tf_phi_4::TF_times_jacobian',
+      'tf_theta_1::TF_times_jacobian', 'tf_theta_2::TF_times_jacobian', 'tf_theta_3::TF_times_jacobian', 'tf_theta_4::TF_times_jacobian',
       'flatter_s12::jacobian', 'flatter_s34::jacobian',
       'looper::jacobian',
     }
@@ -121,7 +111,7 @@ Looper.looper = {
 
       matrix_element = 'dummy_matrix_element',
       matrix_element_parameters = {},
-      
+
       initialState = 'initial_state::partons',
 
       particles = {

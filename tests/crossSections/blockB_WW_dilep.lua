@@ -1,3 +1,7 @@
+local p1 = declare_input("p1")
+local p2 = declare_input("p2")
+local p3 = declare_input("p3")
+
 parameters = {
     energy = 13000.,
     W_mass = 80.419002,
@@ -8,9 +12,9 @@ cuba = {
     verbosity = 3,
     max_eval = 280000000,
     relative_accuracy = 0.005,
-    n_start = 10000000,   
+    n_start = 10000000,
     n_increase = 10000000,
-    seed = 5468460,        
+    seed = 5468460,
 }
 
 -- 'Flat' transfer functions to integrate over the visible particle's angles
@@ -18,19 +22,19 @@ cuba = {
 -- First |P|
 FlatTransferFunctionOnP.tf_p_1 = {
     ps_point = add_dimension(),
-    reco_particle = 'input::particles/1',
+    reco_particle = p1.reco_p4,
     min = 0.,
     max = parameters.energy/2,
 }
 FlatTransferFunctionOnP.tf_p_2 = {
     ps_point = add_dimension(),
-    reco_particle = 'input::particles/2',
+    reco_particle = p2.reco_p4,
     min = 0.,
     max = parameters.energy/2,
 }
 FlatTransferFunctionOnP.tf_p_3 = {
     ps_point = add_dimension(),
-    reco_particle = 'input::particles/3',
+    reco_particle = p3.reco_p4,
     min = 0.,
     max = parameters.energy/2,
 }
@@ -49,7 +53,7 @@ FlatTransferFunctionOnPhi.tf_phi_3 = {
     reco_particle = 'tf_p_3::output',
 }
 
--- Finally, do Theta 
+-- Finally, do Theta
 FlatTransferFunctionOnTheta.tf_theta_1 = {
     ps_point = add_dimension(),
     reco_particle = 'tf_phi_1::output',
@@ -92,13 +96,13 @@ Looper.looper = {
 }
 
     gen_inputs = { 'looper::particles/1', inputs[1], inputs[2], inputs[3] }
- 
+
     BuildInitialState.initial_state = {
         particles = gen_inputs
     }
 
     jacobians = {
-      'tf_p_1::TF_times_jacobian', 'tf_p_2::TF_times_jacobian', 'tf_p_3::TF_times_jacobian', 
+      'tf_p_1::TF_times_jacobian', 'tf_p_2::TF_times_jacobian', 'tf_p_3::TF_times_jacobian',
       'tf_phi_1::TF_times_jacobian', 'tf_phi_2::TF_times_jacobian', 'tf_phi_3::TF_times_jacobian',
       'tf_theta_1::TF_times_jacobian', 'tf_theta_2::TF_times_jacobian', 'tf_theta_3::TF_times_jacobian',
       'flatter_w::jacobian', 'phaseSpaceOut::phase_space', 'looper::jacobian',

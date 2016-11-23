@@ -34,15 +34,16 @@
  */
 
 namespace bp = boost::python;
+using namespace momemta;
 
 void set_log_level(logging::level::level_enum lvl) {
     logging::set_level(lvl);
 }
 
 bp::list MoMEMta_computeWeights_MET(MoMEMta& m, bp::list particles_, bp::list met_) {
-    std::vector<LorentzVector> particles;
+    std::vector<Particle> particles;
     for (ssize_t i = 0; i < bp::len(particles_); i++) {
-        particles.push_back(bp::extract<LorentzVector>(particles_[i]));
+        particles.push_back(bp::extract<Particle>(particles_[i]));
     }
 
     LorentzVector met;
@@ -199,6 +200,13 @@ BOOST_PYTHON_MODULE(momemta) {
             .value("FAILED", MoMEMta::IntegrationStatus::FAILED)
             .value("NONE", MoMEMta::IntegrationStatus::NONE)
             .value("SUCCESS", MoMEMta::IntegrationStatus::SUCCESS);
+
+    class_<Particle>("Particle", init<std::string>())
+            .def(init<std::string, LorentzVector>())
+            .def(init<std::string, LorentzVector, int64_t>())
+            .def_readonly("name", &Particle::name)
+            .add_property("p4", make_getter(&Particle::p4, return_value_policy<return_by_value>()), &Particle::p4)
+            .def_readwrite("type", &Particle::type);
 
     class_<MoMEMta>("MoMEMta", init<Configuration>())
             .def("getIntegrationStatus", &MoMEMta::getIntegrationStatus)

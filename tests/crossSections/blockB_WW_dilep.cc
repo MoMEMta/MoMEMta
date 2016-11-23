@@ -25,6 +25,7 @@
 #include <chrono>
 
 using namespace std::chrono;
+using namespace momemta;
 
 int main(int argc, char** argv) {
 
@@ -36,11 +37,12 @@ int main(int argc, char** argv) {
     ConfigurationReader configuration("../tests/crossSections/blockB_WW_dilep.lua");
     MoMEMta weight(configuration.freeze());
 
-    LorentzVector p1(-25, 0, 0, 25);
-    LorentzVector p2(0, 50, 0, 50);
+    Particle p1 { "p1", LorentzVector(-25, 0, 0, 25), 0 };
+    Particle p2 { "p2", LorentzVector(-50, 0, 0, 50), 0 };
+    Particle p3 { "p3", LorentzVector(0, 50, 0, 50), 0 };
 
     auto start_time = system_clock::now();
-    std::vector<std::pair<double, double>> weights = weight.computeWeights( { p1, p2 } );
+    std::vector<std::pair<double, double>> weights = weight.computeWeights( { p1, p2, p3 } );
     auto end_time = system_clock::now();
 
     LOG(debug) << "Result:";

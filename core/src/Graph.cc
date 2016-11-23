@@ -249,7 +249,7 @@ Graph build(const Pool::DescriptionMap& description, std::vector<ModulePtr>& mod
     // Remove virtual vertices
     sorted_vertices.erase(std::remove_if(sorted_vertices.begin(), sorted_vertices.end(),
                 [&g](const vertex_t& vertex) {
-                    return Module::is_virtual_module(g[vertex].name);
+                    return Module::is_virtual_module(g[vertex].name) || !g[vertex].module;
                 }), sorted_vertices.end());
 
     // Re-fill modules vector with new content (sorted & cleaned)

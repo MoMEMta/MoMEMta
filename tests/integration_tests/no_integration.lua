@@ -1,19 +1,26 @@
+local electron = declare_input("electron")
+local muon = declare_input("muon")
+local bjet1 = declare_input("bjet1")
+local bjet2 = declare_input("bjet2")
+local neutrino1 = declare_input("neutrino1")
+local neutrino2 = declare_input("neutrino2")
+
 parameters = {
     energy = 13000.,
     top_mass = 173.
 }
 
 inputs = {
-    'input::particles/1',
-    'input::particles/2',
-    'input::particles/3',
-    'input::particles/4',
-    'input::particles/5',
-    'input::particles/6',
+    electron.reco_p4,
+    bjet1.reco_p4,
+    muon.reco_p4,
+    bjet2.reco_p4,
+    neutrino1.reco_p4,
+    neutrino2.reco_p4
 }
 
 StandardPhaseSpace.phaseSpaceOut = {
-    particles = {'input::particles/1', 'input::particles/2', 'input::particles/3', 'input::particles/4'} -- only on visible particles
+    particles = {electron.reco_p4, bjet1.reco_p4, muon.reco_p4, bjet2.reco_p4}
 }
 
 BuildInitialState.boost = {

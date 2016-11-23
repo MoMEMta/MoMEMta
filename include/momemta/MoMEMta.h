@@ -25,6 +25,7 @@
 #include <momemta/config.h>
 #include <momemta/Module.h>
 #include <momemta/ParameterSet.h>
+#include <momemta/Particle.h>
 #include <momemta/Pool.h>
 #include <momemta/Types.h>
 
@@ -67,12 +68,13 @@ class MoMEMta {
          *
          * This function is traditionally called from the main event loop.
          *
-         * \param particles List of LorentzVector representing the final state particles. The order is important, because a mapping is done between these particles and the matrix element inside the configuration file.
+         * \param particles List of Particle representing the final state particles.
          * \param met Missing transverse energy of the event. This parameter is optional.
          *
          * \return A vector of weights. Each weight is represented by a pair of double, the first element being the value of the weight and the second the associated absolute error.
          */
-        std::vector<std::pair<double, double>> computeWeights(const std::vector<LorentzVector>& particles, const LorentzVector& met = LorentzVector());
+        std::vector<std::pair<double, double>> computeWeights(const std::vector<momemta::Particle>& particles,
+                                                              const LorentzVector& met = LorentzVector());
 
         /** \brief Return the status of the integration
          *
@@ -102,6 +104,9 @@ class MoMEMta {
             virtual const char* what() const noexcept override;
         private:
             std::string _what;
+        };
+        class invalid_inputs: public std::runtime_error {
+            using std::runtime_error::runtime_error;
         };
 
         /**
@@ -134,7 +139,9 @@ class MoMEMta {
         // Pool inputs
         std::shared_ptr<std::vector<double>> m_ps_points;
         std::shared_ptr<double> m_ps_weight;
-        std::shared_ptr<std::vector<LorentzVector>> m_particles;
+
+        std::unordered_map<std::string, std::shared_ptr<LorentzVector>> m_inputs_p4;
+        std::unordered_map<std::string, std::shared_ptr<int64_t>> m_inputs_type;
         std::shared_ptr<LorentzVector> m_met;
         std::vector<Value<double>> m_integrands;
 

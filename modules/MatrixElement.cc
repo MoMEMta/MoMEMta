@@ -33,7 +33,7 @@
  *
  * ### Summary
  *
- * Evaluate the matrix element, parton density functions, jacobians, 
+ * Evaluate the matrix element, parton density functions, jacobians,
  * phase-space density terms, flux factor, ..., to define the final quantity to be integrated.
  *
  * The matrix element has to be evaluated on all the initial and final particles' 4-momenta.
@@ -82,13 +82,13 @@
  *
  * ### Linking inputs and matrix element
  *
- * The matrix element expects the final-state particles' 4-momenta to be given in a certain order, 
- * but it is agnostic as to how the particles are ordered in MoMEMta. 
- * It is therefore necessary to specify the index of each input (visible and invisible) 
+ * The matrix element expects the final-state particles' 4-momenta to be given in a certain order,
+ * but it is agnostic as to how the particles are ordered in MoMEMta.
+ * It is therefore necessary to specify the index of each input (visible and invisible)
  * particle in the matrix element call. Furthermore, since the matrix element library might define several final states,
  * each input particle's PDG ID has to be set by the user, to ensure the correct final state is retrieved when evaluating the matrix element.
  *
- * To find out the ordering the matrix element expects, it is currently necessary to dig into the matrix element's code. 
+ * To find out the ordering the matrix element expects, it is currently necessary to dig into the matrix element's code.
  * For instance, for the fully leptonic \f$t\overline{t}\f$ example shipped with MoMEMta, the ordering and PDG IDs can be read from [here](https://github.com/MoMEMta/MoMEMta/blob/master/MatrixElements/pp_ttx_fully_leptonic/SubProcesses/P1_Sigma_sm_gg_mupvmbmumvmxbx/cpp_pp_ttx_fullylept.cc#L146).
  *
  * In the Lua configuation for this module, the ordering is defined through the `ids` parameter set mentioned above. For instance,
@@ -129,7 +129,7 @@
  *   | `matrix_element` | string | Name of the matrix element to be used. |
  *   | `matrix_element_parameters` | ParameterSet | Set of parameters passed to the matrix element (see above explanation). |
  *   | `override_parameters` | ParameterSet (optional) | Overrides the value of the ME parameters (usually those specified in the param card) by the ones specified. |
- * 
+ *
  * ### Inputs
  *
  *   | Name | Type | %Description |
@@ -142,7 +142,7 @@
  *
  *   | Name | Type | %Description |
  *   |------|------|--------------|
- *   | `integrands` | vector(double) | Vector of integrands (one per invisibles' solution). All entries in this vector will be summed by MoMEMta to define the final integrand used by Cuba to compute the integral. | 
+ *   | `integrands` | vector(double) | Vector of integrands (one per invisibles' solution). All entries in this vector will be summed by MoMEMta to define the final integrand used by Cuba to compute the integral. |
  *
  * \ingroup modules
  */
@@ -168,10 +168,7 @@ class MatrixElement: public Module {
             for (auto& tag: particle_tags)
                 m_particles.push_back(get<LorentzVector>(tag));
 
-            LOG(debug) << "[MatrixElement] # particles input tags: " << particle_tags.size();
-
             const auto& particles_ids_set = particles_set.get<std::vector<ParameterSet>>("ids");
-            LOG(debug) << "[MatrixElement] # particles ids: " << particles_ids_set.size();
             for (const auto& s: particles_ids_set) {
                 ParticleId id;
                 id.pdg_id = s.get<int64_t>("pdg_id");

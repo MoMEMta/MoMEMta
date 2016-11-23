@@ -68,10 +68,15 @@ class LuaCallbackMock: public ILuaCallback {
             n_dimensions++;
         }
 
+        virtual void onNewInputDeclared(const std::string& name) override {
+            inputs.push_back(name);
+        }
+
         std::vector<std::pair<std::string, std::string>> modules;
         std::vector<InputTag> integrands;
         std::vector<PathElementsPtr> paths;
         std::size_t n_dimensions;
+        std::vector<std::string> inputs;
 };
 
 // A small mock of LazyParameterSet to change visibility of the `freeze` function

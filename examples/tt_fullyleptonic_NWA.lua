@@ -1,18 +1,8 @@
--- Use transfer functions
-inputs_before_perm = {
-    'tf_p1::output',
-    'tf_p2::output',
-    'tf_p3::output',
-    'tf_p4::output',
-}
-
--- Use permutator module to permutate input particles 0 and 2 using the MC
-inputs = {
-  inputs_before_perm[1],
-  'permutator::output/1',
-  inputs_before_perm[3],
-  'permutator::output/2',
-}
+-- Register inputs
+local electron = declare_input("electron")
+local muon = declare_input("muon")
+local bjet1 = declare_input("bjet1")
+local bjet2 = declare_input("bjet2")
 
 parameters = {
     energy = 13000.,
@@ -50,34 +40,41 @@ NarrowWidthApproximation.nwa_s256 = {
 
 GaussianTransferFunctionOnEnergy.tf_p1 = {
     ps_point = add_dimension(),
-    reco_particle = 'input::particles/1',
+    reco_particle = electron.reco_p4,
     sigma = 0.05,
 }
+electron.set_gen_p4("tf_p1::output")
 
 GaussianTransferFunctionOnEnergy.tf_p2 = {
     ps_point = add_dimension(),
-    reco_particle = 'input::particles/2',
+    reco_particle = bjet1.reco_p4,
     sigma = 0.10,
 }
+bjet1.set_gen_p4("tf_p2::output")
 
 GaussianTransferFunctionOnEnergy.tf_p3 = {
     ps_point = add_dimension(),
-    reco_particle = 'input::particles/3',
+    reco_particle = muon.reco_p4,
     sigma = 0.05,
 }
+muon.set_gen_p4("tf_p3::output")
 
 GaussianTransferFunctionOnEnergy.tf_p4 = {
     ps_point = add_dimension(),
-    reco_particle = 'input::particles/4',
+    reco_particle = bjet2.reco_p4,
     sigma = 0.10,
 }
-  
-Permutator.permutator = {
-    ps_point = add_dimension(),
-    inputs = {
-      inputs_before_perm[2],
-      inputs_before_perm[4],
-    }
+bjet2.set_gen_p4("tf_p4::output")
+
+-- Enable permutations between the two b-jets (gen level only)
+add_gen_permutations(bjet1, bjet2)
+
+-- If set_gen_p4 is not called, gen_p4 == reco_p4
+inputs = {
+    electron.gen_p4,
+    bjet1.gen_p4,
+    muon.gen_p4,
+    bjet2.gen_p4
 }
 
 BlockD.blockd = {
@@ -99,14 +96,7 @@ Looper.looper = {
     path = Path("initial_state", "ttbar", "integrand")
 }
 
-full_inputs = {
-    inputs_before_perm[1],
-    'permutator::output/1',
-    inputs_before_perm[3],
-    'permutator::output/2',
-    'looper::particles/1',
-    'looper::particles/2',
-}
+full_inputs = copy_and_append(inputs, {'looper::particles/1', 'looper::particles/2'})
 
 BuildInitialState.initial_state = {
     solution = 'looper::solution',

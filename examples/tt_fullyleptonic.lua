@@ -1,54 +1,14 @@
-function append(t1, t2)
-    for i = 1, #t2 do
-        t1[#t1 + 1] = t2[i]
-    end
-
-    return t1
-end
-
-function copy_and_append(t1, t2)
-    local t3 = {}
-
-    append(t3, t1)
-    append(t3, t2)
-
-    return t3
-end
-
-load_modules('libempty_module.so')
-load_modules('MatrixElements/dummy/libme_dummy.so')
-
 -- Note: USE_PERM and USE_TF are defined in the C++ code and injected in lua before parsing this file
 
-if USE_TF then
-    -- With transfer functions
-    inputs_before_perm = {
-        'tf_p1::output',
-        'tf_p2::output',
-        'tf_p3::output',
-        'tf_p4::output',
-    }
-else
-    -- No transfer functions
-    inputs_before_perm = {
-        'input::particles/1',
-        'input::particles/2',
-        'input::particles/3',
-        'input::particles/4',
-    }
-end
+-- Register inputs
+local electron = declare_input("electron")
+local muon = declare_input("muon")
+local bjet1 = declare_input("bjet1")
+local bjet2 = declare_input("bjet2")
 
 if USE_PERM then
-  -- Use permutator module to permutate input particles 0 and 2 using the MC
-  inputs = {
-    inputs_before_perm[1],
-    'permutator::output/1',
-    inputs_before_perm[3],
-    'permutator::output/2',
-  }
-else
-  -- No permutation, take particles as they come
-  inputs = inputs_before_perm
+    -- Automatically insert a Permutator module
+    add_reco_permutations(bjet1, bjet2)
 end
 
 parameters = {
@@ -94,15 +54,17 @@ BreitWignerGenerator.flatter_s256 = {
 if USE_TF then
     GaussianTransferFunctionOnEnergy.tf_p1 = {
         ps_point = add_dimension(),
-        reco_particle = 'input::particles/1',
+        reco_particle = electron.reco_p4,
         sigma = 0.05,
     }
+    electron.set_gen_p4("tf_p1::output")
 
     GaussianTransferFunctionOnEnergy.tf_p2 = {
         ps_point = add_dimension(),
-        reco_particle = 'input::particles/2',
+        reco_particle = bjet1.reco_p4,
         sigma = 0.10,
     }
+    bjet1.set_gen_p4("tf_p2::output")
 
     -- Example for binned transfer function (only works on ingrid)
     -- BinnedTransferFunctionOnEnergy.tf_p2 = {
@@ -114,15 +76,17 @@ if USE_TF then
 
     GaussianTransferFunctionOnEnergy.tf_p3 = {
         ps_point = add_dimension(),
-        reco_particle = 'input::particles/3',
+        reco_particle = muon.reco_p4,
         sigma = 0.05,
     }
+    muon.set_gen_p4("tf_p3::output")
 
     GaussianTransferFunctionOnEnergy.tf_p4 = {
         ps_point = add_dimension(),
-        reco_particle = 'input::particles/4',
+        reco_particle = bjet2.reco_p4,
         sigma = 0.10,
     }
+    bjet2.set_gen_p4("tf_p4::output")
 
     -- BinnedTransferFunctionOnEnergy.tf_p4 = {
     --     ps_point = add_dimension(),
@@ -131,6 +95,14 @@ if USE_TF then
     --     th2_name = 'Binned_Egen_DeltaE_Norm_jet',
     -- }
 end
+
+-- If set_gen_p4 is not called, gen_p4 == reco_p4
+inputs = {
+    electron.gen_p4,
+    bjet1.gen_p4,
+    muon.gen_p4,
+    bjet2.gen_p4
+}
 
 StandardPhaseSpace.phaseSpaceOut = {
     particles = inputs -- only on visible particles
@@ -148,16 +120,6 @@ BlockD.blockd = {
     s25 = 'flatter_s25::s',
     s256 = 'flatter_s256::s',
 }
-
-if USE_PERM then
-    Permutator.permutator = {
-        ps_point = add_dimension(),
-        inputs = {
-          inputs_before_perm[2],
-          inputs_before_perm[4],
-        }
-    }
-end
 
 -- Loop over block solutions
 

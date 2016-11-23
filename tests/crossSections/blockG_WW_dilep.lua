@@ -1,3 +1,8 @@
+local p1 = declare_input("p1")
+local p2 = declare_input("p2")
+local p3 = declare_input("p3")
+local p4 = declare_input("p4")
+
 parameters = {
     energy = 13000.,
     W_mass = 80.419002,
@@ -8,9 +13,9 @@ cuba = {
     verbosity = 3,
     max_eval = 200000000,
     relative_accuracy = 0.005,
-    n_start = 100000,   
+    n_start = 100000,
     n_increase = 100000,
-    seed = 5468460,        
+    seed = 5468460,
 }
 
 -- 'Flat' transfer functions to integrate over the visible particle's angles
@@ -18,22 +23,22 @@ cuba = {
 -- First do Phi
 FlatTransferFunctionOnPhi.tf_phi_1 = {
     ps_point = add_dimension(),
-    reco_particle = 'input::particles/1',
+    reco_particle = p1.reco_p4,
 }
 FlatTransferFunctionOnPhi.tf_phi_2 = {
     ps_point = add_dimension(),
-    reco_particle = 'input::particles/2',
+    reco_particle = p2.reco_p4,
 }
 FlatTransferFunctionOnPhi.tf_phi_3 = {
     ps_point = add_dimension(),
-    reco_particle = 'input::particles/3',
+    reco_particle = p3.reco_p4,
 }
 FlatTransferFunctionOnPhi.tf_phi_4 = {
     ps_point = add_dimension(),
-    reco_particle = 'input::particles/4',
+    reco_particle = p4.reco_p4,
 }
 
--- Finally, do Theta 
+-- Finally, do Theta
 FlatTransferFunctionOnTheta.tf_theta_1 = {
     ps_point = add_dimension(),
     reco_particle = 'tf_phi_1::output',
@@ -85,14 +90,14 @@ Looper.looper = {
 }
 
     gen_inputs = {'looper::particles/1', 'looper::particles/2', 'looper::particles/3', 'looper::particles/4'}
-    
+
     BuildInitialState.initial_state = {
         particles = gen_inputs
     }
 
     jacobians = {
-      'tf_phi_1::TF_times_jacobian', 'tf_phi_2::TF_times_jacobian', 'tf_phi_3::TF_times_jacobian', 'tf_phi_4::TF_times_jacobian', 
-      'tf_theta_1::TF_times_jacobian', 'tf_theta_2::TF_times_jacobian', 'tf_theta_3::TF_times_jacobian', 'tf_theta_4::TF_times_jacobian', 
+      'tf_phi_1::TF_times_jacobian', 'tf_phi_2::TF_times_jacobian', 'tf_phi_3::TF_times_jacobian', 'tf_phi_4::TF_times_jacobian',
+      'tf_theta_1::TF_times_jacobian', 'tf_theta_2::TF_times_jacobian', 'tf_theta_3::TF_times_jacobian', 'tf_theta_4::TF_times_jacobian',
       'flatter_w1::jacobian', 'flatter_w2::jacobian',
       'looper::jacobian',
     }

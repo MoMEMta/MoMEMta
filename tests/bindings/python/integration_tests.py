@@ -28,10 +28,10 @@ class IntegrationTest(unittest.TestCase):
         LorentzVector = ROOT.Math.LorentzVector('ROOT::Math::PxPyPzE4D<double>')
 
         # List of LorentzVector
-        p3 = LorentzVector(16.171895980835, -13.7919054031372, -3.42997527122497, 21.5293197631836)
-        p4 = LorentzVector(-55.7908325195313, -111.59294128418, -122.144721984863, 174.66259765625)
-        p5 = LorentzVector(-18.9018573760986, 10.0896110534668, -0.602926552295686, 21.4346446990967)
-        p6 = LorentzVector(71.3899612426758, 96.0094833374023, -77.2513122558594, 142.492813110352)
+        p3 = momemta.Particle("electron", LorentzVector(16.171895980835, -13.7919054031372, -3.42997527122497, 21.5293197631836), 0)
+        p4 = momemta.Particle("bjet1", LorentzVector(-55.7908325195313, -111.59294128418, -122.144721984863, 174.66259765625), 0)
+        p5 = momemta.Particle("muon", LorentzVector(-18.9018573760986, 10.0896110534668, -0.602926552295686, 21.4346446990967), 0)
+        p6 = momemta.Particle("bjet2", LorentzVector(71.3899612426758, 96.0094833374023, -77.2513122558594, 142.492813110352), 0)
 
         result = self.runner.computeWeights([p3, p4, p5, p6])
         self.assertEqual(self.runner.getIntegrationStatus(), momemta.IntegrationStatus.SUCCESS)
@@ -45,10 +45,10 @@ class IntegrationTest(unittest.TestCase):
     def test_list(self):
 
         # Plain list as LorentzVector
-        p3 = [16.171895980835, -13.7919054031372, -3.42997527122497, 21.5293197631836]
-        p4 = [-55.7908325195313, -111.59294128418, -122.144721984863, 174.66259765625]
-        p5 = [-18.9018573760986, 10.0896110534668, -0.602926552295686, 21.4346446990967]
-        p6 = [71.3899612426758, 96.0094833374023, -77.2513122558594, 142.492813110352]
+        p3 = momemta.Particle("electron", [16.171895980835, -13.7919054031372, -3.42997527122497, 21.5293197631836], 0)
+        p4 = momemta.Particle("bjet1", [-55.7908325195313, -111.59294128418, -122.144721984863, 174.66259765625], 0)
+        p5 = momemta.Particle("muon", [-18.9018573760986, 10.0896110534668, -0.602926552295686, 21.4346446990967], 0)
+        p6 = momemta.Particle("bjet2", [71.3899612426758, 96.0094833374023, -77.2513122558594, 142.492813110352], 0)
 
         result = self.runner.computeWeights([p3, p4, p5, p6])
         self.assertEqual(self.runner.getIntegrationStatus(), momemta.IntegrationStatus.SUCCESS)
