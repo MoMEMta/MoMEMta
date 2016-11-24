@@ -57,15 +57,20 @@ class LinearCombinator: public Module {
                 m_terms.push_back(get<T>(v));
 
             m_coefficients = parameters.get<std::vector<double>>("coefficients");
-        };
 
-        virtual Status work() override {
-
+            if (m_coefficients.size() == 0 || m_terms.size() == 0){
+                auto exception = std::invalid_argument("Tried to call LinearCombinator with an empty input.");
+                LOG(fatal) << exception.what();
+                throw exception;
+            }
             if (m_coefficients.size() != m_terms.size()){
                 auto exception = std::invalid_argument("The Term and Coefficient lists passed to LinearCombinator have different sizes.");
                 LOG(fatal) << exception.what();
                 throw exception;
             }
+        };
+
+        virtual Status work() override {
 
             T temp_result = m_coefficients[0] * *m_terms[0];
             for (std::size_t i = 1; i < m_terms.size(); i++)
