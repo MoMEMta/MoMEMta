@@ -11,7 +11,7 @@
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-scrollTo/2.1.2/jquery.scrollTo.min.js"></script>
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-powertip/1.2.0/jquery.powertip.min.js"></script>
-        <title>MoMEMta: BinnedTransferFunctionOnEnergyEvaluator Class Reference</title>
+        <title>MoMEMta: SecondaryBlockB Class Reference</title>
         <!--<link href="tabs.css" rel="stylesheet" type="text/css"/>-->
         <script type="text/javascript" src="dynsections.js"></script>
         <link href="search/search.css" rel="stylesheet" type="text/css"/>
@@ -111,71 +111,81 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="classBinnedTransferFunctionOnEnergyEvaluator-members.html">List of all members</a>  </div>
+<a href="classSecondaryBlockB-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">BinnedTransferFunctionOnEnergyEvaluator Class Reference<div class="ingroups"><a class="el" href="group__modules.html">Modules</a></div></div>  </div>
+<div class="title">SecondaryBlockB Class Reference<div class="ingroups"><a class="el" href="group__modules.html">Modules</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p>Evaluate a transfer function on energy described by a 2D histogram retrieved from a ROOT file.  
- <a href="classBinnedTransferFunctionOnEnergyEvaluator.html#details">More...</a></p>
+<p>\(\require{cancel}\) Secondary Block B, describing \(s_{123} \to s_{12}(\to \cancel{p_1} + p_2) + p_3 \)  
+ <a href="classSecondaryBlockB.html#details">More...</a></p>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Evaluate a transfer function on energy described by a 2D histogram retrieved from a ROOT file. </p>
-<p>This module takes as inputs two LorentzVectors: a 'gen-level' particle (which may be computed using for instance a Block or a 'real' transfer function) and a 'reco-level' particle (experimentally reconstructed). Assuming the LorentzVectors differ only by their energy, this module returns the value of a transfer function (TF) evaluated on their respective energies.</p>
-<p>The TF is described by a 2D histogram (a ROOT TH2), where the X-axis defines the "generated" (true) energy \(E_{gen}\), and the Y-axis the difference between the reconstructed and the generated energy ( \(E_{rec}-E_{gen}\)).</p>
-<p>It is assumed the histogram is correctly normalised, i.e. integrals of slices along the Y-axis sum up to 1. The TF is assumed to continue asymptotically as a constant for \(E_{gen} \to \infty\). If the difference \(E_{rec}-E_{gen}\) is outside the TH2's Y-axis range, the TF evaluates to 0.</p>
+<div class="textblock"><p>\(\require{cancel}\) Secondary Block B, describing \(s_{123} \to s_{12}(\to \cancel{p_1} + p_2) + p_3 \) </p>
+<p>This Secondary Block determines \(p_1^T\) and \(p_1^z\) using</p><ul>
+<li>\(p_1\) phi angle and mass</li>
+<li>\(p_2\)</li>
+<li>\(p_3\)</li>
+<li>\(s_{12}\)</li>
+<li>\(s_{123}\)</li>
+</ul>
+<p>by solving the equations :</p><ul>
+<li>\(s_{12} = (p_1 + p_2)^2\)</li>
+<li>\(s_{123} = (p_1 + p_2 + p_3)^2\).</li>
+</ul>
+<p>The value of E1 is fixed using the mass-shell condition.</p>
+<p>The standard phase-space parametrization associated with this block reads: \( \frac{d^3p_1}{(2\pi)^32E_1}\). The procedure implies a change of variable leading to the following phase-space parametrization: \( \frac{1}{(2\pi)^32E_1}d\phi_1ds_{12}ds_{123}\times J \) with the jacobian \( J = \frac{E_1 |\boldsymbol{p_1}|^2 \sin\theta_1}{2|E_2|\boldsymbol{p_1}|-E_1|\boldsymbol{p_2}|\cos\theta_{12}|} \).</p>
 <h3>Integration dimension</h3>
-<p>This module requires <b>0</b> phase-space points.</p>
-<h3>Parameters</h3>
+<p>This module adds <b>0</b> dimension to the integration.</p>
+<h3>Global parameters</h3>
 <table class="doxtable">
 <tr>
 <th>Name </th><th>Type </th><th>Description  </th></tr>
 <tr>
-<td><code>file</code> </td><td>string </td><td><a class="el" href="classPath.html" title="An execution path. ">Path</a> to the ROOT file in which the transfer function is saved. </td></tr>
-<tr>
-<td><code>th2_name</code> </td><td>string </td><td>Name of the TH2 stored in file <code>file</code> </td></tr>
+<td><code>energy</code> </td><td>double </td><td>Collision energy. </td></tr>
 </table>
 <h3>Inputs</h3>
 <table class="doxtable">
 <tr>
 <th>Name </th><th>Type </th><th>Description  </th></tr>
 <tr>
-<td><code>reco_particle</code> </td><td>LorentzVector </td><td>Experimentally reconstructed particle. </td></tr>
+<td><code>s12</code> </td><td>double </td><td>Squared invariant mass of the propagator (GeV \(^2\)). </td></tr>
 <tr>
-<td><code>gen_particle</code> </td><td>LorentzVector </td><td>Gen-level particle. </td></tr>
+<td><code>s123</code> </td><td>double </td><td>Squared invariant mass of the propagator (GeV \(^2\)). </td></tr>
+<tr>
+<td><code>p1</code> </td><td>LorentzVector </td><td>Temporary LorentzVector of the missing particle. It will be used only to retrieve the particle phi angle and mass. </td></tr>
+<tr>
+<td><code>p2</code> </td><td>LorentzVector </td><td>Parton level LorentzVector of a decay product for which we already know everything (see above description). </td></tr>
+<tr>
+<td><code>p3</code> </td><td>LorentzVector </td><td>Parton level LorentzVector of a decay product for which we already know everything (see above description). </td></tr>
 </table>
 <h3>Outputs</h3>
 <table class="doxtable">
 <tr>
 <th>Name </th><th>Type </th><th>Description  </th></tr>
 <tr>
-<td><code>TF</code> </td><td>double </td><td><a class="el" href="classValue.html" title="A class representing a value produced by a module. ">Value</a> of the TF evaluated on the <em>reco</em> and <em>gen</em> energies. </td></tr>
+<td><code>solutions</code> </td><td>vector(Solution) </td><td>Solutions of the equations \(s_{12} = (p_1 + p_2)^2\) and \(s_{123} = (p_1 + p_2 + p_3)^2\). Each solution embed the parton level LorentzVector of the missing product \(p_1\) and the jacobian associated with the change of variable mentioned above. </td></tr>
 </table>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="classBinnedTransferFunctionOnEnergyEvaluator.html" title="Evaluate a transfer function on energy described by a 2D histogram retrieved from a ROOT file...">BinnedTransferFunctionOnEnergyEvaluator</a> </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>We validated this secondary block to ensure that \(p_1\) solutions indeed verify the above equations. The Jacobian has not been validated yet.</dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="classLooper.html" title="A module looping over a set of solutions. ">Looper</a> module to loop over the solutions of this Block </dd></dl>
 
-<p>Definition at line <a class="el" href="BinnedTransferFunctionOnEnergy_8cc_source.html#l00236">236</a> of file <a class="el" href="BinnedTransferFunctionOnEnergy_8cc_source.html">BinnedTransferFunctionOnEnergy.cc</a>.</p>
+<p>Definition at line <a class="el" href="SecondaryBlockB_8cc_source.html#l00078">78</a> of file <a class="el" href="SecondaryBlockB_8cc_source.html">SecondaryBlockB.cc</a>.</p>
 </div><div class="dynheader">
-Inheritance diagram for BinnedTransferFunctionOnEnergyEvaluator:</div>
+Inheritance diagram for SecondaryBlockB:</div>
 <div class="dyncontent">
-<div class="center"><img src="classBinnedTransferFunctionOnEnergyEvaluator__inherit__graph.png" border="0" usemap="#BinnedTransferFunctionOnEnergyEvaluator_inherit__map" alt="Inheritance graph"/></div>
-<map name="BinnedTransferFunctionOnEnergyEvaluator_inherit__map" id="BinnedTransferFunctionOnEnergyEvaluator_inherit__map">
-<area shape="rect" id="node2" href="classBinnedTransferFunctionOnEnergyBase.html" title="Helper class for binned transfer function modules. " alt="" coords="5,81,181,122"/>
-<area shape="rect" id="node3" href="classModule.html" title="Parent class for all the modules. " alt="" coords="61,5,125,32"/>
+<div class="center"><img src="classSecondaryBlockB__inherit__graph.png" border="0" usemap="#SecondaryBlockB_inherit__map" alt="Inheritance graph"/></div>
+<map name="SecondaryBlockB_inherit__map" id="SecondaryBlockB_inherit__map">
+<area shape="rect" id="node2" href="classModule.html" title="Parent class for all the modules. " alt="" coords="36,5,100,32"/>
 </map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a5685bdd788ff29e6aabc1f3e68f0ec9f"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a5685bdd788ff29e6aabc1f3e68f0ec9f"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>BinnedTransferFunctionOnEnergyEvaluator</b> (PoolPtr pool, const <a class="el" href="classParameterSet.html">ParameterSet</a> &amp;parameters)</td></tr>
-<tr class="separator:a5685bdd788ff29e6aabc1f3e68f0ec9f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac203b3e5457f18bde05be0ae74275f20"><td class="memItemLeft" align="right" valign="top">virtual Status&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBinnedTransferFunctionOnEnergyEvaluator.html#ac203b3e5457f18bde05be0ae74275f20">work</a> () override</td></tr>
-<tr class="memdesc:ac203b3e5457f18bde05be0ae74275f20"><td class="mdescLeft">&#160;</td><td class="mdescRight">Main function.  <a href="#ac203b3e5457f18bde05be0ae74275f20">More...</a><br /></td></tr>
-<tr class="separator:ac203b3e5457f18bde05be0ae74275f20"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="inherit_header pub_methods_classBinnedTransferFunctionOnEnergyBase"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classBinnedTransferFunctionOnEnergyBase')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classBinnedTransferFunctionOnEnergyBase.html">BinnedTransferFunctionOnEnergyBase</a></td></tr>
-<tr class="memitem:adde148480c0dc446bb2460c11d2fb5d6 inherit pub_methods_classBinnedTransferFunctionOnEnergyBase"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="adde148480c0dc446bb2460c11d2fb5d6"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>BinnedTransferFunctionOnEnergyBase</b> (PoolPtr pool, const <a class="el" href="classParameterSet.html">ParameterSet</a> &amp;parameters)</td></tr>
-<tr class="separator:adde148480c0dc446bb2460c11d2fb5d6 inherit pub_methods_classBinnedTransferFunctionOnEnergyBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a691908a9c48fe637991e0d168b724d64"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a691908a9c48fe637991e0d168b724d64"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>SecondaryBlockB</b> (PoolPtr pool, const <a class="el" href="classParameterSet.html">ParameterSet</a> &amp;parameters)</td></tr>
+<tr class="separator:a691908a9c48fe637991e0d168b724d64"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8c0b5b11b8bd4618fce146b6f37ef355"><td class="memItemLeft" align="right" valign="top">virtual Status&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classSecondaryBlockB.html#a8c0b5b11b8bd4618fce146b6f37ef355">work</a> () override</td></tr>
+<tr class="memdesc:a8c0b5b11b8bd4618fce146b6f37ef355"><td class="mdescLeft">&#160;</td><td class="mdescRight">Main function.  <a href="#a8c0b5b11b8bd4618fce146b6f37ef355">More...</a><br /></td></tr>
+<tr class="separator:a8c0b5b11b8bd4618fce146b6f37ef355"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classModule"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classModule')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classModule.html">Module</a></td></tr>
 <tr class="memitem:a17cb586f94658e2048759c4cbdb7968d inherit pub_methods_classModule"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classModule.html#a17cb586f94658e2048759c4cbdb7968d">Module</a> (PoolPtr pool, const std::string &amp;name)</td></tr>
 <tr class="memdesc:a17cb586f94658e2048759c4cbdb7968d inherit pub_methods_classModule"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor.  <a href="#a17cb586f94658e2048759c4cbdb7968d">More...</a><br /></td></tr>
@@ -243,38 +253,13 @@ template&lt;typename T &gt; </td></tr>
 template&lt;typename T &gt; </td></tr>
 <tr class="memitem:ae6103bc712c92e199f6cbb327197b97a inherit pro_methods_classModule"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classValue.html">Value</a>&lt; T &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><b>get</b> (const <a class="el" href="structInputTag.html">InputTag</a> &amp;tag)</td></tr>
 <tr class="separator:ae6103bc712c92e199f6cbb327197b97a inherit pro_methods_classModule"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="inherit_header pro_attribs_classBinnedTransferFunctionOnEnergyBase"><td colspan="2" onclick="javascript:toggleInherit('pro_attribs_classBinnedTransferFunctionOnEnergyBase')"><img src="closed.png" alt="-"/>&#160;Protected Attributes inherited from <a class="el" href="classBinnedTransferFunctionOnEnergyBase.html">BinnedTransferFunctionOnEnergyBase</a></td></tr>
-<tr class="memitem:ae9201e6ad8eeda4175f7cddbb3b3d275 inherit pro_attribs_classBinnedTransferFunctionOnEnergyBase"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae9201e6ad8eeda4175f7cddbb3b3d275"></a>
-std::unique_ptr&lt; TH2 &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>m_th2</b></td></tr>
-<tr class="separator:ae9201e6ad8eeda4175f7cddbb3b3d275 inherit pro_attribs_classBinnedTransferFunctionOnEnergyBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4034d7a1064bf3bb39264d3fa8749473 inherit pro_attribs_classBinnedTransferFunctionOnEnergyBase"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4034d7a1064bf3bb39264d3fa8749473"></a>
-double&#160;</td><td class="memItemRight" valign="bottom"><b>m_deltaMin</b></td></tr>
-<tr class="separator:a4034d7a1064bf3bb39264d3fa8749473 inherit pro_attribs_classBinnedTransferFunctionOnEnergyBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa9561c13a81db572cc408c7aea0d1d17 inherit pro_attribs_classBinnedTransferFunctionOnEnergyBase"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa9561c13a81db572cc408c7aea0d1d17"></a>
-double&#160;</td><td class="memItemRight" valign="bottom"><b>m_deltaMax</b></td></tr>
-<tr class="separator:aa9561c13a81db572cc408c7aea0d1d17 inherit pro_attribs_classBinnedTransferFunctionOnEnergyBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a71ede8c131375eb4d1d4359ec8e93dd1 inherit pro_attribs_classBinnedTransferFunctionOnEnergyBase"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a71ede8c131375eb4d1d4359ec8e93dd1"></a>
-double&#160;</td><td class="memItemRight" valign="bottom"><b>m_deltaRange</b></td></tr>
-<tr class="separator:a71ede8c131375eb4d1d4359ec8e93dd1 inherit pro_attribs_classBinnedTransferFunctionOnEnergyBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aeb324a816407f6506aab92bf5655d745 inherit pro_attribs_classBinnedTransferFunctionOnEnergyBase"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aeb324a816407f6506aab92bf5655d745"></a>
-double&#160;</td><td class="memItemRight" valign="bottom"><b>m_EgenMin</b></td></tr>
-<tr class="separator:aeb324a816407f6506aab92bf5655d745 inherit pro_attribs_classBinnedTransferFunctionOnEnergyBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aafd0a5c36f69b06cc76a1b24ce6018f6 inherit pro_attribs_classBinnedTransferFunctionOnEnergyBase"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aafd0a5c36f69b06cc76a1b24ce6018f6"></a>
-double&#160;</td><td class="memItemRight" valign="bottom"><b>m_EgenMax</b></td></tr>
-<tr class="separator:aafd0a5c36f69b06cc76a1b24ce6018f6 inherit pro_attribs_classBinnedTransferFunctionOnEnergyBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac692c5537d160793c87db995f6fa7585 inherit pro_attribs_classBinnedTransferFunctionOnEnergyBase"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac692c5537d160793c87db995f6fa7585"></a>
-double&#160;</td><td class="memItemRight" valign="bottom"><b>m_fallBackEgenMax</b></td></tr>
-<tr class="separator:ac692c5537d160793c87db995f6fa7585 inherit pro_attribs_classBinnedTransferFunctionOnEnergyBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aaed22fd922797c20a5a1a4011dbf449e inherit pro_attribs_classBinnedTransferFunctionOnEnergyBase"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aaed22fd922797c20a5a1a4011dbf449e"></a>
-<a class="el" href="classValue.html">Value</a>&lt; LorentzVector &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>m_reco_input</b></td></tr>
-<tr class="separator:aaed22fd922797c20a5a1a4011dbf449e inherit pro_attribs_classBinnedTransferFunctionOnEnergyBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pro_attribs_classModule"><td colspan="2" onclick="javascript:toggleInherit('pro_attribs_classModule')"><img src="closed.png" alt="-"/>&#160;Protected Attributes inherited from <a class="el" href="classModule.html">Module</a></td></tr>
 <tr class="memitem:a57f3d4dadaf92477ccfca40dfc0da549 inherit pro_attribs_classModule"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a57f3d4dadaf92477ccfca40dfc0da549"></a>
 PoolPtr&#160;</td><td class="memItemRight" valign="bottom"><b>m_pool</b></td></tr>
 <tr class="separator:a57f3d4dadaf92477ccfca40dfc0da549 inherit pro_attribs_classModule"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="ac203b3e5457f18bde05be0ae74275f20"></a>
+<a class="anchor" id="a8c0b5b11b8bd4618fce146b6f37ef355"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -282,7 +267,7 @@ PoolPtr&#160;</td><td class="memItemRight" valign="bottom"><b>m_pool</b></td></t
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual Status BinnedTransferFunctionOnEnergyEvaluator::work </td>
+          <td class="memname">virtual Status SecondaryBlockB::work </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -301,12 +286,12 @@ PoolPtr&#160;</td><td class="memItemRight" valign="bottom"><b>m_pool</b></td></t
 
 <p>Reimplemented from <a class="el" href="classModule.html#a43c0b7c70e9dd8b0cf6c78aa5052eeee">Module</a>.</p>
 
-<p>Definition at line <a class="el" href="BinnedTransferFunctionOnEnergy_8cc_source.html#l00243">243</a> of file <a class="el" href="BinnedTransferFunctionOnEnergy_8cc_source.html">BinnedTransferFunctionOnEnergy.cc</a>.</p>
+<p>Definition at line <a class="el" href="SecondaryBlockB_8cc_source.html#l00093">93</a> of file <a class="el" href="SecondaryBlockB_8cc_source.html">SecondaryBlockB.cc</a>.</p>
 
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>modules/<a class="el" href="BinnedTransferFunctionOnEnergy_8cc_source.html">BinnedTransferFunctionOnEnergy.cc</a></li>
+<li>modules/<a class="el" href="SecondaryBlockB_8cc_source.html">SecondaryBlockB.cc</a></li>
 </ul>
 </div><!-- contents -->
 <!-- HTML footer for doxygen 1.8.8-->

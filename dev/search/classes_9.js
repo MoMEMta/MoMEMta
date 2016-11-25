@@ -6,6 +6,7 @@ var searchData=
   ['lazytablefield',['LazyTableField',['../structlua_1_1LazyTableField.html',1,'lua']]],
   ['lazytablemock',['LazyTableMock',['../classLazyTableMock.html',1,'']]],
   ['librarymanager',['LibraryManager',['../classLibraryManager.html',1,'']]],
+  ['linearcombinator',['LinearCombinator',['../classLinearCombinator.html',1,'']]],
   ['log_5fmsg',['log_msg',['../structlogger_1_1details_1_1log__msg.html',1,'logger::details']]],
   ['logger',['logger',['../classlogger_1_1logger.html',1,'logger']]],
   ['looper',['Looper',['../classLooper.html',1,'']]],

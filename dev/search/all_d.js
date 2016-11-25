@@ -1,8 +1,8 @@
 var searchData=
 [
   ['math_2eh',['Math.h',['../Math_8h.html',1,'']]],
-  ['matrixelement',['MatrixElement',['../classmomemta_1_1MatrixElement.html',1,'momemta']]],
   ['matrixelement',['MatrixElement',['../classMatrixElement.html',1,'']]],
+  ['matrixelement',['MatrixElement',['../classmomemta_1_1MatrixElement.html',1,'momemta']]],
   ['meparameters',['MEParameters',['../classmomemta_1_1MEParameters.html',1,'momemta']]],
   ['module',['Module',['../classModule.html',1,'Module'],['../structInputTag.html#a877135e4a5577531ac38c6d0c3d2d196',1,'InputTag::module()'],['../classModule.html#a17cb586f94658e2048759c4cbdb7968d',1,'Module::Module()']]],
   ['module',['Module',['../structConfiguration_1_1Module.html',1,'Configuration']]],

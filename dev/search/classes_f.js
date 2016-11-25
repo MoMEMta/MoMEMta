@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['secondaryblockb',['SecondaryBlockB',['../classSecondaryBlockB.html',1,'']]],
   ['secondaryblockcd',['SecondaryBlockCD',['../classSecondaryBlockCD.html',1,'']]],
   ['sharedlibrary',['SharedLibrary',['../structSharedLibrary.html',1,'']]],
   ['simplecounter',['SimpleCounter',['../classSimpleCounter.html',1,'']]],
