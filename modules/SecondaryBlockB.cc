@@ -127,8 +127,8 @@ class SecondaryBlockB: public Module {
             const double p1t_linear = E3p2z_E2p3z / denominator;
             const double p1t_indep = (p2z * (2 * (E2E3 - p2zp3z - cosPhi23 * p2tp3t) + m3_squared - *s123 + *s12) - p3z * (m1_squared + m2_squared - *s12)) / (2. * denominator);
 
-            const double p1z_linear = (cosPhi12 * E3 * p2t - cosPhi13 * E2 * p3t) / - denominator;
-            const double p1z_indep = (-(cosPhi13 * p3t * (m1_squared + m2_squared - *s12)) + cosPhi12 * p2t * (2 * (E2E3 - cosPhi23 * p2tp3t - p2zp3z) + m3_squared + *s12 - *s123)) / (2 * - denominator);
+            const double p1z_linear = (cosPhi12 * E3 * p2t - cosPhi13 * E2 * p3t) / (-denominator);
+            const double p1z_indep = (-(cosPhi13 * p3t * (m1_squared + m2_squared - *s12)) + cosPhi12 * p2t * (2 * (E2E3 - cosPhi23 * p2tp3t - p2zp3z) + m3_squared + *s12 - *s123)) / (2 * (-denominator));
 
             // Now, using E_1^2 - |\vec{p_1}|^2 = m_1^2
             // one can obtain E1.
