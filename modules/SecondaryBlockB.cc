@@ -25,7 +25,7 @@
 
 #include <Math/GenVector/VectorUtil.h>
 
-/** \brief \f$\require{cancel}\f$ Secondary Block B, describing \f$s_{123} \to s12(\to \cancel{p_1} + p_2) + p_3 + \f$
+/** \brief \f$\require{cancel}\f$ Secondary Block B, describing \f$s_{123} \to s_{12}(\to \cancel{p_1} + p_2) + p_3 \f$
  *
  * This Secondary Block determines \f$p_1^T\f$ and \f$p_1^z\f$ using
  * - \f$p_1\f$ phi angle and mass
@@ -34,9 +34,13 @@
  * - \f$s_{12}\f$
  * - \f$s_{123}\f$
  *
- * by solving the equations \f$s_{12} = (p_1 + p_2)^2\f$ and \f$s_{123} = (p_1 + p_2 + p_3)^2\f$. The value of E1 is fixed using the mass-shell condition.
+ * by solving the equations :
+ *  - \f$s_{12} = (p_1 + p_2)^2\f$
+ *  - \f$s_{123} = (p_1 + p_2 + p_3)^2\f$.
  *
- * The standard phase-space parametrization associated with this block reads: \f$ \frac{d^3p_1}{(2\pi)^32E_1}\f$. The procedure implies a change of variable leading to the following phase-space parametrization: \f$ \frac{1}{(2\pi)^32E_1}d\phi_1ds_{12}ds_{123}\times J \f$. The jacobian \f$ J \f$ of the transformation is given by \f$ J = \frac{E_1 |\boldsymbol{p_1}|^2 \sin\theta_1}{2|E_2|\boldsymbol{p_1}|-E_1|\boldsymbol{p_2}|\cos\theta_{12}|} \f$.
+ * The value of E1 is fixed using the mass-shell condition.
+ *
+ * The standard phase-space parametrization associated with this block reads: \f$ \frac{d^3p_1}{(2\pi)^32E_1}\f$. The procedure implies a change of variable leading to the following phase-space parametrization: \f$ \frac{1}{(2\pi)^32E_1}d\phi_1ds_{12}ds_{123}\times J \f$ with the jacobian \f$ J = \frac{E_1 |\boldsymbol{p_1}|^2 \sin\theta_1}{2|E_2|\boldsymbol{p_1}|-E_1|\boldsymbol{p_2}|\cos\theta_{12}|} \f$.
  *
  *
  * ### Integration dimension
@@ -56,16 +60,16 @@
  *   | `s12` | double | Squared invariant mass of the propagator (GeV\f$^2\f$). |
  *   | `s123` | double | Squared invariant mass of the propagator (GeV\f$^2\f$). |
  *   | `p1` | LorentzVector | Temporary LorentzVector of the missing particle. It will be used only to retrieve the particle phi angle and mass.|
- *   | `p2` | LorentzVector | Parton level LorentzVector of a decay product for which we already know everything.|
- *   | `p3` | LorentzVector | Parton level LorentzVector of a decay product for which we already know everything.|
+ *   | `p2` | LorentzVector | Parton level LorentzVector of a decay product for which we already know everything (see above description).|
+ *   | `p3` | LorentzVector | Parton level LorentzVector of a decay product for which we already know everything (see above description).|
  *
  * ### Outputs
  *
  *   | Name | Type | %Description |
  *   |------|------|--------------|
- *   | `solutions` | vector(Solution) | Solutions of the equation \f$s_{12} = (p_1 + p_2)^2\f$. Each solution embed the parton level LorentzVector of the decay product with energy fixed by this equation and the jacobian associated with the change of variable mentioned above.|
+ *   | `solutions` | vector(Solution) | Solutions of the equations \f$s_{12} = (p_1 + p_2)^2\f$ and \f$s_{123} = (p_1 + p_2 + p_3)^2\f$. Each solution embed the parton level LorentzVector of the missing product \f$p_1\f$ and the jacobian associated with the change of variable mentioned above.|
  *
- * \note This block has not been validated.
+ * \note We validated this secondary block to ensure that \f$p_1\f$ solutions indeed verify the above equations. The Jacobian has not been validated yet.
  *
  * \sa Looper module to loop over the solutions of this Block
  *
@@ -115,11 +119,16 @@ class SecondaryBlockB: public Module {
             const double cosPhi13 = std::cos(ROOT::Math::VectorUtil::DeltaPhi(*m_p1, *m_p3));
             const double cosPhi23 = std::cos(ROOT::Math::VectorUtil::DeltaPhi(*m_p2, *m_p3));
 
-            const double p1t_linear = (E3 * p2z - E2 * p3z) / (cosPhi13 * p2z * p3t - cosPhi12 * p2t * p3z);
-            const double p1t_indep = (p2z * (2 * (E2 * E3 - p2z * p3z - cosPhi23 * p2t * p3t) + m3_squared - *s123 + *s12) - p3z * (m1_squared + m2_squared - *s12)) / (2. * (cosPhi13 * p2z * p3t - cosPhi12 * p2t * p3z));
+            const double denominator = cosPhi13 * p2z * p3t - cosPhi12 * p2t * p3z;
+            const double E2E3 = E2 * E3;
+            const double p2zp3z = p2z * p3z;
+            const double p2tp3t = p2t * p3t;
+            const double E3p2z_E2p3z = E3 * p2z - E2 * p3z;
+            const double p1t_linear = E3p2z_E2p3z / denominator;
+            const double p1t_indep = (p2z * (2 * (E2E3 - p2zp3z - cosPhi23 * p2tp3t) + m3_squared - *s123 + *s12) - p3z * (m1_squared + m2_squared - *s12)) / (2. * denominator);
 
-            const double p1z_linear = (cosPhi12 * E3 * p2t - cosPhi13 * E2 * p3t) / (-(cosPhi13 * p2z * p3t) + cosPhi12 * p2t * p3z);
-            const double p1z_indep = (-(cosPhi13 * p3t * (m1_squared + m2_squared - *s12)) + cosPhi12 * p2t * (2 * (E2 * E3 - cosPhi23 * p2t * p3t - p2z * p3z) + m3_squared + *s12 - *s123)) / (2 * (-cosPhi13 * p2z * p3t + cosPhi12 * p2t * p3z));
+            const double p1z_linear = (cosPhi12 * E3 * p2t - cosPhi13 * E2 * p3t) / - denominator;
+            const double p1z_indep = (-(cosPhi13 * p3t * (m1_squared + m2_squared - *s12)) + cosPhi12 * p2t * (2 * (E2E3 - cosPhi23 * p2tp3t - p2zp3z) + m3_squared + *s12 - *s123)) / (2 * - denominator);
 
             // Now, using E_1^2 - |\vec{p_1}|^2 = m_1^2
             // one can obtain E1.
@@ -142,7 +151,7 @@ class SecondaryBlockB: public Module {
                 // Skip unphysical solutions
                 const double p1t = p1t_linear * E1 + p1t_indep;
                 if (E1 <= m1 || p1t < 0)
-                    return Status::NEXT;
+                    continue;
 
                 const double p1z = p1z_linear * E1 + p1z_indep;
                 const double phi1 = m_p1->Phi();
@@ -153,7 +162,7 @@ class SecondaryBlockB: public Module {
                         p1z,
                         E1);
                 // Compute jacobian
-                const double jacobian = p1t / (64 * CB(M_PI) * std::abs(cosPhi12 * p2t * (E1 * p3z -  E3 * p1z) + cosPhi13 * p3t * (E2 * p1z  - E1 * p2z) + p1t * (E3 * p2z - E2 * p3z)));
+                const double jacobian = p1t / (64 * CB(M_PI) * std::abs(cosPhi12 * p2t * (E1 * p3z -  E3 * p1z) + cosPhi13 * p3t * (E2 * p1z  - E1 * p2z) + p1t * E3p2z_E2p3z));
 
                 Solution solution { {p1_sol}, jacobian, true };
                 solutions->push_back(solution);
