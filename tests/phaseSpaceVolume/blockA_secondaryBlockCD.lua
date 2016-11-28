@@ -87,19 +87,21 @@ BreitWignerGenerator.flatter = {
 
 SecondaryBlockCD.secBlockCD = {
     s12 = 'flatter::s',
-    gen_p2 = inputs[1],
-    reco_p1 = inputs[2],
+    p2 = inputs[1],
+    p1 = inputs[2],
 }
 
 Looper.looperCD = {
-    solutions = 'secBlockCD::gen_p1',
+    solutions = 'secBlockCD::solutions',
     path = Path('blocka', 'looperA')
 }
 
 -- Loop for secondary block
 
     BlockA.blocka = {
-        inputs = { inputs[3], inputs[4], inputs[1], 'looperCD::particles/1' }
+        p1 = inputs[3],
+        p2 = inputs[4],
+        branches = { inputs[1], 'looperCD::particles/1' }
     }
 
     Looper.looperA = {

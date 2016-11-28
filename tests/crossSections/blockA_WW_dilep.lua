@@ -101,7 +101,10 @@ StandardPhaseSpace.phaseSpaceOut = {
 }
 
 BlockA.blocka = {
-    inputs = inputs,
+    p1 = inputs[1],
+    p2 = inputs[2],
+    p3 = inputs[3],
+    p4 = inputs[4],
 }
 
 -- Loop

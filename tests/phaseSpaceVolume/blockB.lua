@@ -70,7 +70,8 @@ StandardPhaseSpace.phaseSpaceOut = {
 }
 
 BlockB.blockb = {
-    inputs = inputs,
+    p2 = inputs[1],
+    branches = { inputs[2] },
     s12 = 'flatter::s',
 }
 

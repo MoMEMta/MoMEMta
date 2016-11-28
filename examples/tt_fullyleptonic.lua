@@ -111,7 +111,10 @@ StandardPhaseSpace.phaseSpaceOut = {
 -- Declare module before the permutator to test read-access in the pool
 -- for non-existant values.
 BlockD.blockd = {
-    inputs = inputs,
+    p3 = inputs[1],
+    p4 = inputs[2],
+    p5 = inputs[3],
+    p6 = inputs[4],
 
     pT_is_met = true,
 

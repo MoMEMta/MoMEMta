@@ -80,7 +80,10 @@ BreitWignerGenerator.flatter_s34 = {
 }
 
 BlockG.blockg = {
-    inputs = inputs,
+    p1 = inputs[1],
+    p2 = inputs[2],
+    p3 = inputs[3],
+    p4 = inputs[4],
 
     s12 = 'flatter_s12::s',
     s34 = 'flatter_s34::s',
