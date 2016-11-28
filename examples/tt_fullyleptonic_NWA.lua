@@ -78,7 +78,10 @@ inputs = {
 }
 
 BlockD.blockd = {
-    inputs = inputs,
+    p3 = inputs[1],
+    p4 = inputs[2],
+    p5 = inputs[3],
+    p6 = inputs[4],
 
     s13 = 'nwa_s13::s',
     s134 = 'nwa_s134::s',

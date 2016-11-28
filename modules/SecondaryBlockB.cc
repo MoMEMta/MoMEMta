@@ -59,9 +59,8 @@
  *   |------|------|--------------|
  *   | `s12` | double | Squared invariant mass of the propagator (GeV\f$^2\f$). |
  *   | `s123` | double | Squared invariant mass of the propagator (GeV\f$^2\f$). |
- *   | `p1` | LorentzVector | Temporary LorentzVector of the missing particle. It will be used only to retrieve the particle phi angle and mass.|
- *   | `p2` | LorentzVector | Parton level LorentzVector of a decay product for which we already know everything (see above description).|
- *   | `p3` | LorentzVector | Parton level LorentzVector of a decay product for which we already know everything (see above description).|
+ *   | `p1` | LorentzVector | LorentzVector of the missing particle we want to reconstruct. It will be used only to retrieve the particle phi angle and mass.|
+ *   | `p2` <br/> `p3` | LorentzVector | LorentzVectors of the two decay products used to reconstruct fully `p1` (see above description).|
  *
  * ### Outputs
  *
@@ -82,12 +81,10 @@ class SecondaryBlockB: public Module {
             sqrt_s(parameters.globalParameters().get<double>("energy")) {
                 s12 = get<double>(parameters.get<InputTag>("s12"));
                 s123 = get<double>(parameters.get<InputTag>("s123"));
-                InputTag p1_tag = parameters.get<InputTag>("p1");
-                m_p1 = get<LorentzVector>(p1_tag);
-                InputTag p2_tag = parameters.get<InputTag>("p2");
-                m_p2 = get<LorentzVector>(p2_tag);
-                InputTag p3_tag = parameters.get<InputTag>("p3");
-                m_p3 = get<LorentzVector>(p3_tag);
+                
+                m_p1 = get<LorentzVector>(parameters.get<InputTag>("p1"));
+                m_p2 = get<LorentzVector>(parameters.get<InputTag>("p2"));
+                m_p3 = get<LorentzVector>(parameters.get<InputTag>("p3"));
             };
 
         virtual Status work() override {

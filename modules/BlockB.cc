@@ -64,8 +64,9 @@
  *
  *   | Name | Type | %Description |
  *   |------|------|--------------|
- *   | `s12` | double | Invariant mass of the particle decaying into the missing particle (\f$p_1\f$) and the visible particle, \f$p_2\f$. Typically coming from a BreitWignerGenerator module.
- *   | `inputs` | vector(LorentzVector) | LorentzVector of all the experimentally reconstructed particles. In this Block there is only one visible particle used explicitly, \f$p_2\f$, but there can be other visible objects in the the event, taken into account when computing \f$\vec{p}_{T}^{tot}\f$.
+ *   | `s12` | double | Squared invariant mass of the particle decaying into the missing particle (\f$p_1\f$) and the visible particle, \f$p_2\f$. Typically coming from a BreitWignerGenerator module.
+ *   | `p2` | LorentzVector | LorentzVector of the particle \f$p_2\f$, as described above. |
+ *   | `branches` | vector(LorentzVector) | LorentzVector of all the other particles in the event, taken into account when computing \f$\vec{p}_{T}^{tot}\f$ and checking if the solutions are physical. |
  *   | `met` | LorentzVector, default `met::p4` | LorentzVector of the MET |
  *
  * ### Outputs
@@ -91,9 +92,13 @@ class BlockB: public Module {
 
             s12 = get<double>(parameters.get<InputTag>("s12"));
 
-            auto particle_tags = parameters.get<std::vector<InputTag>>("inputs");
-            for (auto& t: particle_tags)
-                m_particles.push_back(get<LorentzVector>(t));
+            p2 = get<LorentzVector>(parameters.get<InputTag>("p2"));
+            
+            if (parameters.exists("branches")) {
+                auto branches_tags = parameters.get<std::vector<InputTag>>("branches");
+                for (auto& t: branches_tags)
+                    m_branches.push_back(get<LorentzVector>(t));
+            }
 
             // If the met input is specified, get it, otherwise retrieve default
             // one ("met::p4")
@@ -121,25 +126,23 @@ class BlockB: public Module {
             if (*s12 > SQ(sqrt_s))
                 return Status::NEXT;
 
-            const LorentzVector& p2 = *m_particles[0];
-
             LorentzVector pT;
             if (pT_is_met) {
                 pT = - *m_met;
             } else {
-                pT = p2;
-                for (size_t i = 1; i < m_particles.size(); i++) {
-                    pT += *m_particles[i];
+                pT = *p2;
+                for (size_t i = 0; i < m_branches.size(); i++) {
+                    pT += *m_branches[i];
                 }
             }
 
-            const double p22 = p2.M2();
+            const double p22 = p2->M2();
 
             // From eq.(1) p1z = B*E1 + A
             // From eq.(4) + eq.(1) (1 - B^2) E1^2 - 2 A B E1 + C - A^2 = 0
 
-            const double A = - (*s12 - p22 - 2 * (pT.Px() * p2.Px() + pT.Py() * p2.Py())) / (2 * p2.Pz());
-            const double B = p2.E() / p2.Pz();
+            const double A = - (*s12 - p22 - 2 * (pT.Px() * p2->Px() + pT.Py() * p2->Py())) / (2 * p2->Pz());
+            const double B = p2->E() / p2->Pz();
             const double C = - SQ(pT.Px()) - SQ(pT.Py());
 
             // Solve quadratic a*E1^2 + b*E1 + c = 0
@@ -162,16 +165,15 @@ class BlockB: public Module {
                 LorentzVector p1(-pT.Px(), -pT.Py(), A + B*e1, e1);
 
                 // Check if solutions are physical
-                LorentzVector tot = p1 + p2;
-                for (size_t i = 1; i < m_particles.size(); i++) {
-                    tot += *m_particles[i];
-                }
+                LorentzVector tot = p1 + *p2;
+                for (size_t i = 0; i < m_branches.size(); i++)
+                    tot += *m_branches[i];
                 double q1Pz = std::abs(tot.Pz() + tot.E()) / 2.;
                 double q2Pz = std::abs(tot.Pz() - tot.E()) / 2.;
                 if(q1Pz > sqrt_s/2 || q2Pz > sqrt_s/2)
                     continue;
 
-                const double inv_jacobian = SQ(sqrt_s) * std::abs(p2.Pz() * e1 - p2.E() * p1.Pz());
+                const double inv_jacobian = SQ(sqrt_s) * std::abs(p2->Pz() * e1 - p2->E() * p1.Pz());
 
                 Solution s { {p1}, M_PI/inv_jacobian, true };
                 solutions->push_back(s);
@@ -186,7 +188,8 @@ class BlockB: public Module {
 
         // Inputs
         Value<double> s12;
-        std::vector<Value<LorentzVector>> m_particles;
+        Value<LorentzVector> p2;
+        std::vector<Value<LorentzVector>> m_branches;
         Value<LorentzVector> m_met;
 
         // Outputs

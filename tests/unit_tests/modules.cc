@@ -200,13 +200,10 @@ TEST_CASE("Modules", "[modules]") {
         *s25 = s_13_25;
         *s256 = s_134_256;
 
-        std::vector<InputTag> inputs { 
-                { "input", "particles", 0 },
-                { "input", "particles", 1 },
-                { "input", "particles", 2 },
-                { "input", "particles", 3 }
-            };
-        parameters->createMock("inputs", inputs);
+        parameters->set("p3", InputTag("input", "particles", 0));
+        parameters->set("p4", InputTag("input", "particles", 1));
+        parameters->set("p5", InputTag("input", "particles", 2));
+        parameters->set("p6", InputTag("input", "particles", 3));
 
         Value<SolutionCollection> solutions = pool->get<SolutionCollection>({"BlockD", "solutions"});
 

@@ -60,7 +60,8 @@
  *   | Name | Type | %Description |
  *   |------|------|--------------|
  *   | `s12` <br/> `s34` | double | Squared invariant masses of the propagators. Typically coming from a BreitWignerGenerator or NarrowWidthApproximation module.
- *   | `inputs` | vector(LorentzVector) | LorentzVector of all the experimentally reconstructed particles. Only the first four particles are used explicitly by the block, but there can be other objects in the event, taken into account when computing \f$\vec{p}_{T}^{b}\f$. |
+ *   | `p1` ... `p4` | LorentzVector | LorentzVectors of the four particles in the event. The masses and angles of these particles will be used as input, and their energies modified according to the above method to reconstruct the event. |
+ *   | `branches` | vector(LorentzVector) | LorentzVectors of all the other particles in the event, taken into account when computing \f$\vec{p}_{T}^{b}\f$. |
  *
  * ### Outputs
  *
@@ -85,9 +86,16 @@ class BlockG: public Module {
             s12 = get<double>(parameters.get<InputTag>("s12"));
             s34 = get<double>(parameters.get<InputTag>("s34"));
 
-            auto particle_tags = parameters.get<std::vector<InputTag>>("inputs");
-            for (auto& t: particle_tags)
-                m_particles.push_back(get<LorentzVector>(t));
+            m_particles.push_back(get<LorentzVector>(parameters.get<InputTag>("p1")));
+            m_particles.push_back(get<LorentzVector>(parameters.get<InputTag>("p2")));
+            m_particles.push_back(get<LorentzVector>(parameters.get<InputTag>("p3")));
+            m_particles.push_back(get<LorentzVector>(parameters.get<InputTag>("p4")));
+
+            if (parameters.exists("branches")) {
+                auto branches_tags = parameters.get<std::vector<InputTag>>("branches");
+                for (auto& t: branches_tags)
+                    m_branches.push_back(get<LorentzVector>(t));
+            }
         };
  
         virtual Status work() override {
@@ -103,8 +111,8 @@ class BlockG: public Module {
             const LorentzVector& p4 = *m_particles[3];
 
             LorentzVector pb;
-            for (size_t i = 4; i < m_particles.size(); i++) {
-                pb += *m_particles[i];
+            for (size_t i = 0; i < m_branches.size(); i++) {
+                pb += *m_branches[i];
             }
 
             const double pbx = pb.Px();
@@ -197,6 +205,7 @@ class BlockG: public Module {
         double sqrt_s;
 
         // Inputs
+        std::vector<Value<LorentzVector>> m_branches;
         std::vector<Value<LorentzVector>> m_particles;
         Value<double> s12, s34;
         // Outputs

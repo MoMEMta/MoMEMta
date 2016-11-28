@@ -85,20 +85,21 @@ StandardPhaseSpace.phaseSpaceOut = {
 
 SecondaryBlockCD.secBlockCD = {
     s12 = 'flatter_w1::s',
-    gen_p2 = inputs[1],
-    reco_p1 = inputs[2]
+    p2 = inputs[1],
+    p1 = inputs[2]
 }
 
 -- Loop for secondary
 
 Looper.looperCD = {
-    solutions = 'secBlockCD::gen_p1',
+    solutions = 'secBlockCD::solutions',
     path = Path('blockb', 'looperB')
 }
 
     BlockB.blockb = {
         s12 = 'flatter_w2::s',
-        inputs = { inputs[3], inputs[1], 'looperCD::particles/1' },
+        p2 = inputs[3],
+        branches = { inputs[1], 'looperCD::particles/1' },
     }
 
     -- Loop for main block

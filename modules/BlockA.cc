@@ -25,6 +25,8 @@
 #include <momemta/Utils.h>
 #include <momemta/Math.h>
 
+#include <stdexcept>
+
 /** \brief Final (main) Block A, describing \f$q_1 q_2 \to p_1 + p_2 + X\f$
  *
  * \f$q_1\f$ and \f$q_2\f$ are Bjorken fractions, \f$p_1\f$ and \f$p_2\f$ are the 4-momenta of the visible
@@ -57,7 +59,8 @@
  *
  *   | Name | Type | %Description |
  *   |------|------|--------------|
- *   | `inputs` | vector(LorentzVector) | LorentzVector of all the experimentally reconstructed particles. Only the first two particles are used explicitly by the block, but there can be other visible objects in the event, taken into account when computing \f$\vec{p}_{T}^{branches}\f$. |
+ *   | `p1` <br/> `p2` | LorentzVector | 4-vectors of the two particles for which the energy will be fixed using the above described method. Their angles and masses will be kept. | 
+ *   | `branches` | vector(LorentzVector) | LorentzVector of all the other particles in the event, taken into account when computing \f$\vec{p}_{T}^{branches}\f$ and check if the solutions are physical. At least one other particle must be present for this block to be valid. |
  *
  * ### Outputs
  *
@@ -79,31 +82,36 @@ class BlockA: public Module {
 
             sqrt_s = parameters.globalParameters().get<double>("energy");
             
-            auto particle_tags = parameters.get<std::vector<InputTag>>("inputs");
-            for (auto& t: particle_tags)
-                m_particles.push_back(get<LorentzVector>(t));
+            p1 = get<LorentzVector>(parameters.get<InputTag>("p1"));
+            p2 = get<LorentzVector>(parameters.get<InputTag>("p2"));
+            
+            auto branches_tags = parameters.get<std::vector<InputTag>>("branches");
+            for (auto& t: branches_tags)
+                m_branches.push_back(get<LorentzVector>(t));
+            if (m_branches.empty()) {
+                auto exception = std::invalid_argument("BlockA is not valid without at least a third particle in the event.");
+                LOG(fatal) << exception.what();
+                throw exception;
+            }
         };
  
         virtual Status work() override {
 
             solutions->clear();
 
-            const LorentzVector& p1 = *m_particles[0];
-            const LorentzVector& p2 = *m_particles[1];
-
             LorentzVector pb;
-            for (size_t i = 2; i < m_particles.size(); i++) {
-                pb += *m_particles[i];
+            for (size_t i = 0; i < m_branches.size(); i++) {
+                pb += *m_branches[i];
             }
 
             double pbx = pb.Px();
             double pby = pb.Py();
-            const double theta1 = p1.Theta();
-            const double phi1 = p1.Phi();
-            const double theta2 = p2.Theta();
-            const double phi2 = p2.Phi();
-            const double m1 = p1.M();
-            const double m2 = p2.M();
+            const double theta1 = p1->Theta();
+            const double phi1 = p1->Phi();
+            const double theta2 = p2->Theta();
+            const double phi2 = p2->Phi();
+            const double m1 = p1->M();
+            const double m2 = p2->M();
 
             // pT = p1+p2+pb = 0. Equivalent to the following system:
             // p1x+p2x = -pbx
@@ -168,7 +176,8 @@ class BlockA: public Module {
         double sqrt_s;
 
         // Inputs
-        std::vector<Value<LorentzVector>> m_particles;
+        Value<LorentzVector> p1, p2;
+        std::vector<Value<LorentzVector>> m_branches;
         // Outputs
         std::shared_ptr<SolutionCollection> solutions = produce<SolutionCollection>("solutions");
 };

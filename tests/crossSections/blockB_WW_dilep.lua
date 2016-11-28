@@ -85,7 +85,8 @@ StandardPhaseSpace.phaseSpaceOut = {
 
 BlockB.blockb = {
     s12 = 'flatter_w::s',
-    inputs = inputs,
+    p2 = inputs[1],
+    branches = { inputs[2], inputs[3] }
 }
 
 -- Loop
