@@ -52,14 +52,14 @@
  *   | Name | Type | %Description |
  *   |------|------|--------------|
  *   | `s12` | double | Squared invariant mass of the propagator (GeV\f$^2\f$). |
- *   | `reco_p1` | LorentzVector | Reconstructed LorentzVector of the decay product for which we want to fix the energy. This LorentzVector will be used only to retrieve the particle angles and mass, its energy will be disregarded.|
- *   | `gen_p2` | LorentzVector | Parton level LorentzVector of the decay product for which we already know everything. It will be used together with \f$s_{12}\f$ and the angles of \f$p_1^{reco}\f$ to fix \f$p_1^{gen}\f$ energy.|
+ *   | `p1` | LorentzVector | Reconstructed LorentzVector of the decay product for which we want to fix the energy. This LorentzVector will be used only to retrieve the particle angles and mass, its energy will be disregarded. |
+ *   | `p2` | LorentzVector | Parton level LorentzVector of the decay product for which we already know everything. It will be used together with \f$s_{12}\f$ and the angles of \f$p_1^{reco}\f$ to fix \f$p_1^{gen}\f$ energy.|
  *
  * ### Outputs
  *
  *   | Name | Type | %Description |
  *   |------|------|--------------|
- *   | `gen_p1` | vector(Solution) | Solutions of the equation \f$s_{12} = (p_1 + p_2)^2\f$. Each solution embed the parton level LorentzVector of the decay product with energy fixed by this equation and the jacobian associated with the change of variable mentioned above.|
+ *   | `solutions` | vector(Solution) | Solutions of the above system for `p1`. Each solution embed the parton level LorentzVector of the reconstructed decay product and the jacobian associated with the change of variable mentioned above.|
  *
  * \note This block has been validated and is safe to use.
  *
@@ -70,13 +70,13 @@
 class SecondaryBlockCD: public Module {
     public:
 
-        SecondaryBlockCD(PoolPtr pool, const ParameterSet& parameters): Module(pool, parameters.getModuleName()),
-            sqrt_s(parameters.globalParameters().get<double>("energy")) {
+        SecondaryBlockCD(PoolPtr pool, const ParameterSet& parameters): Module(pool, parameters.getModuleName()) {
+                sqrt_s = parameters.globalParameters().get<double>("energy");
+
                 s12 = get<double>(parameters.get<InputTag>("s12"));
-                InputTag reco_p1_tag = parameters.get<InputTag>("reco_p1");
-                m_reco_p1 = get<LorentzVector>(reco_p1_tag);
-                InputTag gen_p2_tag = parameters.get<InputTag>("gen_p2");
-                m_gen_p2 = get<LorentzVector>(gen_p2_tag);
+                
+                p1 = get<LorentzVector>(parameters.get<InputTag>("p1"));
+                p2 = get<LorentzVector>(parameters.get<InputTag>("p2"));
             };
 
         virtual Status work() override {
@@ -84,19 +84,19 @@ class SecondaryBlockCD: public Module {
             gen_p1->clear();
 
             // Don't spend time on unphysical part of phase-space
-            if (*s12 > SQ(sqrt_s) || *s12 < m_gen_p2->M2() || *s12 < m_reco_p1->M2())
+            if (*s12 > SQ(sqrt_s) || *s12 < p2->M2() || *s12 < p1->M2())
                return Status::NEXT;
 
             std::vector<double> E1_solutions; // up to two solutions
-            const double theta1 = m_reco_p1->Theta();
-            const double phi1 = m_reco_p1->Phi();
-            const double m1 = m_reco_p1->M();
+            const double theta1 = p1->Theta();
+            const double phi1 = p1->Phi();
+            const double m1 = p1->M();
 
-            const double E2 = m_gen_p2->E();
-            const double norm2 = m_gen_p2->P();
-            const double m2 = m_gen_p2->M();
+            const double E2 = p2->E();
+            const double norm2 = p2->P();
+            const double m2 = p2->M();
 
-            const double cos_theta12 = ROOT::Math::VectorUtil::CosTheta(*m_reco_p1, *m_gen_p2);
+            const double cos_theta12 = ROOT::Math::VectorUtil::CosTheta(*p1, *p2);
 
             // Equation to be solved for E1 : s12 = (p1+p2)^2 ==> [ 4*SQ(cos_theta12)*SQ(norm2)-4*SQ(E2) ] * SQ(E1) + [ 4*(s12 - SQ(m1) - SQ(m2))*E2 ] * E1 + 4*SQ(m1)*SQ(cos_theta12)*(SQ(m2)-SQ(E2) = 0)
             const double quadraticTerm = 4 * SQ(E2) - 4 * SQ(norm2) * SQ(cos_theta12);
@@ -113,9 +113,11 @@ class SecondaryBlockCD: public Module {
                 // Skip unphysical solutions
                 if (E1 <= 0 || E1 <= m1)
                     continue;
+                
                 // Avoid introducing spurious solution from the equation s12 = (p1+p2)^2 that has to be squared in the computation
                 if ((SQ(m1) + SQ(m2) + 2 * E1 * E2 - *s12) * cos_theta12 < 0)
                     continue;
+                
                 LorentzVector gen_p1_sol;
                 double norm1 = std::sqrt(SQ(E1) - SQ(m1));
                 double gen_pt1_sol = norm1 * std::sin(theta1);
@@ -124,13 +126,15 @@ class SecondaryBlockCD: public Module {
                         gen_pt1_sol * std::sin(phi1),
                         norm1 * std::cos(theta1),
                         E1);
+                
                 // Compute jacobian
                 double jacobian = std::abs( std::sin(theta1) * SQ(norm1) / (32 * CB(M_PI) * (norm1 * E2 - E1 * norm2 * cos_theta12)) );
+                
                 Solution s { {gen_p1_sol}, jacobian, true };
-                gen_p1->push_back(s);
+                solutions->push_back(s);
             }
 
-            return (gen_p1->size() > 0) ? Status::OK : Status::NEXT;
+            return (solutions->size() > 0) ? Status::OK : Status::NEXT;
         }
 
     private:
@@ -138,10 +142,10 @@ class SecondaryBlockCD: public Module {
 
         // Inputs
         Value<double> s12;
-        Value<LorentzVector> m_reco_p1;
-        Value<LorentzVector> m_gen_p2;
+        Value<LorentzVector> p1;
+        Value<LorentzVector> p2;
 
         // Output
-        std::shared_ptr<SolutionCollection> gen_p1 = produce<SolutionCollection>("gen_p1");
+        std::shared_ptr<SolutionCollection> solutions = produce<SolutionCollection>("solutions");
 };
 REGISTER_MODULE(SecondaryBlockCD);

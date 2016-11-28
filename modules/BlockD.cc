@@ -65,8 +65,9 @@
  *
  *   | Name | Type | %Description |
  *   |------|------|--------------|
- *   | `s13` <br/> `s134` <br/> `s25` <br/> `s256` | double | Squared invariant masses of the propagators. Typically coming from a BreitWignerGenerator or NarrowWidthApproximation module.
- *   | `inputs` | vector(LorentzVector) | LorentzVectors of all the experimentally reconstructed particles. Only the first four are used explicitly by the block, but there can be other visible objects in the the event, taken into account when computing \f$\vec{p}_{T}^{tot}\f$ if needed.
+ *   | `s13` <br/> `s134` <br/> `s25` <br/> `s256` | double | Squared invariant masses of the propagators. Typically coming from a BreitWignerGenerator or NarrowWidthApproximation module. |
+ *   | `p3` ... `p6` | LorentzVector | LorentzVectors of the particles used to reconstruct the event according to the above method. |
+ *   | `branches` | vector(LorentzVector) | LorentzVectors of all the other particles in the event, taken into account when computing \f$\vec{p}_{T}^{tot}\f$ (if MET is not used), and checking if the solutions are physical. |
  *   | `met` | LorentzVector, default `met::p4` | LorentzVector of the MET |
  *
  * ### Outputs
@@ -94,9 +95,14 @@ class BlockD: public Module {
             s25 = get<double>(parameters.get<InputTag>("s25"));
             s256 = get<double>(parameters.get<InputTag>("s256"));
 
-            auto particle_tags = parameters.get<std::vector<InputTag>>("inputs");
-            for (auto& t: particle_tags)
-                m_particles.push_back(get<LorentzVector>(t));
+            m_particles.push_back(get<LorentzVector>(parameters.get<InputTag>("p3")));
+            m_particles.push_back(get<LorentzVector>(parameters.get<InputTag>("p4")));
+            m_particles.push_back(get<LorentzVector>(parameters.get<InputTag>("p5")));
+            m_particles.push_back(get<LorentzVector>(parameters.get<InputTag>("p6")));
+            
+            auto branches_tags = parameters.get<std::vector<InputTag>>("branches");
+            for (auto& t: branches_tags)
+                m_branches.push_back(get<LorentzVector>(t));
 
             // If the met input is specified, get it, otherwise retrieve default
             // one ("met::p4")
@@ -136,8 +142,8 @@ class BlockD: public Module {
                 pT = - *m_met;
             } else {
                 pT = p3 + p4 + p5 + p6;
-                for (size_t i = 4; i < m_particles.size(); i++) {
-                    pT += *m_particles[i];
+                for (size_t i = 0; i < m_branches.size(); i++) {
+                    pT += *m_branches[i];
                 }
             }
 
@@ -241,9 +247,9 @@ class BlockD: public Module {
                         e2);
 
                 // Check if solutions are physical
-                LorentzVector tot = p1 + p2;
-                for (size_t i = 0; i < m_particles.size(); i++) {
-                    tot += *m_particles[i];
+                LorentzVector tot = p1 + p2 + p3 + p4 + p5 + p6;
+                for (size_t i = 0; i < m_branches.size(); i++) {
+                    tot += *m_branches[i];
                 }
                 double q1Pz = std::abs(tot.Pz() + tot.E()) / 2.;
                 double q2Pz = std::abs(tot.Pz() - tot.E()) / 2.;
@@ -351,6 +357,7 @@ class BlockD: public Module {
         Value<double> s25;
         Value<double> s256;
         std::vector<Value<LorentzVector>> m_particles;
+        std::vector<Value<LorentzVector>> m_branches;
         Value<LorentzVector> m_met;
 
         // Outputs

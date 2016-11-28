@@ -70,9 +70,9 @@
  *   | Name | Type | %Description |
  *   |------|------|-------------|
  *   | `q1` <br /> `q2` | double | Bjorken fractions. These are the dimensions of integration coming from CUBA as phase-space points |
- *   | `s13` | double | Invariant mass of the particle decaying into the missing particle (\f$p_1\f$) and the visible particle (\f$p_3\f$). Typically coming from a BreitWignerGenerator module. |
- *   | `s24` | double | Invariant mass of the particle decaying into the missing particle (\f$p_2\f$) and the visible particle (\f$p_4\f$). Typically coming from a BreitWignerGenerator module. |
- *   | `inputs` | vector of LorentzVector | LorentzVectors of all the experimentally reconstructed particles. The first two entries correspond to \f$p_3\f$ and \f$p_4\f$, the others (if present) are used to compute \f$p^{tot}\f$. |
+ *   | `s13` <br/> `s24` | double | Squared invariant masses of the two propagators, used to reconstruct the event according to the above method. Typically coming from a BreitWignerGenerator module. |
+ *   | `p3` <br/> `p4` | LorentzVector | LorentzVectors of the two particles used to reconstruct the event according to the above method. |
+ *   | `branches` | vector(LorentzVector) | LorentzVectors of all the other particles in the event, used to compute \f$p^{tot}\f$ and check if the solutions are physical. |
  *
  * ### Outputs
  *
@@ -100,9 +100,12 @@ class BlockF: public Module {
             s13 = get<double>(parameters.get<InputTag>("s13"));
             s24 = get<double>(parameters.get<InputTag>("s24"));
 	    
-            auto particle_tags = parameters.get<std::vector<InputTag>>("inputs");
-            for (auto& t: particle_tags)
-                m_particles.push_back(get<LorentzVector>(t));
+            p3 = get<LorentzVector>(parameters.get<InputTag>("p3"));
+            p4 = get<LorentzVector>(parameters.get<InputTag>("p4"));
+
+            auto branches_tags = parameters.get<std::vector<InputTag>>("branches");
+            for (auto& t: branches_tags)
+                m_branches.push_back(get<LorentzVector>(t));
         };
 
         virtual Status work() override {
@@ -113,30 +116,27 @@ class BlockF: public Module {
             if (*s13 > SQ(sqrt_s) || *s24 > SQ(sqrt_s))
                 return Status::NEXT;
             
-            const LorentzVector& p3 = *m_particles[0];
-            const LorentzVector& p4 = *m_particles[1];
-           
             // Leave the variables E2 and p2y as free parameters 
             std::vector<double> E2;
             std::vector<double> p2y;
             
-            double p3x = p3.Px();
-            double p3y = p3.Py();
-            double p3z = p3.Pz();
-            double E3 = p3.E();
+            double p3x = p3->Px();
+            double p3y = p3->Py();
+            double p3z = p3->Pz();
+            double E3 = p3->E();
             
-            double p4x = p4.Px();
-            double p4y = p4.Py();
-            double p4z = p4.pz();
-            double E4 = p4.E();
+            double p4x = p4->Px();
+            double p4y = p4->Py();
+            double p4z = p4->pz();
+            double E4 = p4->E();
             
-            double p33 = p3.M2();
-            double p44 = p4.M2();
+            double p33 = p3->M2();
+            double p44 = p4->M2();
             
             // Total visible momentum
-            LorentzVector pb = p3 + p4;
-            for (size_t i = 2; i < m_particles.size(); i++) {
-                pb += *m_particles[i];
+            LorentzVector pb = *p3 + *p4;
+            for (size_t i = 0; i < m_branches.size(); i++) {
+                pb += *m_branches[i];
             }
             double Eb = pb.E();
             double pbx = pb.Px();
@@ -146,8 +146,8 @@ class BlockF: public Module {
             double q1 = *m_ps_point1;
             double q2 = *m_ps_point2;
 
-            const double Qm = sqrt_s*(q1-q2)/2.;
-            const double Qp = sqrt_s*(q1+q2)/2.;
+            const double Qm = sqrt_s * (q1 - q2) / 2.;
+            const double Qp = sqrt_s * (q1 + q2) / 2.;
             
             // p1x = alpha1*p2y + beta1*E2 + gamma1
             // p1y = alpha2*p2y + beta2*E2 + gamma2
@@ -192,9 +192,9 @@ class BlockF: public Module {
             double beta6 = -1;
             double gamma6 = -Eb+Qp;
 
-            //Put these variables in p1^2=0, p2^2=0. You will get:
-            //a11*p2y^2 + a22*E2^2 + a12*p2y*E2 + a10*p2y + a01*E2 + a00 = 0;
-            //same with bij
+            // Put these variables in p1^2=0, p2^2=0. You will get:
+            // a11*p2y^2 + a22*E2^2 + a12*p2y*E2 + a10*p2y + a01*E2 + a00 = 0;
+            // same with bij
                
             double a11 = SQ(alpha6) - SQ(alpha1) - SQ(alpha2) - SQ(alpha3);
             double a22 = SQ(beta6) - SQ(beta1) - SQ(beta2) - SQ(beta3);
@@ -207,11 +207,11 @@ class BlockF: public Module {
             double b01 = 2*(beta4*gamma4 + beta5*gamma5);
             double b00 = SQ(gamma4) + SQ(gamma5);
 
-            //These 2 equations are equivalent to the following system:
-            //a11*p2y^2 + a22*E2^2 + a12*p2y*E2 + a10*p2y + a01*E2 + a00 = 0
-            //E2 = c0 + c1*p2y
-            //From these two, we get a quadratic equation in p2y:
-            //d2*p2y^2 + d1*p2y + d0 = 0
+            // These 2 equations are equivalent to the following system:
+            // a11*p2y^2 + a22*E2^2 + a12*p2y*E2 + a10*p2y + a01*E2 + a00 = 0
+            // E2 = c0 + c1*p2y
+            // From these two, we get a quadratic equation in p2y:
+            // d2*p2y^2 + d1*p2y + d0 = 0
 
             double c0 = -(a00+b00)/(a01+b01);
             double c1 = -(a10+b10)/(a01+b01);
@@ -232,33 +232,30 @@ class BlockF: public Module {
                 if (e2 < 0.)
                     continue;
                 
-                LorentzVector p1(alpha1*e1+beta1*e2+gamma1,     //p1x
-                                 alpha2*e1+beta2*e2+gamma2,     //p1y
-                                 alpha3*e1+beta3*e2+gamma3,     //p1z
-                                 alpha6*e1+beta6*e2+gamma6      //E1
+                LorentzVector p1(alpha1 * e1 + beta1 * e2 + gamma1,     //p1x
+                                 alpha2 * e1 + beta2 * e2 + gamma2,     //p1y
+                                 alpha3 * e1 + beta3 * e2 + gamma3,     //p1z
+                                 alpha6 * e1 + beta6 * e2 + gamma6      //E1
                                  );
 
                 if (p1.E() < 0.)
                     continue;
 
-                LorentzVector p2(alpha4*e1+beta4*e2+gamma4,     //p2x
-                                 e1,                            //p2y
-                                 alpha5*e1+beta5*e2+gamma5,     //p2z
-                                 e2                             //E2
+                LorentzVector p2(alpha4 * e1 + beta4 * e2 + gamma4,     //p2x
+                                 e1,                                    //p2y
+                                 alpha5 * e1 + beta5 * e2 + gamma5,     //p2z
+                                 e2                                     //E2
                                  );                  
 
                 // Check if solutions are physical
-                LorentzVector tot = p1 + p2;
-                for (size_t i = 0; i < m_particles.size(); i++){
-                    tot += *m_particles[i];
-                }
+                LorentzVector tot = p1 + p2 + pb;
                 double q1Pz = std::abs(tot.Pz() + tot.E()) / 2.;
                 double q2Pz = std::abs(tot.Pz() - tot.E()) / 2.;
                 
                 if(q1Pz > sqrt_s/2 || q2Pz > sqrt_s/2)
                     continue;
                 
-                auto jacobian = computeJacobian(p1, p2, p3, p4);
+                auto jacobian = computeJacobian(p1, p2, *p3, *p4);
                 Solution s { {p1, p2}, jacobian, true };
                 solutions->push_back(s);
             }
@@ -290,7 +287,7 @@ class BlockF: public Module {
 
             double inv_jac= (E4*(p1z*p2y*p3x - p1y*p2z*p3x - p1z*p2x*p3y + p1x*p2z*p3y + p1y*p2x*p3z - p1x*p2y*p3z) +  E2*p1z*p3y*p4x - E1*p2z*p3y*p4x - E2*p1y*p3z*p4x + E1*p2y*p3z*p4x - E2*p1z*p3x*p4y + E1*p2z*p3x*p4y +  E2*p1x*p3z*p4y - E1*p2x*p3z*p4y + (E2*p1y*p3x - E1*p2y*p3x - E2*p1x*p3y + E1*p2x*p3y)*p4z + E3*(-(p1z*p2y*p4x) + p1y*p2z*p4x + p1z*p2x*p4y - p1x*p2z*p4y - p1y*p2x*p4z + p1x*p2y*p4z));
             
-            return 1./( std::abs(inv_jac) * 4.*16.*pow(TMath::Pi(),2.) );
+            return 1./( std::abs(inv_jac) * 4 * 16 * pow(M_PI, 2.) );
         }
 
     private:
@@ -301,7 +298,8 @@ class BlockF: public Module {
         Value<double> s24;
         Value<double> m_ps_point1;
         Value<double> m_ps_point2;
-        std::vector<Value<LorentzVector>> m_particles;
+        Value<LorentzVector> p3, p4;
+        std::vector<Value<LorentzVector>> m_branches;
 
         // Outputs
         std::shared_ptr<SolutionCollection> solutions = produce<SolutionCollection>("solutions");

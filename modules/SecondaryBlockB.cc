@@ -59,9 +59,8 @@
  *   |------|------|--------------|
  *   | `s12` | double | Squared invariant mass of the propagator (GeV\f$^2\f$). |
  *   | `s123` | double | Squared invariant mass of the propagator (GeV\f$^2\f$). |
- *   | `p1` | LorentzVector | Temporary LorentzVector of the missing particle. It will be used only to retrieve the particle phi angle and mass.|
- *   | `p2` | LorentzVector | Parton level LorentzVector of a decay product for which we already know everything (see above description).|
- *   | `p3` | LorentzVector | Parton level LorentzVector of a decay product for which we already know everything (see above description).|
+ *   | `p1` | LorentzVector | LorentzVector of the missing particle we want to reconstruct. It will be used only to retrieve the particle phi angle and mass.|
+ *   | `p2` <br/> `p3` | LorentzVector | LorentzVectors of the two decay products used to reconstruct fully `p1` (see above description).|
  *
  * ### Outputs
  *
