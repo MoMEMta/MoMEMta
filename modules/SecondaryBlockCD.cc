@@ -81,7 +81,7 @@ class SecondaryBlockCD: public Module {
 
         virtual Status work() override {
 
-            gen_p1->clear();
+            solutions->clear();
 
             // Don't spend time on unphysical part of phase-space
             if (*s12 > SQ(sqrt_s) || *s12 < p2->M2() || *s12 < p1->M2())

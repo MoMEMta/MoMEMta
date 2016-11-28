@@ -92,7 +92,7 @@ SecondaryBlockCD.secBlockCD = {
 -- Loop for secondary
 
 Looper.looperCD = {
-    solutions = 'secBlockCD::gen_p1',
+    solutions = 'secBlockCD::solutions',
     path = Path('blockb', 'looperB')
 }
 

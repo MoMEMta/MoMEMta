@@ -103,9 +103,11 @@ class BlockF: public Module {
             p3 = get<LorentzVector>(parameters.get<InputTag>("p3"));
             p4 = get<LorentzVector>(parameters.get<InputTag>("p4"));
 
-            auto branches_tags = parameters.get<std::vector<InputTag>>("branches");
-            for (auto& t: branches_tags)
-                m_branches.push_back(get<LorentzVector>(t));
+            if (parameters.exists("branches")) {
+                auto branches_tags = parameters.get<std::vector<InputTag>>("branches");
+                for (auto& t: branches_tags)
+                    m_branches.push_back(get<LorentzVector>(t));
+            }
         };
 
         virtual Status work() override {

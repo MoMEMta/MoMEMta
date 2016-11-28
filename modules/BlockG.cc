@@ -86,14 +86,16 @@ class BlockG: public Module {
             s12 = get<double>(parameters.get<InputTag>("s12"));
             s34 = get<double>(parameters.get<InputTag>("s34"));
 
-            m_particles.push_back(parameters.get<InputTag>("p1"));
-            m_particles.push_back(parameters.get<InputTag>("p2"));
-            m_particles.push_back(parameters.get<InputTag>("p3"));
-            m_particles.push_back(parameters.get<InputTag>("p4"));
+            m_particles.push_back(get<LorentzVector>(parameters.get<InputTag>("p1")));
+            m_particles.push_back(get<LorentzVector>(parameters.get<InputTag>("p2")));
+            m_particles.push_back(get<LorentzVector>(parameters.get<InputTag>("p3")));
+            m_particles.push_back(get<LorentzVector>(parameters.get<InputTag>("p4")));
 
-            auto branches_tags = parameters.get<std::vector<InputTag>>("branches");
-            for (auto& t: branches_tags)
-                m_branches.push_back(get<LorentzVector>(t));
+            if (parameters.exists("branches")) {
+                auto branches_tags = parameters.get<std::vector<InputTag>>("branches");
+                for (auto& t: branches_tags)
+                    m_branches.push_back(get<LorentzVector>(t));
+            }
         };
  
         virtual Status work() override {

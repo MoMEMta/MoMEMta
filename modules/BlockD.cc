@@ -100,9 +100,11 @@ class BlockD: public Module {
             m_particles.push_back(get<LorentzVector>(parameters.get<InputTag>("p5")));
             m_particles.push_back(get<LorentzVector>(parameters.get<InputTag>("p6")));
             
-            auto branches_tags = parameters.get<std::vector<InputTag>>("branches");
-            for (auto& t: branches_tags)
-                m_branches.push_back(get<LorentzVector>(t));
+            if (parameters.exists("branches")) {
+                auto branches_tags = parameters.get<std::vector<InputTag>>("branches");
+                for (auto& t: branches_tags)
+                    m_branches.push_back(get<LorentzVector>(t));
+            }
 
             // If the met input is specified, get it, otherwise retrieve default
             // one ("met::p4")

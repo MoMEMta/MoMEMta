@@ -94,9 +94,11 @@ class BlockB: public Module {
 
             p2 = get<LorentzVector>(parameters.get<InputTag>("p2"));
             
-            auto branches_tags = parameters.get<std::vector<InputTag>>("branches");
-            for (auto& t: branches_tags)
-                m_branches.push_back(get<LorentzVector>(t));
+            if (parameters.exists("branches")) {
+                auto branches_tags = parameters.get<std::vector<InputTag>>("branches");
+                for (auto& t: branches_tags)
+                    m_branches.push_back(get<LorentzVector>(t));
+            }
 
             // If the met input is specified, get it, otherwise retrieve default
             // one ("met::p4")
@@ -139,7 +141,7 @@ class BlockB: public Module {
             // From eq.(1) p1z = B*E1 + A
             // From eq.(4) + eq.(1) (1 - B^2) E1^2 - 2 A B E1 + C - A^2 = 0
 
-            const double A = - (*s12 - p2-> - 2 * (pT.Px() * p2->Px() + pT.Py() * p2->Py())) / (2 * p2->Pz());
+            const double A = - (*s12 - p22 - 2 * (pT.Px() * p2->Px() + pT.Py() * p2->Py())) / (2 * p2->Pz());
             const double B = p2->E() / p2->Pz();
             const double C = - SQ(pT.Px()) - SQ(pT.Py());
 

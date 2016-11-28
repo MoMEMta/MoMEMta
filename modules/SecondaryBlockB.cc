@@ -81,12 +81,10 @@ class SecondaryBlockB: public Module {
             sqrt_s(parameters.globalParameters().get<double>("energy")) {
                 s12 = get<double>(parameters.get<InputTag>("s12"));
                 s123 = get<double>(parameters.get<InputTag>("s123"));
-                InputTag p1_tag = parameters.get<InputTag>("p1");
-                m_p1 = get<LorentzVector>(p1_tag);
-                InputTag p2_tag = parameters.get<InputTag>("p2");
-                m_p2 = get<LorentzVector>(p2_tag);
-                InputTag p3_tag = parameters.get<InputTag>("p3");
-                m_p3 = get<LorentzVector>(p3_tag);
+                
+                m_p1 = get<LorentzVector>(parameters.get<InputTag>("p1"));
+                m_p2 = get<LorentzVector>(parameters.get<InputTag>("p2"));
+                m_p3 = get<LorentzVector>(parameters.get<InputTag>("p3"));
             };
 
         virtual Status work() override {
