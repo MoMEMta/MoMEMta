@@ -143,7 +143,10 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <tr>
 <th>Name </th><th>Type </th><th>Description  </th></tr>
 <tr>
-<td><code>inputs</code> </td><td>vector(LorentzVector) </td><td>LorentzVector of all the experimentally reconstructed particles. Only the first two particles are used explicitly by the block, but there can be other visible objects in the event, taken into account when computing \(\vec{p}_{T}^{branches}\). </td></tr>
+<td><code>p1</code> <br />
+ <code>p2</code> </td><td>LorentzVector </td><td>4-vectors of the two particles for which the energy will be fixed using the above described method. Their angles and masses will be kept. </td></tr>
+<tr>
+<td><code>branches</code> </td><td>vector(LorentzVector) </td><td>LorentzVector of all the other particles in the event, taken into account when computing \(\vec{p}_{T}^{branches}\) and check if the solutions are physical. At least one other particle must be present for this block to be valid. </td></tr>
 </table>
 <h3>Outputs</h3>
 <table class="doxtable">
@@ -155,7 +158,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <dl class="section note"><dt>Note</dt><dd>This block has been validated and is safe to use.</dd></dl>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="classLooper.html" title="A module looping over a set of solutions. ">Looper</a> module to loop over the solutions of this Block </dd></dl>
 
-<p>Definition at line <a class="el" href="BlockA_8cc_source.html#l00075">75</a> of file <a class="el" href="BlockA_8cc_source.html">BlockA.cc</a>.</p>
+<p>Definition at line <a class="el" href="BlockA_8cc_source.html#l00078">78</a> of file <a class="el" href="BlockA_8cc_source.html">BlockA.cc</a>.</p>
 </div><div class="dynheader">
 Inheritance diagram for BlockA:</div>
 <div class="dyncontent">
@@ -273,7 +276,7 @@ PoolPtr&#160;</td><td class="memItemRight" valign="bottom"><b>m_pool</b></td></t
 
 <p>Reimplemented from <a class="el" href="classModule.html#a43c0b7c70e9dd8b0cf6c78aa5052eeee">Module</a>.</p>
 
-<p>Definition at line <a class="el" href="BlockA_8cc_source.html#l00087">87</a> of file <a class="el" href="BlockA_8cc_source.html">BlockA.cc</a>.</p>
+<p>Definition at line <a class="el" href="BlockA_8cc_source.html#l00098">98</a> of file <a class="el" href="BlockA_8cc_source.html">BlockA.cc</a>.</p>
 
 </div>
 </div>

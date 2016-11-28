@@ -127,6 +127,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li><code>declare_input</code> lua function, used to declare a new input.</li>
 <li><code>append</code> and <code>copy_and_append</code> lua functions are now built-in <a class="el" href="classMoMEMta.html" title="A MoMEMta instance. ">MoMEMta</a>.</li>
 <li>Two new lua functions, <code>add_reco_permutations</code> and <code>add_gen_permutations</code> are available to easily insert a permutator module permutating between the function arguments.</li>
+<li>Secondary block B</li>
+<li><code><a class="el" href="classLinearCombinator.html" title="Performs linear combination of templated terms. ">LinearCombinator</a></code> templated module allowing to compute combinations (ie sums, subtractions, ...) of LorentzVectors, numbers, ...</li>
 </ul>
 <h3>Changed</h3>
 <ul>
@@ -139,6 +141,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>We no longer use boost-log for logging, but our own implementation heavily inspired by <a href="https://github.com/gabime/spdlog">spdlog</a>. As a consequence, boost-log is no longer required to build <a class="el" href="classMoMEMta.html" title="A MoMEMta instance. ">MoMEMta</a>.</li>
 <li>Boost is no longer a dependency when <b>using</b> <a class="el" href="classMoMEMta.html" title="A MoMEMta instance. ">MoMEMta</a> (but it's still a build dependency)</li>
 <li><code><a class="el" href="classMoMEMta.html#a7022a8573e8232c75cda198f59a64cbe" title="Compute the weights in the current configuration. ">MoMEMta::computeWeights</a></code> now expects a vector of <code>Particle</code> and no longer a vector of <code>LorentzVector</code>. A <code>Particle</code> has a name, a <code>LorentzVector</code> and a type. As a result, configuration files must now declare which inputs are expected.</li>
+<li>The way the inputs are passed to the blocks is changed (the particles entering the change of variables are set explicitly, the others are put into the <code>branches</code> vector of input tags)</li>
 </ul>
 <h3>Fixed</h3>
 <ul>

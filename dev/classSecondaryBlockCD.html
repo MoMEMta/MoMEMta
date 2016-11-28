@@ -144,16 +144,16 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <tr>
 <td><code>s12</code> </td><td>double </td><td>Squared invariant mass of the propagator (GeV \(^2\)). </td></tr>
 <tr>
-<td><code>reco_p1</code> </td><td>LorentzVector </td><td>Reconstructed LorentzVector of the decay product for which we want to fix the energy. This LorentzVector will be used only to retrieve the particle angles and mass, its energy will be disregarded. </td></tr>
+<td><code>p1</code> </td><td>LorentzVector </td><td>Reconstructed LorentzVector of the decay product for which we want to fix the energy. This LorentzVector will be used only to retrieve the particle angles and mass, its energy will be disregarded. </td></tr>
 <tr>
-<td><code>gen_p2</code> </td><td>LorentzVector </td><td>Parton level LorentzVector of the decay product for which we already know everything. It will be used together with \(s_{12}\) and the angles of \(p_1^{reco}\) to fix \(p_1^{gen}\) energy. </td></tr>
+<td><code>p2</code> </td><td>LorentzVector </td><td>Parton level LorentzVector of the decay product for which we already know everything. It will be used together with \(s_{12}\) and the angles of \(p_1^{reco}\) to fix \(p_1^{gen}\) energy. </td></tr>
 </table>
 <h3>Outputs</h3>
 <table class="doxtable">
 <tr>
 <th>Name </th><th>Type </th><th>Description  </th></tr>
 <tr>
-<td><code>gen_p1</code> </td><td>vector(Solution) </td><td>Solutions of the equation \(s_{12} = (p_1 + p_2)^2\). Each solution embed the parton level LorentzVector of the decay product with energy fixed by this equation and the jacobian associated with the change of variable mentioned above. </td></tr>
+<td><code>solutions</code> </td><td>vector(Solution) </td><td>Solutions of the above system for <code>p1</code>. Each solution embed the parton level LorentzVector of the reconstructed decay product and the jacobian associated with the change of variable mentioned above. </td></tr>
 </table>
 <dl class="section note"><dt>Note</dt><dd>This block has been validated and is safe to use.</dd></dl>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="classLooper.html" title="A module looping over a set of solutions. ">Looper</a> module to loop over the solutions of this Block </dd></dl>

@@ -163,7 +163,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
  <code>s25</code> <br />
  <code>s256</code> </td><td>double </td><td>Squared invariant masses of the propagators. Typically coming from a <a class="el" href="classBreitWignerGenerator.html" title="Generate points distributed according to a Breit-Wigner. ">BreitWignerGenerator</a> or <a class="el" href="classNarrowWidthApproximation.html" title="Use the Narrow Width Approximation (NWA) to reduce the dimensionality of the integration. ">NarrowWidthApproximation</a> module. </td></tr>
 <tr>
-<td><code>inputs</code> </td><td>vector(LorentzVector) </td><td>LorentzVectors of all the experimentally reconstructed particles. Only the first four are used explicitly by the block, but there can be other visible objects in the the event, taken into account when computing \(\vec{p}_{T}^{tot}\) if needed. </td></tr>
+<td><code>p3</code> ... <code>p6</code> </td><td>LorentzVector </td><td>LorentzVectors of the particles used to reconstruct the event according to the above method. </td></tr>
+<tr>
+<td><code>branches</code> </td><td>vector(LorentzVector) </td><td>LorentzVectors of all the other particles in the event, taken into account when computing \(\vec{p}_{T}^{tot}\) (if MET is not used), and checking if the solutions are physical. </td></tr>
 <tr>
 <td><code>met</code> </td><td>LorentzVector, default <code>met::p4</code> </td><td>LorentzVector of the MET </td></tr>
 </table>
@@ -177,7 +179,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <dl class="section note"><dt>Note</dt><dd>This block has been validated and is safe to use.</dd></dl>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="classLooper.html" title="A module looping over a set of solutions. ">Looper</a> module to loop over the solutions of this Block </dd></dl>
 
-<p>Definition at line <a class="el" href="BlockD_8cc_source.html#l00085">85</a> of file <a class="el" href="BlockD_8cc_source.html">BlockD.cc</a>.</p>
+<p>Definition at line <a class="el" href="BlockD_8cc_source.html#l00086">86</a> of file <a class="el" href="BlockD_8cc_source.html">BlockD.cc</a>.</p>
 </div><div class="dynheader">
 Inheritance diagram for BlockD:</div>
 <div class="dyncontent">
@@ -298,7 +300,7 @@ PoolPtr&#160;</td><td class="memItemRight" valign="bottom"><b>m_pool</b></td></t
 
 <p>Reimplemented from <a class="el" href="classModule.html#a43c0b7c70e9dd8b0cf6c78aa5052eeee">Module</a>.</p>
 
-<p>Definition at line <a class="el" href="BlockD_8cc_source.html#l00113">113</a> of file <a class="el" href="BlockD_8cc_source.html">BlockD.cc</a>.</p>
+<p>Definition at line <a class="el" href="BlockD_8cc_source.html#l00121">121</a> of file <a class="el" href="BlockD_8cc_source.html">BlockD.cc</a>.</p>
 
 </div>
 </div>

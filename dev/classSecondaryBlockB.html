@@ -152,11 +152,10 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <tr>
 <td><code>s123</code> </td><td>double </td><td>Squared invariant mass of the propagator (GeV \(^2\)). </td></tr>
 <tr>
-<td><code>p1</code> </td><td>LorentzVector </td><td>Temporary LorentzVector of the missing particle. It will be used only to retrieve the particle phi angle and mass. </td></tr>
+<td><code>p1</code> </td><td>LorentzVector </td><td>LorentzVector of the missing particle we want to reconstruct. It will be used only to retrieve the particle phi angle and mass. </td></tr>
 <tr>
-<td><code>p2</code> </td><td>LorentzVector </td><td>Parton level LorentzVector of a decay product for which we already know everything (see above description). </td></tr>
-<tr>
-<td><code>p3</code> </td><td>LorentzVector </td><td>Parton level LorentzVector of a decay product for which we already know everything (see above description). </td></tr>
+<td><code>p2</code> <br />
+ <code>p3</code> </td><td>LorentzVector </td><td>LorentzVectors of the two decay products used to reconstruct fully <code>p1</code> (see above description). </td></tr>
 </table>
 <h3>Outputs</h3>
 <table class="doxtable">
@@ -168,7 +167,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <dl class="section note"><dt>Note</dt><dd>We validated this secondary block to ensure that \(p_1\) solutions indeed verify the above equations. The Jacobian has not been validated yet.</dd></dl>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="classLooper.html" title="A module looping over a set of solutions. ">Looper</a> module to loop over the solutions of this Block </dd></dl>
 
-<p>Definition at line <a class="el" href="SecondaryBlockB_8cc_source.html#l00078">78</a> of file <a class="el" href="SecondaryBlockB_8cc_source.html">SecondaryBlockB.cc</a>.</p>
+<p>Definition at line <a class="el" href="SecondaryBlockB_8cc_source.html#l00077">77</a> of file <a class="el" href="SecondaryBlockB_8cc_source.html">SecondaryBlockB.cc</a>.</p>
 </div><div class="dynheader">
 Inheritance diagram for SecondaryBlockB:</div>
 <div class="dyncontent">
@@ -286,7 +285,7 @@ PoolPtr&#160;</td><td class="memItemRight" valign="bottom"><b>m_pool</b></td></t
 
 <p>Reimplemented from <a class="el" href="classModule.html#a43c0b7c70e9dd8b0cf6c78aa5052eeee">Module</a>.</p>
 
-<p>Definition at line <a class="el" href="SecondaryBlockB_8cc_source.html#l00093">93</a> of file <a class="el" href="SecondaryBlockB_8cc_source.html">SecondaryBlockB.cc</a>.</p>
+<p>Definition at line <a class="el" href="SecondaryBlockB_8cc_source.html#l00090">90</a> of file <a class="el" href="SecondaryBlockB_8cc_source.html">SecondaryBlockB.cc</a>.</p>
 
 </div>
 </div>
