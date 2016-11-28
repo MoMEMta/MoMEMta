@@ -88,7 +88,7 @@ class BlockA: public Module {
             auto branches_tags = parameters.get<std::vector<InputTag>>("branches");
             for (auto& t: branches_tags)
                 m_branches.push_back(get<LorentzVector>(t));
-            if (!m_branches.size()) {
+            if (m_branches.empty()) {
                 auto exception = std::invalid_argument("BlockA is not valid without at least a third particle in the event.");
                 LOG(fatal) << exception.what();
                 throw exception;
