@@ -247,6 +247,58 @@ TEST_CASE("Modules", "[modules]") {
         }
     }
 
+    SECTION("BlockC") {
+
+        parameters.reset(new ParameterSetMock("BlockC"));
+
+        double sqrt_s = 13000;
+        bool pT_is_met = false;
+        double m1 = 1.;
+
+        parameters->set("energy", sqrt_s);
+        parameters->set("pT_is_met", pT_is_met);
+        parameters->set("m1", m1);
+
+        parameters->set("s12", InputTag("mockS", "s12"));
+        parameters->set("s123", InputTag("mockS", "s123"));
+
+        double s_12 = SQ(80);
+        double s_123 = SQ(173);
+
+        auto s12 = pool->put<double>({"mockS", "s12"});
+        auto s123 = pool->put<double>({"mockS", "s123"});
+
+        *s12 = s_12;
+        *s123 = s_123;
+
+        parameters->set("p2", InputTag("input", "particles", 0));
+        parameters->set("p3", InputTag("input", "particles", 5));
+        parameters->set("branches", std::vector<InputTag>({InputTag("input", "particles", 2)}));
+
+        Value<SolutionCollection> solutions = pool->get<SolutionCollection>({"BlockC", "solutions"});
+
+        auto module = createModule("BlockC");
+
+        REQUIRE(module->work() == Module::Status::OK);
+        REQUIRE(solutions->size() >= 2);
+
+        for (const auto& solution : *solutions) {
+            REQUIRE(solution.valid == true);
+
+            LorentzVector test_p12 = input_particles->at(0) + solution.values.at(0);
+            LorentzVector test_p123 = solution.values.at(1) + test_p12;
+
+            REQUIRE(test_p12.M2() == Approx(s_12));
+            REQUIRE(test_p123.M2() == Approx(s_123));
+
+            LorentzVector test_pT = test_p123 + input_particles->at(2);
+            REQUIRE(test_pT.Pt() == Approx(0));
+
+            REQUIRE(solution.values.at(0).M() == Approx(m1));
+            REQUIRE(solution.values.at(1).M() / solution.values.at(1).E() == Approx(0.));
+        }
+    }
+
     SECTION("BlockD") {
 
         parameters.reset(new ParameterSetMock("BlockD"));

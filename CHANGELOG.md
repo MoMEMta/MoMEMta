@@ -22,7 +22,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
  - Two new lua functions, `add_reco_permutations` and `add_gen_permutations` are available to easily insert a permutator module permutating between the function arguments. 
  - `LinearCombinator` templated module allowing to compute combinations (ie sums, subtractions, ...) of LorentzVectors, numbers, ...
  - Secondary blocks A, B, CD, E
- - Main blocks A, E and G (not present in MadWeight)
+ - Main blocks A, C, E and G (not present in MadWeight)
  - `getRandom4Vector` function to generate random Lorentz vectors of a specified mass (useful in cases where a particle has to be passed from C++, but integrated over all its components).
 
 ### Changed
