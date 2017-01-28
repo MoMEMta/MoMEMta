@@ -19,7 +19,6 @@
 
 #pragma once
 
-#include <assert.h>
 #include <memory>
 #include <unordered_map>
 
@@ -59,7 +58,7 @@ class Pool {
          *
          * \return A pointer to the newly allocated memory block.
          */
-        template<typename T, typename... Args> std::shared_ptr<T> put(const InputTag& tag, Args... args);
+        template<typename T, typename... Args> std::shared_ptr<T> put(const InputTag& tag, Args&&... args);
 
         template<typename T> Value<T> get(const InputTag& tag) const;
 
@@ -88,7 +87,7 @@ class Pool {
         friend class Module;
 
         template <typename U>
-        friend class ValueProxy;
+            friend class ValueProxy;
 
         using PoolStorage = std::unordered_map<InputTag, PoolContent>;
 
@@ -102,7 +101,7 @@ class Pool {
         template<typename T> std::shared_ptr<const T> raw_get(const InputTag& tag) const;
 
         template<typename T, typename... Args> PoolStorage::iterator create(const InputTag& tag,
-                bool valid, Args... args) const;
+                bool valid, Args&&... args) const;
 
     public:
         /**
@@ -137,7 +136,7 @@ class Pool {
         };
 
 
-private:
+    private:
 
         /**
          * \brief Freeze the memory pool.
