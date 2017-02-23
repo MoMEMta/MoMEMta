@@ -19,6 +19,7 @@
 
 #pragma once
 
+#include <assert.h>
 #include <memory>
 #include <unordered_map>
 

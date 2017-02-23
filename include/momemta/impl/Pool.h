@@ -21,6 +21,7 @@
 
 #include <momemta/Pool.h>
 
+#include <assert.h>
 #include <memory>
 #include <unordered_map>
 
