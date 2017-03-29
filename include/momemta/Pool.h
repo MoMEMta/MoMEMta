@@ -59,7 +59,7 @@ class Pool {
          *
          * \return A pointer to the newly allocated memory block.
          */
-        template<typename T, typename... Args> std::shared_ptr<T> put(const InputTag& tag, Args... args);
+        template<typename T, typename... Args> std::shared_ptr<T> put(const InputTag& tag, Args&&... args);
 
         template<typename T> Value<T> get(const InputTag& tag) const;
 
@@ -102,7 +102,7 @@ class Pool {
         template<typename T> std::shared_ptr<const T> raw_get(const InputTag& tag) const;
 
         template<typename T, typename... Args> PoolStorage::iterator create(const InputTag& tag,
-                bool valid, Args... args) const;
+                bool valid, Args&&... args) const;
 
     public:
         /**

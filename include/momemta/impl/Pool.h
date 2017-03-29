@@ -77,7 +77,7 @@ template <typename T> std::shared_ptr<const T> Pool::raw_get(const InputTag& tag
     }
 }
 
-template <typename T, typename... Args> std::shared_ptr<T> Pool::put(const InputTag& tag, Args... args) {
+template <typename T, typename... Args> std::shared_ptr<T> Pool::put(const InputTag& tag, Args&&... args) {
     auto it = m_storage.find(tag);
     if (it != m_storage.end()) {
         if (it->second.valid)
@@ -91,7 +91,7 @@ template <typename T, typename... Args> std::shared_ptr<T> Pool::put(const Input
 
         // If the block is empty, it's a delayed instantiation. Simply flag the block as valid, and allocate memory for it
         if (it->second.ptr.empty()) {
-            std::shared_ptr<T> ptr(new T(std::forward<Args>(args)...));
+            auto ptr = std::make_shared<T>(std::forward<Args>(args)...);
             it->second.ptr = momemta::any(ptr);
         }
 
@@ -107,9 +107,9 @@ template <typename T, typename... Args> std::shared_ptr<T> Pool::put(const Input
 }
 
 template <typename T, typename... Args> Pool::PoolStorage::iterator Pool::create(
-        const InputTag& tag, bool valid/* = true*/, Args... args) const {
+        const InputTag& tag, bool valid/* = true*/, Args&&... args) const {
 
-    std::shared_ptr<T> ptr = std::make_shared<T>(std::forward<Args>(args)...);
+    auto ptr = std::make_shared<T>(std::forward<Args>(args)...);
     PoolContent content = {momemta::any(ptr), valid};
 
     return m_storage.emplace(tag, content).first;
