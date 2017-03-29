@@ -92,7 +92,6 @@ template <typename T, typename... Args> std::shared_ptr<T> Pool::put(const Input
         // If the block is empty, it's a delayed instantiation. Simply flag the block as valid, and allocate memory for it
         if (it->second.ptr.empty()) {
             auto ptr = std::make_shared<T>(std::forward<Args>(args)...);
-
             it->second.ptr = momemta::any(ptr);
         }
 

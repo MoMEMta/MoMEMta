@@ -88,7 +88,7 @@ class Pool {
         friend class Module;
 
         template <typename U>
-            friend class ValueProxy;
+        friend class ValueProxy;
 
         using PoolStorage = std::unordered_map<InputTag, PoolContent>;
 
@@ -137,7 +137,7 @@ class Pool {
         };
 
 
-    private:
+private:
 
         /**
          * \brief Freeze the memory pool.
