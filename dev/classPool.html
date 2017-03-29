@@ -140,10 +140,10 @@ using&#160;</td><td class="memItemRight" valign="bottom"><b>DescriptionMap</b> =
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a12dee63d6dfd96fc12bcd170842e4264"><td class="memTemplParams" colspan="2">template&lt;typename T , typename... Args&gt; </td></tr>
-<tr class="memitem:a12dee63d6dfd96fc12bcd170842e4264"><td class="memTemplItemLeft" align="right" valign="top">std::shared_ptr&lt; T &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classPool.html#a12dee63d6dfd96fc12bcd170842e4264">put</a> (const <a class="el" href="structInputTag.html">InputTag</a> &amp;tag, Args...args)</td></tr>
-<tr class="memdesc:a12dee63d6dfd96fc12bcd170842e4264"><td class="mdescLeft">&#160;</td><td class="mdescRight">Allocate a new block in the memory pool.  <a href="#a12dee63d6dfd96fc12bcd170842e4264">More...</a><br /></td></tr>
-<tr class="separator:a12dee63d6dfd96fc12bcd170842e4264"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adea41f47b9b908055529a25be99cbbd7"><td class="memTemplParams" colspan="2">template&lt;typename T , typename... Args&gt; </td></tr>
+<tr class="memitem:adea41f47b9b908055529a25be99cbbd7"><td class="memTemplItemLeft" align="right" valign="top">std::shared_ptr&lt; T &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classPool.html#adea41f47b9b908055529a25be99cbbd7">put</a> (const <a class="el" href="structInputTag.html">InputTag</a> &amp;tag, Args &amp;&amp;...args)</td></tr>
+<tr class="memdesc:adea41f47b9b908055529a25be99cbbd7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Allocate a new block in the memory pool.  <a href="#adea41f47b9b908055529a25be99cbbd7">More...</a><br /></td></tr>
+<tr class="separator:adea41f47b9b908055529a25be99cbbd7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af9b0dec07f8cb2130b7fd5c51799e624"><td class="memTemplParams" colspan="2"><a class="anchor" id="af9b0dec07f8cb2130b7fd5c51799e624"></a>
 template&lt;typename T &gt; </td></tr>
 <tr class="memitem:af9b0dec07f8cb2130b7fd5c51799e624"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classValue.html">Value</a>&lt; T &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><b>get</b> (const <a class="el" href="structInputTag.html">InputTag</a> &amp;tag) const </td></tr>
@@ -309,7 +309,7 @@ struct&#160;</td><td class="memItemRight" valign="bottom"><b>InputTag</b></td></
 
 </div>
 </div>
-<a class="anchor" id="a12dee63d6dfd96fc12bcd170842e4264"></a>
+<a class="anchor" id="adea41f47b9b908055529a25be99cbbd7"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
@@ -324,7 +324,7 @@ template&lt;typename T , typename... Args&gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">Args...&#160;</td>
+          <td class="paramtype">Args &amp;&amp;...&#160;</td>
           <td class="paramname"><em>args</em>&#160;</td>
         </tr>
         <tr>
