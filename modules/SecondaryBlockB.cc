@@ -45,7 +45,7 @@
  *
  * ### Integration dimension
  *
- * This module requires **0** phase-space points.
+ * This module requires **0** phase-space point.
  *
  * ### Global parameters
  *

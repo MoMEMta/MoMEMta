@@ -1,6 +1,6 @@
 /*
  *  MoMEMta: a modular implementation of the Matrix Element Method
- *  Copyright (C) 2016  Universite catholique de Louvain (UCL), Belgium
+ *  Copyright (C) 2017  Universite catholique de Louvain (UCL), Belgium
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by

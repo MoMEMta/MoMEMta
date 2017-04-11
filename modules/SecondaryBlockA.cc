@@ -1,6 +1,6 @@
 /*
  *  MoMEMta: a modular implementation of the Matrix Element Method
- *  Copyright (C) 2016  Universite catholique de Louvain (UCL), Belgium
+ *  Copyright (C) 2017  Universite catholique de Louvain (UCL), Belgium
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -96,6 +96,7 @@ class SecondaryBlockA: public Module {
 
             // p1: retrieve the desired mass of the missing particle
             const double m1 = m_p1->M();
+            const double sq_m1 = SQ(m1);
 
             // Store things we might need more than once
             const double p2x = m_p2->Px();
@@ -103,18 +104,21 @@ class SecondaryBlockA: public Module {
             const double p2z = m_p2->Pz();
             const double E2 = m_p2->E();
             const double m2 = m_p2->M();
+            const double sq_m2 = SQ(m2);
 
             const double p3x = m_p3->Px();
             const double p3y = m_p3->Py();
             const double p3z = m_p3->Pz();
             const double E3 = m_p3->E();
             const double m3 = m_p3->M();
+            const double sq_m3 = SQ(m3);
 
             const double p4x = m_p4->Px();
             const double p4y = m_p4->Py();
             const double p4z = m_p4->Pz();
             const double E4 = m_p4->E();
             const double m4 = m_p4->M();
+            const double sq_m4 = SQ(m4);
 
             const double p2p3 = m_p2->Dot(*m_p3);
             const double p2p4 = m_p2->Dot(*m_p4);
@@ -141,11 +145,11 @@ class SecondaryBlockA: public Module {
             const double a33 = p2z + p3z + p4z;
 
             const double b1 = E2;
-            const double c1 = 0.5 * (SQ(m1) + SQ(m2) - *s12);
+            const double c1 = 0.5 * (sq_m1 + sq_m2 - *s12);
             const double b2 = E2 + E3;
-            const double c2 = 0.5 * (SQ(m1) + SQ(m2) + SQ(m3) - *s123) + p2p3;
+            const double c2 = 0.5 * (sq_m1 + sq_m2 + sq_m3 - *s123) + p2p3;
             const double b3 = E2 + E3 + E4;
-            const double c3 = 0.5 * (SQ(m1) + SQ(m2) + SQ(m3) + SQ(m4) - *s1234) + p2p3 + p3p4 + p2p4;
+            const double c3 = 0.5 * (sq_m1 + sq_m2 + sq_m3 + sq_m4 - *s1234) + p2p3 + p3p4 + p2p4;
 
             const double det = (a13 * a22 - a12 * a23) * a31 - (a13 * a21 - a11 * a23) * a32 + (a12 * a21 - a11 * a22) * a33;
 
@@ -160,7 +164,7 @@ class SecondaryBlockA: public Module {
 
             // Now the mass-shell condition for p1 gives a quadratic equation in E1 with up to two solutions
             std::vector<double> E1_sol;
-            bool foundSolution = solveQuadratic(SQ(Ax) + SQ(Ay) + SQ(Az) - 1, 2 * (Ax * Bx + Ay * By + Az * Bz), SQ(Bx) + SQ(By) + SQ(Bz) + SQ(m1), E1_sol);
+            bool foundSolution = solveQuadratic(SQ(Ax) + SQ(Ay) + SQ(Az) - 1, 2 * (Ax * Bx + Ay * By + Az * Bz), SQ(Bx) + SQ(By) + SQ(Bz) + sq_m1, E1_sol);
 
             if (!foundSolution)
                 return Status::NEXT;

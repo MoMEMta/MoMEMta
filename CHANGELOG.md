@@ -7,7 +7,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 ### Added
  - New `Looper` module to loop over a set of solutions (see below for more details)
- - Secondary block C/D
  - Python bindings. To enable, pass `-DPYTHON_BINDINGS=ON` to `cmake`.
  - Main block A
  - Modules to only evaluate transfer functions (without integrating over anything): BinnedTransferFunctionOnEnergyEvaluator, GaussianTransferFunctionOnEnergyEvaluator
@@ -23,10 +22,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
  - `declare_input` lua function, used to declare a new input.
  - `append` and `copy_and_append` lua functions are now built-in MoMEMta.
  - Two new lua functions, `add_reco_permutations` and `add_gen_permutations` are available to easily insert a permutator module permutating between the function arguments. 
- - Secondary block B
  - `LinearCombinator` templated module allowing to compute combinations (ie sums, subtractions, ...) of LorentzVectors, numbers, ...
- - Secondary block A
- - Secondary block E
+ - Secondary blocks A, B, CD, E
 
 ### Changed
  - The way to handle multiple solutions coming from blocks has changed. A module is no longer responsible for looping over the solutions itself, this role is delegated to the `Looper` module. As a consequence, most of the module were rewritten to handle this change. See this [pull request](https://github.com/MoMEMta/MoMEMta/pull/69) and [this one](https://github.com/MoMEMta/MoMEMta/pull/91) for a more technical description, and this [documentation entry](http://momemta.github.io/) for more details

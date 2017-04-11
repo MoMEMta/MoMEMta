@@ -1,6 +1,6 @@
 /*
  *  MoMEMta: a modular implementation of the Matrix Element Method
- *  Copyright (C) 2016  Universite catholique de Louvain (UCL), Belgium
+ *  Copyright (C) 2017  Universite catholique de Louvain (UCL), Belgium
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -96,10 +96,12 @@ class SecondaryBlockE: public Module {
                return Status::NEXT;
 
             const double m1 = m_p1->M();
+            const double sq_m1 = SQ(m1);
             const double m2 = m_p2->M();
             const double m3 = m_p3->M();
             const double p3 = m_p3->P();
             const double E3 = m_p3->E();
+            const double sq_E3 = SQ(E3);
 
             const double c12 = ROOT::Math::VectorUtil::CosTheta(*m_p1, *m_p2);
             const double c13 = ROOT::Math::VectorUtil::CosTheta(*m_p1, *m_p3);
@@ -109,8 +111,8 @@ class SecondaryBlockE: public Module {
             double Y = *s123 - *s12 - SQ(m3);
 
             std::vector<double> abs_p1, abs_p2;
-            solve2Quads(SQ(X), SQ(p3 * c13) - SQ(E3), 2 * p3 * c13 * X,  X * Y, p3 * c13 * Y, 0.25 * SQ(Y) - SQ(E3) * SQ(m1),
-                        2 * X / E3, 0, 2 * (p3 * c13 / E3 - c12), Y / E3, 0, SQ(m1) + SQ(m2) - *s12,
+            solve2Quads(SQ(X), SQ(p3 * c13) - sq_E3, 2 * p3 * c13 * X,  X * Y, p3 * c13 * Y, 0.25 * SQ(Y) - sq_E3 * sq_m1,
+                        2 * X / E3, 0, 2 * (p3 * c13 / E3 - c12), Y / E3, 0, sq_m1 + SQ(m2) - *s12,
                         abs_p2, abs_p1);
 
             // Use now the obtained |p1| and |p2| solutions to build p1 and p2 (m2=0!)
@@ -121,7 +123,7 @@ class SecondaryBlockE: public Module {
 
                 const double sin_theta_1 = std::sin(m_p1->Theta());
                 const double sin_theta_2 = std::sin(m_p2->Theta());
-                const double E1 = std::sqrt(SQ(abs_p1[i]) + SQ(m1));
+                const double E1 = std::sqrt(SQ(abs_p1[i]) + sq_m1);
 
                 LorentzVector p1_sol, p2_sol;
                 p1_sol.SetPxPyPzE(
