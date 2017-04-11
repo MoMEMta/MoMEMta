@@ -45,7 +45,7 @@
  *
  * ### Integration dimension
  *
- * This module adds **0** dimension to the integration.
+ * This module requires **0** phase-space point.
  *
  * ### Global parameters
  *
@@ -68,7 +68,7 @@
  *   |------|------|--------------|
  *   | `solutions` | vector(Solution) | Solutions of the equations \f$s_{12} = (p_1 + p_2)^2\f$ and \f$s_{123} = (p_1 + p_2 + p_3)^2\f$. Each solution embed the parton level LorentzVector of the missing product \f$p_1\f$ and the jacobian associated with the change of variable mentioned above.|
  *
- * \note We validated this secondary block to ensure that \f$p_1\f$ solutions indeed verify the above equations. The Jacobian has not been validated yet.
+ * \note This block has been partially validated and is probably safe to use.
  *
  * \sa Looper module to loop over the solutions of this Block
  *
