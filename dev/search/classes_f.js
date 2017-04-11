@@ -1,7 +1,9 @@
 var searchData=
 [
+  ['secondaryblocka',['SecondaryBlockA',['../classSecondaryBlockA.html',1,'']]],
   ['secondaryblockb',['SecondaryBlockB',['../classSecondaryBlockB.html',1,'']]],
   ['secondaryblockcd',['SecondaryBlockCD',['../classSecondaryBlockCD.html',1,'']]],
+  ['secondaryblocke',['SecondaryBlockE',['../classSecondaryBlockE.html',1,'']]],
   ['sharedlibrary',['SharedLibrary',['../structSharedLibrary.html',1,'']]],
   ['simplecounter',['SimpleCounter',['../classSimpleCounter.html',1,'']]],
   ['sink',['sink',['../classlogger_1_1sinks_1_1sink.html',1,'logger::sinks']]],

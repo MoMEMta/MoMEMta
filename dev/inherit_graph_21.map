@@ -1,5 +1,5 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$classModule.html" title="Parent class for all the modules. " alt="" coords="5,857,69,884"/>
+<area shape="rect" id="node1" href="$classModule.html" title="Parent class for all the modules. " alt="" coords="5,916,69,943"/>
 <area shape="rect" id="node2" href="$classBinnedTransferFunctionOnEnergyBase.html" title="Helper class for binned transfer function modules. " alt="" coords="125,67,302,109"/>
 <area shape="rect" id="node5" href="$classBinnedTransferFunctionOnPtBase.html" title="Helper class for binned transfer function modules. " alt="" coords="125,133,302,174"/>
 <area shape="rect" id="node8" href="$classBlockA.html" title="Final (main) Block A, describing . " alt="" coords="181,199,245,225"/>
@@ -26,11 +26,13 @@
 <area shape="rect" id="node33" href="$classPermutator.html" title="Apply random permutations to a set of inputs. " alt="" coords="170,1293,257,1320"/>
 <area shape="rect" id="node34" href="$classPrinter.html" title="A module printing the value of an input. " alt="" coords="167,1344,259,1371"/>
 <area shape="rect" id="node35" href="$classPrinter_3_01std_1_1vector_3_01T_01_4_01_4.html" title="Specialization of Printer for std::vector " alt="" coords="146,1395,281,1437"/>
-<area shape="rect" id="node36" href="$classSecondaryBlockB.html" title=" Secondary Block B, describing &#160;" alt="" coords="150,1461,277,1488"/>
-<area shape="rect" id="node37" href="$classSecondaryBlockCD.html" title="Secondary Block C/D, describing . " alt="" coords="145,1512,282,1539"/>
-<area shape="rect" id="node38" href="$classSimpleCounter.html" title="A simple module counting the number of time it has been called. " alt="" coords="159,1563,267,1589"/>
-<area shape="rect" id="node39" href="$classStandardPhaseSpace.html" title="Compute the phase space density for observed particles (not concerned by the change of variable) ..." alt="" coords="139,1613,287,1640"/>
-<area shape="rect" id="node40" href="$classUniformGenerator.html" title="Generate a random point uniformly in a user&#45;set range. " alt="" coords="151,1664,276,1691"/>
+<area shape="rect" id="node36" href="$classSecondaryBlockA.html" title=" Secondary Block A, describing &#160;" alt="" coords="150,1461,277,1488"/>
+<area shape="rect" id="node37" href="$classSecondaryBlockB.html" title=" Secondary Block B, describing &#160;" alt="" coords="150,1512,277,1539"/>
+<area shape="rect" id="node38" href="$classSecondaryBlockCD.html" title="Secondary Block C/D, describing . " alt="" coords="145,1563,282,1589"/>
+<area shape="rect" id="node39" href="$classSecondaryBlockE.html" title=" Secondary Block E, describing &#160;" alt="" coords="150,1613,277,1640"/>
+<area shape="rect" id="node40" href="$classSimpleCounter.html" title="A simple module counting the number of time it has been called. " alt="" coords="159,1664,267,1691"/>
+<area shape="rect" id="node41" href="$classStandardPhaseSpace.html" title="Compute the phase space density for observed particles (not concerned by the change of variable) ..." alt="" coords="139,1715,287,1741"/>
+<area shape="rect" id="node42" href="$classUniformGenerator.html" title="Generate a random point uniformly in a user&#45;set range. " alt="" coords="151,1765,276,1792"/>
 <area shape="rect" id="node3" href="$classBinnedTransferFunctionOnEnergy.html" title="Integrate over a transfer function on energy described by a 2D histogram retrieved from a ROOT file..." alt="" coords="371,5,549,46"/>
 <area shape="rect" id="node4" href="$classBinnedTransferFunctionOnEnergyEvaluator.html" title="Evaluate a transfer function on energy described by a 2D histogram retrieved from a ROOT file..." alt="" coords="371,70,549,111"/>
 <area shape="rect" id="node6" href="$classBinnedTransferFunctionOnPt.html" title="Integrate over a transfer function on Pt described by a 2D histogram retrieved from a ROOT file..." alt="" coords="365,139,555,165"/>
