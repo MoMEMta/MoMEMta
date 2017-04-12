@@ -197,9 +197,9 @@ class BlockE: public Module {
              * yielding a quadratic equation in E2 only.
              */
 
-            const double fac = - 2 * (B1x * pbx - B1z * ptotz - pby);
-            const double a = 2 * (A1x * pbx - A1z * ptotz - Etot) / fac;
-            const double b = (SQ(Etot) + pow(C1x + pbx, 2) + pow(C1z - ptotz, 2) + sq_m2 - SQ(C1x) - SQ(pby) - SQ(C1z) - sq_m1) / fac;
+            const double fac = 2 * (A1x * pbx - A1z * ptotz - Etot);
+            const double a = - 2 * (B1x * pbx - B1z * ptotz - pby) / fac;
+            const double b = - (SQ(Etot) + pow(C1x + pbx, 2) + pow(C1z - ptotz, 2) + sq_m2 - SQ(C1x) - SQ(pby) - SQ(C1z) - sq_m1) / fac;
 
             const double a20 = 1 - SQ(A1x) - SQ(A1z);
             const double a02 = - (SQ(B1x) + SQ(B1z) + 1);
@@ -208,20 +208,21 @@ class BlockE: public Module {
             const double a01 = - 2 * (B1x * C1x + B1z * C1z + pby);
             const double a00 = SQ(Etot) - (SQ(C1x) + SQ(C1z) + SQ(pby) + sq_m1);
           
-            std::vector<double> E2_sol;
-            const bool foundSolution = solveQuadratic(a20 + SQ(a) * a02 + a * a11, 
-                                                2 * a * b * a02 + b * a11 + a10 + a * a01,
-                                                SQ(b) * a02 + b * a01 + a00,
-                                                E2_sol);
+            std::vector<double> p2y_sol;
+            const bool foundSolution = solveQuadratic(a02 + SQ(a) * a20 + a * a11, 
+                                                2 * a * b * a20 + b * a11 + a01 + a * a10,
+                                                SQ(b) * a20 + b * a10 + a00,
+                                                p2y_sol);
 
             if (!foundSolution)
                 return Status::NEXT;
             
-            for (const double E2: E2_sol) {
+            for (const double p2y: p2y_sol) {
+                const double E2 = a * p2y + b;
+
                 if (E2 <= 0)
                     continue;
-
-                const double p2y = a * E2 + b;
+                
                 const double E1 = Etot - E2;
                 
                 if (E1 <= 0)

@@ -36,6 +36,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
  - `MoMEMta::computeWeights` now expects a vector of `Particle` and no longer a vector of `LorentzVector`. A `Particle` has a name, a `LorentzVector` and a type. As a result, configuration files must now declare which inputs are expected.
  - The way the inputs are passed to the blocks is changed (the particles entering the change of variables are set explicitly, the others are put into the `branches` vector of input tags)
  - Built-in lua version is now v5.3.4
+ - Block F supports massive invisible particles
 
 ### Fixed
  - Cuba forking mode was broken when building in release mode (with `-DCMAKE_RELEASE_TYPE=Release`).
