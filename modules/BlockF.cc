@@ -23,8 +23,6 @@
 #include <momemta/Types.h>
 #include <momemta/Math.h>
 
-#include <TMath.h>
-
 /*! \brief \f$\require{cancel}\f$ Final (main) Block F, describing \f$q_1 q_2 \to X + s_{13} (\to \cancel{p_1} p_3) + s_{24} (\to \cancel{p_2} p_4)\f$
  *
  * Final (main) Block F on \f$q_1 q_2 \to X + s_{13} + s_{24} \to X + p_1 p_2 p_3 p_4\f$,  
@@ -42,11 +40,13 @@
  *
  * - \f$s_{13} = (p_1 + p_3)^2\f$
  * - \f$s_{24} = (p_2 + p_4)^2\f$
- * - Conservation of momentum (with \f$p^{tot}\f$ the total momentum of visible particles):
- *  - \f$p_{1x} + p_{2x} = - p_{x}^{tot}\f$
- *  - \f$p_{1y} + p_{2y} = - p_{y}^{tot}\f$
- * - \f$p_{1z} + p_{2z} = s^{1/2} (q_1 - q_2)/2 - E^{tot}\f$
- * - \f$E_{1} + E_{2} = s^{1/2} (q_1 + q_2)/2 - E^{tot}\f$
+ * - Conservation of momentum (with \f$p^{vis}\f$ the total momentum of visible particles):
+ *  - \f$p_{1x} + p_{2x} = - p_{x}^{vis}\f$
+ *  - \f$p_{1y} + p_{2y} = - p_{y}^{vis}\f$
+ * - \f$p_{1z} + p_{2z} = s^{1/2} (q_1 - q_2)/2 - p_z^{vis}\f$
+ * - \f$E_{1} + E_{2} = s^{1/2} (q_1 + q_2)/2 - E^{vis}\f$
+ * - \f$p_1^2 = m_1^2\f$
+ * - \f$p_2^2 = m_2^2\f$
  *
  * The observed MET is not used in this block since to reconstruct the
  * neutrinos the system requires as input the total 4-momentum of the 
@@ -65,6 +65,11 @@
  *   |------|------|-------------|
  *   | `energy` | double | Collision energy |
  *
+ * ### Parameters
+ *
+ *   | Name | Type | %Description |
+ *   | `m1` <br /> `m2` | double, default 0 | Masses of the invisible particles \f$p_1\f$ and \f$p_2\f$ |
+ *
  * ### Inputs
  *
  *   | Name | Type | %Description |
@@ -72,7 +77,7 @@
  *   | `q1` <br /> `q2` | double | Bjorken fractions. These are the dimensions of integration coming from CUBA as phase-space points |
  *   | `s13` <br/> `s24` | double | Squared invariant masses of the two propagators, used to reconstruct the event according to the above method. Typically coming from a BreitWignerGenerator module. |
  *   | `p3` <br/> `p4` | LorentzVector | LorentzVectors of the two particles used to reconstruct the event according to the above method. |
- *   | `branches` | vector(LorentzVector) | LorentzVectors of all the other particles in the event, used to compute \f$p^{tot}\f$ and check if the solutions are physical. |
+ *   | `branches` | vector(LorentzVector) | LorentzVectors of all the other particles in the event, used to compute \f$p^{vis}\f$ and check if the solutions are physical. |
  *
  * ### Outputs
  *
@@ -95,6 +100,9 @@ class BlockF: public Module {
             m_ps_point1 = get<double>(parameters.get<InputTag>("q1"));
             m_ps_point2 = get<double>(parameters.get<InputTag>("q2"));
 
+            m1 = parameters.get<double>("m1", 0.);
+            m2 = parameters.get<double>("m2", 0.);
+            
             sqrt_s = parameters.globalParameters().get<double>("energy");
 
             s13 = get<double>(parameters.get<InputTag>("s13"));
@@ -118,146 +126,131 @@ class BlockF: public Module {
             if (*s13 > SQ(sqrt_s) || *s24 > SQ(sqrt_s))
                 return Status::NEXT;
             
-            // Leave the variables E2 and p2y as free parameters 
-            std::vector<double> E2;
-            std::vector<double> p2y;
-            
-            double p3x = p3->Px();
-            double p3y = p3->Py();
-            double p3z = p3->Pz();
-            double E3 = p3->E();
-            
-            double p4x = p4->Px();
-            double p4y = p4->Py();
-            double p4z = p4->pz();
-            double E4 = p4->E();
-            
-            double p33 = p3->M2();
-            double p44 = p4->M2();
+            const double p3x = p3->Px();
+            const double p3y = p3->Py();
+            const double p3z = p3->Pz();
+            const double E3 = p3->E();
+ 
+            const double p4x = p4->Px();
+            const double p4y = p4->Py();
+            const double p4z = p4->pz();
+            const double E4 = p4->E();
+ 
+            const double sq_m1 = SQ(m1);
+            const double sq_m2 = SQ(m2);
+            const double sq_m3 = p3->M2();
+            const double sq_m4 = p4->M2();
             
             // Total visible momentum
             LorentzVector pb = *p3 + *p4;
             for (size_t i = 0; i < m_branches.size(); i++) {
                 pb += *m_branches[i];
             }
-            double Eb = pb.E();
-            double pbx = pb.Px();
-            double pby = pb.Py();
-            double pbz = pb.Pz();
             
-            double q1 = *m_ps_point1;
-            double q2 = *m_ps_point2;
-
-            const double Qm = sqrt_s * (q1 - q2) / 2.;
-            const double Qp = sqrt_s * (q1 + q2) / 2.;
-            
-            // p1x = alpha1*p2y + beta1*E2 + gamma1
-            // p1y = alpha2*p2y + beta2*E2 + gamma2
-            // p1z = alpha3*p2y + beta3*E2 + gamma3
-            // p2x = alpha4*p2y + beta4*E2 + gamma4
-            // p2z = alpha5*p2y + beta5*E2 + gamma5
-            // E1 = alpha6*p2y + beta6*E2 + gamma6
-            
-            double den = p3z*p4x-p3x*p4z;
-
-            double alpha1 = (p3z*p4y-p3y*p4z)/den;
-            double beta1 = (-E4*p3z+E3*p4z)/den;
-            double gamma1 = -(p44*p3z-2*E3*Eb*p4z+p33*p4z+2*p3z*p4x*pbx+
-                            2*p3y*p4z*pby+2*p3z*p4z*pbz-2*p3z*p4z*Qm+2*E3*p4z*Qp-
-                            p4z*(*s13)-p3z*(*s24))/(2*den);
-            
-            double alpha2 = -1;
-            double beta2 = 0;
-            double gamma2 = -pby;
-            
-            double alpha3 = (p3y*p4x-p3x*p4y)/den;
-            double beta3 = (E4*p3x-E3*p4x)/den;
-            double gamma3 = (p44*p3x-2*E3*Eb*p4x+p33*p4x+2*p3x*p4x*pbx+
-                            2*p3y*p4x*pby+2*p3x*p4z*pbz-2*p3x*p4z*Qm+2*E3*p4x*Qp-
-                             p4x*(*s13)-p3x*(*s24))/(2*den);
-            
-            double alpha4 = -alpha1;
-            double beta4 = (E4*p3z-E3*p4z)/den;
-            double gamma4 = -(-2*p44*p3z+4*E3*Eb*p4z-2*p33*p4z-
-                             4*p3x*p4z*pbx-4*p3y*p4z*pby-4*p3z*p4z*pbz+
-                             4*p3z*p4z*Qm-4*E3*p4z*Qp+2*p4z*(*s13)+
-                              2*p3z*(*s24))/(4*den);
-              
-            double alpha5 = -alpha3;
-            double beta5 = (-E4*p3x+E3*p4x)/den;
-            double gamma5 = (-p44*p3x+2*E3*Eb*p4x-p33*p4x-
-                            2*p3x*p4x*pbx-2*p3y*p4x*pby-2*p3z*p4x*pbz+
-                            2*p3z*p4x*Qm-2*E3*p4x*Qp+p4x*(*s13)+
-                             p3x*(*s24))/(2*den);
-            
-            double alpha6 = 0;
-            double beta6 = -1;
-            double gamma6 = -Eb+Qp;
-
-            // Put these variables in p1^2=0, p2^2=0. You will get:
-            // a11*p2y^2 + a22*E2^2 + a12*p2y*E2 + a10*p2y + a01*E2 + a00 = 0;
-            // same with bij
-               
-            double a11 = SQ(alpha6) - SQ(alpha1) - SQ(alpha2) - SQ(alpha3);
-            double a22 = SQ(beta6) - SQ(beta1) - SQ(beta2) - SQ(beta3);
-            double a12 = 2*(alpha6*beta6 - alpha1*beta1 - alpha2*beta2 - alpha3*beta3);
-            double a10 = 2*(alpha6*gamma6 - alpha1*gamma1 - alpha2*gamma2 - alpha3*gamma3);
-            double a01 = 2*(beta6*gamma6 - beta1*gamma1 - beta2*gamma2 - beta3*gamma3);
-            double a00 = SQ(gamma6) - SQ(gamma1) - SQ(gamma2) - SQ(gamma3);
+            const double Eb = pb.E();
+            const double pbx = pb.Px();
+            const double pby = pb.Py();
+            const double pbz = pb.Pz();
  
-            double b10 = 2*(alpha4*gamma4 + alpha5*gamma5);
-            double b01 = 2*(beta4*gamma4 + beta5*gamma5);
-            double b00 = SQ(gamma4) + SQ(gamma5);
+            const double q1 = *m_ps_point1;
+            const double q2 = *m_ps_point2;
 
-            // These 2 equations are equivalent to the following system:
-            // a11*p2y^2 + a22*E2^2 + a12*p2y*E2 + a10*p2y + a01*E2 + a00 = 0
-            // E2 = c0 + c1*p2y
-            // From these two, we get a quadratic equation in p2y:
-            // d2*p2y^2 + d1*p2y + d0 = 0
-
-            double c0 = -(a00+b00)/(a01+b01);
-            double c1 = -(a10+b10)/(a01+b01);
-
-            double d0 = a22*SQ(c0) + a01*c0 + a00;
-            double d1 = 2*a22*c1*c0 + a12*c0 + a01*c1 + a10;
-            double d2 = a22*SQ(c1) + a12*c1 + a11;
-
-            solveQuadratic(d2, d1, d0, p2y, false);
-
-            if (p2y.size() == 0)
-                return Status::NEXT;
+            const double Etot = sqrt_s * (q1 + q2) / 2 - Eb;
+            const double ptotz = sqrt_s * (q1 - q2) / 2 - pbz;
             
-            for (size_t i=0; i<p2y.size(); i++) {
-                const double e1 = p2y.at(i);      //p2y
-                const double e2 = (c0 + c1*e1);   //E2
+            const double X = 0.5 * (- sq_m1 - sq_m3 + *s13);
+            const double Y = 0.5 * (- sq_m2 - sq_m4 + *s24);
+
+
+            /* Solve the linear system:
+             * p1x + p2x = - pbx
+             * p1y + p2y = - pby
+             * p1z + p2z = ptotz
+             * p3x p1x + p3y p1y + p3z p1z = - X + E3 E1
+             * p4x p2x + p4z p2z = - Y + E4 E2 -p4y p2y
+             *
+             * The solutions are parameterised by E2 and p2y:
+             * p1x = A1x E2 + B1x p2y + C1x
+             * p1y = - p2y - pby
+             * p1z = A1z E2 + B1z p2y + C1z
+             * p2x = - A1x E2 - B1x p2y - (C1x + pbx)
+             * p2z = - A1z E2 - B1z p2y - (C1z - ptotz)
+             *
+             * where one has used that E1 = Etot - E2
+             */
+            
+            const double den = p3z * p4x - p3x * p4z;
+
+            const double A1x = - (E4 * p3z - E3 * p4z) / den;
+            const double B1x = (p3z * p4y - p3y * p4z) / den;
+            const double C1x = - (p4z * (E3 * Etot - p3z * ptotz + p3y * pby - X) - p3z * (Y - p4x * pbx)) / den;
+            
+            const double A1z = (E4 * p3x - E3 * p4x) / den;
+            const double B1z = (p3y * p4x - p3x * p4y) / den;
+            const double C1z = (p4x * (E3 * Etot + p3y * pby + p3x * pbx - X) - p3x * (Y + p4z * ptotz)) / den;
+
+
+            /* Now, insert those expressions into the mass-shell conditions for p1 and p2:
+             * (Etot - E2)^2 - p1x^2 - p1y^2 - p1z^2 - m1^2 = 0 (1)
+             * E2^2 - p2x^2 - p2y^2 - p2z^2 - m2^2 = 0          (2)
+             *
+             * Using the above, (1) is written as:
+             * a20 E2^2 + a02 p2y^2 + a11 E2 p2y + a10 E2 + a01 p2y + a00 = 0
+             *
+             * From (2)-(1), is it possible to write E2 = a p2y + b. This is then inserted into (1),
+             * yielding a quadratic equation in p2y only.
+             */
+
+            const double fac = 2 * (A1x * pbx - A1z * ptotz - Etot);
+            const double a = - 2 * (B1x * pbx - B1z * ptotz - pby) / fac;
+            const double b = - (SQ(Etot) + pow(C1x + pbx, 2) + pow(C1z - ptotz, 2) + sq_m2 - SQ(C1x) - SQ(pby) - SQ(C1z) - sq_m1) / fac;
+
+            const double a20 = 1 - SQ(A1x) - SQ(A1z);
+            const double a02 = - (SQ(B1x) + SQ(B1z) + 1);
+            const double a11 = - 2 * (A1x * B1x + A1z * B1z);
+            const double a10 = - 2 * (A1x * C1x + A1z * C1z + Etot);
+            const double a01 = - 2 * (B1x * C1x + B1z * C1z + pby);
+            const double a00 = SQ(Etot) - (SQ(C1x) + SQ(C1z) + SQ(pby) + sq_m1);
+          
+            std::vector<double> p2y_sol;
+            const bool foundSolution = solveQuadratic(a02 + SQ(a) * a20 + a * a11, 
+                                                2 * a * b * a20 + b * a11 + a01 + a * a10,
+                                                SQ(b) * a20 + b * a10 + a00,
+                                                p2y_sol);
+
+            if (!foundSolution)
+                return Status::NEXT;
+
+            for (const double p2y: p2y_sol) {
+                const double E2 = a * p2y + b;
+
+                if (E2 <= 0)
+                    continue;
+
+                const double E1 = Etot - E2;
                 
-                if (e2 < 0.)
+                if (E1 <= 0)
                     continue;
                 
-                LorentzVector p1(alpha1 * e1 + beta1 * e2 + gamma1,     //p1x
-                                 alpha2 * e1 + beta2 * e2 + gamma2,     //p1y
-                                 alpha3 * e1 + beta3 * e2 + gamma3,     //p1z
-                                 alpha6 * e1 + beta6 * e2 + gamma6      //E1
-                                 );
+                const double p1x = A1x * E2 + B1x * p2y + C1x;
+                const double p1y = - p2y - pby;
+                const double p1z = A1z * E2 + B1z * p2y + C1z;
+                const LorentzVector p1(p1x, p1y, p1z, E1);
 
-                if (p1.E() < 0.)
-                    continue;
-
-                LorentzVector p2(alpha4 * e1 + beta4 * e2 + gamma4,     //p2x
-                                 e1,                                    //p2y
-                                 alpha5 * e1 + beta5 * e2 + gamma5,     //p2z
-                                 e2                                     //E2
-                                 );                  
+                const double p2x = - p1x - pbx;
+                const double p2z = - p1z + ptotz;
+                const LorentzVector p2(p2x, p2y, p2z, E2);
 
                 // Check if solutions are physical
-                LorentzVector tot = p1 + p2 + pb;
-                double q1Pz = std::abs(tot.Pz() + tot.E()) / 2.;
-                double q2Pz = std::abs(tot.Pz() - tot.E()) / 2.;
-                
-                if(q1Pz > sqrt_s/2 || q2Pz > sqrt_s/2)
+                const LorentzVector tot = p1 + p2 + pb;
+                const double q1Pz = std::abs(tot.Pz() + tot.E()) / 2.;
+                const double q2Pz = std::abs(tot.Pz() - tot.E()) / 2.;
+
+                if (q1Pz > sqrt_s/2 || q2Pz > sqrt_s/2)
                     continue;
-                
-                auto jacobian = computeJacobian(p1, p2, *p3, *p4);
+
+                const double jacobian = 1. / (64 * SQ(M_PI) * std::abs(E4*(p1z*p2y*p3x - p1y*p2z*p3x - p1z*p2x*p3y + p1x*p2z*p3y + p1y*p2x*p3z - p1x*p2y*p3z) +  E2*p1z*p3y*p4x - E1*p2z*p3y*p4x - E2*p1y*p3z*p4x + E1*p2y*p3z*p4x - E2*p1z*p3x*p4y + E1*p2z*p3x*p4y +  E2*p1x*p3z*p4y - E1*p2x*p3z*p4y + (E2*p1y*p3x - E1*p2y*p3x - E2*p1x*p3y + E1*p2x*p3y)*p4z + E3*(-(p1z*p2y*p4x) + p1y*p2z*p4x + p1z*p2x*p4y - p1x*p2z*p4y - p1y*p2x*p4z + p1x*p2y*p4z)));
+
                 Solution s { {p1, p2}, jacobian, true };
                 solutions->push_back(s);
             }
@@ -265,33 +258,6 @@ class BlockF: public Module {
             return solutions->size() > 0 ? Status::OK : Status::NEXT;
         }
     
-        double computeJacobian(const LorentzVector& p1, const LorentzVector& p2, const LorentzVector& p3, const LorentzVector& p4) {
-
-            const double E1  = p1.E();
-            const double p1x = p1.Px();
-            const double p1y = p1.Py();
-            const double p1z = p1.Pz();
-
-            const double E2  = p2.E();
-            const double p2x = p2.Px();
-            const double p2y = p2.Py();
-            const double p2z = p2.Pz();
-
-            const double E3  = p3.E();
-            const double p3x = p3.Px();
-            const double p3y = p3.Py();
-            const double p3z = p3.Pz();
-
-            const double E4  = p4.E();
-            const double p4x = p4.Px();
-            const double p4y = p4.Py();
-            const double p4z = p4.Pz();
-
-            double inv_jac= (E4*(p1z*p2y*p3x - p1y*p2z*p3x - p1z*p2x*p3y + p1x*p2z*p3y + p1y*p2x*p3z - p1x*p2y*p3z) +  E2*p1z*p3y*p4x - E1*p2z*p3y*p4x - E2*p1y*p3z*p4x + E1*p2y*p3z*p4x - E2*p1z*p3x*p4y + E1*p2z*p3x*p4y +  E2*p1x*p3z*p4y - E1*p2x*p3z*p4y + (E2*p1y*p3x - E1*p2y*p3x - E2*p1x*p3y + E1*p2x*p3y)*p4z + E3*(-(p1z*p2y*p4x) + p1y*p2z*p4x + p1z*p2x*p4y - p1x*p2z*p4y - p1y*p2x*p4z + p1x*p2y*p4z));
-            
-            return 1./( std::abs(inv_jac) * 4 * 16 * pow(M_PI, 2.) );
-        }
-
     private:
         double sqrt_s;
 
@@ -300,6 +266,8 @@ class BlockF: public Module {
         Value<double> s24;
         Value<double> m_ps_point1;
         Value<double> m_ps_point2;
+        double m1;
+        double m2;
         Value<LorentzVector> p3, p4;
         std::vector<Value<LorentzVector>> m_branches;
 
