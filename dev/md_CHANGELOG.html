@@ -112,7 +112,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <ul>
 <li>New <code><a class="el" href="classLooper.html" title="A module looping over a set of solutions. ">Looper</a></code> module to loop over a set of solutions (see below for more details)</li>
 <li>Python bindings. To enable, pass <code>-DPYTHON_BINDINGS=ON</code> to <code>cmake</code>.</li>
-<li>Main block A</li>
 <li>Modules to only evaluate transfer functions (without integrating over anything): <a class="el" href="classBinnedTransferFunctionOnEnergyEvaluator.html" title="Evaluate a transfer function on energy described by a 2D histogram retrieved from a ROOT file...">BinnedTransferFunctionOnEnergyEvaluator</a>, <a class="el" href="classGaussianTransferFunctionOnEnergyEvaluator.html" title="Evaluate a transfer function on energy described by a Gaussian distribution. ">GaussianTransferFunctionOnEnergyEvaluator</a></li>
 <li>Matrix element parameters can now be edited from the configuration file.</li>
 <li><code><a class="el" href="classConfigurationReader.html" title="A lua configuration file parser. ">ConfigurationReader</a></code> constructor now accepts an optional second argument allowing the definition of variables accessible from the lua configuration.</li>
@@ -120,7 +119,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>Support for CMSSW environment. Python, boost and LHAPDF libraries from CMSSW are automatically used and running <code>make install</code> will automatically register <a class="el" href="classMoMEMta.html" title="A MoMEMta instance. ">MoMEMta</a> as a new external tool.</li>
 <li>Support use of other integration algorithms implemented in Cuba (Suave, Divonne, Cuhre)</li>
 <li>Binned and Gaussian transfer function on Pt</li>
-<li>Main Block G (not present in MadWeight)</li>
 <li><code>DEBUG_TIMING</code> cmake option, to print a summary of each module runtime at the end of the integration.</li>
 <li>New cuba option to configure multi-core integration, <code>ncores</code> and <code>pcores</code>.</li>
 <li><code>declare_input</code> lua function, used to declare a new input.</li>
@@ -128,6 +126,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>Two new lua functions, <code>add_reco_permutations</code> and <code>add_gen_permutations</code> are available to easily insert a permutator module permutating between the function arguments.</li>
 <li><code><a class="el" href="classLinearCombinator.html" title="Performs linear combination of templated terms. ">LinearCombinator</a></code> templated module allowing to compute combinations (ie sums, subtractions, ...) of LorentzVectors, numbers, ...</li>
 <li>Secondary blocks A, B, CD, E</li>
+<li>Main blocks A, E and G (not present in MadWeight)</li>
 </ul>
 <h3>Changed</h3>
 <ul>

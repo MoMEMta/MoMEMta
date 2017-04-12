@@ -11,6 +11,7 @@ var searchData=
   ['blocka',['BlockA',['../classBlockA.html',1,'']]],
   ['blockb',['BlockB',['../classBlockB.html',1,'']]],
   ['blockd',['BlockD',['../classBlockD.html',1,'']]],
+  ['blocke',['BlockE',['../classBlockE.html',1,'']]],
   ['blockf',['BlockF',['../classBlockF.html',1,'']]],
   ['blockg',['BlockG',['../classBlockG.html',1,'']]],
   ['breitwignergenerator',['BreitWignerGenerator',['../classBreitWignerGenerator.html',1,'']]],
