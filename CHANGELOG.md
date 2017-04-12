@@ -8,7 +8,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
  - New `Looper` module to loop over a set of solutions (see below for more details)
  - Python bindings. To enable, pass `-DPYTHON_BINDINGS=ON` to `cmake`.
- - Main block A
  - Modules to only evaluate transfer functions (without integrating over anything): BinnedTransferFunctionOnEnergyEvaluator, GaussianTransferFunctionOnEnergyEvaluator
  - Matrix element parameters can now be edited from the configuration file.
  - `ConfigurationReader` constructor now accepts an optional second argument allowing the definition of variables accessible from the lua configuration. 
@@ -16,7 +15,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
  - Support for CMSSW environment. Python, boost and LHAPDF libraries from CMSSW are automatically used and running `make install` will automatically register MoMEMta as a new external tool.
  - Support use of other integration algorithms implemented in Cuba (Suave, Divonne, Cuhre)
  - Binned and Gaussian transfer function on Pt
- - Main Block G (not present in MadWeight)
  - `DEBUG_TIMING` cmake option, to print a summary of each module runtime at the end of the integration.
  - New cuba option to configure multi-core integration, `ncores` and `pcores`.
  - `declare_input` lua function, used to declare a new input.
@@ -24,6 +22,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
  - Two new lua functions, `add_reco_permutations` and `add_gen_permutations` are available to easily insert a permutator module permutating between the function arguments. 
  - `LinearCombinator` templated module allowing to compute combinations (ie sums, subtractions, ...) of LorentzVectors, numbers, ...
  - Secondary blocks A, B, CD, E
+ - Main blocks A, E and G (not present in MadWeight)
 
 ### Changed
  - The way to handle multiple solutions coming from blocks has changed. A module is no longer responsible for looping over the solutions itself, this role is delegated to the `Looper` module. As a consequence, most of the module were rewritten to handle this change. See this [pull request](https://github.com/MoMEMta/MoMEMta/pull/69) and [this one](https://github.com/MoMEMta/MoMEMta/pull/91) for a more technical description, and this [documentation entry](http://momemta.github.io/) for more details
