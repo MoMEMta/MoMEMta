@@ -207,7 +207,7 @@ class BlockE: public Module {
             const double a10 = - 2 * (A1x * C1x + A1z * C1z + Etot);
             const double a01 = - 2 * (B1x * C1x + B1z * C1z + pby);
             const double a00 = SQ(Etot) - (SQ(C1x) + SQ(C1z) + SQ(pby) + sq_m1);
-          
+ 
             std::vector<double> p2y_sol;
             const bool foundSolution = solveQuadratic(a02 + SQ(a) * a20 + a * a11, 
                                                 2 * a * b * a20 + b * a11 + a01 + a * a10,
@@ -216,18 +216,18 @@ class BlockE: public Module {
 
             if (!foundSolution)
                 return Status::NEXT;
-            
+ 
             for (const double p2y: p2y_sol) {
                 const double E2 = a * p2y + b;
 
                 if (E2 <= 0)
                     continue;
-                
+ 
                 const double E1 = Etot - E2;
-                
+ 
                 if (E1 <= 0)
                     continue;
-                
+ 
                 const double p1x = A1x * E2 + B1x * p2y + C1x;
                 const double p1y = - p2y - pby;
                 const double p1z = A1z * E2 + B1z * p2y + C1z;

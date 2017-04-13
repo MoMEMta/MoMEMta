@@ -1,4 +1,3 @@
-local p1 = declare_input("p1")
 local p2 = declare_input("p2")
 local p3 = declare_input("p3")
 local p4 = declare_input("p4")
@@ -118,7 +117,6 @@ SecondaryBlockA.secBlockA = {
     s12 = 'flatter_s12::s',
     s123 = 'flatter_s123::s',
     s1234 = 'flatter_s1234::s',
-    p1 = p1.reco_p4,
     p2 = inputs[1],
     p3 = inputs[2],
     p4 = inputs[3]
