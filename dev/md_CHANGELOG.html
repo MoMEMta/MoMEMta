@@ -141,6 +141,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li><code><a class="el" href="classMoMEMta.html#a7022a8573e8232c75cda198f59a64cbe" title="Compute the weights in the current configuration. ">MoMEMta::computeWeights</a></code> now expects a vector of <code>Particle</code> and no longer a vector of <code>LorentzVector</code>. A <code>Particle</code> has a name, a <code>LorentzVector</code> and a type. As a result, configuration files must now declare which inputs are expected.</li>
 <li>The way the inputs are passed to the blocks is changed (the particles entering the change of variables are set explicitly, the others are put into the <code>branches</code> vector of input tags)</li>
 <li>Built-in lua version is now v5.3.4</li>
+<li>Block F supports massive invisible particles</li>
 </ul>
 <h3>Fixed</h3>
 <ul>
