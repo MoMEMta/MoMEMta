@@ -51,12 +51,17 @@
  *   |------|------|--------------|
  *   | `energy` | double | Collision energy. |
  *
+ * ### Parameters
+ *
+ *   | Name | Type | %Description |
+ *   |------|------|--------------|
+ *   | `m1` | double, default 0 | Mass of the invisible particle \f$p_1\f$. |
+ *
  * ### Inputs
  *
  *   | Name | Type | %Description |
  *   |------|------|--------------|
  *   | `s12` <br/> `s123` <br/> `s1234` | double | Squared invariant mass of the propagators (GeV\f$^2\f$). |
- *   | `p1` | LorentzVector | LorentzVector of the particle we want to reconstruct. This input will be used only to fix the mass of \f$p_1\f$. |
  *   | `p2` <br/> `p3` <br/> `p4` | LorentzVector | LorentzVector of the decay products used to reconstruct \f$p_1\f$ (see above description).|
  *
  * ### Outputs
@@ -80,7 +85,8 @@ class SecondaryBlockA: public Module {
                 s123 = get<double>(parameters.get<InputTag>("s123"));
                 s1234 = get<double>(parameters.get<InputTag>("s1234"));
                 
-                m_p1 = get<LorentzVector>(parameters.get<InputTag>("p1"));
+                m1 = parameters.get<double>("m1", 0.);
+            
                 m_p2 = get<LorentzVector>(parameters.get<InputTag>("p2"));
                 m_p3 = get<LorentzVector>(parameters.get<InputTag>("p3"));
                 m_p4 = get<LorentzVector>(parameters.get<InputTag>("p4"));
@@ -94,8 +100,6 @@ class SecondaryBlockA: public Module {
             if (*s12 > SQ(sqrt_s) || *s123 > SQ(sqrt_s) || *s1234 > SQ(sqrt_s) || *s12 > *s123 || *s123 > *s1234 )
                return Status::NEXT;
 
-            // p1: retrieve the desired mass of the missing particle
-            const double m1 = m_p1->M();
             const double sq_m1 = SQ(m1);
 
             // Store things we might need more than once
@@ -179,7 +183,7 @@ class SecondaryBlockA: public Module {
                 const double p1y = Ay * E1 + By;
                 const double p1z = Az * E1 + Bz;
 
-                LorentzVector p1_sol(p1x, p1y, p1z, E1);
+                LorentzVector p1(p1x, p1y, p1z, E1);
 
                 // Compute jacobian
                 const double jacobian = 1. / (128 * std::pow(M_PI, 3) * std::abs( 
@@ -190,7 +194,7 @@ class SecondaryBlockA: public Module {
                                             E3 * (-(p1z*p2y*p4x) + p1y*p2z*p4x + p1z*p2x*p4y - p1x*p2z*p4y - p1y*p2x*p4z + p1x*p2y*p4z)
                                     ));
 
-                Solution solution { { p1_sol }, jacobian, true };
+                Solution solution { { p1 }, jacobian, true };
                 solutions->push_back(solution);
             }
             
@@ -200,12 +204,12 @@ class SecondaryBlockA: public Module {
 
     private:
         double sqrt_s;
+        double m1;
 
         // Inputs
         Value<double> s12;
         Value<double> s123;
         Value<double> s1234;
-        Value<LorentzVector> m_p1;
         Value<LorentzVector> m_p2;
         Value<LorentzVector> m_p3;
         Value<LorentzVector> m_p4;

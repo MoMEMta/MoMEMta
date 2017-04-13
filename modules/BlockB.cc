@@ -40,7 +40,7 @@
  * - Conservation of momentum (with \f$\vec{p}_T^{tot}\f$ the total transverse momentum of visible particles):
  *  - \f$p_{1x} = - p_{Tx}^{tot}\f$
  *  - \f$p_{1y} = - p_{Ty}^{tot}\f$
- * - \f$p_1^2 = m_1^2 = 0\f$ (FIXME)
+ * - \f$p_1^2 = m_1^2\f$
  *
  * Up to two \f$p_1\f$ solutions are possible.
  *
@@ -59,6 +59,7 @@
  *   | Name | Type | %Description |
  *   |------|------|--------------|
  *   | `pT_is_met` | bool, default false | Fix \f$\vec{p}_{T}^{tot} = -\vec{\cancel{E_T}}\f$ or \f$\vec{p}_{T}^{tot} = \sum_{i \in \text{ vis}} \vec{p}_i\f$ |
+ *   | `m1` | double, default 0 | Mass of the invisible particle \f$p_1\f$. |
  *
  * ### Inputs
  *
@@ -89,7 +90,9 @@ class BlockB: public Module {
 
             sqrt_s = parameters.globalParameters().get<double>("energy");
             pT_is_met = parameters.get<bool>("pT_is_met", false);
-
+            
+            m1 = parameters.get<double>("m1", 0.);
+            
             s12 = get<double>(parameters.get<InputTag>("s12"));
 
             p2 = get<LorentzVector>(parameters.get<InputTag>("p2"));
@@ -120,7 +123,7 @@ class BlockB: public Module {
             //(1) (p1 + p2)^2 = s12 = M1^2 + M2^2 + 2 E1 E2 - 2 p1x p2x - 2 p1y p2y - 2 p1z p2z
             //(2)  p1x = - pTx  #Coming from pT neutrino = -pT visible = - (p2 + ISR)
             //(3)  p1y = - pTy  #Coming from pT neutrino = -pT visible = - (p2 + ISR)
-            //(4)  M1 = 0 -> E1^2 = p1x^2 + p1y^2 + p1z^2
+            //(4)  E1^2 - p1x^2 - p1y^2 - p1z^2 = M1^2
 
             // Don't spend time on unphysical part of phase-space
             if (*s12 > SQ(sqrt_s))
@@ -136,19 +139,20 @@ class BlockB: public Module {
                 }
             }
 
+            const double p11 = SQ(m1);
             const double p22 = p2->M2();
 
             // From eq.(1) p1z = B*E1 + A
-            // From eq.(4) + eq.(1) (1 - B^2) E1^2 - 2 A B E1 + C - A^2 = 0
+            // From eq.(4) + eq.(1) (1 - B^2) E1^2 - 2 A B E1 + C - A^2 - M1^2 = 0
 
-            const double A = - (*s12 - p22 - 2 * (pT.Px() * p2->Px() + pT.Py() * p2->Py())) / (2 * p2->Pz());
+            const double A = - (*s12 - p11 - p22 - 2 * (pT.Px() * p2->Px() + pT.Py() * p2->Py())) / (2 * p2->Pz());
             const double B = p2->E() / p2->Pz();
             const double C = - SQ(pT.Px()) - SQ(pT.Py());
 
             // Solve quadratic a*E1^2 + b*E1 + c = 0
             const double a = 1 - SQ(B);
             const double b = - 2 * A * B;
-            const double c = C - SQ(A);
+            const double c = C - SQ(A) - p11;
 
             std::vector<double> E1;
 
@@ -172,7 +176,7 @@ class BlockB: public Module {
                 double q2Pz = std::abs(tot.Pz() - tot.E()) / 2.;
                 if(q1Pz > sqrt_s/2 || q2Pz > sqrt_s/2)
                     continue;
-
+ 
                 const double inv_jacobian = SQ(sqrt_s) * std::abs(p2->Pz() * e1 - p2->E() * p1.Pz());
 
                 Solution s { {p1}, M_PI/inv_jacobian, true };
@@ -185,7 +189,8 @@ class BlockB: public Module {
     private:
         double sqrt_s;
         bool pT_is_met;
-
+        double m1;
+        
         // Inputs
         Value<double> s12;
         Value<LorentzVector> p2;

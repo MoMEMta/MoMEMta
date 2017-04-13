@@ -40,8 +40,8 @@
  * - Conservation of momentum (with \f$\vec{p}_T^{tot}\f$ the total transverse momentum of visible particles):
  *  - \f$p_{1x} + p_{2x} = - p_{Tx}^{tot}\f$
  *  - \f$p_{1y} + p_{2y} = - p_{Ty}^{tot}\f$
- * - \f$p_1^2 = m_1^2 = 0\f$ (FIXME)
- * - \f$p_2^2 = m_2^2 = 0\f$ (FIXME)
+ * - \f$p_1^2 = m_1^2\f$
+ * - \f$p_2^2 = m_2^2\f$
  *
  * Up to four solutions are possible for \f$(p_1, p_2)\f$.
  *
@@ -60,6 +60,7 @@
  *   | Name | Type | %Description |
  *   |------|------|--------------|
  *   | `pT_is_met` | bool, default false | Fix \f$\vec{p}_{T}^{tot} = -\vec{\cancel{E_T}}\f$ or \f$\vec{p}_{T}^{tot} = \sum_{i \in \text{ vis}} \vec{p}_i\f$ |
+ *   | `m1` <br /> `m2` | double, default 0 | Masses of the invisible particles \f$p_1\f$ and \f$p_2\f$ |
  *
  * ### Inputs
  *
@@ -90,6 +91,9 @@ class BlockD: public Module {
             sqrt_s = parameters.globalParameters().get<double>("energy");
             pT_is_met = parameters.get<bool>("pT_is_met", false);
 
+            m1 = parameters.get<double>("m1", 0.);
+            m2 = parameters.get<double>("m2", 0.);
+            
             s13 = get<double>(parameters.get<InputTag>("s13"));
             s134 = get<double>(parameters.get<InputTag>("s134"));
             s25 = get<double>(parameters.get<InputTag>("s25"));
@@ -151,6 +155,8 @@ class BlockD: public Module {
 
             const double p34 = p3.Dot(p4);
             const double p56 = p5.Dot(p6);
+            const double p11 = SQ(m1);
+            const double p22 = SQ(m2);
             const double p33 = p3.M2();
             const double p44 = p4.M2();
             const double p55 = p5.M2();
@@ -169,8 +175,8 @@ class BlockD: public Module {
             const double Dx = B2*A1 - B1*A2;
             const double Dy = A2*B1 - A1*B2;
 
-            const double X = 2*( pT.Px()*p5.Px() + pT.Py()*p5.Py() - p5.Pz()/p6.Pz()*( 0.5*(*s25 - *s256 + p66) + p56 + pT.Px()*p6.Px() + pT.Py()*p6.Py() ) ) + p55 - *s25;
-            const double Y = p3.Pz()/p4.Pz()*( *s13 - *s134 + 2*p34 + p44 ) - p33 + *s13;
+            const double X = 2*( pT.Px()*p5.Px() + pT.Py()*p5.Py() - p5.Pz()/p6.Pz()*( 0.5*(*s25 - *s256 + p66) + p56 + pT.Px()*p6.Px() + pT.Py()*p6.Py() ) ) + p55 + p22 - *s25;
+            const double Y = p3.Pz()/p4.Pz()*( *s13 - *s134 + 2*p34 + p44 ) - p33 - p11 + *s13;
 
             // p1x = alpha1 E1 + beta1 E2 + gamma1
             // p1y = ...(2)
@@ -211,14 +217,14 @@ class BlockD: public Module {
             const double a12 = 2.*( alpha1*beta1 + alpha2*beta2 + alpha3*beta3 );
             const double a10 = 2.*( alpha1*gamma1 + alpha2*gamma2 + alpha3*gamma3 );
             const double a01 = 2.*( beta1*gamma1 + beta2*gamma2 + beta3*gamma3 );
-            const double a00 = SQ(gamma1) + SQ(gamma2) + SQ(gamma3);
+            const double a00 = SQ(gamma1) + SQ(gamma2) + SQ(gamma3) + p11;
 
             const double b11 = SQ(alpha5) + SQ(alpha6) + SQ(alpha4);
             const double b22 = -1 + ( SQ(beta5) + SQ(beta6) + SQ(beta4) );
             const double b12 = 2.*( alpha5*beta5 + alpha6*beta6 + alpha4*beta4 );
             const double b10 = 2.*( alpha5*gamma5 + alpha6*gamma6 + alpha4*gamma4 );
             const double b01 = 2.*( beta5*gamma5 + beta6*gamma6 + beta4*gamma4 );
-            const double b00 = SQ(gamma5) + SQ(gamma6) + SQ(gamma4);
+            const double b00 = SQ(gamma5) + SQ(gamma6) + SQ(gamma4) + p22;
 
             // Find the intersection of the 2 conics (at most 4 real solutions for (E1,E2))
             std::vector<double> E1, E2;
@@ -247,7 +253,7 @@ class BlockD: public Module {
                         alpha6*e1 + beta6*e2 + gamma6,
                         alpha4*e1 + beta4*e2 + gamma4,
                         e2);
-
+ 
                 // Check if solutions are physical
                 LorentzVector tot = p1 + p2 + p3 + p4 + p5 + p6;
                 for (size_t i = 0; i < m_branches.size(); i++) {
@@ -353,6 +359,9 @@ class BlockD: public Module {
         double sqrt_s;
         bool pT_is_met;
 
+        double m1;
+        double m2;
+        
         // Inputs
         Value<double> s13;
         Value<double> s134;

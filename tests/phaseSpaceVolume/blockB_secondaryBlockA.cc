@@ -37,13 +37,12 @@ int main(int argc, char** argv) {
     ConfigurationReader configuration("../tests/phaseSpaceVolume/blockB_secondaryBlockA.lua");
     MoMEMta weight(configuration.freeze());
 
-    Particle p1 { "p1", LorentzVector(-25, 0, 0, 25), 0 };
     Particle p2 { "p2", LorentzVector(0, 50, 0, 50), 0 };
     Particle p3 { "p3", LorentzVector(0, 0, 30, 30), 0 };
     Particle p4 { "p4", LorentzVector(50, 0, 0, 50), 0 };
 
     auto start_time = system_clock::now();
-    std::vector<std::pair<double, double>> weights = weight.computeWeights({ p1, p2, p3, p4 });
+    std::vector<std::pair<double, double>> weights = weight.computeWeights({ p2, p3, p4 });
     auto end_time = system_clock::now();
 
     LOG(debug) << "Result:";
