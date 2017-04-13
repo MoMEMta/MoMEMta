@@ -133,8 +133,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>\(p_{1y} + p_{2y} = - p_{Ty}^{tot}\)</li>
 </ul>
 </li>
-<li>\(p_1^2 = m_1^2 = 0\) (FIXME)</li>
-<li>\(p_2^2 = m_2^2 = 0\) (FIXME)</li>
+<li>\(p_1^2 = m_1^2\)</li>
+<li>\(p_2^2 = m_2^2\)</li>
 </ul>
 <p>Up to four solutions are possible for \((p_1, p_2)\).</p>
 <h3>Integration dimension</h3>
@@ -152,6 +152,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <th>Name </th><th>Type </th><th>Description  </th></tr>
 <tr>
 <td><code>pT_is_met</code> </td><td>bool, default false </td><td>Fix \(\vec{p}_{T}^{tot} = -\vec{\cancel{E_T}}\) or \(\vec{p}_{T}^{tot} = \sum_{i \in \text{ vis}} \vec{p}_i\) </td></tr>
+<tr>
+<td><code>m1</code> <br />
+ <code>m2</code> </td><td>double, default 0 </td><td>Masses of the invisible particles \(p_1\) and \(p_2\) </td></tr>
 </table>
 <h3>Inputs</h3>
 <table class="doxtable">
@@ -179,7 +182,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <dl class="section note"><dt>Note</dt><dd>This block has been validated and is safe to use.</dd></dl>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="classLooper.html" title="A module looping over a set of solutions. ">Looper</a> module to loop over the solutions of this Block </dd></dl>
 
-<p>Definition at line <a class="el" href="BlockD_8cc_source.html#l00086">86</a> of file <a class="el" href="BlockD_8cc_source.html">BlockD.cc</a>.</p>
+<p>Definition at line <a class="el" href="BlockD_8cc_source.html#l00087">87</a> of file <a class="el" href="BlockD_8cc_source.html">BlockD.cc</a>.</p>
 </div><div class="dynheader">
 Inheritance diagram for BlockD:</div>
 <div class="dyncontent">
@@ -300,7 +303,7 @@ PoolPtr&#160;</td><td class="memItemRight" valign="bottom"><b>m_pool</b></td></t
 
 <p>Reimplemented from <a class="el" href="classModule.html#a43c0b7c70e9dd8b0cf6c78aa5052eeee">Module</a>.</p>
 
-<p>Definition at line <a class="el" href="BlockD_8cc_source.html#l00121">121</a> of file <a class="el" href="BlockD_8cc_source.html">BlockD.cc</a>.</p>
+<p>Definition at line <a class="el" href="BlockD_8cc_source.html#l00125">125</a> of file <a class="el" href="BlockD_8cc_source.html">BlockD.cc</a>.</p>
 
 </div>
 </div>
