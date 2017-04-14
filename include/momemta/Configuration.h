@@ -42,7 +42,7 @@ class Configuration {
          */
         struct Module {
             std::string name; ///< Name of the module (user-defined from the configuration file)
-            std::string type; ///< Type of the module (mapped one-to-one with a C++ class inherting from Module). If
+            std::string type; ///< Type of the module (mapped one-to-one with a C++ class inheriting from Module). If
                               ///< starting with '@', this module is virtual.
             std::shared_ptr<ParameterSet> parameters; ///< Module's parameters, as parsed from the configuration file
 

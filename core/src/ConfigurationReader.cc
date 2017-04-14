@@ -75,7 +75,7 @@ ConfigurationReader::ConfigurationReader(const std::string& file, const Paramete
         lua_getglobal(lua_state.get(), m.type.c_str());
         lua_getfield(lua_state.get(), -1, m.name.c_str());
 
-        m.parameters.reset(new ParameterSet(m.type, m.name));
+        m.parameters.reset(new ParameterSet());
         ParameterSetParser::parse(*m.parameters, lua_state.get(), -1);
 
         lua_pop(lua_state.get(), 2);
