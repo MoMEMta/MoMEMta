@@ -19,9 +19,9 @@
 #include <lua/Path.h>
 
 #include <momemta/ILuaCallback.h>
-#include <momemta/Path.h>
 
 #include <lua/Types.h>
+#include <ExecutionPath.h>
 
 #include <lua.hpp>
 
@@ -39,7 +39,7 @@ void lua::path_register(lua_State* L, void* ptr) {
 
     lua_pop(L, 1);
 
-    // Register global `Path` function, acting as a constructor for `Path` struct
+    // Register global `Path` function, acting as a constructor for `ExecutionPath` struct
     lua_pushlightuserdata(L, ptr);
     lua_pushcclosure(L, path_new, 1);
     lua_setglobal(L, LUA_PATH_TYPE_NAME);
@@ -58,8 +58,8 @@ int lua::path_new(lua_State* L) {
         module_names.push_back(module_name);
     }
 
-    PathElementsPtr* pPath = static_cast<PathElementsPtr*>(lua_newuserdata(L, sizeof(PathElementsPtr)));
-    *pPath = new PathElements();
+    ExecutionPath** pPath = static_cast<ExecutionPath**>(lua_newuserdata(L, sizeof(ExecutionPath)));
+    *pPath = new ExecutionPath();
 
     luaL_getmetatable(L, LUA_PATH_TYPE_NAME);
     lua_setmetatable(L, -2);
@@ -69,20 +69,20 @@ int lua::path_new(lua_State* L) {
 
     void* cfg_ptr = lua_touserdata(L, lua_upvalueindex(1));
     ILuaCallback* callback = static_cast<ILuaCallback*>(cfg_ptr);
-    callback->onNewPath(*pPath);
+    callback->onNewPath(**pPath);
 
     return 1;
 }
 
 int lua::path_free(lua_State* L) {
-    delete *static_cast<PathElementsPtr*>(luaL_checkudata(L, 1, LUA_PATH_TYPE_NAME));
+    delete *static_cast<ExecutionPath**>(luaL_checkudata(L, 1, LUA_PATH_TYPE_NAME));
 
     return 0;
 }
 
-PathElementsPtr lua::path_get(lua_State* L, int index) {
+ExecutionPath* lua::path_get(lua_State* L, int index) {
     luaL_checktype(L, index, LUA_TUSERDATA);
-    PathElementsPtr* path = static_cast<PathElementsPtr*>(luaL_checkudata(L, index, LUA_PATH_TYPE_NAME));
+    ExecutionPath** path = static_cast<ExecutionPath**>(luaL_checkudata(L, index, LUA_PATH_TYPE_NAME));
     if (!path) {
         const char *msg = lua_pushfstring(L, "%s expected, got %s",
                 LUA_PATH_TYPE_NAME, luaL_typename(L, index));

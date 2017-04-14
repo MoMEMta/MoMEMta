@@ -24,8 +24,8 @@
 #include <momemta/ConfigurationReader.h>
 #include <momemta/ModuleFactory.h>
 #include <momemta/ParameterSet.h>
-#include <momemta/Path.h>
 
+#include <ExecutionPath.h>
 #include <lua/LazyTable.h>
 #include <lua/ParameterSetParser.h>
 #include <lua/utils.h>
@@ -83,7 +83,7 @@ ConfigurationReader::ConfigurationReader(const std::string& file, const Paramete
 }
 
 void ConfigurationReader::onModuleDeclared(const std::string& type, const std::string& name) {
-    Configuration::Module module;
+    Configuration::ModuleDecl module;
     module.name = name;
     module.type = type;
 
@@ -94,8 +94,8 @@ void ConfigurationReader::onIntegrandDeclared(const InputTag& tag) {
     configuration.integrands.push_back(tag);
 }
 
-void ConfigurationReader::onNewPath(PathElementsPtr path) {
-    configuration.paths.push_back(path);
+void ConfigurationReader::onNewPath(const ExecutionPath& path) {
+    configuration.paths.push_back(std::make_shared<ExecutionPath>(path));
 }
 
 void ConfigurationReader::addIntegrationDimension() {

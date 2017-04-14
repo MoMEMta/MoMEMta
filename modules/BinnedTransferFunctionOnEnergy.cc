@@ -57,7 +57,7 @@ class BinnedTransferFunctionOnEnergyBase: public Module {
             m_deltaMin = yAxis->GetXmin();
             m_deltaMax = yAxis->GetXmax();
             m_deltaRange = m_deltaMax - m_deltaMin;
-            
+
             TAxis* xAxis = m_th2->GetXaxis();
             double E_cut = parameters.get<double>("min_E", 0.);
             m_EgenMin = std::max(xAxis->GetXmin(), E_cut);
@@ -67,7 +67,7 @@ class BinnedTransferFunctionOnEnergyBase: public Module {
             // we need to be able to retrieve the X axis' last bin, to avoid
             // fetching the TH2's overflow bin.
             m_fallBackEgenMax = xAxis->GetBinCenter(xAxis->GetNbins());
-            
+
             LOG(debug) << "Loaded TH2 " << th2_name << " from file " << file_path << ".";
             LOG(debug) << "\tDelta range is " << m_deltaMin << " to " << m_deltaMax << ".";
             LOG(debug) << "\tEnergy range is " << m_EgenMin << " to " << m_EgenMax << ".";
@@ -91,14 +91,14 @@ class BinnedTransferFunctionOnEnergyBase: public Module {
         class file_not_found_error: public std::runtime_error{
             using std::runtime_error::runtime_error;
         };
-        
+
         class th2_not_found_error: public std::runtime_error{
             using std::runtime_error::runtime_error;
         };
 };
 
 /** \brief Integrate over a transfer function on energy described by a 2D histogram retrieved from a ROOT file.
- * 
+ *
  * This module takes as input a LorentzVector and a phase-space point, generates
  * a new LorentzVector with a different energy (keeping direction and invariant mass),
  * and evaluates the transfer function on the "reconstructed" and "generated" energies.
@@ -146,7 +146,7 @@ class BinnedTransferFunctionOnEnergy: public BinnedTransferFunctionOnEnergyBase 
         BinnedTransferFunctionOnEnergy(PoolPtr pool, const ParameterSet& parameters): BinnedTransferFunctionOnEnergyBase(pool, parameters) {
             m_ps_point = get<double>(parameters.get<InputTag>("ps_point"));
         }
-        
+
         virtual Status work() override {
             const double rec_E = m_reco_input->E();
             const double rec_M = m_reco_input->M();
@@ -165,7 +165,7 @@ class BinnedTransferFunctionOnEnergy: public BinnedTransferFunctionOnEnergyBase 
 
             // The bin number is a ROOT "global bin number" using a 1D representation of the TH2
             const int bin = m_th2->FindFixBin(std::min(gen_E, m_fallBackEgenMax), delta);
-            
+
             // Compute TF*jacobian, where the jacobian includes the transformation of [0,1]->[range_min,range_max] and d|P|/dE
             *TF_times_jacobian = m_th2->GetBinContent(bin) * range * dP_over_dE(*output);
 
@@ -176,7 +176,7 @@ class BinnedTransferFunctionOnEnergy: public BinnedTransferFunctionOnEnergyBase 
 
         // Input
         Value<double> m_ps_point;
-        
+
         // Outputs
         std::shared_ptr<LorentzVector> output = produce<LorentzVector>("output");
         std::shared_ptr<double> TF_times_jacobian = produce<double>("TF_times_jacobian");
@@ -192,13 +192,13 @@ class BinnedTransferFunctionOnEnergy: public BinnedTransferFunctionOnEnergyBase 
         inline double GetDeltaMax(const double Erec, const double Mrec) const {
             if (Erec <= Mrec || m_deltaMax <= Mrec)
                 return 0;
-            return std::min(m_deltaMax, Erec - m_EgenMin) - Mrec; 
+            return std::min(m_deltaMax, Erec - m_EgenMin) - Mrec;
         }
 };
 
 /** \brief Evaluate a transfer function on energy described by a 2D histogram retrieved from a ROOT file.
- * 
- * This module takes as inputs two LorentzVectors: a 'gen-level' particle (which may be computed using for instance a Block or a 'real' transfer function) and a 'reco-level' particle (experimentally reconstructed). 
+ *
+ * This module takes as inputs two LorentzVectors: a 'gen-level' particle (which may be computed using for instance a Block or a 'real' transfer function) and a 'reco-level' particle (experimentally reconstructed).
  * Assuming the LorentzVectors differ only by their energy, this module returns the value of a transfer function (TF) evaluated on their respective energies.
  *
  * The TF is described by a 2D histogram (a ROOT TH2), where the X-axis defines the "generated" (true) energy \f$E_{gen}\f$,
@@ -239,7 +239,7 @@ class BinnedTransferFunctionOnEnergyEvaluator: public BinnedTransferFunctionOnEn
         BinnedTransferFunctionOnEnergyEvaluator(PoolPtr pool, const ParameterSet& parameters): BinnedTransferFunctionOnEnergyBase(pool, parameters) {
             m_gen_input = get<LorentzVector>(parameters.get<InputTag>("gen_particle"));
         }
-        
+
         virtual Status work() override {
             const double rec_E = m_reco_input->E();
             const double gen_E = m_gen_input->E();
@@ -251,7 +251,7 @@ class BinnedTransferFunctionOnEnergyEvaluator: public BinnedTransferFunctionOnEn
 
             // The bin number is a ROOT "global bin number" using a 1D representation of the TH2
             const int bin = m_th2->FindFixBin(std::min(gen_E, m_fallBackEgenMax), delta);
-            
+
             // Retrieve TF value
             *TF_value = m_th2->GetBinContent(bin);
 
@@ -262,10 +262,25 @@ class BinnedTransferFunctionOnEnergyEvaluator: public BinnedTransferFunctionOnEn
 
         // Input
         Value<LorentzVector> m_gen_input;
-        
+
         // Outputs
         std::shared_ptr<double> TF_value = produce<double>("TF");
 };
 
-REGISTER_MODULE(BinnedTransferFunctionOnEnergy);
-REGISTER_MODULE(BinnedTransferFunctionOnEnergyEvaluator);
+REGISTER_MODULE(BinnedTransferFunctionOnEnergy)
+        .Input("reco_particle")
+        .Input("ps_point")
+        .Output("output")
+        .Output("TF_times_jacobian")
+        .Attr("file:string")
+        .Attr("th2_name:string")
+        .Attr("min_E:double=0");
+
+REGISTER_MODULE(BinnedTransferFunctionOnEnergyEvaluator)
+        .Input("reco_particle")
+        .Input("gen_particle")
+        .Output("output")
+        .Output("TF_times_jacobian")
+        .Attr("file:string")
+        .Attr("th2_name:string")
+        .Attr("min_E:double=0");

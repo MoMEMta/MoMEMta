@@ -25,12 +25,14 @@
 
 #include <momemta/Configuration.h>
 #include <momemta/Logging.h>
-#include <momemta/Path.h>
 #include <momemta/ParameterSet.h>
 #include <momemta/Utils.h>
 #include <momemta/Unused.h>
 
 #include <Graph.h>
+#include <ModuleUtils.h>
+#include <lua/utils.h>
+#include <Path.h>
 
 #ifdef DEBUG_TIMING
 using namespace std::chrono;
@@ -39,13 +41,79 @@ using namespace std::chrono;
 #define CUBA_ABORT -999
 #define CUBA_OK 0
 
+/**
+ * Validate all modules declaration against their definitions
+ * \param module_decls
+ * \param available_modules
+ */
+void validateModules(const std::vector<Configuration::ModuleDecl>& module_decls,
+                     const momemta::ModuleList& available_modules) {
+
+    bool all_parameters_valid = true;
+
+    for (const auto& decl: module_decls) {
+        // Find module inside the registry
+        auto it = std::find_if(available_modules.begin(), available_modules.end(),
+                               [&decl](const momemta::ModuleList::value_type& available_module) {
+                                   // The *name* of the module inside the registry is what we call the
+                                   // *type* in userland.
+                                   return available_module.name == decl.type;
+                               });
+
+        if (it == available_modules.end())
+            throw std::runtime_error("A module was declared with a type unknown to the registry. This is not supposed to "
+                                             "be possible");
+
+        const auto& def = *it;
+
+        // Ignore internal modules
+        if (def.internal)
+            continue;
+
+        all_parameters_valid &= momemta::validateModuleParameters(def, *decl.parameters);
+    }
+
+    if (! all_parameters_valid) {
+        // At least one set of parameters is invalid. Stop here
+        auto exception = lua::invalid_configuration_file("Validation of modules' parameters failed. "
+                "Check the log output for more details on how to fix your configuration file.");
+
+        LOG(fatal) << exception.what();
+
+        throw exception;
+    }
+}
+
 MoMEMta::MoMEMta(const Configuration& configuration) {
+
+    // List of all available type of modules with their definition
+    momemta::ModuleList available_modules;
+    momemta::ModuleRegistry::get().exportList(false, available_modules);
+
+    // List of module instances defined by the user, with their parameters
+    std::vector<Configuration::ModuleDecl> module_instances_def = configuration.getModules();
+
+    validateModules(
+            module_instances_def,
+            available_modules
+    );
+
+    // Check if the user defined which integrand to use
+    std::vector<InputTag> integrands = configuration.getIntegrands();
+    if (!integrands.size()) {
+        LOG(fatal)
+            << "No integrand found. Define which module's output you want to use as the integrand using the lua `integrand` function.";
+        throw integrands_output_error("No integrand found");
+    }
+
+    // All modules are correctly declared. Create a sorted list of modules to execute.
+    graph::SortedModuleList modules_to_execute;
+    graph::sort_modules(available_modules, module_instances_def, configuration.getPaths(), modules_to_execute);
 
     // Initialize shared memory pool for modules
     m_pool.reset(new Pool());
 
     // Create phase-space points vector, input for many modules
-    m_pool->current_module("cuba");
     m_ps_points = m_pool->put<std::vector<double>>({"cuba", "ps_points"});
     m_ps_weight = m_pool->put<double>({"cuba", "ps_weight"});
 
@@ -53,27 +121,63 @@ MoMEMta::MoMEMta(const Configuration& configuration) {
     auto inputs = configuration.getInputs();
     for (const auto& input: inputs) {
         LOG(debug) << "Input declared: " << input;
-        m_pool->current_module(input);
         m_inputs_p4.emplace(input, m_pool->put<LorentzVector>({input, "p4"}));
         m_inputs_type.emplace(input, m_pool->put<int64_t>({input, "type"}));
     }
 
     // Create input for met
-    m_pool->current_module("met");
     m_met = m_pool->put<LorentzVector>({"met", "p4"});
 
-    // Construct modules from configuration
-    std::vector<Configuration::Module> light_modules = configuration.getModules();
-    for (const auto& module: light_modules) {
-        m_pool->current_module(module);
-        try {
-            m_modules.push_back(ModuleFactory::get().create(module.type, m_pool, *module.parameters));
-        } catch (...) {
-            LOG(fatal) << "Exception while trying to create module " << module.type << "::" << module.name
-                       << ". See message above for a (possible) more detailed description of the error.";
-            std::rethrow_exception(std::current_exception());
+    // We now have a sorted list of module declaration, split into the different execution paths.
+    // We can now create a new instance of each module in the correct order.
+
+    // Keep track of the instantiated modules in their own execution path
+    std::map<boost::uuids::uuid, std::vector<ModulePtr>> module_instances;
+
+    const auto& execution_paths = modules_to_execute.getPaths();
+
+    // The list of execution path is sorted in the order we must execute the modules (modules from the first path first,
+    // then modules from the second path, etc.)
+    // However, some modules (ie Loopers) except as argument an execution path containing a list of module instances.
+    // Since modules and paths are sorted based on execution order, such dependencies are always in a other execution path.
+    // To solve this, we iterate the execution paths in reverse order, creating first the last execution path, free of
+    // any dependencies. This way, we are sure to find the final list of modules already available when we need it.
+    for (auto it = execution_paths.rbegin(); it != execution_paths.rend(); ++it) {
+
+        const auto& modules = modules_to_execute.getModules(*it);
+        for (auto module_decl_it = modules.begin(); module_decl_it != modules.end(); ++module_decl_it) {
+
+            std::unique_ptr<ParameterSet> params(module_decl_it->parameters->clone());
+
+            if (module_decl_it->type == "Looper") {
+                // Switch the "path" parameter to the list of module properly instantiated
+                auto config_path_id = params->get<ExecutionPath>("path").id;
+
+                // Replace the `path` parameter with the list of modules
+                // Since paths are sorted and we iterate backwards, we are sure to find an existing path.
+                params->raw_set("path", Path(module_instances.at(config_path_id)));
+            }
+
+            try {
+                module_instances[*it].push_back(momemta::ModuleRegistry::get()
+                                                              .find(module_decl_it->type).maker
+                                                              ->create(m_pool, *params));
+            } catch (...) {
+                LOG(fatal) << "Exception while trying to create module " << module_decl_it->type
+                           << "::" << module_decl_it->name
+                           << ". See message above for a (possible) more detailed description of the error.";
+                std::rethrow_exception(std::current_exception());
+            }
         }
     }
+
+    m_modules = module_instances[DEFAULT_EXECUTION_PATH];
+
+    for (const auto& component: integrands) {
+        m_integrands.push_back(m_pool->get<double>(component));
+        LOG(debug) << "Configuration declared integrand component using: " << component.toString();
+    }
+    m_n_components = m_integrands.size();
 
     m_n_dimensions = configuration.getNDimensions();
     LOG(info) << "Number of expected inputs: " << m_inputs_p4.size();
@@ -82,46 +186,13 @@ MoMEMta::MoMEMta(const Configuration& configuration) {
     // Resize pool ps-points vector
     m_ps_points->resize(m_n_dimensions);
 
-    // Integrand
-    // First, check if the user defined which integrand to use
-    std::vector<InputTag> integrands = configuration.getIntegrands();
-    if (!integrands.size()) {
-        LOG(fatal) << "No integrand found. Define which module's output you want to use as the integrand using the lua `integrand` function.";
-        throw integrands_output_error("No integrand found");
-    }
-
-    // Next, retrieve all the input tags for the components of the integrand
-    m_pool->current_module("momemta");
-
-    for(const auto& component: integrands) {
-        m_integrands.push_back(m_pool->get<double>(component));
-        LOG(debug) << "Configuration declared integrand component using: " << component.toString();
-    }
-    m_n_components = m_integrands.size();
-
     m_cuba_configuration = configuration.getCubaConfiguration();
-
-    const Pool::DescriptionMap& description = m_pool->description();
-    graph::build(description, m_modules, configuration.getPaths(), [&description, this](const std::string& module) {
-                // Clean the pool for each removed module
-                const Description& d = description.at(module);
-                for (const auto& input: d.inputs)
-                    this->m_pool->remove_if_invalid(input);
-                for (const auto& output: d.outputs)
-                    this->m_pool->remove({module, output});
-            });
 
     // Freeze the pool after removing unneeded modules
     m_pool->freeze();
 
     for (const auto& module: m_modules) {
         module->configure();
-    }
-
-    // Reset configuration path to the configuration state
-    for (auto& path: configuration.getPaths()) {
-        path->modules.clear();
-        path->resolved = false;
     }
 
     // Register logging function
@@ -420,7 +491,7 @@ int MoMEMta::integrand(const double* psPoints, double* results, const double* we
 #endif
 
         if (status == Module::Status::NEXT) {
-            // Stop executation for the current integration step
+            // Stop execution for the current integration step
             // Returns 0 so that cuba knows this phase-space volume is not relevant
             for (size_t i = 0; i < m_n_components; i++)
                 results[i] = 0;

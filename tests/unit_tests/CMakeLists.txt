@@ -4,6 +4,8 @@ set(SOURCES
     "ParameterSet.cc"
     "pool.cc"
     "unit_tests.cc"
+    "lib/optional.cc"
+    "strings/Scanner.cc"
     )
 
 add_executable(unit_tests ${SOURCES})

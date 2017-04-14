@@ -29,7 +29,6 @@
 
 TEST_CASE("memory pool", "[pool]") {
     std::unique_ptr<Pool> pool(new Pool());
-    pool->current_module("unit_tests");
 
     SECTION("Put and get") {
         InputTag tag("module", "parameter");

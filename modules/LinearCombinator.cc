@@ -31,12 +31,17 @@
  *
  * This module requires **0** phase-space point.
  *
+ * ### Parameters
+ *
+ *   | Name | Type | %Description |
+ *   |------|------|--------------|
+ *   | `coefficients` | vector(double) | List of the coefficients multiplying each term in the linear combination (must have same size as `inputs`). |
+ *
  * ### Inputs
  *
  *   | Name | Type | %Description |
  *   |------|------|--------------|
  *   | `inputs` | vector(T) | List of terms used in the linear operation. |
- *   | `coefficients` | vector(double) | List of the coefficients multiplying each term in the linear combination (must have same size as `inputs`). |
  *
  * ### Outputs
  *
@@ -91,6 +96,17 @@ class LinearCombinator: public Module {
         std::shared_ptr<T> output = produce<T>("output");
 };
 
-REGISTER_MODULE_NAME("VectorLinearCombinator", LinearCombinator<LorentzVector>);
-REGISTER_MODULE_NAME("DoubleLinearCombinator", LinearCombinator<double>);
-REGISTER_MODULE_NAME("IntLinearCombinator", LinearCombinator<int64_t>);
+REGISTER_MODULE_NAME("VectorLinearCombinator", LinearCombinator<LorentzVector>)
+        .Inputs("inputs")
+        .Output("output")
+        .Attr("coefficients:list(double)");
+
+REGISTER_MODULE_NAME("DoubleLinearCombinator", LinearCombinator<double>)
+        .Inputs("inputs")
+        .Output("output")
+        .Attr("coefficients:list(double)");
+
+REGISTER_MODULE_NAME("IntLinearCombinator", LinearCombinator<int64_t>)
+        .Inputs("inputs")
+        .Output("output")
+        .Attr("coefficients:list(double)");

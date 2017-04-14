@@ -34,4 +34,5 @@ class EmptyModule: public Module {
             return Status::OK;
         }
 };
+
 REGISTER_MODULE(EmptyModule);

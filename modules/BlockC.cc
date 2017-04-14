@@ -54,8 +54,8 @@
  *
  *   | Name | Type | %Description |
  *   |------|------|--------------|
- *   | `pT_is_met` | bool, default false | Fix \f$\vec{p}_{T}^{tot} = -\vec{\cancel{E_T}}\f$ or \f$\vec{p}_{T}^{tot} = \sum_{i \in \text{ vis}} \vec{p}_i\f$ | 
- *   | `m1`  | double, default 0 | Mass of the invisible particle | 
+ *   | `pT_is_met` | bool, default false | Fix \f$\vec{p}_{T}^{tot} = -\vec{\cancel{E_T}}\f$ or \f$\vec{p}_{T}^{tot} = \sum_{i \in \text{ vis}} \vec{p}_i\f$ |
+ *   | `m1`  | double, default 0 | Mass of the invisible particle |
  *
  * ### Inputs
  *
@@ -266,4 +266,15 @@ private:
     // Outputs
     std::shared_ptr<SolutionCollection> solutions = produce<SolutionCollection>("solutions");
 };
-REGISTER_MODULE(BlockC);
+
+REGISTER_MODULE(BlockC)
+        .Input("s12")
+        .Input("s123")
+        .Input("p2")
+        .Input("p3")
+        .OptionalInputs("branches")
+        .Input("met=met::p4")
+        .Output("solutions")
+        .GlobalAttr("energy:double")
+        .Attr("pT_is_met:bool=false")
+        .Attr("m1:double=0");

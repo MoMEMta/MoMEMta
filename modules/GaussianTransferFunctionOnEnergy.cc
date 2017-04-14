@@ -58,8 +58,8 @@ class GaussianTransferFunctionOnEnergyBase: public Module {
  * a new LorentzVector with a different energy (keeping direction and invariant mass),
  * and evaluates the transfer function on the "reconstructed" and "generated" energies.
  *
- * The transfer function (TF) is a Gaussian distribution that describes the difference between 
- * the reconstructed and the generated energy (\f$E_{rec}-E_{gen}\f$). The width of the distribution, parametrised as a fraction of \f$E_{gen}\f$, is set as parameter. 
+ * The transfer function (TF) is a Gaussian distribution that describes the difference between
+ * the reconstructed and the generated energy (\f$E_{rec}-E_{gen}\f$). The width of the distribution, parametrised as a fraction of \f$E_{gen}\f$, is set as parameter.
  *
  * The range of the integration is determined using the width of the Gaussian at \f$E_{rec}\f$, integrating over a user-defined 'number of sigmas' `n`: \f$E_{gen} \in \pm n \cdot \sigma \cdot E_{rec}\f$.
  *
@@ -74,7 +74,7 @@ class GaussianTransferFunctionOnEnergyBase: public Module {
  *   | `sigma` | double | Fraction of the energy yielding the width of the Gaussian distribution (with `sigma` at `0.1`, \f$\sigma_{gauss} = 0.1 \cdot E_{gen}\f$). |
  *   | `sigma_range` | double | Range of integration expressed in number of sigma. |
  *   | `min_E` | double | Optional: cut on energy to avoid divergences |
- * 
+ *
  * ### Inputs
  *
  *   | Name | Type | %Description |
@@ -88,7 +88,7 @@ class GaussianTransferFunctionOnEnergyBase: public Module {
  *   |------|------|--------------|
  *   | `output` | LorentzVector | Output *generated* LorentzVector, only differing from *reco_particle* by its energy. |
  *   | `TF_times_jacobian` | double | Product of the TF evaluated on the *reco* and *gen* energies, times the jacobian of the transformation needed stretch the integration range from \f$[0,1]\f$ to the width of the TF, times the jacobian \f$d|P|/dE\f$ due to the fact that the integration is done w.r.t \f$|P|\f$, while the TF is parametrised in terms of energy. |
- * 
+ *
  * \ingroup modules
  * \sa GaussianTransferFunctionOnEnergyEvaluator
  */
@@ -136,10 +136,10 @@ class GaussianTransferFunctionOnEnergy: public GaussianTransferFunctionOnEnergyB
 
 /** \brief Evaluate a transfer function on energy described by a Gaussian distribution
  *
- * This module takes as inputs two LorentzVectors: a 'gen-level' particle (which may be computed using for instance a Block or a 'real' transfer function) and a 'reco-level' particle (experimentally reconstructed). 
+ * This module takes as inputs two LorentzVectors: a 'gen-level' particle (which may be computed using for instance a Block or a 'real' transfer function) and a 'reco-level' particle (experimentally reconstructed).
  * Assuming the LorentzVectors differ only by their energy, this module returns the value of a transfer function (TF) evaluated on their respective energies.
  *
- * The TF is a Gaussian distribution that describes the difference between the reconstructed and the generated energy (\f$E_{rec}-E_{gen}\f$). The width of the distribution, parametrised as a fraction of \f$E_{gen}\f$, is set as parameter. 
+ * The TF is a Gaussian distribution that describes the difference between the reconstructed and the generated energy (\f$E_{rec}-E_{gen}\f$). The width of the distribution, parametrised as a fraction of \f$E_{gen}\f$, is set as parameter.
  *
  * ### Integration dimension
  *
@@ -150,7 +150,7 @@ class GaussianTransferFunctionOnEnergy: public GaussianTransferFunctionOnEnergyB
  *   | Name | Type | %Description |
  *   |------|------|--------------|
  *   | `sigma` | double | Fraction of the energy yielding the width of the Gaussian distribution (with `sigma` at `0.1`, \f$\sigma_{gauss} = 0.1 \cdot E_{gen}\f$). |
- * 
+ *
  * ### Inputs
  *
  *   | Name | Type | %Description |
@@ -163,7 +163,7 @@ class GaussianTransferFunctionOnEnergy: public GaussianTransferFunctionOnEnergyB
  *   | Name | Type | %Description |
  *   |------|------|--------------|
  *   | `TF` | double | Value of the TF evaluated on the *reco* and *gen* energies. |
- * 
+ *
  * \ingroup modules
  * \sa GaussianTransferFunctionOnEnergy
  */
@@ -189,5 +189,19 @@ class GaussianTransferFunctionOnEnergyEvaluator: public GaussianTransferFunction
 
 };
 
-REGISTER_MODULE(GaussianTransferFunctionOnEnergy);
-REGISTER_MODULE(GaussianTransferFunctionOnEnergyEvaluator);
+REGISTER_MODULE(GaussianTransferFunctionOnEnergy)
+        .Input("ps_point")
+        .Input("reco_particle")
+        .Output("output")
+        .Output("TF_times_jacobian")
+        .Attr("sigma:double=0.10")
+        .Attr("sigma_range:double=5")
+        .Attr("min_E:double=0");
+
+REGISTER_MODULE(GaussianTransferFunctionOnEnergyEvaluator)
+        .Input("gen_particle")
+        .Input("reco_particle")
+        .Output("TF")
+        .Attr("sigma:double=0.10")
+        .Attr("sigma_range:double=5")
+        .Attr("min_E:double=0");

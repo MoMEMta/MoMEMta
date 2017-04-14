@@ -21,7 +21,7 @@
 #include <momemta/Types.h>
 #include <momemta/Utils.h>
 
-/** \brief Flat transfer function on Theta (mainly for testing purposes). 
+/** \brief Flat transfer function on Theta (mainly for testing purposes).
  *
  * This modules implements a constant (=1) transfer function on a particle's \f$\theta\f$.
  *
@@ -30,7 +30,7 @@
  *
  * The module still takes a 4-momentum as input, since it needs an energy, a \f$\phi\f$-angle and a mass.
  *
- * The range of \f$\theta\f$ values considered is \f$[0,\pi]\f$. 
+ * The range of \f$\theta\f$ values considered is \f$[0,\pi]\f$.
  *
  * ### Integration dimension
  *
@@ -91,4 +91,9 @@ class FlatTransferFunctionOnTheta: public Module {
         std::shared_ptr<LorentzVector> output = produce<LorentzVector>("output");
         std::shared_ptr<double> TF_times_jacobian = produce<double>("TF_times_jacobian");
 };
-REGISTER_MODULE(FlatTransferFunctionOnTheta);
+
+REGISTER_MODULE(FlatTransferFunctionOnTheta)
+        .Input("ps_point")
+        .Input("reco_particle")
+        .Output("output")
+        .Output("TF_times_jacobian");

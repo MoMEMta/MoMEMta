@@ -81,7 +81,7 @@ class SecondaryBlockB: public Module {
             sqrt_s(parameters.globalParameters().get<double>("energy")) {
                 s12 = get<double>(parameters.get<InputTag>("s12"));
                 s123 = get<double>(parameters.get<InputTag>("s123"));
-                
+
                 m_p1 = get<LorentzVector>(parameters.get<InputTag>("p1"));
                 m_p2 = get<LorentzVector>(parameters.get<InputTag>("p2"));
                 m_p3 = get<LorentzVector>(parameters.get<InputTag>("p3"));
@@ -182,4 +182,12 @@ class SecondaryBlockB: public Module {
         // Output
         std::shared_ptr<SolutionCollection> solutions = produce<SolutionCollection>("solutions");
 };
-REGISTER_MODULE(SecondaryBlockB);
+
+REGISTER_MODULE(SecondaryBlockB)
+        .Input("s12")
+        .Input("s123")
+        .Input("p1")
+        .Input("p2")
+        .Input("p3")
+        .Output("solutions")
+        .GlobalAttr("energy");

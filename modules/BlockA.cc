@@ -36,7 +36,7 @@
  * parametrization to the \f$\frac{1}{16\pi^{2} E_1 E_2} d \theta_1 d \theta_2 d \phi_1 d \phi_2 \times J\f$ parametrization,
  * where \f$ \theta_1 \f$ and \f$ \theta_2 \f$ are the polar angles and \f$ \phi_1 \f$ and \f$ \phi_2 \f$ are the azimuthal angles of
  * the particles labeled with 1 and 2.
- * 
+ *
  * The balanced modules \f$|p_1|\f$ and \f$|p_2|\f$ of the visible particles are computed based on the following set of equations:
  *
  * - \f$|p_1| sin \theta_1 cos \phi_1 + |p_2| sin \theta_2 cos \phi_2 = -p_{x}^{branches}\f$
@@ -59,7 +59,7 @@
  *
  *   | Name | Type | %Description |
  *   |------|------|--------------|
- *   | `p1` <br/> `p2` | LorentzVector | 4-vectors of the two particles for which the energy will be fixed using the above described method. Their angles and masses will be kept. | 
+ *   | `p1` <br/> `p2` | LorentzVector | 4-vectors of the two particles for which the energy will be fixed using the above described method. Their angles and masses will be kept. |
  *   | `branches` | vector(LorentzVector) | LorentzVector of all the other particles in the event, taken into account when computing \f$\vec{p}_{T}^{branches}\f$ and check if the solutions are physical. At least one other particle must be present for this block to be valid. |
  *
  * ### Outputs
@@ -71,20 +71,20 @@
  * \note This block has been validated and is safe to use.
  *
  * \sa Looper module to loop over the solutions of this Block
- *   
+ *
  * \ingroup modules
  */
 
 class BlockA: public Module {
     public:
-  
+
         BlockA(PoolPtr pool, const ParameterSet& parameters): Module(pool, parameters.getModuleName()) {
 
             sqrt_s = parameters.globalParameters().get<double>("energy");
-            
+
             p1 = get<LorentzVector>(parameters.get<InputTag>("p1"));
             p2 = get<LorentzVector>(parameters.get<InputTag>("p2"));
-            
+
             auto branches_tags = parameters.get<std::vector<InputTag>>("branches");
             for (auto& t: branches_tags)
                 m_branches.push_back(get<LorentzVector>(t));
@@ -94,7 +94,7 @@ class BlockA: public Module {
                 throw exception;
             }
         };
- 
+
         virtual Status work() override {
 
             solutions->clear();
@@ -181,4 +181,10 @@ class BlockA: public Module {
         // Outputs
         std::shared_ptr<SolutionCollection> solutions = produce<SolutionCollection>("solutions");
 };
-REGISTER_MODULE(BlockA);
+
+REGISTER_MODULE(BlockA)
+    .Input("p1")
+    .Input("p2")
+    .OptionalInputs("branches")
+    .Output("solutions")
+    .GlobalAttr("energy:double");

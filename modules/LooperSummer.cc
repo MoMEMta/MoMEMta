@@ -31,7 +31,7 @@ class LooperSummer: public Module {
     public:
 
         LooperSummer(PoolPtr pool, const ParameterSet& parameters): Module(pool, parameters.getModuleName()) {
-            input = pool->get<T>(parameters.get<InputTag>("input")); 
+            input = pool->get<T>(parameters.get<InputTag>("input"));
         };
 
         virtual void beginPoint() override {
@@ -62,6 +62,14 @@ void LooperSummer<LorentzVector>::beginPoint() {
   result->SetXYZT(0, 0, 0, 0);
 }
 
-REGISTER_MODULE_NAME("IntLooperSummer", LooperSummer<int64_t>);
-REGISTER_MODULE_NAME("DoubleLooperSummer", LooperSummer<double>);
-REGISTER_MODULE_NAME("P4LooperSummer", LooperSummer<LorentzVector>);
+REGISTER_MODULE_NAME("IntLooperSummer", LooperSummer<int64_t>)
+        .Input("input")
+        .Output("sum");
+
+REGISTER_MODULE_NAME("DoubleLooperSummer", LooperSummer<double>)
+        .Input("input")
+        .Output("sum");
+
+REGISTER_MODULE_NAME("P4LooperSummer", LooperSummer<LorentzVector>)
+        .Input("input")
+        .Output("sum");

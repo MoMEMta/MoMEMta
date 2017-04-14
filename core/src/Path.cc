@@ -16,31 +16,19 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <momemta/Path.h>
+#include <ExecutionPath.h>
+#include <Path.h>
 
 #include <momemta/Module.h>
 
-Path::Path(PathElementsPtr elements) {
-    elements_ = elements;
+ExecutionPath::ExecutionPath() {
+    id = boost::uuids::random_generator()();
+}
+
+Path::Path(const std::vector<std::shared_ptr<Module>>& modules) {
+    modules_ = modules;
 }
 
 const std::vector<ModulePtr>& Path::modules() const {
-    if (!frozen) {
-        if (! elements_ || !elements_->resolved)
-            throw std::runtime_error("You can access modules inside a path only if the elements are resolved. Maybe you forgot to call `freeze`?");
-
-        return elements_->modules;
-    }
-
     return modules_;
-}
-
-void Path::freeze() {
-
-    if (frozen)
-        return;
-
-    frozen = true;
-    modules_ = elements_->modules;
-    elements_ = nullptr;
 }

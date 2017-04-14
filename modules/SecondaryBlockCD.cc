@@ -74,7 +74,7 @@ class SecondaryBlockCD: public Module {
                 sqrt_s = parameters.globalParameters().get<double>("energy");
 
                 s12 = get<double>(parameters.get<InputTag>("s12"));
-                
+
                 p1 = get<LorentzVector>(parameters.get<InputTag>("p1"));
                 p2 = get<LorentzVector>(parameters.get<InputTag>("p2"));
             };
@@ -116,11 +116,11 @@ class SecondaryBlockCD: public Module {
                 // Skip unphysical solutions
                 if (E1 <= 0 || E1 <= m1)
                     continue;
-                
+
                 // Avoid introducing spurious solution from the equation s12 = (p1+p2)^2 that has to be squared in the computation
                 if ((sq_m1 + sq_m2 + 2 * E1 * E2 - *s12) * cos_theta12 < 0)
                     continue;
-                
+
                 LorentzVector gen_p1_sol;
                 double norm1 = std::sqrt(SQ(E1) - sq_m1);
                 double gen_pt1_sol = norm1 * std::sin(theta1);
@@ -129,10 +129,10 @@ class SecondaryBlockCD: public Module {
                         gen_pt1_sol * std::sin(phi1),
                         norm1 * std::cos(theta1),
                         E1);
-                
+
                 // Compute jacobian
                 double jacobian = std::abs( std::sin(theta1) * SQ(norm1) / (32 * CB(M_PI) * (norm1 * E2 - E1 * norm2 * cos_theta12)) );
-                
+
                 Solution s { {gen_p1_sol}, jacobian, true };
                 solutions->push_back(s);
             }
@@ -151,4 +151,10 @@ class SecondaryBlockCD: public Module {
         // Output
         std::shared_ptr<SolutionCollection> solutions = produce<SolutionCollection>("solutions");
 };
-REGISTER_MODULE(SecondaryBlockCD);
+
+REGISTER_MODULE(SecondaryBlockCD)
+        .Input("s12")
+        .Input("p1")
+        .Input("p2")
+        .Output("solutions")
+        .GlobalAttr("energy");

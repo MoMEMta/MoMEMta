@@ -23,7 +23,7 @@
 #include <momemta/InputTag.h>
 #include <momemta/ILuaCallback.h>
 #include <momemta/Logging.h>
-#include <momemta/ModuleFactory.h>
+#include <momemta/ModuleRegistry.h>
 #include <momemta/ParameterSet.h>
 #include <momemta/Utils.h>
 
@@ -366,9 +366,11 @@ namespace lua {
     }
 
     void register_modules(lua_State* L, void* ptr) {
-        std::vector<std::string> modules = ModuleFactory::get().getPluginsList();
+        momemta::ModuleList modules;
+        momemta::ModuleRegistry::get().exportList(true, modules);
+
         for (const auto& module: modules) {
-            const char* module_name = module.c_str();
+            const char* module_name = module.name.c_str();
 
             int type = lua_getglobal(L, module_name);
             lua_pop(L, 1);
@@ -380,7 +382,7 @@ namespace lua {
             // Create a new empty table
             lua_newtable(L);
 
-            std::string module_metatable = module + "_mt";
+            std::string module_metatable = module.name + "_mt";
 
             // Create the associated metatable
             luaL_newmetatable(L, module_metatable.c_str());

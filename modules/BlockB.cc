@@ -96,7 +96,7 @@ class BlockB: public Module {
             s12 = get<double>(parameters.get<InputTag>("s12"));
 
             p2 = get<LorentzVector>(parameters.get<InputTag>("p2"));
-            
+
             if (parameters.exists("branches")) {
                 auto branches_tags = parameters.get<std::vector<InputTag>>("branches");
                 for (auto& t: branches_tags)
@@ -200,4 +200,12 @@ class BlockB: public Module {
         // Outputs
         std::shared_ptr<SolutionCollection> solutions = produce<SolutionCollection>("solutions");
 };
-REGISTER_MODULE(BlockB);
+
+REGISTER_MODULE(BlockB)
+        .Input("s12")
+        .Input("p2")
+        .OptionalInputs("branches")
+        .Input("met=met::p4")
+        .Output("solutions")
+        .GlobalAttr("energy:double")
+        .Attr("pT_is_met:bool=false");

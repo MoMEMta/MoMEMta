@@ -18,7 +18,7 @@
 
 #include <lua/Types.h>
 
-#include <momemta/Path.h>
+#include <ExecutionPath.h>
 
 #include <lua/Path.h>
 #include <lua.hpp>
@@ -50,7 +50,7 @@ momemta::any get_custom_type_ptr(lua_State* L, int index) {
 
     momemta::any result;
     if (type == LUA_PATH_TYPE_NAME) {
-        Path path = Path(lua::path_get(L, index));
+        auto path = *lua::path_get(L, index);
         result = path;
     }
 

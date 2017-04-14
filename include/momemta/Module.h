@@ -21,7 +21,7 @@
 
 #include <momemta/impl/Pool.h>
 #include <momemta/InputTag.h>
-#include <momemta/ModuleFactory.h>
+#include <momemta/ModuleRegistry.h>
 
 /*! \defgroup modules Modules
  * \brief MoMEMta's built-in modules
@@ -67,7 +67,7 @@ class Module {
          * \brief Called once at the beginning of the job
          */
         virtual void configure() { };
-        
+
         /**
          * \brief Called once at the beginning of the integration
          */
@@ -86,7 +86,7 @@ class Module {
          * Only relevant if the module is inside a loop
          */
         virtual void beginLoop() {};
-        
+
         /**
          * \brief Main function
          *
@@ -102,7 +102,7 @@ class Module {
          * Only relevant if the module is inside a loop
          */
         virtual void endLoop() {};
-        
+
         /**
          * \brief Called once when a PS point is finished
          *
@@ -114,29 +114,11 @@ class Module {
          * \brief Called once at the end of the integration
          */
         virtual void endIntegration() {};
-        
-        /** 
+
+        /**
          * \brief Called once at the end of the job
          */
         virtual void finish() { };
-
-        /**
-         * \brief Check if module produces an output or not
-         *
-         * If a module produces no output, or if its output is not used as input by any other module, 
-         * it is by default removed from the list of modules that are called on each phase-space point. 
-         * 
-         * This function allows to flag the module so that it doesn't get removed. A typical use case would 
-         * be a module that only produces an object that is retrieved directly from the Pool by the user, 
-         * after the integration.
-         *
-         * \return True if the module produces no output, False otherwise. 
-         * 
-         * \note Default value is False;
-         */
-        virtual bool leafModule() const {
-            return false;
-        }
 
         virtual std::string name() const final {
             return m_name;
@@ -189,7 +171,7 @@ class Module {
         }
 
     private:
-        
+
         const std::string m_name;
 
     protected:

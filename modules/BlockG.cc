@@ -31,7 +31,7 @@
  *
  * This Block addresses the change of variables needed to pass from the standard phase-space
  * parametrisation for \f$p_{1 \dots 4} \times \delta^4\f$ to a parametrisation in terms of the two (squared) masses of the intermediate propagators.
- * 
+ *
  * In practice, this block allows to trade the energies of the four inputs \f$p_{1 \dots 4}\f$ for the two propagator invariants \f$s_{12}\f$ and \f$s_{34}\f$. The angles of the input particles are not affected.
  *
  * **Warning**: this change of variable is only valid if the four inputs \f$p_{1 \dots 4}\f$ are massless!
@@ -78,11 +78,11 @@
 
 class BlockG: public Module {
     public:
-  
+
         BlockG(PoolPtr pool, const ParameterSet& parameters): Module(pool, parameters.getModuleName()) {
 
             sqrt_s = parameters.globalParameters().get<double>("energy");
-            
+
             s12 = get<double>(parameters.get<InputTag>("s12"));
             s34 = get<double>(parameters.get<InputTag>("s34"));
 
@@ -97,7 +97,7 @@ class BlockG: public Module {
                     m_branches.push_back(get<LorentzVector>(t));
             }
         };
- 
+
         virtual Status work() override {
 
             solutions->clear();
@@ -138,11 +138,11 @@ class BlockG: public Module {
 
             const double denom_1 = sin_theta_1 * sin_phi_2_1;
             const double denom_2 = sin_theta_2 * sin_phi_2_1;
-            
+
             const double alpha_1 = sin_theta_3 * sin_phi_3_2 / denom_1;
             const double beta_1 = sin_theta_4 * sin_phi_4_2 / denom_1;
             const double gamma_1 = ( std::cos(phi_2) * pby - std::sin(phi_2) * pbx ) / denom_1;
-            
+
             const double alpha_2 = sin_theta_3 * sin_phi_1_3 / denom_2;
             const double beta_2 = sin_theta_4 * sin_phi_1_4 / denom_2;
             const double gamma_2 = ( std::sin(phi_1) * pbx - std::cos(phi_1) * pby ) / denom_2;
@@ -163,14 +163,14 @@ class BlockG: public Module {
                     );
 
             for (const auto& p3_sol: gen_p3_solutions) {
-                
+
                 const double p4_sol = X / p3_sol;
                 const double p1_sol = alpha_1 * p3_sol + beta_1 * p4_sol + gamma_1;
                 const double p2_sol = alpha_2 * p3_sol + beta_2 * p4_sol + gamma_2;
 
                 if (p1_sol < 0 || p2_sol < 0 || p3_sol < 0 || p4_sol < 0)
                     continue;
-                
+
                 LorentzVector gen_p1(p1_sol * sin_theta_1 * std::cos(phi_1), p1_sol * sin_theta_1 * std::sin(phi_1), p1_sol * std::cos(p1.Theta()), p1_sol);
                 LorentzVector gen_p2(p2_sol * sin_theta_2 * std::cos(phi_2), p2_sol * sin_theta_2 * std::sin(phi_2), p2_sol * std::cos(p2.Theta()), p2_sol);
                 LorentzVector gen_p3(p3_sol * sin_theta_3 * std::cos(phi_3), p3_sol * sin_theta_3 * std::sin(phi_3), p3_sol * std::cos(p3.Theta()), p3_sol);
@@ -183,9 +183,9 @@ class BlockG: public Module {
                 if (q1Pz > sqrt_s / 2 || q2Pz > sqrt_s / 2)
                     continue;
 
-                double jacobian = 1 / std::abs( 2 * 
+                double jacobian = 1 / std::abs( 2 *
                         (1 - cos_theta_12) * (1 - cos_theta_34) * (
-                            alpha_1 * gamma_2 * p3_sol + alpha_2  * p3_sol * (gamma_1 + 2 * alpha_1 * p3_sol) - 
+                            alpha_1 * gamma_2 * p3_sol + alpha_2  * p3_sol * (gamma_1 + 2 * alpha_1 * p3_sol) -
                             p4_sol * (beta_2 * gamma_1 + beta_1 * gamma_2 + 2 * beta_1 * beta_2 * p4_sol)
                         ) * SQ(sqrt_s) * sin_phi_2_1 );
                 jacobian *= ( sin_theta_3 * sin_theta_4 * p1_sol * p2_sol * p3_sol * p4_sol ) / ( 16 * pow(2*M_PI, 8) );
@@ -211,4 +211,14 @@ class BlockG: public Module {
         // Outputs
         std::shared_ptr<SolutionCollection> solutions = produce<SolutionCollection>("solutions");
 };
-REGISTER_MODULE(BlockG);
+
+REGISTER_MODULE(BlockG)
+        .Input("s12")
+        .Input("s34")
+        .Input("p1")
+        .Input("p2")
+        .Input("p3")
+        .Input("p4")
+        .OptionalInputs("branches")
+        .Output("solutions")
+        .GlobalAttr("energy:double");

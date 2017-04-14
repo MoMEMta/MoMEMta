@@ -123,7 +123,7 @@
  *
  *   | Name | Type | %Description |
  *   |------|------|--------------|
- *   | `use_pdf` | double, default true | Evaluate PDFs and use them in the integrand. |
+ *   | `use_pdf` | bool, default true | Evaluate PDFs and use them in the integrand. |
  *   | `pdf` | string | Name of the LHAPDF set to be used (see [full list](https://lhapdf.hepforge.org/pdfsets.html)). |
  *   | `pdf_scale` | double | Factorisation scale used when evaluating the PDFs. |
  *   | `matrix_element` | string | Name of the matrix element to be used. |
@@ -308,4 +308,17 @@ class MatrixElement: public Module {
         // Outputs
         std::shared_ptr<double> m_integrand = produce<double>("output");
 };
-REGISTER_MODULE(MatrixElement);
+
+REGISTER_MODULE(MatrixElement)
+        .Input("initialState")
+        .OptionalInputs("jacobians")
+        .Inputs("particles/inputs")
+        .Output("output")
+        .GlobalAttr("energy:double")
+        .Attr("matrix_element:string")
+        .Attr("matrix_element_parameters:pset")
+        .OptionalAttr("override_parameters:pset")
+        .Attr("particles:pset")
+        .Attr("use_pdf:bool=true")
+        .OptionalAttr("pdf:string")
+        .OptionalAttr("pdf_scale:double");

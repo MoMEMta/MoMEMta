@@ -93,4 +93,10 @@ class NarrowWidthApproximation: public Module {
         std::shared_ptr<double> s = produce<double>("s");
         std::shared_ptr<double> jacobian = produce<double>("jacobian");
 };
-REGISTER_MODULE(NarrowWidthApproximation);
+
+REGISTER_MODULE(NarrowWidthApproximation)
+        .Output("s")
+        .Output("jacobian")
+        .Attr("mass:double")
+        .Attr("width:double")
+        .Attr("propagator_in_me:bool=true");

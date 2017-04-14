@@ -103,4 +103,10 @@ class BreitWignerGenerator: public Module {
 
 
 };
-REGISTER_MODULE(BreitWignerGenerator);
+
+REGISTER_MODULE(BreitWignerGenerator)
+        .Input("ps_point")
+        .Output("s")
+        .Output("jacobian")
+        .Attr("mass:double")
+        .Attr("width:double");

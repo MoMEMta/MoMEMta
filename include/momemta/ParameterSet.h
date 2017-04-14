@@ -135,7 +135,7 @@ class ParameterSet {
                                 std::is_same<T, InputTag>::value>::type set(const std::string& name, const T& value) {
             set_helper(name, value);
         }
-        
+
         /**
          * \brief Change the value of a given parameter. If the parameter does not exist, it's first created.
          *
@@ -227,6 +227,7 @@ class ParameterSet {
         friend class ConfigurationReader;
         friend class Configuration;
         friend class ParameterSetParser;
+        friend class MoMEMta;
 
         /// A small wrapper around a momemta::any value
         struct Element {
@@ -308,6 +309,12 @@ class ParameterSet {
                 throw frozen_error("This ParameterSet is frozen");
             }
 
+            raw_set(name, value);
+        }
+
+        template <typename T>
+        void raw_set(const std::string& name, const T& value) {
+
             auto it = m_set.find(name);
             // If the element does not exist in the set, we create it
             // Otherwise, we simply update the value
@@ -317,6 +324,8 @@ class ParameterSet {
                 setInternal(name, it->second, value);
             }
         }
+
+        void remove(const std::string& name);
 
         bool frozen = false;
 };
