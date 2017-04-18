@@ -18,7 +18,9 @@ cuba = {
     max_eval = 2000000000,
     relative_accuracy = 0.005,
     n_start = 100000000,
-    seed = 5468460,
+    batch_size = 100000000,
+    seed = 0,
+    ncores = 10,
 }
 
 -- 'Flat' transfer functions to integrate over the visible particle's energies and angles
