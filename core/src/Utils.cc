@@ -16,7 +16,26 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <random>
+
 #include <momemta/Utils.h>
+#include <momemta/Math.h>
+
+LorentzVector getRandom4Vector(double maxE, double m/*=0*/) {
+    static std::mt19937_64 generator;
+    std::uniform_real_distribution<double> dist(-maxE, maxE);
+
+    while (true) {
+        const double px = dist(generator);
+        const double py = dist(generator);
+        const double pz = dist(generator);
+        const double E = std::sqrt(SQ(m) + SQ(px) + SQ(py) + SQ(pz));
+        LorentzVector p4(px, py, pz, E);
+        if (E < maxE && p4.M() >= 0) {
+            return p4;
+        }
+    }
+}
 
 #ifdef __GNUG__
 #include <cstdlib>

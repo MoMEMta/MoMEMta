@@ -22,6 +22,8 @@
 #include <string>
 #include <vector>
 
+#include <momemta/Types.h>
+
 /*!
  * \brief Convert a LorentzVector to a vector of real number.
  *
@@ -36,10 +38,10 @@ template <class T> std::vector<typename T::Scalar> toVector(const T& v) {
 /*!
  * Compute the array of permutation needed to go from vector `from` to vector `to`
  *
- * @from The array before sorting
- * @to The array after sorting
+ * \from The array before sorting
+ * \to The array after sorting
  *
- * @return An array of the same size than `from` containing the permutation to apply to go
+ * \return An array of the same size than `from` containing the permutation to apply to go
  * from `from` to `to`
  */
 template <typename T>
@@ -57,10 +59,10 @@ std::vector<std::size_t> get_permutations(const std::vector<T>& from, const std:
 /*!
  * Apply a set of permutations to a vector
  *
- * @vec The vector to sort
- * @p The set of permutation to apply
+ * \vec The vector to sort
+ * \p The set of permutation to apply
  *
- * @return A new vector with all the permutations applied
+ * \return A new vector with all the permutations applied
  */
 template <typename T>
 void apply_permutations(std::vector<T>& vec, std::vector<std::size_t> const& p) {
@@ -69,6 +71,16 @@ void apply_permutations(std::vector<T>& vec, std::vector<std::size_t> const& p) 
 
     vec = sorted_vec;
 }
+
+/*!
+ * Generate a random Lorentz vector
+ *
+ * \m The mass of the vector (default 0)
+ * \maxE The maximum energy of the vector
+ *
+ * \return The random LorentzVector
+ */
+LorentzVector getRandom4Vector(double maxE, double m=0);
 
 std::string demangle(const char* name);
 

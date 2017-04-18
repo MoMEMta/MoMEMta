@@ -1,6 +1,7 @@
 local p1 = declare_input("p1")
 local p2 = declare_input("p2")
 local p3 = declare_input("p3")
+local p4 = declare_input("p4")
 
 parameters = {
     energy = 13000.,
@@ -10,47 +11,32 @@ parameters = {
 
 cuba = {
     verbosity = 3,
-    max_eval = 280000000,
+    max_eval = 200000000,
     relative_accuracy = 0.005,
-    n_start = 10000000,
-    n_increase = 10000000,
-    seed = 5468460,
+    n_start = 100000,
+    n_increase = 100000,
+    batch_size = 100000,
+    ncores = 10,
 }
 
 -- 'Flat' transfer functions to integrate over the visible particle's angles
 
--- First |P|
-FlatTransferFunctionOnP.tf_p_1 = {
-    ps_point = add_dimension(),
-    reco_particle = p1.reco_p4,
-    min = 0.,
-    max = parameters.energy/2,
-}
-FlatTransferFunctionOnP.tf_p_2 = {
-    ps_point = add_dimension(),
-    reco_particle = p2.reco_p4,
-    min = 0.,
-    max = parameters.energy/2,
-}
-FlatTransferFunctionOnP.tf_p_3 = {
-    ps_point = add_dimension(),
-    reco_particle = p3.reco_p4,
-    min = 0.,
-    max = parameters.energy/2,
-}
-
--- Then Phi
+-- First do Phi
 FlatTransferFunctionOnPhi.tf_phi_1 = {
     ps_point = add_dimension(),
-    reco_particle = 'tf_p_1::output',
+    reco_particle = p1.reco_p4,
 }
 FlatTransferFunctionOnPhi.tf_phi_2 = {
     ps_point = add_dimension(),
-    reco_particle = 'tf_p_2::output',
+    reco_particle = p2.reco_p4,
 }
 FlatTransferFunctionOnPhi.tf_phi_3 = {
     ps_point = add_dimension(),
-    reco_particle = 'tf_p_3::output',
+    reco_particle = p3.reco_p4,
+}
+FlatTransferFunctionOnPhi.tf_phi_4 = {
+    ps_point = add_dimension(),
+    reco_particle = p4.reco_p4,
 }
 
 -- Finally, do Theta
@@ -66,47 +52,58 @@ FlatTransferFunctionOnTheta.tf_theta_3 = {
     ps_point = add_dimension(),
     reco_particle = 'tf_phi_3::output',
 }
+FlatTransferFunctionOnTheta.tf_theta_4 = {
+    ps_point = add_dimension(),
+    reco_particle = 'tf_phi_4::output',
+}
 
 inputs = {
   'tf_theta_1::output',
   'tf_theta_2::output',
   'tf_theta_3::output',
+  'tf_theta_4::output',
 }
 
-BreitWignerGenerator.flatter_w = {
+BreitWignerGenerator.flatter_w1 = {
     ps_point = add_dimension(),
     mass = parameter('W_mass'),
     width = parameter('W_width'),
 }
 
-StandardPhaseSpace.phaseSpaceOut = {
-    particles = inputs,
+BreitWignerGenerator.flatter_w2 = {
+    ps_point = add_dimension(),
+    mass = parameter('W_mass'),
+    width = parameter('W_width'),
 }
 
-BlockB.blockb = {
-    s12 = 'flatter_w::s',
-    p2 = inputs[1],
-    branches = { inputs[2], inputs[3] }
+BlockG.blockg = {
+    p1 = inputs[1],
+    p2 = inputs[2],
+    p3 = inputs[3],
+    p4 = inputs[4],
+
+    s12 = 'flatter_w1::s',
+    s34 = 'flatter_w2::s',
 }
 
 -- Loop
 
 Looper.looper = {
-    solutions = "blockb::solutions",
+    solutions = "blockg::solutions",
     path = Path("initial_state", "me_ww", "integrand")
 }
 
-    gen_inputs = { 'looper::particles/1', inputs[1], inputs[2], inputs[3] }
+    gen_inputs = {'looper::particles/1', 'looper::particles/2', 'looper::particles/3', 'looper::particles/4'}
 
     BuildInitialState.initial_state = {
         particles = gen_inputs
     }
 
     jacobians = {
-      'tf_p_1::TF_times_jacobian', 'tf_p_2::TF_times_jacobian', 'tf_p_3::TF_times_jacobian',
-      'tf_phi_1::TF_times_jacobian', 'tf_phi_2::TF_times_jacobian', 'tf_phi_3::TF_times_jacobian',
-      'tf_theta_1::TF_times_jacobian', 'tf_theta_2::TF_times_jacobian', 'tf_theta_3::TF_times_jacobian',
-      'flatter_w::jacobian', 'phaseSpaceOut::phase_space', 'looper::jacobian',
+      'tf_phi_1::TF_times_jacobian', 'tf_phi_2::TF_times_jacobian', 'tf_phi_3::TF_times_jacobian', 'tf_phi_4::TF_times_jacobian',
+      'tf_theta_1::TF_times_jacobian', 'tf_theta_2::TF_times_jacobian', 'tf_theta_3::TF_times_jacobian', 'tf_theta_4::TF_times_jacobian',
+      'flatter_w1::jacobian', 'flatter_w2::jacobian',
+      'looper::jacobian',
     }
 
     MatrixElement.me_ww = {
