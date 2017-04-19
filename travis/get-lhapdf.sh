@@ -23,7 +23,7 @@ export PYTHONPATH="$PWD/lib/python2.7/site-packages:$PYTHONPATH"
 
 pushd share/LHAPDF
 
-wget http://www.hepforge.org/archive/lhapdf/pdfsets/6.1/CT10nlo.tar.gz
+wget --no-check-certificate https://www.hepforge.org/archive/lhapdf/pdfsets/6.1/CT10nlo.tar.gz
 tar xf CT10nlo.tar.gz
 
 popd
