@@ -70,7 +70,7 @@
  *
  *   | Name | Type | %Description |
  *   |------|------|-------------|
- *   | `y` | double | Rapidity of the total system. |
+ *   | `y_tot` | double | Rapidity of the total system. |
  *   | `s_hat` | double | Squared invariant mass of the total system. |
  *   | `s13` <br/> `s24` | double | Squared invariant masses of the two propagators, used to reconstruct the event according to the above method. Typically coming from a BreitWignerGenerator module. |
  *   | `p3` <br/> `p4` | LorentzVector | LorentzVectors of the two particles used to reconstruct the event according to the above method. |
