@@ -135,9 +135,25 @@ class ParameterSet {
                                 std::is_same<T, InputTag>::value>::type set(const std::string& name, const T& value) {
             set_helper(name, value);
         }
+        
+        /**
+         * \brief Change the value of a given parameter. If the parameter does not exist, it's first created.
+         *
+         * Partial specialization for std::vector.
+         *
+         * \param name The name of the parameter to change
+         * \param value The new value of the parameter
+         */
         template<typename T>
-        typename std::enable_if<std::is_same<T, bool>::value ||
-                                std::is_same<T, InputTag>::value>::type set(const std::string& name, const std::vector<T>& value) {
+        void set(const std::string& name, const std::vector<T>& value) {
+            static_assert(
+                    std::is_same<T, int64_t>::value ||
+                    std::is_same<T, double>::value ||
+                    std::is_same<T, bool>::value ||
+                    std::is_same<T, std::string>::value ||
+                    std::is_same<T, InputTag>::value,
+                    "Type not supported"
+            );
             set_helper(name, value);
         }
 
@@ -148,8 +164,6 @@ class ParameterSet {
          *
          * \param name The name of the parameter to change
          * \param value The new value of the parameter
-         *
-         * \warning Vectors are currently not supported
          */
         template<typename T>
         typename std::enable_if<is_string<T>::value>::type set(const std::string& name, const T& value) {
@@ -163,8 +177,6 @@ class ParameterSet {
          *
          * \param name The name of the parameter to change
          * \param value The new value of the parameter
-         *
-         * \warning Vectors are currently not supported
          */
         template<typename T>
         typename std::enable_if<std::is_integral<T>::value && !std::is_same<T, bool>::value>::type set(const std::string& name, const T& value) {
@@ -178,8 +190,6 @@ class ParameterSet {
          *
          * \param name The name of the parameter to change
          * \param value The new value of the parameter
-         *
-         * \warning Vectors are currently not supported
          */
         template<typename T>
         typename std::enable_if<std::is_floating_point<T>::value>::type set(const std::string& name, const T& value) {
