@@ -58,6 +58,14 @@ TEST_CASE("ParameterSet unit tests", "[core]") {
         REQUIRE(p.get<InputTag>("parameter") == v);
     }
 
+    SECTION("Adding vectors") {
+        REQUIRE_FALSE(p.existsAs<std::vector<double>>("parameter"));
+
+        p.set("parameter", std::vector<double>({10, 20, 30}));
+
+        REQUIRE(p.existsAs<std::vector<double>>("parameter"));
+    }
+
     SECTION("Implicit int64_t cast") {
         REQUIRE_FALSE(p.existsAs<int64_t>("parameter"));
 
