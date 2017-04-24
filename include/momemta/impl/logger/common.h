@@ -30,7 +30,7 @@ class formatter;
 class logger;
 
 namespace sinks {
-struct sink;
+class sink;
 }
 
 using formatter_ptr = std::shared_ptr<::logger::formatter>;
