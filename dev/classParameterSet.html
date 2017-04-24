@@ -188,6 +188,10 @@ template&lt;typename T &gt; </td></tr>
 <tr class="memitem:a745e01a2db3ac905f74e6080deed0c5d"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; std::is_same&lt; T, bool &gt;::value||std::is_same&lt; T, <a class="el" href="structInputTag.html">InputTag</a> &gt;::value &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classParameterSet.html#a745e01a2db3ac905f74e6080deed0c5d">set</a> (const std::string &amp;name, const T &amp;value)</td></tr>
 <tr class="memdesc:a745e01a2db3ac905f74e6080deed0c5d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Change the value of a given parameter. If the parameter does not exist, it's first created.  <a href="#a745e01a2db3ac905f74e6080deed0c5d">More...</a><br /></td></tr>
 <tr class="separator:a745e01a2db3ac905f74e6080deed0c5d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad2ccdcf801f9527846c4ba5094c011ca"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:ad2ccdcf801f9527846c4ba5094c011ca"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classParameterSet.html#ad2ccdcf801f9527846c4ba5094c011ca">set</a> (const std::string &amp;name, const std::vector&lt; T &gt; &amp;value)</td></tr>
+<tr class="memdesc:ad2ccdcf801f9527846c4ba5094c011ca"><td class="mdescLeft">&#160;</td><td class="mdescRight">Change the value of a given parameter. If the parameter does not exist, it's first created.  <a href="#ad2ccdcf801f9527846c4ba5094c011ca">More...</a><br /></td></tr>
+<tr class="separator:ad2ccdcf801f9527846c4ba5094c011ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a450042466bc4359265e0f12a4c3bf42f"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
 <tr class="memitem:a450042466bc4359265e0f12a4c3bf42f"><td class="memTemplItemLeft" align="right" valign="top">std::enable_if&lt; <a class="el" href="structis__string.html">is_string</a>&lt; T &gt;::value &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classParameterSet.html#a450042466bc4359265e0f12a4c3bf42f">set</a> (const std::string &amp;name, const T &amp;value)</td></tr>
 <tr class="memdesc:a450042466bc4359265e0f12a4c3bf42f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Change the value of a given parameter. If the parameter does not exist, it's first created.  <a href="#a450042466bc4359265e0f12a4c3bf42f">More...</a><br /></td></tr>
@@ -282,7 +286,7 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>ParameterSetParser</
 
 <p>Definition at line <a class="el" href="core_2src_2ParameterSet_8cc_source.html#l00097">97</a> of file <a class="el" href="core_2src_2ParameterSet_8cc_source.html">ParameterSet.cc</a>.</p>
 
-<p>Referenced by <a class="el" href="ParameterSet_8h_source.html#l00182">set()</a>.</p>
+<p>Referenced by <a class="el" href="ParameterSet_8h_source.html#l00195">set()</a>.</p>
 
 </div>
 </div>
@@ -331,7 +335,7 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>ParameterSetParser</
 
 <p>Definition at line <a class="el" href="core_2src_2ParameterSet_8cc_source.html#l00048">48</a> of file <a class="el" href="core_2src_2ParameterSet_8cc_source.html">ParameterSet.cc</a>.</p>
 
-<p>Referenced by <a class="el" href="ParameterSet_8h_source.html#l00224">ParameterSet::Element::Element()</a>.</p>
+<p>Referenced by <a class="el" href="ParameterSet_8h_source.html#l00237">ParameterSet::Element::Element()</a>.</p>
 
 </div>
 </div>
@@ -433,13 +437,60 @@ template&lt;typename T &gt; </div>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">name</td><td>The name of the parameter to change </td></tr>
-    <tr><td class="paramname">value</td><td>The new value of the parameter</td></tr>
+    <tr><td class="paramname">value</td><td>The new value of the parameter </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section warning"><dt>Warning</dt><dd>Vectors are currently not supported </dd></dl>
 
-<p>Definition at line <a class="el" href="ParameterSet_8h_source.html#l00137">137</a> of file <a class="el" href="ParameterSet_8h_source.html">ParameterSet.h</a>.</p>
+<p>Definition at line <a class="el" href="ParameterSet_8h_source.html#l00135">135</a> of file <a class="el" href="ParameterSet_8h_source.html">ParameterSet.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ad2ccdcf801f9527846c4ba5094c011ca"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ParameterSet::set </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; T &gt; &amp;&#160;</td>
+          <td class="paramname"><em>value</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Change the value of a given parameter. If the parameter does not exist, it's first created. </p>
+<p>Partial specialization for std::vector.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">name</td><td>The name of the parameter to change </td></tr>
+    <tr><td class="paramname">value</td><td>The new value of the parameter </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="ParameterSet_8h_source.html#l00148">148</a> of file <a class="el" href="ParameterSet_8h_source.html">ParameterSet.h</a>.</p>
 
 </div>
 </div>
@@ -482,13 +533,12 @@ template&lt;typename T &gt; </div>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">name</td><td>The name of the parameter to change </td></tr>
-    <tr><td class="paramname">value</td><td>The new value of the parameter</td></tr>
+    <tr><td class="paramname">value</td><td>The new value of the parameter </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section warning"><dt>Warning</dt><dd>Vectors are currently not supported </dd></dl>
 
-<p>Definition at line <a class="el" href="ParameterSet_8h_source.html#l00152">152</a> of file <a class="el" href="ParameterSet_8h_source.html">ParameterSet.h</a>.</p>
+<p>Definition at line <a class="el" href="ParameterSet_8h_source.html#l00169">169</a> of file <a class="el" href="ParameterSet_8h_source.html">ParameterSet.h</a>.</p>
 
 </div>
 </div>
@@ -531,13 +581,12 @@ template&lt;typename T &gt; </div>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">name</td><td>The name of the parameter to change </td></tr>
-    <tr><td class="paramname">value</td><td>The new value of the parameter</td></tr>
+    <tr><td class="paramname">value</td><td>The new value of the parameter </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section warning"><dt>Warning</dt><dd>Vectors are currently not supported </dd></dl>
 
-<p>Definition at line <a class="el" href="ParameterSet_8h_source.html#l00167">167</a> of file <a class="el" href="ParameterSet_8h_source.html">ParameterSet.h</a>.</p>
+<p>Definition at line <a class="el" href="ParameterSet_8h_source.html#l00182">182</a> of file <a class="el" href="ParameterSet_8h_source.html">ParameterSet.h</a>.</p>
 
 </div>
 </div>
@@ -580,13 +629,12 @@ template&lt;typename T &gt; </div>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">name</td><td>The name of the parameter to change </td></tr>
-    <tr><td class="paramname">value</td><td>The new value of the parameter</td></tr>
+    <tr><td class="paramname">value</td><td>The new value of the parameter </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section warning"><dt>Warning</dt><dd>Vectors are currently not supported </dd></dl>
 
-<p>Definition at line <a class="el" href="ParameterSet_8h_source.html#l00182">182</a> of file <a class="el" href="ParameterSet_8h_source.html">ParameterSet.h</a>.</p>
+<p>Definition at line <a class="el" href="ParameterSet_8h_source.html#l00195">195</a> of file <a class="el" href="ParameterSet_8h_source.html">ParameterSet.h</a>.</p>
 
 </div>
 </div>
