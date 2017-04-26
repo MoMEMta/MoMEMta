@@ -65,7 +65,7 @@
  *   | `p2` <br/> `p3` | LorentzVector | The LorentzVector of \f$p2\f$ and the angles and mass of \f$p3\f$ will be used to reconstruct the event according to the above method. |
  *   | `branches` | vector(LorentzVector) | LorentzVectors of all the other particles in the event, taken into account when computing \f$\vec{p}_{T}^{branches}\f$ (if MET is not used), and checking if the solutions are physical. |
  *   | `met` | LorentzVector, default `met::p4` | LorentzVector of the MET |
- *
+ *   | `m1`  | Mass of the invisible particle, default 1 | 
  * ### Outputs
  *
  *   | Name | Type | %Description |
