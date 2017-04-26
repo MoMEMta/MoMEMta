@@ -22,9 +22,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
  - Two new lua functions, `add_reco_permutations` and `add_gen_permutations` are available to easily insert a permutator module permutating between the function arguments. 
  - `LinearCombinator` templated module allowing to compute combinations (ie sums, subtractions, ...) of LorentzVectors, numbers, ...
  - Secondary blocks A, B, CD, E
- - Main blocks A, E and G (not present in MadWeight)
+ - Main blocks A, C, E and G (not present in MadWeight)
  - `getRandom4Vector` function to generate random Lorentz vectors of a specified mass (useful in cases where a particle has to be passed from C++, but integrated over all its components).
- - Main Block C
 
 ### Changed
  - The way to handle multiple solutions coming from blocks has changed. A module is no longer responsible for looping over the solutions itself, this role is delegated to the `Looper` module. As a consequence, most of the module were rewritten to handle this change. See this [pull request](https://github.com/MoMEMta/MoMEMta/pull/69) and [this one](https://github.com/MoMEMta/MoMEMta/pull/91) for a more technical description, and this [documentation entry](http://momemta.github.io/) for more details
