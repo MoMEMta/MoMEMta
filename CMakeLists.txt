@@ -154,6 +154,7 @@ set(MOMEMTA_SOURCES
     "modules/BinnedTransferFunctionOnPt.cc"
     "modules/BlockA.cc"
     "modules/BlockB.cc"
+    "modules/BlockC.cc"
     "modules/BlockD.cc"
     "modules/BlockE.cc"
     "modules/BlockF.cc"
