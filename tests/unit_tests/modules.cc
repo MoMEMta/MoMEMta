@@ -295,7 +295,7 @@ TEST_CASE("Modules", "[modules]") {
             REQUIRE(test_pT.Pt() == Approx(0));
 
             REQUIRE(solution.values.at(0).M() == Approx(m1));
-            REQUIRE(solution.values.at(1).M() == Approx(0.));
+            REQUIRE(solution.values.at(1).M()/solution.values.at(1).E() == Approx(0.));
         }
     }
 
