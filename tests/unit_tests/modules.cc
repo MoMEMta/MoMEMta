@@ -253,10 +253,12 @@ TEST_CASE("Modules", "[modules]") {
 
         double sqrt_s = 13000;
         bool pT_is_met = false;
+        double m1 = 1.;    
 
         parameters->set("energy", sqrt_s);
-        parameters->set("pT_is_met", pT_is_met);
-        
+        parameters->set("pT_is_met", pT_is_met);  
+        parameters->set("m1", m1);
+    
         parameters->set("s12", InputTag("mockS", "s12"));
         parameters->set("s123", InputTag("mockS", "s123"));
 
@@ -268,9 +270,9 @@ TEST_CASE("Modules", "[modules]") {
 
         *s12 = s_12; 
         *s123 = s_123;
-        
+ 
         parameters->set("p2", InputTag("input", "particles", 0));
-        parameters->set("p3", InputTag("input", "particles", 4));  
+        parameters->set("p3", InputTag("input", "particles", 5));  
         parameters->set("branches", std::vector<InputTag>( { InputTag("input", "particles", 2) } ));
 
         Value<SolutionCollection> solutions = pool->get<SolutionCollection>({"BlockC", "solutions"});
@@ -289,8 +291,11 @@ TEST_CASE("Modules", "[modules]") {
             REQUIRE(test_p12.M2()  == Approx(s_12));
             REQUIRE(test_p123.M2() == Approx(s_123));
 
-            LorentzVector test_pT = test_p123 ;
+            LorentzVector test_pT = test_p123 + input_particles->at(2);
             REQUIRE(test_pT.Pt() == Approx(0));
+
+            REQUIRE(solution.values.at(0).M() == Approx(m1));
+            REQUIRE(solution.values.at(1).M() == Approx(0.));
         }
     }
 

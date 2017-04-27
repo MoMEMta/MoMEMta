@@ -167,12 +167,11 @@ class BlockC: public Module {
             const double beta2  = (sinthe3*sinphi3)/denom;
             const double gamma2 = -(2*E2*pTy - 2*X*pTy - *s12*sinthe3*sinphi3 + *s123*sinthe3*sinphi3)/denom;
 
-            const double alpha3 = 2*(-SQ(E2) + E2*X)/(-p2z*denom);
+            const double alpha3 = E2/p2z;
             const double beta3  = (p2x*cosphi3*sinthe3 + p2y*sinthe3*sinphi3)/(-p2z*denom);
-            const double gamma3 = ((-E2 + p2z*costhe3)*(SQ(m1) + p2Sq + 2*p2x*pTx + 2*p2y*pTy - *s12)
-                                   + 2*pTy*(SQ(p2x)*sinthe3*cosphi3 + SQ(p2y)*sinthe3*sinphi3)
-                                   + p2x*sinthe3*cosphi3*(SQ(m1) + p2Sq + 2*p2y*pTy - *s123)
-                                   + p2y*sinthe3*sinphi3*(SQ(m1) + p2Sq + 2*p2x*pTx - *s123))/(-p2z*denom);
+            const double gamma3 = 0.5*(-*s12 + SQ(m1) + p2Sq + 2*p2x*(pTx + sinthe3*cosphi3* 
+                                  (*s123 - *s12)/denom) + 2*p2y*(pTy + sinthe3*sinphi3 
+                                  *(*s123 - *s12)/denom))/p2z;
 
             const double beta4  = -1./denom;
             const double gamma4 = (*s123- *s12)/denom;
