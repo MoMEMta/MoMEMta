@@ -10,6 +10,7 @@ var searchData=
   ['block',['Block',['../classSLHA_1_1Block.html',1,'SLHA']]],
   ['blocka',['BlockA',['../classBlockA.html',1,'']]],
   ['blockb',['BlockB',['../classBlockB.html',1,'']]],
+  ['blockc',['BlockC',['../classBlockC.html',1,'']]],
   ['blockd',['BlockD',['../classBlockD.html',1,'']]],
   ['blocke',['BlockE',['../classBlockE.html',1,'']]],
   ['blockf',['BlockF',['../classBlockF.html',1,'']]],
