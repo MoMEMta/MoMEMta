@@ -29,7 +29,7 @@
  * of the intermediate propagators and the angular variables of \f$p3\f$.
  *
  * The integration is performed over \f$s_{12}, s_{123}\, \theta_3, \phi_3\f$ with \f$p_{1 \dots 3}\f$ as input. Per integration point,
- * the LorentzVector of the invisible particle, \f$p_1\f$, is computed as well as the energy of the (necessariy massless) particle \f$p3\f$, based on the following set
+ * the LorentzVector of the invisible particle, \f$p_1\f$, is computed as well as the energy of the (necessarily massless) particle \f$p_3\f$, based on the following set
  * of equations:
  *
  * - \f$s_{12} = (p_1 + p_2)^2\f$
@@ -38,7 +38,7 @@
  *  - \f$p_{1x} + E_3 \sin\theta_3\cos\phi_3 = - p_{Tx}^{branches}\f$
  *  - \f$p_{1y} + E_3 \sin\theta_3\cos\phi_3 = - p_{Ty}^{branches}\f$
  *
- * Up to four solutions are possible for \f$(E1, \alpha)\f$, where \f$\alpha = 2p_1\dotp_2\f$.
+ * Up to four solutions are possible for \f$(E1, \alpha)\f$, where \f$\alpha = 2 p_1 \dot p_2\f$.
  *
  * ### Integration dimension
  *
@@ -62,7 +62,7 @@
  *   | Name | Type | %Description |
  *   |------|------|--------------|
  *   | `s12` <br/> `s123` <br/>  | double | Squared invariant masses of the propagators. Typically coming from a BreitWignerGenerator or NarrowWidthApproximation module. |
- *   | `p2` <br/> `p3` | LorentzVector | The LorentzVector of \f$p2\f$ and the angles and mass of \f$p3\f$ will be used to reconstruct the event according to the above method. |
+ *   | `p2` <br/> `p3` | LorentzVector | The LorentzVector of \f$p_2\f$ and the angles and mass of \f$p_3\f$ will be used to reconstruct the event according to the above method. |
  *   | `branches` | vector(LorentzVector) | LorentzVectors of all the other particles in the event, taken into account when computing \f$\vec{p}_{T}^{branches}\f$ (if MET is not used), and checking if the solutions are physical. |
  *   | `met` | LorentzVector, default `met::p4` | LorentzVector of the MET |
  * ### Outputs
@@ -71,7 +71,7 @@
  *   |------|------|--------------|
  *   | `solutions` | vector(Solution) | Solutions of the change of variable. Each solution embeds the LorentzVectors of the invisible particle (ie. \f$(p_1)\f$) and the massless particle (ie. \f$(p_3)\f$) and the associated jacobian. These solutions should be fed as input to the Looper module. |
  *
- * \note This block has NOT been validated and is NOT safe to use.
+ * \note This block has been partially validated and is probably safe to use.
  *
  * \sa Looper module to loop over the solutions of this Block
  *
@@ -208,12 +208,12 @@ public:
             const double alp = ALPHA.at(i);
 
             //Make sure E1 is not negative
-            if (E1 < 0.)
+            if (E1 <= 0.)
                 continue;
 
             const double E3 = beta4 * alp + gamma4;
             // Make sure E3 is not negative
-            if (E3 < 0.)
+            if (E3 <= 0.)
                 continue;
 
             const double p1x = beta1 * alp + gamma1;
@@ -222,28 +222,27 @@ public:
 
             LorentzVector p1(p1x, p1y, p1z, E1);
 
-            LorentzVector p3_sol(E3 * sinthe3 * cosphi3, E3 * sinthe3 * sinphi3, E3 * costhe3, E3);
+            const double p3x = E3 * sinthe3 * cosphi3;
+            const double p3y = E3 * sinthe3 * sinphi3;
+            const double p3z = E3 * costhe3;
+
+            LorentzVector p3_sol(p3x, p3y, p3z, E3);
 
             // Check if solutions are physical
             LorentzVector tot = pT + p1 + p3_sol;
             for (size_t i = 0; i < m_branches.size(); i++) {
                 tot += *m_branches[i];
             }
-            double q1Pz = std::abs(tot.Pz() + tot.E()) / 2.;
-            double q2Pz = std::abs(tot.Pz() - tot.E()) / 2.;
+            const double q1Pz = std::abs(tot.Pz() + tot.E()) / 2.;
+            const double q2Pz = std::abs(tot.Pz() - tot.E()) / 2.;
             if (q1Pz > sqrt_s / 2 || q2Pz > sqrt_s / 2)
                 continue;
 
-            const double A = cosphi3 * sinthe3 * (p1x * p2z - p1z * p2x + costhe3 * (E1 * p2x - E2 * p1x));
-            const double B = sinphi3 * sinthe3 * (p1z * p2y + p1y * p2z);
-            const double C = SQ(cosphi3) * SQ(sinthe3) * (E2 * p1z - E1 * p2z);
-            const double D = SQ(sinphi3) * SQ(sinthe3) * (E2 * p1z - E1 * p2z);
-            const double chi = 2 * (p3_sol.Dot(p1) + p3_sol.Dot(*p2)) / E3;
+            const double jacobian = SQ(E3) * sinthe3 / (32 * SQ(M_PI) * SQ(sqrt_s) *
+                                              std::abs((p3_sol.Dot(p1 + *p2) + SQ(p3x) + SQ(p3y)) * (E2 * p1z - E1 * p2z) + p3x * p3z * (E1 * p2x - E2 * p1x)
+                                                  + p3x * E3 * (p1x * p2z - p1z * p2x) + p3y * p3z * (E1 * p2y - E2 * p1y) + E3 * p3y * (p1y * p2z - p1z * p2y)));
 
-            double jacobian = E3 * sinthe3 / (16 * SQ(M_PI) * SQ(sqrt_s) *
-                                              std::abs(chi * (E2 * p1z - E1 * p2z) + 2 * E2 * (A + B + C + D)));
-
-            Solution s{{p1, p3_sol}, jacobian, true};
+            Solution s {{p1, p3_sol}, jacobian, true};
             solutions->push_back(s);
         }
 

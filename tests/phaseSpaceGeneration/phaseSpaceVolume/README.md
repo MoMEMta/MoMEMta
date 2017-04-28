@@ -44,6 +44,11 @@ NUMA node1 CPU(s):     12-23,36-47
   - Runtime: 760.75user 0.98system 1:53.87elapsed 668%CPU
   - 6.29735e-05 +- 5.8105e-08
 
+## Block C
+
+  - Runtime: 899,86s user 1,43s system 714% cpu 2:06,17 total
+  - 6.29309e-05 +- 9.58658e-08
+
 ## Block B + Secondary block B
 
   - Runtime: 6825,44s user 15,48s system 711% cpu 16:01,97 total
