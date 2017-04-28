@@ -122,7 +122,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>\(\require{cancel}\) Final (main) Block C, describing \(s_{123} (\to p_3 + s_{12} (\to \cancel{p_1} p_2))\) </p>
 <p>This Block addresses the change of variables needed to pass from the standard phase-space parametrisation for \(p_{1 \dots 3} \times \delta^4\) to a parametrisation in terms of the two (squared) masses of the intermediate propagators and the angular variables of \(p3\).</p>
-<p>The integration is performed over \(s_{12}, s_{123}\, \theta_3, \phi_3\) with \(p_{1 \dots 3}\) as input. Per integration point, the LorentzVector of the invisible particle, \(p_1\), is computed as well as the energy of the (necessariy massless) particle \(p3\), based on the following set of equations:</p>
+<p>The integration is performed over \(s_{12}, s_{123}\, \theta_3, \phi_3\) with \(p_{1 \dots 3}\) as input. Per integration point, the LorentzVector of the invisible particle, \(p_1\), is computed as well as the energy of the (necessarily massless) particle \(p_3\), based on the following set of equations:</p>
 <ul>
 <li>\(s_{12} = (p_1 + p_2)^2\)</li>
 <li>\(s_{123} = (p_1 + p_2 + p_3)^2\)</li>
@@ -132,7 +132,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </ul>
 </li>
 </ul>
-<p>Up to four solutions are possible for \((E1, \alpha)\), where \(\alpha = 2p_1\dotp_2\).</p>
+<p>Up to four solutions are possible for \((E1, \alpha)\), where \(\alpha = 2 p_1 \dot p_2\).</p>
 <h3>Integration dimension</h3>
 <p>This module requires <b>0</b> phase-space point.</p>
 <h3>Global parameters</h3>
@@ -161,7 +161,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
  </td><td>double </td><td>Squared invariant masses of the propagators. Typically coming from a <a class="el" href="classBreitWignerGenerator.html" title="Generate points distributed according to a Breit-Wigner. ">BreitWignerGenerator</a> or <a class="el" href="classNarrowWidthApproximation.html" title="Use the Narrow Width Approximation (NWA) to reduce the dimensionality of the integration. ">NarrowWidthApproximation</a> module. </td></tr>
 <tr>
 <td><code>p2</code> <br />
- <code>p3</code> </td><td>LorentzVector </td><td>The LorentzVector of \(p2\) and the angles and mass of \(p3\) will be used to reconstruct the event according to the above method. </td></tr>
+ <code>p3</code> </td><td>LorentzVector </td><td>The LorentzVector of \(p_2\) and the angles and mass of \(p_3\) will be used to reconstruct the event according to the above method. </td></tr>
 <tr>
 <td><code>branches</code> </td><td>vector(LorentzVector) </td><td>LorentzVectors of all the other particles in the event, taken into account when computing \(\vec{p}_{T}^{branches}\) (if MET is not used), and checking if the solutions are physical. </td></tr>
 <tr>
@@ -174,7 +174,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <tr>
 <td><code>solutions</code> </td><td>vector(Solution) </td><td>Solutions of the change of variable. Each solution embeds the LorentzVectors of the invisible particle (ie. \((p_1)\)) and the massless particle (ie. \((p_3)\)) and the associated jacobian. These solutions should be fed as input to the <a class="el" href="classLooper.html" title="A module looping over a set of solutions. ">Looper</a> module. </td></tr>
 </table>
-<dl class="section note"><dt>Note</dt><dd>This block has NOT been validated and is NOT safe to use.</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>This block has been partially validated and is probably safe to use.</dd></dl>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="classLooper.html" title="A module looping over a set of solutions. ">Looper</a> module to loop over the solutions of this Block </dd></dl>
 
 <p>Definition at line <a class="el" href="BlockC_8cc_source.html#l00081">81</a> of file <a class="el" href="BlockC_8cc_source.html">BlockC.cc</a>.</p>
