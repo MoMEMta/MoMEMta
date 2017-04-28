@@ -29,6 +29,7 @@ int main(int argc, char** argv) {
     manager.registerTest({ SOURCE_PATH "/tests/phaseSpaceGeneration/phaseSpaceVolume/blockA.lua", { "p1", "p2", "p3" }, { 0, 0, 0 }, 6.3e-5 }, 'A');
     manager.registerTest({ SOURCE_PATH "/tests/phaseSpaceGeneration/phaseSpaceVolume/blockA_secondaryBlockCD.lua", { "p1", "p2", "p3", "p4" }, { 0, 0, 0, 0 }, 1.66e-2 }, 'A', 'C');
     manager.registerTest({ SOURCE_PATH "/tests/phaseSpaceGeneration/phaseSpaceVolume/blockB.lua", { "p1", "p2" }, { 0, 0 }, 6.3e-5 }, 'B');
+    manager.registerTest({ SOURCE_PATH "/tests/phaseSpaceGeneration/phaseSpaceVolume/blockC.lua", { "p2", "p3" }, { 0, 0 }, 6.3e-5 }, 'C');
     manager.registerTest({ SOURCE_PATH "/tests/phaseSpaceGeneration/phaseSpaceVolume/blockB_secondaryBlockA.lua", { "p2", "p3", "p4" }, { 0, 0, 0 }, 3.89 }, 'B', 'A');
     manager.registerTest({ SOURCE_PATH "/tests/phaseSpaceGeneration/phaseSpaceVolume/blockB_secondaryBlockB.lua", { "p1", "p2", "p3" }, { 0, 0, 0 }, 1.66e-2 }, 'B', 'B');
     manager.registerTest({ SOURCE_PATH "/tests/phaseSpaceGeneration/phaseSpaceVolume/blockB_secondaryBlockE.lua", { "p1", "p2", "p3" }, { 0, 0, 0 }, 1.66e-2 }, 'B', 'E');
