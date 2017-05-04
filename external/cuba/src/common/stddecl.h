@@ -215,6 +215,7 @@ enum { uninitialized = 0x61627563 };
   who##Alloc(t); \
   if( t->shmid != -1 ) { \
     t->frame = shmat(t->shmid, NULL, 0); \
+    shmctl(t->shmid, IPC_RMID, NULL); \
     if( t->frame == (void *)-1 ) Abort("shmat"); \
   }
 
