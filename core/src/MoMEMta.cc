@@ -244,7 +244,7 @@ std::vector<std::pair<double, double>> MoMEMta::computeWeights(const std::vector
                     batch_size,             // (int) batch size for sampling
                     grid_number,            // (int) grid number, 1-10 => up to 10 grids can be stored, and re-used for other integrands (provided they are not too different)
                     grid_file.c_str(),      // (char*) name of state file => state can be stored and retrieved for further refinement
-                    nullptr,                   // (int*) "spinning cores": -1 || NULL <=> integrator takes care of starting & stopping child processes (other value => keep or retrieve child processes, probably not useful here)
+                    nullptr,                // (void*) "spinning cores": -1 || null <=> integrator takes care of starting & stopping child processes (other value => keep or retrieve child processes, memory NOT FREED!!)
                     &neval,                 // (int*) actual number of evaluations done
                     &nfail,                 // 0=desired accuracy was reached; -1=dimensions out of range; >0=accuracy was not reached
                     mcResult.get(),         // (double*) integration result ([ncomp])
