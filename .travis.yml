@@ -23,7 +23,7 @@ matrix:
       compiler: gcc
       env:
         - COMPILER_EVAL="export CC=gcc-4.9 && export CXX=g++-4.9"
-        - ROOT_VERSION=6.06.02 CMAKE_VERSION=3.6.1 PYTHON=TRUE COVERAGE=ON
+        - ROOT_VERSION=6.06.02 CMAKE_VERSION=3.6.1 PYTHON=TRUE COVERAGE=ON GCOV=gcov-4.9
 
     - addons:
         apt:
@@ -157,5 +157,8 @@ script:
   - make -j2 && ./run_tests.sh
 
 after_success:
-  - if [[ $COVERAGE != 'OFF' ]]; then coveralls -e 'external/' --gcov-options '\-lp' -E '.*CMakeCXXCompilerId\.cpp' -E '.*CMakeCCompilerId\.c' -E '.*feature_tests\.c.*' -E '.*MatrixElements/.*' -E '.*/tests/*.' -r .. &> /dev/null; fi
+  - if [[ $COVERAGE != 'OFF' ]]; then
+      coveralls -e 'external/' --gcov-options '\-lp' -E '.*CMakeCXXCompilerId\.cpp' -E '.*CMakeCCompilerId\.c' -E '.*feature_tests\.c.*' -E '.*MatrixElements/.*' -E '.*/tests/*.' -r .. &> /dev/null;
+      ../travis/get-coverage.sh && bash <(curl -s https://codecov.io/bash) -f lcov.info;
+    fi
   - if [[ $TRAVIS_PULL_REQUEST == 'false' ]]; then ./make_docs.sh; fi

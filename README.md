@@ -2,7 +2,7 @@
 
 The Modular Matrix Element Method implementation.
 
-[![Build Status](https://travis-ci.org/MoMEMta/MoMEMta.svg?branch=master)](https://travis-ci.org/MoMEMta/MoMEMta) [![Coverage Status](https://coveralls.io/repos/github/MoMEMta/MoMEMta/badge.svg?branch=master)](https://coveralls.io/github/MoMEMta/MoMEMta?branch=master)
+[![Build Status](https://travis-ci.org/MoMEMta/MoMEMta.svg?branch=master)](https://travis-ci.org/MoMEMta/MoMEMta) [![Coverage Status](https://coveralls.io/repos/github/MoMEMta/MoMEMta/badge.svg?branch=master)](https://coveralls.io/github/MoMEMta/MoMEMta?branch=master) [![codecov](https://codecov.io/gh/MoMEMta/MoMEMta/branch/master/graph/badge.svg)](https://codecov.io/gh/MoMEMta/MoMEMta)
 
 ## Install
 
