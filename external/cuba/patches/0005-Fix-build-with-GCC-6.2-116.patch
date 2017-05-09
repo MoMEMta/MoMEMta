@@ -1,0 +1,12 @@
+diff --git a/external/cuba/src/common/stddecl.h b/external/cuba/src/common/stddecl.h
+index 9ed086f..c09f69e 100644
+--- a/external/cuba/src/common/stddecl.h
++++ b/external/cuba/src/common/stddecl.h
+@@ -14,6 +14,7 @@
+ 
+ #define _BSD_SOURCE
+ #define _SVID_SOURCE
++#define _DEFAULT_SOURCE
+ 
+ #include <stdio.h>
+ #include <stdlib.h>

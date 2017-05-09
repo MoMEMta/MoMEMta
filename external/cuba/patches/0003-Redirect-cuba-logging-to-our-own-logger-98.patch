@@ -1,0 +1,106 @@
+diff --git a/external/cuba/cuba.h b/external/cuba/cuba.h
+index 5e87ef1..650cf55 100644
+--- a/external/cuba/cuba.h
++++ b/external/cuba/cuba.h
+@@ -20,6 +20,8 @@ typedef int (*integrand_t)(const int *ndim, const cubareal x[],
+ typedef void (*peakfinder_t)(const int *ndim, const cubareal b[],
+   int *n, cubareal x[], void *userdata);
+ 
++typedef void (*logging_callback)(const char*);
++
+ #ifdef __cplusplus
+ extern "C" {
+ #endif
+@@ -119,6 +121,8 @@ void cubaaccel(const int n, const int p);
+ void cubainit(void (*f)(), void *arg);
+ void cubaexit(void (*f)(), void *arg);
+ 
++void cubalogging(logging_callback);
++
+ #ifdef __cplusplus
+ }
+ #endif
+diff --git a/external/cuba/src/common/Data.c b/external/cuba/src/common/Data.c
+index 3d40591..2e5d1fd 100644
+--- a/external/cuba/src/common/Data.c
++++ b/external/cuba/src/common/Data.c
+@@ -9,10 +9,11 @@
+ #include "stddecl.h"
+ 
+ int cubaverb_ = uninitialized;
++logging_callback logging_function = cubalog_;
+ 
+ #ifdef HAVE_FORK
+ corespec cubaworkers_ = {
+-  uninitialized, uninitialized, 
++  uninitialized, uninitialized,
+   uninitialized, uninitialized };
+ #endif
+ 
+diff --git a/external/cuba/src/common/Global.c b/external/cuba/src/common/Global.c
+index 6e5975f..e29b2de 100644
+--- a/external/cuba/src/common/Global.c
++++ b/external/cuba/src/common/Global.c
+@@ -16,7 +16,6 @@ extern int cubaverb_;
+ extern corespec cubaworkers_;
+ #endif
+ 
+-
+ Extern void SUFFIX(cubaverbose)(cint verb)
+ {
+   cubaverb_ = verb;
+@@ -56,3 +55,9 @@ Extern void SUFFIX(cubaexit)(subroutine f, void *arg)
+   cubafun_.exitarg = arg;
+ }
+ 
++/*********************************************************************/
++
++Extern void SUFFIX(cubalogging)(logging_callback fct)
++{
++    logging_function = fct;
++}
+\ No newline at end of file
+diff --git a/external/cuba/src/common/stddecl.h b/external/cuba/src/common/stddecl.h
+index 1153f03..9ed086f 100644
+--- a/external/cuba/src/common/stddecl.h
++++ b/external/cuba/src/common/stddecl.h
+@@ -227,7 +227,7 @@ enum { uninitialized = 0x61627563 };
+ #endif
+ #endif
+ #endif
+-  
++
+ #define FrameAlloc(t, who) \
+   SHM_ONLY(ShmAlloc(t, who) else) \
+   MemAlloc(t->frame, t->nframe*SAMPLESIZE);
+@@ -408,6 +408,9 @@ typedef const real creal;
+ 
+ typedef void (*subroutine)(void *, cint *);
+ 
++typedef void (*logging_callback)(const char*);
++extern logging_callback logging_function;
++
+ typedef struct {
+   subroutine initfun;
+   void *initarg;
+@@ -512,6 +515,11 @@ static inline real Weight(creal sum, creal sqsum, cnumber n) {
+   return (n - 1)/Max((w + sum)*(w - sum), NOTZERO);
+ }
+ 
++static inline void cubalog_(const char* s) {
++  puts(s);
++  fflush(stdout);
++}
++
+ 
+ /* (a < 0) ? -1 : 0 */
+ #define NegQ(a) ((a) >> (sizeof(a)*8 - 1))
+@@ -553,7 +561,7 @@ static inline void Print(MLCONST char *s)
+ 
+ #else
+ 
+-#define Print(s) puts(s); fflush(stdout)
++#define Print(s) (logging_function(s));
+ 
+ #endif
+ 
