@@ -1,0 +1,12 @@
+diff --git a/external/cuba/src/common/stddecl.h b/external/cuba/src/common/stddecl.h
+index c09f69e..7debdd0 100644
+--- a/external/cuba/src/common/stddecl.h
++++ b/external/cuba/src/common/stddecl.h
+@@ -215,6 +215,7 @@ enum { uninitialized = 0x61627563 };
+   who##Alloc(t); \
+   if( t->shmid != -1 ) { \
+     t->frame = shmat(t->shmid, NULL, 0); \
++    shmctl(t->shmid, IPC_RMID, NULL); \
+     if( t->frame == (void *)-1 ) Abort("shmat"); \
+   }
+ 
