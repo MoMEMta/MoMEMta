@@ -19,6 +19,7 @@
 #include <lua/utils.h>
 
 #include <cassert>
+#include <regex>
 
 #include <momemta/InputTag.h>
 #include <momemta/ILuaCallback.h>
@@ -329,7 +330,6 @@ namespace lua {
     }
 
     int module_table_newindex(lua_State* L) {
-
         lua_getmetatable(L, 1);
         lua_getfield(L, -1, "__type");
 
@@ -338,6 +338,14 @@ namespace lua {
 
         // Remove field name from stack
         lua_pop(L, 1);
+
+        // Validate module name
+        // Format is: [a-zA-Z][a-zA-Z0-9_]*
+        static std::regex name_regex("[a-zA-Z][a-zA-Z0-9_]*");
+
+        if (! std::regex_match(module_name, name_regex)) {
+            luaL_error(L, "invalid module name '%s': valid format is [a-zA-Z][a-zA-Z0-9_]*", module_name);
+        }
 
         lua_getfield(L, -1, "__ptr");
         void* cfg_ptr = lua_touserdata(L, -1);
