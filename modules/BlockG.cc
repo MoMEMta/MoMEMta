@@ -102,7 +102,7 @@ class BlockG: public Module {
 
             solutions->clear();
 
-            if (*s12 >= SQ(sqrt_s) || *s34 >= SQ(sqrt_s))
+            if (*s12 + *s34 >= SQ(sqrt_s))
                 return Status::NEXT;
 
             const LorentzVector& p1 = *m_particles[0];

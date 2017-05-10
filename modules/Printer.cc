@@ -26,6 +26,8 @@
 
 /**
  * \brief A module printing the value of an input
+ *
+ * \ingroup modules
  */
 template<typename T>
 class Printer: public Module {

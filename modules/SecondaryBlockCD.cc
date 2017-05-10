@@ -82,26 +82,29 @@ class SecondaryBlockCD: public Module {
         virtual Status work() override {
 
             solutions->clear();
+            
+            const double m1 = p1->M();
+            const double sq_m1 = SQ(m1);
+            const double m2 = p2->M();
+            const double sq_m2 = SQ(m2);
 
             // Don't spend time on unphysical part of phase-space
-            if (*s12 > SQ(sqrt_s) || *s12 < p2->M2() || *s12 < p1->M2())
+            if (*s12 >= SQ(sqrt_s) || sq_m1 + sq_m2 >= *s12)
                return Status::NEXT;
 
             std::vector<double> E1_solutions; // up to two solutions
             const double theta1 = p1->Theta();
             const double phi1 = p1->Phi();
-            const double m1 = p1->M();
 
             const double E2 = p2->E();
             const double norm2 = p2->P();
-            const double m2 = p2->M();
 
             const double cos_theta12 = ROOT::Math::VectorUtil::CosTheta(*p1, *p2);
 
             // Equation to be solved for E1 : s12 = (p1+p2)^2 ==> [ 4*SQ(cos_theta12)*SQ(norm2)-4*SQ(E2) ] * SQ(E1) + [ 4*(s12 - SQ(m1) - SQ(m2))*E2 ] * E1 + 4*SQ(m1)*SQ(cos_theta12)*(SQ(m2)-SQ(E2) = 0)
             const double quadraticTerm = 4 * SQ(E2) - 4 * SQ(norm2) * SQ(cos_theta12);
-            const double linearTerm = 4 * E2 * (SQ(m1) + SQ(m2) - *s12);
-            const double indepTerm = SQ(SQ(m1) + SQ(m2) - *s12) + 4 * SQ(m1) * SQ(norm2) * SQ(cos_theta12);
+            const double linearTerm = 4 * E2 * (sq_m1 + sq_m2 - *s12);
+            const double indepTerm = SQ(sq_m1 + sq_m2 - *s12) + 4 * sq_m1 * SQ(norm2) * SQ(cos_theta12);
 
             bool foundSolution = solveQuadratic(quadraticTerm, linearTerm, indepTerm, E1_solutions);
 
@@ -115,11 +118,11 @@ class SecondaryBlockCD: public Module {
                     continue;
                 
                 // Avoid introducing spurious solution from the equation s12 = (p1+p2)^2 that has to be squared in the computation
-                if ((SQ(m1) + SQ(m2) + 2 * E1 * E2 - *s12) * cos_theta12 < 0)
+                if ((sq_m1 + sq_m2 + 2 * E1 * E2 - *s12) * cos_theta12 < 0)
                     continue;
                 
                 LorentzVector gen_p1_sol;
-                double norm1 = std::sqrt(SQ(E1) - SQ(m1));
+                double norm1 = std::sqrt(SQ(E1) - sq_m1);
                 double gen_pt1_sol = norm1 * std::sin(theta1);
                 gen_p1_sol.SetPxPyPzE(
                         gen_pt1_sol * std::cos(phi1),

@@ -122,8 +122,13 @@ class BlockF: public Module {
 
             solutions->clear();
 
+            const double sq_m1 = SQ(m1);
+            const double sq_m2 = SQ(m2);
+            const double sq_m3 = p3->M2();
+            const double sq_m4 = p4->M2();
+            
             // Don't spend time on unphysical part of phase-space
-            if (*s13 > SQ(sqrt_s) || *s24 > SQ(sqrt_s))
+            if (sq_m1 + sq_m3 >= *s13 || sq_m2 + sq_m4 >= *s24 || *s13 + *s24 > SQ(sqrt_s))
                 return Status::NEXT;
             
             const double p3x = p3->Px();
@@ -136,11 +141,6 @@ class BlockF: public Module {
             const double p4z = p4->pz();
             const double E4 = p4->E();
  
-            const double sq_m1 = SQ(m1);
-            const double sq_m2 = SQ(m2);
-            const double sq_m3 = p3->M2();
-            const double sq_m4 = p4->M2();
-            
             // Total visible momentum
             LorentzVector pb = *p3 + *p4;
             for (size_t i = 0; i < m_branches.size(); i++) {

@@ -70,7 +70,7 @@
  *   |------|------|--------------|
  *   | `solutions` | vector(Solution) | Solutions of the above equations. Each solution embed the parton level LorentzVector of \f$p_1\f$ and the jacobian associated with the change of variable. |
  *
- * \note This block has been partially validated and is probably safe to use.
+ * \note This block has not yet been validated. Use at your own risk.
  *
  * \sa Looper module to loop over the solutions of this Block
  *
@@ -95,34 +95,33 @@ class SecondaryBlockA: public Module {
         virtual Status work() override {
 
             solutions->clear();
+            
+            const double sq_m1 = SQ(m1);
+            const double m2 = m_p2->M();
+            const double sq_m2 = SQ(m2);
+            const double m3 = m_p3->M();
+            const double sq_m3 = SQ(m3);
+            const double m4 = m_p4->M();
+            const double sq_m4 = SQ(m4);
 
             // Don't spend time on unphysical part of phase-space
-            if (*s12 > SQ(sqrt_s) || *s123 > SQ(sqrt_s) || *s1234 > SQ(sqrt_s) || *s12 > *s123 || *s123 > *s1234 )
+            if (*s1234 >= SQ(sqrt_s) || *s12 + sq_m3 >= *s123 || *s123 + sq_m4 >= *s1234 || sq_m1 + sq_m2 >= *s12)
                return Status::NEXT;
 
-            const double sq_m1 = SQ(m1);
-
-            // Store things we might need more than once
             const double p2x = m_p2->Px();
             const double p2y = m_p2->Py();
             const double p2z = m_p2->Pz();
             const double E2 = m_p2->E();
-            const double m2 = m_p2->M();
-            const double sq_m2 = SQ(m2);
 
             const double p3x = m_p3->Px();
             const double p3y = m_p3->Py();
             const double p3z = m_p3->Pz();
             const double E3 = m_p3->E();
-            const double m3 = m_p3->M();
-            const double sq_m3 = SQ(m3);
 
             const double p4x = m_p4->Px();
             const double p4y = m_p4->Py();
             const double p4z = m_p4->Pz();
             const double E4 = m_p4->E();
-            const double m4 = m_p4->M();
-            const double sq_m4 = SQ(m4);
 
             const double p2p3 = m_p2->Dot(*m_p3);
             const double p2p4 = m_p2->Dot(*m_p4);
@@ -155,16 +154,16 @@ class SecondaryBlockA: public Module {
             const double b3 = E2 + E3 + E4;
             const double c3 = 0.5 * (sq_m1 + sq_m2 + sq_m3 + sq_m4 - *s1234) + p2p3 + p3p4 + p2p4;
 
-            const double det = (a13 * a22 - a12 * a23) * a31 - (a13 * a21 - a11 * a23) * a32 + (a12 * a21 - a11 * a22) * a33;
+            const double inv_det = 1 / ((a13 * a22 - a12 * a23) * a31 - (a13 * a21 - a11 * a23) * a32 + (a12 * a21 - a11 * a22) * a33);
 
-            const double Ax = ((a13 * a22 - a12 * a23) * b3 - (a13 * a32 - a12 * a33) * b2 + (a23 * a32 - a22 * a33) * b1) / det;
-            const double Bx = ((a13 * a22 - a12 * a23) * c3 - (a13 * a32 - a12 * a33) * c2 + (a23 * a32 - a22 * a33) * c1) / det;
+            const double Ax = ((a13 * a22 - a12 * a23) * b3 - (a13 * a32 - a12 * a33) * b2 + (a23 * a32 - a22 * a33) * b1) * inv_det;
+            const double Bx = ((a13 * a22 - a12 * a23) * c3 - (a13 * a32 - a12 * a33) * c2 + (a23 * a32 - a22 * a33) * c1) * inv_det;
 
-            const double Ay = - ((a13 * a21 - a11 * a23) * b3 - (a13 * a31 - a11 * a33) * b2 + (a23 * a31 - a21 * a33) * b1) / det;
-            const double By = - ((a13 * a21 - a11 * a23) * c3 - (a13 * a31 - a11 * a33) * c2 + (a23 * a31 - a21 * a33) * c1) / det;
+            const double Ay = - ((a13 * a21 - a11 * a23) * b3 - (a13 * a31 - a11 * a33) * b2 + (a23 * a31 - a21 * a33) * b1) * inv_det;
+            const double By = - ((a13 * a21 - a11 * a23) * c3 - (a13 * a31 - a11 * a33) * c2 + (a23 * a31 - a21 * a33) * c1) * inv_det;
 
-            const double Az = ((a12 * a21 - a11 * a22) * b3 - (a12 * a31 - a11 * a32) * b2  + (a22 * a31 - a21 * a32) * b1) / det;
-            const double Bz = ((a12 * a21 - a11 * a22) * c3 - (a12 * a31 - a11 * a32) * c2  + (a22 * a31 - a21 * a32) * c1) / det;
+            const double Az = ((a12 * a21 - a11 * a22) * b3 - (a12 * a31 - a11 * a32) * b2  + (a22 * a31 - a21 * a32) * b1) * inv_det;
+            const double Bz = ((a12 * a21 - a11 * a22) * c3 - (a12 * a31 - a11 * a32) * c2  + (a22 * a31 - a21 * a32) * c1) * inv_det;
 
             // Now the mass-shell condition for p1 gives a quadratic equation in E1 with up to two solutions
             std::vector<double> E1_sol;
@@ -188,10 +187,9 @@ class SecondaryBlockA: public Module {
                 // Compute jacobian
                 const double jacobian = 1. / (128 * std::pow(M_PI, 3) * std::abs( 
                                             E4 * (p1z*p2y*p3x - p1y*p2z*p3x - p1z*p2x*p3y + p1x*p2z*p3y + p1y*p2x*p3z - p1x*p2y*p3z)
-                                            + E2*p1z*p3y*p4x - E1*p2z*p3y*p4x - E2*p1y*p3z*p4x + E1*p2y*p3z*p4x - E2*p1z*p3x*p4y + E1*p2z*p3x*p4y + 
-                                            E2*p1x*p3z*p4y - E1*p2x*p3z*p4y + 
-                                            (E2*p1y*p3x - E1*p2y*p3x - E2*p1x*p3y + E1*p2x*p3y) * p4z + 
-                                            E3 * (-(p1z*p2y*p4x) + p1y*p2z*p4x + p1z*p2x*p4y - p1x*p2z*p4y - p1y*p2x*p4z + p1x*p2y*p4z)
+                                            + E2 * (p1z*p3y*p4x - p1y*p3z*p4x - p1z*p3x*p4y + p1x*p3z*p4y + p1y*p3x*p4z - p1x*p3y*p4z)
+                                            + E1 * (- p2z*p3y*p4x + p2y*p3z*p4x + p2z*p3x*p4y - p2x*p3z*p4y - p2y*p3x*p4z + p2x*p3y*p4z)
+                                            + E3 * (- p1z*p2y*p4x + p1y*p2z*p4x + p1z*p2x*p4y - p1x*p2z*p4y - p1y*p2x*p4z + p1x*p2y*p4z)
                                     ));
 
                 Solution solution { { p1 }, jacobian, true };

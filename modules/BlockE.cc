@@ -119,11 +119,17 @@ class BlockE: public Module {
             solutions->clear();
 
             const double s = SQ(sqrt_s);
-            const double sqrt_shat = std::sqrt(*s_hat);
 
+            const double sq_m1 = SQ(m1);
+            const double sq_m2 = SQ(m2);
+            const double sq_m3 = p3->M2();
+            const double sq_m4 = p4->M2();
+            
             // Don't spend time on unphysical part of phase-space
-            if (std::sqrt(*s13) +  std::sqrt(*s24) >= sqrt_shat || *s_hat >= s)
+            if (sq_m1 + sq_m3 >= *s13 || sq_m2 + sq_m4 >= *s24 || *s13 + *s24 >= *s_hat || *s_hat >= s)
                 return Status::NEXT;
+            
+            const double sqrt_shat = std::sqrt(*s_hat);
             
             const double p3x = p3->Px();
             const double p3y = p3->Py();
@@ -135,11 +141,6 @@ class BlockE: public Module {
             const double p4z = p4->pz();
             const double E4 = p4->E();
  
-            const double sq_m1 = SQ(m1);
-            const double sq_m2 = SQ(m2);
-            const double sq_m3 = p3->M2();
-            const double sq_m4 = p4->M2();
-            
             // Total visible momentum
             LorentzVector pb = *p3 + *p4;
             for (size_t i = 0; i < m_branches.size(); i++) {

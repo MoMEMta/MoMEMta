@@ -125,8 +125,11 @@ class BlockB: public Module {
             //(3)  p1y = - pTy  #Coming from pT neutrino = -pT visible = - (p2 + ISR)
             //(4)  E1^2 - p1x^2 - p1y^2 - p1z^2 = M1^2
 
+            const double p11 = SQ(m1);
+            const double p22 = p2->M2();
+
             // Don't spend time on unphysical part of phase-space
-            if (*s12 > SQ(sqrt_s))
+            if (*s12 >= SQ(sqrt_s) || *s12 <= p11 + p22)
                 return Status::NEXT;
 
             LorentzVector pT;
@@ -138,9 +141,6 @@ class BlockB: public Module {
                     pT += *m_branches[i];
                 }
             }
-
-            const double p11 = SQ(m1);
-            const double p22 = p2->M2();
 
             // From eq.(1) p1z = B*E1 + A
             // From eq.(4) + eq.(1) (1 - B^2) E1^2 - 2 A B E1 + C - A^2 - M1^2 = 0
@@ -161,10 +161,10 @@ class BlockB: public Module {
             if (E1.size() == 0)
                 return Status::NEXT;
 
-            for(unsigned int i=0; i<E1.size(); i++){
+            for(unsigned int i = 0; i < E1.size(); i++){
                 const double e1 = E1.at(i);
 
-                if (e1 < 0.) continue;
+                if (e1 <= 0) continue;
 
                 LorentzVector p1(-pT.Px(), -pT.Py(), A + B*e1, e1);
 

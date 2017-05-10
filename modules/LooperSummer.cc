@@ -23,6 +23,8 @@
 
 /**
  * \brief A module performing a sum over a set of values
+ *
+ * \ingroup modules
  */
 template<typename T>
 class LooperSummer: public Module {
