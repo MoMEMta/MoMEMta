@@ -25,6 +25,8 @@
 
 /**
  * \brief A module counting the number of entries in a vector
+ *
+ * \ingroup modules
  */
 template<typename T>
 class Counter: public Module {
@@ -65,6 +67,8 @@ REGISTER_MODULE_NAME("LorentzVectorCounter", Counter<LorentzVector>);
 
 /**
  * \brief A simple module counting the number of time it has been called
+ *
+ * \ingroup modules
  */
 class SimpleCounter: public Module {
     public:

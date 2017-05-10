@@ -59,9 +59,9 @@ class GaussianTransferFunctionOnPtBase: public Module {
  * and evaluates the transfer function on the "reconstructed" and "generated" Pt.
  *
  * The transfer function (TF) is a Gaussian distribution that describes the difference between 
- * the reconstructed and the generated Pt (\f$P_T_{rec}-P_T_{gen}\f$). The width of the distribution, parametrised as a fraction of \f$P_T_{gen}\f$, is set as parameter. 
+ * the reconstructed and the generated Pt (\f$P_{T_{rec}}-P_{T_{gen}}\f$). The width of the distribution, parametrised as a fraction of \f$P_{T_{gen}}\f$, is set as parameter. 
  *
- * The range of the integration is determined using the width of the Gaussian at \f$P_T_{rec}\f$, integrating over a user-defined 'number of sigmas' `n`: \f$P_T_{gen} \in \pm n \cdot \sigma \cdot P_T_{rec}\f$.
+ * The range of the integration is determined using the width of the Gaussian at \f$P_{T_{rec}}\f$, integrating over a user-defined 'number of sigmas' `n`: \f$P_{T_{gen}} \in \pm n \cdot \sigma \cdot P_{T_{rec}}\f$.
  *
  * ### Integration dimension
  *
@@ -71,7 +71,7 @@ class GaussianTransferFunctionOnPtBase: public Module {
  *
  *   | Name | Type | %Description |
  *   |------|------|--------------|
- *   | `sigma` | double | Fraction of the Pt yielding the width of the Gaussian distribution (with `sigma` at `0.1`, \f$\sigma_{gauss} = 0.1 \cdot P_T_{gen}\f$). |
+ *   | `sigma` | double | Fraction of the Pt yielding the width of the Gaussian distribution (with `sigma` at `0.1`, \f$\sigma_{gauss} = 0.1 \cdot P_{T_{gen}}\f$). |
  *   | `sigma_range` | double | Range of integration expressed in number of sigma. |
  *   | `min_Pt` | double | Optional: cut on Pt to avoid divergences |
  * 
@@ -142,7 +142,7 @@ class GaussianTransferFunctionOnPt: public GaussianTransferFunctionOnPtBase {
  * This module takes as inputs two LorentzVectors: a 'gen-level' particle (which may be computed using for instance a Block or a 'real' transfer function) and a 'reco-level' particle (experimentally reconstructed). 
  * Assuming the LorentzVectors differ only by their Pt, this module returns the value of a transfer function (TF) evaluated on their respective Pt.
  *
- * The TF is a Gaussian distribution that describes the difference between the reconstructed and the generated Pt (\f$P_T_{rec}-P_T_{gen}\f$). The width of the distribution, parametrised as a fraction of \f$P_T_{gen}\f$, is set as parameter. 
+ * The TF is a Gaussian distribution that describes the difference between the reconstructed and the generated Pt (\f$P_{T_{rec}}-P_{T_{gen}}\f$). The width of the distribution, parametrised as a fraction of \f$P_{T_{gen}}\f$, is set as parameter. 
  *
  * ### Integration dimension
  *
@@ -152,7 +152,7 @@ class GaussianTransferFunctionOnPt: public GaussianTransferFunctionOnPtBase {
  *
  *   | Name | Type | %Description |
  *   |------|------|--------------|
- *   | `sigma` | double | Fraction of the Pt yielding the width of the Gaussian distribution (with `sigma` at `0.1`, \f$\sigma_{gauss} = 0.1 \cdot P_T_{gen}\f$). |
+ *   | `sigma` | double | Fraction of the Pt yielding the width of the Gaussian distribution (with `sigma` at `0.1`, \f$\sigma_{gauss} = 0.1 \cdot P_{T_{gen}}\f$). |
  * 
  * ### Inputs
  *

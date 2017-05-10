@@ -91,8 +91,15 @@ class SecondaryBlockB: public Module {
 
             solutions->clear();
 
+            const double m1 = m_p1->M();
+            const double m2 = m_p2->M();
+            const double m3 = m_p3->M();
+            const double m1_squared = SQ(m1);
+            const double m2_squared = SQ(m2);
+            const double m3_squared = SQ(m3);
+
             // Don't spend time on unphysical part of phase-space
-            if (*s12 > SQ(sqrt_s) || *s123 > SQ(sqrt_s) || *s12 > *s123)
+            if (*s123 > SQ(sqrt_s) || *s12 > *s123 || m1_squared + m2_squared >= *s12 || *s12 + m3_squared >= *s123)
                return Status::NEXT;
 
             // Solving the equations
@@ -100,12 +107,6 @@ class SecondaryBlockB: public Module {
             //      s_{123} = (p_1 + p_2 + p_3)^2
             // using \vec{p_i}.\vec{p_j} = p_i^T * p_j^T * cos(\Phi_{ij}) + p_i^z * p_j^z
             // allows to express p1t as p1t_linear * E1 + p1t_indep and p1z as p1z_linear * E1 + p1z_indep
-            const double m1 = m_p1->M();
-            const double m2 = m_p2->M();
-            const double m3 = m_p3->M();
-            const double m1_squared = SQ(m1);
-            const double m2_squared = SQ(m2);
-            const double m3_squared = SQ(m3);
             const double E2 = m_p2->E();
             const double E3 = m_p3->E();
             const double p2z = m_p2->Pz();

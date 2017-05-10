@@ -126,14 +126,21 @@ class BlockD: public Module {
 
             solutions->clear();
 
-            // Don't spend time on unphysical corner of the phase-space
-            if (*s13 >= *s134 || *s25 >= *s256 || *s13 >= SQ(sqrt_s) || *s134 >= SQ(sqrt_s) || *s25 >= SQ(sqrt_s) || *s256 >= SQ(sqrt_s))
-                return Status::NEXT;
-
             const LorentzVector& p3 = *m_particles[0];
             const LorentzVector& p4 = *m_particles[1];
             const LorentzVector& p5 = *m_particles[2];
             const LorentzVector& p6 = *m_particles[3];
+
+            const double p11 = SQ(m1);
+            const double p22 = SQ(m2);
+            const double p33 = p3.M2();
+            const double p44 = p4.M2();
+            const double p55 = p5.M2();
+            const double p66 = p6.M2();
+
+            // Don't spend time on unphysical corner of the phase-space
+            if (*s13 + p44 >= *s134 || *s25 + p66 >= *s256 || *s134 + *s256 >= SQ(sqrt_s) || *s13 <= p11 + p33 || *s25 <= p22 + p55)
+                return Status::NEXT;
 
             // pT will be used to fix the transverse momentum of the reconstructed neutrinos
             // We can either enforce momentum conservation by disregarding the MET, ie:
@@ -155,12 +162,6 @@ class BlockD: public Module {
 
             const double p34 = p3.Dot(p4);
             const double p56 = p5.Dot(p6);
-            const double p11 = SQ(m1);
-            const double p22 = SQ(m2);
-            const double p33 = p3.M2();
-            const double p44 = p4.M2();
-            const double p55 = p5.M2();
-            const double p66 = p6.M2();
 
             // A1 p1x + B1 p1y + C1 = 0, with C1(E1,E2)
             // A2 p1y + B2 p2y + C2 = 0, with C2(E1,E2)
@@ -235,11 +236,11 @@ class BlockD: public Module {
             if (E1.size() == 0)
                 return Status::NEXT;
 
-            for(unsigned int i=0; i<E1.size(); i++){
+            for(unsigned int i = 0; i < E1.size(); i++){
                 const double e1 = E1.at(i);
                 const double e2 = E2.at(i);
 
-                if (e1 < 0. || e2 < 0.)
+                if (e1 <= 0 || e2 <= 0)
                     continue;
 
                 LorentzVector p1(
