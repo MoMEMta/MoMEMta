@@ -1,4 +1,5 @@
 set(SOURCES
+    "graph.cc"
     "lua.cc"
     "modules.cc"
     "ParameterSet.cc"
