@@ -29,7 +29,7 @@ namespace momemta {
  */
 struct Particle {
 public:
-    const std::string name;
+    std::string name;
     LorentzVector p4;
     int64_t type;
 
@@ -39,6 +39,8 @@ public:
 
     Particle(const Particle&) = default;
     Particle(Particle&&) = default;
+
+    friend void swap(Particle& a, Particle& b);
 };
 
 }
