@@ -106,9 +106,14 @@ MoMEMta::MoMEMta(const Configuration& configuration) {
         throw integrands_output_error("No integrand found");
     }
 
+    std::string export_graph_as;
+    if (configuration.getGlobalParameters().existsAs<std::string>("export_graph_as"))
+        export_graph_as = configuration.getGlobalParameters().get<std::string>("export_graph_as");
+
     // All modules are correctly declared. Create a sorted list of modules to execute.
     graph::SortedModuleList modules_to_execute;
-    graph::sort_modules(available_modules, module_instances_def, configuration.getPaths(), modules_to_execute);
+    graph::sort_modules(available_modules, module_instances_def, configuration.getPaths(), modules_to_execute,
+                        export_graph_as);
 
     // Initialize shared memory pool for modules
     m_pool.reset(new Pool());
