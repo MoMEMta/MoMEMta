@@ -324,6 +324,7 @@ endif()
 
 # First, headers
 install(DIRECTORY include/ DESTINATION include)
+
 # And MoMEMta library
 install(TARGETS momemta EXPORT momemta_targets
     RUNTIME DESTINATION bin
@@ -361,6 +362,13 @@ install(EXPORT momemta_targets
         DESTINATION
             ${ConfigPackageLocation}
         )
+
+export(TARGETS momemta
+       FILE
+           MoMEMtaTargets.cmake
+       NAMESPACE
+           momemta::
+       )
 
 install(FILES
             "${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules/FindROOT.cmake"
