@@ -18,9 +18,6 @@
 
 #pragma once
 
-#include <string>
-#include <vector>
-
 struct lua_State;
 struct ExecutionPath;
 

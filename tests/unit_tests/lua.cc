@@ -38,8 +38,8 @@
 #include <ExecutionPath.h>
 #include <lua/LazyTable.h>
 #include <lua/ParameterSetParser.h>
-#include <lua/Path.h>
-#include <lua/Types.h>
+#include <lua/bindings/Path.h>
+#include <lua/bindings/Types.h>
 #include <lua/utils.h>
 
 void execute_string(std::shared_ptr<lua_State> L, const std::string& code) {

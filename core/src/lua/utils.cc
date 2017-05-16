@@ -30,8 +30,8 @@
 
 #include <LibraryManager.h>
 #include <lua/ParameterSetParser.h>
-#include <lua/Path.h>
-#include <lua/Types.h>
+#include <lua/bindings/Path.h>
+#include <lua/bindings/Types.h>
 
 // Defined by `embedLua.py` at build-time
 extern void execute_embed_lua_code(lua_State*);
@@ -547,6 +547,7 @@ namespace lua {
         lua_pushcclosure(L, declare_input, 1);
         lua_setglobal(L, "momemta_declare_input");
 
+        // C++ -> lua bindings of some classes
         path_register(L, ptr);
     }
 
