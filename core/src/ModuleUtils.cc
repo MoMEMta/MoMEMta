@@ -23,15 +23,19 @@
 #include <ModuleDefUtils.h>
 
 namespace {
-const ParameterSet *findPSet(const momemta::ArgDef& input_def, const ParameterSet& parameters) {
-    const ParameterSet *pset = &parameters;
+
+template<typename T>
+T* findPSet(const momemta::ArgDef& input_def, T& parameters) {
+    typedef typename std::remove_cv<T>::type type;
+
+    T* pset = &parameters;
     std::vector<momemta::AttrDef> nested_attributes = input_def.nested_attributes;
     while (!nested_attributes.empty()) {
         momemta::AttrDef nested_attribute = nested_attributes.front();
         nested_attributes.erase(nested_attributes.begin());
 
-        if (pset->existsAs<ParameterSet>(nested_attribute.name))
-            pset = &pset->get<ParameterSet>(nested_attribute.name);
+        if (pset->template existsAs<type>(nested_attribute.name))
+            pset = &pset->template get<type>(nested_attribute.name);
         else {
             pset = nullptr;
             break;
@@ -135,5 +139,20 @@ momemta::gtl::optional<std::vector<InputTag>> momemta::getInputTagsForInput(cons
         return pset->get<std::vector<InputTag>>(input.name);
     } else {
         return gtl::make_optional<std::vector<InputTag>>({pset->get<InputTag>(input.name)});
+    }
+}
+
+void momemta::setInputTagsForInput(const ArgDef& input,
+                                   ParameterSet& parameters,
+                                   const std::vector<InputTag>& inputTags) {
+
+    ParameterSet* pset = findPSet(input, parameters);
+    assert(pset);
+
+    if (input.many) {
+        pset->raw_set(input.name, inputTags);
+    } else {
+        assert(inputTags.size() == 1);
+        pset->raw_set(input.name, inputTags.front());
     }
 }

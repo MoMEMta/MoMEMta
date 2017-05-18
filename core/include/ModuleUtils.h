@@ -43,4 +43,13 @@ bool validateModuleParameters(const ModuleList::value_type& module_def, const Pa
  */
 gtl::optional<std::vector<InputTag>> getInputTagsForInput(const ArgDef& input, const ParameterSet& parameters);
 
+/**
+ * Update parameters for a given input
+ *
+ * \param input The input definition
+ * \param parameters Parameters from the module declaration. It'll be updated with the new InputTags
+ * \param inputTags New inputs
+ */
+void setInputTagsForInput(const ArgDef& input, ParameterSet& parameters, const std::vector<InputTag>& inputTags);
+
 }

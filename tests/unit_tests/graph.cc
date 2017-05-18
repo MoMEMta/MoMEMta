@@ -56,13 +56,13 @@ integrand("constant::value")
         REQUIRE(conf.getInputs().size() == 1);
         REQUIRE(conf.getModules().size() == 5); // 1 user + 4 internals
 
-        graph::SortedModuleList sorted_modules;
-        graph::sort_modules(available_modules, conf.getModules(), conf.getPaths(), sorted_modules);
+        momemta::ComputationGraphBuilder builder(available_modules, conf);
+        auto graph = builder.build();
 
-        REQUIRE(sorted_modules.getPaths().size() == 1);
-        REQUIRE(sorted_modules.getPaths().front() == DEFAULT_EXECUTION_PATH);
+        REQUIRE(graph->getPaths().size() == 1);
+        REQUIRE(graph->getPaths().front() == DEFAULT_EXECUTION_PATH);
 
-        auto modules = sorted_modules.getModules(DEFAULT_EXECUTION_PATH);
+        auto modules = graph->getDecls(DEFAULT_EXECUTION_PATH);
         REQUIRE(modules.size() == 1);
         REQUIRE(modules.front().type == "DoubleConstant");
         REQUIRE(modules.front().name == "constant");
@@ -83,13 +83,13 @@ integrand("constant::value")
 
         REQUIRE(conf.getModules().size() == 6); // 2 user + 4 internals
 
-        graph::SortedModuleList sorted_modules;
-        graph::sort_modules(available_modules, conf.getModules(), conf.getPaths(), sorted_modules);
+        momemta::ComputationGraphBuilder builder(available_modules, conf);
+        auto graph = builder.build();
 
-        REQUIRE(sorted_modules.getPaths().size() == 1);
-        REQUIRE(sorted_modules.getPaths().front() == DEFAULT_EXECUTION_PATH);
+        REQUIRE(graph->getPaths().size() == 1);
+        REQUIRE(graph->getPaths().front() == DEFAULT_EXECUTION_PATH);
 
-        auto modules = sorted_modules.getModules(DEFAULT_EXECUTION_PATH);
+        auto modules = graph->getDecls(DEFAULT_EXECUTION_PATH);
         REQUIRE(modules.size() == 1);
     }
 
@@ -108,13 +108,13 @@ integrand("constant::value")
 
         REQUIRE(conf.getModules().size() == 6); // 2 user + 4 internals
 
-        graph::SortedModuleList sorted_modules;
-        graph::sort_modules(available_modules, conf.getModules(), conf.getPaths(), sorted_modules);
+        momemta::ComputationGraphBuilder builder(available_modules, conf);
+        auto graph = builder.build();
 
-        REQUIRE(sorted_modules.getPaths().size() == 1);
-        REQUIRE(sorted_modules.getPaths().front() == DEFAULT_EXECUTION_PATH);
+        REQUIRE(graph->getPaths().size() == 1);
+        REQUIRE(graph->getPaths().front() == DEFAULT_EXECUTION_PATH);
 
-        auto modules = sorted_modules.getModules(DEFAULT_EXECUTION_PATH);
+        auto modules = graph->getDecls(DEFAULT_EXECUTION_PATH);
         REQUIRE(modules.size() == 2);
     }
 
@@ -141,13 +141,13 @@ integrand("tf::output")
 
         REQUIRE(conf.getModules().size() == 7); // 2 user + 5 internals
 
-        graph::SortedModuleList sorted_modules;
-        graph::sort_modules(available_modules, conf.getModules(), conf.getPaths(), sorted_modules);
+        momemta::ComputationGraphBuilder builder(available_modules, conf);
+        auto graph = builder.build();
 
-        REQUIRE(sorted_modules.getPaths().size() == 1);
-        REQUIRE(sorted_modules.getPaths().front() == DEFAULT_EXECUTION_PATH);
+        REQUIRE(graph->getPaths().size() == 1);
+        REQUIRE(graph->getPaths().front() == DEFAULT_EXECUTION_PATH);
 
-        auto modules = sorted_modules.getModules(DEFAULT_EXECUTION_PATH);
+        auto modules = graph->getDecls(DEFAULT_EXECUTION_PATH);
         REQUIRE(modules.size() == 2);
 
         REQUIRE(modules.at(0).name == "input_sum");
@@ -173,10 +173,9 @@ GaussianTransferFunctionOnEnergy.tf_2 = {
 
         REQUIRE(conf.getModules().size() == 5); // 2 user + 3 internals
 
-        graph::SortedModuleList sorted_modules;
-
         logging::set_level(logging::level::off);
-        REQUIRE_THROWS(graph::sort_modules(available_modules, conf.getModules(), conf.getPaths(), sorted_modules));
+        momemta::ComputationGraphBuilder builder(available_modules, conf);
+        REQUIRE_THROWS(builder.build());
     }
 
     SECTION("Two execution paths") {
@@ -200,24 +199,22 @@ integrand("sum::output")
 
         auto conf = get_conf(conf_str);
 
-        logging::set_level(logging::level::debug);
-
         REQUIRE(conf.getModules().size() == 8); // 5 user + 3 internals
         REQUIRE(conf.getPaths().size() == 1);
 
-        graph::SortedModuleList sorted_modules;
-        graph::sort_modules(available_modules, conf.getModules(), conf.getPaths(), sorted_modules);
+        momemta::ComputationGraphBuilder builder(available_modules, conf);
+        auto graph = builder.build();
 
-        REQUIRE(sorted_modules.getPaths().size() == 2);
-        REQUIRE(sorted_modules.getPaths().front() == DEFAULT_EXECUTION_PATH);
-        REQUIRE(sorted_modules.getPaths().back() == conf.getPaths().front()->id);
+        REQUIRE(graph->getPaths().size() == 2);
+        REQUIRE(graph->getPaths().front() == DEFAULT_EXECUTION_PATH);
+        REQUIRE(graph->getPaths().back() == conf.getPaths().front()->id);
 
-        auto modules = sorted_modules.getModules(DEFAULT_EXECUTION_PATH);
+        auto modules = graph->getDecls(DEFAULT_EXECUTION_PATH);
         REQUIRE(modules.size() == 1); // Only the looper
 
         REQUIRE(modules.at(0).name == "looper");
 
-        modules = sorted_modules.getModules(sorted_modules.getPaths().back());
+        modules = graph->getDecls(graph->getPaths().back());
         // Order is not guaranteed, only test the number of modules
         REQUIRE(modules.size() == 4);
     }
@@ -237,15 +234,13 @@ integrand("sum::output")
 
         auto conf = get_conf(conf_str);
 
-        logging::set_level(logging::level::debug);
-
         REQUIRE(conf.getModules().size() == 6); // 3 user + 3 internals
         REQUIRE(conf.getPaths().size() == 1);
 
         logging::set_level(logging::level::off);
-        graph::SortedModuleList sorted_modules;
+        momemta::ComputationGraphBuilder builder(available_modules, conf);
         REQUIRE_THROWS(
-                graph::sort_modules(available_modules, conf.getModules(), conf.getPaths(), sorted_modules)
+                builder.build()
         );
     }
 
@@ -263,15 +258,12 @@ integrand("dummy::dummy")
 
         auto conf = get_conf(conf_str);
 
-        logging::set_level(logging::level::debug);
-
         REQUIRE(conf.getModules().size() == 5); // 2 user + 3 internals
         REQUIRE(conf.getPaths().size() == 1);
 
-        graph::SortedModuleList sorted_modules;
-
         logging::set_level(logging::level::off);
-        graph::sort_modules(available_modules, conf.getModules(), conf.getPaths(), sorted_modules);
+        momemta::ComputationGraphBuilder builder(available_modules, conf);
+        auto graph = builder.build();
     }
 
     SECTION("Three execution paths") {
@@ -295,33 +287,82 @@ integrand("some::output")
 
         auto conf = get_conf(conf_str);
 
-        logging::set_level(logging::level::debug);
-
         REQUIRE(conf.getModules().size() == 7); // 4 user + 3 internals
         REQUIRE(conf.getPaths().size() == 2);
 
-        graph::SortedModuleList sorted_modules;
-        graph::sort_modules(available_modules, conf.getModules(), conf.getPaths(), sorted_modules);
+        momemta::ComputationGraphBuilder builder(available_modules, conf);
+        auto graph = builder.build();
 
-        REQUIRE(sorted_modules.getPaths().size() == 3);
-        REQUIRE(sorted_modules.getPaths().front() == DEFAULT_EXECUTION_PATH);
+        REQUIRE(graph->getPaths().size() == 3);
+        REQUIRE(graph->getPaths().front() == DEFAULT_EXECUTION_PATH);
 
         // Last execution path should the one from looper_2, declared first in the configuration
-        REQUIRE(sorted_modules.getPaths().back() == conf.getPaths().front()->id);
+        REQUIRE(graph->getPaths().back() == conf.getPaths().front()->id);
 
-        auto modules = sorted_modules.getModules(DEFAULT_EXECUTION_PATH);
+        auto modules = graph->getDecls(DEFAULT_EXECUTION_PATH);
         REQUIRE(modules.size() == 1); // Only looper_1
 
         REQUIRE(modules.at(0).name == "looper_1");
 
-        modules = sorted_modules.getModules(sorted_modules.getPaths().at(1));
+        modules = graph->getDecls(graph->getPaths().at(1));
 
         // Looper_1 path, printer_1 and looper_2
         REQUIRE(modules.size() == 2);
 
-        modules = sorted_modules.getModules(sorted_modules.getPaths().at(2));
+        modules = graph->getDecls(graph->getPaths().at(2));
 
         REQUIRE(modules.size() == 1);
         REQUIRE(modules.at(0).name == "printer_2");
+    }
+
+    SECTION("Unused module should not increase the number of dimension") {
+        const std::string conf_str = R"(
+
+local first_dim = add_dimension()
+local unused_dim = add_dimension()
+
+GaussianTransferFunctionOnEnergy.tf_1 = {
+    ps_point = first_dim,
+    reco_particle = "dummy::output",
+    sigma = 0.05
+}
+
+GaussianTransferFunctionOnEnergy.tf_2 = {
+    ps_point = first_dim,
+    reco_particle = "dummy::output",
+    sigma = 0.05
+}
+
+GaussianTransferFunctionOnEnergy.tf_3 = {
+    ps_point = add_dimension(),
+    reco_particle = "dummy::output",
+    sigma = 0.05
+}
+
+GaussianTransferFunctionOnEnergy.unused = {
+    ps_point = unused_dim,
+    reco_particle = "dummy::output",
+    sigma = 0.05
+}
+
+integrand("tf_1::output", "tf_2::output", "tf_3::output")
+)";
+
+        auto conf = get_conf(conf_str);
+
+        // Just parsing the configuration file leads to 3 dimensions, with one requested by a unused module
+        REQUIRE(conf.getNDimensions() == 3);
+
+        momemta::ComputationGraphBuilder builder(available_modules, conf);
+        auto graph = builder.build();
+
+        // The dimension requested by the unused module should be discarded
+        REQUIRE(graph->getNDimensions() == 2);
+
+        REQUIRE(graph->getPaths().size() == 1);
+        REQUIRE(graph->getPaths().front() == DEFAULT_EXECUTION_PATH);
+
+        auto modules = graph->getDecls(DEFAULT_EXECUTION_PATH);
+        REQUIRE(modules.size() == 3);
     }
 }

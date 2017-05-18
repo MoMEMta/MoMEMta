@@ -1,3 +1,4 @@
+
 /*
  *  MoMEMta: a modular implementation of the Matrix Element Method
  *  Copyright (C) 2016  Universite catholique de Louvain (UCL), Belgium
@@ -33,10 +34,6 @@
 #include <ModuleUtils.h>
 #include <lua/utils.h>
 #include <Path.h>
-
-#ifdef DEBUG_TIMING
-using namespace std::chrono;
-#endif
 
 #define CUBA_ABORT -999
 #define CUBA_OK 0
@@ -84,7 +81,9 @@ void validateModules(const std::vector<Configuration::ModuleDecl>& module_decls,
     }
 }
 
-MoMEMta::MoMEMta(const Configuration& configuration) {
+MoMEMta::MoMEMta(const Configuration& configuration_) {
+
+    Configuration configuration = configuration_;
 
     // List of all available type of modules with their definition
     momemta::ModuleList available_modules;
@@ -110,58 +109,18 @@ MoMEMta::MoMEMta(const Configuration& configuration) {
     if (configuration.getGlobalParameters().existsAs<std::string>("export_graph_as"))
         export_graph_as = configuration.getGlobalParameters().get<std::string>("export_graph_as");
 
-    // All modules are correctly declared. Create a sorted list of modules to execute.
-    graph::SortedModuleList modules_to_execute;
-    graph::sort_modules(available_modules, module_instances_def, configuration.getPaths(), modules_to_execute,
-                        export_graph_as);
+    // All modules are correctly declared. Create the computation graph.
+    momemta::ComputationGraphBuilder builder(available_modules, configuration);
+    m_computation_graph = builder.build();
 
-    // We now have a sorted list of module declaration, split into the different execution paths.
-    // We can now create a new instance of each module in the correct order.
+    if (! export_graph_as.empty())
+        builder.exportGraph(export_graph_as);
 
     // Initialize shared memory pool for modules
     initPool(configuration);
 
-    // Keep track of the instantiated modules in their own execution path
-    std::map<boost::uuids::uuid, std::vector<ModulePtr>> module_instances;
-
-    const auto& execution_paths = modules_to_execute.getPaths();
-
-    // The list of execution path is sorted in the order we must execute the modules (modules from the first path first,
-    // then modules from the second path, etc.)
-    // However, some modules (ie Loopers) except as argument an execution path containing a list of module instances.
-    // Since modules and paths are sorted based on execution order, such dependencies are always in a other execution path.
-    // To solve this, we iterate the execution paths in reverse order, creating first the last execution path, free of
-    // any dependencies. This way, we are sure to find the final list of modules already available when we need it.
-    for (auto it = execution_paths.rbegin(); it != execution_paths.rend(); ++it) {
-
-        const auto& modules = modules_to_execute.getModules(*it);
-        for (auto module_decl_it = modules.begin(); module_decl_it != modules.end(); ++module_decl_it) {
-
-            std::unique_ptr<ParameterSet> params(module_decl_it->parameters->clone());
-
-            if (module_decl_it->type == "Looper") {
-                // Switch the "path" parameter to the list of module properly instantiated
-                auto config_path_id = params->get<ExecutionPath>("path").id;
-
-                // Replace the `path` parameter with the list of modules
-                // Since paths are sorted and we iterate backwards, we are sure to find an existing path.
-                params->raw_set("path", Path(module_instances.at(config_path_id)));
-            }
-
-            try {
-                module_instances[*it].push_back(momemta::ModuleRegistry::get()
-                                                              .find(module_decl_it->type).maker
-                                                              ->create(m_pool, *params));
-            } catch (...) {
-                LOG(fatal) << "Exception while trying to create module " << module_decl_it->type
-                           << "::" << module_decl_it->name
-                           << ". See message above for a (possible) more detailed description of the error.";
-                std::rethrow_exception(std::current_exception());
-            }
-        }
-    }
-
-    m_modules = module_instances[DEFAULT_EXECUTION_PATH];
+    // And initialize the computation graph
+    m_computation_graph->initialize(m_pool);
 
     for (const auto& component: integrands) {
         m_integrands.push_back(m_pool->get<double>(component));
@@ -169,7 +128,7 @@ MoMEMta::MoMEMta(const Configuration& configuration) {
     }
     m_n_components = m_integrands.size();
 
-    m_n_dimensions = configuration.getNDimensions();
+    m_n_dimensions = m_computation_graph->getNDimensions();
     LOG(info) << "Number of expected inputs: " << m_inputs_p4.size();
     LOG(info) << "Number of dimensions for integration: " << m_n_dimensions;
 
@@ -181,18 +140,14 @@ MoMEMta::MoMEMta(const Configuration& configuration) {
     // Freeze the pool after removing unneeded modules
     m_pool->freeze();
 
-    for (const auto& module: m_modules) {
-        module->configure();
-    }
+    m_computation_graph->configure();
 
     // Register logging function
     cubalogging(MoMEMta::cuba_logging);
 }
 
 MoMEMta::~MoMEMta() {
-    for (const auto& module: m_modules) {
-        module->finish();
-    }
+    m_computation_graph->finish();
 }
 
 const Pool& MoMEMta::getPool() const {
@@ -232,9 +187,7 @@ std::vector<std::pair<double, double>> MoMEMta::computeWeights(const std::vector
 
     *m_met = met;
 
-    for (const auto& module: m_modules) {
-        module->beginIntegration();
-    }
+    m_computation_graph->beginIntegration();
 
     std::unique_ptr<double[]> mcResult(new double[m_n_components]);
     std::unique_ptr<double[]> error(new double[m_n_components]);
@@ -440,15 +393,10 @@ std::vector<std::pair<double, double>> MoMEMta::computeWeights(const std::vector
     }
 
 #ifdef DEBUG_TIMING
-    LOG(info) << "Time spent evaluating modules (more details for loopers below):";
-    for (auto it: m_module_timing) {
-        LOG(info) << "    " << it.first->name() << ": " << duration_cast<duration<double>>(it.second).count() << "s";
-    }
+    m_computation_graph->logTimings();
 #endif
 
-    for (const auto& module: m_modules) {
-        module->endIntegration();
-    }
+    m_computation_graph->endIntegration();
 
     std::vector<std::pair<double, double>> result;
     for (size_t i = 0; i < m_n_components; i++) {
@@ -468,42 +416,24 @@ int MoMEMta::integrand(const double* psPoints, double* results, const double* we
         *m_ps_weight = *weights;
     }
 
-    for (auto& module: m_modules)
-        module->beginPoint();
+    auto status = m_computation_graph->execute();
 
-    for (auto& module: m_modules) {
-#ifdef DEBUG_TIMING
-        auto start = high_resolution_clock::now();
-#endif
-        auto status = module->work();
-#ifdef DEBUG_TIMING
-        m_module_timing[module.get()] += high_resolution_clock::now() - start;
-#endif
+    int return_value = CUBA_OK;
+    if (status != Module::Status::OK) {
+        for (size_t i = 0; i < m_n_components; i++)
+            results[i] = 0;
 
-        if (status == Module::Status::NEXT) {
-            // Stop execution for the current integration step
-            // Returns 0 so that cuba knows this phase-space volume is not relevant
-            for (size_t i = 0; i < m_n_components; i++)
-                results[i] = 0;
-            return CUBA_OK;
-        } else if (status == Module::Status::ABORT) {
-            // Abort integration
-            for (size_t i = 0; i < m_n_components; i++)
-                results[i] = 0;
-            return CUBA_ABORT;
+        if (status == Module::Status::ABORT)
+            return_value = CUBA_ABORT;
+    } else {
+        for (size_t i = 0; i < m_n_components; i++) {
+            results[i] = *(m_integrands[i]);
+            if (!std::isfinite(results[i]))
+                throw integrands_nonfinite_error("Integrand component " + std::to_string(i) + " is infinite or NaN!");
         }
     }
 
-    for (auto& module: m_modules)
-        module->endPoint();
-
-    for (size_t i = 0; i < m_n_components; i++) {
-        results[i] = *(m_integrands[i]);
-        if (!std::isfinite(results[i]))
-            throw integrands_nonfinite_error("Integrand component " + std::to_string(i) + " is infinite or NaN!");
-    }
-
-    return CUBA_OK;
+    return return_value;
 }
 
 int MoMEMta::CUBAIntegrand(const int *nDim, const double* psPoint, const int *nComp, double *value, void *inputs, const int *nVec, const int *core) {

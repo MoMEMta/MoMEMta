@@ -101,6 +101,9 @@ struct InputTag {
         /// \return True if the InputTag is empty, false otherwise
         bool empty() const;
 
+        /// Update the string representation of the InputTag
+        void update();
+
         std::string module; ///< The module's name
         std::string parameter; ///< The module's output
         size_t index; ///< The index. Only meaningful if isIndexed() returns true

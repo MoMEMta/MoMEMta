@@ -29,8 +29,16 @@
 #include <momemta/Logging.h>
 #include <momemta/Utils.h>
 
+struct InputTag;
 class ConfigurationReader;
 class Configuration;
+class ParameterSet;
+
+namespace momemta {
+struct ArgDef;
+void setInputTagsForInput(const ArgDef&, ParameterSet&, const std::vector<InputTag>&);
+class ComputationGraph;
+}
 
 /**
  * \brief A class encapsulating a lua table.
@@ -82,6 +90,23 @@ class ParameterSet {
 
             try {
                 return momemta::any_cast<const T&>(value->second.value);
+            } catch (momemta::bad_any_cast e) {
+                LOG(fatal) << "Exception while trying to get parameter '" << name << "'. Requested a '"
+                           << demangle(typeid(T).name())
+                           << "' while parameter is a '"
+                           << demangle(value->second.value.type().name())
+                           << "'";
+                throw e;
+            }
+        }
+
+        template<typename T> T& get(const std::string& name) {
+            auto value = m_set.find(name);
+            if (value == m_set.end())
+                throw not_found_error("Parameter '" + name + "' not found.");
+
+            try {
+                return momemta::any_cast<T&>(value->second.value);
             } catch (momemta::bad_any_cast e) {
                 LOG(fatal) << "Exception while trying to get parameter '" << name << "'. Requested a '"
                            << demangle(typeid(T).name())
@@ -227,7 +252,8 @@ class ParameterSet {
         friend class ConfigurationReader;
         friend class Configuration;
         friend class ParameterSetParser;
-        friend class MoMEMta;
+        friend class momemta::ComputationGraph;
+        friend void momemta::setInputTagsForInput(const momemta::ArgDef&, ParameterSet&, const std::vector<InputTag>&);
 
         /// A small wrapper around a momemta::any value
         struct Element {
