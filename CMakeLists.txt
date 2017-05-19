@@ -384,7 +384,7 @@ add_custom_target(uninstall
 # Documentation
 
 # add a target to generate API documentation with Doxygen
-find_package(Doxygen)
+find_package(Doxygen 1.8.12)
 if(DOXYGEN_FOUND)
     configure_file(${CMAKE_CURRENT_SOURCE_DIR}/docs/theme/Doxyfile.in ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile @ONLY)
     configure_file(${CMAKE_CURRENT_SOURCE_DIR}/docs/tools/make_docs.sh.in ${CMAKE_CURRENT_BINARY_DIR}/make_docs.sh @ONLY)

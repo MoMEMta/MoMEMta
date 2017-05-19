@@ -3,6 +3,142 @@ hljs.configure({
   languages: ['cpp']
 });
 
+function bootstrapTopMenu() {
+      // Main menu. Move the main div into the top header
+      var nav_container = $('#main-nav').detach()
+      nav_container.addClass('navbar-collapse collapse');
+      nav_container.appendTo('nav > .container');
+
+      $('#main-nav > ul').addClass('nav navbar-nav');
+      $('#main-nav * li > ul').addClass('dropdown-menu');
+
+      // Show caret for item with sub-menu
+      $('#main-nav * .sub-arrow').remove()
+      $('#main-nav * a.has-submenu').append("<span class='caret'></span>");
+
+      jQuery.SmartMenus.Bootstrap.init();
+}
+
+function bootstrapSearch() {
+
+  // responsive search box
+
+  $('#MSearchBox').parent().remove();
+
+  var search_box = $('<div class="navbar-form navbar-right" id="search-box" role="search"></div>')
+      .append('\
+    <div class="form-group">\
+      <div class="input-group">\
+        <div class="input-group-btn">\
+          <button aria-expanded="false" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">\
+            <span class="glyphicon glyphicon-search"></span> <span class="caret"></span>\
+          </button>\
+          <ul class="dropdown-menu">\
+          </ul>\
+        </div> <!-- /btn-group -->\
+        <button id="search-close" type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>\
+        <input id="search-field" class="form-control" accesskey="S" onkeydown="searchBox.OnSearchFieldChange(event);" placeholder="Search ..." type="text">\
+      </div>\
+    </div>');
+  search_box.appendTo('nav > .container > .navbar-collapse');
+
+  $('#MSearchSelectWindow .SelectionMark').remove();
+  var search_selectors = $('#MSearchSelectWindow .SelectItem');
+  for (var i = 0; i < search_selectors.length; i += 1) {
+      var element_a = $('<a href="#"></a>').text($(search_selectors[i]).text());
+
+      element_a.click(function() {
+          $('#search-box .dropdown-menu li').removeClass('active');
+          $(this).parent().addClass('active');
+          searchBox.OnSelectItem($('#search-box li a').index(this));
+          searchBox.Search();
+          return false;
+      });
+
+      var element = $('<li></li>').append(element_a);
+      $('#search-box .dropdown-menu').append(element);
+  }
+  $('#MSearchSelectWindow').remove();
+
+  $('#search-box .close').click(function() {
+      searchBox.CloseResultsWindow();
+  });
+
+  $('body').append('<div id="MSearchClose"></div>');
+  $('body').append('<div id="MSearchBox"></div>');
+  $('body').append('<div id="MSearchSelectWindow"></div>');
+
+  searchBox.searchLabel = '';
+  searchBox.DOMSearchField = function() {
+      return document.getElementById("search-field");
+  }
+
+  searchBox.DOMSearchClose = function() {
+      return document.getElementById("search-close");
+  }
+
+
+  // search results
+  var results_iframe = $('#MSearchResults').detach();
+  $('#MSearchResultsWindow')
+      .attr('id', 'search-results-window')
+      .addClass('panel panel-default')
+      .append(
+          '<div class="panel-heading">\
+          <h3 class="panel-title">Search Results</h3>\
+        </div>\
+        <div class="panel-body"></div>'
+      );
+  $('#search-results-window .panel-body').append(results_iframe);
+
+  searchBox.DOMPopupSearchResultsWindow = function() {
+      return document.getElementById("search-results-window");
+  }
+
+  function update_search_results_window() {
+      $('#search-results-window').removeClass('panel-default panel-success panel-warning panel-danger');
+      var status = $('#MSearchResults').contents().find('.SRStatus:visible');
+      if (status.length > 0) {
+          switch (status.attr('id')) {
+              case 'Loading':
+              case 'Searching':
+                  $('#search-results-window').addClass('panel-warning');
+                  break;
+              case 'NoMatches':
+                  $('#search-results-window').addClass('panel-danger');
+                  break;
+              default:
+                  $('#search-results-window').addClass('panel-default');
+          }
+      } else {
+          $('#search-results-window').addClass('panel-success');
+      }
+  }
+
+
+  $('#MSearchResults').load(function() {
+      $('#MSearchResults').contents().find('link[href="search.css"]').attr('href', '../doxygen.css');
+      $('#MSearchResults').contents().find('head').append(
+          '<link href="../customdoxygen.css" rel="stylesheet" type="text/css">');
+
+      update_search_results_window();
+
+      // detect status changes (only for search with external search
+      // backend)
+      var observer = new MutationObserver(function(mutations) {
+          update_search_results_window();
+      });
+      var config = {
+          attributes: true
+      };
+
+      var targets = $('#MSearchResults').contents().find('.SRStatus');
+      for (i = 0; i < targets.length; i++) {
+          observer.observe(targets[i], config);
+      }
+  });
+}
+
 $(document).ready(function() {
 
     $(".fragment").hide();
@@ -24,13 +160,8 @@ $(document).ready(function() {
     $('img[src="ftv2ns.png"]').replaceWith('<span class="label label-primary">N</span> ');
     $('img[src="ftv2cl.png"]').replaceWith('<span class="label label-primary">C</span> ');
 
-    var main_nav_ul = $("div#navrow1 > ul.tablist");
-    $("nav.navbar > div.container").append(main_nav_ul);
-    main_nav_ul.addClass("nav navbar-nav")
-        .removeClass("tablist")
-        .wrap("<div class='collapse navbar-collapse' id='main-navbar'><div>");
-
-    var main_nav_bar = $('#main-navbar');
+    bootstrapTopMenu();
+    bootstrapSearch();
 
     $("ul.tablist").addClass("nav nav-pills");
     $("ul.tablist").css("margin-top", "0.5em");
@@ -100,125 +231,6 @@ $(document).ready(function() {
         if (getOriginalWidthOfImg($(this)[0]) > $('#content>div.container').width())
             $(this).css('width', '100%');
     });
-
-
-    // responsive search box
-
-    $('#MSearchBox').parent().remove();
-
-    var search_box = $('<div class="navbar-form navbar-right" id="search-box" role="search"></div>')
-        .append('\
-      <div class="form-group">\
-        <div class="input-group">\
-          <div class="input-group-btn">\
-            <button aria-expanded="false" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">\
-              <span class="glyphicon glyphicon-search"></span> <span class="caret"></span>\
-            </button>\
-            <ul class="dropdown-menu">\
-            </ul>\
-          </div> <!-- /btn-group -->\
-          <button id="search-close" type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>\
-          <input id="search-field" class="form-control" accesskey="S" onkeydown="searchBox.OnSearchFieldChange(event);" placeholder="Search ..." type="text">\
-        </div>\
-      </div>');
-    main_nav_bar.append(search_box);
-
-    $('#MSearchSelectWindow .SelectionMark').remove();
-    var search_selectors = $('#MSearchSelectWindow .SelectItem');
-    for (var i = 0; i < search_selectors.length; i += 1) {
-        var element_a = $('<a href="#"></a>').text($(search_selectors[i]).text());
-
-        element_a.click(function() {
-            $('#search-box .dropdown-menu li').removeClass('active');
-            $(this).parent().addClass('active');
-            searchBox.OnSelectItem($('#search-box li a').index(this));
-            searchBox.Search();
-            return false;
-        });
-
-        var element = $('<li></li>').append(element_a);
-        $('#search-box .dropdown-menu').append(element);
-    }
-    $('#MSearchSelectWindow').remove();
-
-    $('#search-box .close').click(function() {
-        searchBox.CloseResultsWindow();
-    });
-
-    $('body').append('<div id="MSearchClose"></div>');
-    $('body').append('<div id="MSearchBox"></div>');
-    $('body').append('<div id="MSearchSelectWindow"></div>');
-
-    searchBox.searchLabel = '';
-    searchBox.DOMSearchField = function() {
-        return document.getElementById("search-field");
-    }
-
-    searchBox.DOMSearchClose = function() {
-        return document.getElementById("search-close");
-    }
-
-
-    // search results
-    var results_iframe = $('#MSearchResults').detach();
-    $('#MSearchResultsWindow')
-        .attr('id', 'search-results-window')
-        .addClass('panel panel-default')
-        .append(
-            '<div class="panel-heading">\
-            <h3 class="panel-title">Search Results</h3>\
-          </div>\
-          <div class="panel-body"></div>'
-        );
-    $('#search-results-window .panel-body').append(results_iframe);
-
-    searchBox.DOMPopupSearchResultsWindow = function() {
-        return document.getElementById("search-results-window");
-    }
-
-    function update_search_results_window() {
-        $('#search-results-window').removeClass('panel-default panel-success panel-warning panel-danger');
-        var status = $('#MSearchResults').contents().find('.SRStatus:visible');
-        if (status.length > 0) {
-            switch (status.attr('id')) {
-                case 'Loading':
-                case 'Searching':
-                    $('#search-results-window').addClass('panel-warning');
-                    break;
-                case 'NoMatches':
-                    $('#search-results-window').addClass('panel-danger');
-                    break;
-                default:
-                    $('#search-results-window').addClass('panel-default');
-            }
-        } else {
-            $('#search-results-window').addClass('panel-success');
-        }
-    }
-
-
-    $('#MSearchResults').load(function() {
-        $('#MSearchResults').contents().find('link[href="search.css"]').attr('href', '../doxygen.css');
-        $('#MSearchResults').contents().find('head').append(
-            '<link href="../customdoxygen.css" rel="stylesheet" type="text/css">');
-
-        update_search_results_window();
-
-        // detect status changes (only for search with external search
-        // backend)
-        var observer = new MutationObserver(function(mutations) {
-            update_search_results_window();
-        });
-        var config = {
-            attributes: true
-        };
-
-        var targets = $('#MSearchResults').contents().find('.SRStatus');
-        for (i = 0; i < targets.length; i++) {
-            observer.observe(targets[i], config);
-        }
-    });
-
 
     // enumerations
     $('table.fieldtable')

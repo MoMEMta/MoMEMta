@@ -1,7 +1,7 @@
 #! /bin/bash
 
-doxygen_VERSION=1.8.11
-BUNDLE=doxygen-${doxygen_VERSION}_Python-2.7_gcc-4.9.3_Ubuntu_14.04_x86_64
+doxygen_VERSION=1.8.13
+BUNDLE=doxygen-${doxygen_VERSION}_Python-2.7_gcc-4.9_Ubuntu_14.04_x86_64
 
 mkdir -p external/doxygen
 cd external/doxygen
