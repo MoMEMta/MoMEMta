@@ -122,8 +122,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Integrate over a transfer function on Pt described by a Gaussian distribution. </p>
 <p>This module takes as inputs a LorentzVector and a phase-space point, generates a new LorentzVector with a different Pt (keeping direction and invariant mass), and evaluates the transfer function on the "reconstructed" and "generated" Pt.</p>
-<p>The transfer function (TF) is a Gaussian distribution that describes the difference between the reconstructed and the generated Pt ( \(P_T_{rec}-P_T_{gen}\)). The width of the distribution, parametrised as a fraction of \(P_T_{gen}\), is set as parameter.</p>
-<p>The range of the integration is determined using the width of the Gaussian at \(P_T_{rec}\), integrating over a user-defined 'number of sigmas' <code>n</code>: \(P_T_{gen} \in \pm n \cdot \sigma \cdot P_T_{rec}\).</p>
+<p>The transfer function (TF) is a Gaussian distribution that describes the difference between the reconstructed and the generated Pt ( \(P_{T_{rec}}-P_{T_{gen}}\)). The width of the distribution, parametrised as a fraction of \(P_{T_{gen}}\), is set as parameter.</p>
+<p>The range of the integration is determined using the width of the Gaussian at \(P_{T_{rec}}\), integrating over a user-defined 'number of sigmas' <code>n</code>: \(P_{T_{gen}} \in \pm n \cdot \sigma \cdot P_{T_{rec}}\).</p>
 <h3>Integration dimension</h3>
 <p>This module requires <b>1</b> phase-space point.</p>
 <h3>Parameters</h3>
@@ -131,7 +131,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <tr>
 <th>Name </th><th>Type </th><th>Description  </th></tr>
 <tr>
-<td><code>sigma</code> </td><td>double </td><td>Fraction of the Pt yielding the width of the Gaussian distribution (with <code>sigma</code> at <code>0.1</code>, \(\sigma_{gauss} = 0.1 \cdot P_T_{gen}\)). </td></tr>
+<td><code>sigma</code> </td><td>double </td><td>Fraction of the Pt yielding the width of the Gaussian distribution (with <code>sigma</code> at <code>0.1</code>, \(\sigma_{gauss} = 0.1 \cdot P_{T_{gen}}\)). </td></tr>
 <tr>
 <td><code>sigma_range</code> </td><td>double </td><td>Range of integration expressed in number of sigma. </td></tr>
 <tr>
