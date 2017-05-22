@@ -115,26 +115,11 @@ MoMEMta::MoMEMta(const Configuration& configuration) {
     graph::sort_modules(available_modules, module_instances_def, configuration.getPaths(), modules_to_execute,
                         export_graph_as);
 
-    // Initialize shared memory pool for modules
-    m_pool.reset(new Pool());
-
-    // Create phase-space points vector, input for many modules
-    m_ps_points = m_pool->put<std::vector<double>>({"cuba", "ps_points"});
-    m_ps_weight = m_pool->put<double>({"cuba", "ps_weight"});
-
-    // For each input declared in the configuration, create pool entries for p4 and type
-    auto inputs = configuration.getInputs();
-    for (const auto& input: inputs) {
-        LOG(debug) << "Input declared: " << input;
-        m_inputs_p4.emplace(input, m_pool->put<LorentzVector>({input, "p4"}));
-        m_inputs_type.emplace(input, m_pool->put<int64_t>({input, "type"}));
-    }
-
-    // Create input for met
-    m_met = m_pool->put<LorentzVector>({"met", "p4"});
-
     // We now have a sorted list of module declaration, split into the different execution paths.
     // We can now create a new instance of each module in the correct order.
+
+    // Initialize shared memory pool for modules
+    initPool(configuration);
 
     // Keep track of the instantiated modules in their own execution path
     std::map<boost::uuids::uuid, std::vector<ModulePtr>> module_instances;
@@ -560,6 +545,27 @@ void MoMEMta::checkIfPhysical(const LorentzVector& p4) {
         LOG(fatal) << exception.what();
         throw exception;
     }
+}
+
+void MoMEMta::initPool(const Configuration& configuration) {
+
+    m_pool.reset(new Pool());
+
+    // Create phase-space points vector, input for many modules
+    m_ps_points = m_pool->put<std::vector<double>>({"cuba", "ps_points"});
+    m_ps_weight = m_pool->put<double>({"cuba", "ps_weight"});
+
+    // For each input declared in the configuration, create pool entries for p4 and type
+    auto inputs = configuration.getInputs();
+    for (const auto& input: inputs) {
+        LOG(debug) << "Input declared: " << input;
+        m_inputs_p4.emplace(input, m_pool->put<LorentzVector>({input, "p4"}));
+        m_inputs_type.emplace(input, m_pool->put<int64_t>({input, "type"}));
+    }
+
+    // Create input for met
+    m_met = m_pool->put<LorentzVector>({"met", "p4"});
+
 }
 
 MoMEMta::unphysical_lorentzvector_error::unphysical_lorentzvector_error(const LorentzVector& p4) {

@@ -121,6 +121,11 @@ class MoMEMta {
          */
         void checkIfPhysical(const LorentzVector& p4);
 
+        /**
+         * Create and initialize the memory pool
+         */
+        void initPool(const Configuration& configuration);
+
         int integrand(const double* psPoints, double* results, const double* weights);
 
         static int CUBAIntegrand(const int *nDim, const double* psPoint, const int *nComp, double *value, void *inputs, const int *nVec, const int *core);
