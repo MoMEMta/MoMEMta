@@ -112,9 +112,11 @@ public:
     virtual Status work() override {
 
         solutions->clear();
+        
+        const double p2Sq = p2->M2();
 
         // Don't spend time on unphysical corner of the phase-space
-        if (*s12 >= *s123 || *s12 >= SQ(sqrt_s) || *s123 >= SQ(sqrt_s))
+        if (*s12 >= *s123 || *s123 >= SQ(sqrt_s) || *s12 <= p2Sq + SQ(m1))
             return Status::NEXT;
 
         // pT will be used to fix the transverse momentum of the reconstructed neutrinos
@@ -143,7 +145,6 @@ public:
         const double costhe3 = std::cos(p3->Theta());
         const double sinthe3 = std::sin(p3->Theta());
 
-        const double p2Sq = p2->M2();
         const double E2 = p2->E();
         const double p2x = p2->Px();
         const double p2y = p2->Py();

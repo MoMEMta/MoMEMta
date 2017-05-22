@@ -90,15 +90,16 @@ class SecondaryBlockE: public Module {
         virtual Status work() override {
 
             solutions->clear();
-
-            // Don't spend time on unphysical part of phase-space
-            if (*s12 > SQ(sqrt_s) || *s123 > SQ(sqrt_s) || *s12 > *s123)
-               return Status::NEXT;
-
+            
             const double m1 = m_p1->M();
             const double sq_m1 = SQ(m1);
-            const double m2 = m_p2->M();
             const double m3 = m_p3->M();
+            const double sq_m3 = SQ(m3);
+
+            // Don't spend time on unphysical part of phase-space
+            if (*s123 >= SQ(sqrt_s) || *s12 + sq_m3 >= *s123 || sq_m1 >= *s12)
+               return Status::NEXT;
+
             const double p3 = m_p3->P();
             const double E3 = m_p3->E();
             const double sq_E3 = SQ(E3);
@@ -108,11 +109,11 @@ class SecondaryBlockE: public Module {
             const double c23 = ROOT::Math::VectorUtil::CosTheta(*m_p2, *m_p3);
 
             double X = p3 * c23 - E3;
-            double Y = *s123 - *s12 - SQ(m3);
+            double Y = *s123 - *s12 - sq_m3;
 
             std::vector<double> abs_p1, abs_p2;
             solve2Quads(SQ(X), SQ(p3 * c13) - sq_E3, 2 * p3 * c13 * X,  X * Y, p3 * c13 * Y, 0.25 * SQ(Y) - sq_E3 * sq_m1,
-                        2 * X / E3, 0, 2 * (p3 * c13 / E3 - c12), Y / E3, 0, sq_m1 + SQ(m2) - *s12,
+                        2 * X / E3, 0, 2 * (p3 * c13 / E3 - c12), Y / E3, 0, sq_m1 - *s12,
                         abs_p2, abs_p1);
 
             // Use now the obtained |p1| and |p2| solutions to build p1 and p2 (m2=0!)

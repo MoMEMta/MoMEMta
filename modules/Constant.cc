@@ -22,6 +22,8 @@
 
 /**
  * \brief A module declaring a constant
+ *
+ * \ingroup modules
  */
 template<typename T>
 class Constant: public Module {

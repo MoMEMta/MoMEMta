@@ -7,28 +7,28 @@ load_modules('MatrixElements/dummy/libme_dummy.so')
 parameters = {
     energy = 1000.,
     
-    mass_12 = 100.,
-    width_12 = 100.,
+    mass_12 = 350.,
+    width_12 = 350.,
     
-    mass_123 = 250.,
-    width_123 = 250.,
+    mass_123 = 400.,
+    width_123 = 400.,
     
-    mass_1234 = 500.,
-    width_1234 = 500.,
+    mass_1234 = 450.,
+    width_1234 = 450.,
     
-    mass_B = 1000.,
-    width_B = 1000.,
+    mass_B = 500.,
+    width_B = 500.,
 }
 
 cuba = {
     verbosity = 3,
-    max_eval = 1000000000,
+    max_eval = 20000000000,
     relative_accuracy = 0.0005,
-    n_start = 100000000,
+    n_start = 1000000000,
     n_increase = 0,
     seed = 0,
     ncores = 10,
-    batch_size = 10000000
+    batch_size = 100000000
 }
 
 -- 'Flat' transfer functions to integrate over the visible particle's energies and angles
@@ -111,7 +111,6 @@ BreitWignerGenerator.flatter_sB = {
     mass = parameter('mass_B'),
     width = parameter('width_B')
 }
-
 
 SecondaryBlockA.secBlockA = {
     s12 = 'flatter_s12::s',
