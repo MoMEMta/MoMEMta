@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['clone',['clone',['../classlua_1_1LazyTable.html#ae5fbdda7f5860cb8648797c0cffff008',1,'lua::LazyTable::clone()'],['../classParameterSet.html#a90562b2a6136b64d5918db6b92d22094',1,'ParameterSet::clone()']]],
+  ['clone',['clone',['../classlua_1_1LazyTable.html#ade71d8e173448e0f4dff9ede0ad691c2',1,'lua::LazyTable::clone()'],['../classParameterSet.html#a86ae4cb9e815c544972ae9953293e6d0',1,'ParameterSet::clone()']]],
   ['computeweights',['computeWeights',['../classMoMEMta.html#a7022a8573e8232c75cda198f59a64cbe',1,'MoMEMta']]],
   ['configuration',['Configuration',['../classConfiguration.html#a7a77596f11e5986dfef897fe7554a0b5',1,'Configuration::Configuration(const Configuration &amp;)'],['../classConfiguration.html#a36794d3e40bbf41ac7a71c84c6afa026',1,'Configuration::Configuration(const Configuration &amp;&amp;)']]],
   ['configure',['configure',['../classModule.html#a1e559c32bbb1442a3100bb6d9c90bca3',1,'Module::configure()'],['../classLooper.html#a03f32cd9643774bb9e4a6d505e160f06',1,'Looper::configure()']]],

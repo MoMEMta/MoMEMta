@@ -22,7 +22,7 @@ var searchData=
   ['boolean',['BOOLEAN',['../namespacelua.html#a4cb01bc8fe209aafacf11602092c63f8a694dcfd88be831361a4024215cc72d26',1,'lua']]],
   ['breitwigner',['BreitWigner',['../Math_8h.html#ae19ca2bf646e868bee58526c8489251f',1,'Math.cc']]],
   ['breitwignergenerator',['BreitWignerGenerator',['../classBreitWignerGenerator.html',1,'']]],
-  ['build',['build',['../namespacegraph.html#aabe6dcb09438986b02a5da9ced4a89b9',1,'graph']]],
+  ['build',['build',['../namespacegraph.html#a8faaae00d54004f70c9a12943719a31c',1,'graph']]],
   ['buildinitialstate',['BuildInitialState',['../classBuildInitialState.html',1,'']]],
   ['block_20b_20description',['Block B description',['../md_docs_BlockB.html',1,'']]]
 ];
