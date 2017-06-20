@@ -209,8 +209,8 @@ void ComputationGraph::initialize(PoolPtr pool) {
             }
 
             try {
-                module_instances[*it].push_back(momemta::ModuleRegistry::get()
-                                                        .find(module_decl_it->type).maker
+                module_instances[*it].push_back(ModuleFactory::get()
+                                                        .findPMaker(module_decl_it->type)
                                                         ->create(pool, *params));
             } catch (...) {
                 LOG(fatal) << "Exception while trying to create module " << module_decl_it->type

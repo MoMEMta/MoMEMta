@@ -31,17 +31,6 @@ class Pool;
 
 namespace momemta {
 
-struct ModuleMakerBase {
-    virtual std::unique_ptr<Module> create(std::shared_ptr<Pool>, const ParameterSet&) const = 0;
-};
-
-template <typename ModuleType>
-struct ModuleMaker: public ModuleMakerBase {
-    virtual std::unique_ptr<Module> create(std::shared_ptr<Pool> pool, const ParameterSet& parameters) const {
-        return std::move(std::unique_ptr<ModuleType>(new ModuleType(pool, parameters)));
-    }
-};
-
 /**
  * A container for module registration data
  */
@@ -51,10 +40,6 @@ struct ModuleRegistrationData {
 
     /// Definition of the module (inputs, outputs, attributes, ...)
     ModuleDef module_def;
-
-    /// \private
-    // FIXME: Move to ModuleFactory?
-    std::shared_ptr<ModuleMakerBase> maker;
 };
 
 namespace registration {
@@ -66,7 +51,7 @@ public:
 
     template <typename ModuleType>
     ModuleDefBuilder& Type() {
-        reg_data.maker.reset(new ModuleMaker<ModuleType>());
+        // Currently not used
         return *this;
     }
 
