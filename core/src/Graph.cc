@@ -209,9 +209,7 @@ void ComputationGraph::initialize(PoolPtr pool) {
             }
 
             try {
-                module_instances[*it].push_back(ModuleFactory::get()
-                                                        .findPMaker(module_decl_it->type)
-                                                        ->create(pool, *params));
+                module_instances[*it].push_back(ModuleFactory::get().create(module_decl_it->type, pool, *params));
             } catch (...) {
                 LOG(fatal) << "Exception while trying to create module " << module_decl_it->type
                            << "::" << module_decl_it->name

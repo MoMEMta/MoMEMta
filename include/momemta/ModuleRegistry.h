@@ -128,7 +128,7 @@ struct ModuleDefBuilderReceiver {
 
 #define REGISTER_MODULE_UNIQ_HELPER(ctr, name, type) REGISTER_MODULE_UNIQ(ctr, name, type)
 #define REGISTER_MODULE_UNIQ(ctr, name, type) \
-  static const ::ModuleFactory::PMaker<type> register_module_factory##ctr(name); \
+  static const ::momemta::ModuleFactory::PMaker<type> register_module_factory##ctr(name); \
   static const ::momemta::registration::ModuleDefBuilderReceiver register_module##ctr = \
           ::momemta::registration::ModuleDefBuilder(name).Type<type>()
 }

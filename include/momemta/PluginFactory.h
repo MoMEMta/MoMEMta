@@ -52,7 +52,7 @@ class PluginFactory<Interface* (Args...)> {
             };
 
         std::shared_ptr<Interface> create(const std::string& name, Args... args) const {
-            return findPMaker(name)->create(std::forward<Args>(args)...);
+            return find(name)->create(std::forward<Args>(args)...);
         }
 
         static PluginFactory<Interface* (Args...)>& get();
@@ -65,7 +65,7 @@ class PluginFactory<Interface* (Args...)> {
             m_plugins.emplace(name, pMaker);
         }
 
-        PMakerBase* findPMaker(const std::string& name) const {
+        PMakerBase* find(const std::string& name) const {
             auto it = m_plugins.find(name);
             if (it == m_plugins.end()) {
                 LOG(fatal) << "No such plugin type '" << name << "' registered in the factory (" << m_plugins.size() <<" plugins).";

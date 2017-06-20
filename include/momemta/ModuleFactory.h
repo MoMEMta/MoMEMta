@@ -28,13 +28,9 @@ class Module;
 class ParameterSet;
 class Pool;
 
+namespace momemta {
+
 // Register ModuleFactory used by all the modules
-using ModuleFactory = PluginFactory<Module* (std::shared_ptr<Pool>, const ParameterSet&)>;
+using ModuleFactory = PluginFactory<Module *(std::shared_ptr<Pool>, const ParameterSet&)>;
 
-/*
-#define REGISTER_MODULE(type) \
-    static const ModuleFactory::PMaker<type> PLUGIN_UNIQUE_NAME(s_module , __LINE__)(#type)
-
-#define REGISTER_MODULE_NAME(name, type) \
-    static const ModuleFactory::PMaker<type> PLUGIN_UNIQUE_NAME(s_module , __LINE__)(name)
-*/
+}

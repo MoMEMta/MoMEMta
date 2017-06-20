@@ -93,7 +93,7 @@ TEST_CASE("Modules", "[modules]") {
         module.type = type;
         module.parameters.reset(parameters->clone());
 
-        auto result = ModuleFactory::get().findPMaker(type)->create(pool, *parameters);
+        auto result = momemta::ModuleFactory::get().create(type, pool, *parameters);
         REQUIRE(result.get());
 
         return result;
