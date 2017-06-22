@@ -407,3 +407,7 @@ pre .line::before {
     padding-right: 0.5em; margin-right: 0.5em;
     color: #839496; border-right: 1px solid #e0e0e0 !important;
 }
+
+h2.memtitle {
+  display: none;
+}
