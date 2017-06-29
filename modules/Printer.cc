@@ -90,26 +90,34 @@ class Printer<std::vector<T>>: public Module {
 
 REGISTER_MODULE_NAME("IntPrinter", Printer<int64_t>)
         .Input("input")
-        .OptionalAttr("name:string");
+        .OptionalAttr("name:string")
+        .IsSticky();
 REGISTER_MODULE_NAME("DoublePrinter", Printer<double>)
         .Input("input")
-        .OptionalAttr("name:string");
+        .OptionalAttr("name:string")
+        .IsSticky();
 REGISTER_MODULE_NAME("P4Printer", Printer<LorentzVector>)
         .Input("input")
-        .OptionalAttr("name:string");
+        .OptionalAttr("name:string")
+        .IsSticky();
 REGISTER_MODULE_NAME("SolutionPrinter", Printer<Solution>)
         .Input("input")
-        .OptionalAttr("name:string");
+        .OptionalAttr("name:string")
+        .IsSticky();
 
 REGISTER_MODULE_NAME("IntVectorPrinter", Printer<std::vector<int64_t>>)
         .Input("input")
-        .OptionalAttr("name:string");
+        .OptionalAttr("name:string")
+        .IsSticky();
 REGISTER_MODULE_NAME("DoubleVectorPrinter", Printer<std::vector<double>>)
         .Input("input")
-        .OptionalAttr("name:string");
+        .OptionalAttr("name:string")
+        .IsSticky();
 REGISTER_MODULE_NAME("P4VectorPrinter", Printer<std::vector<LorentzVector>>)
         .Input("input")
-        .OptionalAttr("name:string");
+        .OptionalAttr("name:string")
+        .IsSticky();
 REGISTER_MODULE_NAME("SolutionVectorPrinter", Printer<SolutionCollection>)
         .Input("input")
-        .OptionalAttr("name:string");
+        .OptionalAttr("name:string")
+        .IsSticky();

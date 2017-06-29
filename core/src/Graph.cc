@@ -545,7 +545,7 @@ std::shared_ptr<ComputationGraph> ComputationGraphBuilder::build() {
 
 void ComputationGraphBuilder::prune_graph() {
 
-    // Find all vertices not connected to anything and remove them
+    // Find all vertices not connected to something and remove them
     for (auto it = vertices.begin(), ite = vertices.end(); it != ite;) {
         if (boost::out_degree(it->second, g) == 0) {
 
@@ -553,13 +553,6 @@ void ComputationGraphBuilder::prune_graph() {
 
             // Don't consider internal or sticky modules
             if (vertex.def.internal || vertex.def.sticky) {
-                ++it;
-                continue;
-            }
-
-            // Check in the definition if this module has any output
-            // If not, we keep it.
-            if (vertex.def.outputs.empty()) {
                 ++it;
                 continue;
             }
