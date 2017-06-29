@@ -324,19 +324,23 @@ std::shared_ptr<ComputationGraph> ComputationGraphBuilder::build() {
         // Connect each output of this module to any module needing it
         for (const auto& output: vertex.def.outputs) {
 
-            // Find any module using this output
-            for (const auto& module: requested_modules) {
+            // Find any module using this output (iterate over the graph again)
+            typename boost::graph_traits<Graph>::vertex_iterator test_vtx_it, test_vtx_it_end;
+            for (std::tie(test_vtx_it, test_vtx_it_end) = boost::vertices(g); test_vtx_it != test_vtx_it_end;
+                 test_vtx_it++) {
+
+                const auto& test_module = g[*test_vtx_it];
 
                 // Skip ourselves
-                if (module.name == vertex.name)
+                if (test_module.name == vertex.name)
                     continue;
 
                 // Get definition of this new module
-                const auto& input_module_def = get_module_def(module.type, available_modules);
-                for (const auto& input: input_module_def.inputs) {
+                const auto& test_module_def = test_module.def;
+                for (const auto& input: test_module_def.inputs) {
                     // Grab the InputTag for each input, and see if it points to the vertex
                     momemta::gtl::optional<std::vector<InputTag>> inputTags =
-                            momemta::getInputTagsForInput(input, *module.parameters);
+                            momemta::getInputTagsForInput(input, *test_module.decl.parameters);
 
                     // If the input is optional, we may not have anything
                     if (! inputTags)
@@ -349,7 +353,7 @@ std::shared_ptr<ComputationGraph> ComputationGraphBuilder::build() {
 
                             edge_t e;
                             bool inserted;
-                            std::tie(e, inserted) = boost::add_edge(*vtx_it, vertices.at(module.name), g);
+                            std::tie(e, inserted) = boost::add_edge(*vtx_it, vertices.at(test_module.name), g);
 
                             auto& edge = g[e];
                             edge.virt = false;
