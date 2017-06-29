@@ -372,58 +372,59 @@ std::shared_ptr<ComputationGraph> ComputationGraphBuilder::build() {
     // We need to make sure that any dependencies of a module inside a looper
     // is ran before the looper itself.
     for (const auto& vertex: vertices) {
-        if (g[vertex.second].type == "Looper") {
+        if (g[vertex.second].type != "Looper")
+            continue;
 
-            const auto& decl = g[vertex.second].decl;
+        const auto& looper_vtx = vertex.second;
+        const auto& looper_decl = g[looper_vtx].decl;
 
-            // Retrieve the looper path
-            const auto& looper_path = decl.parameters->get<ExecutionPath>("path");
+        // Retrieve the looper path
+        const auto& looper_path = looper_decl.parameters->get<ExecutionPath>("path");
 
-            // Add virtual link between the looper and all module inside its execution path
-            for (const auto& m: looper_path.elements) {
+        // Add virtual link between the looper and all module inside its execution path
+        for (const auto& m: looper_path.elements) {
 
-                auto module_it = vertices.find(m);
-                if (module_it == vertices.end()) {
-                    LOG(warning) << "Module '" << m << "' present in Looper '" << decl.name << "' execution path does "
-                                "not exists";
-                    continue;
-                }
-
-                auto module_vertex = module_it->second;
-                if (!isConnectedDirectlyTo(g, vertex.second, module_vertex)) {
-                    edge_t e;
-                    bool inserted;
-                    std::tie(e, inserted) = boost::add_edge(vertex.second, module_vertex, g);
-                    g[e].description = "virtual link (module in path)";
-                    g[e].virt = true;
-                }
+            auto module_it = vertices.find(m);
+            if (module_it == vertices.end()) {
+                LOG(warning) << "Module '" << m << "' present in Looper '" << looper_decl.name
+                             << "' execution path does not exists";
+                continue;
             }
 
-            out_edge_iterator_t e, e_end;
-            std::tie(e, e_end) = boost::out_edges(vertex.second, g);
+            auto module_vertex = module_it->second;
+            if (!isConnectedDirectlyTo(g, looper_vtx, module_vertex)) {
+                edge_t e;
+                bool inserted;
+                std::tie(e, inserted) = boost::add_edge(looper_vtx, module_vertex, g);
+                g[e].description = "virtual link (module in path)";
+                g[e].virt = true;
+            }
+        }
 
-            // Iterator over all edges this Looper vertex is connected to
-            for (; e != e_end; ++e) {
-                auto target = boost::target(*e, g);
+        out_edge_iterator_t e, e_end;
+        std::tie(e, e_end) = boost::out_edges(looper_vtx, g);
 
-                // Iterate over all edges connected to the module
-                in_edge_iterator_t i, i_end;
-                std::tie(i, i_end) = boost::in_edges(target, g);
+        // Iterator over all edges this Looper vertex is connected to
+        for (; e != e_end; ++e) {
+            auto target = boost::target(*e, g);
 
-                for (; i != i_end; ++i) {
-                    auto source = boost::source(*i, g);
+            // Iterate over all edges connected to the module
+            in_edge_iterator_t i, i_end;
+            std::tie(i, i_end) = boost::in_edges(target, g);
 
-                    if (source == vertex.second)
-                        continue;
+            for (; i != i_end; ++i) {
+                auto source = boost::source(*i, g);
 
-                    // Check if the source vertex is connected to the looper in any way
-                    if (!isConnectedTo(g, source, vertex.second)) {
-                        edge_t e;
-                        bool inserted;
-                        std::tie(e, inserted) = boost::add_edge(source, vertex.second, g);
-                        g[e].description = "virtual link";
-                        g[e].virt = true;
-                    }
+                if (source == looper_vtx)
+                    continue;
+
+                // Check if the source vertex is connected to the looper in any way
+                if (!isConnectedTo(g, source, looper_vtx)) {
+                    edge_t e;
+                    bool inserted;
+                    std::tie(e, inserted) = boost::add_edge(source, looper_vtx, g);
+                    g[e].description = "virtual link";
+                    g[e].virt = true;
                 }
             }
         }
