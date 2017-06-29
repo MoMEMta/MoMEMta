@@ -643,8 +643,8 @@ void ComputationGraphBuilder::validate() {
                 loopers << ", ";
         }
 
-        std::string plural = it->second.size() ? "s" : "";
-        std::string one_of_the = it->second.size() ? "one of the" : "the";
+        std::string plural = it->second.size() > 1? "s" : "";
+        std::string one_of_the = it->second.size() > 1 ? "one of the" : "the";
 
         LOG(fatal) << "Module '" << target.name << "' is configured to use Looper " << loopers.str()
                    << " output" << plural << ", but is not actually part of the Looper" << plural << " execution path. This will lead to undefined "
