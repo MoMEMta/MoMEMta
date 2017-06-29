@@ -25,6 +25,7 @@
 
 #include <catch.hpp>
 
+#include <momemta/Configuration.h>
 #include <momemta/ModuleFactory.h>
 #include <momemta/Module.h>
 #include <momemta/ParameterSet.h>

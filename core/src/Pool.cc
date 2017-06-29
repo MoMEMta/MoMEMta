@@ -77,8 +77,6 @@ class invalid_state: public std::runtime_error {
 void Pool::freeze() {
     m_frozen = true;
 
-    m_current_module.name.clear();
-
     // Iterate over the storage, and check if any block is invalid.
     for (const auto& it: m_storage) {
         if (!it.second.valid) {

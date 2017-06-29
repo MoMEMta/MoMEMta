@@ -25,7 +25,6 @@
 
 #include <momemta/any.h>
 #include <momemta/impl/InputTag_fwd.h>
-#include <momemta/Configuration.h>
 #include <momemta/Value.h>
 
 // A simple memory pool
@@ -114,7 +113,6 @@ private:
         Pool(const Pool&) = delete;
         Pool& operator=(const Pool&) = delete;
 
-        Configuration::ModuleDecl m_current_module; /// Module currently created.
         bool m_frozen = false; /// If true, no modification of the pool is allowed
 
         mutable PoolStorage m_storage;
