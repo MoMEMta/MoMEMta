@@ -18,6 +18,8 @@
 
 #include <momemta/ModuleDefBuilder.h>
 
+#include <momemta/Logging.h>
+
 #include <ModuleDefUtils.h>
 #include <strings/Scanner.h>
 
@@ -27,6 +29,10 @@ namespace registration {
 namespace {
 
 // FIXME: Do proper error handling
+
+class missing_attribute: public std::runtime_error {
+    using std::runtime_error::runtime_error;
+};
 
 /**
  * Finalize an input or output definition given a \p spec
@@ -50,10 +56,8 @@ void finalizeInputOrOutput(StringPiece spec, bool is_output, ModuleRegistrationD
     def.many = spec.Consume("*");
 
     if (! is_output) {
-        std::vector<std::string> nested_attributes;
         // This can be a nested input declaration
         // Format is `<attr>/[<attr>/]*<name>`
-
         while (true) {
             if (! Scanner(spec)
                 .RestartCapture()
@@ -70,7 +74,10 @@ void finalizeInputOrOutput(StringPiece spec, bool is_output, ModuleRegistrationD
             // Ensure attribute exists
             auto attr = momemta::findAttr(nested_attribute, data.module_def);
             if (! attr) {
-                // FIXME: Handle error
+                std::string error = "Input definition for module " + data.module_def.name + " references a non-existing "
+                            "attribute: " + nested_attribute;
+                LOG(fatal) << error;
+                throw missing_attribute(error);
             } else {
                 def.nested_attributes.push_back(*attr);
             }
