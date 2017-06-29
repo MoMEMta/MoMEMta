@@ -505,10 +505,6 @@ std::shared_ptr<ComputationGraph> ComputationGraphBuilder::build() {
                     momemta::setInputTagsForInput(input, *module_vertex.decl.parameters, updatedInputTags);
                 }
             }
-
-            const auto& inputTag = g[*o].tag;
-            assert(inputTag.isIndexed());
-            unique_cuba_indices.emplace(inputTag.index);
         }
     }
 
