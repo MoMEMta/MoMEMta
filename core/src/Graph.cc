@@ -280,7 +280,6 @@ void ComputationGraph::logTimings() const {
 #endif
 
 void ComputationGraph::setNDimensions(size_t n) {
-    assert(n >= 0);
     n_dimensions = n;
 }
 
