@@ -128,7 +128,7 @@ public:
      *
      * A sticky module is a module which can't be removed from the graph, even if its outputs are not used
      */
-    ModuleDefBuilder& IsSticky();
+    ModuleDefBuilder& Sticky();
 
     ModuleRegistrationData Build() const;
 

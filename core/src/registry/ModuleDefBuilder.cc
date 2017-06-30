@@ -234,7 +234,7 @@ ModuleDefBuilder& ModuleDefBuilder::OptionalAttr(const std::string& spec) {
     return *this;
 }
 
-ModuleDefBuilder& ModuleDefBuilder::IsSticky() {
+ModuleDefBuilder& ModuleDefBuilder::Sticky() {
     reg_data.module_def.sticky = true;
     return *this;
 }
