@@ -190,4 +190,4 @@ REGISTER_MODULE(SecondaryBlockB)
         .Input("p2")
         .Input("p3")
         .Output("solutions")
-        .GlobalAttr("energy");
+        .GlobalAttr("energy: double");

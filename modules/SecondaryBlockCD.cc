@@ -82,7 +82,7 @@ class SecondaryBlockCD: public Module {
         virtual Status work() override {
 
             solutions->clear();
-            
+
             const double m1 = p1->M();
             const double sq_m1 = SQ(m1);
             const double m2 = p2->M();
@@ -157,4 +157,4 @@ REGISTER_MODULE(SecondaryBlockCD)
         .Input("p1")
         .Input("p2")
         .Output("solutions")
-        .GlobalAttr("energy");
+        .GlobalAttr("energy: double");

@@ -28,7 +28,13 @@ namespace registration {
 
 namespace {
 
-// FIXME: Do proper error handling
+class invalid_name: public std::runtime_error {
+    using std::runtime_error::runtime_error;
+};
+
+class invalid_type: public std::runtime_error {
+    using std::runtime_error::runtime_error;
+};
 
 class missing_attribute: public std::runtime_error {
     using std::runtime_error::runtime_error;
@@ -85,12 +91,16 @@ void finalizeInputOrOutput(StringPiece spec, bool is_output, ModuleRegistrationD
     }
 
     // Parse <name>
-    Scanner(spec)
+    if (!Scanner(spec)
             .One(Scanner::LETTER)
             .Any(Scanner::LETTER_DIGIT_UNDERSCORE)
             .StopCapture()
             .AnySpace()
-            .GetResult(&spec, &out);
+            .GetResult(&spec, &out)) {
+        throw invalid_name(std::string("Invalid ") +
+                ((is_output) ? "output" : "input") +
+                " name format (<name>:) for module " + data.module_def.name);
+    }
 
     def.name = out.ToString();
 
@@ -130,14 +140,16 @@ void finalizeAttr(StringPiece spec, ModuleRegistrationData& data) {
     StringPiece out;
 
     // Parse `<name>:`
-    Scanner(spec)
+    if (! Scanner(spec)
             .One(Scanner::LETTER)
             .Any(Scanner::LETTER_DIGIT_UNDERSCORE)
             .StopCapture()
             .AnySpace()
             .OneLiteral(":")
             .AnySpace()
-            .GetResult(&spec, &out);
+            .GetResult(&spec, &out)) {
+        throw invalid_name("Invalid attribute name format (<name>:) for module " + data.module_def.name);
+    }
 
     def.name = out.ToString();
 
@@ -150,11 +162,15 @@ void finalizeAttr(StringPiece spec, ModuleRegistrationData& data) {
             .GetResult(&spec);
 
     // Consume type
-    Scanner(spec)
+    if (!Scanner(spec)
         .Any(Scanner::LOWERLETTER)
         .StopCapture()
         .AnySpace()
-        .GetResult(&spec, &out);
+        .GetResult(&spec, &out)) {
+        throw invalid_type("Invalid type format for attribute " + def.name + " for module " + data.module_def.name);
+    }
+
+    // FIXME: Validate type against a list of acceptable types
 
     if (is_list) {
         def.type = "list(" + out.ToString() + ")";
