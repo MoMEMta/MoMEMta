@@ -21,8 +21,12 @@
 
 #include <momemta/Module.h>
 
+#include <random>
+
 ExecutionPath::ExecutionPath() {
-    id = boost::uuids::random_generator()();
+    std::random_device rd;
+    std::mt19937 random_engine(rd());
+    id = boost::uuids::basic_random_generator<std::mt19937>(random_engine)();
 }
 
 Path::Path(const std::vector<std::shared_ptr<Module>>& modules) {
