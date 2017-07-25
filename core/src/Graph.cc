@@ -788,7 +788,8 @@ public:
             out << "    ";
             for (const auto& e: path->elements) {
                 auto vertex = find_vertex(e);
-                out << graph[vertex].id << "; ";
+                if (vertex != boost::graph_traits<Graph>::null_vertex())
+                    out << graph[vertex].id << "; ";
             }
 
             out << std::endl;
