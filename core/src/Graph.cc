@@ -41,6 +41,10 @@ class incomplete_looper_path: public std::runtime_error {
     using std::runtime_error::runtime_error;
 };
 
+class unresolved_input: public std::runtime_error {
+    using std::runtime_error::runtime_error;
+};
+
 /**
  * Check if  \p vertex and \p to are connected in any way, but only throught out edges (\p vertex -> \p to)
  * \param g Graph where \p vertex and \p to are
@@ -594,6 +598,56 @@ void ComputationGraphBuilder::sort_graph() {
 }
 
 void ComputationGraphBuilder::validate() {
+
+    auto log_and_throw_unresolved_input = [](const std::string& module_name, const InputTag& input) {
+        LOG(fatal) << "Module '" << module_name << "' requested a non-existing input (" << input.toString() << ")";
+        throw unresolved_input("Module '" + module_name + "' requested a non-existing input (" + input.toString() + ")");
+    };
+
+    // Find any module whose input point to a non-existing module / parameter
+    for (auto it = vertices.begin(), ite = vertices.end(); it != ite; it++) {
+
+        const auto& vertex = g[it->second];
+        // Ignore internal module (?)
+        if (vertex.def.internal)
+            continue;
+
+        const auto& inputs = vertex.def.inputs;
+
+        for (const auto& input_def: inputs) {
+
+            // Get the InputTag for this input
+            momemta::gtl::optional<std::vector<InputTag>> inputTags =
+                    momemta::getInputTagsForInput(input_def, *vertex.decl.parameters);
+
+            if (! inputTags)
+                continue;
+
+            // Ensure that every input tags point to an existing module
+            for (const auto& inputTag: *inputTags) {
+                auto target_it = vertices.find(inputTag.module);
+
+                if (target_it == vertices.end()) {
+                    // Non-existing module
+                    log_and_throw_unresolved_input(it->first, inputTag);
+                }
+
+
+                // Look for input in module's output
+                const auto& target_module_outputs = g[target_it->second].def.outputs;
+                auto output_it = std::find_if(target_module_outputs.begin(),
+                                             target_module_outputs.end(),
+                                             [&inputTag](const ArgDef& output) {
+                                                 return inputTag.parameter == output.name;
+                                             });
+
+                if (output_it == target_module_outputs.end()) {
+                    // Non-existing parameter
+                    log_and_throw_unresolved_input(it->first, inputTag);
+                }
+            }
+        }
+    }
 
     // Ensure all the modules using a Looper output are present in the looper path
     std::map<vertex_t, std::vector<vertex_t>> modules_not_in_path;

@@ -180,8 +180,11 @@ GaussianTransferFunctionOnEnergy.tf_2 = {
 
     SECTION("Two execution paths") {
         const std::string conf_str = R"(
+
+DoubleConstant.dummy = { value = 42. }
+
 Looper.looper = {
-    solutions = "dummy::dummy",
+    solutions = "dummy::value",
     path = Path("sum", "constant_1", "constant_2", "printer")
 }
 
@@ -199,7 +202,7 @@ integrand("sum::output")
 
         auto conf = get_conf(conf_str);
 
-        REQUIRE(conf.getModules().size() == 8); // 5 user + 3 internals
+        REQUIRE(conf.getModules().size() == 9); // 6 user + 3 internals
         REQUIRE(conf.getPaths().size() == 1);
 
         momemta::ComputationGraphBuilder builder(available_modules, conf);
@@ -210,9 +213,10 @@ integrand("sum::output")
         REQUIRE(graph->getPaths().back() == conf.getPaths().front()->id);
 
         auto modules = graph->getDecls(DEFAULT_EXECUTION_PATH);
-        REQUIRE(modules.size() == 1); // Only the looper
+        REQUIRE(modules.size() == 2); // Only the looper + dummy module
 
-        REQUIRE(modules.at(0).name == "looper");
+        REQUIRE(modules.at(0).name == "dummy");
+        REQUIRE(modules.at(1).name == "looper");
 
         modules = graph->getDecls(graph->getPaths().back());
         // Order is not guaranteed, only test the number of modules
@@ -221,8 +225,10 @@ integrand("sum::output")
 
     SECTION("A module using looper's output must be inside the looper execution path") {
         const std::string conf_str = R"(
+DoubleConstant.dummy = { value = 42. }
+
 Looper.looper = {
-    solutions = "dummy::dummy",
+    solutions = "dummy::value",
     path = Path("constant")
 }
 
@@ -234,20 +240,23 @@ integrand("sum::output")
 
         auto conf = get_conf(conf_str);
 
-        REQUIRE(conf.getModules().size() == 6); // 3 user + 3 internals
+        REQUIRE(conf.getModules().size() == 7); // 4 user + 3 internals
         REQUIRE(conf.getPaths().size() == 1);
 
         logging::set_level(logging::level::off);
         momemta::ComputationGraphBuilder builder(available_modules, conf);
-        REQUIRE_THROWS(
-                builder.build()
+        REQUIRE_THROWS_WITH(
+                builder.build(),
+                Catch::Matchers::Contains("A module is using the looper output but not actually part of its execution path")
         );
     }
 
-    SECTION("All module inside the execution path must exists") {
+    SECTION("A module inside the execution path may not exists") {
         const std::string conf_str = R"(
+DoubleConstant.dummy = { value = 42. }
+
 Looper.looper = {
-    solutions = "dummy::dummy",
+    solutions = "dummy::value",
     path = Path("unexisting", "printer")
 }
 
@@ -258,7 +267,7 @@ integrand("dummy::dummy")
 
         auto conf = get_conf(conf_str);
 
-        REQUIRE(conf.getModules().size() == 5); // 2 user + 3 internals
+        REQUIRE(conf.getModules().size() == 6); // 3 user + 3 internals
         REQUIRE(conf.getPaths().size() == 1);
 
         logging::set_level(logging::level::off);
@@ -269,14 +278,17 @@ integrand("dummy::dummy")
     SECTION("Three execution paths") {
         const std::string conf_str = R"(
 
+DoubleConstant.dummy_1 = { value = 42. }
+DoubleConstant.dummy_2 = { value = 42. }
+
 Looper.looper_2 = {
-    solutions = "dummy_2::dummy",
+    solutions = "dummy_2::value",
     path = Path("printer_2")
 }
 
 Looper.looper_1 = {
-    solutions = "dummy_1::dummy",
-    path = Path("printer_1", "looper_2")
+    solutions = "dummy_1::value",
+    path = Path("printer_1", "looper_2", "dummy_2")
 }
 
 SolutionPrinter.printer_1 = { input = "looper_1::particles" }
@@ -287,7 +299,7 @@ integrand("some::output")
 
         auto conf = get_conf(conf_str);
 
-        REQUIRE(conf.getModules().size() == 7); // 4 user + 3 internals
+        REQUIRE(conf.getModules().size() == 9); // 6 user + 3 internals
         REQUIRE(conf.getPaths().size() == 2);
 
         momemta::ComputationGraphBuilder builder(available_modules, conf);
@@ -300,14 +312,15 @@ integrand("some::output")
         REQUIRE(graph->getPaths().back() == conf.getPaths().front()->id);
 
         auto modules = graph->getDecls(DEFAULT_EXECUTION_PATH);
-        REQUIRE(modules.size() == 1); // Only looper_1
+        REQUIRE(modules.size() == 2); // Only looper_1 + dummy module
 
-        REQUIRE(modules.at(0).name == "looper_1");
+        REQUIRE(modules.at(0).name == "dummy_1");
+        REQUIRE(modules.at(1).name == "looper_1");
 
         modules = graph->getDecls(graph->getPaths().at(1));
 
-        // Looper_1 path, printer_1 and looper_2
-        REQUIRE(modules.size() == 2);
+        // Looper_1 path, dummy_1, printer_1 and looper_2
+        REQUIRE(modules.size() == 3);
 
         modules = graph->getDecls(graph->getPaths().at(2));
 
@@ -321,27 +334,29 @@ integrand("some::output")
 local first_dim = add_dimension()
 local unused_dim = add_dimension()
 
+DoubleConstant.dummy = { value = 42. }
+
 GaussianTransferFunctionOnEnergy.tf_1 = {
     ps_point = first_dim,
-    reco_particle = "dummy::output",
+    reco_particle = "dummy::value",
     sigma = 0.05
 }
 
 GaussianTransferFunctionOnEnergy.tf_2 = {
     ps_point = first_dim,
-    reco_particle = "dummy::output",
+    reco_particle = "dummy::value",
     sigma = 0.05
 }
 
 GaussianTransferFunctionOnEnergy.tf_3 = {
     ps_point = add_dimension(),
-    reco_particle = "dummy::output",
+    reco_particle = "dummy::value",
     sigma = 0.05
 }
 
 GaussianTransferFunctionOnEnergy.unused = {
     ps_point = unused_dim,
-    reco_particle = "dummy::output",
+    reco_particle = "dummy::value",
     sigma = 0.05
 }
 
@@ -363,6 +378,50 @@ integrand("tf_1::output", "tf_2::output", "tf_3::output")
         REQUIRE(graph->getPaths().front() == DEFAULT_EXECUTION_PATH);
 
         auto modules = graph->getDecls(DEFAULT_EXECUTION_PATH);
-        REQUIRE(modules.size() == 3);
+        REQUIRE(modules.size() == 4);
+    }
+
+    SECTION("Using a non-existing input should throw an exception") {
+        const std::string conf_str = R"(
+
+GaussianTransferFunctionOnEnergy.tf_1 = {
+    ps_point = add_dimension(),
+    reco_particle = "non_existing_module::output",
+    sigma = 0.05
+}
+
+integrand("tf_1::output")
+)";
+
+        auto conf = get_conf(conf_str);
+        logging::set_level(logging::level::off);
+        momemta::ComputationGraphBuilder builder(available_modules, conf);
+        REQUIRE_THROWS_WITH(
+                builder.build(),
+                Catch::Matchers::Equals("Module 'tf_1' requested a non-existing input (non_existing_module::output)")
+        );
+    }
+
+    SECTION("Using a non-existing input should throw an exception") {
+        const std::string conf_str = R"(
+
+DoubleConstant.dummy = { value = 42. }
+
+GaussianTransferFunctionOnEnergy.tf_1 = {
+    ps_point = add_dimension(),
+    reco_particle = "dummy::non_existing_param",
+    sigma = 0.05
+}
+
+integrand("tf_1::output")
+)";
+
+        auto conf = get_conf(conf_str);
+        logging::set_level(logging::level::off);
+        momemta::ComputationGraphBuilder builder(available_modules, conf);
+        REQUIRE_THROWS_WITH(
+                builder.build(),
+                Catch::Matchers::Equals("Module 'tf_1' requested a non-existing input (dummy::non_existing_param)")
+        );
     }
 }
