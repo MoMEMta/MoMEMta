@@ -27,7 +27,7 @@
 
 REGISTER_INTERNAL_MODULE("cuba")
         .Output("ps_points")
-        .Output("ps_weights");
+        .Output("ps_weight");
 
 REGISTER_INTERNAL_MODULE("met")
         .Output("p4");

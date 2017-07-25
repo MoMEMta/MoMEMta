@@ -452,6 +452,11 @@ std::shared_ptr<ComputationGraph> ComputationGraphBuilder::build() {
     std::set<size_t> unique_cuba_indices;
     for (; o != o_end; ++o) {
         const auto& inputTag = g[*o].tag;
+
+        // We only care about phase-space points, not weights
+        if (inputTag.parameter != "ps_points")
+            continue;
+
         assert(inputTag.isIndexed());
         unique_cuba_indices.emplace(inputTag.index);
     }
