@@ -25,7 +25,7 @@
 #include <vector> 
 #include <utility>
 
-namespace pp_WW_fully_leptonic_sm {
+namespace pp_ttx_fully_leptonic_sm {
 
     template<class T>
     struct SubProcess {

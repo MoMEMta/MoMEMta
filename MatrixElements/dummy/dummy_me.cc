@@ -10,6 +10,8 @@ class DummyMatrixElement : public momemta::MatrixElement {
 
     virtual ~DummyMatrixElement(){};
 
+    virtual void resetHelicities(){};
+
     // Calculate flavour-independent parts of cross section.
     virtual momemta::MatrixElement::Result
     compute(const std::pair<std::vector<double>, std::vector<double>>& initialMomenta,
