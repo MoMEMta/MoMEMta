@@ -169,7 +169,7 @@ Looper.looper = {
         inputs = full_inputs,
         ids = {
           {
-            pdg_id = -11,
+            pdg_id = -13,
             me_index = 1,
           },
 
@@ -189,7 +189,7 @@ Looper.looper = {
           },
 
           {
-            pdg_id = 12,
+            pdg_id = 14,
             me_index = 2,
           },
 

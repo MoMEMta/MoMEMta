@@ -129,7 +129,7 @@ MatrixElement.ttbar = {
         inputs = full_inputs,
         ids = {
             {
-                pdg_id = -11,
+                pdg_id = -13,
                 me_index = 1,
             },
 
@@ -149,7 +149,7 @@ MatrixElement.ttbar = {
             },
 
             {
-                pdg_id = 12,
+                pdg_id = 14,
                 me_index = 2,
             },
 
