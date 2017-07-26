@@ -232,6 +232,12 @@ class MatrixElement: public Module {
             permutations = get_permutations(suite, indexing);
         };
 
+        virtual void beginIntegration() {
+            // Don't assume the non-zero helicities will be the same for each event
+            // In principle they are, but this protects against buggy calls to the ME (e.g. returning NaN or inf)
+            m_ME->resetHelicities();
+        }
+
         virtual Status work() override {
             static std::vector<LorentzVector> empty_vector;
 
