@@ -19,6 +19,7 @@
 #include <momemta/MoMEMta.h>
 
 #include <cstring>
+#include <cmath>
 
 #include <cuba.h>
 
@@ -435,8 +436,11 @@ int MoMEMta::integrand(const double* psPoints, double* results, const double* we
     for (auto& module: m_modules)
         module->endPoint();
 
-    for (size_t i = 0; i < m_n_components; i++)
+    for (size_t i = 0; i < m_n_components; i++) {
         results[i] = *(m_integrands[i]);
+        if (!std::isfinite(results[i]))
+            throw integrands_nonfinite_error("Integrand component " + std::to_string(i) + " is infinite or NaN!");
+    }
 
     return CUBA_OK;
 }
