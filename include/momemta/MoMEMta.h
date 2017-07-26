@@ -108,6 +108,9 @@ class MoMEMta {
         class invalid_inputs: public std::runtime_error {
             using std::runtime_error::runtime_error;
         };
+        class integrands_nonfinite_error: public std::runtime_error {
+            using std::runtime_error::runtime_error;
+        };
 
         /**
          * \brief Test if a LorentzVector is physical or not
