@@ -38,6 +38,8 @@ namespace momemta {
 
             MatrixElement() = default;
             virtual ~MatrixElement() {};
+
+            virtual void resetHelicities() = 0;
     
             virtual Result compute(
                     const std::pair<std::vector<double>, std::vector<double>>& initialMomenta,

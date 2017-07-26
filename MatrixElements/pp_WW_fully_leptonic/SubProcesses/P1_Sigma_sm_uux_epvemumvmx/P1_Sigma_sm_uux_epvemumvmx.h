@@ -26,6 +26,7 @@
 #include <vector> 
 #include <utility> 
 #include <map> 
+#include <functional> 
 
 #include <Parameters_sm.h> 
 #include <SubProcess.h> 
@@ -70,7 +71,10 @@ class P1_Sigma_sm_uux_epvemumvmx: public momemta::MatrixElement
       return params; 
     }
 
-    // needed? const std::vector<double>& getMasses() const {return mME;}
+    // Make sure all helicity combinations are tried again (forget optimisation
+    // consisting of not evaluating helicities which have given a zero result
+    // once)
+    virtual void resetHelicities(); 
 
   private:
 
@@ -118,7 +122,7 @@ class P1_Sigma_sm_uux_epvemumvmx: public momemta::MatrixElement
     std::shared_ptr < Parameters_sm > params; 
 
     // vector with external particle masses
-    std::vector<double> mME; 
+    std::vector < std::reference_wrapper<double> > mME; 
 
     // vector with momenta (to be changed each event)
     double * momenta[6]; 

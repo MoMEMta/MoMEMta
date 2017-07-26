@@ -1,7 +1,7 @@
 set(SOURCES
     "src/HelAmps_sm.cc"
     "src/Parameters_sm.cc"
-    "SubProcesses/P1_Sigma_sm_gg_mupvmbmumvmxbx/cpp_pp_ttx_fullylept.cc"
+    "SubProcesses/P1_Sigma_sm_gg_mupvmbmumvmxbx/P1_Sigma_sm_gg_mupvmbmumvmxbx.cc"
     )
 
 add_library(me_pp_ttx_fully_leptonic OBJECT ${SOURCES})

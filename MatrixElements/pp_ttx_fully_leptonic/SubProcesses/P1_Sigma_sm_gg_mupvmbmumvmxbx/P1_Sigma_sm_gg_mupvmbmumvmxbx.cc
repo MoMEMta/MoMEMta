@@ -25,36 +25,49 @@
 #include <vector> 
 #include <map> 
 
-#include <P1_Sigma_sm_uux_epvemumvmx.h> 
+#include <P1_Sigma_sm_gg_mupvmbmumvmxbx.h> 
 #include <HelAmps_sm.h> 
 
 #include <momemta/ParameterSet.h> 
 #include <momemta/SLHAReader.h> 
 
-namespace pp_WW_fully_leptonic_sm 
+namespace pp_ttx_fully_leptonic_sm 
 {
 
 //==========================================================================
 // Class member functions for calculating the matrix elements for
-// Process: u u~ > w+ w- WEIGHTED<=4 @1
-// *   Decay: w+ > e+ ve WEIGHTED<=2
-// *   Decay: w- > mu- vm~ WEIGHTED<=2
-// Process: c c~ > w+ w- WEIGHTED<=4 @1
-// *   Decay: w+ > e+ ve WEIGHTED<=2
-// *   Decay: w- > mu- vm~ WEIGHTED<=2
-// Process: d d~ > w+ w- WEIGHTED<=4 @1
-// *   Decay: w+ > e+ ve WEIGHTED<=2
-// *   Decay: w- > mu- vm~ WEIGHTED<=2
-// Process: s s~ > w+ w- WEIGHTED<=4 @1
-// *   Decay: w+ > e+ ve WEIGHTED<=2
-// *   Decay: w- > mu- vm~ WEIGHTED<=2
+// Process: g g > t t~ WEIGHTED<=2 @1
+// *   Decay: t > w+ b WEIGHTED<=2
+// *     Decay: w+ > mu+ vm WEIGHTED<=2
+// *   Decay: t~ > w- b~ WEIGHTED<=2
+// *     Decay: w- > mu- vm~ WEIGHTED<=2
+// Process: u u~ > t t~ WEIGHTED<=2 @1
+// *   Decay: t > w+ b WEIGHTED<=2
+// *     Decay: w+ > mu+ vm WEIGHTED<=2
+// *   Decay: t~ > w- b~ WEIGHTED<=2
+// *     Decay: w- > mu- vm~ WEIGHTED<=2
+// Process: c c~ > t t~ WEIGHTED<=2 @1
+// *   Decay: t > w+ b WEIGHTED<=2
+// *     Decay: w+ > mu+ vm WEIGHTED<=2
+// *   Decay: t~ > w- b~ WEIGHTED<=2
+// *     Decay: w- > mu- vm~ WEIGHTED<=2
+// Process: d d~ > t t~ WEIGHTED<=2 @1
+// *   Decay: t > w+ b WEIGHTED<=2
+// *     Decay: w+ > mu+ vm WEIGHTED<=2
+// *   Decay: t~ > w- b~ WEIGHTED<=2
+// *     Decay: w- > mu- vm~ WEIGHTED<=2
+// Process: s s~ > t t~ WEIGHTED<=2 @1
+// *   Decay: t > w+ b WEIGHTED<=2
+// *     Decay: w+ > mu+ vm WEIGHTED<=2
+// *   Decay: t~ > w- b~ WEIGHTED<=2
+// *     Decay: w- > mu- vm~ WEIGHTED<=2
 
 //--------------------------------------------------------------------------
 
 // Initialize process.
 
-P1_Sigma_sm_uux_epvemumvmx::P1_Sigma_sm_uux_epvemumvmx(const ParameterSet&
-    configuration)
+P1_Sigma_sm_gg_mupvmbmumvmxbx::P1_Sigma_sm_gg_mupvmbmumvmxbx(const
+    ParameterSet& configuration)
 {
 
   std::string param_card = configuration.get < std::string > ("card"); 
@@ -65,35 +78,38 @@ P1_Sigma_sm_uux_epvemumvmx::P1_Sigma_sm_uux_epvemumvmx(const ParameterSet&
   mME.push_back(std::ref(params->ZERO)); 
   mME.push_back(std::ref(params->ZERO)); 
   mME.push_back(std::ref(params->ZERO)); 
+  mME.push_back(std::ref(params->mdl_MB)); 
   mME.push_back(std::ref(params->ZERO)); 
   mME.push_back(std::ref(params->ZERO)); 
+  mME.push_back(std::ref(params->mdl_MB)); 
 
-  mapFinalStates[{-11, 12, 13, -14}] = 
+  mapFinalStates[{-13, 14, 5, 13, -14, -5}] = 
   {
     {
-      &P1_Sigma_sm_uux_epvemumvmx::matrix_1_uux_wpwm_wp_epve_wm_mumvmx, 
-      true, 
+      &P1_Sigma_sm_gg_mupvmbmumvmxbx::matrix_1_gg_ttx_t_wpb_wp_mupvm_tx_wmbx_wm_mumvmx, 
+      false, 
       {
-        std::make_pair(2, -2), std::make_pair(4, -4)
+        std::make_pair(21, 21)
       }, 
-      64, 
-      36
+      256, 
+      256
     }
     , 
     {
-      &P1_Sigma_sm_uux_epvemumvmx::matrix_1_ddx_wpwm_wp_epve_wm_mumvmx, 
+      &P1_Sigma_sm_gg_mupvmbmumvmxbx::matrix_1_uux_ttx_t_wpb_wp_mupvm_tx_wmbx_wm_mumvmx, 
       true, 
       {
-        std::make_pair(1, -1), std::make_pair(3, -3)
+        std::make_pair(2, -2), std::make_pair(4, -4), std::make_pair(1, -1),
+            std::make_pair(3, -3)
       }, 
-      64, 
+      256, 
       36
     }
   }; 
 
 }
 
-void P1_Sigma_sm_uux_epvemumvmx::resetHelicities() 
+void P1_Sigma_sm_gg_mupvmbmumvmxbx::resetHelicities() 
 {
   for (auto& finalState: mapFinalStates)
   {
@@ -109,9 +125,9 @@ void P1_Sigma_sm_uux_epvemumvmx::resetHelicities()
 // Evaluate |M|^2, return a map of final states
 
 std::map < std::pair < int, int > , double >
-    P1_Sigma_sm_uux_epvemumvmx::compute(const std::pair < std::vector<double> ,
-    std::vector<double> > &initialMomenta, const std::vector < std::pair < int,
-    std::vector<double> > > &finalState)
+    P1_Sigma_sm_gg_mupvmbmumvmxbx::compute(const std::pair <
+    std::vector<double> , std::vector<double> > &initialMomenta, const
+    std::vector < std::pair < int, std::vector<double> > > &finalState)
 {
 
   // Set initial particle momenta
@@ -119,8 +135,8 @@ std::map < std::pair < int, int > , double >
   momenta[1] = (double * ) (&initialMomenta.second[0]); 
 
   // Suppose final particles are passed in the "correct" order
-  std::vector<int> selectedFinalState(6 - 2); 
-  for (size_t index = 0; index < (6 - 2); index++ )
+  std::vector<int> selectedFinalState(8 - 2); 
+  for (size_t index = 0; index < (8 - 2); index++ )
   {
     selectedFinalState[index] = finalState[index].first; 
     momenta[index + 2] = (double * ) (&finalState[index].second[0]); 
@@ -134,8 +150,8 @@ std::map < std::pair < int, int > , double >
   std::map < std::pair < int, int > , double > result; 
 
   // Define permutation
-  int perm[6]; 
-  for(int i = 0; i < 6; i++ )
+  int perm[8]; 
+  for(int i = 0; i < 8; i++ )
   {
     perm[i] = i; 
   }
@@ -146,7 +162,7 @@ std::map < std::pair < int, int > , double >
     double me_sum = 0; 
     double me_mirror_sum = 0; 
 
-    for(int ihel = 0; ihel < 64; ihel++ )
+    for(int ihel = 0; ihel < 256; ihel++ )
     {
 
       if(me.goodHel[ihel])
@@ -196,58 +212,60 @@ std::map < std::pair < int, int > , double >
 //--------------------------------------------------------------------------
 // Evaluate |M|^2 for each subprocess
 
-void P1_Sigma_sm_uux_epvemumvmx::calculate_wavefunctions(const int perm[],
+void P1_Sigma_sm_gg_mupvmbmumvmxbx::calculate_wavefunctions(const int perm[],
     const int hel[])
 {
   // Calculate wavefunctions for all processes
-  static std::complex<double> w[14][18]; 
+  static std::complex<double> w[18][18]; 
 
   // Calculate all wavefunctions
-  ixxxxx(&momenta[perm[0]][0], mME[0], hel[0], +1, w[0]); 
-  oxxxxx(&momenta[perm[1]][0], mME[1], hel[1], -1, w[1]); 
+  vxxxxx(&momenta[perm[0]][0], mME[0], hel[0], -1, w[0]); 
+  vxxxxx(&momenta[perm[1]][0], mME[1], hel[1], -1, w[1]); 
   ixxxxx(&momenta[perm[2]][0], mME[2], hel[2], -1, w[2]); 
   oxxxxx(&momenta[perm[3]][0], mME[3], hel[3], +1, w[3]); 
   FFV2_3(w[2], w[3], params->GC_100, params->mdl_MW, params->mdl_WW, w[4]); 
   oxxxxx(&momenta[perm[4]][0], mME[4], hel[4], +1, w[5]); 
-  ixxxxx(&momenta[perm[5]][0], mME[5], hel[5], -1, w[6]); 
-  FFV2_3(w[6], w[5], params->GC_100, params->mdl_MW, params->mdl_WW, w[7]); 
-  FFV1P0_3(w[0], w[1], params->GC_2, params->ZERO, params->ZERO, w[8]); 
-  FFV2_5_3(w[0], w[1], params->GC_51, params->GC_58, params->mdl_MZ,
-      params->mdl_WZ, w[9]);
-  FFV2_2(w[0], w[4], params->GC_100, params->ZERO, params->ZERO, w[10]); 
-  FFV1P0_3(w[0], w[1], params->GC_1, params->ZERO, params->ZERO, w[11]); 
-  FFV2_3_3(w[0], w[1], params->GC_50, params->GC_58, params->mdl_MZ,
-      params->mdl_WZ, w[12]);
-  FFV2_2(w[0], w[7], params->GC_100, params->ZERO, params->ZERO, w[13]); 
+  FFV2_1(w[5], w[4], params->GC_100, params->mdl_MT, params->mdl_WT, w[6]); 
+  oxxxxx(&momenta[perm[5]][0], mME[5], hel[5], +1, w[7]); 
+  ixxxxx(&momenta[perm[6]][0], mME[6], hel[6], -1, w[8]); 
+  FFV2_3(w[8], w[7], params->GC_100, params->mdl_MW, params->mdl_WW, w[9]); 
+  ixxxxx(&momenta[perm[7]][0], mME[7], hel[7], -1, w[10]); 
+  FFV2_2(w[10], w[9], params->GC_100, params->mdl_MT, params->mdl_WT, w[11]); 
+  VVV1P0_1(w[0], w[1], params->GC_10, params->ZERO, params->ZERO, w[12]); 
+  FFV1_1(w[6], w[0], params->GC_11, params->mdl_MT, params->mdl_WT, w[13]); 
+  FFV1_2(w[11], w[0], params->GC_11, params->mdl_MT, params->mdl_WT, w[14]); 
+  ixxxxx(&momenta[perm[0]][0], mME[0], hel[0], +1, w[15]); 
+  oxxxxx(&momenta[perm[1]][0], mME[1], hel[1], -1, w[16]); 
+  FFV1P0_3(w[15], w[16], params->GC_11, params->ZERO, params->ZERO, w[17]); 
 
   // Calculate all amplitudes
   // Amplitude(s) for diagram number 0
-  VVV1_0(w[8], w[7], w[4], params->GC_4, amp[0]); 
-  VVV1_0(w[7], w[4], w[9], params->GC_53, amp[1]); 
-  FFV2_0(w[10], w[1], w[7], params->GC_100, amp[2]); 
-  VVV1_0(w[11], w[7], w[4], params->GC_4, amp[3]); 
-  VVV1_0(w[7], w[4], w[12], params->GC_53, amp[4]); 
-  FFV2_0(w[13], w[1], w[4], params->GC_100, amp[5]); 
+  FFV1_0(w[11], w[6], w[12], params->GC_11, amp[0]); 
+  FFV1_0(w[11], w[13], w[1], params->GC_11, amp[1]); 
+  FFV1_0(w[14], w[6], w[1], params->GC_11, amp[2]); 
+  FFV1_0(w[11], w[6], w[17], params->GC_11, amp[3]); 
 
 }
-double P1_Sigma_sm_uux_epvemumvmx::matrix_1_uux_wpwm_wp_epve_wm_mumvmx() 
+double P1_Sigma_sm_gg_mupvmbmumvmxbx::matrix_1_gg_ttx_t_wpb_wp_mupvm_tx_wmbx_wm_mumvmx() 
 {
 
   static std::complex<double> ztemp; 
-  static std::complex<double> jamp[1]; 
+  static std::complex<double> jamp[2]; 
   // The color matrix
-  static const double denom[1] = {1}; 
-  static const double cf[1][1] = {{3}}; 
+  static const double denom[2] = {3, 3}; 
+  static const double cf[2][2] = {{16, -2}, {-2, 16}}; 
 
   // Calculate color flows
-  jamp[0] = -amp[0] - amp[1] - amp[2]; 
+  static const std::complex<double> cI(0., 1.); 
+  jamp[0] = -cI * amp[0] + amp[1]; 
+  jamp[1] = +cI * amp[0] + amp[2]; 
 
   // Sum and square the color flows to get the matrix element
   double matrix = 0; 
-  for(int i = 0; i < 1; i++ )
+  for(int i = 0; i < 2; i++ )
   {
     ztemp = 0.; 
-    for(int j = 0; j < 1; j++ )
+    for(int j = 0; j < 2; j++ )
       ztemp = ztemp + cf[i][j] * jamp[j]; 
     matrix = matrix + real(ztemp * conj(jamp[i]))/denom[i]; 
   }
@@ -255,24 +273,25 @@ double P1_Sigma_sm_uux_epvemumvmx::matrix_1_uux_wpwm_wp_epve_wm_mumvmx()
   return matrix; 
 }
 
-double P1_Sigma_sm_uux_epvemumvmx::matrix_1_ddx_wpwm_wp_epve_wm_mumvmx() 
+double P1_Sigma_sm_gg_mupvmbmumvmxbx::matrix_1_uux_ttx_t_wpb_wp_mupvm_tx_wmbx_wm_mumvmx() 
 {
 
   static std::complex<double> ztemp; 
-  static std::complex<double> jamp[1]; 
+  static std::complex<double> jamp[2]; 
   // The color matrix
-  static const double denom[1] = {1}; 
-  static const double cf[1][1] = {{3}}; 
+  static const double denom[2] = {1, 1}; 
+  static const double cf[2][2] = {{9, 3}, {3, 9}}; 
 
   // Calculate color flows
-  jamp[0] = -amp[3] - amp[4] - amp[5]; 
+  jamp[0] = +1./2. * (-1./3. * amp[3]); 
+  jamp[1] = +1./2. * (+amp[3]); 
 
   // Sum and square the color flows to get the matrix element
   double matrix = 0; 
-  for(int i = 0; i < 1; i++ )
+  for(int i = 0; i < 2; i++ )
   {
     ztemp = 0.; 
-    for(int j = 0; j < 1; j++ )
+    for(int j = 0; j < 2; j++ )
       ztemp = ztemp + cf[i][j] * jamp[j]; 
     matrix = matrix + real(ztemp * conj(jamp[i]))/denom[i]; 
   }
@@ -286,6 +305,5 @@ double P1_Sigma_sm_uux_epvemumvmx::matrix_1_ddx_wpwm_wp_epve_wm_mumvmx()
 
 // Register matrix element with MoMEMta
 #include <momemta/MatrixElementFactory.h> 
-REGISTER_MATRIX_ELEMENT("pp_WW_fully_leptonic_sm_P1_Sigma_sm_uux_epvemumvmx",
-    pp_WW_fully_leptonic_sm::P1_Sigma_sm_uux_epvemumvmx);
+REGISTER_MATRIX_ELEMENT("pp_ttx_fully_leptonic", pp_ttx_fully_leptonic_sm::P1_Sigma_sm_gg_mupvmbmumvmxbx); 
 
