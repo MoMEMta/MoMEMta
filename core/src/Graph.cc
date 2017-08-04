@@ -490,7 +490,7 @@ std::shared_ptr<ComputationGraph> ComputationGraphBuilder::build() {
 
                     auto updatedInputTag = inputTag;
 
-                    // FIXME: probably not very smart to hardcode the value of the module and parameter
+                    // TODO: find a better way than hardcoding the values
                     if (inputTag.module == "cuba" && inputTag.parameter == "ps_points") {
                         update_decl = true;
                         // It's a cuba InputTag, re-index it

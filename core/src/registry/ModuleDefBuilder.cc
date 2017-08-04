@@ -170,7 +170,7 @@ void finalizeAttr(StringPiece spec, ModuleRegistrationData& data) {
         throw invalid_type("Invalid type format for attribute " + def.name + " for module " + data.module_def.name);
     }
 
-    // FIXME: Validate type against a list of acceptable types
+    // TODO: Validate type against a list of acceptable types
 
     if (is_list) {
         def.type = "list(" + out.ToString() + ")";

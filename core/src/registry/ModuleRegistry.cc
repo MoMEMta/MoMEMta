@@ -101,8 +101,6 @@ void ModuleRegistry::callDeferred() const {
 void ModuleRegistry::registerModuleWithLock(RegisterOp registration_op) const {
     auto registration_data = registration_op();
 
-    // FIXME: Do validation of some kind
-
     // Insert module into registry
     auto it = registry_.find(registration_data.module_def.name);
     if (it != registry_.end())
