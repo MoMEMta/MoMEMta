@@ -548,6 +548,8 @@ std::shared_ptr<ComputationGraph> ComputationGraphBuilder::build() {
         computationGraph->addDecl(execution_path, g[vertex].decl);
     }
 
+    graph_created = true;
+
     return computationGraph;
 }
 
@@ -875,7 +877,9 @@ void graphviz_export(const Graph& g,
 }
 
 void ComputationGraphBuilder::exportGraph(const std::string& output) const {
-    // FIXME: Ensure graph is created
+    if (! graph_created)
+        return;
+
     graphviz_export(g, configuration.getPaths(), output);
 }
 

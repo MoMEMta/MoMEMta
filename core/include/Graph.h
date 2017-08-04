@@ -176,6 +176,8 @@ private:
     std::unordered_map<std::string, vertex_t> vertices;
 
     std::list<vertex_t> sorted_vertices; // filled only if sort_graph is called
+
+    bool graph_created = false;
 };
 
 }
