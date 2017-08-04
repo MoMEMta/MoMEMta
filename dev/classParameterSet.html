@@ -121,7 +121,7 @@ $(function() {
 <p>and you would use the following code to access the <code>z</code> value:</p>
 <div class="fragment"><div class="line">std::vector&lt;int64_t&gt; values = <span class="keyword">set</span>.get&lt;std::vector&lt;int64_t&gt;&gt;(<span class="stringliteral">&quot;z&quot;</span>);</div></div><!-- fragment --><dl class="todo"><dt><b><a class="el" href="todo.html#_todo000003">Todo:</a></b></dt><dd>Document the freezing of the configuration in <a class="el" href="classConfigurationReader.html" title="A lua configuration file parser. ">ConfigurationReader</a></dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="ParameterSet_8h_source.html#l00074">74</a> of file <a class="el" href="ParameterSet_8h_source.html">ParameterSet.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ParameterSet_8h_source.html#l00082">82</a> of file <a class="el" href="ParameterSet_8h_source.html">ParameterSet.h</a>.</p>
 </div><div class="dynheader">
 Inheritance diagram for ParameterSet:</div>
 <div class="dyncontent">
@@ -145,6 +145,10 @@ Public Member Functions</h2></td></tr>
 template&lt;typename T &gt; </td></tr>
 <tr class="memitem:af4d6c7b603fc22653e0f30ee69be6256"><td class="memTemplItemLeft" align="right" valign="top">const T &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><b>get</b> (const std::string &amp;name) const</td></tr>
 <tr class="separator:af4d6c7b603fc22653e0f30ee69be6256"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3e71d85489b4839e8a8d873a4e94f2e1"><td class="memTemplParams" colspan="2"><a id="a3e71d85489b4839e8a8d873a4e94f2e1"></a>
+template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a3e71d85489b4839e8a8d873a4e94f2e1"><td class="memTemplItemLeft" align="right" valign="top">T &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><b>get</b> (const std::string &amp;name)</td></tr>
+<tr class="separator:a3e71d85489b4839e8a8d873a4e94f2e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2cc4bccbb75438089328390da7d1f995"><td class="memTemplParams" colspan="2"><a id="a2cc4bccbb75438089328390da7d1f995"></a>
 template&lt;typename T &gt; </td></tr>
 <tr class="memitem:a2cc4bccbb75438089328390da7d1f995"><td class="memTemplItemLeft" align="right" valign="top">const T &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><b>get</b> (const std::string &amp;name, const T &amp;defaultValue) const</td></tr>
@@ -229,6 +233,12 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>Configuration</b></t
 <tr class="memitem:ab5511b620b971cf61426770d6fd8b55a"><td class="memItemLeft" align="right" valign="top"><a id="ab5511b620b971cf61426770d6fd8b55a"></a>
 class&#160;</td><td class="memItemRight" valign="bottom"><b>ParameterSetParser</b></td></tr>
 <tr class="separator:ab5511b620b971cf61426770d6fd8b55a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad5d69b83f11c28e42f20ad09ed8309eb"><td class="memItemLeft" align="right" valign="top"><a id="ad5d69b83f11c28e42f20ad09ed8309eb"></a>
+class&#160;</td><td class="memItemRight" valign="bottom"><b>momemta::ComputationGraph</b></td></tr>
+<tr class="separator:ad5d69b83f11c28e42f20ad09ed8309eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7467d013d4c3e582edb3366447c10aa8"><td class="memItemLeft" align="right" valign="top"><a id="a7467d013d4c3e582edb3366447c10aa8"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>momemta::setInputTagsForInput</b> (const <a class="el" href="structmomemta_1_1ArgDef.html">momemta::ArgDef</a> &amp;, <a class="el" href="classParameterSet.html">ParameterSet</a> &amp;, const std::vector&lt; <a class="el" href="structInputTag.html">InputTag</a> &gt; &amp;)</td></tr>
+<tr class="separator:a7467d013d4c3e582edb3366447c10aa8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Member Function Documentation</h2>
 <a id="a86ae4cb9e815c544972ae9953293e6d0"></a>
@@ -261,8 +271,6 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>ParameterSetParser</
 <p>Reimplemented in <a class="el" href="classlua_1_1LazyTable.html#ade71d8e173448e0f4dff9ede0ad691c2">lua::LazyTable</a>.</p>
 
 <p class="definition">Definition at line <a class="el" href="core_2src_2ParameterSet_8cc_source.html#l00097">97</a> of file <a class="el" href="core_2src_2ParameterSet_8cc_source.html">ParameterSet.cc</a>.</p>
-
-<p class="reference">Referenced by <a class="el" href="ParameterSet_8h_source.html#l00195">set()</a>.</p>
 
 </div>
 </div>
@@ -312,8 +320,6 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>ParameterSetParser</
 <p>Reimplemented in <a class="el" href="classlua_1_1LazyTable.html#a1c54fa36db8ff5dba94989182239f9ed">lua::LazyTable</a>.</p>
 
 <p class="definition">Definition at line <a class="el" href="core_2src_2ParameterSet_8cc_source.html#l00048">48</a> of file <a class="el" href="core_2src_2ParameterSet_8cc_source.html">ParameterSet.cc</a>.</p>
-
-<p class="reference">Referenced by <a class="el" href="ParameterSet_8h_source.html#l00237">ParameterSet::Element::Element()</a>.</p>
 
 </div>
 </div>
@@ -377,7 +383,7 @@ class&#160;</td><td class="memItemRight" valign="bottom"><b>ParameterSetParser</
 
 <p class="definition">Definition at line <a class="el" href="core_2src_2ParameterSet_8cc_source.html#l00031">31</a> of file <a class="el" href="core_2src_2ParameterSet_8cc_source.html">ParameterSet.cc</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="utils_8cc_source.html#l00548">lua::inject_parameters()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="utils_8cc_source.html#l00572">lua::inject_parameters()</a>.</p>
 
 </div>
 </div>
@@ -426,7 +432,9 @@ template&lt;typename T &gt; </div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="ParameterSet_8h_source.html#l00135">135</a> of file <a class="el" href="ParameterSet_8h_source.html">ParameterSet.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ParameterSet_8h_source.html#l00160">160</a> of file <a class="el" href="ParameterSet_8h_source.html">ParameterSet.h</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="Configuration_8cc_source.html#l00098">Configuration::getInputs()</a>.</p>
 
 </div>
 </div>
@@ -476,7 +484,7 @@ template&lt;typename T &gt; </div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="ParameterSet_8h_source.html#l00148">148</a> of file <a class="el" href="ParameterSet_8h_source.html">ParameterSet.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ParameterSet_8h_source.html#l00173">173</a> of file <a class="el" href="ParameterSet_8h_source.html">ParameterSet.h</a>.</p>
 
 </div>
 </div>
@@ -526,7 +534,7 @@ template&lt;typename T &gt; </div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="ParameterSet_8h_source.html#l00169">169</a> of file <a class="el" href="ParameterSet_8h_source.html">ParameterSet.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ParameterSet_8h_source.html#l00194">194</a> of file <a class="el" href="ParameterSet_8h_source.html">ParameterSet.h</a>.</p>
 
 </div>
 </div>
@@ -576,7 +584,7 @@ template&lt;typename T &gt; </div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="ParameterSet_8h_source.html#l00182">182</a> of file <a class="el" href="ParameterSet_8h_source.html">ParameterSet.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ParameterSet_8h_source.html#l00207">207</a> of file <a class="el" href="ParameterSet_8h_source.html">ParameterSet.h</a>.</p>
 
 </div>
 </div>
@@ -626,7 +634,7 @@ template&lt;typename T &gt; </div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="ParameterSet_8h_source.html#l00195">195</a> of file <a class="el" href="ParameterSet_8h_source.html">ParameterSet.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="ParameterSet_8h_source.html#l00220">220</a> of file <a class="el" href="ParameterSet_8h_source.html">ParameterSet.h</a>.</p>
 
 </div>
 </div>

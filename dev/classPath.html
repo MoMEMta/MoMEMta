@@ -94,37 +94,34 @@ $(function() {
 <p>An execution path.  
  <a href="classPath.html#details">More...</a></p>
 
-<p><code>#include &lt;<a class="el" href="include_2momemta_2Path_8h_source.html">Path.h</a>&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="Path_8h_source.html">Path.h</a>&gt;</code></p>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>An execution path. </p>
-<p>A <a class="el" href="classPath.html" title="An execution path. ">Path</a> represents an ordered sequence of modules, accessible using the <a class="el" href="classPath.html#a546cbddb2ba4eed5dc4f5c995fac10c5" title="The sequence of modules of this executation Path. ">Path::modules()</a> method. An instance of <a class="el" href="classPath.html" title="An execution path. ">Path</a> is only valid if it was previsouly resolved by the Graph system. This can be tested using the Path::resolved() method.</p>
+<p>A <a class="el" href="classPath.html" title="An execution path. ">Path</a> represents an ordered sequence of modules, accessible using the <a class="el" href="classPath.html#a546cbddb2ba4eed5dc4f5c995fac10c5" title="The sequence of modules of this execution Path. ">Path::modules()</a> method.</p>
 <dl class="section note"><dt>Note</dt><dd>A <a class="el" href="classPath.html" title="An execution path. ">Path</a> does not by itself execute any modules, this is left to the user of this class</dd></dl>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="classLooper.html" title="A module looping over a set of solutions. ">Looper</a> module </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="include_2momemta_2Path_8h_source.html#l00053">53</a> of file <a class="el" href="include_2momemta_2Path_8h_source.html">Path.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Path_8h_source.html#l00037">37</a> of file <a class="el" href="Path_8h_source.html">Path.h</a>.</p>
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a26c54646ff368f1e7b9b6017124c5c65"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPath.html#a26c54646ff368f1e7b9b6017124c5c65">Path</a> (<a class="el" href="structPathElements.html">PathElementsPtr</a> path)</td></tr>
-<tr class="memdesc:a26c54646ff368f1e7b9b6017124c5c65"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a new instance of <a class="el" href="classPath.html" title="An execution path. ">Path</a>.  <a href="#a26c54646ff368f1e7b9b6017124c5c65">More...</a><br /></td></tr>
-<tr class="separator:a26c54646ff368f1e7b9b6017124c5c65"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a27396a86bec10104f4b0215166646425"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPath.html#a27396a86bec10104f4b0215166646425">Path</a> (const <a class="el" href="classPath.html">Path</a> &amp;path)=default</td></tr>
-<tr class="memdesc:a27396a86bec10104f4b0215166646425"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a new instance of <a class="el" href="classPath.html" title="An execution path. ">Path</a> from an existing instance.  <a href="#a27396a86bec10104f4b0215166646425">More...</a><br /></td></tr>
-<tr class="separator:a27396a86bec10104f4b0215166646425"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abff60dcff3b011525172e3d2a3798390"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPath.html#abff60dcff3b011525172e3d2a3798390">Path</a> (const std::vector&lt; std::shared_ptr&lt; <a class="el" href="classModule.html">Module</a> &gt;&gt; &amp;<a class="el" href="classPath.html#a546cbddb2ba4eed5dc4f5c995fac10c5">modules</a>)</td></tr>
+<tr class="memdesc:abff60dcff3b011525172e3d2a3798390"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a new instance of <a class="el" href="classPath.html" title="An execution path. ">Path</a>.  <a href="#abff60dcff3b011525172e3d2a3798390">More...</a><br /></td></tr>
+<tr class="separator:abff60dcff3b011525172e3d2a3798390"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a696a40baf258e343cef8c5db005d522b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPath.html#a696a40baf258e343cef8c5db005d522b">Path</a> (const <a class="el" href="classPath.html">Path</a> &amp;)=default</td></tr>
+<tr class="memdesc:a696a40baf258e343cef8c5db005d522b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a new instance of <a class="el" href="classPath.html" title="An execution path. ">Path</a> from an existing instance.  <a href="#a696a40baf258e343cef8c5db005d522b">More...</a><br /></td></tr>
+<tr class="separator:a696a40baf258e343cef8c5db005d522b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6ae58f503394f12a90ff7d059d30d26c"><td class="memItemLeft" align="right" valign="top"><a id="a6ae58f503394f12a90ff7d059d30d26c"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPath.html#a6ae58f503394f12a90ff7d059d30d26c">Path</a> ()=default</td></tr>
 <tr class="memdesc:a6ae58f503394f12a90ff7d059d30d26c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a new empty instance of <a class="el" href="classPath.html" title="An execution path. ">Path</a>. <br /></td></tr>
 <tr class="separator:a6ae58f503394f12a90ff7d059d30d26c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a546cbddb2ba4eed5dc4f5c995fac10c5"><td class="memItemLeft" align="right" valign="top">const std::vector&lt; std::shared_ptr&lt; <a class="el" href="classModule.html">Module</a> &gt; &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPath.html#a546cbddb2ba4eed5dc4f5c995fac10c5">modules</a> () const</td></tr>
-<tr class="memdesc:a546cbddb2ba4eed5dc4f5c995fac10c5"><td class="mdescLeft">&#160;</td><td class="mdescRight">The sequence of modules of this executation <a class="el" href="classPath.html" title="An execution path. ">Path</a>.  <a href="#a546cbddb2ba4eed5dc4f5c995fac10c5">More...</a><br /></td></tr>
+<tr class="memdesc:a546cbddb2ba4eed5dc4f5c995fac10c5"><td class="mdescLeft">&#160;</td><td class="mdescRight">The sequence of modules of this execution <a class="el" href="classPath.html" title="An execution path. ">Path</a>.  <a href="#a546cbddb2ba4eed5dc4f5c995fac10c5">More...</a><br /></td></tr>
 <tr class="separator:a546cbddb2ba4eed5dc4f5c995fac10c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4eb1de86ded9e1eb6e7b9e53d5ec1850"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPath.html#a4eb1de86ded9e1eb6e7b9e53d5ec1850">freeze</a> ()</td></tr>
-<tr class="memdesc:a4eb1de86ded9e1eb6e7b9e53d5ec1850"><td class="mdescLeft">&#160;</td><td class="mdescRight">Freeze this <a class="el" href="classPath.html" title="An execution path. ">Path</a>.  <a href="#a4eb1de86ded9e1eb6e7b9e53d5ec1850">More...</a><br /></td></tr>
-<tr class="separator:a4eb1de86ded9e1eb6e7b9e53d5ec1850"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a26c54646ff368f1e7b9b6017124c5c65"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a26c54646ff368f1e7b9b6017124c5c65">&#9670;&nbsp;</a></span>Path() <span class="overload">[1/2]</span></h2>
+<a id="abff60dcff3b011525172e3d2a3798390"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abff60dcff3b011525172e3d2a3798390">&#9670;&nbsp;</a></span>Path() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -132,8 +129,8 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="memname">Path::Path </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="structPathElements.html">PathElementsPtr</a>&#160;</td>
-          <td class="paramname"><em>path</em></td><td>)</td>
+          <td class="paramtype">const std::vector&lt; std::shared_ptr&lt; <a class="el" href="classModule.html">Module</a> &gt;&gt; &amp;&#160;</td>
+          <td class="paramname"><em>modules</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -142,17 +139,17 @@ Public Member Functions</h2></td></tr>
 <p>Create a new instance of <a class="el" href="classPath.html" title="An execution path. ">Path</a>. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">path</td><td>A pointer to an instance of <a class="el" href="structPathElements.html" title="Elements of a Path. ">PathElements</a> </td></tr>
+    <tr><td class="paramname">path</td><td>Description of </td></tr>
   </table>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="Path_8cc_source.html#l00023">23</a> of file <a class="el" href="Path_8cc_source.html">Path.cc</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Path_8cc_source.html#l00032">32</a> of file <a class="el" href="Path_8cc_source.html">Path.cc</a>.</p>
 
 </div>
 </div>
-<a id="a27396a86bec10104f4b0215166646425"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a27396a86bec10104f4b0215166646425">&#9670;&nbsp;</a></span>Path() <span class="overload">[2/2]</span></h2>
+<a id="a696a40baf258e343cef8c5db005d522b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a696a40baf258e343cef8c5db005d522b">&#9670;&nbsp;</a></span>Path() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -164,7 +161,7 @@ Public Member Functions</h2></td></tr>
           <td class="memname">Path::Path </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="classPath.html">Path</a> &amp;&#160;</td>
-          <td class="paramname"><em>path</em></td><td>)</td>
+          <td class="paramname"></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -186,28 +183,6 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a4eb1de86ded9e1eb6e7b9e53d5ec1850"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4eb1de86ded9e1eb6e7b9e53d5ec1850">&#9670;&nbsp;</a></span>freeze()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void Path::freeze </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Freeze this <a class="el" href="classPath.html" title="An execution path. ">Path</a>. </p>
-<p>This ensure that any later modification to the configuration won't affect this path </p>
-
-<p class="definition">Definition at line <a class="el" href="Path_8cc_source.html#l00038">38</a> of file <a class="el" href="Path_8cc_source.html">Path.cc</a>.</p>
-
-</div>
-</div>
 <a id="a546cbddb2ba4eed5dc4f5c995fac10c5"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a546cbddb2ba4eed5dc4f5c995fac10c5">&#9670;&nbsp;</a></span>modules()</h2>
 
@@ -223,16 +198,16 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>The sequence of modules of this executation <a class="el" href="classPath.html" title="An execution path. ">Path</a>. </p>
+<p>The sequence of modules of this execution <a class="el" href="classPath.html" title="An execution path. ">Path</a>. </p>
 <p>The return value is only valid if resolved() returns <code>true</code>.</p>
 <dl class="section return"><dt>Returns</dt><dd>Sequence of modules </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="Path_8cc_source.html#l00027">27</a> of file <a class="el" href="Path_8cc_source.html">Path.cc</a>.</p>
+<p class="definition">Definition at line <a class="el" href="Path_8cc_source.html#l00036">36</a> of file <a class="el" href="Path_8cc_source.html">Path.cc</a>.</p>
 
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following files:<ul>
-<li>include/momemta/<a class="el" href="include_2momemta_2Path_8h_source.html">Path.h</a></li>
+<li>core/include/<a class="el" href="Path_8h_source.html">Path.h</a></li>
 <li>core/src/<a class="el" href="Path_8cc_source.html">Path.cc</a></li>
 </ul>
 </div><!-- contents -->

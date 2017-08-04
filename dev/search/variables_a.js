@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['valid',['valid',['../structPoolContent.html#af35b8364f3d17ae3bf0819ce438a796d',1,'PoolContent::valid()'],['../structSolution.html#a1b62d6589fc5e1dda0d9e2d1bef1c1bb',1,'Solution::valid()']]],
-  ['values',['values',['../structSolution.html#aa25b4cdcf84adf18476530d42cafca8b',1,'Solution']]]
+  ['ref_5findex',['ref_index',['../structlua_1_1LazyFunction.html#a3e82ab21eec47df9b047669e2e65d635',1,'lua::LazyFunction']]],
+  ['reset',['reset',['../classlogger_1_1ansi__color__full__formatter.html#a08a1c7c27512912f2c6aae4bb0400db2',1,'logger::ansi_color_full_formatter']]]
 ];

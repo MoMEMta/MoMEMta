@@ -109,41 +109,44 @@ $(function() {
 <code>#include &lt;momemta/ILuaCallback.h&gt;</code><br />
 <code>#include &lt;momemta/Logging.h&gt;</code><br />
 <code>#include &lt;momemta/ModuleFactory.h&gt;</code><br />
+<code>#include &lt;momemta/ModuleRegistry.h&gt;</code><br />
 <code>#include &lt;momemta/ParameterSet.h&gt;</code><br />
-<code>#include &lt;momemta/Path.h&gt;</code><br />
+<code>#include &lt;ExecutionPath.h&gt;</code><br />
 <code>#include &lt;lua/LazyTable.h&gt;</code><br />
 <code>#include &lt;lua/ParameterSetParser.h&gt;</code><br />
-<code>#include &lt;<a class="el" href="core_2include_2lua_2Path_8h_source.html">lua/Path.h</a>&gt;</code><br />
-<code>#include &lt;<a class="el" href="core_2include_2lua_2Types_8h_source.html">lua/Types.h</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="lua_2bindings_2Path_8h_source.html">lua/bindings/Path.h</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="core_2include_2lua_2bindings_2Types_8h_source.html">lua/bindings/Types.h</a>&gt;</code><br />
 <code>#include &lt;lua/utils.h&gt;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for lua.cc:</div>
 <div class="dyncontent">
 <div class="center"><img src="lua_8cc__incl.png" border="0" usemap="#tests_2unit__tests_2lua_8cc" alt=""/></div>
 <map name="tests_2unit__tests_2lua_8cc" id="tests_2unit__tests_2lua_8cc">
-<area shape="rect" id="node6" href="InputTag_8h_source.html" title="momemta/InputTag.h" alt="" coords="1689,229,1836,256"/>
-<area shape="rect" id="node14" href="ILuaCallback_8h_source.html" title="momemta/ILuaCallback.h" alt="" coords="2556,155,2727,181"/>
-<area shape="rect" id="node15" href="Logging_8h_source.html" title="momemta/Logging.h" alt="" coords="613,229,752,256"/>
-<area shape="rect" id="node31" href="ModuleFactory_8h_source.html" title="momemta/ModuleFactory.h" alt="" coords="803,80,984,107"/>
-<area shape="rect" id="node34" href="ParameterSet_8h_source.html" title="momemta/ParameterSet.h" alt="" coords="1779,155,1953,181"/>
-<area shape="rect" id="node41" href="include_2momemta_2Path_8h_source.html" title="momemta/Path.h" alt="" coords="1340,403,1463,429"/>
-<area shape="rect" id="node42" href="LazyTable_8h_source.html" title="lua/LazyTable.h" alt="" coords="1540,80,1655,107"/>
-<area shape="rect" id="node43" href="utils_8h_source.html" title="lua/utils.h" alt="" coords="2454,312,2532,339"/>
-<area shape="rect" id="node46" href="ParameterSetParser_8h_source.html" title="lua/ParameterSetParser.h" alt="" coords="1781,80,1952,107"/>
-<area shape="rect" id="node47" href="core_2include_2lua_2Path_8h.html" title="Lua binding of C++ Path class. " alt="" coords="1082,403,1163,429"/>
-<area shape="rect" id="node48" href="core_2include_2lua_2Types_8h.html" title="Generic functions to deal with custom lua types. " alt="" coords="2719,312,2809,339"/>
-<area shape="rect" id="node7" href="InputTag__fwd_8h_source.html" title="momemta/impl/InputTag\l_fwd.h" alt="" coords="1884,305,2047,346"/>
-<area shape="rect" id="node8" href="any_8h_source.html" title="momemta/any.h" alt="" coords="2378,403,2493,429"/>
-<area shape="rect" id="node16" href="common_8h_source.html" title="momemta/impl/logger\l/common.h" alt="" coords="68,651,215,693"/>
-<area shape="rect" id="node19" href="logger_8h_source.html" title="momemta/impl/logger\l/logger.h" alt="" coords="519,305,665,346"/>
-<area shape="rect" id="node20" href="formatter_8h_source.html" title="momemta/impl/logger\l/formatter.h" alt="" coords="607,395,753,437"/>
-<area shape="rect" id="node30" href="sink_8h_source.html" title="momemta/impl/logger\l/sink.h" alt="" coords="361,395,508,437"/>
-<area shape="rect" id="node21" href="log__msg_8h_source.html" title="momemta/impl/logger\l/log_msg.h" alt="" coords="361,486,508,527"/>
-<area shape="rect" id="node24" href="os_8h_source.html" title="momemta/impl/logger/os.h" alt="" coords="416,576,592,603"/>
-<area shape="rect" id="node33" href="PluginFactory_8h_source.html" title="momemta/PluginFactory.h" alt="" coords="742,155,916,181"/>
-<area shape="rect" id="node36" href="traits_8h_source.html" title="momemta/impl/traits.h" alt="" coords="2201,403,2353,429"/>
-<area shape="rect" id="node37" href="Utils_8h_source.html" title="momemta/Utils.h" alt="" coords="1737,312,1860,339"/>
-<area shape="rect" id="node38" href="include_2momemta_2Types_8h_source.html" title="momemta/Types.h" alt="" coords="1740,403,1869,429"/>
+<area shape="rect" id="node6" href="InputTag_8h_source.html" title="momemta/InputTag.h" alt="" coords="1581,304,1728,331"/>
+<area shape="rect" id="node14" href="ILuaCallback_8h_source.html" title="momemta/ILuaCallback.h" alt="" coords="2203,229,2373,256"/>
+<area shape="rect" id="node15" href="Logging_8h_source.html" title="momemta/Logging.h" alt="" coords="558,304,697,331"/>
+<area shape="rect" id="node27" href="ModuleFactory_8h_source.html" title="momemta/ModuleFactory.h" alt="" coords="2360,155,2541,181"/>
+<area shape="rect" id="node30" href="ModuleRegistry_8h_source.html" title="momemta/ModuleRegistry.h" alt="" coords="2064,80,2251,107"/>
+<area shape="rect" id="node34" href="ParameterSet_8h_source.html" title="momemta/ParameterSet.h" alt="" coords="1307,229,1481,256"/>
+<area shape="rect" id="node41" href="ExecutionPath_8h_source.html" title="ExecutionPath.h" alt="" coords="2811,477,2929,504"/>
+<area shape="rect" id="node44" href="LazyTable_8h_source.html" title="lua/LazyTable.h" alt="" coords="1629,155,1744,181"/>
+<area shape="rect" id="node45" href="utils_8h_source.html" title="lua/utils.h" alt="" coords="1761,387,1839,413"/>
+<area shape="rect" id="node48" href="ParameterSetParser_8h_source.html" title="lua/ParameterSetParser.h" alt="" coords="1433,155,1604,181"/>
+<area shape="rect" id="node49" href="lua_2bindings_2Path_8h.html" title="Lua binding of C++ Path class. " alt="" coords="2861,80,2995,107"/>
+<area shape="rect" id="node50" href="core_2include_2lua_2bindings_2Types_8h.html" title="Generic functions to deal with custom lua types. " alt="" coords="1863,387,2005,413"/>
+<area shape="rect" id="node7" href="InputTag__fwd_8h_source.html" title="momemta/impl/InputTag\l_fwd.h" alt="" coords="1573,379,1736,421"/>
+<area shape="rect" id="node8" href="any_8h_source.html" title="momemta/any.h" alt="" coords="1510,477,1625,504"/>
+<area shape="rect" id="node16" href="common_8h_source.html" title="momemta/impl/logger\l/common.h" alt="" coords="5,651,152,693"/>
+<area shape="rect" id="node19" href="logger_8h_source.html" title="momemta/impl/logger\l/logger.h" alt="" coords="309,379,456,421"/>
+<area shape="rect" id="node20" href="formatter_8h_source.html" title="momemta/impl/logger\l/formatter.h" alt="" coords="400,470,547,511"/>
+<area shape="rect" id="node26" href="sink_8h_source.html" title="momemta/impl/logger\l/sink.h" alt="" coords="176,470,323,511"/>
+<area shape="rect" id="node21" href="log__msg_8h_source.html" title="momemta/impl/logger\l/log_msg.h" alt="" coords="176,561,323,602"/>
+<area shape="rect" id="node28" href="PluginFactory_8h_source.html" title="momemta/PluginFactory.h" alt="" coords="2398,229,2572,256"/>
+<area shape="rect" id="node32" href="ModuleDefBuilder_8h_source.html" title="momemta/ModuleDefBuilder.h" alt="" coords="2253,387,2451,413"/>
+<area shape="rect" id="node33" href="ModuleDef_8h_source.html" title="momemta/ModuleDef.h" alt="" coords="2273,477,2431,504"/>
+<area shape="rect" id="node36" href="traits_8h_source.html" title="momemta/impl/traits.h" alt="" coords="1080,477,1232,504"/>
+<area shape="rect" id="node37" href="Utils_8h_source.html" title="momemta/Utils.h" alt="" coords="1259,387,1381,413"/>
+<area shape="rect" id="node38" href="include_2momemta_2Types_8h_source.html" title="momemta/Types.h" alt="" coords="824,477,953,504"/>
 </map>
 </div>
 </div>

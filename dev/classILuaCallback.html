@@ -117,9 +117,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a1b6f914367a25ed33be1863572c58a2f"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classILuaCallback.html#a1b6f914367a25ed33be1863572c58a2f">onIntegrandDeclared</a> (const <a class="el" href="structInputTag.html">InputTag</a> &amp;tag)=0</td></tr>
 <tr class="memdesc:a1b6f914367a25ed33be1863572c58a2f"><td class="mdescLeft">&#160;</td><td class="mdescRight">The integrand was defined in the configuration file.  <a href="#a1b6f914367a25ed33be1863572c58a2f">More...</a><br /></td></tr>
 <tr class="separator:a1b6f914367a25ed33be1863572c58a2f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a883171411d8ed9f6731e3cec7758b9e8"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classILuaCallback.html#a883171411d8ed9f6731e3cec7758b9e8">onNewPath</a> (<a class="el" href="structPathElements.html">PathElements</a> *path)=0</td></tr>
-<tr class="memdesc:a883171411d8ed9f6731e3cec7758b9e8"><td class="mdescLeft">&#160;</td><td class="mdescRight">A new path is declared in the configuration file.  <a href="#a883171411d8ed9f6731e3cec7758b9e8">More...</a><br /></td></tr>
-<tr class="separator:a883171411d8ed9f6731e3cec7758b9e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2a13a39c50351b546bfd5662f025a42f"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classILuaCallback.html#a2a13a39c50351b546bfd5662f025a42f">onNewPath</a> (const <a class="el" href="structExecutionPath.html">ExecutionPath</a> &amp;path)=0</td></tr>
+<tr class="memdesc:a2a13a39c50351b546bfd5662f025a42f"><td class="mdescLeft">&#160;</td><td class="mdescRight">A new path is declared in the configuration file.  <a href="#a2a13a39c50351b546bfd5662f025a42f">More...</a><br /></td></tr>
+<tr class="separator:a2a13a39c50351b546bfd5662f025a42f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac1093a24f595cecf8e8d2e77aa9ead6d"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classILuaCallback.html#ac1093a24f595cecf8e8d2e77aa9ead6d">addIntegrationDimension</a> ()=0</td></tr>
 <tr class="memdesc:ac1093a24f595cecf8e8d2e77aa9ead6d"><td class="mdescLeft">&#160;</td><td class="mdescRight">A new integration dimension is requested in the configuration file.  <a href="#ac1093a24f595cecf8e8d2e77aa9ead6d">More...</a><br /></td></tr>
 <tr class="separator:ac1093a24f595cecf8e8d2e77aa9ead6d"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -157,7 +157,7 @@ Public Member Functions</h2></td></tr>
 
 <p>Implemented in <a class="el" href="classLuaCallbackMock.html#a4a7db2c3b57c75e6a26137ace7fce863">LuaCallbackMock</a>, and <a class="el" href="classConfigurationReader.html#a1de2fb7a10e763e8ec14e1d68e45bb0c">ConfigurationReader</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="utils_8cc_source.html#l00415">lua::parameter()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="utils_8cc_source.html#l00438">lua::parameter()</a>.</p>
 
 </div>
 </div>
@@ -191,7 +191,7 @@ Public Member Functions</h2></td></tr>
 
 <p>Implemented in <a class="el" href="classLuaCallbackMock.html#a1b724c37a74a2b32daf8ffb5a430c3f5">LuaCallbackMock</a>, and <a class="el" href="classConfigurationReader.html#a4c91927e0b97071c9175ba25afa4bf30">ConfigurationReader</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="utils_8cc_source.html#l00415">lua::parameter()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="utils_8cc_source.html#l00438">lua::parameter()</a>.</p>
 
 </div>
 </div>
@@ -236,7 +236,7 @@ Public Member Functions</h2></td></tr>
 
 <p>Implemented in <a class="el" href="classLuaCallbackMock.html#af6f8b9adbeb39f6861a842a9cbc3bc43">LuaCallbackMock</a>, and <a class="el" href="classConfigurationReader.html#af6481d44f085ae687887c8b94c63b89f">ConfigurationReader</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="utils_8cc_source.html#l00331">lua::module_table_newindex()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="utils_8cc_source.html#l00332">lua::module_table_newindex()</a>.</p>
 
 </div>
 </div>
@@ -270,12 +270,12 @@ Public Member Functions</h2></td></tr>
 
 <p>Implemented in <a class="el" href="classLuaCallbackMock.html#a2ed77a77e687cb37fbf3e86d4d69397b">LuaCallbackMock</a>, and <a class="el" href="classConfigurationReader.html#aedfbe00e7da29052dbeb9cc8caaf1cf5">ConfigurationReader</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="utils_8cc_source.html#l00485">lua::declare_input()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="utils_8cc_source.html#l00508">lua::declare_input()</a>.</p>
 
 </div>
 </div>
-<a id="a883171411d8ed9f6731e3cec7758b9e8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a883171411d8ed9f6731e3cec7758b9e8">&#9670;&nbsp;</a></span>onNewPath()</h2>
+<a id="a2a13a39c50351b546bfd5662f025a42f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2a13a39c50351b546bfd5662f025a42f">&#9670;&nbsp;</a></span>onNewPath()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -286,7 +286,7 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="memname">virtual void ILuaCallback::onNewPath </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="structPathElements.html">PathElements</a> *&#160;</td>
+          <td class="paramtype">const <a class="el" href="structExecutionPath.html">ExecutionPath</a> &amp;&#160;</td>
           <td class="paramname"><em>path</em></td><td>)</td>
           <td></td>
         </tr>
@@ -302,7 +302,7 @@ Public Member Functions</h2></td></tr>
 <p>This function is called when the user declared a new <code><a class="el" href="classPath.html" title="An execution path. ">Path</a></code> instance</p>
 <p>A lua code like </p><div class="fragment"><div class="line">p = <a class="code" href="classPath.html">Path</a>(<span class="stringliteral">&quot;my&quot;</span>, <span class="stringliteral">&quot;path&quot;</span>)</div></div><!-- fragment --><p>will result in a call to this function </p>
 
-<p>Implemented in <a class="el" href="classConfigurationReader.html#a755b3214d1dfb949b469f4a65a5784e6">ConfigurationReader</a>.</p>
+<p>Implemented in <a class="el" href="classLuaCallbackMock.html#a8073445fccab9e0c17ca72e40effa584">LuaCallbackMock</a>, and <a class="el" href="classConfigurationReader.html#a313bfea8e2bcb55c28bc1cea6bdcf4bf">ConfigurationReader</a>.</p>
 
 </div>
 </div>

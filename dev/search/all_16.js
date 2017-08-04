@@ -9,5 +9,6 @@ var searchData=
   ['value_3c_20std_3a_3avector_3c_20t_20_3e_20_3e',['Value&lt; std::vector&lt; T &gt; &gt;',['../classValue.html',1,'']]],
   ['valueproxy',['ValueProxy',['../classValueProxy.html',1,'']]],
   ['values',['values',['../structSolution.html#aa25b4cdcf84adf18476530d42cafca8b',1,'Solution']]],
-  ['vertex',['Vertex',['../structgraph_1_1Vertex.html',1,'graph']]]
+  ['vertex',['Vertex',['../structmomemta_1_1Vertex.html',1,'momemta']]],
+  ['virt',['virt',['../structmomemta_1_1Edge.html#adb5c58ebb9bfdbe61945c15fe118690c',1,'momemta::Edge']]]
 ];
