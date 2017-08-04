@@ -33,8 +33,7 @@ class Counter: public Module {
     public:
 
         Counter(PoolPtr pool, const ParameterSet& parameters): Module(pool, parameters.getModuleName()) {
-            LOG(info) << "Counter constructor: " << parameters.getModuleName();
-            input = pool->get<std::vector<T>>(parameters.get<InputTag>("input")); 
+            input = pool->get<std::vector<T>>(parameters.get<InputTag>("input"));
         };
 
         virtual void beginIntegration() override {
@@ -61,9 +60,15 @@ class Counter: public Module {
 
 };
 
-REGISTER_MODULE_NAME("IntCounter", Counter<int64_t>);
-REGISTER_MODULE_NAME("DoubleCounter", Counter<double>);
-REGISTER_MODULE_NAME("LorentzVectorCounter", Counter<LorentzVector>);
+REGISTER_MODULE_NAME("IntCounter", Counter<int64_t>)
+        .Input("input")
+        .Output("count");
+REGISTER_MODULE_NAME("DoubleCounter", Counter<double>)
+        .Input("input")
+        .Output("count");
+REGISTER_MODULE_NAME("LorentzVectorCounter", Counter<LorentzVector>)
+        .Input("input")
+        .Output("count");
 
 /**
  * \brief A simple module counting the number of time it has been called
@@ -97,4 +102,5 @@ class SimpleCounter: public Module {
 
 };
 
-REGISTER_MODULE(SimpleCounter);
+REGISTER_MODULE(SimpleCounter)
+        .Output("count");

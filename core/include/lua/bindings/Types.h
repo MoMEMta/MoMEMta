@@ -18,9 +18,9 @@
 
 #pragma once
 
-#include <string>
-
 #include <momemta/any.h>
+
+#include <string>
 
 struct lua_State;
 

@@ -268,4 +268,9 @@ namespace lua {
      * \param parameters Parameters to inject into the lua state
      */
     void inject_parameters(lua_State* L, const ParameterSet& parameters);
+
+    namespace debug {
+        std::vector<std::string> dump_stack(lua_State* L);
+        void print_stack(lua_State* L);
+    }
 }

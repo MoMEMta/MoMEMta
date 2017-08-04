@@ -16,7 +16,7 @@ parameters = {
     top_mass = 173.,
     top_width = 1.491500,
     W_mass = 80.419002,
-    W_width = 2.047600,
+    W_width = 2.047600
 }
 
 cuba = {

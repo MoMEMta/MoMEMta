@@ -84,9 +84,9 @@ class SecondaryBlockA: public Module {
                 s12 = get<double>(parameters.get<InputTag>("s12"));
                 s123 = get<double>(parameters.get<InputTag>("s123"));
                 s1234 = get<double>(parameters.get<InputTag>("s1234"));
-                
+
                 m1 = parameters.get<double>("m1", 0.);
-            
+
                 m_p2 = get<LorentzVector>(parameters.get<InputTag>("p2"));
                 m_p3 = get<LorentzVector>(parameters.get<InputTag>("p3"));
                 m_p4 = get<LorentzVector>(parameters.get<InputTag>("p4"));
@@ -95,7 +95,7 @@ class SecondaryBlockA: public Module {
         virtual Status work() override {
 
             solutions->clear();
-            
+
             const double sq_m1 = SQ(m1);
             const double m2 = m_p2->M();
             const double sq_m2 = SQ(m2);
@@ -129,7 +129,7 @@ class SecondaryBlockA: public Module {
 
             /* Analytically solve the system:
              * ai1 p1x + ai2 p1y + ai3 p1z = bi E1 + ci, with i = 1...3
-             * 
+             *
              * This gives p1 as a function of E1:
              * p1x = Ax E1 + Bx
              * p1y = Ay E1 + By
@@ -185,7 +185,7 @@ class SecondaryBlockA: public Module {
                 LorentzVector p1(p1x, p1y, p1z, E1);
 
                 // Compute jacobian
-                const double jacobian = 1. / (128 * std::pow(M_PI, 3) * std::abs( 
+                const double jacobian = 1. / (128 * std::pow(M_PI, 3) * std::abs(
                                             E4 * (p1z*p2y*p3x - p1y*p2z*p3x - p1z*p2x*p3y + p1x*p2z*p3y + p1y*p2x*p3z - p1x*p2y*p3z)
                                             + E2 * (p1z*p3y*p4x - p1y*p3z*p4x - p1z*p3x*p4y + p1x*p3z*p4y + p1y*p3x*p4z - p1x*p3y*p4z)
                                             + E1 * (- p2z*p3y*p4x + p2y*p3z*p4x + p2z*p3x*p4y - p2x*p3z*p4y - p2y*p3x*p4z + p2x*p3y*p4z)
@@ -195,7 +195,7 @@ class SecondaryBlockA: public Module {
                 Solution solution { { p1 }, jacobian, true };
                 solutions->push_back(solution);
             }
-            
+
             return (solutions->size() > 0) ? Status::OK : Status::NEXT;
 
         }
@@ -215,4 +215,15 @@ class SecondaryBlockA: public Module {
         // Output
         std::shared_ptr<SolutionCollection> solutions = produce<SolutionCollection>("solutions");
 };
-REGISTER_MODULE(SecondaryBlockA);
+
+REGISTER_MODULE(SecondaryBlockA)
+        .Input("s12")
+        .Input("s123")
+        .Input("s1234")
+        .Input("p1")
+        .Input("p2")
+        .Input("p3")
+        .Input("p4")
+        .Output("solutions")
+        .GlobalAttr("energy: double")
+        .Attr("m1: double=0");

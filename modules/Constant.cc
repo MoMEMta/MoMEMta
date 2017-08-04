@@ -37,10 +37,6 @@ class Constant: public Module {
             *constant = value;
         };
 
-        virtual bool leafModule() const override {
-            return true;
-        }
-
     private:
         T value;
 
@@ -48,5 +44,10 @@ class Constant: public Module {
         std::shared_ptr<T> constant = produce<T>("value");
 };
 
-REGISTER_MODULE_NAME("IntConstant", Constant<int64_t>);
-REGISTER_MODULE_NAME("DoubleConstant", Constant<double>);
+REGISTER_MODULE_NAME("IntConstant", Constant<int64_t>)
+        .Output("value")
+        .Attr("value:int");
+
+REGISTER_MODULE_NAME("DoubleConstant", Constant<double>)
+        .Output("value")
+        .Attr("value:double");

@@ -18,10 +18,11 @@
 
 #include <momemta/Configuration.h>
 #include <momemta/ConfigurationReader.h>
-#include <momemta/Path.h>
 #include <momemta/ParameterSet.h>
 
-Configuration::Module::Module(const Configuration::Module& other) {
+#include <ExecutionPath.h>
+
+Configuration::ModuleDecl::ModuleDecl(const Configuration::ModuleDecl& other) {
     name = other.name;
     type = other.type;
 
@@ -29,13 +30,13 @@ Configuration::Module::Module(const Configuration::Module& other) {
         parameters.reset(other.parameters->clone());
 }
 
-Configuration::Module::Module(const Configuration::Module&& other) {
+Configuration::ModuleDecl::ModuleDecl(const Configuration::ModuleDecl&& other) {
     name = std::move(other.name);
     type = std::move(other.type);
     parameters = std::move(other.parameters);
 }
 
-Configuration::Module& Configuration::Module::operator=(Configuration::Module other) {
+Configuration::ModuleDecl& Configuration::ModuleDecl::operator=(Configuration::ModuleDecl other) {
     std::swap(name, other.name);
     std::swap(type, other.type);
     std::swap(parameters, other.parameters);
@@ -70,7 +71,7 @@ Configuration& Configuration::operator=(Configuration other) {
     return *this;
 }
 
-const std::vector<Configuration::Module>& Configuration::getModules() const {
+const std::vector<Configuration::ModuleDecl>& Configuration::getModules() const {
     return modules;
 }
 
@@ -86,7 +87,7 @@ std::vector<InputTag> Configuration::getIntegrands() const {
     return integrands;
 }
 
-std::vector<PathElementsPtr> Configuration::getPaths() const {
+std::vector<std::shared_ptr<ExecutionPath>> Configuration::getPaths() const {
     return paths;
 }
 
@@ -108,6 +109,34 @@ Configuration Configuration::freeze() const {
         // Attach global configuration to each module
         module.parameters->setGlobalParameters(*c.global_parameters);
     }
+
+    // Insert internal modules inside the list of modules
+    // See the full list of internal modules in modules/InternalModules.cc
+
+    auto insert_internal_module = [&c](const std::string& type,
+                                       const std::string& name,
+                                       const ParameterSet& parameters) {
+        Configuration::ModuleDecl internal_module;
+        internal_module.type = type;
+        internal_module.name = name;
+        internal_module.parameters = std::make_shared<ParameterSet>(parameters);
+
+        c.modules.push_back(internal_module);
+    };
+
+    insert_internal_module("_met", "met", ParameterSet());
+    insert_internal_module("_cuba", "cuba", ParameterSet());
+
+    auto inputs = c.getInputs();
+    for (const auto& input: inputs) {
+        insert_internal_module("_input", input, ParameterSet());
+    }
+
+    // Insert the MoMEMta module, fetching the integrands
+    std::vector<InputTag> integrands = c.getIntegrands();
+    ParameterSet pset;
+    pset.set("integrands", integrands);
+    insert_internal_module("_momemta", "momemta", pset);
 
     return c;
 }

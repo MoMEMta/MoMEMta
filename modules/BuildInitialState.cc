@@ -30,11 +30,11 @@
  * Define the initial partons 4-momenta given the particles present in the final state.
  *
  * If the parameter `do_transverse_boost` is set to `true`, the partons are boosted in the transverse direction
- * to satisfy energy-momentum conservation. 
+ * to satisfy energy-momentum conservation.
  * Otherwise, the partons are simply built using the total energy and longitudinal momentum, without enforcing
  * conservation of transverse momentum.
  *
- * Use of the transverse boost or not can depend on how the invisibles are reconstructed by the blocks: 
+ * Use of the transverse boost or not can depend on how the invisibles are reconstructed by the blocks:
  * if the block already enforces momentum conservation, applying the boost or not will yield the same result.
  *
  * ### Integration dimension
@@ -51,7 +51,7 @@
  *
  *   | Name | Type | %Description |
  *   |------|------|--------------|
- *   | `do_transverse_boost` | bool, default: `false` | Boost the initial partons in the transverse direction to match total transverse momentum. | 
+ *   | `do_transverse_boost` | bool, default: `false` | Boost the initial partons in the transverse direction to match total transverse momentum. |
  *
  * ### Inputs
  *
@@ -63,7 +63,7 @@
  *
  *   | Name | Type | %Description |
  *   |------|------|--------------|
- *   | `partons` | vector(LorentzVector) | Sets of initial parton 4-momenta. | 
+ *   | `partons` | vector(LorentzVector) | Sets of initial parton 4-momenta. |
  *
  * \ingroup modules
  */
@@ -125,8 +125,8 @@ class BuildInitialState: public Module {
                 LorentzVector tot;
                 for (const auto& p: particles)
                     tot += p.get();
-                
-                // Define boost that puts the transverse total momentum vector in its CoM frame 
+
+                // Define boost that puts the transverse total momentum vector in its CoM frame
                 LorentzVector transverse_tot = tot;
                 transverse_tot.SetPz(0);
                 ROOT::Math::XYZVector isr_deBoost_vector( transverse_tot.BoostToCM() );
@@ -153,4 +153,9 @@ class BuildInitialState: public Module {
 
         std::shared_ptr<std::vector<LorentzVector>> partons = produce<std::vector<LorentzVector>>("partons");
 };
-REGISTER_MODULE(BuildInitialState);
+
+REGISTER_MODULE(BuildInitialState)
+        .Inputs("particles")
+        .Output("partons")
+        .GlobalAttr("energy:double")
+        .Attr("do_transverse_boost:bool=false");

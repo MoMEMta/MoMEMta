@@ -99,5 +99,9 @@ class Permutator: public Module {
         // Outputs
         std::shared_ptr<std::vector<LorentzVector>> m_output = produce<std::vector<LorentzVector>>("output");
 };
-REGISTER_MODULE(Permutator);
+
+REGISTER_MODULE(Permutator)
+    .Input("ps_point")
+    .Inputs("inputs")
+    .Output("output");
 

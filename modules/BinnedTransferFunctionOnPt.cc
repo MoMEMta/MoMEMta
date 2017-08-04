@@ -56,7 +56,7 @@ class BinnedTransferFunctionOnPtBase: public Module {
             m_deltaMin = yAxis->GetXmin();
             m_deltaMax = yAxis->GetXmax();
             m_deltaRange = m_deltaMax - m_deltaMin;
-            
+
             TAxis* xAxis = m_th2->GetXaxis();
             double Pt_cut = parameters.get<double>("min_Pt", 0.);
             m_PtgenMin = std::max(xAxis->GetXmin(), Pt_cut);
@@ -66,7 +66,7 @@ class BinnedTransferFunctionOnPtBase: public Module {
             // we need to be able to retrieve the X axis' last bin, to avoid
             // fetching the TH2's overflow bin.
             m_fallBackPtgenMax = xAxis->GetBinCenter(xAxis->GetNbins());
-            
+
             LOG(debug) << "Loaded TH2 " << th2_name << " from file " << file_path << ".";
             LOG(debug) << "\tDelta range is " << m_deltaMin << " to " << m_deltaMax << ".";
             LOG(debug) << "\tPt range is " << m_PtgenMin << " to " << m_PtgenMax << ".";
@@ -90,14 +90,14 @@ class BinnedTransferFunctionOnPtBase: public Module {
         class file_not_found_error: public std::runtime_error{
             using std::runtime_error::runtime_error;
         };
-        
+
         class th2_not_found_error: public std::runtime_error{
             using std::runtime_error::runtime_error;
         };
 };
 
 /** \brief Integrate over a transfer function on Pt described by a 2D histogram retrieved from a ROOT file.
- * 
+ *
  * This module takes as input a LorentzVector and a phase-space point, generates
  * a new LorentzVector with a different Pt (keeping direction and invariant mass),
  * and evaluates the transfer function on the "reconstructed" and "generated" Pt.
@@ -145,7 +145,7 @@ class BinnedTransferFunctionOnPt: public BinnedTransferFunctionOnPtBase {
         BinnedTransferFunctionOnPt(PoolPtr pool, const ParameterSet& parameters): BinnedTransferFunctionOnPtBase(pool, parameters) {
             m_ps_point = get<double>(parameters.get<InputTag>("ps_point"));
         }
-        
+
         virtual Status work() override {
             const double rec_Pt = m_reco_input->Pt();
             const double cosh_eta = std::cosh(m_reco_input->Eta());
@@ -163,7 +163,7 @@ class BinnedTransferFunctionOnPt: public BinnedTransferFunctionOnPtBase {
 
             // The bin number is a ROOT "global bin number" using a 1D representation of the TH2
             const int bin = m_th2->FindFixBin(std::min(gen_Pt, m_fallBackPtgenMax), delta);
-            
+
             // Compute TF*jacobian, where the jacobian includes the transformation of [0,1]->[range_min,range_max] and d|P|/dP_T = cosh(eta)
             *TF_times_jacobian = m_th2->GetBinContent(bin) * range * cosh_eta;
 
@@ -174,7 +174,7 @@ class BinnedTransferFunctionOnPt: public BinnedTransferFunctionOnPtBase {
 
         // Input
         Value<double> m_ps_point;
- 
+
         // Outputs
         std::shared_ptr<LorentzVector> output = produce<LorentzVector>("output");
         std::shared_ptr<double> TF_times_jacobian = produce<double>("TF_times_jacobian");
@@ -187,13 +187,13 @@ class BinnedTransferFunctionOnPt: public BinnedTransferFunctionOnPtBase {
         }
 
         inline double GetDeltaMax(const double Ptrec) const {
-            return std::min(m_deltaMax, Ptrec - m_PtgenMin); 
+            return std::min(m_deltaMax, Ptrec - m_PtgenMin);
         }
 };
 
 /** \brief Evaluate a transfer function on Pt described by a 2D histogram retrieved from a ROOT file.
- * 
- * This module takes as inputs two LorentzVectors: a 'gen-level' particle (which may be computed using for instance a Block or a 'real' transfer function) and a 'reco-level' particle (experimentally reconstructed). 
+ *
+ * This module takes as inputs two LorentzVectors: a 'gen-level' particle (which may be computed using for instance a Block or a 'real' transfer function) and a 'reco-level' particle (experimentally reconstructed).
  * Assuming the LorentzVectors differ only by their Pt, this module returns the value of a transfer function (TF) evaluated on their respective Pt.
  *
  * The transfer function (TF) is described by a 2D histogram (a ROOT TH2), where the X-axis defines the "generated" (true) Pt \f$P_T_{gen}\f$,
@@ -234,7 +234,7 @@ class BinnedTransferFunctionOnPtEvaluator: public BinnedTransferFunctionOnPtBase
         BinnedTransferFunctionOnPtEvaluator(PoolPtr pool, const ParameterSet& parameters): BinnedTransferFunctionOnPtBase(pool, parameters) {
             m_gen_input = get<LorentzVector>(parameters.get<InputTag>("gen_particle"));
         }
-        
+
         virtual Status work() override {
             const double rec_Pt = m_reco_input->Pt();
             const double gen_Pt = m_gen_input->Pt();
@@ -246,7 +246,7 @@ class BinnedTransferFunctionOnPtEvaluator: public BinnedTransferFunctionOnPtBase
 
             // The bin number is a ROOT "global bin number" using a 1D representation of the TH2
             const int bin = m_th2->FindFixBin(std::min(gen_Pt, m_fallBackPtgenMax), delta);
-            
+
             // Retrieve TF value
             *TF_value = m_th2->GetBinContent(bin);
 
@@ -257,10 +257,25 @@ class BinnedTransferFunctionOnPtEvaluator: public BinnedTransferFunctionOnPtBase
 
         // Input
         Value<LorentzVector> m_gen_input;
-        
+
         // Outputs
         std::shared_ptr<double> TF_value = produce<double>("TF");
 };
 
-REGISTER_MODULE(BinnedTransferFunctionOnPt);
-REGISTER_MODULE(BinnedTransferFunctionOnPtEvaluator);
+REGISTER_MODULE(BinnedTransferFunctionOnPt)
+        .Input("reco_particle")
+        .Input("ps_point")
+        .Output("output")
+        .Output("TF_times_jacobian")
+        .Attr("file:string")
+        .Attr("th2_name:string")
+        .Attr("min_Pt:double=0");
+
+REGISTER_MODULE(BinnedTransferFunctionOnPtEvaluator)
+        .Input("reco_particle")
+        .Input("gen_particle")
+        .Output("output")
+        .Output("TF_times_jacobian")
+        .Attr("file:string")
+        .Attr("th2_name:string")
+        .Attr("min_Pt:double=0");

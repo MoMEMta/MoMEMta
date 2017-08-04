@@ -35,7 +35,7 @@ class Printer: public Module {
 
         Printer(PoolPtr pool, const ParameterSet& parameters): Module(pool, parameters.getModuleName()) {
             auto tag = parameters.get<InputTag>("input");
-            input = pool->get<T>(tag); 
+            input = pool->get<T>(tag);
             name = parameters.get<std::string>("name", tag.toString());
         };
 
@@ -43,10 +43,6 @@ class Printer: public Module {
             LOG(info) << name << ": " << *input;
 
             return Status::OK;
-        }
-
-        virtual bool leafModule() const override {
-            return true;
         }
 
     private:
@@ -65,7 +61,7 @@ class Printer<std::vector<T>>: public Module {
 
         Printer(PoolPtr pool, const ParameterSet& parameters): Module(pool, parameters.getModuleName()) {
             auto tag = parameters.get<InputTag>("input");
-            input = pool->get<std::vector<T>>(tag); 
+            input = pool->get<std::vector<T>>(tag);
             name = parameters.get<std::string>("name", tag.toString());
         };
 
@@ -85,10 +81,6 @@ class Printer<std::vector<T>>: public Module {
             return Status::OK;
         }
 
-        virtual bool leafModule() const override {
-            return true;
-        }
-
     private:
         std::string name;
 
@@ -96,12 +88,36 @@ class Printer<std::vector<T>>: public Module {
         Value<std::vector<T>> input;
 };
 
-REGISTER_MODULE_NAME("IntPrinter", Printer<int64_t>);
-REGISTER_MODULE_NAME("DoublePrinter", Printer<double>);
-REGISTER_MODULE_NAME("P4Printer", Printer<LorentzVector>);
-REGISTER_MODULE_NAME("SolutionPrinter", Printer<Solution>);
+REGISTER_MODULE_NAME("IntPrinter", Printer<int64_t>)
+        .Input("input")
+        .OptionalAttr("name:string")
+        .Sticky();
+REGISTER_MODULE_NAME("DoublePrinter", Printer<double>)
+        .Input("input")
+        .OptionalAttr("name:string")
+        .Sticky();
+REGISTER_MODULE_NAME("P4Printer", Printer<LorentzVector>)
+        .Input("input")
+        .OptionalAttr("name:string")
+        .Sticky();
+REGISTER_MODULE_NAME("SolutionPrinter", Printer<Solution>)
+        .Input("input")
+        .OptionalAttr("name:string")
+        .Sticky();
 
-REGISTER_MODULE_NAME("IntVectorPrinter", Printer<std::vector<int64_t>>);
-REGISTER_MODULE_NAME("DoubleVectorPrinter", Printer<std::vector<double>>);
-REGISTER_MODULE_NAME("P4VectorPrinter", Printer<std::vector<LorentzVector>>);
-REGISTER_MODULE_NAME("SolutionVectorPrinter", Printer<SolutionCollection>);
+REGISTER_MODULE_NAME("IntVectorPrinter", Printer<std::vector<int64_t>>)
+        .Input("input")
+        .OptionalAttr("name:string")
+        .Sticky();
+REGISTER_MODULE_NAME("DoubleVectorPrinter", Printer<std::vector<double>>)
+        .Input("input")
+        .OptionalAttr("name:string")
+        .Sticky();
+REGISTER_MODULE_NAME("P4VectorPrinter", Printer<std::vector<LorentzVector>>)
+        .Input("input")
+        .OptionalAttr("name:string")
+        .Sticky();
+REGISTER_MODULE_NAME("SolutionVectorPrinter", Printer<SolutionCollection>)
+        .Input("input")
+        .OptionalAttr("name:string")
+        .Sticky();

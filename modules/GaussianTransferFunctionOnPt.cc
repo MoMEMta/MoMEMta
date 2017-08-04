@@ -58,8 +58,8 @@ class GaussianTransferFunctionOnPtBase: public Module {
  * a new LorentzVector with a different Pt (keeping direction and invariant mass),
  * and evaluates the transfer function on the "reconstructed" and "generated" Pt.
  *
- * The transfer function (TF) is a Gaussian distribution that describes the difference between 
- * the reconstructed and the generated Pt (\f$P_{T_{rec}}-P_{T_{gen}}\f$). The width of the distribution, parametrised as a fraction of \f$P_{T_{gen}}\f$, is set as parameter. 
+ * The transfer function (TF) is a Gaussian distribution that describes the difference between
+ * the reconstructed and the generated Pt (\f$P_{T_{rec}}-P_{T_{gen}}\f$). The width of the distribution, parametrised as a fraction of \f$P_{T_{gen}}\f$, is set as parameter.
  *
  * The range of the integration is determined using the width of the Gaussian at \f$P_{T_{rec}}\f$, integrating over a user-defined 'number of sigmas' `n`: \f$P_{T_{gen}} \in \pm n \cdot \sigma \cdot P_{T_{rec}}\f$.
  *
@@ -74,7 +74,7 @@ class GaussianTransferFunctionOnPtBase: public Module {
  *   | `sigma` | double | Fraction of the Pt yielding the width of the Gaussian distribution (with `sigma` at `0.1`, \f$\sigma_{gauss} = 0.1 \cdot P_{T_{gen}}\f$). |
  *   | `sigma_range` | double | Range of integration expressed in number of sigma. |
  *   | `min_Pt` | double | Optional: cut on Pt to avoid divergences |
- * 
+ *
  * ### Inputs
  *
  *   | Name | Type | %Description |
@@ -88,7 +88,7 @@ class GaussianTransferFunctionOnPtBase: public Module {
  *   |------|------|--------------|
  *   | `output` | LorentzVector | Output *generated* LorentzVector, only differing from *reco_particle* by its Pt. |
  *   | `TF_times_jacobian` | double | Product of the TF evaluated on the *reco* and *gen* energies, times the jacobian of the transformation needed stretch the integration range from \f$[0,1]\f$ to the width of the TF, times the jacobian \f$d|P|/dP_T\f$ due to the fact that the integration is done w.r.t \f$|P|\f$, while the TF is parametrised in terms of Pt. |
- * 
+ *
  * \ingroup modules
  * \sa GaussianTransferFunctionOnPtEvaluator
  */
@@ -111,7 +111,7 @@ class GaussianTransferFunctionOnPt: public GaussianTransferFunctionOnPtBase {
 
             // To change the particle's Pt without changing its direction and mass:
             const double gen_E = std::sqrt(SQ(m_reco_input->M()) + SQ(cosh_eta * gen_Pt));
-            
+
             output->SetCoordinates(
                     gen_Pt * std::cos(m_reco_input->Phi()),
                     gen_Pt * std::sin(m_reco_input->Phi()),
@@ -139,10 +139,10 @@ class GaussianTransferFunctionOnPt: public GaussianTransferFunctionOnPtBase {
 
 /** \brief Evaluate a transfer function on Pt described by a Gaussian distribution
  *
- * This module takes as inputs two LorentzVectors: a 'gen-level' particle (which may be computed using for instance a Block or a 'real' transfer function) and a 'reco-level' particle (experimentally reconstructed). 
+ * This module takes as inputs two LorentzVectors: a 'gen-level' particle (which may be computed using for instance a Block or a 'real' transfer function) and a 'reco-level' particle (experimentally reconstructed).
  * Assuming the LorentzVectors differ only by their Pt, this module returns the value of a transfer function (TF) evaluated on their respective Pt.
  *
- * The TF is a Gaussian distribution that describes the difference between the reconstructed and the generated Pt (\f$P_{T_{rec}}-P_{T_{gen}}\f$). The width of the distribution, parametrised as a fraction of \f$P_{T_{gen}}\f$, is set as parameter. 
+ * The TF is a Gaussian distribution that describes the difference between the reconstructed and the generated Pt (\f$P_{T_{rec}}-P_{T_{gen}}\f$). The width of the distribution, parametrised as a fraction of \f$P_{T_{gen}}\f$, is set as parameter.
  *
  * ### Integration dimension
  *
@@ -166,7 +166,7 @@ class GaussianTransferFunctionOnPt: public GaussianTransferFunctionOnPtBase {
  *   | Name | Type | %Description |
  *   |------|------|--------------|
  *   | `TF` | double | Value of the TF evaluated on the *reco* and *gen* Pt. |
- * 
+ *
  * \ingroup modules
  * \sa GaussianTransferFunctionOnPt
  */
@@ -192,5 +192,19 @@ class GaussianTransferFunctionOnPtEvaluator: public GaussianTransferFunctionOnPt
 
 };
 
-REGISTER_MODULE(GaussianTransferFunctionOnPt);
-REGISTER_MODULE(GaussianTransferFunctionOnPtEvaluator);
+REGISTER_MODULE(GaussianTransferFunctionOnPt)
+        .Input("ps_point")
+        .Input("reco_particle")
+        .Output("output")
+        .Output("TF_times_jacobian")
+        .Attr("sigma:double=0.10")
+        .Attr("sigma_range:double=5")
+        .Attr("min_Pt:double=0");
+
+REGISTER_MODULE(GaussianTransferFunctionOnPtEvaluator)
+        .Input("gen_particle")
+        .Input("reco_particle")
+        .Output("TF")
+        .Attr("sigma:double=0.10")
+        .Attr("sigma_range:double=5")
+        .Attr("min_Pt:double=0");

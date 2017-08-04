@@ -81,7 +81,7 @@ class SecondaryBlockE: public Module {
             sqrt_s(parameters.globalParameters().get<double>("energy")) {
                 s12 = get<double>(parameters.get<InputTag>("s12"));
                 s123 = get<double>(parameters.get<InputTag>("s123"));
-                
+
                 m_p1 = get<LorentzVector>(parameters.get<InputTag>("p1"));
                 m_p2 = get<LorentzVector>(parameters.get<InputTag>("p2"));
                 m_p3 = get<LorentzVector>(parameters.get<InputTag>("p3"));
@@ -90,7 +90,7 @@ class SecondaryBlockE: public Module {
         virtual Status work() override {
 
             solutions->clear();
-            
+
             const double m1 = m_p1->M();
             const double sq_m1 = SQ(m1);
             const double m3 = m_p3->M();
@@ -131,7 +131,7 @@ class SecondaryBlockE: public Module {
                         abs_p1[i] * std::cos(m_p1->Phi()) * sin_theta_1,
                         abs_p1[i] * std::sin(m_p1->Phi()) * sin_theta_1,
                         abs_p1[i] * std::cos(m_p1->Theta()),
-                        E1); 
+                        E1);
                 p2_sol.SetPxPyPzE(
                         abs_p2[i] * std::cos(m_p2->Phi()) * sin_theta_2,
                         abs_p2[i] * std::sin(m_p2->Phi()) * sin_theta_2,
@@ -139,15 +139,15 @@ class SecondaryBlockE: public Module {
                         abs_p2[i]);
 
                 // Compute jacobian
-                const double jacobian = abs_p2[i] * SQ(abs_p1[i]) * sin_theta_1 * sin_theta_2 / 
-                                            (1024 * std::pow(M_PI, 6) * std::abs( 
+                const double jacobian = abs_p2[i] * SQ(abs_p1[i]) * sin_theta_1 * sin_theta_2 /
+                                            (1024 * std::pow(M_PI, 6) * std::abs(
                                                     abs_p2[i] * (abs_p1[i] - E1 * c12) * X + (E3 * abs_p1[i] - E1 * p3 * c13) * (E1 - abs_p1[i] * c12) )
                                             );
 
                 Solution solution { { p1_sol, p2_sol }, jacobian, true };
                 solutions->push_back(solution);
             }
-            
+
             return (solutions->size() > 0) ? Status::OK : Status::NEXT;
 
         }
@@ -165,4 +165,12 @@ class SecondaryBlockE: public Module {
         // Output
         std::shared_ptr<SolutionCollection> solutions = produce<SolutionCollection>("solutions");
 };
-REGISTER_MODULE(SecondaryBlockE);
+
+REGISTER_MODULE(SecondaryBlockE)
+        .Input("s12")
+        .Input("s123")
+        .Input("p1")
+        .Input("p2")
+        .Input("p3")
+        .Output("solutions")
+        .GlobalAttr("energy: double");

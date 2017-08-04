@@ -22,7 +22,6 @@
 #include <memory>
 #include <vector>
 
-#include <momemta/config.h>
 #include <momemta/Module.h>
 #include <momemta/ParameterSet.h>
 #include <momemta/Particle.h>
@@ -32,9 +31,9 @@
 class Configuration;
 class SharedLibrary;
 
-#ifdef DEBUG_TIMING
-#include <chrono>
-#endif
+namespace momemta {
+class ComputationGraph;
+}
 
 /**
  * \brief A %MoMEMta instance
@@ -121,6 +120,11 @@ class MoMEMta {
          */
         void checkIfPhysical(const LorentzVector& p4);
 
+        /**
+         * Create and initialize the memory pool
+         */
+        void initPool(const Configuration& configuration);
+
         int integrand(const double* psPoints, double* results, const double* weights);
 
         static int CUBAIntegrand(const int *nDim, const double* psPoint, const int *nComp, double *value, void *inputs, const int *nVec, const int *core);
@@ -128,7 +132,7 @@ class MoMEMta {
         static void cuba_logging(const char*);
 
         PoolPtr m_pool;
-        std::vector<ModulePtr> m_modules;
+        std::shared_ptr<momemta::ComputationGraph> m_computation_graph;
 
         using SharedLibraryPtr = std::shared_ptr<SharedLibrary>;
         std::vector<SharedLibraryPtr> m_libraries;
@@ -147,8 +151,4 @@ class MoMEMta {
         std::unordered_map<std::string, std::shared_ptr<int64_t>> m_inputs_type;
         std::shared_ptr<LorentzVector> m_met;
         std::vector<Value<double>> m_integrands;
-
-#ifdef DEBUG_TIMING
-        std::unordered_map<Module*, std::chrono::high_resolution_clock::duration> m_module_timing;
-#endif
 };

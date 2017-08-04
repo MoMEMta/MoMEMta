@@ -46,12 +46,6 @@ template <typename T> Value<T> Pool::get(const InputTag& tag) const {
 
     Value<T> value(ValueProxy<const T>::create(this, tag));
 
-    if (!m_frozen) {
-        // Update current module description
-        Description& description = get_description();
-        description.inputs.push_back(tag);
-    }
-
     return value;
 }
 
@@ -82,6 +76,7 @@ template <typename T, typename... Args> std::shared_ptr<T> Pool::put(const Input
     if (it != m_storage.end()) {
         if (it->second.valid)
             throw duplicated_tag_error("A module already produced the tag '" + tag.toString() + "'");
+
         // A module already requested this block in read-mode. This will only work if the block does not require a non-trivial constructor:
         if (sizeof...(Args))
             throw constructor_tag_error("A module already requested the tag '" + tag.toString()
@@ -98,10 +93,6 @@ template <typename T, typename... Args> std::shared_ptr<T> Pool::put(const Input
     } else {
         it = create<T, Args ...>(tag, true, std::forward<Args>(args)...);
     }
-
-    // Update current module description
-    Description& description = get_description();
-    description.outputs.push_back(tag.parameter);
 
     return momemta::any_cast<std::shared_ptr<T>>(it->second.ptr);
 }

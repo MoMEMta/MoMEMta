@@ -25,7 +25,6 @@
 
 #include <momemta/any.h>
 #include <momemta/impl/InputTag_fwd.h>
-#include <momemta/Configuration.h>
 #include <momemta/Value.h>
 
 // A simple memory pool
@@ -38,17 +37,8 @@ struct PoolContent {
     bool valid; /// The state of the memory block. If false, it means that a module requested this block in read-mode, but no module actually provides the block.
 };
 
-// FIXME: Use a more descriptive name, like "ModuleDependencies"
-struct Description {
-    Configuration::Module module;
-    std::vector<InputTag> inputs;
-    std::vector<std::string> outputs;
-};
-
 class Pool {
     public:
-        using DescriptionMap = std::unordered_map<std::string, Description>;
-
         Pool() = default;
 
         /**
@@ -74,15 +64,6 @@ class Pool {
          */
         bool exists(const InputTag& tag) const;
 
-        /**
-         * \brief Return the description of the state of the memory pool
-         *
-         * \note Result is only valid after a call to Pool::freeze()
-         */
-        const DescriptionMap& description() const {
-            return m_description;
-        }
-
     private:
         friend class MoMEMta;
         friend class Module;
@@ -105,25 +86,6 @@ class Pool {
                 bool valid, Args&&... args) const;
 
     public:
-        /**
-         * \brief Inform the pool of which module is currently created.
-         *
-         * It helps tracking down module dependencies.
-         *
-         * \param module The module beeing created
-         */
-        virtual void current_module(const Configuration::Module& module) final;
-
-        /**
-         * \brief Inform the pool of which module is currently created.
-         *
-         * It helps tracking down module dependencies. This signature indicates
-         * that the current module is virtual.
-         *
-         * \param name Name of the current virtual module
-         */
-        virtual void current_module(const std::string& name) final;
-
         class tag_not_found_error: public std::runtime_error {
             using std::runtime_error::runtime_error;
         };
@@ -148,21 +110,12 @@ private:
          */
         virtual void freeze() final;
 
-        /**
-         * \brief Retrieve the description for the module being created.
-         *
-         * @return A reference to the module's description. If none exists, a new one is created.
-         */
-        virtual Description& get_description() const final;
-
         Pool(const Pool&) = delete;
         Pool& operator=(const Pool&) = delete;
 
-        Configuration::Module m_current_module; /// Module currently created.
         bool m_frozen = false; /// If true, no modification of the pool is allowed
 
         mutable PoolStorage m_storage;
-        mutable DescriptionMap m_description; /// Mutable so that get() can be marked const
 };
 
 using PoolPtr = std::shared_ptr<Pool>;

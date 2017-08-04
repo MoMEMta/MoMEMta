@@ -38,13 +38,22 @@ if (NOT CMAKE_CONFIGURATION_TYPES AND NOT CMAKE_BUILD_TYPE)
    set(CMAKE_BUILD_TYPE RelWithDebInfo)
 endif(NOT CMAKE_CONFIGURATION_TYPES AND NOT CMAKE_BUILD_TYPE)
 
+# Compiler requirement
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF) # Stick to the standard
+
+set(CMAKE_C_STANDARD 11)
+set(CMAKE_C_STANDARD_REQUIRED ON)
+set(CMAKE_C_EXTENSIONS OFF) # Stick to the standard
+
 # Default compiler flags
-SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -pedantic -Wextra -std=c++11")
+SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -pedantic -Wextra")
 if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fcx-fortran-rules -fcx-limited-range")
 endif()
 
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fomit-frame-pointer -ffast-math -Wall --std=c11")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fomit-frame-pointer -ffast-math -Wall")
 
 if (COVERAGE)
     SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --coverage")
@@ -159,6 +168,7 @@ set(MOMEMTA_SOURCES
     "modules/BlockE.cc"
     "modules/BlockF.cc"
     "modules/BlockG.cc"
+    "modules/InternalModules.cc"
     "modules/SecondaryBlockA.cc"
     "modules/SecondaryBlockB.cc"
     "modules/SecondaryBlockCD.cc"
@@ -193,6 +203,7 @@ set(MOMEMTA_SOURCES
     "core/src/MoMEMta.cc"
     "core/src/Module.cc"
     "core/src/ModuleFactory.cc"
+    "core/src/ModuleUtils.cc"
     "core/src/MEParameters.cc"
     "core/src/ParameterSet.cc"
     "core/src/Particle.cc"
@@ -202,14 +213,20 @@ set(MOMEMTA_SOURCES
     "core/src/SLHAReader.cc"
     "core/src/Solution.cc"
     "core/src/Utils.cc"
+    "core/src/lib/optional.cc"
     "core/src/logger/formatter.cc"
     "core/src/logger/logger.cc"
     "core/src/logger/sink.cc"
     "core/src/lua/LazyTable.cc"
     "core/src/lua/ParameterSetParser.cc"
-    "core/src/lua/Path.cc"
-    "core/src/lua/Types.cc"
     "core/src/lua/utils.cc"
+    "core/src/lua/bindings/Path.cc"
+    "core/src/lua/bindings/Types.cc"
+    "core/src/registry/ModuleDefBuilder.cc"
+    "core/src/registry/ModuleDefUtils.cc"
+    "core/src/registry/ModuleRegistry.cc"
+    "core/src/strings/Scanner.cc"
+    "core/src/strings/StringPiece.cc"
     )
 
 # Embed lua scripts into the C++ code
@@ -316,6 +333,7 @@ endif()
 
 # First, headers
 install(DIRECTORY include/ DESTINATION include)
+
 # And MoMEMta library
 install(TARGETS momemta EXPORT momemta_targets
     RUNTIME DESTINATION bin
@@ -353,6 +371,13 @@ install(EXPORT momemta_targets
         DESTINATION
             ${ConfigPackageLocation}
         )
+
+export(TARGETS momemta
+       FILE
+           MoMEMtaTargets.cmake
+       NAMESPACE
+           momemta::
+       )
 
 install(FILES
             "${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules/FindROOT.cmake"

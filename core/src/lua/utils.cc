@@ -19,18 +19,19 @@
 #include <lua/utils.h>
 
 #include <cassert>
+#include <regex>
 
 #include <momemta/InputTag.h>
 #include <momemta/ILuaCallback.h>
 #include <momemta/Logging.h>
-#include <momemta/ModuleFactory.h>
+#include <momemta/ModuleRegistry.h>
 #include <momemta/ParameterSet.h>
 #include <momemta/Utils.h>
 
 #include <LibraryManager.h>
 #include <lua/ParameterSetParser.h>
-#include <lua/Path.h>
-#include <lua/Types.h>
+#include <lua/bindings/Path.h>
+#include <lua/bindings/Types.h>
 
 // Defined by `embedLua.py` at build-time
 extern void execute_embed_lua_code(lua_State*);
@@ -329,7 +330,6 @@ namespace lua {
     }
 
     int module_table_newindex(lua_State* L) {
-
         lua_getmetatable(L, 1);
         lua_getfield(L, -1, "__type");
 
@@ -339,14 +339,33 @@ namespace lua {
         // Remove field name from stack
         lua_pop(L, 1);
 
+        // Validate module name
+        // Format is: [a-zA-Z][a-zA-Z0-9_]*
+        static std::regex name_regex("[a-zA-Z][a-zA-Z0-9_]*");
+
+        if (! std::regex_match(module_name, name_regex)) {
+            luaL_error(L, "invalid module name '%s': valid format is [a-zA-Z][a-zA-Z0-9_]*", module_name);
+        }
+
         lua_getfield(L, -1, "__ptr");
         void* cfg_ptr = lua_touserdata(L, -1);
         ILuaCallback* callback = static_cast<ILuaCallback*>(cfg_ptr);
 
         callback->onModuleDeclared(module_type, module_name);
 
-        // Remove metatable and field name from stack
+        // Remove metatable from the stack
         lua_pop(L, 2);
+
+        // Add "@name" and "@type" fields to the module's parameters
+
+        // Push the key and then the value
+        lua_pushstring(L, "@name");
+        lua_pushstring(L, module_name);
+        lua_rawset(L, -3);
+
+        lua_pushstring(L, "@type");
+        lua_pushstring(L, module_type);
+        lua_rawset(L, -3);
 
         // And actually set the value to the table
         lua_rawset(L, 1);
@@ -355,9 +374,11 @@ namespace lua {
     }
 
     void register_modules(lua_State* L, void* ptr) {
-        std::vector<std::string> modules = ModuleFactory::get().getPluginsList();
+        momemta::ModuleList modules;
+        momemta::ModuleRegistry::get().exportList(true, modules);
+
         for (const auto& module: modules) {
-            const char* module_name = module.c_str();
+            const char* module_name = module.name.c_str();
 
             int type = lua_getglobal(L, module_name);
             lua_pop(L, 1);
@@ -369,7 +390,7 @@ namespace lua {
             // Create a new empty table
             lua_newtable(L);
 
-            std::string module_metatable = module + "_mt";
+            std::string module_metatable = module.name + "_mt";
 
             // Create the associated metatable
             luaL_newmetatable(L, module_metatable.c_str());
@@ -380,7 +401,9 @@ namespace lua {
             lua_pushlightuserdata(L, ptr);
             lua_setfield(L, -2, "__ptr");
 
-            // Set the metadata '__newindex' function
+            // Set the metatable '__newindex' function
+            // This function is called when a assignment is made to the table
+            // In our case, it's called when a new module is declared
             const luaL_Reg l[] = {
                 {"__newindex", lua::module_table_newindex},
                 {nullptr, nullptr}
@@ -524,6 +547,7 @@ namespace lua {
         lua_pushcclosure(L, declare_input, 1);
         lua_setglobal(L, "momemta_declare_input");
 
+        // C++ -> lua bindings of some classes
         path_register(L, ptr);
     }
 
@@ -550,6 +574,47 @@ namespace lua {
             LOG(debug) << "Injecting parameter " << parameter;
             lua::push_any(L, parameters.rawGet(parameter));
             lua_setglobal(L, parameter.c_str());
+        }
+    }
+
+    namespace debug {
+        std::vector<std::string> dump_stack(lua_State *L) {
+            std::vector<std::string> stack;
+            for (int i = 1; i < lua_gettop(L) + 1; i++) {
+                if (lua_isnumber(L, i)) {
+                    stack.push_back("number : " + std::to_string(lua_tonumber(L, i)));
+                } else if (lua_isstring(L, i)) {
+                    stack.push_back(std::string("string : ") + std::string(luaL_checkstring(L, i)));
+                } else if (lua_istable(L, i)) {
+                    stack.push_back("table");
+                } else if (lua_iscfunction(L, i)) {
+                    stack.push_back("cfunction");
+                } else if (lua_isfunction(L, i)) {
+                    stack.push_back("function");
+                } else if (lua_isboolean(L, i)) {
+                    if (lua_toboolean(L, i) != 0)
+                        stack.push_back("boolean: true");
+                    else
+                        stack.push_back("boolean: false");
+                } else if (lua_isuserdata(L, i)) {
+                    stack.push_back("userdata");
+                } else if (lua_isnil(L, i)) {
+                    stack.push_back("nil");
+                } else if (lua_islightuserdata(L, i)) {
+                    stack.push_back("lightuserdata");
+                }
+            }
+
+            return stack;
+        }
+
+        void print_stack(lua_State* L) {
+            auto stack = dump_stack(L);
+            size_t index = 0;
+            LOG(debug) << "Stack has " << stack.size() << " elements: ";
+            for (const auto& e: stack) {
+                LOG(debug) << "  #" << index++ << ": " << e;
+            }
         }
     }
 }

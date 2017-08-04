@@ -18,11 +18,8 @@
 
 #pragma once
 
-#include <string>
-#include <vector>
-
 struct lua_State;
-struct PathElements;
+struct ExecutionPath;
 
 /**
  * \file
@@ -51,6 +48,6 @@ int path_free(lua_State* L);
 /**
  * \brief Retrieve an instance of Path from the lua stack
  */
-PathElements* path_get(lua_State* L, int index);
+ExecutionPath* path_get(lua_State* L, int index);
 
 }

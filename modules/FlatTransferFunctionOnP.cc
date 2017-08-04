@@ -21,7 +21,7 @@
 #include <momemta/Types.h>
 #include <momemta/Math.h>
 
-/** \brief Flat transfer function on |P| (mainly for testing purposes). 
+/** \brief Flat transfer function on |P| (mainly for testing purposes).
  *
  * This modules implements a constant (=1) transfer function on a particle's \f$|P|\f$.
  *
@@ -80,7 +80,7 @@ class FlatTransferFunctionOnP: public Module {
             const double gen_P = m_PMin + range*ps_point;
 
             // To change the particle's |P| without changing its direction and mass:
-            double gen_E = sqrt(SQ(gen_P) + SQ(reco_particle.M())); 
+            double gen_E = sqrt(SQ(gen_P) + SQ(reco_particle.M()));
             output->SetCoordinates(
                 gen_P * std::sin(reco_particle.Theta()) * std::cos(reco_particle.Phi()),
                 gen_P * std::sin(reco_particle.Theta()) * std::sin(reco_particle.Phi()),
@@ -105,4 +105,11 @@ class FlatTransferFunctionOnP: public Module {
         std::shared_ptr<LorentzVector> output = produce<LorentzVector>("output");
         std::shared_ptr<double> TF_times_jacobian = produce<double>("TF_times_jacobian");
 };
-REGISTER_MODULE(FlatTransferFunctionOnP);
+
+REGISTER_MODULE(FlatTransferFunctionOnP)
+        .Input("ps_point")
+        .Input("reco_particle")
+        .Output("output")
+        .Output("TF_times_jacobian")
+        .Attr("min:double")
+        .Attr("max:double");

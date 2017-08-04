@@ -106,3 +106,7 @@ std::vector<std::string> ParameterSet::getNames() const {
 
     return names;
 }
+
+void ParameterSet::remove(const std::string& name) {
+    m_set.erase(name);
+}

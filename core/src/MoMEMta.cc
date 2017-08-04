@@ -1,3 +1,4 @@
+
 /*
  *  MoMEMta: a modular implementation of the Matrix Element Method
  *  Copyright (C) 2016  Universite catholique de Louvain (UCL), Belgium
@@ -25,113 +26,128 @@
 
 #include <momemta/Configuration.h>
 #include <momemta/Logging.h>
-#include <momemta/Path.h>
 #include <momemta/ParameterSet.h>
 #include <momemta/Utils.h>
 #include <momemta/Unused.h>
 
 #include <Graph.h>
-
-#ifdef DEBUG_TIMING
-using namespace std::chrono;
-#endif
+#include <ModuleUtils.h>
+#include <lua/utils.h>
+#include <Path.h>
 
 #define CUBA_ABORT -999
 #define CUBA_OK 0
 
-MoMEMta::MoMEMta(const Configuration& configuration) {
+/**
+ * Validate all modules declaration against their definitions
+ * \param module_decls
+ * \param available_modules
+ */
+void validateModules(const std::vector<Configuration::ModuleDecl>& module_decls,
+                     const momemta::ModuleList& available_modules) {
+
+    bool all_parameters_valid = true;
+
+    for (const auto& decl: module_decls) {
+        // Find module inside the registry
+        auto it = std::find_if(available_modules.begin(), available_modules.end(),
+                               [&decl](const momemta::ModuleList::value_type& available_module) {
+                                   // The *name* of the module inside the registry is what we call the
+                                   // *type* in userland.
+                                   return available_module.name == decl.type;
+                               });
+
+        if (it == available_modules.end())
+            throw std::runtime_error("A module was declared with a type unknown to the registry. This is not supposed to "
+                                             "be possible");
+
+        const auto& def = *it;
+
+        // Ignore internal modules
+        if (def.internal)
+            continue;
+
+        all_parameters_valid &= momemta::validateModuleParameters(def, *decl.parameters);
+    }
+
+    if (! all_parameters_valid) {
+        // At least one set of parameters is invalid. Stop here
+        auto exception = lua::invalid_configuration_file("Validation of modules' parameters failed. "
+                "Check the log output for more details on how to fix your configuration file.");
+
+        LOG(fatal) << exception.what();
+
+        throw exception;
+    }
+}
+
+MoMEMta::MoMEMta(const Configuration& configuration_) {
+
+    Configuration configuration = configuration_;
+
+    // List of all available type of modules with their definition
+    momemta::ModuleList available_modules;
+    momemta::ModuleRegistry::get().exportList(false, available_modules);
+
+    // List of module instances defined by the user, with their parameters
+    std::vector<Configuration::ModuleDecl> module_instances_def = configuration.getModules();
+
+    validateModules(
+            module_instances_def,
+            available_modules
+    );
+
+    // Check if the user defined which integrand to use
+    std::vector<InputTag> integrands = configuration.getIntegrands();
+    if (!integrands.size()) {
+        LOG(fatal)
+            << "No integrand found. Define which module's output you want to use as the integrand using the lua `integrand` function.";
+        throw integrands_output_error("No integrand found");
+    }
+
+    std::string export_graph_as;
+    if (configuration.getGlobalParameters().existsAs<std::string>("export_graph_as"))
+        export_graph_as = configuration.getGlobalParameters().get<std::string>("export_graph_as");
+
+    // All modules are correctly declared. Create the computation graph.
+    momemta::ComputationGraphBuilder builder(available_modules, configuration);
+    m_computation_graph = builder.build();
+
+    if (! export_graph_as.empty())
+        builder.exportGraph(export_graph_as);
 
     // Initialize shared memory pool for modules
-    m_pool.reset(new Pool());
+    initPool(configuration);
 
-    // Create phase-space points vector, input for many modules
-    m_pool->current_module("cuba");
-    m_ps_points = m_pool->put<std::vector<double>>({"cuba", "ps_points"});
-    m_ps_weight = m_pool->put<double>({"cuba", "ps_weight"});
+    // And initialize the computation graph
+    m_computation_graph->initialize(m_pool);
 
-    // For each input declared in the configuration, create pool entries for p4 and type
-    auto inputs = configuration.getInputs();
-    for (const auto& input: inputs) {
-        LOG(debug) << "Input declared: " << input;
-        m_pool->current_module(input);
-        m_inputs_p4.emplace(input, m_pool->put<LorentzVector>({input, "p4"}));
-        m_inputs_type.emplace(input, m_pool->put<int64_t>({input, "type"}));
+    for (const auto& component: integrands) {
+        m_integrands.push_back(m_pool->get<double>(component));
+        LOG(debug) << "Configuration declared integrand component using: " << component.toString();
     }
+    m_n_components = m_integrands.size();
 
-    // Create input for met
-    m_pool->current_module("met");
-    m_met = m_pool->put<LorentzVector>({"met", "p4"});
-
-    // Construct modules from configuration
-    std::vector<Configuration::Module> light_modules = configuration.getModules();
-    for (const auto& module: light_modules) {
-        m_pool->current_module(module);
-        try {
-            m_modules.push_back(ModuleFactory::get().create(module.type, m_pool, *module.parameters));
-        } catch (...) {
-            LOG(fatal) << "Exception while trying to create module " << module.type << "::" << module.name
-                       << ". See message above for a (possible) more detailed description of the error.";
-            std::rethrow_exception(std::current_exception());
-        }
-    }
-
-    m_n_dimensions = configuration.getNDimensions();
+    m_n_dimensions = m_computation_graph->getNDimensions();
     LOG(info) << "Number of expected inputs: " << m_inputs_p4.size();
     LOG(info) << "Number of dimensions for integration: " << m_n_dimensions;
 
     // Resize pool ps-points vector
     m_ps_points->resize(m_n_dimensions);
 
-    // Integrand
-    // First, check if the user defined which integrand to use
-    std::vector<InputTag> integrands = configuration.getIntegrands();
-    if (!integrands.size()) {
-        LOG(fatal) << "No integrand found. Define which module's output you want to use as the integrand using the lua `integrand` function.";
-        throw integrands_output_error("No integrand found");
-    }
-
-    // Next, retrieve all the input tags for the components of the integrand
-    m_pool->current_module("momemta");
-
-    for(const auto& component: integrands) {
-        m_integrands.push_back(m_pool->get<double>(component));
-        LOG(debug) << "Configuration declared integrand component using: " << component.toString();
-    }
-    m_n_components = m_integrands.size();
-
     m_cuba_configuration = configuration.getCubaConfiguration();
-
-    const Pool::DescriptionMap& description = m_pool->description();
-    graph::build(description, m_modules, configuration.getPaths(), [&description, this](const std::string& module) {
-                // Clean the pool for each removed module
-                const Description& d = description.at(module);
-                for (const auto& input: d.inputs)
-                    this->m_pool->remove_if_invalid(input);
-                for (const auto& output: d.outputs)
-                    this->m_pool->remove({module, output});
-            });
 
     // Freeze the pool after removing unneeded modules
     m_pool->freeze();
 
-    for (const auto& module: m_modules) {
-        module->configure();
-    }
-
-    // Reset configuration path to the configuration state
-    for (auto& path: configuration.getPaths()) {
-        path->modules.clear();
-        path->resolved = false;
-    }
+    m_computation_graph->configure();
 
     // Register logging function
     cubalogging(MoMEMta::cuba_logging);
 }
 
 MoMEMta::~MoMEMta() {
-    for (const auto& module: m_modules) {
-        module->finish();
-    }
+    m_computation_graph->finish();
 }
 
 const Pool& MoMEMta::getPool() const {
@@ -171,9 +187,7 @@ std::vector<std::pair<double, double>> MoMEMta::computeWeights(const std::vector
 
     *m_met = met;
 
-    for (const auto& module: m_modules) {
-        module->beginIntegration();
-    }
+    m_computation_graph->beginIntegration();
 
     std::unique_ptr<double[]> mcResult(new double[m_n_components]);
     std::unique_ptr<double[]> error(new double[m_n_components]);
@@ -379,15 +393,10 @@ std::vector<std::pair<double, double>> MoMEMta::computeWeights(const std::vector
     }
 
 #ifdef DEBUG_TIMING
-    LOG(info) << "Time spent evaluating modules (more details for loopers below):";
-    for (auto it: m_module_timing) {
-        LOG(info) << "    " << it.first->name() << ": " << duration_cast<duration<double>>(it.second).count() << "s";
-    }
+    m_computation_graph->logTimings();
 #endif
 
-    for (const auto& module: m_modules) {
-        module->endIntegration();
-    }
+    m_computation_graph->endIntegration();
 
     std::vector<std::pair<double, double>> result;
     for (size_t i = 0; i < m_n_components; i++) {
@@ -407,42 +416,24 @@ int MoMEMta::integrand(const double* psPoints, double* results, const double* we
         *m_ps_weight = *weights;
     }
 
-    for (auto& module: m_modules)
-        module->beginPoint();
+    auto status = m_computation_graph->execute();
 
-    for (auto& module: m_modules) {
-#ifdef DEBUG_TIMING
-        auto start = high_resolution_clock::now();
-#endif
-        auto status = module->work();
-#ifdef DEBUG_TIMING
-        m_module_timing[module.get()] += high_resolution_clock::now() - start;
-#endif
+    int return_value = CUBA_OK;
+    if (status != Module::Status::OK) {
+        for (size_t i = 0; i < m_n_components; i++)
+            results[i] = 0;
 
-        if (status == Module::Status::NEXT) {
-            // Stop executation for the current integration step
-            // Returns 0 so that cuba knows this phase-space volume is not relevant
-            for (size_t i = 0; i < m_n_components; i++)
-                results[i] = 0;
-            return CUBA_OK;
-        } else if (status == Module::Status::ABORT) {
-            // Abort integration
-            for (size_t i = 0; i < m_n_components; i++)
-                results[i] = 0;
-            return CUBA_ABORT;
+        if (status == Module::Status::ABORT)
+            return_value = CUBA_ABORT;
+    } else {
+        for (size_t i = 0; i < m_n_components; i++) {
+            results[i] = *(m_integrands[i]);
+            if (!std::isfinite(results[i]))
+                throw integrands_nonfinite_error("Integrand component " + std::to_string(i) + " is infinite or NaN!");
         }
     }
 
-    for (auto& module: m_modules)
-        module->endPoint();
-
-    for (size_t i = 0; i < m_n_components; i++) {
-        results[i] = *(m_integrands[i]);
-        if (!std::isfinite(results[i]))
-            throw integrands_nonfinite_error("Integrand component " + std::to_string(i) + " is infinite or NaN!");
-    }
-
-    return CUBA_OK;
+    return return_value;
 }
 
 int MoMEMta::CUBAIntegrand(const int *nDim, const double* psPoint, const int *nComp, double *value, void *inputs, const int *nVec, const int *core) {
@@ -484,6 +475,27 @@ void MoMEMta::checkIfPhysical(const LorentzVector& p4) {
         LOG(fatal) << exception.what();
         throw exception;
     }
+}
+
+void MoMEMta::initPool(const Configuration& configuration) {
+
+    m_pool.reset(new Pool());
+
+    // Create phase-space points vector, input for many modules
+    m_ps_points = m_pool->put<std::vector<double>>({"cuba", "ps_points"});
+    m_ps_weight = m_pool->put<double>({"cuba", "ps_weight"});
+
+    // For each input declared in the configuration, create pool entries for p4 and type
+    auto inputs = configuration.getInputs();
+    for (const auto& input: inputs) {
+        LOG(debug) << "Input declared: " << input;
+        m_inputs_p4.emplace(input, m_pool->put<LorentzVector>({input, "p4"}));
+        m_inputs_type.emplace(input, m_pool->put<int64_t>({input, "type"}));
+    }
+
+    // Create input for met
+    m_met = m_pool->put<LorentzVector>({"met", "p4"});
+
 }
 
 MoMEMta::unphysical_lorentzvector_error::unphysical_lorentzvector_error(const LorentzVector& p4) {

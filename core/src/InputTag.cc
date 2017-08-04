@@ -97,3 +97,9 @@ bool InputTag::isIndexed() const {
 bool InputTag::empty() const {
     return module.empty() || parameter.empty();
 }
+
+void InputTag::update() {
+    string_representation = module + "::" + parameter;
+    if (indexed)
+        string_representation +=  "/" + std::to_string(index + 1);
+}

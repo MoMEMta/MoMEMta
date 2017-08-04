@@ -63,7 +63,7 @@ class UniformGenerator: public Module {
         virtual Status work() override {
             double psPoint = *m_ps_point;
             *output = m_min + (m_max - m_min) * psPoint;
-            *jacobian = m_max - m_min; 
+            *jacobian = m_max - m_min;
 
             return Status::OK;
         }
@@ -80,4 +80,10 @@ class UniformGenerator: public Module {
 
 
 };
-REGISTER_MODULE(UniformGenerator);
+
+REGISTER_MODULE(UniformGenerator)
+        .Input("ps_point")
+        .Output("output")
+        .Output("jacobian")
+        .Attr("min:double")
+        .Attr("max:double");

@@ -19,7 +19,7 @@
 
 #include <momemta/ModuleFactory.h>
 
-template<> PluginFactory<ModuleFactory::type>& PluginFactory<ModuleFactory::type>::get() {
-    static PluginFactory<ModuleFactory::type> s_instance;
+template <> PluginFactory<momemta::ModuleFactory::type>& PluginFactory<momemta::ModuleFactory::type>::get() {
+    static PluginFactory<momemta::ModuleFactory::type> s_instance;
     return s_instance;
 }

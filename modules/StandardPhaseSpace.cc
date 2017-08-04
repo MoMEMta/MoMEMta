@@ -73,4 +73,7 @@ class StandardPhaseSpace: public Module {
         // Outputs
         std::shared_ptr<double> phase_space = produce<double>("phase_space");
 };
-REGISTER_MODULE(StandardPhaseSpace);
+
+REGISTER_MODULE(StandardPhaseSpace)
+    .Inputs("particles")
+    .Output("phase_space");

@@ -26,7 +26,7 @@
 
 class ConfigurationReader;
 class ParameterSet;
-struct PathElements;
+struct ExecutionPath;
 
 /**
  * \brief A frozen snapshot of the configuration file.
@@ -36,24 +36,24 @@ struct PathElements;
 class Configuration {
     public:
         /**
-         * \brief A module defined from the configuration file
+         * \brief A module declaration, defined from the configuration file
          *
          * Stores the name, type and parameters of the module
          */
-        struct Module {
+        struct ModuleDecl {
             std::string name; ///< Name of the module (user-defined from the configuration file)
-            std::string type; ///< Type of the module (mapped one-to-one with a C++ class inherting from Module). If
+            std::string type; ///< Type of the module (mapped one-to-one with a C++ class inheriting from Module). If
                               ///< starting with '@', this module is virtual.
             std::shared_ptr<ParameterSet> parameters; ///< Module's parameters, as parsed from the configuration file
 
-            Module() = default;
-            Module(const Module&);
-            Module(const Module&&);
-            Module& operator=(Module);
+            ModuleDecl() = default;
+            ModuleDecl(const ModuleDecl&);
+            ModuleDecl(const ModuleDecl&&);
+            ModuleDecl& operator=(ModuleDecl);
         };
 
         /// \return The list of modules declared from the configuration file
-        const std::vector<Module>& getModules() const;
+        const std::vector<ModuleDecl>& getModules() const;
         /// \return The cuba configuration as declared in the configuration file
         const ParameterSet& getCubaConfiguration() const;
         /// \return The global parameters as declared in the configuration file
@@ -64,7 +64,7 @@ class Configuration {
         std::vector<std::string> getInputs() const;
 
         /// \return The list of Paths as declared in the configuration
-        std::vector<PathElements*> getPaths() const;
+        std::vector<std::shared_ptr<ExecutionPath>> getPaths() const;
 
         /// \return The number of integration dimensions required in the configuration
         size_t getNDimensions() const;
@@ -90,11 +90,11 @@ class Configuration {
         /// Return a frozen copy of this configuration
         Configuration freeze() const;
 
-        std::vector<Module> modules;
+        std::vector<ModuleDecl> modules;
         std::shared_ptr<ParameterSet> global_parameters;
         std::shared_ptr<ParameterSet> cuba_configuration;
         std::vector<InputTag> integrands;
-        std::vector<PathElements*> paths;
+        std::vector<std::shared_ptr<ExecutionPath>> paths;
         std::vector<std::string> inputs;
         std::size_t n_dimensions;
 };

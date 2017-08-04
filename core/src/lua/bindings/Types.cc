@@ -16,11 +16,11 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <lua/Types.h>
+#include <lua/bindings/Types.h>
 
-#include <momemta/Path.h>
+#include <ExecutionPath.h>
 
-#include <lua/Path.h>
+#include <lua/bindings/Path.h>
 #include <lua.hpp>
 
 void push_type_metatable(lua_State* L, const char* name) {
@@ -50,7 +50,7 @@ momemta::any get_custom_type_ptr(lua_State* L, int index) {
 
     momemta::any result;
     if (type == LUA_PATH_TYPE_NAME) {
-        Path path = Path(lua::path_get(L, index));
+        auto path = *lua::path_get(L, index);
         result = path;
     }
 

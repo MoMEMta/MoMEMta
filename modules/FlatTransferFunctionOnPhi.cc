@@ -23,7 +23,7 @@
 
 #include <Math/RotationZ.h>
 
-/** \brief Flat transfer function on Phi (mainly for testing purposes). 
+/** \brief Flat transfer function on Phi (mainly for testing purposes).
  *
  * This modules implements a constant (=1) transfer function on a particle's \f$\phi\f$.
  *
@@ -32,7 +32,7 @@
  *
  * The module still takes a 4-momentum as input, since it needs an energy, a \f$\theta\f$-angle and a mass.
  *
- * The range of \f$\phi\f$ values considered is \f$[0,2\pi]\f$. 
+ * The range of \f$\phi\f$ values considered is \f$[0,2\pi]\f$.
  *
  * ### Integration dimension
  *
@@ -71,7 +71,7 @@ class FlatTransferFunctionOnPhi: public Module {
             m_Rotation.SetAngle(2*M_PI*ps_point);
 
             *output = m_Rotation*reco_particle;
-            
+
             // Compute TF*jacobian, ie the jacobian of the transformation of [0,1]->[0,2pi]
             *TF_times_jacobian = 2*M_PI;
 
@@ -89,4 +89,9 @@ class FlatTransferFunctionOnPhi: public Module {
         std::shared_ptr<LorentzVector> output = produce<LorentzVector>("output");
         std::shared_ptr<double> TF_times_jacobian = produce<double>("TF_times_jacobian");
 };
-REGISTER_MODULE(FlatTransferFunctionOnPhi);
+
+REGISTER_MODULE(FlatTransferFunctionOnPhi)
+        .Input("ps_point")
+        .Input("reco_particle")
+        .Output("output")
+        .Output("TF_times_jacobian");

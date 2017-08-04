@@ -29,4 +29,12 @@ Particle::Particle(const std::string& name_, const LorentzVector& p4_)
 Particle::Particle(const std::string& name_, const LorentzVector& p4_, int64_t type_)
         : name(name_), p4(p4_), type(type_) {}
 
+void swap(Particle& a, Particle& b) {
+    using std::swap; // bring in swap for built-in types
+
+    swap(a.name, b.name);
+    swap(a.p4, b.p4);
+    swap(a.type, b.type);
+}
+
 }

@@ -103,7 +103,7 @@ class BlockD: public Module {
             m_particles.push_back(get<LorentzVector>(parameters.get<InputTag>("p4")));
             m_particles.push_back(get<LorentzVector>(parameters.get<InputTag>("p5")));
             m_particles.push_back(get<LorentzVector>(parameters.get<InputTag>("p6")));
-            
+
             if (parameters.exists("branches")) {
                 auto branches_tags = parameters.get<std::vector<InputTag>>("branches");
                 for (auto& t: branches_tags)
@@ -375,4 +375,18 @@ class BlockD: public Module {
         // Outputs
         std::shared_ptr<SolutionCollection> solutions = produce<SolutionCollection>("solutions");
 };
-REGISTER_MODULE(BlockD);
+
+REGISTER_MODULE(BlockD)
+        .Input("s13")
+        .Input("s134")
+        .Input("s25")
+        .Input("s256")
+        .Input("p3")
+        .Input("p4")
+        .Input("p5")
+        .Input("p6")
+        .OptionalInputs("branches")
+        .Input("met=met::p4")
+        .Output("solutions")
+        .GlobalAttr("energy:double")
+        .Attr("pT_is_met:bool=false");
