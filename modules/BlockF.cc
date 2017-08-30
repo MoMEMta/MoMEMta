@@ -126,7 +126,7 @@ class BlockF: public Module {
             const double sq_m2 = SQ(m2);
             const double sq_m3 = p3->M2();
             const double sq_m4 = p4->M2();
-            
+
             // Don't spend time on unphysical part of phase-space
             if (sq_m1 + sq_m3 >= *s13 || sq_m2 + sq_m4 >= *s24 || *s13 + *s24 > SQ(sqrt_s))
                 return Status::NEXT;
@@ -140,7 +140,7 @@ class BlockF: public Module {
             const double p4y = p4->Py();
             const double p4z = p4->pz();
             const double E4 = p4->E();
- 
+
             // Total visible momentum
             LorentzVector pb = *p3 + *p4;
             for (size_t i = 0; i < m_branches.size(); i++) {
@@ -246,8 +246,48 @@ class BlockF: public Module {
                 const double q1Pz = std::abs(tot.Pz() + tot.E()) / 2.;
                 const double q2Pz = std::abs(tot.Pz() - tot.E()) / 2.;
 
-                if (q1Pz > sqrt_s/2 || q2Pz > sqrt_s/2)
+                if (q1Pz > sqrt_s / 2 || q2Pz > sqrt_s / 2)
                     continue;
+
+                if (!ApproxComparison(tot.Pt(), 0.)) {
+#ifndef NDEBUG
+                    LOG(trace) << "[BlockF] Throwing solution because total Pt is incorrect. "
+                               << "Expected " << 0. << ", got " << tot.Pt();
+#endif
+                    continue;
+                }
+
+                if (!ApproxComparison(p1.M() / p1.E(), m1 / p1.E())) {
+#ifndef NDEBUG
+                    LOG(trace) << "[BlockF] Throwing solution because p1 has an invalid mass. " <<
+                               "Expected " << m1 << ", got " << p1.M();
+#endif
+                    continue;
+                }
+
+                if (!ApproxComparison(p2.M() / p2.E(), m2 / p2.E())) {
+#ifndef NDEBUG
+                    LOG(trace) << "[BlockF] Throwing solution because p2 has an invalid mass. " <<
+                               "Expected " << m2 << ", got " << p2.M();
+#endif
+                    continue;
+                }
+
+                if (!ApproxComparison((p1 + *p3).M2(), *s13)) {
+#ifndef NDEBUG
+                    LOG(trace) << "[BlockF] Throwing solution because of invalid invariant mass. " <<
+                               "Expected " << *s13 << ", got " << (p1 + *p3).M2();
+#endif
+                    continue;
+                }
+
+                if (!ApproxComparison((p2 + *p4).M2(), *s24)) {
+#ifndef NDEBUG
+                    LOG(trace) << "[BlockF] Throwing solution because of invalid invariant mass. " <<
+                               "Expected " << *s24 << ", got " << (p2 + *p4).M2();
+#endif
+                    continue;
+                }
 
                 const double jacobian = 1. / (64 * SQ(M_PI) * std::abs(E4*(p1z*p2y*p3x - p1y*p2z*p3x - p1z*p2x*p3y + p1x*p2z*p3y + p1y*p2x*p3z - p1x*p2y*p3z) +  E2*p1z*p3y*p4x - E1*p2z*p3y*p4x - E2*p1y*p3z*p4x + E1*p2y*p3z*p4x - E2*p1z*p3x*p4y + E1*p2z*p3x*p4y +  E2*p1x*p3z*p4y - E1*p2x*p3z*p4y + (E2*p1y*p3x - E1*p2y*p3x - E2*p1x*p3y + E1*p2x*p3y)*p4z + E3*(-(p1z*p2y*p4x) + p1y*p2z*p4x + p1z*p2x*p4y - p1x*p2z*p4y - p1y*p2x*p4z + p1x*p2y*p4z)));
 

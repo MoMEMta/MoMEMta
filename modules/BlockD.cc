@@ -93,7 +93,7 @@ class BlockD: public Module {
 
             m1 = parameters.get<double>("m1", 0.);
             m2 = parameters.get<double>("m2", 0.);
-            
+
             s13 = get<double>(parameters.get<InputTag>("s13"));
             s134 = get<double>(parameters.get<InputTag>("s134"));
             s25 = get<double>(parameters.get<InputTag>("s25"));
@@ -254,7 +254,7 @@ class BlockD: public Module {
                         alpha6*e1 + beta6*e2 + gamma6,
                         alpha4*e1 + beta4*e2 + gamma4,
                         e2);
- 
+
                 // Check if solutions are physical
                 LorentzVector tot = p1 + p2 + p3 + p4 + p5 + p6;
                 for (size_t i = 0; i < m_branches.size(); i++) {
@@ -262,8 +262,65 @@ class BlockD: public Module {
                 }
                 double q1Pz = std::abs(tot.Pz() + tot.E()) / 2.;
                 double q2Pz = std::abs(tot.Pz() - tot.E()) / 2.;
-                if(q1Pz > sqrt_s/2 || q2Pz > sqrt_s/2)
+                if (q1Pz > sqrt_s / 2 || q2Pz > sqrt_s / 2)
                     continue;
+
+                if (!ApproxComparison((p1 + p2 + pT).Pt(), 0.)) {
+#ifndef NDEBUG
+                    LOG(trace) << "[BlockD] Throwing solution because neutrino balance is incorrect. "
+                               << "Expected " << pT.Pt() << ", got " <<(p1 + p2).Pt();
+#endif
+                    continue;
+                }
+
+                if (!ApproxComparison(p1.M() / p1.E(), m1 / p1.E())) {
+#ifndef NDEBUG
+                    LOG(trace) << "[BlockD] Throwing solution because p1 has an invalid mass. " <<
+                               "Expected " << m1 << ", got " << p1.M();
+#endif
+                    continue;
+                }
+
+                if (!ApproxComparison(p2.M() / p2.E(), m2 / p2.E())) {
+#ifndef NDEBUG
+                    LOG(trace) << "[BlockD] Throwing solution because p2 has an invalid mass. " <<
+                               "Expected " << m2 << ", got " << p2.M();
+#endif
+                    continue;
+                }
+
+                if (!ApproxComparison((p1 + p3).M2(), *s13)) {
+#ifndef NDEBUG
+                    LOG(trace) << "[BlockD] Throwing solution because of invalid invariant mass. " <<
+                               "Expected " << *s13 << ", got " << (p1 + p3).M2();
+#endif
+                    continue;
+                }
+
+                if (!ApproxComparison((p1 + p3 + p4).M2(), *s134)) {
+#ifndef NDEBUG
+                    LOG(trace) << "[BlockD] Throwing solution because of invalid invariant mass. " <<
+                               "Expected " << *s134 << ", got " << (p1 + p3 + p4).M2();
+#endif
+                    continue;
+                }
+
+                if (!ApproxComparison((p2 + p5).M2(), *s25)) {
+#ifndef NDEBUG
+                    LOG(trace) << "[BlockD] Throwing solution because of invalid invariant mass. " <<
+                               "Expected " << *s25 << ", got " << (p2 + p5).M2();
+#endif
+                    continue;
+                }
+
+                if (!ApproxComparison((p2 + p5 + p6).M2(), *s256)) {
+#ifndef NDEBUG
+                    LOG(trace) << "[BlockD] Throwing solution because of invalid invariant mass. " <<
+                               "Expected " << *s256 << ", got " << (p2 + p5 + p6).M2();
+#endif
+                    continue;
+                }
+
 
                 double jacobian = computeJacobian(p1, p2, p3, p4, p5, p6);
                 Solution s { {p1, p2}, jacobian, true };
@@ -362,7 +419,7 @@ class BlockD: public Module {
 
         double m1;
         double m2;
-        
+
         // Inputs
         Value<double> s13;
         Value<double> s134;

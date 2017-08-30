@@ -90,9 +90,9 @@ class BlockB: public Module {
 
             sqrt_s = parameters.globalParameters().get<double>("energy");
             pT_is_met = parameters.get<bool>("pT_is_met", false);
-            
+
             m1 = parameters.get<double>("m1", 0.);
-            
+
             s12 = get<double>(parameters.get<InputTag>("s12"));
 
             p2 = get<LorentzVector>(parameters.get<InputTag>("p2"));
@@ -161,7 +161,7 @@ class BlockB: public Module {
             if (E1.size() == 0)
                 return Status::NEXT;
 
-            for(unsigned int i = 0; i < E1.size(); i++){
+            for (unsigned int i = 0; i < E1.size(); i++){
                 const double e1 = E1.at(i);
 
                 if (e1 <= 0) continue;
@@ -174,12 +174,35 @@ class BlockB: public Module {
                     tot += *m_branches[i];
                 double q1Pz = std::abs(tot.Pz() + tot.E()) / 2.;
                 double q2Pz = std::abs(tot.Pz() - tot.E()) / 2.;
-                if(q1Pz > sqrt_s/2 || q2Pz > sqrt_s/2)
+                if (q1Pz > sqrt_s / 2 || q2Pz > sqrt_s / 2)
                     continue;
- 
+
+                if (!ApproxComparison(tot.Pt(), 0)) {
+#ifndef NDEBUG
+                    LOG(trace) << "[BlockB] Throwing solution because total Pt is not null: " << tot.Pt();
+#endif
+                    continue;
+                }
+
+                if (!ApproxComparison(p1.M() / p1.E(), m1 / p1.E())) {
+#ifndef NDEBUG
+                    LOG(trace) << "[BlockB] Throwing solution because of invalid mass. " <<
+                               "Expected " << m1 << ", got " << p1.M();
+#endif
+                    continue;
+                }
+
+                if (!ApproxComparison((p1 + pT).M2(), *s12)) {
+#ifndef NDEBUG
+                    LOG(trace) << "[BlockB] Throwing solution because of invalid invariant mass. " <<
+                               "Expected " << *s12 << ", got " << (p1 + pT).M2();
+#endif
+                    continue;
+                }
+
                 const double inv_jacobian = SQ(sqrt_s) * std::abs(p2->Pz() * e1 - p2->E() * p1.Pz());
 
-                Solution s { {p1}, M_PI/inv_jacobian, true };
+                Solution s { {p1}, M_PI / inv_jacobian, true };
                 solutions->push_back(s);
             }
 
@@ -190,7 +213,7 @@ class BlockB: public Module {
         double sqrt_s;
         bool pT_is_met;
         double m1;
-        
+
         // Inputs
         Value<double> s12;
         Value<LorentzVector> p2;

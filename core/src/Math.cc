@@ -19,6 +19,7 @@
 #include <momemta/Math.h>
 
 #include <iostream>
+#include <limits>
 
 using namespace std;
 
@@ -399,4 +400,20 @@ bool solve2Linear(const double a10, const double a01, const double a00, const do
 double BreitWigner(const double s, const double m, const double g) {
     double k = m * g;
     return k / (std::pow(s - m * m, 2.) + std::pow(m * g, 2.));
+}
+
+/*
+ * Copied from Catch:
+ * https://github.com/philsquared/Catch/blob/7a22bad76340f8b48094b46bc586e76ac9ea93ac/include/internal/catch_approx.hpp#L55-L60
+ */
+bool ApproxComparison(double value, double expected) {
+    static const double epsilon = std::numeric_limits<float>::epsilon() * 100;
+    static const double margin = 1.0;
+    static const double scale = 1.0;
+
+    bool relativeOK = std::fabs(value - expected) < epsilon * (scale + (std::max)(std::fabs(value), std::fabs(expected)));
+    if (relativeOK) {
+        return true;
+    }
+    return std::fabs(value - expected) < margin;
 }
