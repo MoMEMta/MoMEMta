@@ -89,7 +89,7 @@
  * each input particle's PDG ID has to be set by the user, to ensure the correct final state is retrieved when evaluating the matrix element.
  *
  * To find out the ordering the matrix element expects, it is currently necessary to dig into the matrix element's code.
- * For instance, for the fully leptonic \f$t\overline{t}\f$ example shipped with MoMEMta, the ordering and PDG IDs can be read from [here](https://github.com/MoMEMta/MoMEMta/blob/master/MatrixElements/pp_ttx_fully_leptonic/SubProcesses/P1_Sigma_sm_gg_mupvmbmumvmxbx/cpp_pp_ttx_fullylept.cc#L146).
+ * For instance, for the fully leptonic \f$t\overline{t}\f$ example shipped with MoMEMta, the ordering and PDG IDs can be read from [here](https://github.com/MoMEMta/MoMEMta/blob/master/MatrixElements/pp_ttx_fully_leptonic/SubProcesses/P1_Sigma_sm_gg_mupvmbmumvmxbx/P1_Sigma_sm_gg_mupvmbmumvmxbx.cc#L86).
  *
  * In the Lua configuation for this module, the ordering is defined through the `ids` parameter set mentioned above. For instance,
  * ```
