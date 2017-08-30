@@ -138,6 +138,38 @@ class SecondaryBlockE: public Module {
                         abs_p2[i] * std::cos(m_p2->Theta()),
                         abs_p2[i]);
 
+                if (!ApproxComparison(p1_sol.M() / p1_sol.E(), m1 / p1_sol.E())) {
+#ifndef NDEBUG
+                    LOG(trace) << "[SecondaryBlockE] Throwing solution because of invalid mass. " <<
+                        "Expected " << m1 << ", got " << p1_sol.M();
+#endif
+                    continue;
+                }
+
+                if (!ApproxComparison(p2_sol.M() / p2_sol.E(), 0.)) {
+#ifndef NDEBUG
+                    LOG(trace) << "[SecondaryBlockE] Throwing solution because of invalid mass. " <<
+                        "Expected 0., got " << p2_sol.M();
+#endif
+                    continue;
+                }
+
+                if (!ApproxComparison((p1_sol + p2_sol + *m_p3).M2(), *s123)) {
+#ifndef NDEBUE
+                    LOG(trace) << "[SecondaryBlockE] Throwing solution because of invalid invariant mass. " <<
+                        "Expected " << *s123 << ", got " << (p1_sol + p2_sol + *m_p3).M2();
+#endif
+                    continue;
+                }
+
+                if (!ApproxComparison((p1_sol + p2_sol).M2(), *s12)) {
+#ifndef NDEBUG
+                    LOG(trace) << "[SecondaryBlockE] Throwing solution because of invalid invariant mass. " <<
+                        "Expected " << *s12 << ", got " << (p1_sol + p2_sol).M2();
+#endif
+                    continue;
+                }
+                
                 // Compute jacobian
                 const double jacobian = abs_p2[i] * SQ(abs_p1[i]) * sin_theta_1 * sin_theta_2 /
                                             (1024 * std::pow(M_PI, 6) * std::abs(

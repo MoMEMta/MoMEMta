@@ -159,6 +159,31 @@ class SecondaryBlockB: public Module {
                         p1t * std::sin(phi1),
                         p1z,
                         E1);
+                
+                if (!ApproxComparison(p1_sol.M() / p1_sol.E(), m1 / p1_sol.E())) {
+#ifndef NDEBUG
+                    LOG(trace) << "[SecondaryBlockB] Throwing solution because of invalid mass. " <<
+                        "Expected " << m1 << ", got " << p1_sol.M();
+#endif
+                    continue;
+                }
+
+                if (!ApproxComparison((p1_sol + *m_p2 + *m_p3).M2(), *s123)) {
+#ifndef NDEBUG
+                    LOG(trace) << "[SecondaryBlockB] Throwing solution because of invalid invariant mass. " <<
+                        "Expected " << *s123 << ", got " << (p1_sol + *m_p2 + *m_p3).M2();
+#endif
+                    continue;
+                }
+
+                if (!ApproxComparison((p1_sol + *m_p2).M2(), *s12)) {
+#ifndef NDEBUG
+                    LOG(trace) << "[SecondaryBlockB] Throwing solution because of invalid invariant mass. " <<
+                        "Expected " << *s12 << ", got " << (p1_sol + *m_p2).M2();
+#endif
+                    continue;
+                }
+
                 // Compute jacobian
                 const double jacobian = p1t / (64 * CB(M_PI) * std::abs(cosPhi12 * p2t * (E1 * p3z -  E3 * p1z) + cosPhi13 * p3t * (E2 * p1z  - E1 * p2z) + p1t * E3p2z_E2p3z));
 

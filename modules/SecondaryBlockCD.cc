@@ -130,6 +130,23 @@ class SecondaryBlockCD: public Module {
                         norm1 * std::cos(theta1),
                         E1);
 
+                if (!ApproxComparison(gen_p1_sol.M() / gen_p1_sol.E(), m1 / gen_p1_sol.E())) {
+#ifndef NDEBUG
+                    LOG(trace) << "[SecondaryBlockCD] Throwing solution because of invalid mass. " <<
+                        "Expected " << m1 << ", got " << gen_p1_sol.M();
+#endif
+                    continue;
+                }
+
+
+                if (!ApproxComparison((gen_p1_sol + *p2).M2(), *s12)) {
+#ifndef NDEBUG
+                    LOG(trace) << "[SecondaryBlockCD] Throwing solution because of invalid invariant mass. " <<
+                        "Expected " << *s12 << ", got " << (gen_p1_sol + *p2).M2();
+#endif
+                    continue;
+                }
+                
                 // Compute jacobian
                 double jacobian = std::abs( std::sin(theta1) * SQ(norm1) / (32 * CB(M_PI) * (norm1 * E2 - E1 * norm2 * cos_theta12)) );
 
