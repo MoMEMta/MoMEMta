@@ -184,6 +184,38 @@ class SecondaryBlockA: public Module {
 
                 LorentzVector p1(p1x, p1y, p1z, E1);
 
+                if (!ApproxComparison(p1.M() / p1.E(), m1 / p1.E())) {
+#ifndef NDEBUG
+                    LOG(trace) << "[SecondaryBlockA] Throwing solution because of invalid mass. " <<
+                        "Expected " << m1 << ", got " << p1.M();
+#endif
+                    continue;
+                }
+
+                if (!ApproxComparison((p1 + *m_p2 + *m_p3 + *m_p4).M2(), *s1234)) {
+#ifndef NDEBUG
+                    LOG(trace) << "[SecondaryBlockA] Throwing solution because of invalid invariant mass. " <<
+                        "Expected " << *s1234 << ", got " << (p1 + *m_p2 + *m_p3 + *m_p4).M2();
+#endif
+                    continue;
+                }
+
+                if (!ApproxComparison((p1 + *m_p2 + *m_p3).M2(), *s123)) {
+#ifndef NDEBUG
+                    LOG(trace) << "[SecondaryBlockA] Throwing solution because of invalid invariant mass. " <<
+                        "Expected " << *s123 << ", got " << (p1 + *m_p2 + *m_p3).M2();
+#endif
+                    continue;
+                }
+
+                if (!ApproxComparison((p1 + *m_p2).M2(), *s12)) {
+#ifndef NDEBUG
+                    LOG(trace) << "[SecondaryBlockA] Throwing solution because of invalid invariant mass. " <<
+                        "Expected " << *s12 << ", got " << (p1 + *m_p2).M2();
+#endif
+                    continue;
+                }
+
                 // Compute jacobian
                 const double jacobian = 1. / (128 * std::pow(M_PI, 3) * std::abs(
                                             E4 * (p1z*p2y*p3x - p1y*p2z*p3x - p1z*p2x*p3y + p1x*p2z*p3y + p1y*p2x*p3z - p1x*p2y*p3z)
