@@ -183,6 +183,30 @@ class BlockG: public Module {
                 if (q1Pz > sqrt_s / 2 || q2Pz > sqrt_s / 2)
                     continue;
 
+                if (!ApproxComparison(tot.Pt(), 0.)) {
+#ifndef NDEBUG
+                    LOG(trace) << "[BlockG] Throwing solution because total Pt is incorrect. "
+                               << "Expected " << 0. << ", got " << tot.Pt();
+#endif
+                    continue;
+                }
+
+                if (!ApproxComparison((gen_p1 + gen_p2).M2(), *s12)) {
+#ifndef NDEBUG
+                    LOG(trace) << "[BlockG] Throwing solution because of invalid invariant mass. " <<
+                               "Expected " << *s12 << ", got " << (gen_p1 + gen_p2).M2();
+#endif
+                    continue;
+                }
+
+                if (!ApproxComparison((gen_p3 + gen_p4).M2(), *s34)) {
+#ifndef NDEBUG
+                    LOG(trace) << "[BlockG] Throwing solution because of invalid invariant mass. " <<
+                               "Expected " << *s34 << ", got " << (gen_p3 + gen_p4).M2();
+#endif
+                    continue;
+                }
+
                 double jacobian = 1 / std::abs( 2 *
                         (1 - cos_theta_12) * (1 - cos_theta_34) * (
                             alpha_1 * gamma_2 * p3_sol + alpha_2  * p3_sol * (gamma_1 + 2 * alpha_1 * p3_sol) -

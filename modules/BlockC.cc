@@ -112,7 +112,7 @@ public:
     virtual Status work() override {
 
         solutions->clear();
-        
+
         const double p2Sq = p2->M2();
 
         // Don't spend time on unphysical corner of the phase-space
@@ -230,7 +230,7 @@ public:
             LorentzVector p3_sol(p3x, p3y, p3z, E3);
 
             // Check if solutions are physical
-            LorentzVector tot = pT + p1 + p3_sol;
+            LorentzVector tot = p1 + *p2 + p3_sol;
             for (size_t i = 0; i < m_branches.size(); i++) {
                 tot += *m_branches[i];
             }
@@ -238,6 +238,38 @@ public:
             const double q2Pz = std::abs(tot.Pz() - tot.E()) / 2.;
             if (q1Pz > sqrt_s / 2 || q2Pz > sqrt_s / 2)
                 continue;
+
+            if (!ApproxComparison((p1 + p3_sol + pT).Pt(), 0.)) {
+#ifndef NDEBUG
+                LOG(trace) << "[BlockC] Throwing solution because total Pt is incorrect. "
+                           << "Expected " << 0. << ", got " << (p1 + p3_sol + pT).Pt();
+#endif
+                continue;
+            }
+
+            if (!ApproxComparison(p1.M() / p1.E(), m1 / p1.E())) {
+#ifndef NDEBUG
+               LOG(trace) << "[BlockC] Throwing solution because p1 has an invalid mass. " <<
+                           "Expected " << m1 << ", got " << p1.M();
+#endif
+                continue;
+            }
+
+            if (!ApproxComparison((p1 + *p2).M2(), *s12)) {
+#ifndef NDEBUG
+                LOG(trace) << "[BlockC] Throwing solution because of invalid invariant mass. " <<
+                           "Expected " << *s12 << ", got " << (p1 + *p2).M2();
+#endif
+                continue;
+            }
+
+            if (!ApproxComparison((p1 + *p2 + p3_sol).M2(), *s123)) {
+#ifndef NDEBUG
+                LOG(trace) << "[BlockC] Throwing solution because of invalid invariant mass. " <<
+                           "Expected " << *s123 << ", got " << (p1 + *p2 + p3_sol).M2();
+#endif
+                continue;
+            }
 
             const double jacobian = SQ(E3) * sinthe3 / (32 * SQ(M_PI) * SQ(sqrt_s) *
                                               std::abs((p3_sol.Dot(p1 + *p2) + SQ(p3x) + SQ(p3y)) * (E2 * p1z - E1 * p2z) + p3x * p3z * (E1 * p2x - E2 * p1x)

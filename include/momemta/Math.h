@@ -135,7 +135,7 @@ bool solveCubic(const double a, const double b, const double c, const double d,
  *
  * \note Multiple roots are present multiple times.
  *
- * \note See https://en.wikipedia.org/wiki/Quartic_function#Solving_by_factoring_into_quadratics and 
+ * \note See https://en.wikipedia.org/wiki/Quartic_function#Solving_by_factoring_into_quadratics and
  *       https://fr.wikipedia.org/wiki/Méthode_de_Descartes
  *
  * \param a, b, c, d, e Coefficient of the equation
@@ -157,9 +157,9 @@ bool solveQuartic(const double a, const double b, const double c, const double d
  *   b_{20}E_1^2 + b_{02}E_2^2 + b_{11}E_1E_2 + b_{10}E_1 + b_{01}E_2 + b_{00} &= 0
  *   \end{align*}
  * \f]
- * 
+ *
  * Which corresponds to finding the intersection points of two conics.
- * 
+ *
  * Appends the (x,y) solutions to the std::vectors E1, E2, making no attempt to check
  * whether these vectors are empty.
  *
@@ -187,9 +187,9 @@ bool solve2Quads(const double a20, const double a02, const double a11, const dou
  *   b_{11}E_1E_2 + b_{10}E_1 + b_{01}E_2 + b_{00} &= 0
  *   \end{align*}
  * \f]
- * 
+ *
  * Which corresponds to finding the intersection points of two conics.
- * 
+ *
  * Appends the (x,y) solutions to the std::vectors E1, E2, making no attempt to check
  * whether these vectors are empty.
  *
@@ -208,7 +208,7 @@ bool solve2QuadsDeg(const double a11, const double a10, const double a01, const 
  *   b_{10}E_1 + b_{01}E_2 + b_{00} &= 0
  *   \end{align*}
  * \f]
- * 
+ *
  * Appends the (x,y) solutions to the std::vectors E1, E2, making no attempt to check
  * whether these vectors are empty.
  */
@@ -220,3 +220,8 @@ bool solve2Linear(const double a10, const double a01, const double a00, const do
  * \brief A relativist Breit-Wigner distribution
  */
 double BreitWigner(const double s, const double m, const double g);
+
+/**
+ * \brief Compare two doubles and return true if they are approximatively equal
+ */
+bool ApproxComparison(double value, double expected);

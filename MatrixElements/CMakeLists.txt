@@ -22,6 +22,9 @@ foreach(child ${children})
     # Set PIC
     set_property(TARGET ${TARGET} PROPERTY POSITION_INDEPENDENT_CODE ON)
 
+    # Override compilation flags to always build with optimizations
+    target_compile_options(${TARGET} PRIVATE "-O3" PRIVATE "-DNDEBUG")
+
     # Add MoMEMta include directories to the matrix element target
     target_include_directories(${TARGET} PRIVATE $<TARGET_PROPERTY:momemta,INTERFACE_INCLUDE_DIRECTORIES>)
 

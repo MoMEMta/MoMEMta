@@ -162,6 +162,14 @@ class BlockA: public Module {
             if (q1Pz > sqrt_s / 2 || q2Pz > sqrt_s / 2)
                 return Status::NEXT;
 
+            // Pt should be 0
+            if (!ApproxComparison(tot.Pt(), 0)) {
+#ifndef NDEBUG
+                LOG(trace) << "[BlockA] Throwing solution because total Pt is not null: " << tot.Pt();
+#endif
+                return Status::NEXT;
+            }
+
             double jacobian = (SQ(mod_p1) * SQ(mod_p2)) / (8 * SQ(M_PI * sqrt_s) * E1 * E2);
             jacobian *= 1. / std::abs(cos_phi1 * sin_phi2 - sin_phi1 * cos_phi2);
 
