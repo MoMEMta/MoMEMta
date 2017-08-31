@@ -1,0 +1,5 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node2" href="$structis__string.html" title="is_string\&lt; T \&gt;" alt="" coords="237,5,339,32"/>
+<area shape="rect" id="node3" href="$structmomemta_1_1gtl_1_1internal__optional_1_1is__constructible__convertible__assignable__from__optional.html" title="momemta::gtl::internal\l_optional::is_constructible\l_convertible_assignable_from\l_optional\&lt; T, U \&gt;" alt="" coords="191,57,385,127"/>
+<area shape="rect" id="node4" href="$structmomemta_1_1gtl_1_1internal__optional_1_1is__constructible__convertible__from__optional.html" title="momemta::gtl::internal\l_optional::is_constructible\l_convertible_from_optional\&lt; T, U \&gt;" alt="" coords="175,152,401,208"/>
+</map>

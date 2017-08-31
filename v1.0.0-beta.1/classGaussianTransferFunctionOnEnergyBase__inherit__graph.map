@@ -1,0 +1,5 @@
+<map id="GaussianTransferFunctionOnEnergyBase" name="GaussianTransferFunctionOnEnergyBase">
+<area shape="rect" id="node3" href="$classGaussianTransferFunctionOnEnergy.html" title="Integrate over a transfer function on energy described by a Gaussian distribution. " alt="" coords="5,169,180,211"/>
+<area shape="rect" id="node4" href="$classGaussianTransferFunctionOnEnergyEvaluator.html" title="Evaluate a transfer function on energy described by a Gaussian distribution. " alt="" coords="204,169,379,211"/>
+<area shape="rect" id="node2" href="$classModule.html" title="Parent class for all the modules. " alt="" coords="159,5,223,32"/>
+</map>

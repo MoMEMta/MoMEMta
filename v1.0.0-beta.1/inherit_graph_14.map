@@ -1,0 +1,6 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" href="$classlogger_1_1sinks_1_1sink.html" title="logger::sinks::sink" alt="" coords="5,46,133,73"/>
+<area shape="rect" id="node2" href="$classlogger_1_1sinks_1_1base__sink.html" title="logger::sinks::base\l_sink\&lt; Mutex \&gt;" alt="" coords="181,39,313,80"/>
+<area shape="rect" id="node3" href="$classlogger_1_1sinks_1_1null__sink.html" title="logger::sinks::null\l_sink\&lt; Mutex \&gt;" alt="" coords="369,5,493,47"/>
+<area shape="rect" id="node4" href="$classlogger_1_1sinks_1_1stdout__sink.html" title="logger::sinks::stdout\l_sink\&lt; Mutex \&gt;" alt="" coords="361,71,501,112"/>
+</map>

@@ -1,0 +1,6 @@
+<map id="momemta::gtl::optional&lt; T &gt;" name="momemta::gtl::optional&lt; T &gt;">
+<area shape="rect" id="node2" href="$classmomemta_1_1gtl_1_1internal__optional_1_1optional__data.html" title="momemta::gtl::internal\l_optional::optional_data\&lt; T \&gt;" alt="" coords="223,13,413,54"/>
+<area shape="rect" id="node3" href="$classmomemta_1_1gtl_1_1internal__optional_1_1optional__data__dtor__base.html" title="momemta::gtl::internal\l_optional::optional_data\l_dtor_base\&lt; T \&gt;" alt="" coords="5,5,164,61"/>
+<area shape="rect" id="node4" href="$classmomemta_1_1gtl_1_1internal__optional_1_1optional__ctor__base.html" title="momemta::gtl::internal\l_optional::optional_ctor\l_base\&lt; internal_optional\l::get_ctor_copy_traits\&lt; T \&gt;()\&gt;" alt="" coords="220,78,416,149"/>
+<area shape="rect" id="node5" href="$classmomemta_1_1gtl_1_1internal__optional_1_1optional__assign__base.html" title="momemta::gtl::internal\l_optional::optional_assign\l_base\&lt; internal_optional\l::get_assign_copy_traits\&lt; T \&gt;()\&gt;" alt="" coords="212,173,424,243"/>
+</map>

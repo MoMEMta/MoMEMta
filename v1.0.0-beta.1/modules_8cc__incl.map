@@ -1,0 +1,29 @@
+<map id="tests/unit_tests/modules.cc" name="tests/unit_tests/modules.cc">
+<area shape="rect" id="node3" href="$Configuration_8h_source.html" title="momemta/Configuration.h" alt="" coords="2366,379,2538,405"/>
+<area shape="rect" id="node13" href="$ModuleFactory_8h_source.html" title="momemta/ModuleFactory.h" alt="" coords="724,229,905,256"/>
+<area shape="rect" id="node28" href="$Module_8h_source.html" title="momemta/Module.h" alt="" coords="1601,80,1738,107"/>
+<area shape="rect" id="node30" href="$Pool_8h_source.html" title="momemta/Pool.h" alt="" coords="1113,379,1234,405"/>
+<area shape="rect" id="node35" href="$include_2momemta_2Types_8h_source.html" title="momemta/Types.h" alt="" coords="2613,550,2744,577"/>
+<area shape="rect" id="node44" href="$ParameterSet_8h_source.html" title="momemta/ParameterSet.h" alt="" coords="1953,304,2127,331"/>
+<area shape="rect" id="node47" href="$Solution_8h_source.html" title="momemta/Solution.h" alt="" coords="2665,461,2807,487"/>
+<area shape="rect" id="node49" href="$Math_8h.html" title="Mathematical functions. " alt="" coords="1861,80,1985,107"/>
+<area shape="rect" id="node7" href="$InputTag__fwd_8h_source.html" title="momemta/impl/InputTag\l_fwd.h" alt="" coords="1901,453,2064,495"/>
+<area shape="rect" id="node8" href="$any_8h_source.html" title="momemta/any.h" alt="" coords="1147,550,1263,577"/>
+<area shape="rect" id="node14" href="$PluginFactory_8h_source.html" title="momemta/PluginFactory.h" alt="" coords="627,304,802,331"/>
+<area shape="rect" id="node16" href="$Logging_8h_source.html" title="momemta/Logging.h" alt="" coords="521,379,661,405"/>
+<area shape="rect" id="node17" href="$common_8h_source.html" title="momemta/impl/logger\l/common.h" alt="" coords="93,721,240,763"/>
+<area shape="rect" id="node20" href="$logger_8h_source.html" title="momemta/impl/logger\l/logger.h" alt="" coords="517,453,664,495"/>
+<area shape="rect" id="node21" href="$formatter_8h_source.html" title="momemta/impl/logger\l/formatter.h" alt="" coords="517,543,664,584"/>
+<area shape="rect" id="node27" href="$sink_8h_source.html" title="momemta/impl/logger\l/sink.h" alt="" coords="347,543,493,584"/>
+<area shape="rect" id="node22" href="$log__msg_8h_source.html" title="momemta/impl/logger\l/log_msg.h" alt="" coords="520,632,667,673"/>
+<area shape="rect" id="node29" href="$impl_2Pool_8h_source.html" title="momemta/impl/Pool.h" alt="" coords="1115,229,1264,256"/>
+<area shape="rect" id="node39" href="$InputTag_8h_source.html" title="momemta/InputTag.h" alt="" coords="1723,379,1869,405"/>
+<area shape="rect" id="node40" href="$ModuleRegistry_8h_source.html" title="momemta/ModuleRegistry.h" alt="" coords="1501,155,1688,181"/>
+<area shape="rect" id="node32" href="$Value_8h_source.html" title="momemta/Value.h" alt="" coords="1029,461,1157,487"/>
+<area shape="rect" id="node34" href="$Utils_8h_source.html" title="momemta/Utils.h" alt="" coords="2139,461,2261,487"/>
+<area shape="rect" id="node38" href="$ValueProxy_8h_source.html" title="momemta/impl/ValueProxy.h" alt="" coords="1262,304,1453,331"/>
+<area shape="rect" id="node33" href="$ValueProxy__fwd_8h_source.html" title="momemta/impl/ValueProxy\l_fwd.h" alt="" coords="944,543,1123,584"/>
+<area shape="rect" id="node42" href="$ModuleDefBuilder_8h_source.html" title="momemta/ModuleDefBuilder.h" alt="" coords="1578,461,1777,487"/>
+<area shape="rect" id="node43" href="$ModuleDef_8h_source.html" title="momemta/ModuleDef.h" alt="" coords="1617,550,1775,577"/>
+<area shape="rect" id="node46" href="$traits_8h_source.html" title="momemta/impl/traits.h" alt="" coords="1389,550,1541,577"/>
+</map>

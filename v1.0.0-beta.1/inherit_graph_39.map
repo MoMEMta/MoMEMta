@@ -1,0 +1,7 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" href="$classmomemta_1_1gtl_1_1internal__optional_1_1optional__assign__base.html" title="momemta::gtl::internal\l_optional::optional_assign\l_base\&lt; internal_optional\l::get_assign_copy_traits\&lt; T \&gt;()\&gt;" alt="" coords="212,5,424,76"/>
+<area shape="rect" id="node2" href="$classmomemta_1_1gtl_1_1optional.html" title="momemta::gtl::optional\&lt; T \&gt;" alt="" coords="472,122,659,149"/>
+<area shape="rect" id="node3" href="$classmomemta_1_1gtl_1_1internal__optional_1_1optional__ctor__base.html" title="momemta::gtl::internal\l_optional::optional_ctor\l_base\&lt; internal_optional\l::get_ctor_copy_traits\&lt; T \&gt;()\&gt;" alt="" coords="220,100,416,171"/>
+<area shape="rect" id="node4" href="$classmomemta_1_1gtl_1_1internal__optional_1_1optional__data__dtor__base.html" title="momemta::gtl::internal\l_optional::optional_data\l_dtor_base\&lt; T \&gt;" alt="" coords="5,187,164,243"/>
+<area shape="rect" id="node5" href="$classmomemta_1_1gtl_1_1internal__optional_1_1optional__data.html" title="momemta::gtl::internal\l_optional::optional_data\&lt; T \&gt;" alt="" coords="223,195,413,236"/>
+</map>
