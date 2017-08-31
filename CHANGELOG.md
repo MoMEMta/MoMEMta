@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+
+## [1.0.0 beta 1] - 2017-31-08
 ### Added
  - New `Looper` module to loop over a set of solutions (see below for more details)
  - Python bindings. To enable, pass `-DPYTHON_BINDINGS=ON` to `cmake`.
@@ -43,3 +45,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
  - Cuba forking mode was broken when building in release mode (with `-DCMAKE_RELEASE_TYPE=Release`).
  - SLHA card reader (matrix element parameter cards) retrieved from MadGraph was broken.
  - Transfer functions on energy take as lower bound the mass of the given "reco" particle
+
+
+[Unreleased]: https://github.com/MoMEMta/MoMEMta/compare/v1.0.0-beta.1...HEAD
+[1.0.0 beta 1]: https://github.com/MoMEMta/MoMEMta/compare/v0.1.0...v1.0.0-beta.1
