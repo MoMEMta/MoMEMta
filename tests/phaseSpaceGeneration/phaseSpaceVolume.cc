@@ -49,7 +49,7 @@ int main(int argc, char** argv) {
     manager.registerTest({ SOURCE_PATH "/tests/phaseSpaceGeneration/phaseSpaceVolume/blockD.lua", { "p1", "p2", "p3", "p4" }, { 0, 0, 0, 0 }, massless_phase_space(1000, 6) }, 'D');
     manager.registerTest({ SOURCE_PATH "/tests/phaseSpaceGeneration/phaseSpaceVolume/blockE.lua", { "p1", "p3" }, { 0, 0 }, massless_phase_space(1000, 4) }, 'E');
     manager.registerTest({ SOURCE_PATH "/tests/phaseSpaceGeneration/phaseSpaceVolume/blockF.lua", { "p1", "p2" }, { 0, 0 }, massless_phase_space(1000, 4) }, 'F');
-    manager.registerTest({ SOURCE_PATH "/tests/phaseSpaceGeneration/phaseSpaceVolume/blockG.lua", { "p1", "p2", "p3", "p4" }, { 0, 0, 0, 0 }, massless_phase_space(1000, 3) }, 'G');
+    manager.registerTest({ SOURCE_PATH "/tests/phaseSpaceGeneration/phaseSpaceVolume/blockG.lua", { "p1", "p2", "p3", "p4" }, { 0, 0, 0, 0 }, massless_phase_space(1000, 4) }, 'G');
 
     manager.parseArgs(argc, argv);
 

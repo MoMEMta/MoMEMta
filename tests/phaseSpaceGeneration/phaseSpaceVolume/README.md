@@ -68,6 +68,11 @@ NUMA node1 CPU(s):     12-23,36-47
 
   - Runtime: 15481.15user 7.44system 38:41.82elapsed
   - 645.063 +- 4.45919 (incorrect, we should tweak integration parameters)
+
+## Block E
+
+- Runtime: 2638,41s user 1,46s system 769% cpu 5:43,18 total
+- 0.016599 +- 3.027e-05
  
 ## Block F
 
