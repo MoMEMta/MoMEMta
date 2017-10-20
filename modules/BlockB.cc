@@ -177,13 +177,6 @@ class BlockB: public Module {
                 if (q1Pz > sqrt_s / 2 || q2Pz > sqrt_s / 2)
                     continue;
 
-                if (!ApproxComparison(tot.Pt(), 0)) {
-#ifndef NDEBUG
-                    LOG(trace) << "[BlockB] Throwing solution because total Pt is not null: " << tot.Pt();
-#endif
-                    continue;
-                }
-
                 if (!ApproxComparison(p1.M() / p1.E(), m1 / p1.E())) {
 #ifndef NDEBUG
                     LOG(trace) << "[BlockB] Throwing solution because of invalid mass. " <<
@@ -192,10 +185,10 @@ class BlockB: public Module {
                     continue;
                 }
 
-                if (!ApproxComparison((p1 + pT).M2(), *s12)) {
+                if (!ApproxComparison((p1 + *p2).M2(), *s12)) {
 #ifndef NDEBUG
                     LOG(trace) << "[BlockB] Throwing solution because of invalid invariant mass. " <<
-                               "Expected " << *s12 << ", got " << (p1 + pT).M2();
+                               "Expected " << *s12 << ", got " << (p1 + *p2).M2();
 #endif
                     continue;
                 }
