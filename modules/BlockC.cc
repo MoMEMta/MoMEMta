@@ -54,7 +54,7 @@
  *
  *   | Name | Type | %Description |
  *   |------|------|--------------|
- *   | `pT_is_met` | bool, default false | Fix \f$\vec{p}_{T}^{tot} = -\vec{\cancel{E_T}}\f$ or \f$\vec{p}_{T}^{tot} = \sum_{i \in \text{ vis}} \vec{p}_i\f$ |
+ *   | `pT_is_met` | bool, default false | Fix \f$\vec{p}_{T1} + \vec{p}_{T3} = \vec{\cancel{E_T}}\f$ (i.e. assume particles 1 and 3 are both invisible, and constrain them to the MET) or \f$\vec{p}_{T1} + \vec{p}_{T3} = - \sum_{i \in \text{2, branches}} \vec{p}_i\f$ (enforce zero total transverse momentum no matter what) |
  *   | `m1`  | double, default 0 | Mass of the invisible particle |
  *
  * ### Inputs
@@ -310,3 +310,4 @@ REGISTER_MODULE(BlockC)
         .GlobalAttr("energy:double")
         .Attr("pT_is_met:bool=false")
         .Attr("m1:double=0");
+
