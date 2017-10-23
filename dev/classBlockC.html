@@ -121,7 +121,7 @@ $(function() {
 <tr>
 <th>Name </th><th>Type </th><th>Description  </th></tr>
 <tr>
-<td><code>pT_is_met</code> </td><td>bool, default false </td><td>Fix \(\vec{p}_{T}^{tot} = -\vec{\cancel{E_T}}\) or \(\vec{p}_{T}^{tot} = \sum_{i \in \text{ vis}} \vec{p}_i\) </td></tr>
+<td><code>pT_is_met</code> </td><td>bool, default false </td><td>Fix \(\vec{p}_{T1} + \vec{p}_{T3} = \vec{\cancel{E_T}}\) (i.e. assume particles 1 and 3 are both invisible, and constrain them to the MET) or \(\vec{p}_{T1} + \vec{p}_{T3} = - \sum_{i \in \text{2, branches}} \vec{p}_i\) (enforce zero total transverse momentum no matter what) </td></tr>
 <tr>
 <td><code>m1</code> </td><td>double, default 0 </td><td>Mass of the invisible particle </td></tr>
 </table>
