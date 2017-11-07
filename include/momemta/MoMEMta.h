@@ -73,8 +73,29 @@ class MoMEMta {
          * \return A vector of weights. Each weight is represented by a pair of double, the first element being the value of the weight and the second the associated absolute error.
          */
         std::vector<std::pair<double, double>> computeWeights(const std::vector<momemta::Particle>& particles,
-                                                              const LorentzVector& met = LorentzVector());
+                                                              const LorentzVector& met=LorentzVector());
 
+        /** \brief Set the event particles' momenta
+         *
+         * In public interface mostly for debugging purposes -- for regular usage see the computeWeights() function.
+         *
+         * \param particles List of Particle representing the final state particles.
+         * \param met Missing transverse energy of the event. This parameter is optional.
+         */
+        void setEvent(const std::vector<momemta::Particle>& particles, const LorentzVector& met=LorentzVector());
+        
+        /** \brief Evaluate the integrand on a single phase-space point.
+         *
+         * Mostly for debugging purposes -- for regular usage see the computeWeights function.
+         *
+         * Warning: return value is undefined until setEvent() has been called.
+         *
+         * \param psPoints Phase-space point the integrand will be computed on. It has to lie within the unit hypercube, with the right dimensionality.
+         *
+         * \return The (possibly multi-dimensional) integrand.
+         */
+        std::vector<double> evaluateIntegrand(const std::vector<double>& psPoints);
+        
         /** \brief Return the status of the integration
          *
          * \return The status of the integration
@@ -125,7 +146,7 @@ class MoMEMta {
          */
         void initPool(const Configuration& configuration);
 
-        int integrand(const double* psPoints, double* results, const double* weights);
+        int integrand(const double* psPoints, double* results, const double* weights=nullptr);
 
         static int CUBAIntegrand(const int *nDim, const double* psPoint, const int *nComp, double *value, void *inputs, const int *nVec, const int *core);
         static int CUBAIntegrandWeighted(const int *nDim, const double* psPoint, const int *nComp, double *value, void *inputs, const int *nVec, const int *core, const double *weight);

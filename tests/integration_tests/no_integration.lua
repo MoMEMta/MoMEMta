@@ -19,6 +19,7 @@ inputs = {
     neutrino2.reco_p4
 }
 
+-- Makes no sense, but let's test it
 StandardPhaseSpace.phaseSpaceOut = {
     particles = {electron.reco_p4, bjet1.reco_p4, muon.reco_p4, bjet2.reco_p4}
 }

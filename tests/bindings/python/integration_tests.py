@@ -37,10 +37,14 @@ class IntegrationTest(unittest.TestCase):
         self.assertEqual(self.runner.getIntegrationStatus(), momemta.IntegrationStatus.SUCCESS)
 
         self.assertEqual(len(result), 1)
-
         result = result[0]
         self.assertAlmostEquals(result[0], 4.4954322e-21)
         self.assertAlmostEquals(result[1], 2.1120765e-21)
+
+        self.runner.setEvent([p3, p4, p5, p6])
+        result = self.runner.evaluateIntegrand([0.5]*9)
+        self.assertEqual(len(result), 1)
+        self.assertAlmostEquals(result[0], 2.06407675147e-18)
 
     def test_list(self):
 
@@ -54,10 +58,14 @@ class IntegrationTest(unittest.TestCase):
         self.assertEqual(self.runner.getIntegrationStatus(), momemta.IntegrationStatus.SUCCESS)
 
         self.assertEqual(len(result), 1)
-
         result = result[0]
         self.assertAlmostEquals(result[0], 4.4954322e-21)
         self.assertAlmostEquals(result[1], 2.1120765e-21)
+
+        self.runner.setEvent([p3, p4, p5, p6])
+        result = self.runner.evaluateIntegrand([0.5]*9)
+        self.assertEqual(len(result), 1)
+        self.assertAlmostEquals(result[0], 2.06407675147e-18)
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
