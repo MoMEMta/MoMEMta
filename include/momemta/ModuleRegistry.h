@@ -19,6 +19,7 @@
 #pragma once
 
 #include <mutex>
+#include <functional>
 
 #include <momemta/ModuleFactory.h>
 #include <momemta/ModuleDefBuilder.h>
