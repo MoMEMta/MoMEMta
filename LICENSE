@@ -42,8 +42,8 @@ This program has dependencies on other libraries and Website depedencies which a
 Dependencies are as follows:
 
 ROOT                                    LGPL 2.1                        http://root.cern
-LHAPDF                                  GPLv3                           https://lhapdf.hepforge.org/
-CUBA                                    GPLv3                           http://www.feynarts.de/cuba/
+LHAPDF                                  GPLv3+                          https://lhapdf.hepforge.org/
+CUBA                                    GPLv3+                          http://www.feynarts.de/cuba/
 LUA                                     MIT                             https://www.lua.org/
 
 
