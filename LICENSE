@@ -1,0 +1,147 @@
+MoMEMta Licensing
+============================================
+
+This file attempts to include all licenses that apply within MoMEMta (this program) source tree, in particular any that are supposed to be exposed to the end user for credit requirements for instance. 
+
+MoMEMta: a modular implementation of the Matrix Element Method
+
+Centre for Cosmology, Particle Physics and Phenomenology (CP3)
+Universite Catholique de Louvain (UCL)
+Louvain-la-Neuve, Belgium
+
+https://github.com/MoMEMta/MoMEMta
+
+Copyright (C) <2005-2018> <Université catholique de Louvain (UCL), Belgique>
+
+The list of the contributors to the development of MoMEMta is given in the AUTHORS file.
+
+Website of MoMEMta: https://momemta.github.io/
+Contact: momemta-contact@cern.ch
+
+MoMEMta General
+-----------------------------------------
+
+This program (MoMEMta) is free software: 
+you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program (see COPYING file).  If not, 
+see <http://www.gnu.org/licenses/>.
+
+The documentation for this program is under a creative commons share-alike 4.0 international license.  
+https://creativecommons.org/licenses/by-sa/4.0/
+It can be found here: https://momemta.github.io/
+
+This program has dependencies on other libraries and Website depedencies which are or not under GPL and that are commonly distributed with this program core libraries.
+
+Dependencies are as follows:
+
+ROOT                                    LGPL 2.1                        http://root.cern
+LHAPDF                                  GPLv3                           https://lhapdf.hepforge.org/
+CUBA                                    GPLv3                           http://www.feynarts.de/cuba/
+LUA                                     MIT                             https://www.lua.org/
+
+
+Licences & Credits of dependencies
+----------------------------------
+
+####
+ROOT
+####
+    Copyright (C) ROOT authors
+    
+    This library is free software; you can redistribute it and/or
+    modify it under the terms of the GNU Lesser General Public
+    License as published by the Free Software Foundation; either
+    version 2.1 of the License, or (at your option) any later version.
+    
+    This library is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+    Lesser General Public License for more details.
+
+-----------------------------------------------------------------------------
+
+####
+LHAPDF
+####
+    LHAPDF6, a general purpose C++ interpolator, used for evaluating PDFs from discretised data files
+    Copyright (C) LHAPDF6 authors
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+Please make sure to cite the following paper if you use LHAPDF6:
+
+  "LHAPDF6: parton density access in the LHC precision era"
+  Eur.Phys.J. C75 (2015) 3, 132
+  http://arxiv.org/abs/1412.7420
+
+An earlier write-up of progress on LHAPDF6 appeared in the Les Houches workshop proceedings:
+
+  "New access to PDF data via LHAPDF6", by A. Buckley
+  in "Les Houches 2013: Physics at TeV Colliders: Standard Model Working Group Report"
+  http://arxiv.org/abs/1405.1067
+  http://inspirehep.net/search?p=find+eprint+1405.1067
+
+-----------------------------------------------------------------------------
+
+####
+CUBA
+####
+    Cuba - a library for multidimensional numerical integration
+    Copyright (C) T. Hahn, Max-Planck-Institut für Physik
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+-----------------------------------------------------------------------------
+
+####
+LUA
+####
+
+    Copyright © 1994–2017 Lua.org, PUC-Rio.
+    Permission is hereby granted, free of charge, to any person obtaining 
+    a copy of this software and associated documentation files (the "Software"), 
+    to deal in the Software without restriction, including without limitation 
+    the rights to use, copy, modify, merge, publish, distribute, sublicense, 
+    and/or sell copies of the Software, and to permit persons to whom the 
+    Software is furnished to do so, subject to the following conditions:
+    
+    The above copyright notice and this permission notice shall be included 
+    in all copies or substantial portions of the Software.
+    
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS 
+    OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
+    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL 
+    THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER 
+    LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING 
+    FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS 
+    IN THE SOFTWARE.
+
