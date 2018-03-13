@@ -53,7 +53,7 @@ matrix:
       compiler: gcc
       env:
         - COMPILER_EVAL="export CC=gcc-4.9 && export CXX=g++-4.9"
-        - ROOT_VERSION=6.06.02 CMAKE_VERSION=3.2.1 PYTHON=TRUE COVERAGE=OFF
+        - ROOT_VERSION=6.06.02 CMAKE_VERSION=3.4.0 PYTHON=TRUE COVERAGE=OFF
 
     # GCC 4.9, old ROOT release
     - addons:
