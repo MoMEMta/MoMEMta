@@ -318,6 +318,8 @@ std::shared_ptr<ComputationGraph> ComputationGraphBuilder::build() {
         vertices.emplace(module.name, v);
     }
 
+    graph_exportable = true;
+
     // Create edges, connecting modules together. An edge link module's outputs to module's inputs
     typename boost::graph_traits<Graph>::vertex_iterator vtx_it, vtx_it_end;
     for (std::tie(vtx_it, vtx_it_end) = boost::vertices(g); vtx_it != vtx_it_end; vtx_it++) {
@@ -521,12 +523,11 @@ std::shared_ptr<ComputationGraph> ComputationGraphBuilder::build() {
 
     std::shared_ptr<ComputationGraph> computationGraph(new ComputationGraph());
     computationGraph->setNDimensions(n_dimensions);
+        
     for (auto vertex: sorted_vertices) {
-
         // Find in which execution path this module is. If it's not found inside any execution path
         // declared in the configuration, then the module is assigned to the default execution path.
-
-        static auto find_module_in_path = [&vertex, this](std::shared_ptr<ExecutionPath> p) -> bool {
+        auto find_module_in_path = [&vertex, this](std::shared_ptr<ExecutionPath> p) -> bool {
             // Returns true if the module is inside the execution path `p`, False otherwise
             auto it = std::find_if(p->elements.begin(), p->elements.end(),
                                    [&vertex, this](const std::string& element) -> bool {
@@ -536,8 +537,7 @@ std::shared_ptr<ComputationGraph> ComputationGraphBuilder::build() {
 
             return it != p->elements.end();
         };
-
-
+    
         auto execution_path_it = std::find_if(execution_paths.begin(), execution_paths.end(), find_module_in_path);
         auto execution_path = execution_path_it == execution_paths.end() ? DEFAULT_EXECUTION_PATH :
                               (*execution_path_it)->id;
@@ -547,8 +547,6 @@ std::shared_ptr<ComputationGraph> ComputationGraphBuilder::build() {
 
         computationGraph->addDecl(execution_path, g[vertex].decl);
     }
-
-    graph_created = true;
 
     return computationGraph;
 }
@@ -877,7 +875,7 @@ void graphviz_export(const Graph& g,
 }
 
 void ComputationGraphBuilder::exportGraph(const std::string& output) const {
-    if (! graph_created)
+    if (! graph_exportable)
         return;
 
     graphviz_export(g, configuration.getPaths(), output);
