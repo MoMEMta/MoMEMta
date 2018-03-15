@@ -40,21 +40,6 @@ matrix:
         - COMPILER_EVAL="export CC=gcc-4.9 && export CXX=g++-4.9"
         - ROOT_VERSION=6.06.02 CMAKE_VERSION=3.5.2 PYTHON=TRUE COVERAGE=OFF
 
-    - addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-          packages:
-            - gcc-4.9
-            - g++-4.9
-            - libboost1.55-dev
-            - libboost-python1.55-dev
-            - graphviz
-      compiler: gcc
-      env:
-        - COMPILER_EVAL="export CC=gcc-4.9 && export CXX=g++-4.9"
-        - ROOT_VERSION=6.06.02 CMAKE_VERSION=3.2.1 PYTHON=TRUE COVERAGE=OFF
-
     # GCC 4.9, old ROOT release
     - addons:
         apt:

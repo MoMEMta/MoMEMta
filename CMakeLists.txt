@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.2.1 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.4.0 FATAL_ERROR)
 project(MoMEMta)
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_DIR}/cmake/modules")
@@ -38,14 +38,19 @@ if (NOT CMAKE_CONFIGURATION_TYPES AND NOT CMAKE_BUILD_TYPE)
    set(CMAKE_BUILD_TYPE RelWithDebInfo)
 endif(NOT CMAKE_CONFIGURATION_TYPES AND NOT CMAKE_BUILD_TYPE)
 
-# Compiler requirement
-set(CMAKE_CXX_STANDARD 11)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_CXX_EXTENSIONS OFF) # Stick to the standard
+# Require c++11 *at least*, use default compiler standard if possible
+if (CMAKE_CXX_STANDARD_COMPUTED_DEFAULT STRLESS "11" OR
+        CMAKE_CXX_STANDARD_COMPUTED_DEFAULT STREQUAL "98")
+    set(CMAKE_CXX_STANDARD 11)
+    set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-set(CMAKE_C_STANDARD 11)
-set(CMAKE_C_STANDARD_REQUIRED ON)
-set(CMAKE_C_EXTENSIONS OFF) # Stick to the standard
+    set(CMAKE_C_STANDARD 11)
+    set(CMAKE_C_STANDARD_REQUIRED ON)
+endif()
+
+# Stick to the standard 
+set(CMAKE_CXX_EXTENSIONS OFF) 
+set(CMAKE_C_EXTENSIONS OFF)
 
 # Default compiler flags
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -pedantic -Wextra")

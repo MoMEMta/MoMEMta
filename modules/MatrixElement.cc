@@ -18,6 +18,7 @@
 
 // Must be loaded before `momemta/Logging.h`, otherwise there's conflict between usage
 // of `log()` and `namespace log`
+#include <numeric>
 #include <LHAPDF/LHAPDF.h>
 
 #include <momemta/Logging.h>
