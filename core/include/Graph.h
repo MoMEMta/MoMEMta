@@ -177,7 +177,7 @@ private:
 
     std::list<vertex_t> sorted_vertices; // filled only if sort_graph is called
 
-    bool graph_created = false;
+    bool graph_exportable = false;
 };
 
 }
