@@ -446,4 +446,6 @@ REGISTER_MODULE(BlockD)
         .Input("met=met::p4")
         .Output("solutions")
         .GlobalAttr("energy:double")
-        .Attr("pT_is_met:bool=false");
+        .Attr("pT_is_met:bool=false")
+        .Attr("m1:double=0.")
+        .Attr("m2:double=0.");
