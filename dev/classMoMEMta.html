@@ -130,6 +130,12 @@ virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
 <tr class="memitem:a7022a8573e8232c75cda198f59a64cbe"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::pair&lt; double, double &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMoMEMta.html#a7022a8573e8232c75cda198f59a64cbe">computeWeights</a> (const std::vector&lt; <a class="el" href="structmomemta_1_1Particle.html">momemta::Particle</a> &gt; &amp;particles, const LorentzVector &amp;met=LorentzVector())</td></tr>
 <tr class="memdesc:a7022a8573e8232c75cda198f59a64cbe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute the weights in the current configuration.  <a href="#a7022a8573e8232c75cda198f59a64cbe">More...</a><br /></td></tr>
 <tr class="separator:a7022a8573e8232c75cda198f59a64cbe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acfb44a5fd67cc84357885936ae37db59"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMoMEMta.html#acfb44a5fd67cc84357885936ae37db59">setEvent</a> (const std::vector&lt; <a class="el" href="structmomemta_1_1Particle.html">momemta::Particle</a> &gt; &amp;particles, const LorentzVector &amp;met=LorentzVector())</td></tr>
+<tr class="memdesc:acfb44a5fd67cc84357885936ae37db59"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the event particles' momenta.  <a href="#acfb44a5fd67cc84357885936ae37db59">More...</a><br /></td></tr>
+<tr class="separator:acfb44a5fd67cc84357885936ae37db59"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a65a81d37be9f762617063e27c49ac1b4"><td class="memItemLeft" align="right" valign="top">std::vector&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMoMEMta.html#a65a81d37be9f762617063e27c49ac1b4">evaluateIntegrand</a> (const std::vector&lt; double &gt; &amp;psPoints)</td></tr>
+<tr class="memdesc:a65a81d37be9f762617063e27c49ac1b4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Evaluate the integrand on a single phase-space point.  <a href="#a65a81d37be9f762617063e27c49ac1b4">More...</a><br /></td></tr>
+<tr class="separator:a65a81d37be9f762617063e27c49ac1b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4906aa9baf6f7962bce02a590faebaa3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classMoMEMta.html#a1e59ba7df5b4501f970cf07f09562f4b">IntegrationStatus</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMoMEMta.html#a4906aa9baf6f7962bce02a590faebaa3">getIntegrationStatus</a> () const</td></tr>
 <tr class="memdesc:a4906aa9baf6f7962bce02a590faebaa3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the status of the integration.  <a href="#a4906aa9baf6f7962bce02a590faebaa3">More...</a><br /></td></tr>
 <tr class="separator:a4906aa9baf6f7962bce02a590faebaa3"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -246,7 +252,38 @@ virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A vector of weights. Each weight is represented by a pair of double, the first element being the value of the weight and the second the associated absolute error. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="MoMEMta_8cc_source.html#l00157">157</a> of file <a class="el" href="MoMEMta_8cc_source.html">MoMEMta.cc</a>.</p>
+<p class="definition">Definition at line <a class="el" href="MoMEMta_8cc_source.html#l00191">191</a> of file <a class="el" href="MoMEMta_8cc_source.html">MoMEMta.cc</a>.</p>
+
+</div>
+</div>
+<a id="a65a81d37be9f762617063e27c49ac1b4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a65a81d37be9f762617063e27c49ac1b4">&#9670;&nbsp;</a></span>evaluateIntegrand()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; double &gt; MoMEMta::evaluateIntegrand </td>
+          <td>(</td>
+          <td class="paramtype">const std::vector&lt; double &gt; &amp;&#160;</td>
+          <td class="paramname"><em>psPoints</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Evaluate the integrand on a single phase-space point. </p>
+<p>Mostly for debugging purposes &ndash; for regular usage see the computeWeights function.</p>
+<p>Warning: return value is undefined until <a class="el" href="classMoMEMta.html#acfb44a5fd67cc84357885936ae37db59" title="Set the event particles&#39; momenta. ">setEvent()</a> has been called.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">psPoints</td><td>Phase-space point the integrand will be computed on. It has to lie within the unit hypercube, with the right dimensionality.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The (possibly multi-dimensional) integrand. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="MoMEMta_8cc_source.html#l00413">413</a> of file <a class="el" href="MoMEMta_8cc_source.html">MoMEMta.cc</a>.</p>
 
 </div>
 </div>
@@ -268,7 +305,7 @@ virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
 <p>Return the status of the integration. </p>
 <dl class="section return"><dt>Returns</dt><dd>The status of the integration </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="MoMEMta_8cc_source.html#l00467">467</a> of file <a class="el" href="MoMEMta_8cc_source.html">MoMEMta.cc</a>.</p>
+<p class="definition">Definition at line <a class="el" href="MoMEMta_8cc_source.html#l00484">484</a> of file <a class="el" href="MoMEMta_8cc_source.html">MoMEMta.cc</a>.</p>
 
 </div>
 </div>
@@ -292,6 +329,48 @@ virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
 <dl class="section return"><dt>Returns</dt><dd>A read-only instance of the global memory pool </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="MoMEMta_8cc_source.html#l00153">153</a> of file <a class="el" href="MoMEMta_8cc_source.html">MoMEMta.cc</a>.</p>
+
+</div>
+</div>
+<a id="acfb44a5fd67cc84357885936ae37db59"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acfb44a5fd67cc84357885936ae37db59">&#9670;&nbsp;</a></span>setEvent()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void MoMEMta::setEvent </td>
+          <td>(</td>
+          <td class="paramtype">const std::vector&lt; <a class="el" href="structmomemta_1_1Particle.html">momemta::Particle</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>particles</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const LorentzVector &amp;&#160;</td>
+          <td class="paramname"><em>met</em> = <code>LorentzVector()</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Set the event particles' momenta. </p>
+<p>In public interface mostly for debugging purposes &ndash; for regular usage see the <a class="el" href="classMoMEMta.html#a7022a8573e8232c75cda198f59a64cbe" title="Compute the weights in the current configuration. ">computeWeights()</a> function.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">particles</td><td>List of Particle representing the final state particles. </td></tr>
+    <tr><td class="paramname">met</td><td>Missing transverse energy of the event. This parameter is optional. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="MoMEMta_8cc_source.html#l00158">158</a> of file <a class="el" href="MoMEMta_8cc_source.html">MoMEMta.cc</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="MoMEMta_8cc_source.html#l00191">computeWeights()</a>.</p>
 
 </div>
 </div>
