@@ -40,6 +40,40 @@ void set_log_level(logging::level::level_enum lvl) {
     logging::set_level(lvl);
 }
 
+void MoMEMta_setEvent_MET(MoMEMta& m, bp::list particles_, bp::list met_) {
+    std::vector<Particle> particles;
+    for (ssize_t i = 0; i < bp::len(particles_); i++) {
+        particles.push_back(bp::extract<Particle>(particles_[i]));
+    }
+
+    LorentzVector met;
+    bp::extract<LorentzVector> lorentzVectorExtractor(met_);
+    if (lorentzVectorExtractor.check())
+        met = lorentzVectorExtractor();
+
+    m.setEvent(particles, met);
+}
+
+void MoMEMta_setEvent(MoMEMta& m, bp::list particles_) {
+    MoMEMta_setEvent_MET(m, particles_, bp::list());
+}
+
+bp::list MoMEMta_evaluateIntegrand(MoMEMta& m, bp::list psPoint_) {
+    std::vector<double> psPoint;
+    for (ssize_t i = 0; i < bp::len(psPoint_); i++) {
+        psPoint.push_back(bp::extract<double>(psPoint_[i]));
+    }
+
+    auto integrands = m.evaluateIntegrand(psPoint);
+
+    bp::list result;
+    for (const auto& integrand: integrands) {
+        result.append(integrand);
+    }
+
+    return result;
+}
+
 bp::list MoMEMta_computeWeights_MET(MoMEMta& m, bp::list particles_, bp::list met_) {
     std::vector<Particle> particles;
     for (ssize_t i = 0; i < bp::len(particles_); i++) {
@@ -146,6 +180,9 @@ struct convert_py_root_to_cpp_root {
 // Overloads for MoMEMta::computeWeights
 BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS(MoMEMta_computeWeights_overloads, MoMEMta::computeWeights, 1, 2)
 
+// Overloads for MoMEMta::setEvent
+BOOST_PYTHON_MEMBER_FUNCTION_OVERLOADS(MoMEMta_setEvent_overloads, MoMEMta::setEvent, 1, 2)
+
 BOOST_PYTHON_MODULE(momemta) {
 
     using namespace boost::python;
@@ -213,5 +250,9 @@ BOOST_PYTHON_MODULE(momemta) {
             //.def("getPool", &MoMEMta::getPool, return_value_policy<copy_const_reference>())
             .def("computeWeights", MoMEMta_computeWeights)
             .def("computeWeights", MoMEMta_computeWeights_MET)
-            .def("computeWeights", &MoMEMta::computeWeights, MoMEMta_computeWeights_overloads());
+            .def("computeWeights", &MoMEMta::computeWeights, MoMEMta_computeWeights_overloads())
+            .def("setEvent", MoMEMta_setEvent)
+            .def("setEvent", MoMEMta_setEvent_MET)
+            .def("setEvent", &MoMEMta::setEvent, MoMEMta_setEvent_overloads())
+            .def("evaluateIntegrand", MoMEMta_evaluateIntegrand);
 }

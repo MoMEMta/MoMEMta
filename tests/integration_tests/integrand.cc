@@ -30,10 +30,10 @@
 
 using namespace momemta;
 
-TEST_CASE("No integration", "[integration_tests]") {
+TEST_CASE("Integrand evaluation", "[integration_tests]") {
     logging::set_level(logging::level::fatal);
 
-    ConfigurationReader configuration("no_integration.lua");
+    ConfigurationReader configuration("integrand.lua");
     MoMEMta weight(configuration.freeze());
 
     // Electron
@@ -44,16 +44,11 @@ TEST_CASE("No integration", "[integration_tests]") {
     Particle muon { "muon", LorentzVector(-18.9018573760986, 10.0896110534668, -0.602926552295686, 21.4346446990967), +13 };
     // Anti b-quark
     Particle bjet2 { "bjet2", LorentzVector(71.3899612426758, 96.0094833374023, -77.2513122558594, 142.492813110352), -5 };
-    // Electronic neutrino
-    Particle nu1 { "neutrino1", LorentzVector(-57.9413, 40.7629, -54.2982, 89.2587), +12 };
-    // Muonic neutrino
-    Particle nu2 { "neutrino2", LorentzVector(57.9413, -40.7629, -40.8437, 81.7742), -14 };
 
-    std::vector<std::pair<double, double>> weights = weight.computeWeights({electron, muon, bjet1, bjet2, nu1, nu2});
-
-    REQUIRE(weight.getIntegrationStatus() == MoMEMta::IntegrationStatus::SUCCESS);
+    weight.setEvent({electron, muon, bjet1, bjet2});
+    std::vector<double> psPoint { 0.25, 0.15, 0.1, 0.4 };
+    std::vector<double> weights = weight.evaluateIntegrand(psPoint);
 
     REQUIRE(weights.size() == 1);
-    REQUIRE(weights[0].first * 1e13 == Approx(8.36916));
-    REQUIRE(weights[0].second == Approx(0.));
+    REQUIRE(weights[0] * 1e21 == Approx(6.0072644042));
 }

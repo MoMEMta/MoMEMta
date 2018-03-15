@@ -1,4 +1,5 @@
 set(SOURCES
+    "integrand.cc"
     "no_integration.cc"
     "integration_tests.cc"
     )

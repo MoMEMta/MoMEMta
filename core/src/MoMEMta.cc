@@ -153,9 +153,9 @@ MoMEMta::~MoMEMta() {
 const Pool& MoMEMta::getPool() const {
     return *m_pool;
 }
+        
 
-std::vector<std::pair<double, double>> MoMEMta::computeWeights(const std::vector<momemta::Particle>& particles, const LorentzVector& met) {
-
+void MoMEMta::setEvent(const std::vector<momemta::Particle>& particles, const LorentzVector& met) {
     if (particles.size() != m_inputs_p4.size()) {
         auto exception = invalid_inputs("Some inputs are missing. " + std::to_string(m_inputs_p4.size()) + " expected, "
                                      + std::to_string(particles.size()) + " provided.");
@@ -186,6 +186,10 @@ std::vector<std::pair<double, double>> MoMEMta::computeWeights(const std::vector
     }
 
     *m_met = met;
+}
+
+std::vector<std::pair<double, double>> MoMEMta::computeWeights(const std::vector<momemta::Particle>& particles, const LorentzVector& met) {
+    setEvent(particles, met);
 
     m_computation_graph->beginIntegration();
 
@@ -406,7 +410,20 @@ std::vector<std::pair<double, double>> MoMEMta::computeWeights(const std::vector
     return result;
 }
 
-int MoMEMta::integrand(const double* psPoints, double* results, const double* weights=nullptr) {
+std::vector<double> MoMEMta::evaluateIntegrand(const std::vector<double>& psPoints) {
+
+    if (psPoints.size() != m_n_dimensions) {
+        throw invalid_inputs("Dimensionality of the phase-space point is incorrect.");
+    }
+
+    std::vector<double> results(m_n_components);
+
+    integrand(static_cast<const double*>(&psPoints[0]), &results[0]);
+
+    return results;
+}
+
+int MoMEMta::integrand(const double* psPoints, double* results, const double* weights) {
 
     // Store phase-space points into the pool
     std::memcpy(m_ps_points->data(), psPoints, sizeof(double) * m_n_dimensions);
