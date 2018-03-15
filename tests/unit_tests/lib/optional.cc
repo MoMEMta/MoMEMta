@@ -21,6 +21,7 @@ limitations under the License.
 
 #include <string>
 #include <utility>
+#include <set>
 
 #include <momemta/Logging.h>
 
