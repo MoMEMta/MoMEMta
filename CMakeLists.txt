@@ -99,7 +99,10 @@ if (NOT TARGET Boost)
 endif()
 
 if (PYTHON_BINDINGS)
-    find_package(PythonLibs 2.6)
+    if (NOT PYTHON_MIN_VERSION)
+        set (PYTHON_MIN_VERSION 2.6)
+    endif()
+    find_package(PythonLibs ${PYTHON_MIN_VERSION})
     if (PYTHONLIBS_FOUND)
 
         if (NOT TARGET Python::libs)
@@ -109,7 +112,7 @@ if (PYTHON_BINDINGS)
             set_property(TARGET Python::libs PROPERTY INTERFACE_SYSTEM_INCLUDE_DIRECTORIES ${PYTHON_INCLUDE_PATH})
         endif()
 
-        find_package(PythonInterp 2.6)
+        find_package(PythonInterp ${PYTHON_MIN_VERSION})
 
         find_package(Boost 1.54 COMPONENTS python)
         if (NOT Boost_PYTHON_FOUND)
