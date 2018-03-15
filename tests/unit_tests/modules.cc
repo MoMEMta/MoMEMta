@@ -130,7 +130,7 @@ TEST_CASE("Modules", "[modules]") {
 
         REQUIRE(module->work() == Module::Status::OK);
 
-        REQUIRE(*s == Approx(0));
+        REQUIRE(*s == Approx(0).margin(std::numeric_limits<float>::epsilon()));
     }
 
     SECTION("UniformGenerator") {
@@ -195,7 +195,7 @@ TEST_CASE("Modules", "[modules]") {
             REQUIRE(solution.valid == true);
 
             LorentzVector test_pT = solution.values.at(0) + solution.values.at(1) + input_particles->at(2);
-            REQUIRE(test_pT.Pt() == Approx(0));
+            REQUIRE(test_pT.Pt() == Approx(0).margin(std::numeric_limits<float>::epsilon()));
 
             REQUIRE(solution.values.at(0).M() == Approx(input_particles->at(0).M()));
             REQUIRE(solution.values.at(0).Phi() == Approx(input_particles->at(0).Phi()));
@@ -238,7 +238,7 @@ TEST_CASE("Modules", "[modules]") {
 
             REQUIRE(test_p12.M2() == Approx(s_12));
             REQUIRE(test_p12.Pt() == Approx(0));
-            REQUIRE(solution.values.at(0).M() / solution.values.at(0).E() == Approx(0));
+            REQUIRE(solution.values.at(0).M() / solution.values.at(0).E() == Approx(0).margin(std::numeric_limits<float>::epsilon()));
         }
     }
 
@@ -287,10 +287,10 @@ TEST_CASE("Modules", "[modules]") {
             REQUIRE(test_p123.M2() == Approx(s_123));
 
             LorentzVector test_pT = test_p123 + input_particles->at(2);
-            REQUIRE(test_pT.Pt() == Approx(0));
+            REQUIRE(test_pT.Pt() == Approx(0).margin(std::numeric_limits<float>::epsilon()));
 
             REQUIRE(solution.values.at(0).M() == Approx(m1));
-            REQUIRE(solution.values.at(1).M() / solution.values.at(1).E() == Approx(0.));
+            REQUIRE(solution.values.at(1).M() / solution.values.at(1).E() == Approx(0).margin(std::numeric_limits<float>::epsilon()));
         }
     }
 
@@ -348,10 +348,10 @@ TEST_CASE("Modules", "[modules]") {
             REQUIRE(test_p256.M2() == Approx(s_134_256));
 
             LorentzVector test_pT = test_p134 + test_p256;
-            REQUIRE(test_pT.Pt() == Approx(0));
+            REQUIRE(test_pT.Pt() == Approx(0).margin(std::numeric_limits<float>::epsilon()));
 
-            REQUIRE(solution.values.at(0).M() / solution.values.at(0).E() == Approx(0));
-            REQUIRE(solution.values.at(1).M() / solution.values.at(1).E() == Approx(0));
+            REQUIRE(solution.values.at(0).M() / solution.values.at(0).E() == Approx(0).margin(std::numeric_limits<float>::epsilon()));
+            REQUIRE(solution.values.at(1).M() / solution.values.at(1).E() == Approx(0).margin(std::numeric_limits<float>::epsilon()));
         }
     }
 
@@ -401,8 +401,8 @@ TEST_CASE("Modules", "[modules]") {
             REQUIRE(test_pT.Rapidity() == Approx(rap));
             REQUIRE(test_pT.Pt() == Approx(0));
 
-            REQUIRE(solution.values.at(0).M() / solution.values.at(0).E() == Approx(0));
-            REQUIRE(solution.values.at(1).M() / solution.values.at(1).E() == Approx(0));
+            REQUIRE(solution.values.at(0).M() / solution.values.at(0).E() == Approx(0).margin(0.000001));
+            REQUIRE(solution.values.at(1).M() / solution.values.at(1).E() == Approx(0).margin(0.000001));
         }
     }
 
@@ -450,10 +450,10 @@ TEST_CASE("Modules", "[modules]") {
 
             REQUIRE(test_pT.E() == Approx(0.5 * (q1 + q2) * sqrt_s));
             REQUIRE(test_pT.Pz() == Approx(0.5 * (q1 - q2) * sqrt_s));
-            REQUIRE(test_pT.Pt() == Approx(0));
+            REQUIRE(test_pT.Pt() == Approx(0).margin(std::numeric_limits<float>::epsilon()));
 
-            REQUIRE(solution.values.at(0).M() / solution.values.at(0).E() == Approx(0));
-            REQUIRE(solution.values.at(1).M() / solution.values.at(1).E() == Approx(0));
+            REQUIRE(solution.values.at(0).M() / solution.values.at(0).E() == Approx(0).margin(0.000001));
+            REQUIRE(solution.values.at(1).M() / solution.values.at(1).E() == Approx(0).margin(0.000001));
         }
     }
 
@@ -495,21 +495,21 @@ TEST_CASE("Modules", "[modules]") {
             REQUIRE(test_p12.M2() == Approx(s_12));
             REQUIRE(test_p34.M2() == Approx(s_34));
 
-            REQUIRE(test_pT.Pt() == Approx(0));
+            REQUIRE(test_pT.Pt() == Approx(0).margin(std::numeric_limits<float>::epsilon()));
 
-            REQUIRE(solution.values.at(0).M() / solution.values.at(0).E() == Approx(0));
+            REQUIRE(solution.values.at(0).M() / solution.values.at(0).E() == Approx(0).margin(std::numeric_limits<float>::epsilon()));
             REQUIRE(solution.values.at(0).Phi() == Approx(input_particles->at(4).Phi()));
             REQUIRE(solution.values.at(0).Theta() == Approx(input_particles->at(4).Theta()));
 
-            REQUIRE(solution.values.at(1).M() / solution.values.at(1).E() == Approx(0));
+            REQUIRE(solution.values.at(1).M() / solution.values.at(1).E() == Approx(0).margin(std::numeric_limits<float>::epsilon()));
             REQUIRE(solution.values.at(1).Phi() == Approx(input_particles->at(5).Phi()));
             REQUIRE(solution.values.at(1).Theta() == Approx(input_particles->at(5).Theta()));
 
-            REQUIRE(solution.values.at(2).M() / solution.values.at(2).E() == Approx(0));
+            REQUIRE(solution.values.at(2).M() / solution.values.at(2).E() == Approx(0).margin(std::numeric_limits<float>::epsilon()));
             REQUIRE(solution.values.at(2).Phi() == Approx(input_particles->at(6).Phi()));
             REQUIRE(solution.values.at(2).Theta() == Approx(input_particles->at(6).Theta()));
 
-            REQUIRE(solution.values.at(3).M() / solution.values.at(3).E() == Approx(0));
+            REQUIRE(solution.values.at(3).M() / solution.values.at(3).E() == Approx(0).margin(std::numeric_limits<float>::epsilon()));
             REQUIRE(solution.values.at(3).Phi() == Approx(input_particles->at(7).Phi()));
             REQUIRE(solution.values.at(3).Theta() == Approx(input_particles->at(7).Theta()));
 
@@ -557,7 +557,7 @@ TEST_CASE("Modules", "[modules]") {
             REQUIRE(test_p123.M2() == Approx(s_123));
             REQUIRE(test_p1234.M2() == Approx(s_1234));
 
-            REQUIRE(solution.values.at(0).M() / solution.values.at(0).E() == Approx(0));
+            REQUIRE(solution.values.at(0).M() / solution.values.at(0).E() == Approx(0).margin(0.000001));
         }
     }
 
@@ -675,7 +675,7 @@ TEST_CASE("Modules", "[modules]") {
             REQUIRE(solution.values.at(0).Phi() == Approx(input_particles->at(0).Phi()));
             REQUIRE(solution.values.at(0).Theta() == Approx(input_particles->at(0).Theta()));
 
-            REQUIRE(solution.values.at(1).M() / solution.values.at(1).E() == Approx(0));
+            REQUIRE(solution.values.at(1).M() / solution.values.at(1).E() == Approx(0).margin(std::numeric_limits<float>::epsilon()));
             REQUIRE(solution.values.at(1).Phi() == Approx(input_particles->at(5).Phi()));
             REQUIRE(solution.values.at(1).Theta() == Approx(input_particles->at(5).Theta()));
         }
