@@ -114,7 +114,7 @@ if (PYTHON_BINDINGS)
             set_property(TARGET Python::libs PROPERTY INTERFACE_SYSTEM_INCLUDE_DIRECTORIES ${PYTHON_INCLUDE_PATH})
         endif()
 
-        string(CONCAT python ${Boost_PYTHON_VERSION_TAG} BP_NAME_LC)
+        string(CONCAT BP_NAME_LC "python" "${Boost_PYTHON_VERSION_TAG}")
         string(TOUPPER ${BP_NAME_LC} BP_NAME_UC)
 
         find_package(Boost 1.54 COMPONENTS ${BP_NAME_LC})
