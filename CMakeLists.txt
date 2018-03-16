@@ -114,15 +114,19 @@ if (PYTHON_BINDINGS)
             set_property(TARGET Python::libs PROPERTY INTERFACE_SYSTEM_INCLUDE_DIRECTORIES ${PYTHON_INCLUDE_PATH})
         endif()
 
-        find_package(Boost 1.54 COMPONENTS python)
-        if (NOT Boost_PYTHON_FOUND)
-            message(WARNING "Boost python not found. Not building python bindings")
+        string(CONCAT python ${Boost_PYTHON_VERSION_TAG} BP_NAME_LC)
+        string(TOUPPER ${BP_NAME_LC} BP_NAME_UC)
+
+        find_package(Boost 1.54 COMPONENTS ${BP_NAME_LC})
+        if (NOT Boost_${BP_NAME_UC}_FOUND)
+            message(WARNING "Boost ${BP_NAME_LC} not found. Not building python bindings")
             set(PYTHON_BINDINGS OFF)
-        elseif(NOT TARGET Boost::python)
-            add_library(Boost::python INTERFACE IMPORTED)
-            set_property(TARGET Boost::python PROPERTY INTERFACE_LINK_LIBRARIES ${Boost_PYTHON_LIBRARY})
-            set_property(TARGET Boost::python PROPERTY INTERFACE_INCLUDE_DIRECTORIES ${Boost_INCLUDE_DIRS})
-            set_property(TARGET Boost::python PROPERTY INTERFACE_SYSTEM_INCLUDE_DIRECTORIES ${Boost_INCLUDE_DIRS})
+        elseif(NOT TARGET Boost::${BP_NAME_LC})
+            add_library(Boost::${BP_NAME_LC} INTERFACE IMPORTED)
+            set_property(TARGET Boost::${BP_NAME_LC} PROPERTY
+                INTERFACE_LINK_LIBRARIES ${Boost_${BP_NAME_UC}_LIBRARY})
+            set_property(TARGET Boost::${BP_NAME_LC} PROPERTY INTERFACE_INCLUDE_DIRECTORIES ${Boost_INCLUDE_DIRS})
+            set_property(TARGET Boost::${BP_NAME_LC} PROPERTY INTERFACE_SYSTEM_INCLUDE_DIRECTORIES ${Boost_INCLUDE_DIRS})
         endif()
 
     else()
@@ -298,7 +302,8 @@ if (PYTHON_BINDINGS)
 
     add_library(momemta_python SHARED ${BINDING_SOURCES})
 
-    target_link_libraries(momemta_python PRIVATE Python::libs Boost::python Root::python momemta)
+    target_link_libraries(momemta_python PRIVATE Python::libs
+        Boost::${BP_NAME_LC} Root::python momemta)
     set_target_properties(momemta_python PROPERTIES PREFIX "")
     set_target_properties(momemta_python PROPERTIES OUTPUT_NAME "momemta")
 endif()
