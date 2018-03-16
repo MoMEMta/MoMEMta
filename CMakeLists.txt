@@ -102,8 +102,10 @@ if (PYTHON_BINDINGS)
     if (NOT PYTHON_MIN_VERSION)
         set (PYTHON_MIN_VERSION 2.6)
     endif()
-    find_package(PythonLibs ${PYTHON_MIN_VERSION})
-    if (PYTHONLIBS_FOUND)
+    find_package(PythonInterp ${PYTHON_MIN_VERSION})
+    if (PYTHONINTERP_FOUND)
+
+        find_package(PythonLibs ${PYTHON_MIN_VERSION})
 
         if (NOT TARGET Python::libs)
             add_library(Python::libs INTERFACE IMPORTED)
@@ -111,8 +113,6 @@ if (PYTHON_BINDINGS)
             set_property(TARGET Python::libs PROPERTY INTERFACE_INCLUDE_DIRECTORIES ${PYTHON_INCLUDE_PATH})
             set_property(TARGET Python::libs PROPERTY INTERFACE_SYSTEM_INCLUDE_DIRECTORIES ${PYTHON_INCLUDE_PATH})
         endif()
-
-        find_package(PythonInterp ${PYTHON_MIN_VERSION})
 
         find_package(Boost 1.54 COMPONENTS python)
         if (NOT Boost_PYTHON_FOUND)
