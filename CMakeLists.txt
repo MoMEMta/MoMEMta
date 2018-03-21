@@ -29,6 +29,8 @@ endif()
 option(COVERAGE "Enable code coverage" OFF)
 
 option(PYTHON_BINDINGS "Build python bindings. Python needs to be available" OFF)
+set(PYTHON_MIN_VERSION "2.6" CACHE STRING "Minimum Python version to look for")
+set(Boost_PYTHON_VERSION_TAG "" CACHE STRING "Suffix for boost::python shared library (X in libboost_pythonX.py)")
 
 option(DEBUG_TIMING "Debug modules runtime. After each weight computation, a summry of each module runtime is printed" OFF)
 
@@ -99,9 +101,6 @@ if (NOT TARGET Boost)
 endif()
 
 if (PYTHON_BINDINGS)
-    if (NOT PYTHON_MIN_VERSION)
-        set (PYTHON_MIN_VERSION 2.6)
-    endif()
     find_package(PythonInterp ${PYTHON_MIN_VERSION})
     if (PYTHONINTERP_FOUND)
 
