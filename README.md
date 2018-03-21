@@ -69,5 +69,5 @@ You can find more details about MoMEMta on our documentations:
 
 We support both python2 and python3, but on systems where both versions are installed simultaneously, the build procedure requires a tad more effort.
 The following options need to be used when configuring CMake:
-   * `-DPYTHON_MIN_VERSION=(ver)`: Force use of python version (e.g. set `(ver)=3` to make sure python3 is used.
-   * `-Boost_PYTHON_VERSION_TAG=(tag)`: The naming of the boost::python library for python3 is inconsistent across systems, and cannot be determined by CMake; you'll have to find its name yourself. The python2 version is named `libboost_python.so`, and for python3 a suffix is added: e.g. `libboost_python3.so` or `libboost_python-py36.so`. The full suffix has to be passed through this option: e.g. `(tag)=3` or `(tag)=-py36`.
+   * `-DPYTHON_MIN_VERSION=(ver)`: Force use of python version (e.g. set `(ver)=3` to make sure python3 is used).
+   * `-DBoost_PYTHON_VERSION_TAG=(tag)`: The naming of the boost::python library for python3 is inconsistent across systems, and cannot be determined by CMake; you'll have to find its name yourself. The python2 version is named `libboost_python.so`, and for python3 a suffix is added: e.g. `libboost_python3.so` or `libboost_python-py36.so`. The full suffix has to be passed through this option: e.g. `(tag)=3` or `(tag)=-py36`.
