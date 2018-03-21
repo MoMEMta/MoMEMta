@@ -16,5 +16,12 @@ popd &> /dev/null
 if [[ "@PYTHON_BINDINGS@" == "ON" ]]; then
     # Python integration tests
     export PYTHONPATH="@CMAKE_BINARY_DIR@:$PYTHONPATH"
-    @PYTHON_EXECUTABLE@ "@CMAKE_SOURCE_DIR@/tests/bindings/python/integration_tests.py" "@CMAKE_SOURCE_DIR@/tests/bindings/python/configuration.lua"
+
+    # Python needs to be fed tcmalloc as well
+    if [[ "@PROFILING@" == "ON" ]]; then
+        preload="@GPERF_TCMALLOC_LIBRARY@"
+    else
+        preload=""
+    fi
+    LD_PRELOAD=${preload} @PYTHON_EXECUTABLE@ "@CMAKE_SOURCE_DIR@/tests/bindings/python/integration_tests.py" "@CMAKE_SOURCE_DIR@/tests/bindings/python/configuration.lua"
 fi
