@@ -44,7 +44,7 @@ The following options are available when configuring the build (when running `cm
    * `-DBOOST_ROOT=(path)`: Use specific Boost version (path to its install directory)
    * `-DTESTS=ON`: Also compile the test executables
    * `-DEXAMPLES=OFF`: Do not compile the example executables
-   * `-DPYTHON_BINDINGS=ON|OFF` (`OFF` by default). Builds python bindings for MoMEMta. Requires python and boost::python.
+   * `-DPYTHON_BINDINGS=ON|OFF` (`OFF` by default). Builds python bindings for MoMEMta. Requires python and boost::python. For python3, see notes below.
    * `-DDEBUG_TIMING=ON|OFF` (`OFF` by default). If `ON`, a summary of how long each module ran is printed at the end of the integration. Can be useful to see which module to optimize.
 
 ## Examples
@@ -64,3 +64,11 @@ You can find more details about MoMEMta on our documentations:
 
  - [The main documentation](https://momemta.github.io)
  - [The technical documentation](https://momemta.github.io/MoMEMta/)
+
+## Python bindings and python3
+
+We support both python2 and python3, but on systems where both versions are installed simultaneously, the build procedure requires a tad more effort.
+The following options need to be used when configuring CMake:
+   * `-DPYTHON_MIN_VERSION=(ver)`: Force use of python version (e.g. set `(ver)=3` to make sure python3 is used).
+   * `-DBoost_PYTHON_VERSION_TAG=(tag)`: The naming of the boost::python library for python3 is inconsistent across systems, and cannot be determined by CMake; you'll have to find its name yourself. The python2 version is named `libboost_python.so`, and for python3 a suffix is added: e.g. `libboost_python3.so` or `libboost_python-py36.so`. The full suffix has to be passed through this option: e.g. `(tag)=3` or `(tag)=-py36`.
+Note that CMake might print out a warning of the type "skipping header check" - you can ignore that.

@@ -29,6 +29,8 @@ endif()
 option(COVERAGE "Enable code coverage" OFF)
 
 option(PYTHON_BINDINGS "Build python bindings. Python needs to be available" OFF)
+set(PYTHON_MIN_VERSION "2.6" CACHE STRING "Minimum Python version to look for")
+set(Boost_PYTHON_VERSION_TAG "" CACHE STRING "Suffix for boost::python shared library (X in libboost_pythonX.py)")
 
 option(DEBUG_TIMING "Debug modules runtime. After each weight computation, a summry of each module runtime is printed" OFF)
 
@@ -99,8 +101,10 @@ if (NOT TARGET Boost)
 endif()
 
 if (PYTHON_BINDINGS)
-    find_package(PythonLibs 2.6)
-    if (PYTHONLIBS_FOUND)
+    find_package(PythonInterp ${PYTHON_MIN_VERSION})
+    if (PYTHONINTERP_FOUND)
+
+        find_package(PythonLibs ${PYTHON_MIN_VERSION})
 
         if (NOT TARGET Python::libs)
             add_library(Python::libs INTERFACE IMPORTED)
@@ -109,17 +113,19 @@ if (PYTHON_BINDINGS)
             set_property(TARGET Python::libs PROPERTY INTERFACE_SYSTEM_INCLUDE_DIRECTORIES ${PYTHON_INCLUDE_PATH})
         endif()
 
-        find_package(PythonInterp 2.6)
+        string(CONCAT BP_NAME_LC "python" "${Boost_PYTHON_VERSION_TAG}")
+        string(TOUPPER ${BP_NAME_LC} BP_NAME_UC)
 
-        find_package(Boost 1.54 COMPONENTS python)
-        if (NOT Boost_PYTHON_FOUND)
-            message(WARNING "Boost python not found. Not building python bindings")
+        find_package(Boost 1.54 COMPONENTS ${BP_NAME_LC})
+        if (NOT Boost_${BP_NAME_UC}_FOUND)
+            message(WARNING "Boost ${BP_NAME_LC} not found. Not building python bindings")
             set(PYTHON_BINDINGS OFF)
-        elseif(NOT TARGET Boost::python)
-            add_library(Boost::python INTERFACE IMPORTED)
-            set_property(TARGET Boost::python PROPERTY INTERFACE_LINK_LIBRARIES ${Boost_PYTHON_LIBRARY})
-            set_property(TARGET Boost::python PROPERTY INTERFACE_INCLUDE_DIRECTORIES ${Boost_INCLUDE_DIRS})
-            set_property(TARGET Boost::python PROPERTY INTERFACE_SYSTEM_INCLUDE_DIRECTORIES ${Boost_INCLUDE_DIRS})
+        elseif(NOT TARGET Boost::${BP_NAME_LC})
+            add_library(Boost::${BP_NAME_LC} INTERFACE IMPORTED)
+            set_property(TARGET Boost::${BP_NAME_LC} PROPERTY
+                INTERFACE_LINK_LIBRARIES ${Boost_${BP_NAME_UC}_LIBRARY})
+            set_property(TARGET Boost::${BP_NAME_LC} PROPERTY INTERFACE_INCLUDE_DIRECTORIES ${Boost_INCLUDE_DIRS})
+            set_property(TARGET Boost::${BP_NAME_LC} PROPERTY INTERFACE_SYSTEM_INCLUDE_DIRECTORIES ${Boost_INCLUDE_DIRS})
         endif()
 
     else()
@@ -295,7 +301,8 @@ if (PYTHON_BINDINGS)
 
     add_library(momemta_python SHARED ${BINDING_SOURCES})
 
-    target_link_libraries(momemta_python PRIVATE Python::libs Boost::python Root::python momemta)
+    target_link_libraries(momemta_python PRIVATE Python::libs
+        Boost::${BP_NAME_LC} Root::python momemta)
     set_target_properties(momemta_python PROPERTIES PREFIX "")
     set_target_properties(momemta_python PROPERTIES OUTPUT_NAME "momemta")
 endif()
