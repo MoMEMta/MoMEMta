@@ -6,6 +6,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Added
+ - Interface to evaluate the integrand on a phase-space point (`MoMEMta::setEvent` and `MoMEMta::evaluateIntegrand` functions).
+ - Support for python3 - new build options as a consequence: `PYTHON_MIN_VERSION` and `Boost_PYTHON_VERSION_TAG`.
+
+### Changed
+ - Minimum CMake version is now 3.4.0.
+
+### Fixed
+ - Build on systems where default compiler standard is C++14 (fixed conflict with ROOT enforcing the use of exactly the same standard as the one it was built with).
+ - Problem in some module definitions (BinnedTransferFunctionOnEnergy, BinnedTransferFunctionOnPt, BlockB, BlockD): outputs and attributes did not correspond with module registry.
+ - Bug in graph creation, visible only when several instances of MoMEMta were created.
+
 ## [1.0.0 beta 1] - 2017-31-08
 ### Added
  - New `Looper` module to loop over a set of solutions (see below for more details)
