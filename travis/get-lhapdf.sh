@@ -6,7 +6,7 @@ BUNDLE=LHAPDF-${LHAPDF_VERSION}_Python-2.7_gcc-4.9.3_Ubuntu_14.04_x86_64
 mkdir -p external/lhapdf
 cd external/lhapdf
 
-wget http://sbrochet.web.cern.ch/sbrochet/public/${BUNDLE}.tar.xz
+wget http://cp3.irmp.ucl.ac.be/~delaere/MoMEMta/${BUNDLE}.tar.xz
 
 tar xf ${BUNDLE}.tar.xz
 cd ${BUNDLE}

@@ -6,7 +6,7 @@ BUNDLE=doxygen-${doxygen_VERSION}_Python-2.7_gcc-4.9_Ubuntu_14.04_x86_64
 mkdir -p external/doxygen
 cd external/doxygen
 
-wget http://sbrochet.web.cern.ch/sbrochet/public/${BUNDLE}.tar.xz
+wget http://cp3.irmp.ucl.ac.be/~delaere/MoMEMta/${BUNDLE}.tar.xz
 
 tar xf ${BUNDLE}.tar.xz
 cd ${BUNDLE}
