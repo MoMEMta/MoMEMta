@@ -18,6 +18,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
  - Build on systems where default compiler standard is C++14 (fixed conflict with ROOT enforcing the use of exactly the same standard as the one it was built with).
  - Problem in some module definitions (BinnedTransferFunctionOnEnergy, BinnedTransferFunctionOnPt, BlockB, BlockD): outputs and attributes did not correspond with module registry.
  - Bug in graph creation, visible only when several instances of MoMEMta were created.
+ - LHAPDF could not be found in a CMSSW environment (`lhapdf-config` not available)
 
 ## [1.0.0 beta 1] - 2017-31-08
 ### Added
