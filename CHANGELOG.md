@@ -6,6 +6,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [1.0.0] - 2018-05-22
 ### Added
  - Interface to evaluate the integrand on a phase-space point (`MoMEMta::setEvent` and `MoMEMta::evaluateIntegrand` functions).
  - Support for python3 - new build options as a consequence: `PYTHON_MIN_VERSION` and `Boost_PYTHON_VERSION_TAG`.
@@ -59,5 +60,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
  - Transfer functions on energy take as lower bound the mass of the given "reco" particle
 
 
-[Unreleased]: https://github.com/MoMEMta/MoMEMta/compare/v1.0.0-beta.1...HEAD
+[Unreleased]: https://github.com/MoMEMta/MoMEMta/compare/v1.0.0...HEAD
+[1.0.0]: https://github.com/MoMEMta/MoMEMta/compare/v1.0.0-beta.1...v1.0.0
 [1.0.0 beta 1]: https://github.com/MoMEMta/MoMEMta/compare/v0.1.0...v1.0.0-beta.1
