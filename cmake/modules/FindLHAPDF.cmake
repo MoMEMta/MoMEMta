@@ -8,9 +8,9 @@
 # First try to look for LHAPDF.h in standard path
 # lhapdf-config is not a reliable way to find lhapdf
 
-find_path(LHAPDF_INCLUDE_DIR LHAPDF/LHAPDF.h HINTS ${LHAPDF_ROOT}
+find_path(LHAPDF_INCLUDE_DIR LHAPDF/LHAPDF.h HINTS ${LHAPDF_ROOT} $ENV{LHAPDF_ROOT}
     PATH_SUFFIXES "include")
-find_library(LHAPDF_LIBRARY LHAPDF HINTS ${LHAPDF_ROOT} PATH_SUFFIXES lib)
+find_library(LHAPDF_LIBRARY LHAPDF HINTS ${LHAPDF_ROOT} $ENV{LHAPDF_ROOT} PATH_SUFFIXES lib)
 
 if (NOT LHAPDF_INCLUDE_DIR OR NOT LHAPDF_LIBRARY)
     # Not found, try to look for lhapdf-config
