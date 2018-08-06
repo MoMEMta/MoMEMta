@@ -64,7 +64,7 @@ bool InputTag::isInputTag(const std::string& tag) {
                 return false;
 
             return true;
-        } catch (std::invalid_argument e) {
+        } catch (const std::invalid_argument& e) {
             return false;
         }
     } else {

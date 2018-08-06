@@ -61,7 +61,7 @@ template <typename T> std::shared_ptr<const T> Pool::raw_get(const InputTag& tag
         std::shared_ptr<T>& ptr = momemta::any_cast<std::shared_ptr<T>&>(v.ptr);
 
         return std::const_pointer_cast<const T>(ptr);
-    } catch (momemta::bad_any_cast e) {
+    } catch (const momemta::bad_any_cast& e) {
         LOG(fatal) << "Exception while trying to get pool content for '" << tag.toString() << "'. Requested a '"
                    << demangle(typeid(std::shared_ptr<T>).name())
                    << "' while parameter is a '"

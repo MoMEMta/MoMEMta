@@ -90,7 +90,7 @@ class ParameterSet {
 
             try {
                 return momemta::any_cast<const T&>(value->second.value);
-            } catch (momemta::bad_any_cast e) {
+            } catch (const momemta::bad_any_cast& e) {
                 LOG(fatal) << "Exception while trying to get parameter '" << name << "'. Requested a '"
                            << demangle(typeid(T).name())
                            << "' while parameter is a '"
@@ -107,7 +107,7 @@ class ParameterSet {
 
             try {
                 return momemta::any_cast<T&>(value->second.value);
-            } catch (momemta::bad_any_cast e) {
+            } catch (const momemta::bad_any_cast& e) {
                 LOG(fatal) << "Exception while trying to get parameter '" << name << "'. Requested a '"
                            << demangle(typeid(T).name())
                            << "' while parameter is a '"
@@ -124,7 +124,7 @@ class ParameterSet {
 
             try {
                 return momemta::any_cast<const T&>(value->second.value);
-            } catch (momemta::bad_any_cast e) {
+            } catch (const momemta::bad_any_cast &e) {
                 LOG(fatal) << "Exception while trying to get parameter '" << name << "'. Requested a '"
                            << demangle(typeid(T).name())
                            << "' while parameter is a '"
