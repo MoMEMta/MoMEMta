@@ -21,6 +21,7 @@
 
 #include <cstring>
 #include <cmath>
+#include <cstdint>
 
 #include <cuba.h>
 
@@ -243,7 +244,7 @@ std::vector<std::pair<double, double>> MoMEMta::computeWeights(const std::vector
         if (algorithm == "vegas") {
             int64_t n_start = m_cuba_configuration.get<int64_t>("n_start", 25000);
             int64_t n_increase = m_cuba_configuration.get<int64_t>("n_increase", 0);
-            int64_t batch_size = m_cuba_configuration.get<int64_t>("batch_size", std::min(n_start, 50000L));
+            int64_t batch_size = m_cuba_configuration.get<int64_t>("batch_size", std::min(n_start, INT64_C(50000)));
             int64_t grid_number = m_cuba_configuration.get<int64_t>("grid_number", 0);
 
             llVegas(
