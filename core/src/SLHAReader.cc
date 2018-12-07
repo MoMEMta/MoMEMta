@@ -127,7 +127,7 @@ void Reader::read_slha_file(const std::string& file_name) {
             throw invalid_card_error("No information read from SLHA card");
 
     // End try
-    } catch(std::exception &e) {
+    } catch(const std::exception &e) {
         param_card.close();
         throw e;
     }
