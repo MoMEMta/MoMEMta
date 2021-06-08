@@ -3,7 +3,7 @@
 		fork the cores for parallel sampling
 		(C version only)
 		by Thomas Hahn
-		last modified 23 Apr 15 th
+		last modified 30 Oct 20 th
 */
 
 
@@ -16,7 +16,7 @@
 
 #define MINCORES 1
 
-coreinit cubafun_;
+extern coreinit cubafun_;
 extern int cubaverb_;
 extern corespec cubaworkers_;
 
@@ -95,13 +95,9 @@ Extern void SUFFIX(cubafork)(Spin **pspin)
   for( core = -spin->spec.naccel; core < spin->spec.ncores; ++core ) {
     int fd[2];
     pid_t pid;
-    if (socketpair(AF_LOCAL, SOCK_STREAM, 0, fd) == -1)
-      perror("Error while opening socket");
-
-    pid = fork();
-    if (pid == -1)
-      perror("Error while forking process");
-
+    assert(
+      socketpair(AF_LOCAL, SOCK_STREAM, 0, fd) != -1 &&
+      (pid = fork()) != -1 );
     if( pid == 0 ) {
       close(fd[0]);
       free(spin);

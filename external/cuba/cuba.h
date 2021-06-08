@@ -2,8 +2,11 @@
 	cuba.h
 		Prototypes for the Cuba library
 		this file is part of Cuba
-		last modified 13 Mar 15 th
+		last modified 30 Oct 20 th
 */
+
+#ifndef CUBA_H
+#define CUBA_H
 
 typedef double cubareal;
 
@@ -19,8 +22,6 @@ typedef int (*integrand_t)(const int *ndim, const cubareal x[],
 
 typedef void (*peakfinder_t)(const int *ndim, const cubareal b[],
   int *n, cubareal x[], void *userdata);
-
-typedef void (*logging_callback)(const char*);
 
 #ifdef __cplusplus
 extern "C" {
@@ -115,15 +116,15 @@ void llCuhre(const int ndim, const int ncomp,
 void cubafork(void *pspin);
 void cubawait(void *pspin);
 
-void cubacores(const int n, const int p);
-void cubaaccel(const int n, const int p);
+void cubacores(const int *n, const int *p);
+void cubaaccel(const int *n, const int *p);
 
 void cubainit(void (*f)(), void *arg);
 void cubaexit(void (*f)(), void *arg);
 
-void cubalogging(logging_callback);
-
 #ifdef __cplusplus
 }
+#endif
+
 #endif
 
