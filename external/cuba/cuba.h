@@ -23,6 +23,8 @@ typedef int (*integrand_t)(const int *ndim, const cubareal x[],
 typedef void (*peakfinder_t)(const int *ndim, const cubareal b[],
   int *n, cubareal x[], void *userdata);
 
+typedef void (*logging_callback)(const char*);
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -121,6 +123,8 @@ void cubaaccel(const int *n, const int *p);
 
 void cubainit(void (*f)(), void *arg);
 void cubaexit(void (*f)(), void *arg);
+
+void cubalogging(logging_callback);
 
 #ifdef __cplusplus
 }

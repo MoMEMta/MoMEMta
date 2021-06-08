@@ -56,3 +56,9 @@ Extern void SUFFIX(cubaexit)(subroutine f, void *arg)
   cubafun_.exitarg = arg;
 }
 
+/*********************************************************************/
+
+Extern void SUFFIX(cubalogging)(logging_callback fct)
+{
+    logging_function = fct;
+}
