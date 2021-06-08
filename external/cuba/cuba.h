@@ -118,8 +118,8 @@ void llCuhre(const int ndim, const int ncomp,
 void cubafork(void *pspin);
 void cubawait(void *pspin);
 
-void cubacores(const int *n, const int *p);
-void cubaaccel(const int *n, const int *p);
+void cubacores(const int n, const int p);
+void cubaaccel(const int n, const int p);
 
 void cubainit(void (*f)(), void *arg);
 void cubaexit(void (*f)(), void *arg);
