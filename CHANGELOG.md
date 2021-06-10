@@ -6,6 +6,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [1.0.1] - 2018-05-22
+### Changed
+ - Updated cuba to 4.2.1
+
+### Fixed
+ - Fixed build on GCC>7 (#176, #177, #178)
+
 ## [1.0.0] - 2018-05-22
 ### Added
  - Interface to evaluate the integrand on a phase-space point (`MoMEMta::setEvent` and `MoMEMta::evaluateIntegrand` functions).
