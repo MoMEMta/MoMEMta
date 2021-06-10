@@ -1,0 +1,42 @@
+diff --git a/external/cuba/src/common/Random.c b/external/cuba/src/common/Random.c
+index 6d60615..38f0b8a 100644
+--- a/external/cuba/src/common/Random.c
++++ b/external/cuba/src/common/Random.c
+@@ -102,7 +102,8 @@ static inline void SobolIni(This *t)
+     int inibits = -1, bit;
+     for( j = powers; j; j >>= 1 ) ++inibits;
+ 
+-    memcpy(pv, pini, inibits*sizeof *pini);
++    if (inibits > 0)
++        memcpy(pv, pini, inibits*sizeof *pini);
+     pini += 8;
+ 
+     for( bit = inibits; bit <= nbits; ++bit ) {
+diff --git a/external/cuba/src/divonne/Rule.c b/external/cuba/src/divonne/Rule.c
+index 813b918..13d198c 100644
+--- a/external/cuba/src/divonne/Rule.c
++++ b/external/cuba/src/divonne/Rule.c
+@@ -582,19 +582,19 @@ static void Rule7Alloc(This *t)
+ 
+ static inline void RuleAlloc(This *t)
+ {
+-  if( (t->ndim - 2) | (t->key1 - 13)*(t->key2 - 13)*(t->key3 - 13) )
++  if( (t->ndim - 2) | ((t->key1 - 13) && (t->key2 - 13) && (t->key3 - 13)) )
+     t->rule13.first = NULL;
+   else Rule13Alloc(t);
+ 
+-  if( (t->ndim - 3) | (t->key1 - 11)*(t->key2 - 11)*(t->key3 - 11) )
++  if( (t->ndim - 3) | ((t->key1 - 11) && (t->key2 - 11) && (t->key3 - 11)) )
+     t->rule11.first = NULL;
+   else Rule11Alloc(t);
+ 
+-  if( (t->key1 - 9)*(t->key2 - 9)*(t->key3 - 9) )
++  if( (t->key1 - 9) && (t->key2 - 9) && (t->key3 - 9) )
+     t->rule9.first = NULL;
+   else Rule9Alloc(t);
+ 
+-  if( (t->key1 - 7)*(t->key2 - 7)*(t->key3 - 7) )
++  if( (t->key1 - 7) && (t->key2 - 7) && (t->key3 - 7) )
+     t->rule7.first = NULL;
+   else Rule7Alloc(t);
+ }

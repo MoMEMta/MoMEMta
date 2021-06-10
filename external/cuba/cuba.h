@@ -2,8 +2,11 @@
 	cuba.h
 		Prototypes for the Cuba library
 		this file is part of Cuba
-		last modified 13 Mar 15 th
+		last modified 30 Oct 20 th
 */
+
+#ifndef CUBA_H
+#define CUBA_H
 
 typedef double cubareal;
 
@@ -125,5 +128,7 @@ void cubalogging(logging_callback);
 
 #ifdef __cplusplus
 }
+#endif
+
 #endif
 

@@ -91,7 +91,7 @@
 #define PACKAGE_NAME "Cuba"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "Cuba 4.2"
+#define PACKAGE_STRING "Cuba 4.2.1"
 
 /* Define to the one symbol short name of this package. */
 #define PACKAGE_TARNAME "cuba"
@@ -100,7 +100,7 @@
 #define PACKAGE_URL ""
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "4.2"
+#define PACKAGE_VERSION "4.2.1"
 
 /* If using the C implementation of alloca, define if you know the
    direction of stack growth for your system; otherwise it will be

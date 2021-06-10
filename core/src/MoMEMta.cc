@@ -250,7 +250,7 @@ std::vector<std::pair<double, double>> MoMEMta::computeWeights(const std::vector
             llVegas(
                     m_n_dimensions,         // (int) dimensions of the integrated volume
                     m_n_components,         // (int) dimensions of the integrand
-                    (integrand_t) CUBAIntegrandWeighted,  // (integrand_t) integrand (cast to integrand_t)
+                    reinterpret_cast<integrand_t>(CUBAIntegrandWeighted),  // (integrand_t) integrand (cast to integrand_t)
                     (void *) this,           // (void*) pointer to additional arguments passed to integrand
                     1,                      // (int) maximum number of points given the integrand in each invocation (=> SIMD) ==> PS points = vector of sets of points (x[ndim][nvec]), integrand returns vector of vector values (f[ncomp][nvec])
                     relative_accuracy,      // (double) requested relative accuracy  /
@@ -281,7 +281,7 @@ std::vector<std::pair<double, double>> MoMEMta::computeWeights(const std::vector
             llSuave(
                     m_n_dimensions,
                     m_n_components,
-                    (integrand_t) CUBAIntegrandWeighted,
+                    reinterpret_cast<integrand_t>(CUBAIntegrandWeighted),
                     (void *) this,
                     1,
                     relative_accuracy,
@@ -316,7 +316,7 @@ std::vector<std::pair<double, double>> MoMEMta::computeWeights(const std::vector
             llDivonne(
                     m_n_dimensions,
                     m_n_components,
-                    (integrand_t) CUBAIntegrand,
+                    reinterpret_cast<integrand_t>(CUBAIntegrand),
                     (void *) this,
                     1,
                     relative_accuracy,
@@ -352,7 +352,7 @@ std::vector<std::pair<double, double>> MoMEMta::computeWeights(const std::vector
             llCuhre(
                     m_n_dimensions,
                     m_n_components,
-                    (integrand_t) CUBAIntegrand,
+                    reinterpret_cast<integrand_t>(CUBAIntegrand),
                     (void *) this,
                     1,
                     relative_accuracy,
