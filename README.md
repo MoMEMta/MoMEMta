@@ -12,7 +12,7 @@ MoMEMta depends on the following libraries and tools:
    * LHAPDF (>=6)
    * CMake (>= 3.4.0)
    * Boost (>=1.54)
-   * ROOT (>=5.34.09)
+   * ROOT (>=5.34.09) (see the build options below about C++ standards)
    * A C++11-capable compiler
 
 **Note**: MoMEMta has only been tested on GNU/Linux.
@@ -46,6 +46,7 @@ The following options are available when configuring the build (when running `cm
    * `-DEXAMPLES=OFF`: Do not compile the example executables
    * `-DPYTHON_BINDINGS=ON|OFF` (`OFF` by default). Builds python bindings for MoMEMta. Requires python and boost::python. For python3, see notes below.
    * `-DDEBUG_TIMING=ON|OFF` (`OFF` by default). If `ON`, a summary of how long each module ran is printed at the end of the integration. Can be useful to see which module to optimize.
+   * `-DCMAKE_CXX_STANDARD=X`, where `X` should be the same version (e.g. `11`, `14`, `17`) as the one used to build the ROOT library.
 
 ## Examples
 
