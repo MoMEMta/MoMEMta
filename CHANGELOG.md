@@ -11,7 +11,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
  - Updated cuba to 4.2.1
 
 ### Fixed
- - Fixed build on GCC>7 (#176, #177, #178)
+ - Fixed build on GCC>7 ([#176](https://github.com/MoMEMta/MoMEMta/pull/176/), [#177](https://github.com/MoMEMta/MoMEMta/pull/177/), [#178](https://github.com/MoMEMta/MoMEMta/pull/178/))
 
 ## [1.0.0] - 2018-05-22
 ### Added
@@ -68,6 +68,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
  - Transfer functions on energy take as lower bound the mass of the given "reco" particle
 
 
-[Unreleased]: https://github.com/MoMEMta/MoMEMta/compare/v1.0.0...HEAD
+[Unreleased]: https://github.com/MoMEMta/MoMEMta/compare/v1.0.1...HEAD
+[1.0.1]: https://github.com/MoMEMta/MoMEMta/compare/v1.0.0...v1.0.1
 [1.0.0]: https://github.com/MoMEMta/MoMEMta/compare/v1.0.0-beta.1...v1.0.0
 [1.0.0 beta 1]: https://github.com/MoMEMta/MoMEMta/compare/v0.1.0...v1.0.0-beta.1
