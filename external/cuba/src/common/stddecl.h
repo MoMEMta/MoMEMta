@@ -1,7 +1,7 @@
 /*
 	stddecl.h
 		declarations common to all Cuba routines
-		last modified 23 Apr 15 th
+		last modified 30 Oct 20 th
 */
 
 
