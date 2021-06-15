@@ -47,6 +47,10 @@ The following options are available when configuring the build (when running `cm
    * `-DPYTHON_BINDINGS=ON|OFF` (`OFF` by default). Builds python bindings for MoMEMta. Requires python and boost::python. For python3, see notes below.
    * `-DDEBUG_TIMING=ON|OFF` (`OFF` by default). If `ON`, a summary of how long each module ran is printed at the end of the integration. Can be useful to see which module to optimize.
    * `-DCMAKE_CXX_STANDARD=X`, where `X` should be the same version (e.g. `11`, `14`, `17`) as the one used to build the ROOT library.
+      - The value of `CMAKE_CXX_STANDARD` used to build ROOT can be found from querying the `root-config`:
+         ```
+         -DCMAKE_CXX_STANDARD=$(root-config --cflags | sed --regexp-extended 's/.*-std=c\+\+([0-9]+).*/\1/g')
+         ```
 
 ## Examples
 
