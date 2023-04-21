@@ -50,8 +50,8 @@ if (CMAKE_CXX_STANDARD_COMPUTED_DEFAULT STRLESS "11" OR
     set(CMAKE_C_STANDARD_REQUIRED ON)
 endif()
 
-# Stick to the standard 
-set(CMAKE_CXX_EXTENSIONS OFF) 
+# Stick to the standard
+set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_C_EXTENSIONS OFF)
 
 # Default compiler flags
@@ -275,7 +275,7 @@ target_link_libraries(momemta PRIVATE LHAPDF::LHAPDF)
 target_link_libraries(momemta PRIVATE Boost)
 
 target_link_libraries(momemta PUBLIC dl)
-target_link_libraries(momemta PUBLIC Root::Root)
+target_link_libraries(momemta PUBLIC ROOT::Core ROOT::Tree ROOT::Hist ROOT::MathCore)
 
 find_library(ROOT_GENVECTOR_LIBRARY GenVector HINTS ${ROOT_LIBRARY_DIR})
 target_link_libraries(momemta PUBLIC ${ROOT_GENVECTOR_LIBRARY})
@@ -392,7 +392,6 @@ export(TARGETS momemta
        )
 
 install(FILES
-            "${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules/FindROOT.cmake"
             "${CMAKE_CURRENT_BINARY_DIR}/MoMEMtaConfig.cmake"
             "${CMAKE_CURRENT_BINARY_DIR}/MoMEMtaConfigVersion.cmake"
         DESTINATION

@@ -20,6 +20,7 @@
 #include <momemta/ConfigurationReader.h>
 #include <momemta/MoMEMta.h>
 #include <momemta/Logging.h>
+#include <momemta/Solution.h>
 
 #include <boost/python.hpp>
 
@@ -100,6 +101,26 @@ bp::list MoMEMta_computeWeights(MoMEMta& m, bp::list particles) {
     return MoMEMta_computeWeights_MET(m, particles, bp::list());
 }
 
+bp::list MoMEMta_getSolutions(MoMEMta& m, const std::string& blockName) {
+    /* Create list of solutions which can be returned by Boost Python */
+    bp::list solutions;
+
+    /* Define the address of the solutions of the required block */
+    InputTag solInputTag {blockName, "solutions"};
+
+    /* Retrieve solutions out of the memory pool */
+    auto sol = m.getPool().get<SolutionCollection>(solInputTag);
+
+    /* Loop over the solutions and place them in the Boost Python list */
+    for (const auto& soli: *sol) {
+        auto values = soli.values[0];
+        solutions.append(values);
+    }
+
+    /* Return the Boost Python list */
+    return solutions;
+}
+
 template<typename T>
 const T& ParameterSet_get(ParameterSet& p, const std::string& name) {
     return p.get<T>(name);
@@ -166,12 +187,12 @@ struct convert_py_root_to_cpp_root {
                                            bp::type_id<T>());
     }
     static void* convertible(PyObject* obj_ptr) {
-        return TPython::ObjectProxy_Check(obj_ptr) ? obj_ptr : nullptr;
+        return TPython::CPPInstance_Check(obj_ptr) ? obj_ptr : nullptr;
     }
 
     static void construct(PyObject* obj_ptr,
                           bp::converter::rvalue_from_python_stage1_data* data) {
-        T* TObj = static_cast<T*>(TPython::ObjectProxy_AsVoidPtr(obj_ptr));
+        T* TObj = static_cast<T*>(TPython::CPPInstance_AsVoidPtr(obj_ptr));
         data->convertible = TObj;
     }
 };
@@ -248,6 +269,7 @@ BOOST_PYTHON_MODULE(momemta) {
     class_<MoMEMta>("MoMEMta", init<Configuration>())
             .def("getIntegrationStatus", &MoMEMta::getIntegrationStatus)
             //.def("getPool", &MoMEMta::getPool, return_value_policy<copy_const_reference>())
+            .def("getSolutions", MoMEMta_getSolutions)
             .def("computeWeights", MoMEMta_computeWeights)
             .def("computeWeights", MoMEMta_computeWeights_MET)
             .def("computeWeights", &MoMEMta::computeWeights, MoMEMta_computeWeights_overloads())
