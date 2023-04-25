@@ -101,9 +101,23 @@ bp::list MoMEMta_computeWeights(MoMEMta& m, bp::list particles) {
     return MoMEMta_computeWeights_MET(m, particles, bp::list());
 }
 
-bp::list MoMEMta_getSolutions(MoMEMta& m, const std::string& blockName) {
-    /* Create list of solutions which can be returned by Boost Python */
-    bp::list solutions;
+bp::list MoMEMta_getSolutions(MoMEMta& m, const std::string& blockName, bp::list particles_) {
+
+    /* Extract the missing transverse Energy */
+    bp::list met_;  
+    std::vector<Particle> particles;
+    for (ssize_t i = 0; i < bp::len(particles_); i++) {
+        particles.push_back(bp::extract<Particle>(particles_[i]));
+    }
+
+    LorentzVector met;
+    bp::extract<LorentzVector> lorentzVectorExtractor(met_);
+    if (lorentzVectorExtractor.check())
+        met = lorentzVectorExtractor();
+
+    /* Generate the weight in order to trigger the creation (and storage) 
+      of the solutions in the memory pool */
+    auto weights = m.computeWeights(particles, met);
 
     /* Define the address of the solutions of the required block */
     InputTag solInputTag {blockName, "solutions"};
@@ -111,14 +125,22 @@ bp::list MoMEMta_getSolutions(MoMEMta& m, const std::string& blockName) {
     /* Retrieve solutions out of the memory pool */
     auto sol = m.getPool().get<SolutionCollection>(solInputTag);
 
-    /* Loop over the solutions and place them in the Boost Python list */
+    /* Create the converter to create a Boost Python 4-momentum out of a LorentzVector */
+    /*LorentzVector_to_python four_momentum_converter;*/
+
+    /* Create list of solutions which can be returned by Boost Python */
+    bp::list solutions;
+
+    /* Loop over the solutions and place them in the Boost Python list after their conversion */
     for (const auto& soli: *sol) {
-        auto values = soli.values[0];
-        solutions.append(values);
+        LorentzVector four_momentum = soli.values[0];
+        solutions.append(four_momentum);
     }
 
     /* Return the Boost Python list */
     return solutions;
+    
+                
 }
 
 template<typename T>
