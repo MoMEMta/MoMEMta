@@ -6,13 +6,14 @@ The Modular Matrix Element Method implementation.
 
 ## Install
 
+
 ### Prerequisites
 
 MoMEMta depends on the following libraries and tools:
    * LHAPDF (>=6)
    * CMake (>= 3.4.0)
    * Boost (>=1.54)
-   * ROOT (>=5.34.09) (see the build options below about C++ standards)
+   * ROOT (>=6.20.00) (see the build options below about C++ standards)
    * A C++11-capable compiler
 
 **Note**: MoMEMta has only been tested on GNU/Linux.
