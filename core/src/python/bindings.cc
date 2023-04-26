@@ -101,10 +101,8 @@ bp::list MoMEMta_computeWeights(MoMEMta& m, bp::list particles) {
     return MoMEMta_computeWeights_MET(m, particles, bp::list());
 }
 
-bp::list MoMEMta_getSolutions(MoMEMta& m, const std::string& blockName, bp::list particles_) {
+bp::list MoMEMta_getSolutions_MET(MoMEMta& m, const std::string& blockName, bp::list particles_, bp::list met_) {
 
-    /* Extract the missing transverse Energy */
-    bp::list met_;  
     std::vector<Particle> particles;
     for (ssize_t i = 0; i < bp::len(particles_); i++) {
         particles.push_back(bp::extract<Particle>(particles_[i]));
@@ -125,9 +123,6 @@ bp::list MoMEMta_getSolutions(MoMEMta& m, const std::string& blockName, bp::list
     /* Retrieve solutions out of the memory pool */
     auto sol = m.getPool().get<SolutionCollection>(solInputTag);
 
-    /* Create the converter to create a Boost Python 4-momentum out of a LorentzVector */
-    /*LorentzVector_to_python four_momentum_converter;*/
-
     /* Create list of solutions which can be returned by Boost Python */
     bp::list solutions;
 
@@ -140,7 +135,10 @@ bp::list MoMEMta_getSolutions(MoMEMta& m, const std::string& blockName, bp::list
     /* Return the Boost Python list */
     return solutions;
     
-                
+}
+
+bp::list MoMEMta_getSolutions(MoMEMta& m, const std::string& blockName, bp::list particles) {
+    return MoMEMta_getSolutions_MET(m, blockName, particles, bp::list());
 }
 
 template<typename T>
@@ -292,6 +290,7 @@ BOOST_PYTHON_MODULE(momemta) {
             .def("getIntegrationStatus", &MoMEMta::getIntegrationStatus)
             //.def("getPool", &MoMEMta::getPool, return_value_policy<copy_const_reference>())
             .def("getSolutions", MoMEMta_getSolutions)
+            .def("getSolutions", MoMEMta_getSolutions_MET)
             .def("computeWeights", MoMEMta_computeWeights)
             .def("computeWeights", MoMEMta_computeWeights_MET)
             .def("computeWeights", &MoMEMta::computeWeights, MoMEMta_computeWeights_overloads())
