@@ -83,7 +83,7 @@ SET(CMAKE_C_FLAGS_DEBUG  "-O0 -g")
 
 # Find dependencies
 include(CMSSW)
-find_package(ROOT 5.34.09 REQUIRED)
+find_package(ROOT 6.20.00 REQUIRED)
 find_package(LHAPDF 6.0 REQUIRED)
 
 if (NOT USE_BUILTIN_LUA)
