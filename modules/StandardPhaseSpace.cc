@@ -55,7 +55,7 @@ class StandardPhaseSpace: public Module {
                 input_particles.push_back(get<LorentzVector>(t));
         };
 
-        virtual Status work() override {
+        virtual Status work(bool save_values = false) override {
 
             *phase_space = 1;
             for (const auto& p: input_particles) {

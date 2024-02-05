@@ -111,6 +111,8 @@ class MoMEMta {
          */
         const Pool& getPool() const;
 
+        void store_solutions(std::string moduleName); 
+
     private:
         class integrands_output_error: public std::runtime_error {
             using std::runtime_error::runtime_error;

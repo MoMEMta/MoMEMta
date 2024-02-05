@@ -75,7 +75,7 @@ class LinearCombinator: public Module {
             }
         };
 
-        virtual Status work() override {
+        virtual Status work(bool save_values = false) override {
 
             T temp_result = m_coefficients[0] * *m_terms[0];
             for (std::size_t i = 1; i < m_terms.size(); i++)

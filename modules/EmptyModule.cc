@@ -30,7 +30,7 @@ class EmptyModule: public Module {
             // Empty
         };
 
-        virtual Status work() override {
+        virtual Status work(bool save_values = false) override {
             return Status::OK;
         }
 };

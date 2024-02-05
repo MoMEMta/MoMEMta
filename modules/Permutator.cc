@@ -78,7 +78,7 @@ class Permutator: public Module {
             (*m_output).resize(m_inputs.size());
         };
 
-        virtual Status work() override {
+        virtual Status work(bool save_values = false) override {
             double psPoint = *m_ps_point;
 
             size_t chosen_perm = std::lround(psPoint * (perm_indices.size() - 1));

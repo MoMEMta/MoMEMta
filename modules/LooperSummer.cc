@@ -38,7 +38,7 @@ class LooperSummer: public Module {
             *result = 0;
         }
 
-        virtual Status work() override {
+        virtual Status work(bool save_values = false) override {
             *result += *input;
 
             return Status::OK;

@@ -147,7 +147,7 @@ class BinnedTransferFunctionOnEnergy: public BinnedTransferFunctionOnEnergyBase 
             m_ps_point = get<double>(parameters.get<InputTag>("ps_point"));
         }
 
-        virtual Status work() override {
+        virtual Status work(bool save_values = false) override {
             const double rec_E = m_reco_input->E();
             const double rec_M = m_reco_input->M();
             const double range = GetDeltaRange(rec_E, rec_M);
@@ -240,7 +240,7 @@ class BinnedTransferFunctionOnEnergyEvaluator: public BinnedTransferFunctionOnEn
             m_gen_input = get<LorentzVector>(parameters.get<InputTag>("gen_particle"));
         }
 
-        virtual Status work() override {
+        virtual Status work(bool save_values = false) override {
             const double rec_E = m_reco_input->E();
             const double gen_E = m_gen_input->E();
             double delta = rec_E - gen_E;

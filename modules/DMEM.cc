@@ -51,7 +51,7 @@ class DMEM: public Module {
             m_hist->Reset();
         }
 
-        virtual Status work() override {
+        virtual Status work(bool save_values = false) override {
 
             LorentzVector tot;
             for (const auto& v: m_particles)

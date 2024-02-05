@@ -98,7 +98,7 @@ class GaussianTransferFunctionOnPt: public GaussianTransferFunctionOnPtBase {
             m_ps_point = get<double>(parameters.get<InputTag>("ps_point"));
         }
 
-        virtual Status work() override {
+        virtual Status work(bool save_values = false) override {
             // Estimate the width over which to integrate using the width of the TF at Pt_rec ...
             const double sigma_Pt_rec = m_reco_input->Pt() * m_sigma;
 
@@ -176,7 +176,7 @@ class GaussianTransferFunctionOnPtEvaluator: public GaussianTransferFunctionOnPt
             m_gen_input = get<LorentzVector>(parameters.get<InputTag>("gen_particle"));
         }
 
-        virtual Status work() override {
+        virtual Status work(bool save_values = false) override {
             // Compute TF value
             *TF_value = ROOT::Math::normal_pdf(m_gen_input->Pt(), m_gen_input->Pt() * m_sigma, m_reco_input->Pt());
 

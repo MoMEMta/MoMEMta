@@ -411,6 +411,11 @@ std::vector<std::pair<double, double>> MoMEMta::computeWeights(const std::vector
     return result;
 }
 
+void MoMEMta::store_solutions(std::string moduleName) {
+    m_computation_graph->store_solutions(moduleName);
+}
+
+
 std::vector<double> MoMEMta::evaluateIntegrand(const std::vector<double>& psPoints) {
 
     if (psPoints.size() != m_n_dimensions) {

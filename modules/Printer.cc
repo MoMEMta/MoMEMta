@@ -39,7 +39,7 @@ class Printer: public Module {
             name = parameters.get<std::string>("name", tag.toString());
         };
 
-        virtual Status work() override {
+        virtual Status work(bool save_values = false) override {
             LOG(info) << name << ": " << *input;
 
             return Status::OK;
@@ -65,7 +65,7 @@ class Printer<std::vector<T>>: public Module {
             name = parameters.get<std::string>("name", tag.toString());
         };
 
-        virtual Status work() override {
+        virtual Status work(bool save_values = false) override {
             std::stringstream str;
             str << name << ": {";
 

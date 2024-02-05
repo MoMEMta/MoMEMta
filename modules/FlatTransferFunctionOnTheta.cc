@@ -61,7 +61,7 @@ class FlatTransferFunctionOnTheta: public Module {
             m_input = get<LorentzVector>(parameters.get<InputTag>("reco_particle"));
         };
 
-        virtual Status work() override {
+        virtual Status work(bool save_values = false) override {
 
             const double& ps_point = *m_ps_point;
             const LorentzVector& reco_particle = *m_input;

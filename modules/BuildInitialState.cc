@@ -84,7 +84,7 @@ class BuildInitialState: public Module {
                 input_particles.push_back(get<LorentzVector>(t));
         };
 
-        virtual Status work() override {
+        virtual Status work(bool save_values = false) override {
 
             partons->clear();
 
