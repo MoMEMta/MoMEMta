@@ -141,6 +141,10 @@ bp::list MoMEMta_getSolutions(MoMEMta& m, const std::string& blockName, bp::list
     return MoMEMta_getSolutions_MET(m, blockName, particles, bp::list());
 }
 
+void MoMEMta_store_solutions(MoMEMta& m, const std::string& moduleName) {
+   m.store_solutions(moduleName);
+}
+
 template<typename T>
 const T& ParameterSet_get(ParameterSet& p, const std::string& name) {
     return p.get<T>(name);
@@ -291,6 +295,7 @@ BOOST_PYTHON_MODULE(momemta) {
             //.def("getPool", &MoMEMta::getPool, return_value_policy<copy_const_reference>())
             .def("getSolutions", MoMEMta_getSolutions)
             .def("getSolutions", MoMEMta_getSolutions_MET)
+            .def("store_solutions", MoMEMta_store_solutions)
             .def("computeWeights", MoMEMta_computeWeights)
             .def("computeWeights", MoMEMta_computeWeights_MET)
             .def("computeWeights", &MoMEMta::computeWeights, MoMEMta_computeWeights_overloads())
