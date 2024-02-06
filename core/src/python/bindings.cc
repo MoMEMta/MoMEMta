@@ -145,6 +145,46 @@ void MoMEMta_store_solutions(MoMEMta& m, const std::string& moduleName) {
    m.store_solutions(moduleName);
 }
 
+bp::dict MoMEMta_get_blocks_solutions(MoMEMta& m) {
+    std::unordered_map<std::string, std::vector< std::vector<SolutionCollection> > > blocks_solutions;
+    blocks_solutions = m.get_blocks_solutions();
+
+    bp::dict dictionary;
+
+    std::unordered_map<std::string, std::vector< std::vector<SolutionCollection> > >::iterator iter;
+    
+    for (iter = blocks_solutions.begin(); iter != blocks_solutions.end(); ++iter) {
+        std::string blockName = iter->first;
+        std::vector< std::vector<SolutionCollection> > block_solutions = iter->second; 
+
+        bp::list pylist_block_solutions;
+
+        for (auto& solutions: block_solutions) {
+            bp::list pylist_solutions;
+
+            for (auto& solution: solutions) {
+                bp::list pylist_solution;
+
+                for (auto& sol: solution) {
+                    LorentzVector four_momentum = sol.values[0];
+                    pylist_solution.append(four_momentum);
+                }
+
+                pylist_solutions.append(pylist_solution);
+            }
+
+            pylist_block_solutions.append(pylist_solutions);
+        }
+
+        dictionary[blockName] = pylist_block_solutions;
+    }
+
+
+
+
+    return dictionary;
+}
+
 template<typename T>
 const T& ParameterSet_get(ParameterSet& p, const std::string& name) {
     return p.get<T>(name);
@@ -296,6 +336,7 @@ BOOST_PYTHON_MODULE(momemta) {
             .def("getSolutions", MoMEMta_getSolutions)
             .def("getSolutions", MoMEMta_getSolutions_MET)
             .def("store_solutions", MoMEMta_store_solutions)
+            .def("get_blocks_solutions", MoMEMta_get_blocks_solutions)
             .def("computeWeights", MoMEMta_computeWeights)
             .def("computeWeights", MoMEMta_computeWeights_MET)
             .def("computeWeights", &MoMEMta::computeWeights, MoMEMta_computeWeights_overloads())
