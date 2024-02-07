@@ -258,7 +258,7 @@ Module::Status ComputationGraph::execute() {
 
     for (auto& module: modules) {
         
-        bool save_values = m_modules_solutions.find(module->name()) == m_modules_solutions.end();
+        bool save_values = m_modules_solutions.count(module->name()) > 0;
 
 #ifdef DEBUG_TIMING
         auto start = high_resolution_clock::now();
@@ -269,7 +269,7 @@ Module::Status ComputationGraph::execute() {
             on_clock::now() - start;
 #endif
 
-        if (save_values) {
+        if (save_values && (module->get_block_solutions()).size() > 0) {
             m_modules_solutions[module->name()].push_back(module->get_block_solutions());
         }
 

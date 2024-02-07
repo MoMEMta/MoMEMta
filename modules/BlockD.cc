@@ -129,7 +129,7 @@ class BlockD: public Module {
             block_solutions.push_back(*solutions);
         } 
 
-        virtual Status work(bool save_solutions = false) override {
+        virtual Status work(bool save_values = false) override {
 
             solutions->clear();
 
@@ -334,7 +334,7 @@ class BlockD: public Module {
                 solutions->push_back(s);
             }
 
-            if (save_solutions) {
+            if (save_values) {
                 store_solutions();
             }
             return solutions->size() > 0 ? Status::OK : Status::NEXT;

@@ -118,6 +118,13 @@ class BlockF: public Module {
             }
         };
 
+        virtual void store_solutions() override {
+            if ((*solutions).size() > 0) {
+                std::cout << (*solutions).size() << std::endl;
+                block_solutions.push_back(*solutions);
+            }
+        } 
+
         virtual Status work(bool save_values = false) override {
 
             solutions->clear();
@@ -292,9 +299,13 @@ class BlockF: public Module {
                 const double jacobian = 1. / (64 * SQ(M_PI) * std::abs(E4*(p1z*p2y*p3x - p1y*p2z*p3x - p1z*p2x*p3y + p1x*p2z*p3y + p1y*p2x*p3z - p1x*p2y*p3z) +  E2*p1z*p3y*p4x - E1*p2z*p3y*p4x - E2*p1y*p3z*p4x + E1*p2y*p3z*p4x - E2*p1z*p3x*p4y + E1*p2z*p3x*p4y +  E2*p1x*p3z*p4y - E1*p2x*p3z*p4y + (E2*p1y*p3x - E1*p2y*p3x - E2*p1x*p3y + E1*p2x*p3y)*p4z + E3*(-(p1z*p2y*p4x) + p1y*p2z*p4x + p1z*p2x*p4y - p1x*p2z*p4y - p1y*p2x*p4z + p1x*p2y*p4z)));
 
                 Solution s { {p1, p2}, jacobian, true };
+                std::cout << s << std::endl;
                 solutions->push_back(s);
             }
 
+            if (save_values) {
+                store_solutions();
+            }
             return solutions->size() > 0 ? Status::OK : Status::NEXT;
         }
 

@@ -179,9 +179,6 @@ bp::dict MoMEMta_get_blocks_solutions(MoMEMta& m) {
         dictionary[blockName] = pylist_block_solutions;
     }
 
-
-
-
     return dictionary;
 }
 
@@ -335,8 +332,8 @@ BOOST_PYTHON_MODULE(momemta) {
             //.def("getPool", &MoMEMta::getPool, return_value_policy<copy_const_reference>())
             .def("getSolutions", MoMEMta_getSolutions)
             .def("getSolutions", MoMEMta_getSolutions_MET)
-            .def("store_solutions", MoMEMta_store_solutions)
-            .def("get_blocks_solutions", MoMEMta_get_blocks_solutions)
+            .def("storeSolutions", MoMEMta_store_solutions)
+            .def("getBlocksSolutions", MoMEMta_get_blocks_solutions)
             .def("computeWeights", MoMEMta_computeWeights)
             .def("computeWeights", MoMEMta_computeWeights_MET)
             .def("computeWeights", &MoMEMta::computeWeights, MoMEMta_computeWeights_overloads())
