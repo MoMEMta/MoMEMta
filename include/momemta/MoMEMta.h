@@ -27,6 +27,7 @@
 #include <momemta/Particle.h>
 #include <momemta/Pool.h>
 #include <momemta/Types.h>
+#include <momemta/Solution.h>
 
 class Configuration;
 class SharedLibrary;
@@ -111,6 +112,12 @@ class MoMEMta {
          */
         const Pool& getPool() const;
 
+        void store_solutions(std::string moduleName); 
+
+        std::unordered_map<std::string , std::vector<std::vector<SolutionCollection>> > get_blocks_solutions() {
+            return m_blocks_solutions;
+        }
+
     private:
         class integrands_output_error: public std::runtime_error {
             using std::runtime_error::runtime_error;
@@ -172,4 +179,6 @@ class MoMEMta {
         std::unordered_map<std::string, std::shared_ptr<int64_t>> m_inputs_type;
         std::shared_ptr<LorentzVector> m_met;
         std::vector<Value<double>> m_integrands;
+
+        std::unordered_map<std::string , std::vector<std::vector<SolutionCollection>> > m_blocks_solutions;
 };

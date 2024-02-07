@@ -146,7 +146,7 @@ class BinnedTransferFunctionOnPt: public BinnedTransferFunctionOnPtBase {
             m_ps_point = get<double>(parameters.get<InputTag>("ps_point"));
         }
 
-        virtual Status work() override {
+        virtual Status work(bool save_values = false) override {
             const double rec_Pt = m_reco_input->Pt();
             const double cosh_eta = std::cosh(m_reco_input->Eta());
             const double range = GetDeltaRange(rec_Pt);
@@ -235,7 +235,7 @@ class BinnedTransferFunctionOnPtEvaluator: public BinnedTransferFunctionOnPtBase
             m_gen_input = get<LorentzVector>(parameters.get<InputTag>("gen_particle"));
         }
 
-        virtual Status work() override {
+        virtual Status work(bool save_values = false) override {
             const double rec_Pt = m_reco_input->Pt();
             const double gen_Pt = m_gen_input->Pt();
             double delta = rec_Pt - gen_Pt;

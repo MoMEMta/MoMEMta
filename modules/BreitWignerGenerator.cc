@@ -78,7 +78,7 @@ class BreitWignerGenerator: public Module {
             m_ps_point = get<double>(parameters.get<InputTag>("ps_point"));
         };
 
-        virtual Status work() override {
+        virtual Status work(bool save_values = false) override {
 
             double psPoint = *m_ps_point;
             const double range = M_PI / 2. + std::atan(mass / width);

@@ -115,7 +115,7 @@ class BlockB: public Module {
             m_met = get<LorentzVector>(met_tag);
         };
 
-        virtual Status work() override {
+        virtual Status work(bool save_values = false) override {
 
             solutions->clear();
 

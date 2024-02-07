@@ -246,18 +246,32 @@ void ComputationGraph::endIntegration() {
         module->endIntegration();
 }
 
+void ComputationGraph::store_solutions(std::string moduleName) {
+
+    m_modules_solutions[moduleName] = std::vector<std::vector<SolutionCollection>> {};
+
+}
+
 Module::Status ComputationGraph::execute() {
     for (auto& module: modules)
         module->beginPoint();
 
     for (auto& module: modules) {
+        
+        bool save_values = m_modules_solutions.count(module->name()) > 0;
+
 #ifdef DEBUG_TIMING
         auto start = high_resolution_clock::now();
 #endif
-        auto status = module->work();
+        auto status = module->work(save_values);
 #ifdef DEBUG_TIMING
-        module_timings[module.get()] += high_resolution_clock::now() - start;
+        module_timings[module.get()] += high_resoluti
+            on_clock::now() - start;
 #endif
+
+        if (save_values && (module->get_block_solutions()).size() > 0) {
+            m_modules_solutions[module->name()].push_back(module->get_block_solutions());
+        }
 
         if (status == Module::Status::NEXT) {
             // Stop execution for the current integration step

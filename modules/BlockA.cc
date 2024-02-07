@@ -95,7 +95,7 @@ class BlockA: public Module {
             }
         };
 
-        virtual Status work() override {
+        virtual Status work(bool save_values = false) override {
 
             solutions->clear();
 

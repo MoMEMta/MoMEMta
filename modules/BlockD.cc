@@ -122,7 +122,14 @@ class BlockD: public Module {
             m_met = get<LorentzVector>(met_tag);
         };
 
-        virtual Status work() override {
+        virtual void store_solutions() override {
+            //for (auto& sol : *solutions) {
+            //    block_solutions.push_back(sol);
+            //}
+            block_solutions.push_back(*solutions);
+        } 
+
+        virtual Status work(bool save_values = false) override {
 
             solutions->clear();
 
@@ -327,6 +334,9 @@ class BlockD: public Module {
                 solutions->push_back(s);
             }
 
+            if (save_values) {
+                store_solutions();
+            }
             return solutions->size() > 0 ? Status::OK : Status::NEXT;
         }
 

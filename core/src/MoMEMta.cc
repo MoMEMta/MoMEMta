@@ -408,8 +408,19 @@ std::vector<std::pair<double, double>> MoMEMta::computeWeights(const std::vector
         result.push_back( std::make_pair(mcResult[i], error[i]) );
     }
 
+    m_blocks_solutions = m_computation_graph->get_modules_map();
+
     return result;
 }
+
+void MoMEMta::store_solutions(std::string moduleName) {
+    m_computation_graph->store_solutions(moduleName);
+}
+
+
+//std::unordered_map<std::string, std::vector<std::vector<SolutionCollection>>> get_blocks_solutions() {
+//    return m_blocks_solutions;
+//}
 
 std::vector<double> MoMEMta::evaluateIntegrand(const std::vector<double>& psPoints) {
 

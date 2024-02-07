@@ -79,7 +79,7 @@ class SecondaryBlockCD: public Module {
                 p2 = get<LorentzVector>(parameters.get<InputTag>("p2"));
             };
 
-        virtual Status work() override {
+        virtual Status work(bool save_values = false) override {
 
             solutions->clear();
 

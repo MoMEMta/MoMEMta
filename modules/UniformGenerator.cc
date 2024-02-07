@@ -60,7 +60,7 @@ class UniformGenerator: public Module {
             m_ps_point = get<double>(parameters.get<InputTag>("ps_point"));
         };
 
-        virtual Status work() override {
+        virtual Status work(bool save_values = false) override {
             double psPoint = *m_ps_point;
             *output = m_min + (m_max - m_min) * psPoint;
             *jacobian = m_max - m_min;

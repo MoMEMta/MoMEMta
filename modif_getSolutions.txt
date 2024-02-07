@@ -1,0 +1,16 @@
+in MoMEMta.h : add new public attribute
+
+std::vector<std::map<SolutionCollection*, weight>> solutions;
+
+this would be a vector storing the solutions (if physical) and the corresponding weight resulting from the matrix element evaluation
+
+
+in MoMEMta.cc : add lines
+
+InputTag solInputTag {blockName, "solutions"};
+auto pool_sols = m_pool.get<SolutionCollection>(solInputTag);
+InputTag weightInputTag {"cuba", "ps_weight"}
+double pool_weights = m_pool.get<std::vector<double>>(weightInputTag)
+solutions.emplace_back(pool_sols, pool_weight)
+
+this would specify the inputtag for the Block, get the Block solutions out of the Pool and store those with the weight in the new public attribute

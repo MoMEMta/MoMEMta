@@ -21,7 +21,7 @@
 #include <momemta/MoMEMta.h>
 #include <momemta/Unused.h>
 
-#include <TH1D.h>
+//#include <TH1D.h>
 
 #include <chrono>
 
@@ -39,6 +39,8 @@ int main(int argc, char** argv) {
 
     MoMEMta weight(configuration.freeze());
 
+    weight.store_solutions("blockf");
+
     // Electron
     Particle electron { "electron", LorentzVector(16.171895980835, -13.7919054031372, -3.42997527122497, 21.5293197631836), -11 };
     // Muon
@@ -55,6 +57,8 @@ int main(int argc, char** argv) {
 
     LOG(info) << "Weight computed in " << std::chrono::duration_cast<milliseconds>(end_time - start_time).count() << "ms";
 
+    std::string blockName = weight.get_blocks_solutions().begin()->first;
+    LOG(info) << blockName; 
 
     return 0;
 }

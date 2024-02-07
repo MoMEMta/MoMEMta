@@ -239,7 +239,7 @@ class MatrixElement: public Module {
             m_ME->resetHelicities();
         }
 
-        virtual Status work() override {
+        virtual Status work(bool save_values = false) override {
             static std::vector<LorentzVector> empty_vector;
 
             *m_integrand = 0;

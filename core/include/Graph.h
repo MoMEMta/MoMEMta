@@ -3,6 +3,7 @@
 #include <momemta/config.h>
 #include <momemta/Configuration.h>
 #include <momemta/Module.h>
+#include <momemta/Solution.h>
 
 #include <ExecutionPath.h>
 
@@ -75,6 +76,12 @@ public:
     void endIntegration();
     /// Call Module::finish() for each module of the computation graph.
     void finish();
+    /// Call Module::store_solutions() for each module of the computation graph if requested.
+    void store_solutions(std::string moduleName);
+
+    std::unordered_map<std::string, std::vector<std::vector<SolutionCollection>> > get_modules_map() const {
+        return m_modules_solutions;
+    };
 
 #ifdef DEBUG_TIMING
     /// \private
@@ -108,6 +115,8 @@ private:
     std::vector<ModulePtr> modules;
 
     size_t n_dimensions; ///< Number of integration dimensions needed, after modules pruning
+
+    std::unordered_map<std::string , std::vector<std::vector<SolutionCollection>> > m_modules_solutions;
 
 #ifdef DEBUG_TIMING
     std::unordered_map<Module *, std::chrono::high_resolution_clock::duration> module_timings;

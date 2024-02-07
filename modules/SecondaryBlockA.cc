@@ -92,7 +92,7 @@ class SecondaryBlockA: public Module {
                 m_p4 = get<LorentzVector>(parameters.get<InputTag>("p4"));
             };
 
-        virtual Status work() override {
+        virtual Status work(bool save_values = false) override {
 
             solutions->clear();
 
